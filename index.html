@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ninditya Salma Nur Aini · Data Scientist & ML Engineer</title>
+<meta name="description" content="Portfolio of Ninditya Salma Nur Aini — Data Scientist and ML Engineer with 3.5+ years of production AI experience in conversational systems, RAG evaluation, and end-to-end ML pipelines.">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ee;
+  --surface:#ffffff;
+  --surface2:#eceae4;
+  --ink:#1a1814;
+  --ink2:#5a574f;
+  --ink3:#8c887f;
+  --primary:#1a5276;
+  --primary-light:#eaf2fb;
+  --primary-mid:#a9cce3;
+  --accent:#c4490c;
+  --accent-light:#fdf0eb;
+  --bridge:#6b4e9b;
+  --bridge-light:#f1ebfa;
+  --success:#2d6a4f;
+  --success-light:#e8f3ee;
+  --border:#dddad3;
+  --serif:'Instrument Serif',serif;
+  --mono:'DM Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;font-size:16px}
+
+/* NAV */
+nav{background:rgba(245,243,238,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 2rem;position:sticky;top:0;z-index:100}
+.nav-inner{max-width:1040px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:56px}
+.logo{font-family:var(--serif);font-size:1.2rem;font-style:italic;color:var(--ink);text-decoration:none}
+.nav-pills{display:flex;gap:4px}
+.nav-pill{padding:6px 14px;border-radius:100px;font-size:0.78rem;font-family:var(--mono);color:var(--ink2);text-decoration:none;transition:background 0.15s}
+.nav-pill:hover,.nav-pill:focus-visible{background:var(--surface2);outline:none}
+
+/* HERO */
+.hero{max-width:1040px;margin:0 auto;padding:5rem 2rem 4rem;border-bottom:1px solid var(--border)}
+.hero-kicker{display:inline-flex;align-items:center;gap:10px;margin-bottom:2rem;padding:5px 14px;border-radius:100px;border:1px solid var(--border);background:var(--surface)}
+.kicker-dot{width:7px;height:7px;border-radius:50%;background:var(--success);animation:blink 1.8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.kicker-status{font-family:var(--mono);font-size:0.72rem;color:var(--success);font-weight:500}
+.kicker-divider{color:var(--ink3);font-size:0.72rem}
+.kicker-tag{font-family:var(--mono);font-size:0.72rem;color:var(--ink2);letter-spacing:0.06em}
+.hero-name{font-family:var(--serif);font-size:clamp(3rem,6vw,5.5rem);line-height:1;letter-spacing:-0.01em;margin-bottom:1.25rem}
+.hero-name em{font-style:italic;color:var(--primary)}
+.hero-role{font-family:var(--mono);font-size:0.9rem;color:var(--accent);margin-bottom:1.5rem;letter-spacing:0.02em;font-weight:500}
+.hero-desc{font-size:1.05rem;color:var(--ink2);max-width:580px;line-height:1.7;margin-bottom:2.5rem}
+.hero-desc strong{color:var(--ink);font-weight:600}
+.hero-ctas{display:flex;gap:0.65rem;flex-wrap:wrap;margin-bottom:3.5rem}
+.cta{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:8px;font-family:var(--mono);font-size:0.78rem;text-decoration:none;transition:all 0.15s;letter-spacing:0.03em;cursor:pointer;border:1px solid transparent}
+.cta-primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cta-primary:hover{background:#333;border-color:#333}
+.cta-secondary{background:transparent;border-color:var(--border);color:var(--ink2)}
+.cta-secondary:hover,.cta-secondary:focus-visible{border-color:var(--ink);color:var(--ink);outline:none}
+.hero-strengths{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.strength{padding:1.25rem 1.4rem;background:var(--surface)}
+.strength-label{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.4rem;font-weight:500;color:var(--primary)}
+.strength-desc{font-size:0.82rem;color:var(--ink2);line-height:1.55}
+
+/* METRICS */
+.metrics-wrap{max-width:1040px;margin:0 auto;padding:3rem 2rem;border-bottom:1px solid var(--border)}
+.metrics{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface)}
+.metric{flex:1;padding:1.4rem 1rem;border-right:1px solid var(--border);text-align:center}
+.metric:last-child{border-right:none}
+.metric-num{font-family:var(--serif);font-size:2.2rem;line-height:1;margin-bottom:6px;color:var(--primary)}
+.metric-num.accent{color:var(--accent)}
+.metric-label{font-size:0.7rem;font-family:var(--mono);color:var(--ink2);letter-spacing:0.06em;line-height:1.35}
+.metric-sub{font-size:0.65rem;color:var(--ink3);margin-top:3px;font-family:var(--mono)}
+
+/* SECTION */
+.section{max-width:1040px;margin:0 auto;padding:4.5rem 2rem;border-bottom:1px solid var(--border)}
+.section-eyebrow{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink2);margin-bottom:0.6rem;font-weight:500}
+.section-title{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.1;margin-bottom:0.5rem;color:var(--ink)}
+.section-subtitle{font-size:0.95rem;color:var(--ink2);margin-bottom:3rem;max-width:640px;line-height:1.65}
+
+/* EXPERIENCE */
+.exp-list{display:flex;flex-direction:column}
+.exp-item{display:grid;grid-template-columns:180px 1fr;gap:2rem;padding:1.75rem 0;border-bottom:1px solid var(--border)}
+.exp-item:last-child{border-bottom:none}
+.exp-meta{font-family:var(--mono);font-size:0.74rem;color:var(--ink3);line-height:1.6}
+.exp-meta-date{color:var(--ink);font-weight:500;margin-bottom:0.35rem;display:block}
+.exp-meta-loc{font-size:0.7rem}
+.exp-role{font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:0.25rem;line-height:1.35}
+.exp-company{font-size:0.88rem;color:var(--primary);margin-bottom:0.9rem;font-weight:500}
+.exp-bullets{list-style:none;padding:0;margin:0}
+.exp-bullets li{font-size:0.88rem;color:var(--ink2);line-height:1.65;padding-left:1.1rem;position:relative;margin-bottom:0.5rem}
+.exp-bullets li::before{content:'';position:absolute;left:0;top:0.65rem;width:4px;height:4px;border-radius:50%;background:var(--primary)}
+.exp-bullets li strong{color:var(--ink);font-weight:600}
+.exp-impact{display:inline-block;background:var(--success-light);color:var(--success);font-family:var(--mono);font-size:0.74rem;padding:4px 10px;border-radius:4px;margin-top:0.6rem;font-weight:500}
+
+/* PROJECTS */
+.proj-list{display:flex;flex-direction:column;gap:1rem}
+.proj-card{display:block;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem;transition:all 0.15s;position:relative;overflow:hidden;text-decoration:none;color:inherit}
+.proj-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:40px;transition:height 0.25s;background:var(--primary)}
+.proj-card.accent::before{background:var(--accent)}
+.proj-card.bridge::before{background:var(--bridge)}
+.proj-card:hover,.proj-card:focus-visible{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,0.06);outline:none;border-color:var(--ink3)}
+.proj-card:hover::before,.proj-card:focus-visible::before{height:100%}
+.proj-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:0.65rem;flex-wrap:wrap}
+.proj-title-block{flex:1;min-width:0}
+.proj-badge-row{display:flex;align-items:center;gap:6px;margin-bottom:0.45rem;flex-wrap:wrap}
+.proj-badge{font-family:var(--mono);font-size:0.62rem;padding:3px 9px;border-radius:4px;letter-spacing:0.05em;font-weight:500;text-transform:lowercase}
+.proj-badge.flagship{background:var(--primary-light);color:var(--primary)}
+.proj-badge.flagship.accent{background:var(--accent-light);color:var(--accent)}
+.proj-badge.kind{background:var(--surface2);color:var(--ink2);border:1px solid var(--border)}
+.proj-badge.status{background:var(--bridge-light);color:var(--bridge);border:1px solid var(--bridge);font-size:0.6rem}
+.proj-name{font-family:var(--sans);font-size:1.08rem;font-weight:600;color:var(--ink);line-height:1.35}
+.proj-impact{font-family:var(--mono);font-size:0.74rem;color:var(--success);background:var(--success-light);padding:5px 10px;border-radius:6px;white-space:nowrap;font-weight:500;align-self:flex-start}
+.proj-desc{font-size:0.88rem;color:var(--ink2);line-height:1.65;margin-bottom:0.85rem}
+.proj-desc strong{color:var(--ink);font-weight:600}
+.proj-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0.75rem}
+.proj-tag{font-size:0.66rem;font-family:var(--mono);padding:3px 8px;border-radius:4px;background:var(--surface2);color:var(--ink2);border:1px solid var(--border)}
+.proj-link{font-size:0.72rem;font-family:var(--mono);color:var(--ink3);text-decoration:none;display:inline-block;transition:color 0.15s;letter-spacing:0.03em}
+.proj-card:hover .proj-link{color:var(--ink)}
+.proj-note{font-size:0.7rem;font-family:var(--mono);color:var(--bridge);margin-top:0.75rem;padding-top:0.75rem;border-top:1px dashed var(--border)}
+
+.track-divider{margin:2.5rem 0 1.5rem;display:flex;align-items:center;gap:1rem}
+.track-divider-line{flex:1;height:1px;background:var(--border)}
+.track-divider-label{font-family:var(--mono);font-size:0.74rem;color:var(--ink2);letter-spacing:0.08em;text-transform:uppercase;font-weight:500;white-space:nowrap}
+
+/* MORE PROJECTS */
+.more-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0.85rem}
+.mini-card{display:block;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem;text-decoration:none;color:inherit;transition:all 0.15s;border-left:3px solid var(--primary)}
+.mini-card.accent{border-left-color:var(--accent)}
+.mini-card.bridge{border-left-color:var(--bridge)}
+.mini-card:hover,.mini-card:focus-visible{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.05);border-color:var(--ink3);outline:none}
+.mini-kind{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.35rem;font-weight:500;color:var(--primary)}
+.mini-kind.accent{color:var(--accent)}
+.mini-kind.bridge{color:var(--bridge)}
+.mini-name{font-size:0.92rem;font-weight:600;color:var(--ink);margin-bottom:0.3rem;line-height:1.35}
+.mini-desc{font-size:0.78rem;color:var(--ink2);line-height:1.55}
+
+/* EDUCATION */
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.edu-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem}
+.edu-block-title{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--primary);margin-bottom:1.1rem;font-weight:500}
+.edu-item{padding:0.85rem 0;border-bottom:1px solid var(--border)}
+.edu-item:last-child{border-bottom:none;padding-bottom:0}
+.edu-item:first-child{padding-top:0}
+.edu-title{font-size:0.92rem;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:0.25rem}
+.edu-sub{font-size:0.82rem;color:var(--ink2);line-height:1.5;margin-bottom:0.2rem}
+.edu-meta{font-family:var(--mono);font-size:0.7rem;color:var(--ink3)}
+.edu-meta strong{color:var(--ink2)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:start}
+.about-text{font-size:0.95rem;color:var(--ink2);line-height:1.85}
+.about-text p+p{margin-top:1rem}
+.about-text strong{color:var(--ink);font-weight:600}
+.skills-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem}
+.skills-block-title{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.85rem;font-weight:500;color:var(--primary)}
+.skill-row{font-size:0.84rem;color:var(--ink2);line-height:1.65;margin-bottom:0.75rem}
+.skill-row strong{color:var(--ink);font-weight:600;display:block;margin-bottom:0.15rem;font-size:0.82rem}
+.skills-divider{height:1px;background:var(--border);margin:1.1rem 0}
+
+/* CONTACT */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.contact-headline{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.2;color:var(--ink)}
+.contact-headline em{font-style:italic;color:var(--primary)}
+.contact-items{display:flex;flex-direction:column;gap:0.65rem}
+.contact-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink2);font-size:0.88rem;font-family:var(--mono);transition:color 0.15s;padding:6px 0}
+.contact-item[href]:hover,.contact-item[href]:focus-visible{color:var(--ink);outline:none}
+.contact-icon{width:30px;height:30px;border-radius:6px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0}
+
+/* FOOTER */
+footer{text-align:center;padding:2rem;font-family:var(--mono);font-size:0.72rem;color:var(--ink3);border-top:1px solid var(--border)}
+footer a{color:var(--ink2);text-decoration:none}
+footer a:hover{color:var(--ink)}
+
+@media(max-width:760px){
+  .hero-strengths,.about-grid,.contact-wrap,.edu-grid{grid-template-columns:1fr}
+  .metrics{flex-wrap:wrap}
+  .metric{min-width:50%;border-bottom:1px solid var(--border)}
+  .exp-item{grid-template-columns:1fr;gap:0.75rem}
+  .more-grid{grid-template-columns:1fr}
+  .nav-pills{display:none}
+  .hero{padding:3.5rem 1.5rem 3rem}
+  .section{padding:3.5rem 1.5rem}
+  body{font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#top" class="logo">Ninditya Salma</a>
+    <div class="nav-pills">
+      <a class="nav-pill" href="#experience">Experience</a>
+      <a class="nav-pill" href="#projects">Projects</a>
+      <a class="nav-pill" href="#education">Education</a>
+      <a class="nav-pill" href="#about">About</a>
+      <a class="nav-pill" href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="top">
+  <div class="hero-kicker">
+    <span class="kicker-dot" aria-hidden="true"></span>
+    <span class="kicker-status">Open to opportunities</span>
+    <span class="kicker-divider">·</span>
+    <span class="kicker-tag">Remote / Yogyakarta / Jakarta</span>
+  </div>
+  <h1 class="hero-name">Ninditya<br><em>Salma</em> Nur Aini</h1>
+  <p class="hero-role">Data Scientist · ML Engineer · Conversational AI Specialist</p>
+  <p class="hero-desc">
+    <strong>3.5+ years</strong> building, evaluating, and tuning production AI systems — from rule-based chatbots serving ~1,000 daily users to LLM-based RAG pipelines with structured quality auditing. I combine <strong>applied ML</strong>, <strong>NLP for Bahasa Indonesia</strong>, and <strong>MLOps discipline</strong> to ship models that actually work in production.
+  </p>
+  <div class="hero-ctas">
+    <a href="mailto:ninditya.sna025@gmail.com" class="cta cta-primary">✉ Email</a>
+    <a href="https://linkedin.com/in/ninditya-salma-nur-aini" class="cta cta-secondary" target="_blank" rel="noopener">in LinkedIn</a>
+    <a href="https://github.com/ninditya" class="cta cta-secondary" target="_blank" rel="noopener">↗ GitHub</a>
+    <a href="https://wa.me/6289537129049" class="cta cta-secondary" target="_blank" rel="noopener">☎ WhatsApp</a>
+  </div>
+  <div class="hero-strengths">
+    <div class="strength">
+      <div class="strength-label">Applied ML &amp; MLOps</div>
+      <div class="strength-desc">End-to-end pipelines with MLflow, Docker, Prometheus + Grafana monitoring, and data drift detection.</div>
+    </div>
+    <div class="strength">
+      <div class="strength-label">Conversational AI &amp; NLP</div>
+      <div class="strength-desc">RAG evaluation, prompt optimization, hallucination detection, and intent design for production chatbots.</div>
+    </div>
+    <div class="strength">
+      <div class="strength-label">Production AI Quality</div>
+      <div class="strength-desc">KPI dashboards (CSAT, fallback, hallucination rate), root-cause analysis, and AI model auditing.</div>
+    </div>
+  </div>
+</div>
+
+<!-- METRICS -->
+<div class="metrics-wrap">
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-num">3.5+</div>
+      <div class="metric-label">Years Production AI</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num">65%</div>
+      <div class="metric-label">CSAT Achieved</div>
+      <div class="metric-sub">Flip, H1</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num">3%</div>
+      <div class="metric-label">Fallback Rate</div>
+      <div class="metric-sub">Flip, H2</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num">~1K</div>
+      <div class="metric-label">Daily Chatbot Users</div>
+      <div class="metric-sub">Infomedia</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num accent">3.66</div>
+      <div class="metric-label">GPA / 4.00</div>
+      <div class="metric-sub">UPNVY Informatics</div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="section" id="experience">
+  <p class="section-eyebrow">work experience</p>
+  <h2 class="section-title">Where I've built &amp; shipped</h2>
+  <p class="section-subtitle">From rule-based chatbots serving thousands of daily users to LLM-based RAG systems with quality auditing — real production AI work, not just notebooks.</p>
+
+  <div class="exp-list">
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <span class="exp-meta-date">Feb 2026 – Apr 2026</span>
+        <span class="exp-meta-loc">Bekasi · On-site<br>Selected from 900 applicants (60 accepted)</span>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Full-Stack Developer Trainee</div>
+        <div class="exp-company">Korea-ASEAN Digital Academy (KADA) · NIPA · Komdigi · Elice</div>
+        <ul class="exp-bullets">
+          <li>Fully-funded ASEAN-Korea program covering <strong>Full-Stack Development, AI/ML, Cloud Services, Data Analysis, and AI Ethics</strong>.</li>
+          <li>Co-developed <strong>CineTrack</strong>, a cinema analytics dashboard — contributed backend with Fastify (Node.js ESM), PostgreSQL, and Redis caching.</li>
+          <li>Integrated <strong>LLM components</strong> to surface business insights from raw operational data — hands-on with modern generative chatbot architectures.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <span class="exp-meta-date">May 2024 – Oct 2025</span>
+        <span class="exp-meta-loc">1.5 years</span>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Chatbot Quality Assurance Analyst</div>
+        <div class="exp-company">PT Fliptech Lentera Inspirasi Pertiwi (Flip)</div>
+        <ul class="exp-bullets">
+          <li>Evaluated and refined an <strong>LLM-based chatbot with RAG framework</strong> — focused on prompt optimization and response grounding for accurate, policy-aligned outputs.</li>
+          <li>Conducted scheduled audits via sampling: prompt review, response relevance scoring, <strong>grounding validation, hallucination detection</strong>, and language consistency checks.</li>
+          <li>Performed root-cause analysis on low-CSAT interactions; translated findings into prompt restructuring, fallback logic, and knowledge-base coverage recommendations.</li>
+          <li>Designed and maintained <strong>KPI dashboards</strong> (CSAT, fallback rate, hallucination rate, intent accuracy) to drive prompt iteration priorities.</li>
+        </ul>
+        <span class="exp-impact">Unidentified utterances &lt;12% · CSAT 65% (H1) · Fallback rate 3% (H2)</span>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <span class="exp-meta-date">Dec 2021 – Apr 2024</span>
+        <span class="exp-meta-loc">2.4 years</span>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">IT Operational · Chatbot &amp; Omnichannel Development</div>
+        <div class="exp-company">PT Infomedia Nusantara (Telkom Group)</div>
+        <ul class="exp-bullets">
+          <li>Designed and developed <strong>end-to-end e-commerce chatbot flows</strong> from requirement gathering to post-release tuning — supporting <strong>~1,000 daily user interactions</strong>.</li>
+          <li>Built and maintained Omnichannel platform components, integrating chatbot, CRM, and customer-service channels into a unified service flow.</li>
+          <li>Led QA across Chatbot and Omnichannel systems through SIT and UAT, catching integration issues pre-release and reducing post-deployment defects.</li>
+          <li>Drove root-cause analysis to convert recurring user issues into chatbot rule updates — reducing repeated support tickets.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="section" id="projects">
+  <p class="section-eyebrow">selected work</p>
+  <h2 class="section-title">Featured projects</h2>
+  <p class="section-subtitle">End-to-end ML pipelines, applied data science with business outcomes, and NLP work — including academic foundations in chatbot research.</p>
+
+  <!-- FLAGSHIP -->
+  <div class="track-divider">
+    <span class="track-divider-label">Flagship · MLOps &amp; Applied ML</span>
+    <div class="track-divider-line"></div>
+  </div>
+
+  <div class="proj-list">
+
+    <a class="proj-card" href="https://github.com/ninditya/mlops-earthquake-prediction" target="_blank" rel="noopener">
+      <div class="proj-head">
+        <div class="proj-title-block">
+          <div class="proj-badge-row">
+            <span class="proj-badge flagship">flagship</span>
+            <span class="proj-badge kind">MLOps</span>
+            <span class="proj-badge kind">End-to-end</span>
+          </div>
+          <div class="proj-name">MLOps Earthquake Prediction</div>
+        </div>
+        <span class="proj-impact">12 monitoring metrics</span>
+      </div>
+      <div class="proj-desc">End-to-end ML pipeline predicting earthquake significance (USGS API, ~10K records): preprocessing → MLflow experiment tracking → Docker → Prometheus + Grafana monitoring with <strong>12 custom metrics including data drift &amp; model confidence</strong>. DagsHub remote tracking. RandomForestClassifier with hyperparameter tuning on imbalanced data (6.23% positive class).</div>
+      <div class="proj-tags">
+        <span class="proj-tag">MLflow</span>
+        <span class="proj-tag">Docker</span>
+        <span class="proj-tag">Prometheus</span>
+        <span class="proj-tag">Grafana</span>
+        <span class="proj-tag">DagsHub</span>
+        <span class="proj-tag">GitHub Actions</span>
+        <span class="proj-tag">scikit-learn</span>
+      </div>
+      <span class="proj-link">View on GitHub →</span>
+    </a>
+
+    <a class="proj-card" href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-human-resources" target="_blank" rel="noopener">
+      <div class="proj-head">
+        <div class="proj-title-block">
+          <div class="proj-badge-row">
+            <span class="proj-badge flagship">flagship</span>
+            <span class="proj-badge kind">Applied ML</span>
+            <span class="proj-badge kind">Business case</span>
+          </div>
+          <div class="proj-name">HR Attrition Early Warning · IDCamp Expert Capstone</div>
+        </div>
+        <span class="proj-impact">86% Recall</span>
+      </div>
+      <div class="proj-desc">XGBoost classifier identifying employees at attrition risk — <strong>prioritized recall over accuracy</strong> because missing an at-risk employee costs more than a false alarm. Includes Metabase dashboard and an intervention playbook for HR stakeholders.</div>
+      <div class="proj-tags">
+        <span class="proj-tag">XGBoost</span>
+        <span class="proj-tag">Metabase</span>
+        <span class="proj-tag">Python</span>
+        <span class="proj-tag">Business analysis</span>
+      </div>
+      <span class="proj-link">View on GitHub →</span>
+    </a>
+
+    <a class="proj-card" href="https://github.com/ninditya/microsoft-elevate-2025-etl-fashion-pipeline" target="_blank" rel="noopener">
+      <div class="proj-head">
+        <div class="proj-title-block">
+          <div class="proj-badge-row">
+            <span class="proj-badge flagship accent">flagship</span>
+            <span class="proj-badge kind">Data Engineering</span>
+          </div>
+          <div class="proj-name">ETL Fashion Pipeline · Microsoft Elevate 2025</div>
+        </div>
+        <span class="proj-impact">92% test coverage</span>
+      </div>
+      <div class="proj-desc">Production-quality ETL: web scraping → transform → multi-destination load (CSV, Google Sheets API, PostgreSQL). Modular utils/tests architecture with <strong>92% combined test coverage</strong> — demonstrates ML engineering discipline applied to data pipelines.</div>
+      <div class="proj-tags">
+        <span class="proj-tag">Python</span>
+        <span class="proj-tag">pytest</span>
+        <span class="proj-tag">PostgreSQL</span>
+        <span class="proj-tag">Google Sheets API</span>
+        <span class="proj-tag">Web scraping</span>
+      </div>
+      <span class="proj-link">View on GitHub →</span>
+    </a>
+
+  </div>
+
+  <!-- LLM -->
+  <div class="track-divider">
+    <span class="track-divider-label">LLM &amp; Conversational AI</span>
+    <div class="track-divider-line"></div>
+  </div>
+
+  <div class="proj-list">
+
+    <a class="proj-card" href="https://github.com/ninditya/rag-chatbot-service" target="_blank" rel="noopener">
+      <div class="proj-head">
+        <div class="proj-title-block">
+          <div class="proj-badge-row">
+            <span class="proj-badge flagship">LLM</span>
+            <span class="proj-badge kind">RAG</span>
+          </div>
+          <div class="proj-name">RAG Chatbot Service</div>
+        </div>
+      </div>
+      <div class="proj-desc">Retrieval-Augmented Generation API for querying a document knowledge base in natural language. Stateful conversation flow built with <strong>LangGraph</strong>; embeddings stored in <strong>Qdrant</strong>; served via FastAPI. Connects directly to my 1.5 years of production RAG evaluation experience at Flip.</div>
+      <div class="proj-tags">
+        <span class="proj-tag">FastAPI</span>
+        <span class="proj-tag">LangGraph</span>
+        <span class="proj-tag">Qdrant</span>
+        <span class="proj-tag">RAG</span>
+      </div>
+      <span class="proj-link">View on GitHub →</span>
+    </a>
+
+    <a class="proj-card" href="https://github.com/ninditya/NLP-KNN-LSA" target="_blank" rel="noopener">
+      <div class="proj-head">
+        <div class="proj-title-block">
+          <div class="proj-badge-row">
+            <span class="proj-badge kind">Thesis</span>
+            <span class="proj-badge kind">NLP</span>
+          </div>
+          <div class="proj-name">Question Classification for Chatbot (LSA + KNN) · Undergraduate Thesis</div>
+        </div>
+      </div>
+      <div class="proj-desc">Bachelor's thesis — a classical NLP approach to intent classification for an information-service chatbot using <strong>Latent Semantic Analysis</strong> and <strong>k-NN</strong>. This project became the foundation of my 3.5+ years in chatbot development. Companion repo: <a href="https://github.com/ninditya/Chatbot-LSA" target="_blank" rel="noopener" style="color:var(--primary)">Chatbot-LSA</a>.</div>
+      <div class="proj-tags">
+        <span class="proj-tag">LSA</span>
+        <span class="proj-tag">KNN</span>
+        <span class="proj-tag">Intent classification</span>
+        <span class="proj-tag">Bahasa Indonesia</span>
+      </div>
+      <span class="proj-link">View on GitHub →</span>
+    </a>
+
+  </div>
+
+  <!-- QA -->
+  <div class="track-divider">
+    <span class="track-divider-label">QA &amp; Engineering Foundation</span>
+    <div class="track-divider-line"></div>
+  </div>
+
+  <div class="proj-list">
+
+    <a class="proj-card accent" href="https://github.com/ninditya/qa-automation-test-moviematch" target="_blank" rel="noopener">
+      <div class="proj-head">
+        <div class="proj-title-block">
+          <div class="proj-badge-row">
+            <span class="proj-badge flagship accent">case study</span>
+            <span class="proj-badge kind">AI Quality</span>
+            <span class="proj-badge status">snapshot</span>
+          </div>
+          <div class="proj-name">MovieMatch · AI System Quality Assessment</div>
+        </div>
+        <span class="proj-impact">35 test cases · 8 bugs</span>
+      </div>
+      <div class="proj-desc">Comprehensive quality strategy for an AI-powered movie recommender: <strong>AI stability testing</strong> (top-result overlap across repeated queries), multilingual consistency (Bahasa Indonesia), API security, and performance. 35 test cases, 8 documented defects with severity ratings, and a UX recommendations matrix — demonstrating the AI quality skills I apply to LLM systems.</div>
+      <div class="proj-tags">
+        <span class="proj-tag">Playwright</span>
+        <span class="proj-tag">Selenium</span>
+        <span class="proj-tag">Postman</span>
+        <span class="proj-tag">AI-quality testing</span>
+        <span class="proj-tag">Security</span>
+      </div>
+      <span class="proj-link">View on GitHub →</span>
+      <div class="proj-note">Note: target app changed credentials post-demo — CI currently fails at login. Evidence of last successful run available in README.</div>
+    </a>
+
+  </div>
+</div>
+
+<!-- MORE PROJECTS -->
+<div class="section" id="more">
+  <p class="section-eyebrow">more work</p>
+  <h2 class="section-title">Additional projects</h2>
+  <p class="section-subtitle">Coursework capstones, NLP experiments, and AI applications spanning the full breadth of data &amp; AI work.</p>
+
+  <div class="more-grid">
+
+    <a class="mini-card" href="https://github.com/ninditya/idcamp2025-air-qualiity-beijing" target="_blank" rel="noopener">
+      <div class="mini-kind">Time Series · EDA</div>
+      <div class="mini-name">Beijing Air Quality Analysis</div>
+      <div class="mini-desc">IDCamp Intermediate project: EDA and visualisation of multi-year PM2.5/PM10 data across Beijing monitoring stations.</div>
+    </a>
+
+    <a class="mini-card" href="https://github.com/ninditya/idcamp2025-transaction-fraud-ml-pipeline" target="_blank" rel="noopener">
+      <div class="mini-kind">ML Pipeline · Fintech</div>
+      <div class="mini-name">Transaction Fraud Detection</div>
+      <div class="mini-desc">End-to-end fraud classification on imbalanced data with class-weighted models and feature engineering.</div>
+    </a>
+
+    <a class="mini-card" href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-perusahaan-edutech" target="_blank" rel="noopener">
+      <div class="mini-kind">Business Case · EdTech</div>
+      <div class="mini-name">EdTech Student Dropout</div>
+      <div class="mini-desc">IDCamp Expert capstone: predictive modelling and dashboarding for student retention with intervention recommendations.</div>
+    </a>
+
+    <a class="mini-card" href="https://github.com/ninditya/9900987-12-nsa-analisis-tweet-bahasa-indonesia-identifikasi-ujaran-kebencian-dan-bahasa-kasar-gold" target="_blank" rel="noopener">
+      <div class="mini-kind">NLP · Bahasa Indonesia</div>
+      <div class="mini-name">Indonesian Hate Speech Detection</div>
+      <div class="mini-desc">Binar Academy bootcamp project: hate speech and abusive language classification on Indonesian tweets.</div>
+    </a>
+
+    <a class="mini-card" href="https://github.com/DSC12-Platinum-Challenge/23001033-12-KEN-NIN-SentimentAnalysis-Platinum" target="_blank" rel="noopener">
+      <div class="mini-kind">NLP · Sentiment</div>
+      <div class="mini-name">Sentiment Analysis Platinum</div>
+      <div class="mini-desc">Binar Academy Platinum Challenge — team project on sentiment classification with both ML and deep learning approaches.</div>
+    </a>
+
+    <a class="mini-card" href="https://github.com/ninditya/aquasense-ds-assessment" target="_blank" rel="noopener">
+      <div class="mini-kind">Take-home Assessment</div>
+      <div class="mini-name">AquaSense DS Assessment</div>
+      <div class="mini-desc">Technical data science assessment covering data wrangling, modelling, and business interpretation.</div>
+    </a>
+
+    <a class="mini-card" href="https://github.com/ninditya/talent-match-intelligence" target="_blank" rel="noopener">
+      <div class="mini-kind">AI Matching · HR</div>
+      <div class="mini-name">Talent Match Intelligence</div>
+      <div class="mini-desc">AI-powered candidate-to-role matching using semantic similarity and structured features.</div>
+    </a>
+
+    <a class="mini-card accent" href="https://github.com/ninditya/nutripal-ai" target="_blank" rel="noopener">
+      <div class="mini-kind accent">AI App · Health</div>
+      <div class="mini-name">NutriPal AI</div>
+      <div class="mini-desc">AI-assisted nutrition companion using LLM reasoning over user health profiles for personalised dietary suggestions.</div>
+    </a>
+
+    <a class="mini-card accent" href="https://github.com/ninditya/healthtruth-ai" target="_blank" rel="noopener">
+      <div class="mini-kind accent">AI App · Verification</div>
+      <div class="mini-name">HealthTruth AI</div>
+      <div class="mini-desc">Retrieval-grounded health claim verification — combating misinformation with a fact-checking pipeline.</div>
+    </a>
+
+    <a class="mini-card bridge" href="https://github.com/ninditya/CineTrack-FrontEnd" target="_blank" rel="noopener">
+      <div class="mini-kind bridge">Full-stack · KADA</div>
+      <div class="mini-name">CineTrack (Frontend + Backend)</div>
+      <div class="mini-desc">Cinema analytics dashboard built during the KADA program. Backend: <a href="https://github.com/dellips/capstone-project-api-cinetrack" target="_blank" rel="noopener" style="color:var(--bridge)">capstone-project-api-cinetrack</a> (Fastify · PostgreSQL · Redis · LLM integration).</div>
+    </a>
+
+  </div>
+</div>
+
+<!-- EDUCATION -->
+<div class="section" id="education">
+  <p class="section-eyebrow">credentials</p>
+  <h2 class="section-title">Education &amp; certifications</h2>
+
+  <div class="edu-grid">
+
+    <div class="edu-block">
+      <div class="edu-block-title">Formal Education</div>
+      <div class="edu-item">
+        <div class="edu-title">Bachelor of Informatics</div>
+        <div class="edu-sub">Universitas Pembangunan Nasional "Veteran" Yogyakarta</div>
+        <div class="edu-meta"><strong>GPA 3.66 / 4.00</strong> · Graduated Oct 2021<br>Thesis: Question Classification for Chatbot Information Services using LSA + KNN</div>
+      </div>
+    </div>
+
+    <div class="edu-block">
+      <div class="edu-block-title">Training &amp; Scholarships</div>
+      <div class="edu-item">
+        <div class="edu-title">IDCamp Data Scientist Track — Expert</div>
+        <div class="edu-sub">Indosat Ooredoo Hutchison · Scholarship Awardee</div>
+        <div class="edu-meta">Sep 2025 – Apr 2026 · Beginner → Intermediate → Expert</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-title">Data Science Bootcamp</div>
+        <div class="edu-sub">Binar Academy</div>
+        <div class="edu-meta">Nov 2023 · <strong>Hard Skill 4.80 / Soft Skill 4.50</strong></div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-title">System Analyst Certification (BNSP)</div>
+        <div class="edu-sub">Software Requirement, Analysis &amp; Design</div>
+        <div class="edu-meta">Nov 2020 · National professional certification</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="section" id="about">
+  <p class="section-eyebrow">about</p>
+  <h2 class="section-title">Background &amp; skills</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm <strong>Ninditya Salma Nur Aini</strong>, a Data Scientist and ML Engineer based in <strong>Yogyakarta, Indonesia</strong> with <strong>3.5+ years of production AI experience</strong>.</p>
+      <p>My career started in chatbot development at <strong>Infomedia (Telkom Group)</strong>, designing rule-based conversation flows serving thousands of daily users. I then moved to <strong>Flip</strong> to evaluate LLM-based chatbots with RAG frameworks — building the exact <strong>AI quality assessment skills</strong> that the industry now urgently needs as generative AI moves into production.</p>
+      <p>Parallel to that, I deepened formal data science training through <strong>Binar Academy</strong> and the <strong>IDCamp Expert track (Indosat Ooredoo Hutchison)</strong>, building end-to-end pipelines from raw API ingestion through ML modelling to monitored, production-grade deployments with MLflow, Docker, and Grafana.</p>
+      <p>What makes my profile unusual: I've seen what happens to AI systems <em>after</em> they ship — fallback rates, hallucinations, drift, CSAT regressions. That perspective shapes how I build models, not just how I evaluate them.</p>
+      <p>Currently deepening expertise in <strong>LLM application development</strong> and <strong>MLOps</strong>. Open to Data Scientist, ML Engineer, and Conversational AI Engineer roles — remote, hybrid, or based in Yogyakarta/Jakarta.</p>
+    </div>
+    <div>
+      <div class="skills-block">
+        <div class="skills-block-title">Core Stack</div>
+        <div class="skill-row"><strong>ML &amp; Data Science</strong>Python, scikit-learn, XGBoost, TensorFlow, pandas, numpy</div>
+        <div class="skill-row"><strong>MLOps</strong>MLflow, DagsHub, Docker, GitHub Actions, Prometheus, Grafana</div>
+        <div class="skill-row"><strong>LLM &amp; Conversational AI</strong>RAG evaluation, LangGraph, Qdrant, FastAPI, prompt optimization, hallucination detection</div>
+        <div class="skill-row"><strong>NLP</strong>Intent classification, sentiment analysis, Bahasa Indonesia, LSA, KNN, text classification</div>
+        <div class="skills-divider"></div>
+        <div class="skill-row"><strong>Data Engineering</strong>PostgreSQL, MySQL, MongoDB, Redis, REST APIs, Google Sheets API</div>
+        <div class="skill-row"><strong>Analytics &amp; BI</strong>Metabase, Looker Studio, Grafana, Matplotlib, Seaborn, Streamlit</div>
+        <div class="skill-row"><strong>QA &amp; Quality</strong>SIT, UAT, AI quality auditing, KPI dashboards (CSAT, fallback, hallucination), test automation (Playwright, Selenium, Postman)</div>
+        <div class="skill-row"><strong>Backend &amp; Full-stack</strong>Node.js (Fastify), Python (FastAPI, Flask), JavaScript, PHP</div>
+        <div class="skill-row"><strong>Cloud</strong>GCP basics, Docker, CI/CD</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="section" id="contact">
+  <div class="contact-wrap">
+    <div>
+      <p class="section-eyebrow">contact</p>
+      <div class="contact-headline">Let's build something<br><em>impactful</em> together.</div>
+      <p style="font-size:0.88rem;color:var(--ink2);line-height:1.65;margin-top:1.25rem;max-width:380px">Open to Data Scientist, ML Engineer, and Conversational AI roles. Remote, hybrid, or based in Yogyakarta / Jakarta.</p>
+    </div>
+    <div class="contact-items">
+      <a href="mailto:ninditya.sna025@gmail.com" class="contact-item">
+        <div class="contact-icon" aria-hidden="true">✉</div>
+        ninditya.sna025@gmail.com
+      </a>
+      <a href="https://wa.me/6289537129049" class="contact-item" target="_blank" rel="noopener">
+        <div class="contact-icon" aria-hidden="true">☎</div>
+        +62 895-3712-9049
+      </a>
+      <a href="https://linkedin.com/in/ninditya-salma-nur-aini" class="contact-item" target="_blank" rel="noopener">
+        <div class="contact-icon" aria-hidden="true">in</div>
+        linkedin.com/in/ninditya-salma-nur-aini
+      </a>
+      <a href="https://github.com/ninditya" class="contact-item" target="_blank" rel="noopener">
+        <div class="contact-icon" aria-hidden="true">↗</div>
+        github.com/ninditya
+      </a>
+      <span class="contact-item">
+        <div class="contact-icon" aria-hidden="true">◎</div>
+        Yogyakarta, Indonesia
+      </span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 Ninditya Salma Nur Aini · Data Scientist &amp; ML Engineer · Yogyakarta<br>
+  <a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a>
+</footer>
+
+</body>
+</html>
