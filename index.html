@@ -1,305 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NindityaS Portfolio</title>
-<meta name="description" content="Portfolio of Ninditya Salma Nur Aini — Data Scientist, ML Engineer & QA Engineer with 3.5+ years of production AI experience in conversational systems, RAG evaluation, AI quality auditing, and end-to-end ML pipelines.">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ninditya Salma Nur Aini · Data Scientist & QA Engineer</title>
+  <meta name="description"
+    content="Portfolio of Ninditya Salma Nur Aini — Data Scientist, ML Engineer & QA Engineer with 3.5+ years of production AI experience in conversational systems, RAG evaluation, AI quality auditing, and end-to-end ML pipelines.">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
 </head>
+
 <body>
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <a href="#top" class="logo">Ninditya Salma Nur Aini</a>
-    <div class="nav-pills">
-      <a class="nav-pill" href="#experience">Experience</a>
-      <a class="nav-pill" href="#projects">Projects</a>
-      <a class="nav-pill" href="#education">Education</a>
-      <a class="nav-pill" href="#about">About</a>
-      <a class="nav-pill" href="#contact">Contact</a>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#top" class="logo">Ninditya Salma Nur Aini</a>
+      <div class="nav-pills">
+        <a class="nav-pill" href="#experience">Experience</a>
+        <a class="nav-pill" href="#projects">Projects</a>
+        <a class="nav-pill" href="#education">Education</a>
+        <a class="nav-pill" href="#about">About</a>
+        <a class="nav-pill" href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero" id="top">
+    <div class="hero-kicker">
+      <span class="kicker-dot" aria-hidden="true"></span>
+      <span class="kicker-status">Open to opportunities</span>
+      <span class="kicker-divider">·</span>
+      <span class="kicker-tag">Remote / Yogyakarta / Jakarta</span>
+    </div>
+    <h1 class="hero-name">Ninditya<br><em>Salma</em> Nur Aini</h1>
+    <p class="hero-role">Data Scientist · ML Engineer · QA Engineer · Conversational AI Specialist</p>
+    <p class="hero-desc">
+      <strong>3.5+ years</strong> building, evaluating, and tuning production AI systems — from rule-based chatbots
+      serving ~1,000 daily users to LLM-based RAG pipelines with structured quality auditing. I combine <strong>applied
+        ML</strong>, <strong>AI quality assurance</strong>, <strong>NLP for Bahasa Indonesia</strong>, and <strong>MLOps
+        discipline</strong> to ship models that actually work in production — and stay reliable after they ship.
+    </p>
+    <div class="hero-ctas">
+      <a href="mailto:ninditya.sna025@gmail.com" class="cta cta-primary">✉ Email</a>
+      <a href="https://linkedin.com/in/ninditya-salma-nur-aini" class="cta cta-secondary" target="_blank"
+        rel="noopener">in LinkedIn</a>
+      <a href="https://github.com/ninditya" class="cta cta-secondary" target="_blank" rel="noopener">↗ GitHub</a>
+      <a href="https://wa.me/6289537129049" class="cta cta-secondary" target="_blank" rel="noopener">☎ WhatsApp</a>
+    </div>
+    <div class="hero-strengths">
+      <div class="strength">
+        <div class="strength-label">Applied ML &amp; MLOps</div>
+        <div class="strength-desc">End-to-end pipelines with MLflow, Docker, Prometheus + Grafana monitoring, and data
+          drift detection.</div>
+      </div>
+      <div class="strength">
+        <div class="strength-label">AI Quality Assurance</div>
+        <div class="strength-desc">SIT/UAT, test automation (Playwright, Selenium, Postman), AI stability testing,
+          hallucination detection, and CSAT-driven auditing.</div>
+      </div>
+      <div class="strength">
+        <div class="strength-label">Conversational AI &amp; NLP</div>
+        <div class="strength-desc">RAG evaluation, prompt optimization, hallucination detection, and intent design for
+          production chatbots.</div>
+      </div>
+      <div class="strength">
+        <div class="strength-label">Production AI Quality</div>
+        <div class="strength-desc">KPI dashboards (CSAT, fallback, hallucination rate), root-cause analysis, and AI
+          model auditing.</div>
+      </div>
     </div>
   </div>
-</nav>
 
-<!-- HERO -->
-<div class="hero" id="top">
-  <div class="hero-kicker">
-    <span class="kicker-dot" aria-hidden="true"></span>
-    <span class="kicker-status">Open to opportunities</span>
-    <span class="kicker-divider">·</span>
-    <span class="kicker-tag">Remote / Yogyakarta / Jakarta</span>
+  <!-- EXPERIENCE -->
+  <div class="section" id="experience">
+    <p class="section-eyebrow">work experience</p>
+    <h2 class="section-title">Where I've built &amp; shipped</h2>
+    <p class="section-subtitle">From rule-based chatbots serving thousands of daily users to LLM-based RAG systems with
+      quality auditing — real production AI work, not just notebooks.</p>
+
+    <div class="exp-list">
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <span class="exp-meta-date">Feb 2026 – Apr 2026</span>
+          <span class="exp-meta-loc">Bekasi · On-site<br>Selected from 900 applicants (60 accepted)</span>
+        </div>
+        <div class="exp-body">
+          <div class="exp-role">Full-Stack Developer Trainee</div>
+          <div class="exp-company">Korea-ASEAN Digital Academy (KADA) · NIPA · Komdigi · Elice</div>
+          <ul class="exp-bullets">
+            <li>Fully-funded ASEAN-Korea program covering <strong>Full-Stack Development, AI/ML, Cloud Services, Data
+                Analysis, and AI Ethics</strong>.</li>
+            <li>Co-developed <strong>CineTrack</strong>, a cinema analytics dashboard — contributed backend with Fastify
+              (Node.js ESM), PostgreSQL, and Redis caching.</li>
+            <li>Integrated <strong>LLM components</strong> to surface business insights from raw operational data —
+              hands-on with modern generative chatbot architectures.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <span class="exp-meta-date">May 2024 – Oct 2025</span>
+          <span class="exp-meta-loc">1.5 years</span>
+        </div>
+        <div class="exp-body">
+          <div class="exp-role">Chatbot Quality Assurance Analyst</div>
+          <div class="exp-company">PT Fliptech Lentera Inspirasi Pertiwi (Flip)</div>
+          <ul class="exp-bullets">
+            <li>Evaluated and refined an <strong>LLM-based chatbot with RAG framework</strong> — focused on prompt
+              optimization and response grounding for accurate, policy-aligned outputs.</li>
+            <li>Conducted scheduled audits via sampling: prompt review, response relevance scoring, <strong>grounding
+                validation, hallucination detection</strong>, and language consistency checks.</li>
+            <li>Performed root-cause analysis on low-CSAT interactions; translated findings into prompt restructuring,
+              fallback logic, and knowledge-base coverage recommendations.</li>
+            <li>Designed and maintained <strong>KPI dashboards</strong> (CSAT, fallback rate, hallucination rate, intent
+              accuracy) to drive prompt iteration priorities.</li>
+          </ul>
+          <span class="exp-impact">Unidentified utterances &lt;12% · CSAT 65% (H1) · Fallback rate 3% (H2)</span>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <span class="exp-meta-date">Dec 2021 – Apr 2024</span>
+          <span class="exp-meta-loc">2.4 years</span>
+        </div>
+        <div class="exp-body">
+          <div class="exp-role">IT Operational · Chatbot &amp; Omnichannel Development</div>
+          <div class="exp-company">PT Infomedia Nusantara (Telkom Group)</div>
+          <ul class="exp-bullets">
+            <li>Designed and developed <strong>end-to-end e-commerce chatbot flows</strong> from requirement gathering
+              to post-release tuning — supporting <strong>~1,000 daily user interactions</strong>.</li>
+            <li>Built and maintained Omnichannel platform components, integrating chatbot, CRM, and customer-service
+              channels into a unified service flow.</li>
+            <li>Led QA across Chatbot and Omnichannel systems through SIT and UAT, catching integration issues
+              pre-release and reducing post-deployment defects.</li>
+            <li>Drove root-cause analysis to convert recurring user issues into chatbot rule updates — reducing repeated
+              support tickets.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
   </div>
-  <h1 class="hero-name">Ninditya<br><em>Salma</em> Nur Aini</h1>
-  <p class="hero-role">Data Scientist · ML Engineer · QA Engineer · Conversational AI Specialist</p>
-  <p class="hero-desc">
-    <strong>3.5+ years</strong> building, evaluating, and tuning production AI systems — from rule-based chatbots serving ~1,000 daily users to LLM-based RAG pipelines with structured quality auditing. I combine <strong>applied ML</strong>, <strong>AI quality assurance</strong>, <strong>NLP for Bahasa Indonesia</strong>, and <strong>MLOps discipline</strong> to ship models that actually work in production — and stay reliable after they ship.
-  </p>
-  <div class="hero-ctas">
-    <a href="mailto:ninditya.sna025@gmail.com" class="cta cta-primary">✉ Email</a>
-    <a href="https://linkedin.com/in/ninditya-salma-nur-aini" class="cta cta-secondary" target="_blank" rel="noopener">in LinkedIn</a>
-    <a href="https://github.com/ninditya" class="cta cta-secondary" target="_blank" rel="noopener">↗ GitHub</a>
-    <a href="https://wa.me/6289537129049" class="cta cta-secondary" target="_blank" rel="noopener">☎ WhatsApp</a>
-  </div>
-  <div class="hero-strengths">
-    <div class="strength">
-      <div class="strength-label">Applied ML &amp; MLOps</div>
-      <div class="strength-desc">End-to-end pipelines with MLflow, Docker, Prometheus + Grafana monitoring, and data drift detection.</div>
-    </div>
-    <div class="strength">
-      <div class="strength-label">AI Quality Assurance</div>
-      <div class="strength-desc">SIT/UAT, test automation (Playwright, Selenium, Postman), AI stability testing, hallucination detection, and CSAT-driven auditing.</div>
-    </div>
-    <div class="strength">
-      <div class="strength-label">Conversational AI &amp; NLP</div>
-      <div class="strength-desc">RAG evaluation, prompt optimization, hallucination detection, and intent design for production chatbots.</div>
-    </div>
-    <div class="strength">
-      <div class="strength-label">Production AI Quality</div>
-      <div class="strength-desc">KPI dashboards (CSAT, fallback, hallucination rate), root-cause analysis, and AI model auditing.</div>
-    </div>
-  </div>
-</div>
 
-<!-- EXPERIENCE -->
-<div class="section" id="experience">
-  <p class="section-eyebrow">work experience</p>
-  <h2 class="section-title">Where I've built &amp; shipped</h2>
-  <p class="section-subtitle">From rule-based chatbots serving thousands of daily users to LLM-based RAG systems with quality auditing — real production AI work, not just notebooks.</p>
+  <!-- PROJECTS -->
+  <div class="section" id="projects">
+    <p class="section-eyebrow">selected work</p>
+    <h2 class="section-title">Featured projects</h2>
+    <p class="section-subtitle">End-to-end ML pipelines, applied data science with business outcomes, QA automation, and
+      NLP work — including academic foundations in chatbot research.</p>
 
-  <div class="exp-list">
+    <div class="proj-card-group">
 
-    <div class="exp-item">
-      <div class="exp-meta">
-        <span class="exp-meta-date">Feb 2026 – Apr 2026</span>
-        <span class="exp-meta-loc">Bekasi · On-site<br>Selected from 900 applicants (60 accepted)</span>
-      </div>
-      <div class="exp-body">
-        <div class="exp-role">Full-Stack Developer Trainee</div>
-        <div class="exp-company">Korea-ASEAN Digital Academy (KADA) · NIPA · Komdigi · Elice</div>
-        <ul class="exp-bullets">
-          <li>Fully-funded ASEAN-Korea program covering <strong>Full-Stack Development, AI/ML, Cloud Services, Data Analysis, and AI Ethics</strong>.</li>
-          <li>Co-developed <strong>CineTrack</strong>, a cinema analytics dashboard — contributed backend with Fastify (Node.js ESM), PostgreSQL, and Redis caching.</li>
-          <li>Integrated <strong>LLM components</strong> to surface business insights from raw operational data — hands-on with modern generative chatbot architectures.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-meta">
-        <span class="exp-meta-date">May 2024 – Oct 2025</span>
-        <span class="exp-meta-loc">1.5 years</span>
-      </div>
-      <div class="exp-body">
-        <div class="exp-role">Chatbot Quality Assurance Analyst</div>
-        <div class="exp-company">PT Fliptech Lentera Inspirasi Pertiwi (Flip)</div>
-        <ul class="exp-bullets">
-          <li>Evaluated and refined an <strong>LLM-based chatbot with RAG framework</strong> — focused on prompt optimization and response grounding for accurate, policy-aligned outputs.</li>
-          <li>Conducted scheduled audits via sampling: prompt review, response relevance scoring, <strong>grounding validation, hallucination detection</strong>, and language consistency checks.</li>
-          <li>Performed root-cause analysis on low-CSAT interactions; translated findings into prompt restructuring, fallback logic, and knowledge-base coverage recommendations.</li>
-          <li>Designed and maintained <strong>KPI dashboards</strong> (CSAT, fallback rate, hallucination rate, intent accuracy) to drive prompt iteration priorities.</li>
-        </ul>
-        <span class="exp-impact">Unidentified utterances &lt;12% · CSAT 65% (H1) · Fallback rate 3% (H2)</span>
-      </div>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-meta">
-        <span class="exp-meta-date">Dec 2021 – Apr 2024</span>
-        <span class="exp-meta-loc">2.4 years</span>
-      </div>
-      <div class="exp-body">
-        <div class="exp-role">IT Operational · Chatbot &amp; Omnichannel Development</div>
-        <div class="exp-company">PT Infomedia Nusantara (Telkom Group)</div>
-        <ul class="exp-bullets">
-          <li>Designed and developed <strong>end-to-end e-commerce chatbot flows</strong> from requirement gathering to post-release tuning — supporting <strong>~1,000 daily user interactions</strong>.</li>
-          <li>Built and maintained Omnichannel platform components, integrating chatbot, CRM, and customer-service channels into a unified service flow.</li>
-          <li>Led QA across Chatbot and Omnichannel systems through SIT and UAT, catching integration issues pre-release and reducing post-deployment defects.</li>
-          <li>Drove root-cause analysis to convert recurring user issues into chatbot rule updates — reducing repeated support tickets.</li>
-        </ul>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- PROJECTS -->
-<div class="section" id="projects">
-  <p class="section-eyebrow">selected work</p>
-  <h2 class="section-title">Featured projects</h2>
-  <p class="section-subtitle">End-to-end ML pipelines, applied data science with business outcomes, QA automation, and NLP work — including academic foundations in chatbot research.</p>
-
-  <div class="proj-card-group">
-
-    <div class="proj-entry">
-      <div class="proj-head">
-        <div class="proj-title-block">
-          <div class="proj-badge-row">
-            <span class="proj-badge flagship">flagship</span>
-            <span class="proj-badge kind">MLOps</span>
-            <span class="proj-badge kind">End-to-end</span>
+      <div class="proj-entry">
+        <div class="proj-head">
+          <div class="proj-title-block">
+            <div class="proj-badge-row">
+              <span class="proj-badge flagship">flagship</span>
+              <span class="proj-badge kind">MLOps</span>
+              <span class="proj-badge kind">End-to-end</span>
+            </div>
+            <div class="proj-name">MLOps Earthquake Prediction</div>
           </div>
-          <div class="proj-name">MLOps Earthquake Prediction</div>
+          <span class="proj-impact">12 monitoring metrics</span>
         </div>
-        <span class="proj-impact">12 monitoring metrics</span>
-      </div>
-      <div class="proj-desc">End-to-end ML pipeline predicting earthquake significance (USGS API, ~10K records): preprocessing → MLflow experiment tracking → Docker → Prometheus + Grafana monitoring with <strong>12 custom metrics including data drift &amp; model confidence</strong>. DagsHub remote tracking. RandomForestClassifier with hyperparameter tuning on imbalanced data (6.23% positive class).</div>
-      <div class="proj-tags">
-        <span class="proj-tag">MLflow</span>
-        <span class="proj-tag">Docker</span>
-        <span class="proj-tag">Prometheus</span>
-        <span class="proj-tag">Grafana</span>
-        <span class="proj-tag">DagsHub</span>
-        <span class="proj-tag">GitHub Actions</span>
-        <span class="proj-tag">scikit-learn</span>
-      </div>
-      <a class="proj-link" href="https://github.com/ninditya/mlops-earthquake-prediction" target="_blank" rel="noopener">View on GitHub →</a>
-    </div>
-
-    <div class="proj-entry">
-      <div class="proj-head">
-        <div class="proj-title-block">
-          <div class="proj-badge-row">
-            <span class="proj-badge flagship">flagship</span>
-            <span class="proj-badge kind">Applied ML</span>
-            <span class="proj-badge kind">Business case</span>
-          </div>
-          <div class="proj-name">HR Attrition Early Warning · IDCamp Expert Capstone</div>
+        <div class="proj-desc">End-to-end ML pipeline predicting earthquake significance (USGS API, ~10K records):
+          preprocessing → MLflow experiment tracking → Docker → Prometheus + Grafana monitoring with <strong>12 custom
+            metrics including data drift &amp; model confidence</strong>. DagsHub remote tracking.
+          RandomForestClassifier with hyperparameter tuning on imbalanced data (6.23% positive class).</div>
+        <div class="proj-tags">
+          <span class="proj-tag">MLflow</span>
+          <span class="proj-tag">Docker</span>
+          <span class="proj-tag">Prometheus</span>
+          <span class="proj-tag">Grafana</span>
+          <span class="proj-tag">DagsHub</span>
+          <span class="proj-tag">GitHub Actions</span>
+          <span class="proj-tag">scikit-learn</span>
         </div>
-        <span class="proj-impact">86% Recall</span>
+        <a class="proj-link" href="https://github.com/ninditya/mlops-earthquake-prediction" target="_blank"
+          rel="noopener">View on GitHub →</a>
       </div>
-      <div class="proj-desc">XGBoost classifier identifying employees at attrition risk — <strong>prioritized recall over accuracy</strong> because missing an at-risk employee costs more than a false alarm. Includes Metabase dashboard and an intervention playbook for HR stakeholders.</div>
-      <div class="proj-tags">
-        <span class="proj-tag">XGBoost</span>
-        <span class="proj-tag">Metabase</span>
-        <span class="proj-tag">Python</span>
-        <span class="proj-tag">Business analysis</span>
-      </div>
-      <a class="proj-link" href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-human-resources" target="_blank" rel="noopener">View on GitHub →</a>
-    </div>
 
-    <div class="proj-entry">
-      <div class="proj-head">
-        <div class="proj-title-block">
-          <div class="proj-badge-row">
-            <span class="proj-badge flagship accent">flagship</span>
-            <span class="proj-badge kind">Data Engineering</span>
+      <div class="proj-entry">
+        <div class="proj-head">
+          <div class="proj-title-block">
+            <div class="proj-badge-row">
+              <span class="proj-badge flagship">flagship</span>
+              <span class="proj-badge kind">Applied ML</span>
+              <span class="proj-badge kind">Business case</span>
+            </div>
+            <div class="proj-name">HR Attrition Early Warning · IDCamp Expert Capstone</div>
           </div>
-          <div class="proj-name">ETL Fashion Pipeline · Microsoft Elevate 2025</div>
+          <span class="proj-impact">86% Recall</span>
         </div>
-        <span class="proj-impact">92% test coverage</span>
-      </div>
-      <div class="proj-desc">Production-quality ETL: web scraping → transform → multi-destination load (CSV, Google Sheets API, PostgreSQL). Modular utils/tests architecture with <strong>92% combined test coverage</strong> — demonstrates ML engineering discipline applied to data pipelines.</div>
-      <div class="proj-tags">
-        <span class="proj-tag">Python</span>
-        <span class="proj-tag">pytest</span>
-        <span class="proj-tag">PostgreSQL</span>
-        <span class="proj-tag">Google Sheets API</span>
-        <span class="proj-tag">Web scraping</span>
-      </div>
-      <a class="proj-link" href="https://github.com/ninditya/microsoft-elevate-2025-etl-fashion-pipeline" target="_blank" rel="noopener">View on GitHub →</a>
-    </div>
-
-    <div class="proj-entry">
-      <div class="proj-head">
-        <div class="proj-title-block">
-          <div class="proj-badge-row">
-            <span class="proj-badge flagship accent">flagship</span>
-            <span class="proj-badge kind">QA Automation</span>
-            <span class="proj-badge status">snapshot</span>
-          </div>
-          <div class="proj-name">MovieMatch · AI System Quality Assessment</div>
+        <div class="proj-desc">XGBoost classifier identifying employees at attrition risk — <strong>prioritized recall
+            over accuracy</strong> because missing an at-risk employee costs more than a false alarm. Includes Metabase
+          dashboard and an intervention playbook for HR stakeholders.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">XGBoost</span>
+          <span class="proj-tag">Metabase</span>
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">Business analysis</span>
         </div>
-        <span class="proj-impact">35 test cases · 8 bugs</span>
+        <a class="proj-link" href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-human-resources"
+          target="_blank" rel="noopener">View on GitHub →</a>
       </div>
-      <div class="proj-desc">Comprehensive quality strategy for an AI-powered movie recommender: <strong>AI stability testing</strong> (top-result overlap across repeated queries), multilingual consistency (Bahasa Indonesia), API security, and performance. 35 test cases, 8 documented defects with severity ratings, and a UX recommendations matrix — demonstrating the AI quality skills I apply to LLM systems.</div>
-      <div class="proj-tags">
-        <span class="proj-tag">Playwright</span>
-        <span class="proj-tag">Selenium</span>
-        <span class="proj-tag">Postman</span>
-        <span class="proj-tag">AI-quality testing</span>
-        <span class="proj-tag">Security</span>
+
+      <div class="proj-entry">
+        <div class="proj-head">
+          <div class="proj-title-block">
+            <div class="proj-badge-row">
+              <span class="proj-badge flagship accent">flagship</span>
+              <span class="proj-badge kind">Data Engineering</span>
+            </div>
+            <div class="proj-name">ETL Fashion Pipeline · Microsoft Elevate 2025</div>
+          </div>
+          <span class="proj-impact">92% test coverage</span>
+        </div>
+        <div class="proj-desc">Production-quality ETL: web scraping → transform → multi-destination load (CSV, Google
+          Sheets API, PostgreSQL). Modular utils/tests architecture with <strong>92% combined test coverage</strong> —
+          demonstrates ML engineering discipline applied to data pipelines.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">Python</span>
+          <span class="proj-tag">pytest</span>
+          <span class="proj-tag">PostgreSQL</span>
+          <span class="proj-tag">Google Sheets API</span>
+          <span class="proj-tag">Web scraping</span>
+        </div>
+        <a class="proj-link" href="https://github.com/ninditya/microsoft-elevate-2025-etl-fashion-pipeline"
+          target="_blank" rel="noopener">View on GitHub →</a>
       </div>
-      <a class="proj-link" href="https://github.com/ninditya/qa-automation-test-moviematch" target="_blank" rel="noopener">View on GitHub →</a>
-      <div class="proj-note">Note: target app changed credentials post-demo — CI currently fails at login. Evidence of last successful run available in README.</div>
+
+      <div class="proj-entry">
+        <div class="proj-head">
+          <div class="proj-title-block">
+            <div class="proj-badge-row">
+              <span class="proj-badge flagship accent">flagship</span>
+              <span class="proj-badge kind">QA Automation</span>
+              <span class="proj-badge status">snapshot</span>
+            </div>
+            <div class="proj-name">MovieMatch · AI System Quality Assessment</div>
+          </div>
+          <span class="proj-impact">35 test cases · 8 bugs</span>
+        </div>
+        <div class="proj-desc">Comprehensive quality strategy for an AI-powered movie recommender: <strong>AI stability
+            testing</strong> (top-result overlap across repeated queries), multilingual consistency (Bahasa Indonesia),
+          API security, and performance. 35 test cases, 8 documented defects with severity ratings, and a UX
+          recommendations matrix — demonstrating the AI quality skills I apply to LLM systems.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">Playwright</span>
+          <span class="proj-tag">Selenium</span>
+          <span class="proj-tag">Postman</span>
+          <span class="proj-tag">AI-quality testing</span>
+          <span class="proj-tag">Security</span>
+        </div>
+        <a class="proj-link" href="https://github.com/ninditya/qa-automation-test-moviematch" target="_blank"
+          rel="noopener">View on GitHub →</a>
+        <div class="proj-note">Note: target app changed credentials post-demo — CI currently fails at login. Evidence of
+          last successful run available in README.</div>
+      </div>
+
+      <div class="proj-entry">
+        <div class="proj-head">
+          <div class="proj-title-block">
+            <div class="proj-badge-row">
+              <span class="proj-badge flagship">LLM</span>
+              <span class="proj-badge kind">RAG</span>
+            </div>
+            <div class="proj-name">RAG Chatbot Service</div>
+          </div>
+        </div>
+        <div class="proj-desc">Retrieval-Augmented Generation API for querying a document knowledge base in natural
+          language. Stateful conversation flow built with <strong>LangGraph</strong>; embeddings stored in
+          <strong>Qdrant</strong>; served via FastAPI. Connects directly to my 1.5 years of production RAG evaluation
+          experience at Flip.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">FastAPI</span>
+          <span class="proj-tag">LangGraph</span>
+          <span class="proj-tag">Qdrant</span>
+          <span class="proj-tag">RAG</span>
+        </div>
+        <a class="proj-link" href="https://github.com/ninditya/rag-chatbot-service" target="_blank" rel="noopener">View
+          on GitHub →</a>
+      </div>
+
+      <div class="proj-entry">
+        <div class="proj-head">
+          <div class="proj-title-block">
+            <div class="proj-badge-row">
+              <span class="proj-badge kind">Thesis</span>
+              <span class="proj-badge kind">NLP</span>
+            </div>
+            <div class="proj-name">Question Classification for Chatbot (LSA + KNN) · Undergraduate Thesis</div>
+          </div>
+        </div>
+        <div class="proj-desc">Bachelor's thesis — a classical NLP approach to intent classification for an
+          information-service chatbot using <strong>Latent Semantic Analysis</strong> and <strong>k-NN</strong>. This
+          project became the foundation of my 3.5+ years in chatbot development. Companion repo: <a
+            href="https://github.com/ninditya/Chatbot-LSA" target="_blank" rel="noopener"
+            style="color:var(--primary)">Chatbot-LSA</a>.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">LSA</span>
+          <span class="proj-tag">KNN</span>
+          <span class="proj-tag">Intent classification</span>
+          <span class="proj-tag">Bahasa Indonesia</span>
+        </div>
+        <a class="proj-link" href="https://github.com/ninditya/NLP-KNN-LSA" target="_blank" rel="noopener">View on
+          GitHub →</a>
+      </div>
+
     </div>
 
-    <div class="proj-entry">
-      <div class="proj-head">
-        <div class="proj-title-block">
-          <div class="proj-badge-row">
-            <span class="proj-badge flagship">LLM</span>
-            <span class="proj-badge kind">RAG</span>
-          </div>
-          <div class="proj-name">RAG Chatbot Service</div>
+    <div class="mini-card-columns">
+
+      <div class="mini-column">
+        <div class="mini-column-title">NLP</div>
+        <div class="mini-entry">
+          <div class="mini-kind">NLP · Bahasa Indonesia</div>
+          <div class="mini-name">Indonesian Hate Speech Detection</div>
+          <div class="mini-desc">Binar Academy bootcamp project: hate speech and abusive language classification on
+            Indonesian tweets.</div>
+        </div>
+        <div class="mini-entry">
+          <div class="mini-kind">NLP · Sentiment</div>
+          <div class="mini-name">Sentiment Analysis Platinum</div>
+          <div class="mini-desc">Binar Academy Platinum Challenge — team project on sentiment classification with both
+            ML and deep learning approaches.</div>
         </div>
       </div>
-      <div class="proj-desc">Retrieval-Augmented Generation API for querying a document knowledge base in natural language. Stateful conversation flow built with <strong>LangGraph</strong>; embeddings stored in <strong>Qdrant</strong>; served via FastAPI. Connects directly to my 1.5 years of production RAG evaluation experience at Flip.</div>
-      <div class="proj-tags">
-        <span class="proj-tag">FastAPI</span>
-        <span class="proj-tag">LangGraph</span>
-        <span class="proj-tag">Qdrant</span>
-        <span class="proj-tag">RAG</span>
-      </div>
-      <a class="proj-link" href="https://github.com/ninditya/rag-chatbot-service" target="_blank" rel="noopener">View on GitHub →</a>
-    </div>
 
-    <div class="proj-entry">
-      <div class="proj-head">
-        <div class="proj-title-block">
-          <div class="proj-badge-row">
-            <span class="proj-badge kind">Thesis</span>
-            <span class="proj-badge kind">NLP</span>
-          </div>
-          <div class="proj-name">Question Classification for Chatbot (LSA + KNN) · Undergraduate Thesis</div>
+      <div class="mini-column">
+        <div class="mini-column-title">AI</div>
+        <div class="mini-entry">
+          <div class="mini-kind">AI Matching · HR</div>
+          <div class="mini-name">Talent Match Intelligence</div>
+          <div class="mini-desc">AI-powered candidate-to-role matching using semantic similarity and structured
+            features.</div>
+        </div>
+        <div class="mini-entry accent">
+          <div class="mini-kind accent">AI App · Health</div>
+          <div class="mini-name">NutriPal AI</div>
+          <div class="mini-desc">AI-assisted nutrition companion using LLM reasoning over user health profiles for
+            personalised dietary suggestions.</div>
+        </div>
+        <div class="mini-entry accent">
+          <div class="mini-kind accent">AI App · Verification</div>
+          <div class="mini-name">HealthTruth AI</div>
+          <div class="mini-desc">Retrieval-grounded health claim verification — combating misinformation with a
+            fact-checking pipeline.</div>
         </div>
       </div>
-      <div class="proj-desc">Bachelor's thesis — a classical NLP approach to intent classification for an information-service chatbot using <strong>Latent Semantic Analysis</strong> and <strong>k-NN</strong>. This project became the foundation of my 3.5+ years in chatbot development. Companion repo: <a href="https://github.com/ninditya/Chatbot-LSA" target="_blank" rel="noopener" style="color:var(--primary)">Chatbot-LSA</a>.</div>
-      <div class="proj-tags">
-        <span class="proj-tag">LSA</span>
-        <span class="proj-tag">KNN</span>
-        <span class="proj-tag">Intent classification</span>
-        <span class="proj-tag">Bahasa Indonesia</span>
+
+      <div class="mini-column">
+        <div class="mini-column-title">Data</div>
+        <div class="mini-entry">
+          <div class="mini-kind">Time Series · EDA</div>
+          <div class="mini-name">Beijing Air Quality Analysis</div>
+          <div class="mini-desc">IDCamp Intermediate project: EDA and visualisation of multi-year PM2.5/PM10 data across
+            Beijing monitoring stations.</div>
+        </div>
+        <div class="mini-entry">
+          <div class="mini-kind">ML Pipeline · Fintech</div>
+          <div class="mini-name">Transaction Fraud Detection</div>
+          <div class="mini-desc">End-to-end fraud classification on imbalanced data with class-weighted models and
+            feature engineering.</div>
+        </div>
+        <div class="mini-entry">
+          <div class="mini-kind">Business Case · EdTech</div>
+          <div class="mini-name">EdTech Student Dropout</div>
+          <div class="mini-desc">IDCamp Expert capstone: predictive modelling and dashboarding for student retention
+            with intervention recommendations.</div>
+        </div>
+        <div class="mini-entry">
+          <div class="mini-kind">Take-home Assessment</div>
+          <div class="mini-name">AquaSense DS Assessment</div>
+          <div class="mini-desc">Technical data science assessment covering data wrangling, modelling, and business
+            interpretation.</div>
+        </div>
+        <div class="mini-entry bridge">
+          <div class="mini-kind bridge">Full-stack · KADA</div>
+          <div class="mini-name">CineTrack (Frontend + Backend)</div>
+          <div class="mini-desc">Cinema analytics dashboard built during the KADA program. Backend: <a class="mini-link"
+              href="https://github.com/dellips/capstone-project-api-cinetrack" target="_blank"
+              rel="noopener">capstone-project-api-cinetrack</a> (Fastify · PostgreSQL · Redis · LLM integration).</div>
+        </div>
       </div>
-      <a class="proj-link" href="https://github.com/ninditya/NLP-KNN-LSA" target="_blank" rel="noopener">View on GitHub →</a>
+
     </div>
-
-  </div>
-</div>
-
-<!-- MORE PROJECTS -->
-<div class="section" id="more">
-  <p class="section-eyebrow">more work</p>
-  <h2 class="section-title">Additional projects</h2>
-  <p class="section-subtitle">Coursework capstones, NLP experiments, and AI applications spanning the full breadth of data &amp; AI work.</p>
-
-  <div class="mini-card-columns">
-
-    <div class="mini-column">
-      <div class="mini-column-title">NLP</div>
-      <div class="mini-entry">
-        <div class="mini-kind">NLP · Bahasa Indonesia</div>
-        <div class="mini-name">Indonesian Hate Speech Detection</div>
-        <div class="mini-desc">Binar Academy bootcamp project: hate speech and abusive language classification on Indonesian tweets.</div>
-      </div>
-      <div class="mini-entry">
-        <div class="mini-kind">NLP · Sentiment</div>
-        <div class="mini-name">Sentiment Analysis Platinum</div>
-        <div class="mini-desc">Binar Academy Platinum Challenge — team project on sentiment classification with both ML and deep learning approaches.</div>
-      </div>
-    </div>
-
-    <div class="mini-column">
-      <div class="mini-column-title">AI</div>
-      <div class="mini-entry">
-        <div class="mini-kind">AI Matching · HR</div>
-        <div class="mini-name">Talent Match Intelligence</div>
-        <div class="mini-desc">AI-powered candidate-to-role matching using semantic similarity and structured features.</div>
-      </div>
-      <div class="mini-entry accent">
-        <div class="mini-kind accent">AI App · Health</div>
         <div class="mini-name">NutriPal AI</div>
         <div class="mini-desc">AI-assisted nutrition companion using LLM reasoning over user health profiles for personalised dietary suggestions.</div>
       </div>
@@ -339,73 +433,201 @@
       </div>
     </div>
 
+=======
+>>>>>>> 79392c202d2c6a1ef996f17d6bfc823a0bbe2a78
   </div>
-</div>
 
-<!-- EDUCATION -->
-<div class="section" id="education">
-  <p class="section-eyebrow">credentials</p>
-  <h2 class="section-title">Education &amp; certifications</h2>
+  <!-- MORE PROJECTS -->
+  <div class="section" id="more">
+    <p class="section-eyebrow">more work</p>
+    <h2 class="section-title">Additional projects</h2>
+    <p class="section-subtitle">Coursework capstones, NLP experiments, and AI applications spanning the full breadth of
+      data &amp; AI work.</p>
 
-  <div class="edu-grid">
-    <div class="edu-block">
-      <div class="edu-block-title">Formal Education</div>
-      <div class="edu-item">
-        <div class="edu-title">Bachelor of Informatics</div>
-        <div class="edu-sub">Universitas Pembangunan Nasional "Veteran" Yogyakarta</div>
-        <div class="edu-meta"><strong>GPA 3.66 / 4.00</strong> · Graduated Oct 2021<br>Thesis: Question Classification for Chatbot Information Services using LSA + KNN</div>
+    <div class="mini-card-columns">
+
+      <div class="mini-column">
+        <div class="mini-column-title">NLP</div>
+        <div class="mini-entry">
+          <div class="mini-kind">NLP · Bahasa Indonesia</div>
+          <div class="mini-name">Indonesian Hate Speech Detection</div>
+          <div class="mini-desc">Binar Academy bootcamp project: hate speech and abusive language classification on
+            Indonesian tweets.</div>
+        </div>
+        <div class="mini-entry">
+          <div class="mini-kind">NLP · Sentiment</div>
+          <div class="mini-name">Sentiment Analysis Platinum</div>
+          <div class="mini-desc">Binar Academy Platinum Challenge — team project on sentiment classification with both
+            ML and deep learning approaches.</div>
+        </div>
       </div>
+
+      <div class="mini-column">
+        <div class="mini-column-title">AI</div>
+        <div class="mini-entry">
+          <div class="mini-kind">AI Matching · HR</div>
+          <div class="mini-name">Talent Match Intelligence</div>
+          <div class="mini-desc">AI-powered candidate-to-role matching using semantic similarity and structured
+            features.</div>
+        </div>
+        <div class="mini-entry accent">
+          <div class="mini-kind accent">AI App · Health</div>
+          <div class="mini-name">NutriPal AI</div>
+          <div class="mini-desc">AI-assisted nutrition companion using LLM reasoning over user health profiles for
+            personalised dietary suggestions.</div>
+        </div>
+        <div class="mini-entry accent">
+          <div class="mini-kind accent">AI App · Verification</div>
+          <div class="mini-name">HealthTruth AI</div>
+          <div class="mini-desc">Retrieval-grounded health claim verification — combating misinformation with a
+            fact-checking pipeline.</div>
+        </div>
+      </div>
+
+      <div class="mini-column">
+        <div class="mini-column-title">Data</div>
+        <div class="mini-entry">
+          <div class="mini-kind">Time Series · EDA</div>
+          <div class="mini-name">Beijing Air Quality Analysis</div>
+          <div class="mini-desc">IDCamp Intermediate project: EDA and visualisation of multi-year PM2.5/PM10 data across
+            Beijing monitoring stations.</div>
+        </div>
+        <div class="mini-entry">
+          <div class="mini-kind">ML Pipeline · Fintech</div>
+          <div class="mini-name">Transaction Fraud Detection</div>
+          <div class="mini-desc">End-to-end fraud classification on imbalanced data with class-weighted models and
+            feature engineering.</div>
+        </div>
+        <div class="mini-entry">
+          <div class="mini-kind">Business Case · EdTech</div>
+          <div class="mini-name">EdTech Student Dropout</div>
+          <div class="mini-desc">IDCamp Expert capstone: predictive modelling and dashboarding for student retention
+            with intervention recommendations.</div>
+        </div>
+        <div class="mini-entry">
+          <div class="mini-kind">Take-home Assessment</div>
+          <div class="mini-name">AquaSense DS Assessment</div>
+          <div class="mini-desc">Technical data science assessment covering data wrangling, modelling, and business
+            interpretation.</div>
+        </div>
+        <div class="mini-entry bridge">
+          <div class="mini-kind bridge">Full-stack · KADA</div>
+          <div class="mini-name">CineTrack (Frontend + Backend)</div>
+          <div class="mini-desc">Cinema analytics dashboard built during the KADA program. Backend: <a class="mini-link"
+              href="https://github.com/dellips/capstone-project-api-cinetrack" target="_blank"
+              rel="noopener">capstone-project-api-cinetrack</a> (Fastify · PostgreSQL · Redis · LLM integration).</div>
+        </div>
+      </div>
+
     </div>
-    <div class="edu-block">
-      <div class="edu-block-title">Training &amp; Scholarships</div>
-      <div class="edu-item">
-        <div class="edu-title">IDCamp Data Scientist Track — Expert</div>
-        <div class="edu-sub">Indosat Ooredoo Hutchison · Scholarship Awardee</div>
-        <div class="edu-meta">Sep 2025 – Apr 2026 · Beginner → Intermediate → Expert</div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section" id="education">
+    <p class="section-eyebrow">credentials</p>
+    <h2 class="section-title">Education &amp; certifications</h2>
+
+    <div class="edu-grid">
+      <div class="edu-block">
+        <div class="edu-block-title">Formal Education</div>
+        <div class="edu-item">
+          <div class="edu-title">Bachelor of Informatics</div>
+          <div class="edu-sub">Universitas Pembangunan Nasional "Veteran" Yogyakarta</div>
+          <div class="edu-meta"><strong>GPA 3.66 / 4.00</strong> · Graduated Oct 2021<br>Thesis: Question Classification
+            for Chatbot Information Services using LSA + KNN</div>
+        </div>
       </div>
-      <div class="edu-item">
-        <div class="edu-title">Data Science Bootcamp</div>
-        <div class="edu-sub">Binar Academy</div>
-        <div class="edu-meta">Nov 2023 · <strong>Hard Skill 4.80 / Soft Skill 4.50</strong></div>
-      </div>
-      <div class="edu-item">
-        <div class="edu-title">System Analyst Certification (BNSP)</div>
-        <div class="edu-sub">Software Requirement, Analysis &amp; Design</div>
-        <div class="edu-meta">Nov 2020 · National professional certification</div>
+      <div class="edu-block">
+        <div class="edu-block-title">Training &amp; Scholarships</div>
+        <div class="edu-item">
+          <div class="edu-title">IDCamp Data Scientist Track — Expert</div>
+          <div class="edu-sub">Indosat Ooredoo Hutchison · Scholarship Awardee</div>
+          <div class="edu-meta">Sep 2025 – Apr 2026 · Beginner → Intermediate → Expert</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-title">Data Science Bootcamp</div>
+          <div class="edu-sub">Binar Academy</div>
+          <div class="edu-meta">Nov 2023 · <strong>Hard Skill 4.80 / Soft Skill 4.50</strong></div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-title">System Analyst Certification (BNSP)</div>
+          <div class="edu-sub">Software Requirement, Analysis &amp; Design</div>
+          <div class="edu-meta">Nov 2020 · National professional certification</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ABOUT -->
-<div class="section" id="about">
-  <p class="section-eyebrow">about</p>
-  <h2 class="section-title">Background &amp; skills</h2>
+  <!-- ABOUT -->
+  <div class="section" id="about">
+    <p class="section-eyebrow">about</p>
+    <h2 class="section-title">Background &amp; skills</h2>
 
-  <div class="about-grid">
-    <div class="about-text">
-      <p>I'm <strong>Ninditya Salma Nur Aini</strong>, a Data Scientist, ML Engineer, and QA Engineer with <strong>3.5+ years in production AI</strong>. Started with rule-based chatbots at <strong>Infomedia (Telkom Group)</strong>, moved to LLM-based RAG evaluation at <strong>Flip</strong>, and formalized expertise through <strong>Binar Academy</strong> and <strong>IDCamp Expert</strong>.</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm <strong>Ninditya Salma Nur Aini</strong>, a Data Scientist, ML Engineer, and QA Engineer based in
+          <strong>Yogyakarta, Indonesia</strong> with <strong>3.5+ years of production AI experience</strong>.</p>
 
-      <p>What sets me apart: I've seen production AI failures—fallback rates, hallucinations, drift, CSAT regressions. That perspective shapes how I build and test systems. QA isn't a safety net; it's core to every stage of development.</p>
+        <p>My career started in chatbot development at <strong>Infomedia (Telkom Group)</strong>, designing rule-based
+          conversation flows serving thousands of daily users — and leading SIT/UAT to catch integration issues before
+          they reached production. I then moved to <strong>Flip</strong> as a Chatbot QA Analyst, evaluating LLM-based
+          chatbots with RAG frameworks and building the exact <strong>AI quality assessment skills</strong> the industry
+          now urgently needs as generative AI moves into production.</p>
 
-      <p>Focused on <strong>LLM applications</strong>, <strong>MLOps</strong>, and <strong>QA automation</strong>. Open to DS/ML/QA/Conversational AI roles — remote, hybrid, or Yogyakarta/Jakarta.</p>
-    </div>
+        <p>Parallel to that, I deepened formal data science training through <strong>Binar Academy</strong> and the
+          <strong>IDCamp Expert track (Indosat Ooredoo Hutchison)</strong>, building end-to-end pipelines from raw API
+          ingestion through ML modelling to monitored, production-grade deployments with MLflow, Docker, and Grafana.
+        </p>
 
-    <div>
+        <p>What makes my profile unusual: I've seen what happens to AI systems <em>after</em> they ship — fallback
+          rates, hallucinations, drift, CSAT regressions. That perspective shapes how I <em>build</em> models and how I
+          <em>test</em> them. QA isn't just a safety net for me — it's a core competency woven into every stage of
+          development.</p>
+
+        <p>Currently deepening expertise in <strong>LLM application development</strong>, <strong>MLOps</strong>, and
+          <strong>QA automation</strong>. Open to Data Scientist, ML Engineer, QA Engineer, and Conversational AI
+          Engineer roles — remote, hybrid, or based in Yogyakarta/Jakarta.</p>
+      </div>
+
       <div class="skills-block">
         <div class="skills-block-title">Core Stack</div>
-        <div class="skills-categories">
-          <div class="skills-category">
-            <div class="skills-category-title">AI/ML Core</div>
-            <div class="skill-row"><strong>ML & Data Science</strong>Python, scikit-learn, XGBoost, TensorFlow, pandas, numpy</div>
-            <div class="skill-row"><strong>LLM & RAG</strong>LangGraph, Qdrant, FastAPI, prompt optimization, hallucination detection</div>
-            <div class="skill-row"><strong>Computer Vision</strong>YOLOv8, object detection, precision/recall/AP@50</div>
-            <div class="skill-row"><strong>NLP</strong>Intent classification, sentiment analysis, Bahasa Indonesia, LSA, KNN</div>
+        <div class="skills-columns">
+
+          <!-- Kolom 1: AI/ML Core -->
+          <div class="skills-col">
+            <div class="skills-col-header">AI/ML Core</div>
+            <div class="skill-row"><strong>ML &amp; Data Science</strong>Python, scikit-learn, XGBoost, TensorFlow,
+              pandas, numpy</div>
+            <div class="skill-row"><strong>LLM &amp; RAG</strong>LangGraph, Qdrant, FastAPI, prompt optimization,
+              hallucination detection</div>
+            <div class="skill-row"><strong>Computer Vision</strong>YOLOv8, object detection, precision/recall/AP@50
+            </div>
+            <div class="skill-row"><strong>NLP</strong>Intent classification, sentiment analysis, Bahasa Indonesia, LSA,
+              KNN</div>
           </div>
-          <div class="skills-category">
-            <div class="skills-category-title">Production & Quality</div>
-            <div class="skill-row"><strong>MLOps & Deployment</strong>MLflow, Docker, GitHub Actions, Prometheus, Grafana, Hugging Face Hub</div>
-            <div class="skill-row"><strong>QA & Test Automation</strong>Playwright, Selenium, Postman, pytest, SIT/UAT, AI stability testing</div>
+
+          <!-- Kolom 2: Production & Quality -->
+          <div class="skills-col">
+            <div class="skills-col-header">Production &amp; Quality</div>
+            <div class="skill-row"><strong>MLOps &amp; Deployment</strong>MLflow, Docker, GitHub Actions, Prometheus,
+              Grafana, Hugging Face Hub, DagsHub</div>
+            <div class="skill-row"><strong>QA &amp; Test Automation</strong>Playwright, Selenium, Postman, pytest,
+              SIT/UAT, AI stability testing</div>
+            <div class="skill-row"><strong>AI Quality &amp; Auditing</strong>KPI dashboards, grounding validation,
+              root-cause analysis, hallucination detection</div>
+          </div>
+
+          <!-- Kolom 3: Infrastructure -->
+          <div class="skills-col">
+            <div class="skills-col-header">Infrastructure</div>
+            <div class="skill-row"><strong>Data Engineering</strong>PostgreSQL, MySQL, MongoDB, Redis, REST APIs</div>
+            <div class="skill-row"><strong>Analytics &amp; Visualization</strong>Metabase, Looker Studio, Grafana,
+              Matplotlib, Seaborn</div>
+            <div class="skill-row"><strong>Backend</strong>Node.js (Fastify), Python (FastAPI, Flask), JavaScript</div>
+          </div>
+
+        </div>
+      </div>
             <div class="skill-row"><strong>AI Quality & Auditing</strong>KPI dashboards, grounding validation, root-cause analysis, hallucination detection</div>
           </div>
           <div class="skills-category">
@@ -414,49 +636,87 @@
             <div class="skill-row"><strong>Analytics & Visualization</strong>Metabase, Looker Studio, Grafana, Matplotlib, Seaborn</div>
             <div class="skill-row"><strong>Backend</strong>Node.js (Fastify), Python (FastAPI, Flask), JavaScript</div>
           </div>
+=======
+        <div class="skills-columns">
+
+          <!-- Kolom 1: AI/ML Core -->
+          <div class="skills-col">
+            <div class="skills-col-header">AI/ML Core</div>
+            <div class="skill-row"><strong>ML &amp; Data Science</strong>Python, scikit-learn, XGBoost, TensorFlow,
+              pandas, numpy</div>
+            <div class="skill-row"><strong>LLM &amp; RAG</strong>LangGraph, Qdrant, FastAPI, prompt optimization,
+              hallucination detection</div>
+            <div class="skill-row"><strong>Computer Vision</strong>YOLOv8, object detection, precision/recall/AP@50
+            </div>
+            <div class="skill-row"><strong>NLP</strong>Intent classification, sentiment analysis, Bahasa Indonesia, LSA,
+              KNN</div>
+          </div>
+
+          <!-- Kolom 2: Production & Quality -->
+          <div class="skills-col">
+            <div class="skills-col-header">Production &amp; Quality</div>
+            <div class="skill-row"><strong>MLOps &amp; Deployment</strong>MLflow, Docker, GitHub Actions, Prometheus,
+              Grafana, Hugging Face Hub, DagsHub</div>
+            <div class="skill-row"><strong>QA &amp; Test Automation</strong>Playwright, Selenium, Postman, pytest,
+              SIT/UAT, AI stability testing</div>
+            <div class="skill-row"><strong>AI Quality &amp; Auditing</strong>KPI dashboards, grounding validation,
+              root-cause analysis, hallucination detection</div>
+          </div>
+
+          <!-- Kolom 3: Infrastructure -->
+          <div class="skills-col">
+            <div class="skills-col-header">Infrastructure</div>
+            <div class="skill-row"><strong>Data Engineering</strong>PostgreSQL, MySQL, MongoDB, Redis, REST APIs</div>
+            <div class="skill-row"><strong>Analytics &amp; Visualization</strong>Metabase, Looker Studio, Grafana,
+              Matplotlib, Seaborn</div>
+            <div class="skill-row"><strong>Backend</strong>Node.js (Fastify), Python (FastAPI, Flask), JavaScript</div>
+          </div>
+
+>>>>>>> 79392c202d2c6a1ef996f17d6bfc823a0bbe2a78
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- CONTACT -->
-<div class="section" id="contact">
-  <div class="contact-wrap">
-    <div>
-      <p class="section-eyebrow">contact</p>
-      <div class="contact-headline">Let's build something<br><em>impactful</em> together.</div>
-      <p class="contact-note">Open to Data Scientist, ML Engineer, QA Engineer, and Conversational AI roles. Remote, hybrid, or based in Yogyakarta / Jakarta.</p>
-    </div>
-    <div class="contact-items">
-      <a href="mailto:ninditya.sna025@gmail.com" class="contact-item">
-        <div class="contact-icon" aria-hidden="true">✉</div>
-        ninditya.sna025@gmail.com
-      </a>
-      <a href="https://wa.me/62895371290495" class="contact-item" target="_blank" rel="noopener">
-        <div class="contact-icon" aria-hidden="true">☎</div>
-        +62 895-3712-90495
-      </a>
-      <a href="https://linkedin.com/in/ninditya-salma-nur-aini" class="contact-item" target="_blank" rel="noopener">
-        <div class="contact-icon" aria-hidden="true">in</div>
-        linkedin.com/in/ninditya-salma-nur-aini
-      </a>
-      <a href="https://github.com/ninditya" class="contact-item" target="_blank" rel="noopener">
-        <div class="contact-icon" aria-hidden="true">↗</div>
-        github.com/ninditya
-      </a>
-      <span class="contact-item">
-        <div class="contact-icon" aria-hidden="true">◎</div>
-        Yogyakarta, Indonesia
-      </span>
+  <!-- CONTACT -->
+  <div class="section" id="contact">
+    <div class="contact-wrap">
+      <div>
+        <p class="section-eyebrow">contact</p>
+        <div class="contact-headline">Let's build something<br><em>impactful</em> together.</div>
+        <p class="contact-note">Open to Data Scientist, ML Engineer, QA Engineer, and Conversational AI roles. Remote,
+          hybrid, or based in Yogyakarta / Jakarta.</p>
+      </div>
+      <div class="contact-items">
+        <a href="mailto:ninditya.sna025@gmail.com" class="contact-item">
+          <div class="contact-icon" aria-hidden="true">✉</div>
+          ninditya.sna025@gmail.com
+        </a>
+        <a href="https://wa.me/62895371290495" class="contact-item" target="_blank" rel="noopener">
+          <div class="contact-icon" aria-hidden="true">☎</div>
+          +62 895-3712-90495
+        </a>
+        <a href="https://linkedin.com/in/ninditya-salma-nur-aini" class="contact-item" target="_blank" rel="noopener">
+          <div class="contact-icon" aria-hidden="true">in</div>
+          linkedin.com/in/ninditya-salma-nur-aini
+        </a>
+        <a href="https://github.com/ninditya" class="contact-item" target="_blank" rel="noopener">
+          <div class="contact-icon" aria-hidden="true">↗</div>
+          github.com/ninditya
+        </a>
+        <span class="contact-item">
+          <div class="contact-icon" aria-hidden="true">◎</div>
+          Yogyakarta, Indonesia
+        </span>
+      </div>
     </div>
   </div>
-</div>
 
-<footer>
-  © 2026 Ninditya Salma Nur Aini · Data Scientist &amp; QA Engineer · Yogyakarta<br>
-  <a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a>
-</footer>
+  <footer>
+    © 2026 Ninditya Salma Nur Aini · Data Scientist &amp; QA Engineer · Yogyakarta<br>
+    <a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a>
+  </footer>
 
 </body>
+
 </html>
