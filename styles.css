@@ -128,18 +128,19 @@ nav{background:rgba(245,243,238,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .edu-meta strong{color:var(--ink2)}
 
 /* ABOUT */
-.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:start}
+.about-grid{display:grid;grid-template-columns:1fr;gap:2rem;align-items:start}
 .about-text{font-size:0.95rem;color:var(--ink2);line-height:1.85}
 .about-text p+p{margin-top:1rem}
 .about-text strong{color:var(--ink);font-weight:600}
 .skills-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem}
-.skills-block-title{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.2rem;font-weight:500;color:var(--primary)}
-.skills-categories{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.skills-category{padding:0}
-.skills-category-title{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;font-weight:600;color:var(--primary)}
+.skills-block-title{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;font-weight:500;color:var(--primary)}
+.skills-columns{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--border);width:100%}
+.skills-col{padding:1.25rem 1.4rem;border-right:1px solid var(--border);min-width:0}
+.skills-col:last-child{border-right:none}
+.skills-col-header{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--primary);font-weight:700;margin-bottom:0.85rem}
 .skill-row{font-size:0.84rem;color:var(--ink2);line-height:1.65;margin-bottom:0.75rem}
+.skill-row:last-child{margin-bottom:0}
 .skill-row strong{color:var(--ink);font-weight:600;display:block;margin-bottom:0.15rem;font-size:0.82rem}
-.skills-divider{height:1px;background:var(--border);margin:1.1rem 0}
 
 /* CONTACT */
 .contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
@@ -156,6 +157,11 @@ footer{text-align:center;padding:2rem;font-family:var(--mono);font-size:0.72rem;
 footer a{color:var(--ink2);text-decoration:none}
 footer a:hover{color:var(--ink)}
 
+@media(max-width:620px){
+  .skills-columns{grid-template-columns:1fr}
+  .skills-col{border-right:none;border-bottom:1px solid var(--border);padding:1rem}
+  .skills-col:last-child{border-bottom:none}
+}
 @media(max-width:760px){
   .hero-strengths,.about-grid,.contact-wrap,.edu-grid{grid-template-columns:1fr}
   .exp-item{grid-template-columns:1fr;gap:0.75rem}
