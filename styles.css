@@ -159,7 +159,7 @@ nav{background:rgba(245,243,238,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .edu-meta strong{color:var(--ink2)}
 
 /* ABOUT */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.about-grid{display:grid;grid-template-columns:1fr;gap:2rem}
 .about-text{font-size:0.95rem;color:var(--ink2);line-height:1.7}
 .about-text p+p{margin-top:1rem}
 .about-text strong{color:var(--ink);font-weight:600}
