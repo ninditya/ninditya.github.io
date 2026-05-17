@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Banking Intent Router · Day 01 / 23 — Ninditya Salma Nur Aini</title>
+  <title>Banking Intent Router — Ninditya Salma Nur Aini</title>
   <meta name="description"
-    content="A 4-tier routing system that cuts banking chatbot LLM costs by ~88–96% — SBERT + LinearSVC + RAG + LLM escalation. Day 01 of 23.">
+    content="End-to-end banking intent router project: EDA, preprocessing, SBERT modelling, RAG serving, deployment, and Prometheus/Grafana monitoring.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Mono:wght@400;500&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap"
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Inter:wght@400;500;600&amp;display=swap"
     rel="stylesheet">
   <style>
     :root {
@@ -42,7 +42,7 @@
     body {
       background: var(--bg);
       color: var(--ink);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
@@ -69,7 +69,7 @@
     }
 
     .logo {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Fraunces', serif;
       font-size: 20px;
       color: var(--ink);
       text-decoration: none;
@@ -128,7 +128,7 @@
       color: var(--muted);
       padding: 6px 10px;
       border-radius: 999px;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -165,7 +165,7 @@
       color: var(--accent);
       padding: 5px 12px;
       border-radius: 4px;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.08em;
@@ -173,7 +173,7 @@
     }
 
     .kicker-text {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       color: var(--primary);
       letter-spacing: 0.05em;
@@ -185,7 +185,7 @@
     }
 
     h1.title {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Fraunces', serif;
       font-size: clamp(48px, 7vw, 88px);
       line-height: 1;
       letter-spacing: -0.02em;
@@ -200,7 +200,7 @@
     }
 
     .hero-lede {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Fraunces', serif;
       font-size: clamp(20px, 2.2vw, 26px);
       line-height: 1.45;
       max-width: 760px;
@@ -219,7 +219,7 @@
       flex-wrap: wrap;
       gap: 28px;
       margin-top: 44px;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       letter-spacing: 0.02em;
       color: var(--muted);
@@ -258,8 +258,8 @@
     }
 
     .stat .num {
-      font-family: 'Instrument Serif', serif;
-      font-size: clamp(48px, 5.5vw, 76px);
+      font-family: 'Fraunces', serif;
+      font-size: clamp(48px, 5.5vw, 64px);
       font-weight: 400;
       line-height: 1;
       color: var(--accent);
@@ -270,11 +270,11 @@
       font-size: 0.5em;
       color: var(--bg);
       opacity: 0.7;
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Fraunces', serif;
     }
 
     .stat .label {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -297,7 +297,7 @@
     }
 
     .section-num {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       color: var(--primary);
       letter-spacing: 0.08em;
@@ -307,7 +307,7 @@
     }
 
     h2 {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Fraunces', serif;
       font-size: clamp(32px, 4.5vw, 48px);
       font-weight: 400;
       letter-spacing: -0.01em;
@@ -323,7 +323,7 @@
     }
 
     h3 {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Fraunces', serif;
       font-size: 24px;
       font-weight: 400;
       margin: 36px 0 14px;
@@ -337,7 +337,7 @@
     }
 
     .lede {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Fraunces', serif;
       font-size: 22px;
       line-height: 1.5;
       color: var(--ink-soft);
@@ -359,7 +359,7 @@
       border: 1px solid var(--line);
       padding: 1px 6px;
       border-radius: 3px;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
       color: var(--ink);
     }
@@ -384,7 +384,7 @@
     }
 
     .tier-num {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Fraunces', serif;
       font-size: 60px;
       font-weight: 400;
       line-height: 1;
@@ -394,7 +394,7 @@
     }
 
     .tier h4 {
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Fraunces', serif;
       font-size: 22px;
       font-weight: 400;
       margin-bottom: 8px;
@@ -402,7 +402,7 @@
     }
 
     .tier .threshold {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -424,7 +424,7 @@
       gap: 18px;
       padding-top: 14px;
       border-top: 1px dashed var(--line-strong);
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
     }
 
@@ -452,7 +452,7 @@
       background: var(--bg-dark);
       color: #d8d3c4;
       padding: 24px 28px;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
       line-height: 1.75;
       overflow-x: auto;
@@ -533,7 +533,7 @@
     }
 
     .tag {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -555,7 +555,7 @@
       border-left: 3px solid var(--accent);
       padding: 16px 0 16px 28px;
       margin: 32px 0;
-      font-family: 'Instrument Serif', serif;
+      font-family: 'Fraunces', serif;
       font-size: 24px;
       font-style: italic;
       line-height: 1.45;
@@ -567,7 +567,7 @@
       display: block;
       font-style: normal;
       font-size: 12px;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -591,7 +591,7 @@
     }
 
     table.compare th {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -601,13 +601,161 @@
     }
 
     table.compare td.num {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-weight: 500;
       color: var(--ink);
     }
 
     table.compare tr.highlight td {
       background: var(--accent-soft);
+    }
+
+    .timeline-shell {
+      margin-top: 44px;
+      padding: 0 56px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .timeline {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - 24px) / 2);
+      gap: 24px;
+      transition: transform 0.35s ease;
+    }
+
+    .step {
+      border-top: 2px solid var(--line-strong);
+      padding: 22px 0 8px;
+      min-width: 0;
+    }
+
+    .step .step-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .step h4 {
+      font-family: 'Fraunces', serif;
+      font-size: 24px;
+      line-height: 1.1;
+      margin-bottom: 12px;
+      color: var(--ink);
+      font-weight: 400;
+    }
+
+    .step p {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .step ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+
+    .step li::before {
+      content: '→ ';
+      color: var(--primary);
+    }
+
+    .timeline-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .timeline-buttons {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .timeline-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: var(--bg);
+      color: var(--ink);
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      line-height: 1;
+      transition: all 0.2s ease;
+      pointer-events: auto;
+    }
+
+    .timeline-btn[data-timeline-prev] {
+      left: 0;
+    }
+
+    .timeline-btn[data-timeline-next] {
+      right: 0;
+    }
+
+    .timeline-btn:hover:not(:disabled),
+    .timeline-btn:focus-visible {
+      background: var(--ink);
+      color: var(--bg);
+      outline: none;
+    }
+
+    .timeline-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.35;
+    }
+
+    .timeline-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .refs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px 32px;
+      max-width: 900px;
+      margin-top: 32px;
+    }
+
+    .ref {
+      border-top: 1px solid var(--line-strong);
+      padding-top: 16px;
+    }
+
+    .ref a {
+      color: var(--ink);
+      font-weight: 600;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    .ref p {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 8px 0 0;
     }
 
     .cta-section {
@@ -646,7 +794,7 @@
       background: var(--accent);
       color: var(--ink);
       text-decoration: none;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
       font-weight: 500;
       letter-spacing: 0.06em;
@@ -677,7 +825,7 @@
       background: var(--bg-dark);
       color: var(--bg);
       padding: 28px 0;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.04em;
       opacity: 0.7;
@@ -740,6 +888,14 @@
         grid-template-columns: 1fr;
         gap: 28px;
       }
+
+      .timeline {
+        grid-auto-columns: 100%;
+      }
+
+      .timeline-shell {
+        padding: 0 48px;
+      }
     }
 
     @media (max-width: 720px) {
@@ -751,6 +907,10 @@
       .stat {
         border-left: none !important;
         padding: 0;
+      }
+
+      .refs {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -792,10 +952,10 @@
   <section class="hero">
     <div class="wrap">
       <div class="hero-kicker">
-        <span class="kicker-tag">Day 01 / 23</span>
+        <span class="kicker-tag">Case study</span>
         <span class="kicker-text" data-i18n="heroKicker">Production AI · Banking Domain</span>
       </div>
-      <h1 class="title" data-i18n="heroTitle">Cut banking LLM costs <em>96%.</em></h1>
+      <h1 class="title" data-i18n="heroTitle">Cut banking LLM costs <em>~90%.</em></h1>
       <p class="hero-lede" data-i18n="heroLede">
         A 4-tier routing system that decides when a customer query needs <strong>a regex pre-filter</strong>,
         <strong>a template</strong>, <strong>RAG</strong>, or <strong>an actual LLM call</strong> — based on a
@@ -816,7 +976,7 @@
       <div class="stats-grid">
         <div class="stat">
           <div class="num">~88–96<small>%</small></div>
-          <div class="label" data-i18n="statCost">Cost savings vs all-LLM<br>(traffic mix 70/25/5)</div>
+          <div class="label" data-i18n="statCost">Cost savings vs all-LLM<br>(range across traffic mixes)</div>
         </div>
         <div class="stat">
           <div class="num">0.9305</div>
@@ -836,12 +996,161 @@
 
   <section class="content">
     <div class="wrap">
-      <div class="section-num" data-i18n="problemNum">01 · The Problem</div>
-      <h2 data-i18n="problemTitle">Most banking chatbots <em>burn cash</em> answering questions a regex could handle.</h2>
+      <div class="section-num">00 · Execution Log</div>
+      <h2>What I actually built, <em>step by step.</em></h2>
 
-      <p class="lede" data-i18n="problemLede">After 3.5 years working on banking chatbots, I noticed the same pattern: a single GPT-4 call to
-        answer "what's the inter-bank transfer fee?" costs ~$0.05. Multiply that across millions of monthly queries —
-        and most of those queries are routine.</p>
+      <p class="lede">This project was not just a model benchmark. I took Banking77 from raw exploration to a monitored FastAPI service: EDA, preprocessing, baseline modelling, SBERT upgrade, confidence routing, RAG answer layer, LLM fallback, deployment, and observability.</p>
+
+      <h3>Method selection: why the model changed</h3>
+      <p>I did not start with SBERT. The first modelling path was deliberately simple: TF-IDF features with Logistic Regression. After that, I compared LinearSVC on the same TF-IDF representation, because short intent texts often work well with linear margin-based classifiers. SVM won the sparse-feature baseline, then SBERT embeddings pushed the score higher again.</p>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th>Iteration</th>
+            <th>Method</th>
+            <th>Decision</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Baseline 1</td>
+            <td class="num">TF-IDF + Logistic Regression</td>
+            <td>Used as the first interpretable baseline for multi-class intent classification.</td>
+          </tr>
+          <tr>
+            <td>Baseline 2</td>
+            <td class="num">TF-IDF + LinearSVC</td>
+            <td>Performed better in tuning; became the classical ML baseline with F1 macro around 0.8843.</td>
+          </tr>
+          <tr class="highlight">
+            <td>Final</td>
+            <td class="num">SBERT + LinearSVC</td>
+            <td>Chosen for serving because dense sentence embeddings improved F1 macro to 0.9305 while staying fast enough for routing.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="timeline-shell" aria-label="Execution steps carousel" tabindex="0">
+        <div class="timeline-buttons">
+          <button class="timeline-btn" type="button" data-timeline-prev aria-label="Previous steps">←</button>
+          <button class="timeline-btn" type="button" data-timeline-next aria-label="Next steps">→</button>
+        </div>
+        <div class="timeline">
+          <div class="step">
+            <div class="step-id">Step 01 · EDA</div>
+            <h4>Read the Banking77 shape first.</h4>
+            <p>I started by checking sample count, 77 intent labels, class balance, text length distribution, and examples per intent. The goal was to confirm this was an intent-routing problem, not a free-form generation problem.</p>
+            <ul>
+              <li>Output: intent distribution</li>
+              <li>Output: text length distribution</li>
+            </ul>
+          </div>
+
+        <div class="step">
+          <div class="step-id">Step 02 · Preprocessing</div>
+          <h4>Turn notebook steps into a repeatable pipeline.</h4>
+          <p>I moved manual cleaning into a reusable pipeline: lowercase text, remove noisy characters, encode labels, keep a stratified split, and save train/test artifacts so modelling and CI use the same data contract.</p>
+          <ul>
+            <li>Input: Hugging Face PolyAI/banking77</li>
+            <li>Output: train/test artifacts and label encoder</li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <div class="step-id">Step 03 · Baseline</div>
+          <h4>Start simple with TF-IDF + Logistic Regression.</h4>
+          <p>I first used TF-IDF + Logistic Regression as a clean baseline, then tuned LinearSVC on the same TF-IDF features. LinearSVC produced the stronger classical result, reaching roughly 0.8843 F1 macro.</p>
+          <ul>
+            <li>Feature: TF-IDF 1-2 gram, max 10,000 features</li>
+            <li>Models compared: Logistic Regression vs LinearSVC</li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <div class="step-id">Step 04 · SBERT Upgrade</div>
+          <h4>Replace sparse features with dense sentence embeddings.</h4>
+          <p>I used sentence-transformers/all-MiniLM-L6-v2 to encode each query into a 384-dimensional normalized embedding, then tested LinearSVC and Logistic Regression configs with calibrated probabilities.</p>
+          <ul>
+            <li>Best: SBERT + LinearSVC, C=5</li>
+            <li>Result: F1 macro 0.9305, accuracy 0.9285</li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <div class="step-id">Step 05 · Confidence Routing</div>
+          <h4>Use confidence as the production decision signal.</h4>
+          <p>I converted classifier probability into a routing policy. High confidence goes to templates, medium confidence goes to RAG, and low confidence escalates to the LLM.</p>
+          <ul>
+            <li>Template: confidence >= 0.55</li>
+            <li>RAG: 0.30 <= confidence &lt; 0.55</li>
+            <li>LLM: confidence &lt; 0.30</li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <div class="step-id">Step 06 · RAG Layer</div>
+          <h4>Add retrieval for medium-confidence queries.</h4>
+          <p>I built the RAG layer with FAISS IndexFlatIP. FAQ questions are embedded with the same SBERT encoder, normalized, and retrieved by inner product, which acts like cosine similarity for normalized vectors.</p>
+          <ul>
+            <li>Knowledge base: banking FAQ entries</li>
+            <li>Template path retrieves top-1; RAG path retrieves top-3 with sources</li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <div class="step-id">Step 07 · Serving</div>
+          <h4>Package the model behind a FastAPI contract.</h4>
+          <p>I exposed predict, health, and metrics endpoints. The response includes intent id, confidence, routing tier, latency, answer, RAG sources, and LLM answer when escalation happens.</p>
+          <ul>
+            <li>Schema: Pydantic request/response models</li>
+            <li>UI: static chat page with per-tier routing badges</li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <div class="step-id">Step 08 · LLM Fallback</div>
+          <h4>Escalate only when cheaper layers are not enough.</h4>
+          <p>I made the LLM provider configurable: OpenAI, Groq, Ollama, or Mock. If keys are missing or a call fails, the service falls back cleanly instead of crashing.</p>
+          <ul>
+            <li>Provider is switchable by environment variable</li>
+            <li>Intent hint is only passed when confidence is still useful</li>
+          </ul>
+        </div>
+
+        <div class="step">
+          <div class="step-id">Step 09 · Deployment</div>
+          <h4>Make it runnable outside the notebook.</h4>
+          <p>I prepared the serving package with pinned dependencies and a Dockerfile, then deployed it as a Hugging Face Space. Model artifacts are loaded at startup, and CPU-only dependencies keep the image smaller for free-tier hosting.</p>
+          <ul>
+            <li>Runtime: FastAPI + Uvicorn + Docker</li>
+            <li>Demo: Hugging Face Spaces</li>
+          </ul>
+        </div>
+
+          <div class="step">
+            <div class="step-id">Step 10 · Monitoring</div>
+            <h4>Instrument the router like a service.</h4>
+            <p>I added Prometheus metrics for request volume, latency, routing distribution, confidence drift, estimated cost, errors, active requests, and throughput. Grafana dashboards make it clear whether traffic is getting more expensive or less confident over time.</p>
+            <ul>
+              <li>Endpoint: /metrics</li>
+              <li>Dashboard: Grafana Cloud compatible JSON</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-controls" aria-label="Execution step navigation">
+        <div class="timeline-status" data-timeline-status>Steps 1-2 of 10</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content">
+    <div class="wrap">
+      <div class="section-num" data-i18n="problemNum">01 · Why This Exists</div>
+      <h2 data-i18n="problemTitle">Routine support questions should not always take the <em>most expensive model path.</em></h2>
+
+      <p class="lede" data-i18n="problemLede">My chatbot experience spans 2.5 years in e-commerce flows and 1.5 years evaluating fintech chatbot quality. This project turns that product intuition into a banking-domain prototype: routine questions should be routed through cheaper, more predictable layers before escalating to an LLM.</p>
 
       <p data-i18n="problemIntro">The naive architecture sends every query to the same LLM. But banking queries fall into a clear distribution:
       </p>
@@ -854,12 +1163,6 @@
         <li data-i18n="problemBullet3"><strong>Complex/edge cases</strong> (~5%) — multi-turn reasoning, unusual phrasing — actually need an LLM
         </li>
       </ul>
-
-      <div class="pullquote" data-i18n="problemQuote">
-        "Using GPT-4 to answer 'forgot PIN' is like turning on the AC to cool a glass of water. Expensive, slow, and
-        overkill."
-        <span class="attr">— observation from 3.5y in chatbot / ITOps</span>
-      </div>
     </div>
   </section>
 
@@ -990,11 +1293,11 @@ confidence = proba.max()
 = $0.0056 / query
 
 <span class="c"># Reduction: ($0.050 − $0.0056) / $0.050 = ~89%</span>
-<span class="c"># A more aggressive mix (no tier-0, 70/25/5) approaches ~96%.</span>
+<span class="c"># A very template-heavy mix approaches ~96%.</span>
 <span class="c"># A conservative mix (heavier LLM usage) sits closer to ~70%.</span></pre>
 
       <p class="disclaimer" data-i18n="savingsDisclaimer">⚠️ The exact % depends on real traffic distribution. The honest answer in an interview:
-        "it's a 70–96% range — here's the mix I assumed."</p>
+        "it's an 88–96% range for the assumed mixes — and a more conservative mix can be lower."</p>
     </div>
   </section>
 
@@ -1037,7 +1340,7 @@ confidence = proba.max()
             <span class="tag">Prometheus</span>
             <span class="tag">Grafana Cloud</span>
           </div>
-          <p data-i18n="observabilityText">11 custom metrics exposed via <code>/metrics</code>: request count, latency histograms, routing
+          <p data-i18n="observabilityText">12 custom metrics exposed via <code>/metrics</code>: request count, latency histograms, routing
             distribution, confidence histogram, rolling low-confidence rate, cumulative estimated cost per tier. Async
             push to Grafana Cloud via Prometheus remote_write (manual protobuf + snappy compression).</p>
         </div>
@@ -1104,7 +1407,59 @@ confidence = proba.max()
 
       <div class="pullquote" data-i18n="lessonsQuote">
         "Real engineering isn't about using the biggest model. It's about knowing when not to."
-        <span class="attr">— Day 01 / 23</span>
+        <span class="attr">— Banking Intent Router case study</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="content alt">
+    <div class="wrap">
+      <div class="section-num">07 · References</div>
+      <h2>Sources I used to ground the <em>technical choices.</em></h2>
+
+      <p class="lede">The project decisions are tied to public datasets, papers, model cards, and official documentation rather than generic AI claims.</p>
+
+      <div class="refs">
+        <div class="ref">
+          <a href="https://arxiv.org/abs/2003.04807" target="_blank" rel="noopener">BANKING77 paper</a>
+          <p>Original paper behind the banking intent dataset: customer-service examples across fine-grained banking intents.</p>
+        </div>
+        <div class="ref">
+          <a href="https://huggingface.co/datasets/PolyAI/banking77" target="_blank" rel="noopener">PolyAI/banking77 dataset card</a>
+          <p>Dataset source used by the preprocessing pipeline and train/test artifacts.</p>
+        </div>
+        <div class="ref">
+          <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html" target="_blank" rel="noopener">scikit-learn TfidfVectorizer</a>
+          <p>Reference for the sparse text baseline using TF-IDF weighted n-gram features.</p>
+        </div>
+        <div class="ref">
+          <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html" target="_blank" rel="noopener">scikit-learn LinearSVC</a>
+          <p>Reference for the SVM classifier chosen after tuning TF-IDF and SBERT feature representations.</p>
+        </div>
+        <div class="ref">
+          <a href="https://arxiv.org/abs/1908.10084" target="_blank" rel="noopener">Sentence-BERT paper</a>
+          <p>Foundation for using sentence embeddings as compact semantic features before a classifier.</p>
+        </div>
+        <div class="ref">
+          <a href="https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2" target="_blank" rel="noopener">all-MiniLM-L6-v2 model card</a>
+          <p>Model card for the SBERT encoder used in training, RAG indexing, and serving.</p>
+        </div>
+        <div class="ref">
+          <a href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener">Retrieval-Augmented Generation paper</a>
+          <p>Reference for combining retrieval with answer generation or answer selection.</p>
+        </div>
+        <div class="ref">
+          <a href="https://fastapi.tiangolo.com/" target="_blank" rel="noopener">FastAPI documentation</a>
+          <p>Serving framework used for prediction, health, metrics, and Pydantic response schemas.</p>
+        </div>
+        <div class="ref">
+          <a href="https://prometheus.io/docs/concepts/metric_types/" target="_blank" rel="noopener">Prometheus metric types</a>
+          <p>Reference for Counter, Gauge, Histogram, and Summary metrics used in monitoring.</p>
+        </div>
+        <div class="ref">
+          <a href="https://grafana.com/docs/grafana-cloud/send-data/alloy/reference/components/prometheus/prometheus.remote_write/" target="_blank" rel="noopener">Grafana Cloud remote_write docs</a>
+          <p>Reference for pushing Prometheus-compatible metrics to Grafana Cloud.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1129,8 +1484,7 @@ confidence = proba.max()
 
   <footer>
     <div class="wrap">
-      <div data-i18n="footerLeft">© 2026 Ninditya Salma Nur Aini · Day 01 / 23</div>
-      <div data-i18n="footerRight">Built with FastAPI, SBERT, FAISS, Prometheus · <a href="index.html">← Back to portfolio</a></div>
+      <div data-i18n="footerLeft">© 2026 Ninditya Salma Nur Aini · Case study</div>
     </div>
   </footer>
 
@@ -1147,18 +1501,17 @@ confidence = proba.max()
         heroMetaDataset: '<strong>Dataset</strong> Banking77 (13,083 samples)',
         heroMetaF1: '<strong>F1 Macro</strong> 0.9305',
         heroMetaLatency: '<strong>Latency</strong> ~50ms',
-        statCost: 'Cost savings vs all-LLM<br>(traffic mix 70/25/5)',
+        statCost: 'Cost savings vs all-LLM<br>(range across traffic mixes)',
         statF1: 'F1 Macro across<br>77 banking intents',
         statLatency: 'Avg end-to-end latency',
         statIntents: 'Banking intents classified',
-        problemNum: '01 · The Problem',
-        problemTitle: 'Most banking chatbots <em>burn cash</em> answering questions a regex could handle.',
-        problemLede: 'After 3.5 years working on banking chatbots, I noticed the same pattern: a single GPT-4 call to answer "what\'s the inter-bank transfer fee?" costs ~$0.05. Multiply that across millions of monthly queries — and most of those queries are routine.',
+        problemNum: '01 · Why This Exists',
+        problemTitle: 'Routine support questions should not always take the <em>most expensive model path.</em>',
+        problemLede: 'My chatbot experience spans 2.5 years in e-commerce flows and 1.5 years evaluating fintech chatbot quality. This project turns that product intuition into a banking-domain prototype: routine questions should be routed through cheaper, more predictable layers before escalating to an LLM.',
         problemIntro: 'The naive architecture sends every query to the same LLM. But banking queries fall into a clear distribution:',
         problemBullet1: '<strong>Routine FAQs</strong> (70–80%) — "lost card", "forgot PIN", "check balance" — perfectly handled by templates',
         problemBullet2: '<strong>Knowledge queries</strong> (15–25%) — "what\'s the limit for international wire?" — handled by RAG over a curated FAQ',
         problemBullet3: '<strong>Complex/edge cases</strong> (~5%) — multi-turn reasoning, unusual phrasing — actually need an LLM',
-        problemQuote: '"Using GPT-4 to answer \'forgot PIN\' is like turning on the AC to cool a glass of water. Expensive, slow, and overkill."<span class="attr">— observation from 3.5y in chatbot / ITOps</span>',
         architectureNum: '02 · The Architecture',
         architectureTitle: 'Route by <em>confidence,</em> not by hope.',
         architectureLede: 'Every query first hits a small SBERT (all-MiniLM-L6-v2) encoder, then a LinearSVC classifier predicts intent + confidence. The confidence score then routes the query through one of four tiers.',
@@ -1220,9 +1573,9 @@ confidence = proba.max()
 = $0.0056 / query
 
 <span class="c"># Reduction: ($0.050 − $0.0056) / $0.050 = ~89%</span>
-<span class="c"># A more aggressive mix (no tier-0, 70/25/5) approaches ~96%.</span>
+<span class="c"># A very template-heavy mix approaches ~96%.</span>
 <span class="c"># A conservative mix (heavier LLM usage) sits closer to ~70%.</span>`,
-        savingsDisclaimer: '⚠️ The exact % depends on real traffic distribution. The honest answer in an interview: "it\'s a 70–96% range — here\'s the mix I assumed."',
+        savingsDisclaimer: '⚠️ The exact % depends on real traffic distribution. The honest answer in an interview: "it\'s an 88–96% range for the assumed mixes — and a more conservative mix can be lower."',
         productionNum: '04 · Production Engineering',
         productionTitle: 'Not a notebook. <em>A service.</em>',
         servingTitle: 'Serving stack',
@@ -1230,7 +1583,7 @@ confidence = proba.max()
         mlStackTitle: 'ML stack',
         mlStackText: 'SBERT (all-MiniLM-L6-v2) for encoding; LinearSVC wrapped for predict_proba; FAISS for RAG retrieval; 4-way pluggable LLM client with automatic fallback to Mock when API keys are missing — service stays alive instead of crashing.',
         observabilityTitle: 'Observability',
-        observabilityText: '11 custom metrics exposed via <code>/metrics</code>: request count, latency histograms, routing distribution, confidence histogram, rolling low-confidence rate, cumulative estimated cost per tier. Async push to Grafana Cloud via Prometheus remote_write (manual protobuf + snappy compression).',
+        observabilityText: '12 custom metrics exposed via <code>/metrics</code>: request count, latency histograms, routing distribution, confidence histogram, rolling low-confidence rate, cumulative estimated cost per tier. Async push to Grafana Cloud via Prometheus remote_write (manual protobuf + snappy compression).',
         resilienceTitle: 'Resilience',
         resilienceText: 'LLM call failures degrade gracefully to a support-message fallback. Health endpoint reports model + RAG + LLM provider status. Lifespan hooks ensure model load happens before serving traffic. Provider misconfiguration is logged, not raised.',
         decisionsNum: '05 · Production-Grade Decisions',
@@ -1250,14 +1603,14 @@ confidence = proba.max()
         lesson2Text: 'Most classifiers throw away the confidence score. It\'s the most useful signal in production: it tells you when to escalate, when to ask for clarification, when to log for review.',
         lesson3Title: '3. Observability is not optional for ML services.',
         lesson3Text: 'The Prometheus metrics aren\'t decoration. <code>router_low_confidence_rate</code> trending up = your distribution is drifting. <code>router_estimated_cost_usd_total</code> tells finance exactly what the chatbot costs them per day. Without these, you\'re blind.',
-        lessonsQuote: '"Real engineering isn\'t about using the biggest model. It\'s about knowing when not to."<span class="attr">— Day 01 / 23</span>',
+        lessonsQuote: '"Real engineering isn\'t about using the biggest model. It\'s about knowing when not to."<span class="attr">— Case study</span>',
         ctaNum: 'Try it · See the code',
         ctaTitle: 'Live demo + full source <em>on Hugging Face.</em>',
         ctaText: 'Type any banking question — the UI shows which tier handled it, the confidence score, the latency, and the actual response. Click through the Files tab for the full FastAPI + Prometheus + RAG implementation.',
         ctaDemo: 'Live demo →',
         ctaSource: 'View source →',
         ctaBack: '← Back to all projects',
-        footerLeft: '© 2026 Ninditya Salma Nur Aini · Day 01 / 23',
+        footerLeft: '© 2026 Ninditya Salma Nur Aini · Case study',
         footerRight: 'Built with FastAPI, SBERT, FAISS, Prometheus · <a href="index.html">← Back to portfolio</a>'
       },
       id: {
@@ -1271,18 +1624,17 @@ confidence = proba.max()
         heroMetaDataset: '<strong>Dataset</strong> Banking77 (13.083 sampel)',
         heroMetaF1: '<strong>F1 Macro</strong> 0.9305',
         heroMetaLatency: '<strong>Latency</strong> ~50ms',
-        statCost: 'Penghematan biaya vs all-LLM<br>(traffic mix 70/25/5)',
+        statCost: 'Penghematan biaya vs all-LLM<br>(range across traffic mixes)',
         statF1: 'F1 Macro untuk<br>77 intent banking',
         statLatency: 'Rata-rata latency end-to-end',
         statIntents: 'Intent banking yang diklasifikasi',
-        problemNum: '01 · Masalahnya',
-        problemTitle: 'Banyak chatbot banking <em>bakar uang</em> untuk menjawab hal yang cukup ditangani regex.',
-        problemLede: 'Setelah 3,5 tahun mengerjakan chatbot banking, saya melihat pola yang sama: satu panggilan GPT-4 untuk menjawab "berapa biaya transfer antar bank?" bisa menelan biaya sekitar $0,05. Kalikan ke jutaan query per bulan — padahal sebagian besar pertanyaannya rutin.',
+        problemNum: '01 · Kenapa Project Ini Dibuat',
+        problemTitle: 'Pertanyaan support yang rutin tidak selalu perlu melewati <em>jalur model paling mahal.</em>',
+        problemLede: 'Pengalaman chatbot saya mencakup 2,5 tahun membangun flow e-commerce dan 1,5 tahun mengevaluasi kualitas chatbot fintech. Project ini mengubah intuisi produk tersebut menjadi prototype domain banking: pertanyaan rutin sebaiknya melewati layer yang lebih murah dan lebih predictable sebelum dieskalasikan ke LLM.',
         problemIntro: 'Arsitektur naif mengirim semua query ke LLM yang sama. Padahal pertanyaan banking punya distribusi yang cukup jelas:',
         problemBullet1: '<strong>FAQ rutin</strong> (70–80%) — "kartu hilang", "lupa PIN", "cek saldo" — sangat cocok dijawab template',
         problemBullet2: '<strong>Query pengetahuan</strong> (15–25%) — "berapa limit transfer internasional?" — cocok ditangani RAG di atas FAQ terkurasi',
         problemBullet3: '<strong>Kasus kompleks / edge case</strong> (~5%) — reasoning multi-turn, phrasing tidak biasa — baru benar-benar perlu LLM',
-        problemQuote: '"Memakai GPT-4 untuk menjawab \'lupa PIN\' itu seperti menyalakan AC untuk mendinginkan segelas air. Mahal, lambat, dan berlebihan."<span class="attr">— observasi dari 3,5 tahun di chatbot / ITOps</span>',
         architectureNum: '02 · Arsitekturnya',
         architectureTitle: 'Routing berdasarkan <em>confidence,</em> bukan harapan.',
         architectureLede: 'Setiap query pertama-tama masuk ke encoder SBERT kecil (all-MiniLM-L6-v2), lalu classifier LinearSVC memprediksi intent + confidence. Skor confidence inilah yang menentukan query masuk ke salah satu dari empat tier.',
@@ -1344,9 +1696,9 @@ confidence = proba.max()
 = $0.0056 / query
 
 <span class="c"># Reduction: ($0.050 − $0.0056) / $0.050 = ~89%</span>
-<span class="c"># Mix yang lebih agresif (tanpa tier-0, 70/25/5) bisa mendekati ~96%.</span>
+<span class="c"># Mix yang sangat dominan template bisa mendekati ~96%.</span>
 <span class="c"># Mix yang lebih konservatif (pemakaian LLM lebih berat) bisa turun ke ~70%.</span>`,
-        savingsDisclaimer: '⚠️ Persentase tepatnya tetap bergantung pada distribusi traffic nyata. Jawaban yang jujur saat interview: "rentangnya 70–96% — dan ini asumsi mix yang saya pakai."',
+        savingsDisclaimer: '⚠️ Persentase tepatnya tetap bergantung pada distribusi traffic nyata. Jawaban yang jujur saat interview: "rentang utamanya 88–96% untuk mix yang diasumsikan — dan mix yang lebih konservatif bisa lebih rendah."',
         productionNum: '04 · Production Engineering',
         productionTitle: 'Bukan notebook. <em>Service sungguhan.</em>',
         servingTitle: 'Serving stack',
@@ -1354,7 +1706,7 @@ confidence = proba.max()
         mlStackTitle: 'ML stack',
         mlStackText: 'SBERT (all-MiniLM-L6-v2) untuk encoding; LinearSVC dibungkus agar punya predict_proba; FAISS untuk retrieval RAG; client LLM 4-provider dengan fallback otomatis ke Mock saat API key tidak tersedia — service tetap hidup, tidak crash.',
         observabilityTitle: 'Observability',
-        observabilityText: 'Ada 11 custom metric di <code>/metrics</code>: request count, histogram latency, distribusi routing, histogram confidence, rolling low-confidence rate, dan estimasi biaya kumulatif per tier. Data dikirim async ke Grafana Cloud via Prometheus remote_write (manual protobuf + snappy compression).',
+        observabilityText: 'ada 12 custom metric di <code>/metrics</code>: request count, histogram latency, distribusi routing, histogram confidence, rolling low-confidence rate, dan estimasi biaya kumulatif per tier. Data dikirim async ke Grafana Cloud via Prometheus remote_write (manual protobuf + snappy compression).',
         resilienceTitle: 'Resilience',
         resilienceText: 'Kalau panggilan LLM gagal, sistem turun secara graceful ke fallback message untuk support. Health endpoint melaporkan status model + RAG + provider LLM. Lifespan hook memastikan model selesai load sebelum menerima traffic. Salah konfigurasi provider dicatat ke log, bukan dilempar jadi error.',
         decisionsNum: '05 · Keputusan Production-Grade',
@@ -1374,14 +1726,14 @@ confidence = proba.max()
         lesson2Text: 'Banyak classifier membuang confidence score. Padahal itu sinyal paling berguna di production: memberi tahu kapan harus eskalasi, kapan harus minta klarifikasi, dan kapan harus dicatat untuk review.',
         lesson3Title: '3. Observability bukan opsi tambahan untuk service ML.',
         lesson3Text: 'Metric Prometheus di sini bukan dekorasi. <code>router_low_confidence_rate</code> yang naik berarti distribusi kamu sedang drift. <code>router_estimated_cost_usd_total</code> memberi tim finance angka pasti biaya chatbot per hari. Tanpa itu, kamu buta.',
-        lessonsQuote: '"Engineering yang nyata bukan soal memakai model terbesar. Tapi soal tahu kapan tidak perlu memakainya."<span class="attr">— Day 01 / 23</span>',
+        lessonsQuote: '"Engineering yang nyata bukan soal memakai model terbesar. Tapi soal tahu kapan tidak perlu memakainya."<span class="attr">— Case study</span>',
         ctaNum: 'Coba · Lihat kodenya',
         ctaTitle: 'Live demo + source code lengkap <em>di Hugging Face.</em>',
         ctaText: 'Ketik pertanyaan banking apa saja — UI akan menunjukkan tier mana yang menangani query, confidence score, latency, dan respons finalnya. Buka tab Files untuk melihat implementasi lengkap FastAPI + Prometheus + RAG.',
         ctaDemo: 'Live demo →',
         ctaSource: 'Lihat source →',
         ctaBack: '← Kembali ke semua project',
-        footerLeft: '© 2026 Ninditya Salma Nur Aini · Day 01 / 23',
+        footerLeft: '© 2026 Ninditya Salma Nur Aini · Case study',
         footerRight: 'Dibangun dengan FastAPI, SBERT, FAISS, Prometheus · <a href="index.html">← Kembali ke portfolio</a>'
       }
     };
@@ -1413,6 +1765,66 @@ confidence = proba.max()
       });
     }
 
+    // Creates a small paged carousel for the execution steps.
+    // Desktop shows two cards per page; mobile shows one card per page.
+    function bindTimelineCarousel() {
+      const shell = document.querySelector('.timeline-shell');
+      const track = document.querySelector('.timeline');
+      const steps = Array.from(document.querySelectorAll('.timeline .step'));
+      const prev = document.querySelector('[data-timeline-prev]');
+      const next = document.querySelector('[data-timeline-next]');
+      const status = document.querySelector('[data-timeline-status]');
+      let page = 0;
+
+      if (!shell || !track || !prev || !next || !status || !steps.length) {
+        return;
+      }
+
+      // Calculates how many cards fit per page and clamps the active page.
+      function getState() {
+        const pageSize = window.matchMedia('(max-width: 800px)').matches ? 1 : 2;
+        const pageCount = Math.ceil(steps.length / pageSize);
+        page = Math.min(page, pageCount - 1);
+        return { pageSize, pageCount };
+      }
+
+      // Moves the track and updates button states plus the visible range label.
+      function renderTimeline() {
+        const { pageSize, pageCount } = getState();
+        const start = page * pageSize + 1;
+        const end = Math.min(start + pageSize - 1, steps.length);
+        track.style.transform = `translateX(calc(-${page * 100}% - ${page * 24}px))`;
+        prev.disabled = page === 0;
+        next.disabled = page === pageCount - 1;
+        status.textContent = `Steps ${start}-${end} of ${steps.length}`;
+      }
+
+      prev.addEventListener('click', () => {
+        page = Math.max(0, page - 1);
+        renderTimeline();
+      });
+
+      next.addEventListener('click', () => {
+        const { pageCount } = getState();
+        page = Math.min(pageCount - 1, page + 1);
+        renderTimeline();
+      });
+
+      shell.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          prev.click();
+        }
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          next.click();
+        }
+      });
+
+      window.addEventListener('resize', renderTimeline);
+      renderTimeline();
+    }
+
     // Reveals content sections when they enter the viewport.
     // This keeps the page feeling alive without adding complex behavior.
     function revealVisibleSections(entries) {
@@ -1430,6 +1842,7 @@ confidence = proba.max()
     });
 
     bindLanguageSwitch();
+    bindTimelineCarousel();
     applyLanguage('en');
   </script>
 </body>
