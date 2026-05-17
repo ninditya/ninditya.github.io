@@ -10,23 +10,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Inter:wght@400;500;600&amp;display=swap"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Mono:wght@400;500&amp;family=DM+Sans:wght@400;500;600&amp;display=swap"
     rel="stylesheet">
   <style>
     :root {
-      --bg: #fafaf7;
-      --bg-alt: #f4f1ea;
-      --bg-dark: #0a0e1a;
-      --ink: #1a1a1a;
-      --ink-soft: #3a3a3a;
-      --muted: #5a5a5a;
-      --line: rgba(0, 0, 0, 0.08);
-      --line-strong: rgba(0, 0, 0, 0.16);
-      --primary: #8f7424;
-      --accent: #c9a449;
-      --accent-soft: rgba(201, 164, 73, 0.12);
-      --green: #2e5e3f;
-      --red: #b03a2e;
+      --bg: #f5f3ee;
+      --bg-alt: #eceae4;
+      --bg-dark: #1a1814;
+      --ink: #1a1814;
+      --ink-soft: #5a574f;
+      --muted: #8c887f;
+      --line: #dddad3;
+      --line-strong: #8c887f;
+      --primary: #1a5276;
+      --accent: #c4490c;
+      --accent-soft: #eaf2fb;
+      --green: #2d6a4f;
+      --red: #c4490c;
     }
 
     * {
@@ -42,7 +42,7 @@
     body {
       background: var(--bg);
       color: var(--ink);
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
@@ -69,11 +69,45 @@
     }
 
     .logo {
-      font-family: 'Fraunces', serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 20px;
       color: var(--ink);
       text-decoration: none;
       letter-spacing: -0.01em;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--ink);
+      color: #fff;
+      padding: 8px 16px;
+      z-index: 1000;
+      transition: top 0.2s;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    *:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .mobile-nav-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--ink);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0 5px;
+      line-height: 1;
     }
 
     .nav-pills {
@@ -128,7 +162,7 @@
       color: var(--muted);
       padding: 6px 10px;
       border-radius: 999px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -165,7 +199,7 @@
       color: var(--accent);
       padding: 5px 12px;
       border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.08em;
@@ -173,7 +207,7 @@
     }
 
     .kicker-text {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 12px;
       color: var(--primary);
       letter-spacing: 0.05em;
@@ -185,7 +219,7 @@
     }
 
     h1.title {
-      font-family: 'Fraunces', serif;
+      font-family: 'Instrument Serif', serif;
       font-size: clamp(48px, 7vw, 88px);
       line-height: 1;
       letter-spacing: -0.02em;
@@ -200,7 +234,7 @@
     }
 
     .hero-lede {
-      font-family: 'Fraunces', serif;
+      font-family: 'Instrument Serif', serif;
       font-size: clamp(20px, 2.2vw, 26px);
       line-height: 1.45;
       max-width: 760px;
@@ -219,7 +253,7 @@
       flex-wrap: wrap;
       gap: 28px;
       margin-top: 44px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 12px;
       letter-spacing: 0.02em;
       color: var(--muted);
@@ -258,8 +292,8 @@
     }
 
     .stat .num {
-      font-family: 'Fraunces', serif;
-      font-size: clamp(48px, 5.5vw, 64px);
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(40px, 5.5vw, 60px);
       font-weight: 400;
       line-height: 1;
       color: var(--accent);
@@ -270,11 +304,11 @@
       font-size: 0.5em;
       color: var(--bg);
       opacity: 0.7;
-      font-family: 'Fraunces', serif;
+      font-family: 'Instrument Serif', serif;
     }
 
     .stat .label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -297,7 +331,7 @@
     }
 
     .section-num {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 12px;
       color: var(--primary);
       letter-spacing: 0.08em;
@@ -307,7 +341,7 @@
     }
 
     h2 {
-      font-family: 'Fraunces', serif;
+      font-family: 'Instrument Serif', serif;
       font-size: clamp(32px, 4.5vw, 48px);
       font-weight: 400;
       letter-spacing: -0.01em;
@@ -323,7 +357,7 @@
     }
 
     h3 {
-      font-family: 'Fraunces', serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 24px;
       font-weight: 400;
       margin: 36px 0 14px;
@@ -337,7 +371,7 @@
     }
 
     .lede {
-      font-family: 'Fraunces', serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 22px;
       line-height: 1.5;
       color: var(--ink-soft);
@@ -359,7 +393,7 @@
       border: 1px solid var(--line);
       padding: 1px 6px;
       border-radius: 3px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 13px;
       color: var(--ink);
     }
@@ -384,7 +418,7 @@
     }
 
     .tier-num {
-      font-family: 'Fraunces', serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 60px;
       font-weight: 400;
       line-height: 1;
@@ -394,7 +428,7 @@
     }
 
     .tier h4 {
-      font-family: 'Fraunces', serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 22px;
       font-weight: 400;
       margin-bottom: 8px;
@@ -402,7 +436,7 @@
     }
 
     .tier .threshold {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 10px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -424,7 +458,7 @@
       gap: 18px;
       padding-top: 14px;
       border-top: 1px dashed var(--line-strong);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 12px;
     }
 
@@ -452,7 +486,7 @@
       background: var(--bg-dark);
       color: #d8d3c4;
       padding: 24px 28px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 13px;
       line-height: 1.75;
       overflow-x: auto;
@@ -533,7 +567,7 @@
     }
 
     .tag {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -555,7 +589,7 @@
       border-left: 3px solid var(--accent);
       padding: 16px 0 16px 28px;
       margin: 32px 0;
-      font-family: 'Fraunces', serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 24px;
       font-style: italic;
       line-height: 1.45;
@@ -567,7 +601,7 @@
       display: block;
       font-style: normal;
       font-size: 12px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -591,7 +625,7 @@
     }
 
     table.compare th {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -601,7 +635,7 @@
     }
 
     table.compare td.num {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-weight: 500;
       color: var(--ink);
     }
@@ -632,7 +666,7 @@
     }
 
     .step .step-id {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -642,7 +676,7 @@
     }
 
     .step h4 {
-      font-family: 'Fraunces', serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 24px;
       line-height: 1.1;
       margin-bottom: 12px;
@@ -660,7 +694,7 @@
       list-style: none;
       padding: 0;
       margin: 0;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 12px;
       line-height: 1.7;
       color: var(--ink-soft);
@@ -697,7 +731,7 @@
       background: var(--bg);
       color: var(--ink);
       cursor: pointer;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 18px;
       line-height: 1;
       transition: all 0.2s ease;
@@ -725,7 +759,7 @@
     }
 
     .timeline-status {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 12px;
       color: var(--muted);
       letter-spacing: 0.06em;
@@ -794,7 +828,7 @@
       background: var(--accent);
       color: var(--ink);
       text-decoration: none;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 13px;
       font-weight: 500;
       letter-spacing: 0.06em;
@@ -825,7 +859,7 @@
       background: var(--bg-dark);
       color: var(--bg);
       padding: 28px 0;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.04em;
       opacity: 0.7;
@@ -912,6 +946,34 @@
       .refs {
         grid-template-columns: 1fr;
       }
+
+      .nav-tools {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .mobile-nav-toggle {
+        display: block;
+      }
+
+      .nav-pills {
+        display: none;
+        position: absolute;
+        top: 56px;
+        left: 0;
+        width: 100%;
+        background: rgba(245, 243, 238, 0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--line);
+        flex-direction: column;
+        padding: 1rem 2rem;
+        gap: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      nav.nav-open .nav-pills {
+        display: flex;
+      }
     }
 
     @media (max-width: 560px) {
@@ -932,10 +994,13 @@
 </head>
 
 <body>
-  <nav>
+  <a href="#problem" class="skip-link">Skip to main content</a>
+  <nav id="mainNav">
     <div class="nav-inner">
       <a href="index.html" class="logo">Ninditya Salma Nur Aini</a>
       <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="document.getElementById('mainNav').classList.toggle('nav-open')">☰</button>
         <div class="nav-pills">
           <a class="nav-pill back" href="index.html#projects" data-i18n="navBack">← All projects</a>
           <a class="nav-pill" href="index.html#about" data-i18n="navAbout">About</a>
@@ -999,10 +1064,15 @@
       <div class="section-num">00 · Execution Log</div>
       <h2>What I actually built, <em>step by step.</em></h2>
 
-      <p class="lede">This project was not just a model benchmark. I took Banking77 from raw exploration to a monitored FastAPI service: EDA, preprocessing, baseline modelling, SBERT upgrade, confidence routing, RAG answer layer, LLM fallback, deployment, and observability.</p>
+      <p class="lede">This project was not just a model benchmark. I took Banking77 from raw exploration to a monitored
+        FastAPI service: EDA, preprocessing, baseline modelling, SBERT upgrade, confidence routing, RAG answer layer,
+        LLM fallback, deployment, and observability.</p>
 
       <h3>Method selection: why the model changed</h3>
-      <p>I did not start with SBERT. The first modelling path was deliberately simple: TF-IDF features with Logistic Regression. After that, I compared LinearSVC on the same TF-IDF representation, because short intent texts often work well with linear margin-based classifiers. SVM won the sparse-feature baseline, then SBERT embeddings pushed the score higher again.</p>
+      <p>I did not start with SBERT. The first modelling path was deliberately simple: TF-IDF features with Logistic
+        Regression. After that, I compared LinearSVC on the same TF-IDF representation, because short intent texts often
+        work well with linear margin-based classifiers. SVM won the sparse-feature baseline, then SBERT embeddings
+        pushed the score higher again.</p>
 
       <table class="compare">
         <thead>
@@ -1026,7 +1096,8 @@
           <tr class="highlight">
             <td>Final</td>
             <td class="num">SBERT + LinearSVC</td>
-            <td>Chosen for serving because dense sentence embeddings improved F1 macro to 0.9305 while staying fast enough for routing.</td>
+            <td>Chosen for serving because dense sentence embeddings improved F1 macro to 0.9305 while staying fast
+              enough for routing.</td>
           </tr>
         </tbody>
       </table>
@@ -1040,98 +1111,111 @@
           <div class="step">
             <div class="step-id">Step 01 · EDA</div>
             <h4>Read the Banking77 shape first.</h4>
-            <p>I started by checking sample count, 77 intent labels, class balance, text length distribution, and examples per intent. The goal was to confirm this was an intent-routing problem, not a free-form generation problem.</p>
+            <p>I started by checking sample count, 77 intent labels, class balance, text length distribution, and
+              examples per intent. The goal was to confirm this was an intent-routing problem, not a free-form
+              generation problem.</p>
             <ul>
               <li>Output: intent distribution</li>
               <li>Output: text length distribution</li>
             </ul>
           </div>
 
-        <div class="step">
-          <div class="step-id">Step 02 · Preprocessing</div>
-          <h4>Turn notebook steps into a repeatable pipeline.</h4>
-          <p>I moved manual cleaning into a reusable pipeline: lowercase text, remove noisy characters, encode labels, keep a stratified split, and save train/test artifacts so modelling and CI use the same data contract.</p>
-          <ul>
-            <li>Input: Hugging Face PolyAI/banking77</li>
-            <li>Output: train/test artifacts and label encoder</li>
-          </ul>
-        </div>
+          <div class="step">
+            <div class="step-id">Step 02 · Preprocessing</div>
+            <h4>Turn notebook steps into a repeatable pipeline.</h4>
+            <p>I moved manual cleaning into a reusable pipeline: lowercase text, remove noisy characters, encode labels,
+              keep a stratified split, and save train/test artifacts so modelling and CI use the same data contract.</p>
+            <ul>
+              <li>Input: Hugging Face PolyAI/banking77</li>
+              <li>Output: train/test artifacts and label encoder</li>
+            </ul>
+          </div>
 
-        <div class="step">
-          <div class="step-id">Step 03 · Baseline</div>
-          <h4>Start simple with TF-IDF + Logistic Regression.</h4>
-          <p>I first used TF-IDF + Logistic Regression as a clean baseline, then tuned LinearSVC on the same TF-IDF features. LinearSVC produced the stronger classical result, reaching roughly 0.8843 F1 macro.</p>
-          <ul>
-            <li>Feature: TF-IDF 1-2 gram, max 10,000 features</li>
-            <li>Models compared: Logistic Regression vs LinearSVC</li>
-          </ul>
-        </div>
+          <div class="step">
+            <div class="step-id">Step 03 · Baseline</div>
+            <h4>Start simple with TF-IDF + Logistic Regression.</h4>
+            <p>I first used TF-IDF + Logistic Regression as a clean baseline, then tuned LinearSVC on the same TF-IDF
+              features. LinearSVC produced the stronger classical result, reaching roughly 0.8843 F1 macro.</p>
+            <ul>
+              <li>Feature: TF-IDF 1-2 gram, max 10,000 features</li>
+              <li>Models compared: Logistic Regression vs LinearSVC</li>
+            </ul>
+          </div>
 
-        <div class="step">
-          <div class="step-id">Step 04 · SBERT Upgrade</div>
-          <h4>Replace sparse features with dense sentence embeddings.</h4>
-          <p>I used sentence-transformers/all-MiniLM-L6-v2 to encode each query into a 384-dimensional normalized embedding, then tested LinearSVC and Logistic Regression configs with calibrated probabilities.</p>
-          <ul>
-            <li>Best: SBERT + LinearSVC, C=5</li>
-            <li>Result: F1 macro 0.9305, accuracy 0.9285</li>
-          </ul>
-        </div>
+          <div class="step">
+            <div class="step-id">Step 04 · SBERT Upgrade</div>
+            <h4>Replace sparse features with dense sentence embeddings.</h4>
+            <p>I used sentence-transformers/all-MiniLM-L6-v2 to encode each query into a 384-dimensional normalized
+              embedding, then tested LinearSVC and Logistic Regression configs with calibrated probabilities.</p>
+            <ul>
+              <li>Best: SBERT + LinearSVC, C=5</li>
+              <li>Result: F1 macro 0.9305, accuracy 0.9285</li>
+            </ul>
+          </div>
 
-        <div class="step">
-          <div class="step-id">Step 05 · Confidence Routing</div>
-          <h4>Use confidence as the production decision signal.</h4>
-          <p>I converted classifier probability into a routing policy. High confidence goes to templates, medium confidence goes to RAG, and low confidence escalates to the LLM.</p>
-          <ul>
-            <li>Template: confidence >= 0.55</li>
-            <li>RAG: 0.30 <= confidence &lt; 0.55</li>
-            <li>LLM: confidence &lt; 0.30</li>
-          </ul>
-        </div>
+          <div class="step">
+            <div class="step-id">Step 05 · Confidence Routing</div>
+            <h4>Use confidence as the production decision signal.</h4>
+            <p>I converted classifier probability into a routing policy. High confidence goes to templates, medium
+              confidence goes to RAG, and low confidence escalates to the LLM.</p>
+            <ul>
+              <li>Template: confidence >= 0.55</li>
+              <li>RAG: 0.30 <= confidence &lt; 0.55</li>
+              <li>LLM: confidence &lt; 0.30</li>
+            </ul>
+          </div>
 
-        <div class="step">
-          <div class="step-id">Step 06 · RAG Layer</div>
-          <h4>Add retrieval for medium-confidence queries.</h4>
-          <p>I built the RAG layer with FAISS IndexFlatIP. FAQ questions are embedded with the same SBERT encoder, normalized, and retrieved by inner product, which acts like cosine similarity for normalized vectors.</p>
-          <ul>
-            <li>Knowledge base: banking FAQ entries</li>
-            <li>Template path retrieves top-1; RAG path retrieves top-3 with sources</li>
-          </ul>
-        </div>
+          <div class="step">
+            <div class="step-id">Step 06 · RAG Layer</div>
+            <h4>Add retrieval for medium-confidence queries.</h4>
+            <p>I built the RAG layer with FAISS IndexFlatIP. FAQ questions are embedded with the same SBERT encoder,
+              normalized, and retrieved by inner product, which acts like cosine similarity for normalized vectors.</p>
+            <ul>
+              <li>Knowledge base: banking FAQ entries</li>
+              <li>Template path retrieves top-1; RAG path retrieves top-3 with sources</li>
+            </ul>
+          </div>
 
-        <div class="step">
-          <div class="step-id">Step 07 · Serving</div>
-          <h4>Package the model behind a FastAPI contract.</h4>
-          <p>I exposed predict, health, and metrics endpoints. The response includes intent id, confidence, routing tier, latency, answer, RAG sources, and LLM answer when escalation happens.</p>
-          <ul>
-            <li>Schema: Pydantic request/response models</li>
-            <li>UI: static chat page with per-tier routing badges</li>
-          </ul>
-        </div>
+          <div class="step">
+            <div class="step-id">Step 07 · Serving</div>
+            <h4>Package the model behind a FastAPI contract.</h4>
+            <p>I exposed predict, health, and metrics endpoints. The response includes intent id, confidence, routing
+              tier, latency, answer, RAG sources, and LLM answer when escalation happens.</p>
+            <ul>
+              <li>Schema: Pydantic request/response models</li>
+              <li>UI: static chat page with per-tier routing badges</li>
+            </ul>
+          </div>
 
-        <div class="step">
-          <div class="step-id">Step 08 · LLM Fallback</div>
-          <h4>Escalate only when cheaper layers are not enough.</h4>
-          <p>I made the LLM provider configurable: OpenAI, Groq, Ollama, or Mock. If keys are missing or a call fails, the service falls back cleanly instead of crashing.</p>
-          <ul>
-            <li>Provider is switchable by environment variable</li>
-            <li>Intent hint is only passed when confidence is still useful</li>
-          </ul>
-        </div>
+          <div class="step">
+            <div class="step-id">Step 08 · LLM Fallback</div>
+            <h4>Escalate only when cheaper layers are not enough.</h4>
+            <p>I made the LLM provider configurable: OpenAI, Groq, Ollama, or Mock. If keys are missing or a call fails,
+              the service falls back cleanly instead of crashing.</p>
+            <ul>
+              <li>Provider is switchable by environment variable</li>
+              <li>Intent hint is only passed when confidence is still useful</li>
+            </ul>
+          </div>
 
-        <div class="step">
-          <div class="step-id">Step 09 · Deployment</div>
-          <h4>Make it runnable outside the notebook.</h4>
-          <p>I prepared the serving package with pinned dependencies and a Dockerfile, then deployed it as a Hugging Face Space. Model artifacts are loaded at startup, and CPU-only dependencies keep the image smaller for free-tier hosting.</p>
-          <ul>
-            <li>Runtime: FastAPI + Uvicorn + Docker</li>
-            <li>Demo: Hugging Face Spaces</li>
-          </ul>
-        </div>
+          <div class="step">
+            <div class="step-id">Step 09 · Deployment</div>
+            <h4>Make it runnable outside the notebook.</h4>
+            <p>I prepared the serving package with pinned dependencies and a Dockerfile, then deployed it as a Hugging
+              Face Space. Model artifacts are loaded at startup, and CPU-only dependencies keep the image smaller for
+              free-tier hosting.</p>
+            <ul>
+              <li>Runtime: FastAPI + Uvicorn + Docker</li>
+              <li>Demo: Hugging Face Spaces</li>
+            </ul>
+          </div>
 
           <div class="step">
             <div class="step-id">Step 10 · Monitoring</div>
             <h4>Instrument the router like a service.</h4>
-            <p>I added Prometheus metrics for request volume, latency, routing distribution, confidence drift, estimated cost, errors, active requests, and throughput. Grafana dashboards make it clear whether traffic is getting more expensive or less confident over time.</p>
+            <p>I added Prometheus metrics for request volume, latency, routing distribution, confidence drift, estimated
+              cost, errors, active requests, and throughput. Grafana dashboards make it clear whether traffic is getting
+              more expensive or less confident over time.</p>
             <ul>
               <li>Endpoint: /metrics</li>
               <li>Dashboard: Grafana Cloud compatible JSON</li>
@@ -1148,19 +1232,26 @@
   <section class="content">
     <div class="wrap">
       <div class="section-num" data-i18n="problemNum">01 · Why This Exists</div>
-      <h2 data-i18n="problemTitle">Routine support questions should not always take the <em>most expensive model path.</em></h2>
+      <h2 data-i18n="problemTitle">Routine support questions should not always take the <em>most expensive model
+          path.</em></h2>
 
-      <p class="lede" data-i18n="problemLede">My chatbot experience spans 2.5 years in e-commerce flows and 1.5 years evaluating fintech chatbot quality. This project turns that product intuition into a banking-domain prototype: routine questions should be routed through cheaper, more predictable layers before escalating to an LLM.</p>
+      <p class="lede" data-i18n="problemLede">My chatbot experience spans 2.5 years in e-commerce flows and 1.5 years
+        evaluating fintech chatbot quality. This project turns that product intuition into a banking-domain prototype:
+        routine questions should be routed through cheaper, more predictable layers before escalating to an LLM.</p>
 
-      <p data-i18n="problemIntro">The naive architecture sends every query to the same LLM. But banking queries fall into a clear distribution:
+      <p data-i18n="problemIntro">The naive architecture sends every query to the same LLM. But banking queries fall
+        into a clear distribution:
       </p>
 
       <ul class="checklist">
-        <li data-i18n="problemBullet1"><strong>Routine FAQs</strong> (70–80%) — "lost card", "forgot PIN", "check balance" — perfectly handled by
+        <li data-i18n="problemBullet1"><strong>Routine FAQs</strong> (70–80%) — "lost card", "forgot PIN", "check
+          balance" — perfectly handled by
           templates</li>
-        <li data-i18n="problemBullet2"><strong>Knowledge queries</strong> (15–25%) — "what's the limit for international wire?" — handled by RAG
+        <li data-i18n="problemBullet2"><strong>Knowledge queries</strong> (15–25%) — "what's the limit for international
+          wire?" — handled by RAG
           over a curated FAQ</li>
-        <li data-i18n="problemBullet3"><strong>Complex/edge cases</strong> (~5%) — multi-turn reasoning, unusual phrasing — actually need an LLM
+        <li data-i18n="problemBullet3"><strong>Complex/edge cases</strong> (~5%) — multi-turn reasoning, unusual
+          phrasing — actually need an LLM
         </li>
       </ul>
     </div>
@@ -1171,10 +1262,12 @@
       <div class="section-num" data-i18n="architectureNum">02 · The Architecture</div>
       <h2 data-i18n="architectureTitle">Route by <em>confidence,</em> not by hope.</h2>
 
-      <p class="lede" data-i18n="architectureLede">Every query first hits a small SBERT (all-MiniLM-L6-v2) encoder, then a LinearSVC classifier
+      <p class="lede" data-i18n="architectureLede">Every query first hits a small SBERT (all-MiniLM-L6-v2) encoder, then
+        a LinearSVC classifier
         predicts intent + confidence. The confidence score then routes the query through one of four tiers.</p>
 
-      <pre class="code" data-i18n="architectureCode"><span class="c"># Tier 0: regex pre-filter (bypass model entirely)</span>
+      <pre class="code"
+        data-i18n="architectureCode"><span class="c"># Tier 0: regex pre-filter (bypass model entirely)</span>
 <span class="k">if</span> is_greeting_or_farewell(query): route <span class="arrow">→</span> <span class="s">"conversational"</span>    <span class="c"># $0.000, sub-ms</span>
 
 <span class="c"># Tiers 1–3: confidence-based routing</span>
@@ -1191,7 +1284,8 @@ confidence = proba.max()
           <div class="tier-num">00</div>
           <h4 data-i18n="tier0Title">Conversational</h4>
           <div class="threshold" data-i18n="tier0Threshold">bilingual regex match</div>
-          <p class="desc" data-i18n="tier0Desc">Greetings &amp; farewells in English + Indonesian ("hi", "halo", "selamat pagi", "terima
+          <p class="desc" data-i18n="tier0Desc">Greetings &amp; farewells in English + Indonesian ("hi", "halo",
+            "selamat pagi", "terima
             kasih") bypass the ML model entirely.</p>
           <div class="metrics">
             <span data-i18n="tier0Metric1"><small>Cost</small><strong>$0.000</strong></span>
@@ -1202,7 +1296,8 @@ confidence = proba.max()
           <div class="tier-num">01</div>
           <h4 data-i18n="tier1Title">Template Handler</h4>
           <div class="threshold" data-i18n="tier1Threshold">confidence ≥ 0.55</div>
-          <p class="desc" data-i18n="tier1Desc">High-confidence intents get a pre-written templated answer from the FAQ knowledge base. No
+          <p class="desc" data-i18n="tier1Desc">High-confidence intents get a pre-written templated answer from the FAQ
+            knowledge base. No
             generation needed.</p>
           <div class="metrics">
             <span data-i18n="tier1Metric1"><small>Cost</small><strong>$0.001</strong></span>
@@ -1213,7 +1308,8 @@ confidence = proba.max()
           <div class="tier-num">02</div>
           <h4 data-i18n="tier2Title">RAG Pipeline</h4>
           <div class="threshold" data-i18n="tier2Threshold">0.30 ≤ conf &lt; 0.55</div>
-          <p class="desc" data-i18n="tier2Desc">Medium-confidence: retrieve top-3 from FAISS-indexed 59-entry knowledge base, return
+          <p class="desc" data-i18n="tier2Desc">Medium-confidence: retrieve top-3 from FAISS-indexed 59-entry knowledge
+            base, return
             contextual answer with citations.</p>
           <div class="metrics">
             <span data-i18n="tier2Metric1"><small>Cost</small><strong>$0.010</strong></span>
@@ -1224,7 +1320,8 @@ confidence = proba.max()
           <div class="tier-num">03</div>
           <h4 data-i18n="tier3Title">LLM Escalation</h4>
           <div class="threshold" data-i18n="tier3Threshold">confidence &lt; 0.30</div>
-          <p class="desc" data-i18n="tier3Desc">Low-confidence: hand off to OpenAI / Groq / Ollama / Mock with intent context. Reserved for
+          <p class="desc" data-i18n="tier3Desc">Low-confidence: hand off to OpenAI / Groq / Ollama / Mock with intent
+            context. Reserved for
             the ambiguous ~5%.</p>
           <div class="metrics">
             <span data-i18n="tier3Metric1"><small>Cost</small><strong>$0.050</strong></span>
@@ -1234,7 +1331,8 @@ confidence = proba.max()
       </div>
 
       <h3 data-i18n="architectureBitTitle">The clever bit: <em>confidence-aware</em> LLM hint</h3>
-      <p data-i18n="architectureBitText">Even when escalating to the LLM, the classifier's output isn't thrown away. The predicted intent label is
+      <p data-i18n="architectureBitText">Even when escalating to the LLM, the classifier's output isn't thrown away. The
+        predicted intent label is
         passed as a soft context hint to the LLM — <em>but only if</em> confidence ≥ 0.25. Below that threshold, the
         prediction is too noisy to be useful and would mislead the model, so the hint is dropped. Engineering
         decisions like this are what separate a notebook from a production service.</p>
@@ -1246,7 +1344,8 @@ confidence = proba.max()
       <div class="section-num" data-i18n="numbersNum">03 · The Numbers</div>
       <h2 data-i18n="numbersTitle">Benchmarked on <em>Banking77.</em></h2>
 
-      <p data-i18n="numbersIntro">13,083 customer queries across 77 banking intents — the standard benchmark for banking NLP.</p>
+      <p data-i18n="numbersIntro">13,083 customer queries across 77 banking intents — the standard benchmark for banking
+        NLP.</p>
 
       <table class="compare">
         <thead>
@@ -1281,7 +1380,8 @@ confidence = proba.max()
       </table>
 
       <h3 data-i18n="savingsTitle">How the savings are calculated</h3>
-      <p data-i18n="savingsIntro">The 88–96% range is sensitive to traffic distribution. Here's a representative banking traffic mix (10% pure
+      <p data-i18n="savingsIntro">The 88–96% range is sensitive to traffic distribution. Here's a representative banking
+        traffic mix (10% pure
         conversational + 60% routine FAQs handled by template + 25% knowledge queries + 5% genuinely complex):</p>
 
       <pre class="code" data-i18n="savingsCode"><span class="c"># All-LLM baseline (every query → GPT-4-class)</span>
@@ -1293,10 +1393,11 @@ confidence = proba.max()
 = $0.0056 / query
 
 <span class="c"># Reduction: ($0.050 − $0.0056) / $0.050 = ~89%</span>
-<span class="c"># A very template-heavy mix approaches ~96%.</span>
+<span class="c"># A very template-heavy mix approaches ~88%.</span>
 <span class="c"># A conservative mix (heavier LLM usage) sits closer to ~70%.</span></pre>
 
-      <p class="disclaimer" data-i18n="savingsDisclaimer">⚠️ The exact % depends on real traffic distribution. The honest answer in an interview:
+      <p class="disclaimer" data-i18n="savingsDisclaimer">⚠️ The exact % depends on real traffic distribution. The
+        honest answer in an interview:
         "it's an 88–96% range for the assumed mixes — and a more conservative mix can be lower."</p>
     </div>
   </section>
@@ -1315,9 +1416,11 @@ confidence = proba.max()
             <span class="tag">Docker</span>
             <span class="tag">HuggingFace Spaces</span>
           </div>
-          <p data-i18n="servingText">Single Docker image, served via FastAPI with Pydantic schemas. <code>/predict</code> endpoint returns
+          <p data-i18n="servingText">Single Docker image, served via FastAPI with Pydantic schemas.
+            <code>/predict</code> endpoint returns
             intent_id, confidence, routing decision, latency, and the actual generated answer. Custom chat UI in
-            <code>static/index.html</code> with per-tier routing badges.</p>
+            <code>static/index.html</code> with per-tier routing badges.
+          </p>
         </div>
         <div>
           <h3 data-i18n="mlStackTitle">ML stack</h3>
@@ -1327,7 +1430,8 @@ confidence = proba.max()
             <span class="tag">FAISS</span>
             <span class="tag">OpenAI · Groq · Ollama · Mock</span>
           </div>
-          <p data-i18n="mlStackText">SBERT (all-MiniLM-L6-v2) for encoding; LinearSVC wrapped for predict_proba; FAISS for RAG retrieval; 4-way
+          <p data-i18n="mlStackText">SBERT (all-MiniLM-L6-v2) for encoding; LinearSVC wrapped for predict_proba; FAISS
+            for RAG retrieval; 4-way
             pluggable LLM client with automatic fallback to Mock when API keys are missing — service stays alive instead
             of crashing.</p>
         </div>
@@ -1340,7 +1444,8 @@ confidence = proba.max()
             <span class="tag">Prometheus</span>
             <span class="tag">Grafana Cloud</span>
           </div>
-          <p data-i18n="observabilityText">12 custom metrics exposed via <code>/metrics</code>: request count, latency histograms, routing
+          <p data-i18n="observabilityText">12 custom metrics exposed via <code>/metrics</code>: request count, latency
+            histograms, routing
             distribution, confidence histogram, rolling low-confidence rate, cumulative estimated cost per tier. Async
             push to Grafana Cloud via Prometheus remote_write (manual protobuf + snappy compression).</p>
         </div>
@@ -1350,7 +1455,8 @@ confidence = proba.max()
             <span class="tag">Auto-fallback</span>
             <span class="tag">Lifespan hooks</span>
           </div>
-          <p data-i18n="resilienceText">LLM call failures degrade gracefully to a support-message fallback. Health endpoint reports model + RAG +
+          <p data-i18n="resilienceText">LLM call failures degrade gracefully to a support-message fallback. Health
+            endpoint reports model + RAG +
             LLM provider status. Lifespan hooks ensure model load happens before serving traffic. Provider
             misconfiguration is logged, not raised.</p>
         </div>
@@ -1363,25 +1469,34 @@ confidence = proba.max()
       <div class="section-num" data-i18n="decisionsNum">05 · Production-Grade Decisions</div>
       <h2 data-i18n="decisionsTitle">The small choices <em>that matter.</em></h2>
 
-      <p class="lede" data-i18n="decisionsLede">A notebook lives for 30 minutes. A service lives in production. These are the trade-offs that
+      <p class="lede" data-i18n="decisionsLede">A notebook lives for 30 minutes. A service lives in production. These
+        are the trade-offs that
         show up only when you actually ship something.</p>
 
       <ul class="checklist">
-        <li data-i18n="decision1"><strong>CPU-only PyTorch in the Dockerfile.</strong> ~200 MB instead of ~2 GB CUDA wheels. HF Spaces free
+        <li data-i18n="decision1"><strong>CPU-only PyTorch in the Dockerfile.</strong> ~200 MB instead of ~2 GB CUDA
+          wheels. HF Spaces free
           tier has no GPU — bundling CUDA just bloats the image and slows cold starts.</li>
-        <li data-i18n="decision2"><strong>Model artifacts in a separate repo.</strong> The Docker image pulls <code>model.pkl</code> +
+        <li data-i18n="decision2"><strong>Model artifacts in a separate repo.</strong> The Docker image pulls
+          <code>model.pkl</code> +
           <code>encoder_name.txt</code> from a dedicated HF Hub model repo at build time. Image stays small. Model is
-          versioned independently from serving code.</li>
-        <li data-i18n="decision3"><strong>Multi-provider LLM with auto-fallback.</strong> OpenAI, Groq, Ollama, or Mock — switchable via
+          versioned independently from serving code.
+        </li>
+        <li data-i18n="decision3"><strong>Multi-provider LLM with auto-fallback.</strong> OpenAI, Groq, Ollama, or Mock
+          — switchable via
           <code>LLM_PROVIDER</code> env var. Missing API keys don't crash the service; they log a warning and fall back
-          to Mock. Service availability over feature completeness.</li>
-        <li data-i18n="decision4"><strong>Confidence-aware LLM prompting.</strong> The classifier's predicted intent is passed to the LLM as a
+          to Mock. Service availability over feature completeness.
+        </li>
+        <li data-i18n="decision4"><strong>Confidence-aware LLM prompting.</strong> The classifier's predicted intent is
+          passed to the LLM as a
           soft hint — but only if <code>confidence ≥ 0.25</code>. Below that, the prediction is too noisy and gets
           dropped to avoid misleading the LLM.</li>
-        <li data-i18n="decision5"><strong>Bilingual conversational pre-filter.</strong> The keyword set includes Indonesian
+        <li data-i18n="decision5"><strong>Bilingual conversational pre-filter.</strong> The keyword set includes
+          Indonesian
           greetings/farewells (<code>halo</code>, <code>selamat pagi</code>, <code>terima kasih</code>) — built for
           actual Indonesian users, not an English-only demo.</li>
-        <li data-i18n="decision6"><strong>Pinned exact dependency versions.</strong> All 16 serving deps pinned to specific versions. No
+        <li data-i18n="decision6"><strong>Pinned exact dependency versions.</strong> All 16 serving deps pinned to
+          specific versions. No
           "works on my machine" surprises three months later.</li>
       </ul>
     </div>
@@ -1393,15 +1508,18 @@ confidence = proba.max()
       <h2 data-i18n="lessonsTitle">Three lessons <em>I'll carry forward.</em></h2>
 
       <h3 data-i18n="lesson1Title">1. Real ML engineering = knowing when NOT to use the big model.</h3>
-      <p data-i18n="lesson1Text">The instinct to throw GPT-4 at every problem is the most expensive habit in modern ML. The router proves a
+      <p data-i18n="lesson1Text">The instinct to throw GPT-4 at every problem is the most expensive habit in modern ML.
+        The router proves a
         small model + good architecture can beat a big model on cost-per-correct-answer.</p>
 
       <h3 data-i18n="lesson2Title">2. Confidence is a first-class signal — use it.</h3>
-      <p data-i18n="lesson2Text">Most classifiers throw away the confidence score. It's the most useful signal in production: it tells you when
+      <p data-i18n="lesson2Text">Most classifiers throw away the confidence score. It's the most useful signal in
+        production: it tells you when
         to escalate, when to ask for clarification, when to log for review.</p>
 
       <h3 data-i18n="lesson3Title">3. Observability is not optional for ML services.</h3>
-      <p data-i18n="lesson3Text">The Prometheus metrics aren't decoration. <code>router_low_confidence_rate</code> trending up = your
+      <p data-i18n="lesson3Text">The Prometheus metrics aren't decoration. <code>router_low_confidence_rate</code>
+        trending up = your
         distribution is drifting. <code>router_estimated_cost_usd_total</code> tells finance exactly what the chatbot
         costs them per day. Without these, you're blind.</p>
 
@@ -1417,23 +1535,28 @@ confidence = proba.max()
       <div class="section-num">07 · References</div>
       <h2>Sources I used to ground the <em>technical choices.</em></h2>
 
-      <p class="lede">The project decisions are tied to public datasets, papers, model cards, and official documentation rather than generic AI claims.</p>
+      <p class="lede">The project decisions are tied to public datasets, papers, model cards, and official documentation
+        rather than generic AI claims.</p>
 
       <div class="refs">
         <div class="ref">
           <a href="https://arxiv.org/abs/2003.04807" target="_blank" rel="noopener">BANKING77 paper</a>
-          <p>Original paper behind the banking intent dataset: customer-service examples across fine-grained banking intents.</p>
+          <p>Original paper behind the banking intent dataset: customer-service examples across fine-grained banking
+            intents.</p>
         </div>
         <div class="ref">
-          <a href="https://huggingface.co/datasets/PolyAI/banking77" target="_blank" rel="noopener">PolyAI/banking77 dataset card</a>
+          <a href="https://huggingface.co/datasets/PolyAI/banking77" target="_blank" rel="noopener">PolyAI/banking77
+            dataset card</a>
           <p>Dataset source used by the preprocessing pipeline and train/test artifacts.</p>
         </div>
         <div class="ref">
-          <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html" target="_blank" rel="noopener">scikit-learn TfidfVectorizer</a>
+          <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html"
+            target="_blank" rel="noopener">scikit-learn TfidfVectorizer</a>
           <p>Reference for the sparse text baseline using TF-IDF weighted n-gram features.</p>
         </div>
         <div class="ref">
-          <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html" target="_blank" rel="noopener">scikit-learn LinearSVC</a>
+          <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html" target="_blank"
+            rel="noopener">scikit-learn LinearSVC</a>
           <p>Reference for the SVM classifier chosen after tuning TF-IDF and SBERT feature representations.</p>
         </div>
         <div class="ref">
@@ -1441,11 +1564,13 @@ confidence = proba.max()
           <p>Foundation for using sentence embeddings as compact semantic features before a classifier.</p>
         </div>
         <div class="ref">
-          <a href="https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2" target="_blank" rel="noopener">all-MiniLM-L6-v2 model card</a>
+          <a href="https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2" target="_blank"
+            rel="noopener">all-MiniLM-L6-v2 model card</a>
           <p>Model card for the SBERT encoder used in training, RAG indexing, and serving.</p>
         </div>
         <div class="ref">
-          <a href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener">Retrieval-Augmented Generation paper</a>
+          <a href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener">Retrieval-Augmented Generation
+            paper</a>
           <p>Reference for combining retrieval with answer generation or answer selection.</p>
         </div>
         <div class="ref">
@@ -1453,11 +1578,13 @@ confidence = proba.max()
           <p>Serving framework used for prediction, health, metrics, and Pydantic response schemas.</p>
         </div>
         <div class="ref">
-          <a href="https://prometheus.io/docs/concepts/metric_types/" target="_blank" rel="noopener">Prometheus metric types</a>
+          <a href="https://prometheus.io/docs/concepts/metric_types/" target="_blank" rel="noopener">Prometheus metric
+            types</a>
           <p>Reference for Counter, Gauge, Histogram, and Summary metrics used in monitoring.</p>
         </div>
         <div class="ref">
-          <a href="https://grafana.com/docs/grafana-cloud/send-data/alloy/reference/components/prometheus/prometheus.remote_write/" target="_blank" rel="noopener">Grafana Cloud remote_write docs</a>
+          <a href="https://grafana.com/docs/grafana-cloud/send-data/alloy/reference/components/prometheus/prometheus.remote_write/"
+            target="_blank" rel="noopener">Grafana Cloud remote_write docs</a>
           <p>Reference for pushing Prometheus-compatible metrics to Grafana Cloud.</p>
         </div>
       </div>
@@ -1475,7 +1602,7 @@ confidence = proba.max()
       <div class="cta-buttons">
         <a class="btn" href="https://huggingface.co/spaces/ninditya/banking-intent-router" target="_blank"
           rel="noopener" data-i18n="ctaDemo">Live demo →</a>
-        <a class="btn ghost" href="https://huggingface.co/spaces/ninditya/banking-intent-router/tree/main"
+        <a class="btn ghost" href="https://github.com/ninditya/mlops-banking-rag-query-router-intent-classifier"
           target="_blank" rel="noopener" data-i18n="ctaSource">View source →</a>
         <a class="btn ghost" href="index.html#projects" data-i18n="ctaBack">← Back to all projects</a>
       </div>
@@ -1495,7 +1622,7 @@ confidence = proba.max()
         navAbout: 'About',
         navContact: 'Contact',
         heroKicker: 'Production AI · Banking Domain',
-        heroTitle: 'Cut banking LLM costs <em>96%.</em>',
+        heroTitle: 'Cut banking LLM costs <em>88%.</em>',
         heroLede: 'A 4-tier routing system that decides when a customer query needs <strong>a regex pre-filter</strong>, <strong>a template</strong>, <strong>RAG</strong>, or <strong>an actual LLM call</strong> — based on a confidence threshold from SBERT + LinearSVC. Because 80% of banking questions never needed GPT-4 in the first place.',
         heroMetaModel: '<strong>Model</strong> SBERT + LinearSVC',
         heroMetaDataset: '<strong>Dataset</strong> Banking77 (13,083 samples)',
@@ -1618,7 +1745,7 @@ confidence = proba.max()
         navAbout: 'Tentang',
         navContact: 'Kontak',
         heroKicker: 'Production AI · Domain Perbankan',
-        heroTitle: 'Saya tekan biaya LLM banking <em>96%.</em>',
+        heroTitle: 'Saya tekan biaya LLM banking <em>88%.</em>',
         heroLede: 'Sistem routing 4-tier ini memutuskan kapan pertanyaan nasabah cukup lewat <strong>regex pre-filter</strong>, <strong>template</strong>, <strong>RAG</strong>, atau benar-benar perlu <strong>panggilan ke LLM</strong> — berdasarkan confidence threshold dari SBERT + LinearSVC. Karena 80% pertanyaan perbankan sebenarnya tidak perlu GPT-4.',
         heroMetaModel: '<strong>Model</strong> SBERT + LinearSVC',
         heroMetaDataset: '<strong>Dataset</strong> Banking77 (13.083 sampel)',
