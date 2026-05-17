@@ -80,27 +80,90 @@
 
   <!-- PROJECTS -->
   <div class="section" id="projects">
-    <p class="section-eyebrow" data-i18n="projectsEyebrow">23-day portfolio plan</p>
-    <h2 class="section-title" data-i18n="projectsTitle">AI first. Data second. QA as the edge.</h2>
-    <p class="section-subtitle" data-i18n="projectsSubtitle">Urutan project disusun untuk menunjukkan production AI stack lebih dulu, lalu kedalaman
-      ML/data science, lalu QA mindset yang menguatkan semuanya. Saat ini hanya <strong>Day 01</strong> yang sudah live.</p>
+    <p class="section-eyebrow" data-i18n="projectsEyebrow">selected work</p>
+    <h2 class="section-title" data-i18n="projectsTitle">Featured case studies for AI Engineer roles.</h2>
+    <p class="section-subtitle" data-i18n="projectsSubtitle">Mulai dari empat project yang paling cepat menjelaskan cara saya membangun, deploy, dan mengevaluasi AI systems di production. Roadmap lengkap 23 project tetap tersedia di bawah.</p>
 
-    <div class="project-summary" data-i18n="projectSummary">
-      <div class="summary-card info-card">
-        <strong>Babak I: Power Opening</strong>
-        <span>Hari 1-6 fokus ke build, deploy, evaluate, dan fintech use case yang paling cepat menarik recruiter.</span>
-      </div>
-      <div class="summary-card info-card">
-        <strong>Babak II-III: Technical Depth</strong>
-        <span>Hari 7-20 memperluas narasi ke NLP Indonesia, AI product, data engineering, dan fondasi data science.</span>
-      </div>
-      <div class="summary-card info-card">
-        <strong>Babak IV: Origin &amp; Closing</strong>
-        <span>Hari 21-23 menutup cerita dengan QA origin, product exposure, dan recap 23 project secara utuh.</span>
-      </div>
+    <div class="featured-grid" data-i18n="featuredGrid">
+      <article class="featured-card is-live">
+        <div class="featured-top">
+          <span class="featured-day">Day 01 / 23</span>
+          <span class="featured-status is-live">Live case study</span>
+        </div>
+        <div class="featured-name">Banking Intent Router</div>
+        <p class="featured-copy"><strong>"Saya kurangi biaya LLM chatbot banking 96%."</strong> Router 4-tier yang memutuskan kapan query cukup dijawab template, kapan perlu RAG, dan kapan benar-benar butuh LLM.</p>
+        <div class="roadmap-tags">
+          <span class="proj-tag">LLM routing</span>
+          <span class="proj-tag">Banking</span>
+          <span class="proj-tag">FastAPI</span>
+        </div>
+        <a class="roadmap-link" href="day1-banking-intent-router.html">Open Day 01 →</a>
+      </article>
+      <article class="featured-card">
+        <div class="featured-top">
+          <span class="featured-day">Day 02 / 23</span>
+          <span class="featured-status">Coming soon</span>
+        </div>
+        <div class="featured-name">MLOps Earthquake Pipeline</div>
+        <p class="featured-copy"><strong>"Cara saya pastikan model ML tidak gagal diam-diam di production."</strong> Monitoring, experiment tracking, dan deployment discipline untuk model yang hidup setelah dirilis.</p>
+        <div class="roadmap-tags">
+          <span class="proj-tag">MLOps</span>
+          <span class="proj-tag">Monitoring</span>
+          <span class="proj-tag">MLflow</span>
+        </div>
+        <span class="roadmap-link is-disabled">Coming soon</span>
+      </article>
+      <article class="featured-card">
+        <div class="featured-top">
+          <span class="featured-day">Day 03 / 23</span>
+          <span class="featured-status">Coming soon</span>
+        </div>
+        <div class="featured-name">RAG Chatbot Service</div>
+        <p class="featured-copy"><strong>"3 design decision yang saya pertahankan saat membangun RAG production."</strong> FastAPI, LangGraph, dan vector search untuk jawaban yang tetap grounded ke knowledge base.</p>
+        <div class="roadmap-tags">
+          <span class="proj-tag">RAG</span>
+          <span class="proj-tag">LangGraph</span>
+          <span class="proj-tag">Qdrant</span>
+        </div>
+        <span class="roadmap-link is-disabled">Coming soon</span>
+      </article>
+      <article class="featured-card">
+        <div class="featured-top">
+          <span class="featured-day">Day 04 / 23</span>
+          <span class="featured-status">Coming soon</span>
+        </div>
+        <div class="featured-name">Enterprise LLM Evaluation Platform</div>
+        <p class="featured-copy"><strong>"Bagaimana saya tahu LLM saya benar-benar bagus?"</strong> Platform evaluasi untuk mengukur kualitas jawaban, failure mode, dan readiness sebelum release.</p>
+        <div class="roadmap-tags">
+          <span class="proj-tag">LLM eval</span>
+          <span class="proj-tag">QA mindset</span>
+          <span class="proj-tag">Observability</span>
+        </div>
+        <span class="roadmap-link is-disabled">Coming soon</span>
+      </article>
     </div>
 
-    <div class="proj-card-group">
+    <details class="roadmap-panel">
+      <summary class="roadmap-toggle" data-i18n="roadmapToggle">View full 23-project roadmap</summary>
+      <div class="roadmap-panel-body">
+        <p class="roadmap-panel-copy" data-i18n="roadmapIntro">Roadmap lengkap ini disusun untuk membangun cerita yang konsisten: production AI stack dulu, lalu technical depth, lalu QA origin yang mengikat semuanya.</p>
+
+        <div class="project-summary" data-i18n="projectSummary">
+          <div class="summary-card info-card">
+            <strong>Babak I: Power Opening</strong>
+            <span>Hari 1-6 fokus ke build, deploy, evaluate, dan fintech use case yang paling cepat menarik recruiter.</span>
+          </div>
+          <div class="summary-card info-card">
+            <strong>Babak II-III: Technical Depth</strong>
+            <span>Hari 7-20 memperluas narasi ke NLP Indonesia, AI product, data engineering, dan fondasi data science.</span>
+          </div>
+          <div class="summary-card info-card">
+            <strong>Babak IV: Origin &amp; Closing</strong>
+            <span>Hari 21-23 menutup cerita dengan QA origin, product exposure, dan recap 23 project secara utuh.</span>
+          </div>
+        </div>
+
+        <div class="proj-card-group">
       <div class="project-stage">
         <div class="stage-head">
           <div>
@@ -487,7 +550,9 @@
           </article>
         </div>
       </div>
-    </div>
+        </div>
+      </div>
+    </details>
   </div>
 
   <!-- EXPERIENCE -->
@@ -736,9 +801,12 @@
         strength3Desc: 'Intent systems, sentiment, entity extraction, and modern NLP stacks from LSA to BERT.',
         strength4Label: 'QA &amp; AI Evaluation',
         strength4Desc: 'SIT/UAT, Playwright, Selenium, Postman, hallucination checks, and QA-minded model evaluation.',
-        projectsEyebrow: '23-day portfolio plan',
-        projectsTitle: 'AI first. Data second. QA as the edge.',
-        projectsSubtitle: 'This project sequence is designed to show production AI stack capability first, then ML/data science depth, then QA mindset as the differentiator. Right now, only <strong>Day 01</strong> is live.',
+        projectsEyebrow: 'selected work',
+        projectsTitle: 'Featured case studies for AI Engineer roles.',
+        projectsSubtitle: 'Start with the four projects that best explain how I build, deploy, and evaluate production AI systems. The full 23-project roadmap is still available below.',
+        featuredGrid: `<article class="featured-card is-live"><div class="featured-top"><span class="featured-day">Day 01 / 23</span><span class="featured-status is-live">Live case study</span></div><div class="featured-name">Banking Intent Router</div><p class="featured-copy"><strong>"I reduced banking chatbot LLM cost by 96%."</strong> A 4-tier router that decides when a query is cheap enough for templates, when it needs RAG, and when it truly needs an LLM.</p><div class="roadmap-tags"><span class="proj-tag">LLM routing</span><span class="proj-tag">Banking</span><span class="proj-tag">FastAPI</span></div><a class="roadmap-link" href="day1-banking-intent-router.html">Open Day 01 →</a></article><article class="featured-card"><div class="featured-top"><span class="featured-day">Day 02 / 23</span><span class="featured-status">Coming soon</span></div><div class="featured-name">MLOps Earthquake Pipeline</div><p class="featured-copy"><strong>"How I make sure an ML model does not fail silently in production."</strong> Monitoring, experiment tracking, and deployment discipline for models that need to survive after release.</p><div class="roadmap-tags"><span class="proj-tag">MLOps</span><span class="proj-tag">Monitoring</span><span class="proj-tag">MLflow</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="featured-card"><div class="featured-top"><span class="featured-day">Day 03 / 23</span><span class="featured-status">Coming soon</span></div><div class="featured-name">RAG Chatbot Service</div><p class="featured-copy"><strong>"3 design decisions I kept while building production RAG."</strong> FastAPI, LangGraph, and vector search for answers that stay grounded in the knowledge base.</p><div class="roadmap-tags"><span class="proj-tag">RAG</span><span class="proj-tag">LangGraph</span><span class="proj-tag">Qdrant</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="featured-card"><div class="featured-top"><span class="featured-day">Day 04 / 23</span><span class="featured-status">Coming soon</span></div><div class="featured-name">Enterprise LLM Evaluation Platform</div><p class="featured-copy"><strong>"How do I know my LLM is actually good?"</strong> An evaluation platform for answer quality, failure modes, and release readiness.</p><div class="roadmap-tags"><span class="proj-tag">LLM eval</span><span class="proj-tag">QA mindset</span><span class="proj-tag">Observability</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        roadmapToggle: 'View full 23-project roadmap',
+        roadmapIntro: 'The full roadmap is designed as one narrative arc: production AI stack first, technical depth next, then QA origin as the thread tying it all together.',
         projectSummary: `<div class="summary-card info-card"><strong>Act I: Power Opening</strong><span>Days 1-6 focus on build, deploy, evaluate, and fintech use cases that stop recruiters mid-scroll.</span></div><div class="summary-card info-card"><strong>Act II-III: Technical Depth</strong><span>Days 7-20 expand the story into Indonesian NLP, AI product work, data engineering, and core data science foundations.</span></div><div class="summary-card info-card"><strong>Act IV: Origin &amp; Closing</strong><span>Days 21-23 close the arc with QA origin, product exposure, and a full 23-project recap.</span></div>`,
         stage1Kicker: 'Section 01',
         stage1Title: 'AI / LLM Engineering',
@@ -798,9 +866,12 @@
         strength3Desc: 'Intent system, sentiment, entity extraction, dan NLP modern dari LSA sampai BERT.',
         strength4Label: 'QA &amp; AI Evaluation',
         strength4Desc: 'SIT/UAT, Playwright, Selenium, Postman, cek halusinasi, dan evaluasi model dengan mindset QA.',
-        projectsEyebrow: 'rencana portfolio 23 hari',
-        projectsTitle: 'AI dulu. Data kedua. QA sebagai pembeda.',
-        projectsSubtitle: 'Urutan project disusun untuk menunjukkan production AI stack lebih dulu, lalu kedalaman ML/data science, lalu QA mindset yang menguatkan semuanya. Saat ini hanya <strong>Day 01</strong> yang sudah live.',
+        projectsEyebrow: 'pilihan utama',
+        projectsTitle: 'Studi kasus unggulan untuk role AI Engineer.',
+        projectsSubtitle: 'Mulai dari empat project yang paling cepat menjelaskan cara saya membangun, deploy, dan mengevaluasi AI systems di production. Roadmap lengkap 23 project tetap tersedia di bawah.',
+        featuredGrid: `<article class="featured-card is-live"><div class="featured-top"><span class="featured-day">Day 01 / 23</span><span class="featured-status is-live">Live case study</span></div><div class="featured-name">Banking Intent Router</div><p class="featured-copy"><strong>"Saya kurangi biaya LLM chatbot banking 96%."</strong> Router 4-tier yang memutuskan kapan query cukup dijawab template, kapan perlu RAG, dan kapan benar-benar butuh LLM.</p><div class="roadmap-tags"><span class="proj-tag">LLM routing</span><span class="proj-tag">Banking</span><span class="proj-tag">FastAPI</span></div><a class="roadmap-link" href="day1-banking-intent-router.html">Open Day 01 →</a></article><article class="featured-card"><div class="featured-top"><span class="featured-day">Day 02 / 23</span><span class="featured-status">Coming soon</span></div><div class="featured-name">MLOps Earthquake Pipeline</div><p class="featured-copy"><strong>"Cara saya pastikan model ML tidak gagal diam-diam di production."</strong> Monitoring, experiment tracking, dan deployment discipline untuk model yang tetap hidup setelah release.</p><div class="roadmap-tags"><span class="proj-tag">MLOps</span><span class="proj-tag">Monitoring</span><span class="proj-tag">MLflow</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="featured-card"><div class="featured-top"><span class="featured-day">Day 03 / 23</span><span class="featured-status">Coming soon</span></div><div class="featured-name">RAG Chatbot Service</div><p class="featured-copy"><strong>"3 design decision yang saya pertahankan saat membangun RAG production."</strong> FastAPI, LangGraph, dan vector search untuk jawaban yang tetap grounded ke knowledge base.</p><div class="roadmap-tags"><span class="proj-tag">RAG</span><span class="proj-tag">LangGraph</span><span class="proj-tag">Qdrant</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="featured-card"><div class="featured-top"><span class="featured-day">Day 04 / 23</span><span class="featured-status">Coming soon</span></div><div class="featured-name">Enterprise LLM Evaluation Platform</div><p class="featured-copy"><strong>"Bagaimana saya tahu LLM saya benar-benar bagus?"</strong> Platform evaluasi untuk mengukur kualitas jawaban, failure mode, dan readiness sebelum release.</p><div class="roadmap-tags"><span class="proj-tag">LLM eval</span><span class="proj-tag">QA mindset</span><span class="proj-tag">Observability</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        roadmapToggle: 'Lihat roadmap lengkap 23 project',
+        roadmapIntro: 'Roadmap lengkap ini disusun untuk membangun cerita yang konsisten: production AI stack dulu, lalu technical depth, lalu QA origin yang mengikat semuanya.',
         projectSummary: `<div class="summary-card info-card"><strong>Babak I: Power Opening</strong><span>Hari 1-6 fokus ke build, deploy, evaluate, dan fintech use case yang paling cepat menarik recruiter.</span></div><div class="summary-card info-card"><strong>Babak II-III: Technical Depth</strong><span>Hari 7-20 memperluas narasi ke NLP Indonesia, AI product, data engineering, dan fondasi data science.</span></div><div class="summary-card info-card"><strong>Babak IV: Origin &amp; Closing</strong><span>Hari 21-23 menutup cerita dengan QA origin, product exposure, dan recap 23 project secara utuh.</span></div>`,
         stage1Kicker: 'Section 01',
         stage1Title: 'AI / LLM Engineering',
