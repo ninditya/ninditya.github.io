@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ninditya Salma Nur Aini · Data Scientist & QA Engineer</title>
+  <title>Ninditya Salma Nur Aini · AI Engineer · Data Scientist · QA Engineer</title>
   <meta name="description"
-    content="Portfolio of Ninditya Salma Nur Aini — Data Scientist, ML Engineer & QA Engineer with 3.5+ years of production AI experience in conversational systems, RAG evaluation, AI quality auditing, and end-to-end ML pipelines.">
+    content="Portfolio of Ninditya Salma Nur Aini — AI Engineer, Data Scientist, and QA Engineer with 3.5+ years of production AI experience across LLM systems, MLOps, NLP, and AI quality evaluation.">
   <link
-    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Mono:wght@400;500&amp;family=DM+Sans:wght@400;500;600&amp;display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ctext%20y='.9em'%20font-size='90'%3E%F0%9F%92%BB%3C/text%3E%3C/svg%3E">
 </head>
 
@@ -19,12 +19,18 @@
   <nav>
     <div class="nav-inner">
       <a href="#top" class="logo">Ninditya Salma Nur Aini</a>
-      <div class="nav-pills">
-        <a class="nav-pill" href="#experience">Experience</a>
-        <a class="nav-pill" href="#projects">Projects</a>
-        <a class="nav-pill" href="#education">Education</a>
-        <a class="nav-pill" href="#about">About</a>
-        <a class="nav-pill" href="#contact">Contact</a>
+      <div class="nav-tools">
+        <div class="nav-pills">
+          <a class="nav-pill" href="#projects" data-i18n="navProjects">Projects</a>
+          <a class="nav-pill" href="#experience" data-i18n="navExperience">Experience</a>
+          <a class="nav-pill" href="#education" data-i18n="navEducation">Education</a>
+          <a class="nav-pill" href="#about" data-i18n="navAbout">About</a>
+          <a class="nav-pill" href="#contact" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -33,64 +39,472 @@
   <div class="hero" id="top">
     <div class="hero-kicker">
       <span class="kicker-dot" aria-hidden="true"></span>
-      <span class="kicker-status">Open to opportunities</span>
+      <span class="kicker-status" data-i18n="heroStatus">Open to opportunities</span>
       <span class="kicker-divider">·</span>
-      <span class="kicker-tag">Remote / Yogyakarta / Jakarta</span>
+      <span class="kicker-tag" data-i18n="heroTag">Remote / Yogyakarta / Jakarta</span>
     </div>
     <h1 class="hero-name">Ninditya<br><em>Salma</em> Nur Aini</h1>
-    <p class="hero-role">Data Scientist · ML Engineer · QA Engineer · Conversational AI Specialist</p>
-    <p class="hero-desc">
-      <strong>3.5+ years</strong> building, evaluating, and tuning production AI systems — from rule-based chatbots
-      serving ~1,000 daily users to LLM-based RAG pipelines with structured quality auditing. I combine <strong>applied
-        ML</strong>, <strong>AI quality assurance</strong>, <strong>NLP for Bahasa Indonesia</strong>, and <strong>MLOps
-        discipline</strong> to ship models that actually work in production — and stay reliable after they ship.
+    <p class="hero-role" data-i18n="heroRole">AI Engineer · Data Scientist · QA Engineer</p>
+    <p class="hero-desc" data-i18n="heroDesc">
+      <strong>3.5+ years</strong> building, evaluating, and hardening production AI systems — from banking chatbots and
+      RAG pipelines to monitored ML services and AI quality workflows. I combine <strong>LLM engineering</strong>,
+      <strong>applied data science</strong>, <strong>NLP for Bahasa Indonesia</strong>, and <strong>QA discipline</strong>
+      to ship systems that work in production and stay reliable after release.
     </p>
     <div class="hero-ctas">
-      <a href="mailto:ninditya.sna025@gmail.com" class="cta cta-primary">✉ Email</a>
+      <a href="mailto:ninditya.sna025@gmail.com" class="cta cta-primary" data-i18n="ctaEmail">✉ Email</a>
       <a href="https://linkedin.com/in/ninditya-salma-nur-aini" class="cta cta-secondary" target="_blank"
-        rel="noopener">in LinkedIn</a>
-      <a href="https://github.com/ninditya" class="cta cta-secondary" target="_blank" rel="noopener">↗ GitHub</a>
-      <a href="https://wa.me/6289537129049" class="cta cta-secondary" target="_blank" rel="noopener">☎ WhatsApp</a>
+        rel="noopener" data-i18n="ctaLinkedin">in LinkedIn</a>
+      <a href="https://github.com/ninditya" class="cta cta-secondary" target="_blank" rel="noopener" data-i18n="ctaGithub">↗ GitHub</a>
+      <a href="https://wa.me/62895371290495" class="cta cta-secondary" target="_blank" rel="noopener" data-i18n="ctaWhatsapp">☎ WhatsApp</a>
     </div>
     <div class="hero-strengths">
       <div class="strength">
-        <div class="strength-label">Applied ML &amp; MLOps</div>
-        <div class="strength-desc">End-to-end pipelines with MLflow, Docker, Prometheus + Grafana monitoring, and data
-          drift detection.</div>
+        <div class="strength-label" data-i18n="strength1Label">AI Systems Engineering</div>
+        <div class="strength-desc" data-i18n="strength1Desc">LLM routing, RAG services, evaluation workflows, and production-minded architecture decisions.</div>
       </div>
       <div class="strength">
-        <div class="strength-label">AI Quality Assurance</div>
-        <div class="strength-desc">SIT/UAT, test automation (Playwright, Selenium, Postman), AI stability testing,
-          hallucination detection, and CSAT-driven auditing.</div>
+        <div class="strength-label" data-i18n="strength2Label">ML &amp; Data Science</div>
+        <div class="strength-desc" data-i18n="strength2Desc">End-to-end pipelines with MLflow, Docker, Prometheus, Grafana, and business-driven modeling.</div>
       </div>
       <div class="strength">
-        <div class="strength-label">Conversational AI &amp; NLP</div>
-        <div class="strength-desc">RAG evaluation, prompt optimization, hallucination detection, and intent design for
-          production chatbots.</div>
+        <div class="strength-label" data-i18n="strength3Label">NLP &amp; Bahasa Indonesia</div>
+        <div class="strength-desc" data-i18n="strength3Desc">Intent systems, sentiment, entity extraction, and modern NLP stacks from LSA to BERT.</div>
       </div>
       <div class="strength">
-        <div class="strength-label">Production AI Quality</div>
-        <div class="strength-desc">KPI dashboards (CSAT, fallback, hallucination rate), root-cause analysis, and AI
-          model auditing.</div>
+        <div class="strength-label" data-i18n="strength4Label">QA &amp; AI Evaluation</div>
+        <div class="strength-desc" data-i18n="strength4Desc">SIT/UAT, Playwright, Selenium, Postman, hallucination checks, and QA-minded model evaluation.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section" id="projects">
+    <p class="section-eyebrow" data-i18n="projectsEyebrow">23-day portfolio plan</p>
+    <h2 class="section-title" data-i18n="projectsTitle">AI first. Data second. QA as the edge.</h2>
+    <p class="section-subtitle" data-i18n="projectsSubtitle">Urutan project disusun untuk menunjukkan production AI stack lebih dulu, lalu kedalaman
+      ML/data science, lalu QA mindset yang menguatkan semuanya. Saat ini hanya <strong>Day 01</strong> yang sudah live.</p>
+
+    <div class="project-summary" data-i18n="projectSummary">
+      <div class="summary-card info-card">
+        <strong>Babak I: Power Opening</strong>
+        <span>Hari 1-6 fokus ke build, deploy, evaluate, dan fintech use case yang paling cepat menarik recruiter.</span>
+      </div>
+      <div class="summary-card info-card">
+        <strong>Babak II-III: Technical Depth</strong>
+        <span>Hari 7-20 memperluas narasi ke NLP Indonesia, AI product, data engineering, dan fondasi data science.</span>
+      </div>
+      <div class="summary-card info-card">
+        <strong>Babak IV: Origin &amp; Closing</strong>
+        <span>Hari 21-23 menutup cerita dengan QA origin, product exposure, dan recap 23 project secara utuh.</span>
+      </div>
+    </div>
+
+    <div class="proj-card-group">
+      <div class="project-stage">
+        <div class="stage-head">
+          <div>
+            <div class="stage-kicker" data-i18n="stage1Kicker">Section 01</div>
+            <div class="stage-title" data-i18n="stage1Title">AI / LLM Engineering</div>
+            <div class="stage-desc" data-i18n="stage1Desc">Bagian ini membuka portfolio dengan proyek yang langsung memetakan kemampuan AI
+              engineer end-to-end: cost control, MLOps, RAG, evaluation, dan NLP production.</div>
+          </div>
+          <div class="stage-note" data-i18n="stage1Note">Days 01-12</div>
+        </div>
+        <div class="roadmap-grid" data-i18n="stage1Grid">
+          <article class="roadmap-card is-live">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 01 / 23</span>
+              <span class="roadmap-status is-live">Live case study</span>
+            </div>
+            <div class="roadmap-name">Banking Intent Router</div>
+            <div class="roadmap-hook"><strong>"Saya kurangi biaya LLM chatbot banking 96%."</strong> Router 4-tier untuk
+              memutuskan kapan query cukup dijawab template, RAG, atau perlu eskalasi ke LLM.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">LLM routing</span>
+              <span class="proj-tag">Banking</span>
+              <span class="proj-tag">FastAPI</span>
+            </div>
+            <a class="roadmap-link" href="day1-banking-intent-router.html">Open Day 01 →</a>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 02 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">MLOps Earthquake Pipeline</div>
+            <div class="roadmap-hook"><strong>"Cara saya pastikan model ML tidak gagal diam-diam di production."</strong>
+              End-to-end pipeline dengan monitoring, experiment tracking, dan deployment discipline.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">MLOps</span>
+              <span class="proj-tag">Monitoring</span>
+              <span class="proj-tag">MLflow</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 03 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">RAG Chatbot Service</div>
+            <div class="roadmap-hook"><strong>"3 design decision yang saya pertahankan saat membangun RAG production."</strong>
+              LLM app dengan FastAPI, LangGraph, dan vector search untuk knowledge-grounded answers.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">RAG</span>
+              <span class="proj-tag">LangGraph</span>
+              <span class="proj-tag">Qdrant</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 04 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">Enterprise LLM Evaluation Platform</div>
+            <div class="roadmap-hook"><strong>"Bagaimana saya tahu LLM saya benar-benar bagus?"</strong> Framework untuk
+              mengukur kualitas jawaban, failure mode, dan readiness sebelum sistem dirilis.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">LLM eval</span>
+              <span class="proj-tag">QA mindset</span>
+              <span class="proj-tag">Observability</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 05 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">Transaction Fraud Pipeline</div>
+            <div class="roadmap-hook"><strong>"Mendeteksi fraud tanpa label — mindset QA yang terbukti relevan."</strong>
+              Fraud pipeline berbasis imbalanced learning dan feature engineering untuk skenario fintech.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Fintech</span>
+              <span class="proj-tag">Fraud</span>
+              <span class="proj-tag">ML pipeline</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 06 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">NLP Hate Speech Indonesia</div>
+            <div class="roadmap-hook"><strong>"Skripsi saya 2021 pakai LSA. Project ini mengajarkan kenapa itu tidak cukup."</strong>
+              Multi-label NLP untuk bahasa Indonesia dengan fokus moderasi konten dan klasifikasi konteks.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">NLP</span>
+              <span class="proj-tag">Bahasa Indonesia</span>
+              <span class="proj-tag">Multi-label</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 07 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div>
+            <div class="roadmap-hook"><strong>"Dari LSA ke BERT: yang berubah dan yang tidak."</strong> Modernisasi NLP
+              finansial dengan fine-tuning model transformer untuk sentimen domain-specific.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">IndoBERT</span>
+              <span class="proj-tag">Fintech</span>
+              <span class="proj-tag">Sentiment</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 08 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">NER untuk Dokumen / KYC</div>
+            <div class="roadmap-hook"><strong>"Cara saya extract entity dari dokumen KYC dengan spaCy."</strong> Entity
+              extraction untuk use case onboarding, compliance, dan document intelligence.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">spaCy</span>
+              <span class="proj-tag">KYC</span>
+              <span class="proj-tag">NER</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 09 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">Talent Match Intelligence</div>
+            <div class="roadmap-hook"><strong>"Membangun semantic matching engine untuk talent acquisition."</strong>
+              Matching engine berbasis semantic similarity untuk role-candidate alignment.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Matching</span>
+              <span class="proj-tag">Semantic search</span>
+              <span class="proj-tag">HR tech</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 10 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">NutriPal AI</div>
+            <div class="roadmap-hook"><strong>"Dari ide ke produk AI: pelajaran membangun NutriPal."</strong> AI product
+              end-to-end untuk personal nutrition guidance dengan decision layer yang lebih terstruktur.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">AI product</span>
+              <span class="proj-tag">Health</span>
+              <span class="proj-tag">LLM app</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 11 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">HealthTruth AI</div>
+            <div class="roadmap-hook"><strong>"Membangun AI yang melawan misinformasi kesehatan."</strong> Fact-checking
+              workflow dengan retrieval grounding dan batasan etika yang eksplisit.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Fact checking</span>
+              <span class="proj-tag">RAG</span>
+              <span class="proj-tag">Ethics</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 12 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">AquaSense DS Assessment</div>
+            <div class="roadmap-hook"><strong>"Bagaimana saya pendekatan masalah DS dari nol."</strong> Technical
+              assessment yang menekankan framing masalah, eksplorasi data, modeling, dan interpretasi hasil.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Assessment</span>
+              <span class="proj-tag">Problem solving</span>
+              <span class="proj-tag">Data science</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+        </div>
+      </div>
+
+      <div class="project-stage">
+        <div class="stage-head">
+          <div>
+            <div class="stage-kicker" data-i18n="stage2Kicker">Section 02</div>
+            <div class="stage-title" data-i18n="stage2Title">ML / Data Science</div>
+            <div class="stage-desc" data-i18n="stage2Desc">Setelah AI stack terlihat jelas, bagian ini menunjukkan fondasi data science yang
+              kuat: time series, ETL, people analytics, math intuition, dan classical NLP yang tetap relevan.</div>
+          </div>
+          <div class="stage-note" data-i18n="stage2Note">Days 13-20</div>
+        </div>
+        <div class="roadmap-grid" data-i18n="stage2Grid">
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 13 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">Air Quality Beijing</div>
+            <div class="roadmap-hook"><strong>"Apa yang data 5 tahun ajarkan tentang polusi Beijing."</strong> Time
+              series EDA untuk membaca pola kualitas udara lintas lokasi dan musim.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">EDA</span>
+              <span class="proj-tag">Time series</span>
+              <span class="proj-tag">Visualization</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 14 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">ETL Fashion Pipeline</div>
+            <div class="roadmap-hook"><strong>"Kenapa AI Engineer juga harus paham data pipeline."</strong> ETL modular
+              dari scraping sampai load ke beberapa destination dengan test coverage tinggi.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">ETL</span>
+              <span class="proj-tag">PostgreSQL</span>
+              <span class="proj-tag">pytest</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 15 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">EduTech HR Problem</div>
+            <div class="roadmap-hook"><strong>"Menjawab masalah HR dengan data — pendekatan saya."</strong> Business-driven
+              data science untuk isu retensi dan keputusan yang perlu bisa dijelaskan ke stakeholder.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Business DS</span>
+              <span class="proj-tag">HR</span>
+              <span class="proj-tag">Intervention</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 16 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">HR Problem Solving</div>
+            <div class="roadmap-hook"><strong>"Dari data karyawan ke insight HR — studi kasus."</strong> People analytics
+              yang menekankan trade-off antara akurasi model dan aksi bisnis yang realistis.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">People analytics</span>
+              <span class="proj-tag">XGBoost</span>
+              <span class="proj-tag">Dashboard</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 17 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">IdCamp Math DS</div>
+            <div class="roadmap-hook"><strong>"Matematika di balik model ML yang sering dilupakan."</strong> Catatan
+              fondasi yang menjelaskan intuition, bukan hanya rumus, di balik modeling decisions.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Math</span>
+              <span class="proj-tag">ML basics</span>
+              <span class="proj-tag">Intuition</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 18 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">Generative AI Fundamentals</div>
+            <div class="roadmap-hook"><strong>"5 konsep GenAI yang wajib dipahami AI Engineer."</strong> Fondasi konsep
+              untuk menjelaskan reasoning, context, grounding, eval, dan cost trade-off secara ringkas.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">GenAI</span>
+              <span class="proj-tag">Concepts</span>
+              <span class="proj-tag">LLM basics</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 19 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">NLP KNN LSA (Modern)</div>
+            <div class="roadmap-hook"><strong>"Kapan classical NLP masih relevan di era LLM?"</strong> Reframing pendekatan
+              lama dengan sudut pandang modern: kapan model sederhana masih menang.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Classical NLP</span>
+              <span class="proj-tag">LSA</span>
+              <span class="proj-tag">KNN</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 20 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">Chatbot LSA (Skripsi 2021)</div>
+            <div class="roadmap-hook"><strong>"4 tahun lalu skripsi saya. Ini yang saya pelajari setelahnya."</strong>
+              Origin story yang menutup lingkaran dari chatbot kampus ke production AI systems.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Thesis</span>
+              <span class="proj-tag">Origin story</span>
+              <span class="proj-tag">Chatbot</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+        </div>
+      </div>
+
+      <div class="project-stage">
+        <div class="stage-head">
+          <div>
+            <div class="stage-kicker" data-i18n="stage3Kicker">Section 03</div>
+            <div class="stage-title" data-i18n="stage3Title">QA &amp; Testing</div>
+            <div class="stage-desc" data-i18n="stage3Desc">Bagian akhir menegaskan bahwa QA bukan jalur samping, tapi alasan kenapa evaluasi,
+              reliability, dan product thinking saya terasa berbeda.</div>
+          </div>
+          <div class="stage-note" data-i18n="stage3Note">Days 21-23</div>
+        </div>
+        <div class="roadmap-grid" data-i18n="stage3Grid">
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 21 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">QA Automation MovieMatch</div>
+            <div class="roadmap-hook"><strong>"Mengapa background QA membuat saya AI Engineer yang lebih baik."</strong>
+              Test strategy untuk sistem AI dengan stability testing, multilingual checks, dan bug triage.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Playwright</span>
+              <span class="proj-tag">Selenium</span>
+              <span class="proj-tag">AI QA</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 22 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">CineTrack Frontend</div>
+            <div class="roadmap-hook"><strong>"AI Engineer juga harus paham product — pengalaman saya."</strong> Exposure
+              ke frontend dan dashboard product agar sistem AI tidak lepas dari user-facing constraints.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Frontend</span>
+              <span class="proj-tag">Product</span>
+              <span class="proj-tag">KADA</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+          <article class="roadmap-card">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Day 23 / 23</span>
+              <span class="roadmap-status">Coming soon</span>
+            </div>
+            <div class="roadmap-name">Final Recap: 23 Hari, 23 Project</div>
+            <div class="roadmap-hook"><strong>"23 hari, 23 project. Apa yang saya pelajari tentang diri saya — dan apa selanjutnya."</strong>
+              Penutup yang merangkum growth arc, fokus peran, dan arah berikutnya.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Recap</span>
+              <span class="proj-tag">Reflection</span>
+              <span class="proj-tag">CTA</span>
+            </div>
+            <span class="roadmap-link is-disabled">Coming soon</span>
+          </article>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- EXPERIENCE -->
   <div class="section" id="experience">
-    <p class="section-eyebrow">work experience</p>
-    <h2 class="section-title">Where I've built &amp; shipped</h2>
-    <p class="section-subtitle">From rule-based chatbots serving thousands of daily users to LLM-based RAG systems with
-      quality auditing — real production AI work, not just notebooks.</p>
+    <p class="section-eyebrow" data-i18n="experienceEyebrow">work experience</p>
+    <h2 class="section-title" data-i18n="experienceTitle">Where I've built &amp; shipped</h2>
+    <p class="section-subtitle" data-i18n="experienceSubtitle">Pengalaman ini yang membentuk cara saya membangun AI system: paham production flow, paham
+      evaluasi, dan paham apa yang rusak setelah sistem dipakai user sungguhan.</p>
 
     <div class="exp-list">
 
       <div class="exp-item">
         <div class="exp-meta">
           <span class="exp-meta-date">Feb 2026 – Apr 2026</span>
-          <span class="exp-meta-loc">Bekasi · On-site<br>Selected from 900 applicants (60 accepted)</span>
+          <span class="exp-meta-loc" data-i18n="exp1Meta">Bekasi · On-site<br>Selected from 900 applicants (60 accepted)</span>
         </div>
-        <div class="exp-body">
+        <div class="exp-body" data-i18n="exp1Body">
           <div class="exp-role">Full-Stack Developer Trainee</div>
           <div class="exp-company">Korea-ASEAN Digital Academy (KADA) · NIPA · Komdigi · Elice</div>
           <ul class="exp-bullets">
@@ -109,7 +523,7 @@
           <span class="exp-meta-date">May 2024 – Oct 2025</span>
           <span class="exp-meta-loc">1.5 years</span>
         </div>
-        <div class="exp-body">
+        <div class="exp-body" data-i18n="exp2Body">
           <div class="exp-role">Chatbot Quality Assurance Analyst</div>
           <div class="exp-company">PT Fliptech Lentera Inspirasi Pertiwi (Flip)</div>
           <ul class="exp-bullets">
@@ -131,7 +545,7 @@
           <span class="exp-meta-date">Dec 2021 – Apr 2024</span>
           <span class="exp-meta-loc">2.4 years</span>
         </div>
-        <div class="exp-body">
+        <div class="exp-body" data-i18n="exp3Body">
           <div class="exp-role">IT Operational · Chatbot &amp; Omnichannel Development</div>
           <div class="exp-company">PT Infomedia Nusantara (Telkom Group)</div>
           <ul class="exp-bullets">
@@ -150,266 +564,13 @@
     </div>
   </div>
 
-  <!-- PROJECTS -->
-  <div class="section" id="projects">
-    <p class="section-eyebrow">selected work</p>
-    <h2 class="section-title">Featured projects</h2>
-    <p class="section-subtitle">End-to-end ML pipelines, applied data science with business outcomes, QA automation, and
-      NLP work — including academic foundations in chatbot research.</p>
-
-    <div class="proj-card-group">
-
-      <div class="proj-entry">
-        <div class="proj-head">
-          <div class="proj-title-block">
-            <div class="proj-badge-row">
-              <span class="proj-badge flagship">flagship</span>
-              <span class="proj-badge kind">MLOps</span>
-              <span class="proj-badge kind">End-to-end</span>
-            </div>
-            <div class="proj-name">MLOps Earthquake Prediction</div>
-          </div>
-          <span class="proj-impact">12 monitoring metrics</span>
-        </div>
-        <div class="proj-desc">End-to-end ML pipeline predicting earthquake significance (USGS API, ~10K records):
-          preprocessing → MLflow experiment tracking → Docker → Prometheus + Grafana monitoring with <strong>12 custom
-            metrics including data drift &amp; model confidence</strong>. DagsHub remote tracking.
-          RandomForestClassifier with hyperparameter tuning on imbalanced data (6.23% positive class).</div>
-        <div class="proj-tags">
-          <span class="proj-tag">MLflow</span>
-          <span class="proj-tag">Docker</span>
-          <span class="proj-tag">Prometheus</span>
-          <span class="proj-tag">Grafana</span>
-          <span class="proj-tag">DagsHub</span>
-          <span class="proj-tag">GitHub Actions</span>
-          <span class="proj-tag">scikit-learn</span>
-        </div>
-        <a class="proj-link" href="https://github.com/ninditya/mlops-earthquake-prediction" target="_blank"
-          rel="noopener">View on GitHub →</a>
-      </div>
-
-      <div class="proj-entry">
-        <div class="proj-head">
-          <div class="proj-title-block">
-            <div class="proj-badge-row">
-              <span class="proj-badge flagship">flagship</span>
-              <span class="proj-badge kind">Applied ML</span>
-              <span class="proj-badge kind">Business case</span>
-            </div>
-            <div class="proj-name">HR Attrition Early Warning · IDCamp Expert Capstone</div>
-          </div>
-          <span class="proj-impact">86% Recall</span>
-        </div>
-        <div class="proj-desc">XGBoost classifier identifying employees at attrition risk — <strong>prioritized recall
-            over accuracy</strong> because missing an at-risk employee costs more than a false alarm. Includes Metabase
-          dashboard and an intervention playbook for HR stakeholders.</div>
-        <div class="proj-tags">
-          <span class="proj-tag">XGBoost</span>
-          <span class="proj-tag">Metabase</span>
-          <span class="proj-tag">Python</span>
-          <span class="proj-tag">Business analysis</span>
-        </div>
-        <a class="proj-link" href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-human-resources"
-          target="_blank" rel="noopener">View on GitHub →</a>
-      </div>
-
-      <div class="proj-entry">
-        <div class="proj-head">
-          <div class="proj-title-block">
-            <div class="proj-badge-row">
-              <span class="proj-badge flagship accent">flagship</span>
-              <span class="proj-badge kind">Data Engineering</span>
-            </div>
-            <div class="proj-name">ETL Fashion Pipeline · Microsoft Elevate 2025</div>
-          </div>
-          <span class="proj-impact">92% test coverage</span>
-        </div>
-        <div class="proj-desc">Production-quality ETL: web scraping → transform → multi-destination load (CSV, Google
-          Sheets API, PostgreSQL). Modular utils/tests architecture with <strong>92% combined test coverage</strong> —
-          demonstrates ML engineering discipline applied to data pipelines.</div>
-        <div class="proj-tags">
-          <span class="proj-tag">Python</span>
-          <span class="proj-tag">pytest</span>
-          <span class="proj-tag">PostgreSQL</span>
-          <span class="proj-tag">Google Sheets API</span>
-          <span class="proj-tag">Web scraping</span>
-        </div>
-        <a class="proj-link" href="https://github.com/ninditya/microsoft-elevate-2025-etl-fashion-pipeline"
-          target="_blank" rel="noopener">View on GitHub →</a>
-      </div>
-
-      <div class="proj-entry">
-        <div class="proj-head">
-          <div class="proj-title-block">
-            <div class="proj-badge-row">
-              <span class="proj-badge flagship accent">flagship</span>
-              <span class="proj-badge kind">QA Automation</span>
-              <span class="proj-badge status">snapshot</span>
-            </div>
-            <div class="proj-name">MovieMatch · AI System Quality Assessment</div>
-          </div>
-          <span class="proj-impact">35 test cases · 8 bugs</span>
-        </div>
-        <div class="proj-desc">Comprehensive quality strategy for an AI-powered movie recommender: <strong>AI stability
-            testing</strong> (top-result overlap across repeated queries), multilingual consistency (Bahasa Indonesia),
-          API security, and performance. 35 test cases, 8 documented defects with severity ratings, and a UX
-          recommendations matrix — demonstrating the AI quality skills I apply to LLM systems.</div>
-        <div class="proj-tags">
-          <span class="proj-tag">Playwright</span>
-          <span class="proj-tag">Selenium</span>
-          <span class="proj-tag">Postman</span>
-          <span class="proj-tag">AI-quality testing</span>
-          <span class="proj-tag">Security</span>
-        </div>
-        <a class="proj-link" href="https://github.com/ninditya/qa-automation-test-moviematch" target="_blank"
-          rel="noopener">View on GitHub →</a>
-        <div class="proj-note">Note: target app changed credentials post-demo — CI currently fails at login. Evidence of
-          last successful run available in README.</div>
-      </div>
-
-      <div class="proj-entry">
-        <div class="proj-head">
-          <div class="proj-title-block">
-            <div class="proj-badge-row">
-              <span class="proj-badge flagship">LLM</span>
-              <span class="proj-badge kind">RAG</span>
-            </div>
-            <div class="proj-name">RAG Chatbot Service</div>
-          </div>
-        </div>
-        <div class="proj-desc">Retrieval-Augmented Generation API for querying a document knowledge base in natural
-          language. Stateful conversation flow built with <strong>LangGraph</strong>; embeddings stored in
-          <strong>Qdrant</strong>; served via FastAPI. Connects directly to my 1.5 years of production RAG evaluation
-          experience at Flip.</div>
-        <div class="proj-tags">
-          <span class="proj-tag">FastAPI</span>
-          <span class="proj-tag">LangGraph</span>
-          <span class="proj-tag">Qdrant</span>
-          <span class="proj-tag">RAG</span>
-        </div>
-        <a class="proj-link" href="https://github.com/ninditya/rag-chatbot-service" target="_blank" rel="noopener">View
-          on GitHub →</a>
-      </div>
-
-      <div class="proj-entry">
-        <div class="proj-head">
-          <div class="proj-title-block">
-            <div class="proj-badge-row">
-              <span class="proj-badge kind">Thesis</span>
-              <span class="proj-badge kind">NLP</span>
-            </div>
-            <div class="proj-name">Question Classification for Chatbot (LSA + KNN) · Undergraduate Thesis</div>
-          </div>
-        </div>
-        <div class="proj-desc">Bachelor's thesis — a classical NLP approach to intent classification for an
-          information-service chatbot using <strong>Latent Semantic Analysis</strong> and <strong>k-NN</strong>. This
-          project became the foundation of my 3.5+ years in chatbot development. Companion repo: <a
-            href="https://github.com/ninditya/Chatbot-LSA" target="_blank" rel="noopener"
-            style="color:var(--primary)">Chatbot-LSA</a>.</div>
-        <div class="proj-tags">
-          <span class="proj-tag">LSA</span>
-          <span class="proj-tag">KNN</span>
-          <span class="proj-tag">Intent classification</span>
-          <span class="proj-tag">Bahasa Indonesia</span>
-        </div>
-        <a class="proj-link" href="https://github.com/ninditya/NLP-KNN-LSA" target="_blank" rel="noopener">View on
-          GitHub →</a>
-      </div>
-
-    </div>
-
-    <!-- MORE PROJECTS -->
-  <div class="section" id="more">
-    <p class="section-eyebrow">more work</p>
-    <h2 class="section-title">Additional projects</h2>
-    <p class="section-subtitle">Coursework capstones, NLP experiments, and AI applications spanning the full breadth of
-      data &amp; AI work.</p>
-
-    <div class="mini-card-columns">
-
-      <div class="mini-column">
-        <div class="mini-column-title">NLP</div>
-        <div class="mini-entry">
-          <div class="mini-kind">NLP · Bahasa Indonesia</div>
-          <div class="mini-name">Indonesian Hate Speech Detection</div>
-          <div class="mini-desc">Binar Academy bootcamp project: hate speech and abusive language classification on
-            Indonesian tweets.</div>
-        </div>
-        <div class="mini-entry">
-          <div class="mini-kind">NLP · Sentiment</div>
-          <div class="mini-name">Sentiment Analysis Platinum</div>
-          <div class="mini-desc">Binar Academy Platinum Challenge — team project on sentiment classification with both
-            ML and deep learning approaches.</div>
-        </div>
-      </div>
-
-      <div class="mini-column">
-        <div class="mini-column-title">AI</div>
-        <div class="mini-entry">
-          <div class="mini-kind">AI Matching · HR</div>
-          <div class="mini-name">Talent Match Intelligence</div>
-          <div class="mini-desc">AI-powered candidate-to-role matching using semantic similarity and structured
-            features.</div>
-        </div>
-        <div class="mini-entry accent">
-          <div class="mini-kind accent">AI App · Health</div>
-          <div class="mini-name">NutriPal AI</div>
-          <div class="mini-desc">AI-assisted nutrition companion using LLM reasoning over user health profiles for
-            personalised dietary suggestions.</div>
-        </div>
-        <div class="mini-entry accent">
-          <div class="mini-kind accent">AI App · Verification</div>
-          <div class="mini-name">HealthTruth AI</div>
-          <div class="mini-desc">Retrieval-grounded health claim verification — combating misinformation with a
-            fact-checking pipeline.</div>
-        </div>
-      </div>
-
-      <div class="mini-column">
-        <div class="mini-column-title">Data</div>
-        <div class="mini-entry">
-          <div class="mini-kind">Time Series · EDA</div>
-          <div class="mini-name">Beijing Air Quality Analysis</div>
-          <div class="mini-desc">IDCamp Intermediate project: EDA and visualisation of multi-year PM2.5/PM10 data across
-            Beijing monitoring stations.</div>
-        </div>
-        <div class="mini-entry">
-          <div class="mini-kind">ML Pipeline · Fintech</div>
-          <div class="mini-name">Transaction Fraud Detection</div>
-          <div class="mini-desc">End-to-end fraud classification on imbalanced data with class-weighted models and
-            feature engineering.</div>
-        </div>
-        <div class="mini-entry">
-          <div class="mini-kind">Business Case · EdTech</div>
-          <div class="mini-name">EdTech Student Dropout</div>
-          <div class="mini-desc">IDCamp Expert capstone: predictive modelling and dashboarding for student retention
-            with intervention recommendations.</div>
-        </div>
-        <div class="mini-entry">
-          <div class="mini-kind">Take-home Assessment</div>
-          <div class="mini-name">AquaSense DS Assessment</div>
-          <div class="mini-desc">Technical data science assessment covering data wrangling, modelling, and business
-            interpretation.</div>
-        </div>
-        <div class="mini-entry bridge">
-          <div class="mini-kind bridge">Full-stack · KADA</div>
-          <div class="mini-name">CineTrack (Frontend + Backend)</div>
-          <div class="mini-desc">Cinema analytics dashboard built during the KADA program. Backend: <a class="mini-link"
-              href="https://github.com/dellips/capstone-project-api-cinetrack" target="_blank"
-              rel="noopener">capstone-project-api-cinetrack</a> (Fastify · PostgreSQL · Redis · LLM integration).</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
   <!-- EDUCATION -->
   <div class="section" id="education">
-    <p class="section-eyebrow">credentials</p>
-    <h2 class="section-title">Education &amp; certifications</h2>
+    <p class="section-eyebrow" data-i18n="educationEyebrow">credentials</p>
+    <h2 class="section-title" data-i18n="educationTitle">Education &amp; certifications</h2>
 
     <div class="edu-grid">
-      <div class="edu-block">
+      <div class="edu-block" data-i18n="educationBlock1">
         <div class="edu-block-title">Formal Education</div>
         <div class="edu-item">
           <div class="edu-title">Bachelor of Informatics</div>
@@ -418,7 +579,7 @@
             for Chatbot Information Services using LSA + KNN</div>
         </div>
       </div>
-      <div class="edu-block">
+      <div class="edu-block" data-i18n="educationBlock2">
         <div class="edu-block-title">Training &amp; Scholarships</div>
         <div class="edu-item">
           <div class="edu-title">IDCamp Data Scientist Track — Expert</div>
@@ -441,12 +602,12 @@
 
   <!-- ABOUT -->
   <div class="section" id="about">
-    <p class="section-eyebrow">about</p>
-    <h2 class="section-title">Background &amp; skills</h2>
+    <p class="section-eyebrow" data-i18n="aboutEyebrow">about</p>
+    <h2 class="section-title" data-i18n="aboutTitle">Background &amp; skills</h2>
 
     <div class="about-grid">
-      <div class="about-text">
-        <p>I'm <strong>Ninditya Salma Nur Aini</strong>, a Data Scientist, ML Engineer, and QA Engineer based in
+      <div class="about-text" data-i18n="aboutText">
+        <p>I'm <strong>Ninditya Salma Nur Aini</strong>, an AI Engineer, Data Scientist, and QA Engineer based in
           <strong>Yogyakarta, Indonesia</strong> with <strong>3.5+ years of production AI experience</strong>.</p>
 
         <p>My career started in chatbot development at <strong>Infomedia (Telkom Group)</strong>, designing rule-based
@@ -466,11 +627,11 @@
           development.</p>
 
         <p>Currently deepening expertise in <strong>LLM application development</strong>, <strong>MLOps</strong>, and
-          <strong>QA automation</strong>. Open to Data Scientist, ML Engineer, QA Engineer, and Conversational AI
-          Engineer roles — remote, hybrid, or based in Yogyakarta/Jakarta.</p>
+          <strong>QA automation</strong>. Open to AI Engineer, Data Scientist, ML Engineer, and QA Engineer roles —
+          remote, hybrid, or based in Yogyakarta/Jakarta.</p>
       </div>
 
-      <div class="skills-block">
+      <div class="skills-block" data-i18n="skillsBlock">
         <div class="skills-block-title">Core Stack</div>
         <div class="skills-columns">
 
@@ -516,9 +677,9 @@
   <div class="section" id="contact">
     <div class="contact-wrap">
       <div>
-        <p class="section-eyebrow">contact</p>
-        <div class="contact-headline">Let's build something<br><em>impactful</em> together.</div>
-        <p class="contact-note">Open to Data Scientist, ML Engineer, QA Engineer, and Conversational AI roles. Remote,
+        <p class="section-eyebrow" data-i18n="contactEyebrow">contact</p>
+        <div class="contact-headline" data-i18n="contactHeadline">Let's build something<br><em>impactful</em> together.</div>
+        <p class="contact-note" data-i18n="contactNote">Open to AI Engineer, Data Scientist, ML Engineer, and QA Engineer roles. Remote,
           hybrid, or based in Yogyakarta / Jakarta.</p>
       </div>
       <div class="contact-items">
@@ -540,16 +701,175 @@
         </a>
         <span class="contact-item">
           <div class="contact-icon" aria-hidden="true">◎</div>
-          Yogyakarta, Indonesia
+          <span data-i18n="contactLocation">Yogyakarta, Indonesia</span>
         </span>
       </div>
     </div>
   </div>
 
   <footer>
-    © 2026 Ninditya Salma Nur Aini · Data Scientist &amp; QA Engineer · Yogyakarta<br>
-    <a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a>
+    <span data-i18n="footerText">© 2026 Ninditya Salma Nur Aini · AI Engineer &amp; Data Scientist · Yogyakarta<br>
+    <a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a></span>
   </footer>
+
+  <script>
+    const translations = {
+      en: {
+        navProjects: 'Projects',
+        navExperience: 'Experience',
+        navEducation: 'Education',
+        navAbout: 'About',
+        navContact: 'Contact',
+        heroStatus: 'Open to opportunities',
+        heroTag: 'Remote / Yogyakarta / Jakarta',
+        heroRole: 'AI Engineer · Data Scientist · QA Engineer',
+        heroDesc: '<strong>3.5+ years</strong> building, evaluating, and hardening production AI systems — from banking chatbots and RAG pipelines to monitored ML services and AI quality workflows. I combine <strong>LLM engineering</strong>, <strong>applied data science</strong>, <strong>NLP for Bahasa Indonesia</strong>, and <strong>QA discipline</strong> to ship systems that work in production and stay reliable after release.',
+        ctaEmail: '✉ Email',
+        ctaLinkedin: 'in LinkedIn',
+        ctaGithub: '↗ GitHub',
+        ctaWhatsapp: '☎ WhatsApp',
+        strength1Label: 'AI Systems Engineering',
+        strength1Desc: 'LLM routing, RAG services, evaluation workflows, and production-minded architecture decisions.',
+        strength2Label: 'ML &amp; Data Science',
+        strength2Desc: 'End-to-end pipelines with MLflow, Docker, Prometheus, Grafana, and business-driven modeling.',
+        strength3Label: 'NLP &amp; Bahasa Indonesia',
+        strength3Desc: 'Intent systems, sentiment, entity extraction, and modern NLP stacks from LSA to BERT.',
+        strength4Label: 'QA &amp; AI Evaluation',
+        strength4Desc: 'SIT/UAT, Playwright, Selenium, Postman, hallucination checks, and QA-minded model evaluation.',
+        projectsEyebrow: '23-day portfolio plan',
+        projectsTitle: 'AI first. Data second. QA as the edge.',
+        projectsSubtitle: 'This project sequence is designed to show production AI stack capability first, then ML/data science depth, then QA mindset as the differentiator. Right now, only <strong>Day 01</strong> is live.',
+        projectSummary: `<div class="summary-card info-card"><strong>Act I: Power Opening</strong><span>Days 1-6 focus on build, deploy, evaluate, and fintech use cases that stop recruiters mid-scroll.</span></div><div class="summary-card info-card"><strong>Act II-III: Technical Depth</strong><span>Days 7-20 expand the story into Indonesian NLP, AI product work, data engineering, and core data science foundations.</span></div><div class="summary-card info-card"><strong>Act IV: Origin &amp; Closing</strong><span>Days 21-23 close the arc with QA origin, product exposure, and a full 23-project recap.</span></div>`,
+        stage1Kicker: 'Section 01',
+        stage1Title: 'AI / LLM Engineering',
+        stage1Desc: 'This section opens the portfolio with projects that immediately map end-to-end AI engineering capability: cost control, MLOps, RAG, evaluation, and production NLP.',
+        stage1Note: 'Days 01-12',
+        stage1Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Day 01 / 23</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Banking Intent Router</div><div class="roadmap-hook"><strong>"I reduced banking chatbot LLM cost by 96%."</strong> A 4-tier router that decides when a query is cheap enough for template handling, when it needs RAG, and when it must escalate to an LLM.</div><div class="roadmap-tags"><span class="proj-tag">LLM routing</span><span class="proj-tag">Banking</span><span class="proj-tag">FastAPI</span></div><a class="roadmap-link" href="day1-banking-intent-router.html">Open Day 01 →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 02 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">MLOps Earthquake Pipeline</div><div class="roadmap-hook"><strong>"How I make sure an ML model does not fail silently in production."</strong> End-to-end pipeline with monitoring, experiment tracking, and deployment discipline.</div><div class="roadmap-tags"><span class="proj-tag">MLOps</span><span class="proj-tag">Monitoring</span><span class="proj-tag">MLflow</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 03 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">RAG Chatbot Service</div><div class="roadmap-hook"><strong>"3 design decisions I kept while building a production RAG system."</strong> An LLM app with FastAPI, LangGraph, and vector search for grounded knowledge retrieval.</div><div class="roadmap-tags"><span class="proj-tag">RAG</span><span class="proj-tag">LangGraph</span><span class="proj-tag">Qdrant</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 04 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Enterprise LLM Evaluation Platform</div><div class="roadmap-hook"><strong>"How do I know my LLM is actually good?"</strong> A framework for measuring answer quality, failure modes, and readiness before release.</div><div class="roadmap-tags"><span class="proj-tag">LLM eval</span><span class="proj-tag">QA mindset</span><span class="proj-tag">Observability</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 05 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Transaction Fraud Pipeline</div><div class="roadmap-hook"><strong>"Detecting fraud without labels — where QA mindset becomes useful."</strong> Fraud pipeline with imbalanced learning and feature engineering for fintech scenarios.</div><div class="roadmap-tags"><span class="proj-tag">Fintech</span><span class="proj-tag">Fraud</span><span class="proj-tag">ML pipeline</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 06 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">NLP Hate Speech Indonesia</div><div class="roadmap-hook"><strong>"My 2021 thesis used LSA. This project taught me why that is not enough."</strong> Multi-label Indonesian NLP focused on moderation and context classification.</div><div class="roadmap-tags"><span class="proj-tag">NLP</span><span class="proj-tag">Bahasa Indonesia</span><span class="proj-tag">Multi-label</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 07 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-hook"><strong>"From LSA to BERT: what changed and what did not."</strong> Modern financial NLP with transformer fine-tuning for domain-specific sentiment.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">Fintech</span><span class="proj-tag">Sentiment</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 08 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">NER untuk Dokumen / KYC</div><div class="roadmap-hook"><strong>"How I extract entities from KYC documents with spaCy."</strong> Entity extraction for onboarding, compliance, and document intelligence.</div><div class="roadmap-tags"><span class="proj-tag">spaCy</span><span class="proj-tag">KYC</span><span class="proj-tag">NER</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 09 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Talent Match Intelligence</div><div class="roadmap-hook"><strong>"Building a semantic matching engine for talent acquisition."</strong> Semantic similarity matching between candidates and roles.</div><div class="roadmap-tags"><span class="proj-tag">Matching</span><span class="proj-tag">Semantic search</span><span class="proj-tag">HR tech</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 10 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">NutriPal AI</div><div class="roadmap-hook"><strong>"From idea to AI product: what I learned building NutriPal."</strong> End-to-end AI product work for personal nutrition guidance.</div><div class="roadmap-tags"><span class="proj-tag">AI product</span><span class="proj-tag">Health</span><span class="proj-tag">LLM app</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 11 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">HealthTruth AI</div><div class="roadmap-hook"><strong>"Building AI that fights health misinformation."</strong> Fact-checking workflow with retrieval grounding and explicit ethical boundaries.</div><div class="roadmap-tags"><span class="proj-tag">Fact checking</span><span class="proj-tag">RAG</span><span class="proj-tag">Ethics</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 12 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">AquaSense DS Assessment</div><div class="roadmap-hook"><strong>"How I approach a DS problem from zero."</strong> Technical assessment centered on framing, exploration, modeling, and interpretation.</div><div class="roadmap-tags"><span class="proj-tag">Assessment</span><span class="proj-tag">Problem solving</span><span class="proj-tag">Data science</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        stage2Kicker: 'Section 02',
+        stage2Title: 'ML / Data Science',
+        stage2Desc: 'Once the AI stack is clear, this section shows solid data science foundations: time series, ETL, people analytics, math intuition, and classical NLP that still matters.',
+        stage2Note: 'Days 13-20',
+        stage2Grid: `<article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 13 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Air Quality Beijing</div><div class="roadmap-hook"><strong>"What 5 years of data taught me about Beijing pollution."</strong> Time-series EDA across seasons and locations.</div><div class="roadmap-tags"><span class="proj-tag">EDA</span><span class="proj-tag">Time series</span><span class="proj-tag">Visualization</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 14 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">ETL Fashion Pipeline</div><div class="roadmap-hook"><strong>"Why AI Engineers should also understand data pipelines."</strong> Modular ETL from scraping to multi-destination load with strong test coverage.</div><div class="roadmap-tags"><span class="proj-tag">ETL</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">pytest</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 15 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">EduTech HR Problem</div><div class="roadmap-hook"><strong>"Solving HR problems with data — my approach."</strong> Business-driven data science for retention problems and stakeholder-facing decisions.</div><div class="roadmap-tags"><span class="proj-tag">Business DS</span><span class="proj-tag">HR</span><span class="proj-tag">Intervention</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 16 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">HR Problem Solving</div><div class="roadmap-hook"><strong>"From employee data to HR insight — a case study."</strong> People analytics that balances model quality with realistic business action.</div><div class="roadmap-tags"><span class="proj-tag">People analytics</span><span class="proj-tag">XGBoost</span><span class="proj-tag">Dashboard</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 17 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">IdCamp Math DS</div><div class="roadmap-hook"><strong>"The math behind ML that people keep forgetting."</strong> Foundation notes focused on intuition, not just formulas.</div><div class="roadmap-tags"><span class="proj-tag">Math</span><span class="proj-tag">ML basics</span><span class="proj-tag">Intuition</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 18 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Generative AI Fundamentals</div><div class="roadmap-hook"><strong>"5 GenAI concepts every AI Engineer should understand."</strong> A concise foundation for reasoning, grounding, evaluation, and cost trade-offs.</div><div class="roadmap-tags"><span class="proj-tag">GenAI</span><span class="proj-tag">Concepts</span><span class="proj-tag">LLM basics</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 19 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">NLP KNN LSA (Modern)</div><div class="roadmap-hook"><strong>"When is classical NLP still relevant in the LLM era?"</strong> A modern framing of where simple models still win.</div><div class="roadmap-tags"><span class="proj-tag">Classical NLP</span><span class="proj-tag">LSA</span><span class="proj-tag">KNN</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 20 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Chatbot LSA (Skripsi 2021)</div><div class="roadmap-hook"><strong>"My thesis 4 years ago. This is what I learned after that."</strong> Origin story that closes the loop from campus chatbot research to production AI systems.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Origin story</span><span class="proj-tag">Chatbot</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        stage3Kicker: 'Section 03',
+        stage3Title: 'QA &amp; Testing',
+        stage3Desc: 'The final section makes the point clear: QA is not a side path, but the reason my evaluation, reliability, and product thinking feel different.',
+        stage3Note: 'Days 21-23',
+        stage3Grid: `<article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 21 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">QA Automation MovieMatch</div><div class="roadmap-hook"><strong>"Why my QA background makes me a better AI Engineer."</strong> Test strategy for AI systems with stability testing, multilingual checks, and bug triage.</div><div class="roadmap-tags"><span class="proj-tag">Playwright</span><span class="proj-tag">Selenium</span><span class="proj-tag">AI QA</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 22 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">CineTrack Frontend</div><div class="roadmap-hook"><strong>"AI Engineers should also understand product — this is where I learned it."</strong> Frontend and dashboard exposure that keeps AI work grounded in user-facing constraints.</div><div class="roadmap-tags"><span class="proj-tag">Frontend</span><span class="proj-tag">Product</span><span class="proj-tag">KADA</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Day 23 / 23</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Final Recap: 23 Hari, 23 Project</div><div class="roadmap-hook"><strong>"23 days, 23 projects. What I learned about myself — and what comes next."</strong> A closing reflection that summarizes the growth arc, role focus, and next direction.</div><div class="roadmap-tags"><span class="proj-tag">Recap</span><span class="proj-tag">Reflection</span><span class="proj-tag">CTA</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        experienceEyebrow: 'work experience',
+        experienceTitle: 'Where I\'ve built &amp; shipped',
+        experienceSubtitle: 'These roles shaped how I build AI systems: understanding production flow, evaluation discipline, and what actually breaks after real users touch the system.',
+        exp1Meta: 'Bekasi · On-site<br>Selected from 900 applicants (60 accepted)',
+        exp1Body: `<div class="exp-role">Full-Stack Developer Trainee</div><div class="exp-company">Korea-ASEAN Digital Academy (KADA) · NIPA · Komdigi · Elice</div><ul class="exp-bullets"><li>Fully-funded ASEAN-Korea program covering <strong>Full-Stack Development, AI/ML, Cloud Services, Data Analysis, and AI Ethics</strong>.</li><li>Co-developed <strong>CineTrack</strong>, a cinema analytics dashboard — contributed backend with Fastify (Node.js ESM), PostgreSQL, and Redis caching.</li><li>Integrated <strong>LLM components</strong> to surface business insights from raw operational data — hands-on with modern generative chatbot architectures.</li></ul>`,
+        exp2Body: `<div class="exp-role">Chatbot Quality Assurance Analyst</div><div class="exp-company">PT Fliptech Lentera Inspirasi Pertiwi (Flip)</div><ul class="exp-bullets"><li>Evaluated and refined an <strong>LLM-based chatbot with RAG framework</strong> — focused on prompt optimization and response grounding for accurate, policy-aligned outputs.</li><li>Conducted scheduled audits via sampling: prompt review, response relevance scoring, <strong>grounding validation, hallucination detection</strong>, and language consistency checks.</li><li>Performed root-cause analysis on low-CSAT interactions; translated findings into prompt restructuring, fallback logic, and knowledge-base coverage recommendations.</li><li>Designed and maintained <strong>KPI dashboards</strong> (CSAT, fallback rate, hallucination rate, intent accuracy) to drive prompt iteration priorities.</li></ul><span class="exp-impact">Unidentified utterances &lt;12% · CSAT 65% (H1) · Fallback rate 3% (H2)</span>`,
+        exp3Body: `<div class="exp-role">IT Operational · Chatbot &amp; Omnichannel Development</div><div class="exp-company">PT Infomedia Nusantara (Telkom Group)</div><ul class="exp-bullets"><li>Designed and developed <strong>end-to-end e-commerce chatbot flows</strong> from requirement gathering to post-release tuning — supporting <strong>~1,000 daily user interactions</strong>.</li><li>Built and maintained Omnichannel platform components, integrating chatbot, CRM, and customer-service channels into a unified service flow.</li><li>Led QA across Chatbot and Omnichannel systems through SIT and UAT, catching integration issues pre-release and reducing post-deployment defects.</li><li>Drove root-cause analysis to convert recurring user issues into chatbot rule updates — reducing repeated support tickets.</li></ul>`,
+        educationEyebrow: 'credentials',
+        educationTitle: 'Education &amp; certifications',
+        educationBlock1: `<div class="edu-block-title">Formal Education</div><div class="edu-item"><div class="edu-title">Bachelor of Informatics</div><div class="edu-sub">Universitas Pembangunan Nasional "Veteran" Yogyakarta</div><div class="edu-meta"><strong>GPA 3.66 / 4.00</strong> · Graduated Oct 2021<br>Thesis: Question Classification for Chatbot Information Services using LSA + KNN</div></div>`,
+        educationBlock2: `<div class="edu-block-title">Training &amp; Scholarships</div><div class="edu-item"><div class="edu-title">IDCamp Data Scientist Track — Expert</div><div class="edu-sub">Indosat Ooredoo Hutchison · Scholarship Awardee</div><div class="edu-meta">Sep 2025 – Apr 2026 · Beginner → Intermediate → Expert</div></div><div class="edu-item"><div class="edu-title">Data Science Bootcamp</div><div class="edu-sub">Binar Academy</div><div class="edu-meta">Nov 2023 · <strong>Hard Skill 4.80 / Soft Skill 4.50</strong></div></div><div class="edu-item"><div class="edu-title">System Analyst Certification (BNSP)</div><div class="edu-sub">Software Requirement, Analysis &amp; Design</div><div class="edu-meta">Nov 2020 · National professional certification</div></div>`,
+        aboutEyebrow: 'about',
+        aboutTitle: 'Background &amp; skills',
+        aboutText: `<p>I'm <strong>Ninditya Salma Nur Aini</strong>, an AI Engineer, Data Scientist, and QA Engineer based in <strong>Yogyakarta, Indonesia</strong> with <strong>3.5+ years of production AI experience</strong>.</p><p>My career started in chatbot development at <strong>Infomedia (Telkom Group)</strong>, designing rule-based conversation flows serving thousands of daily users — and leading SIT/UAT to catch integration issues before they reached production. I then moved to <strong>Flip</strong> as a Chatbot QA Analyst, evaluating LLM-based chatbots with RAG frameworks and building the exact <strong>AI quality assessment skills</strong> the industry now urgently needs as generative AI moves into production.</p><p>Parallel to that, I deepened formal data science training through <strong>Binar Academy</strong> and the <strong>IDCamp Expert track (Indosat Ooredoo Hutchison)</strong>, building end-to-end pipelines from raw API ingestion through ML modelling to monitored, production-grade deployments with MLflow, Docker, and Grafana.</p><p>What makes my profile unusual: I've seen what happens to AI systems <em>after</em> they ship — fallback rates, hallucinations, drift, CSAT regressions. That perspective shapes how I <em>build</em> models and how I <em>test</em> them. QA isn't just a safety net for me — it's a core competency woven into every stage of development.</p><p>Currently deepening expertise in <strong>LLM application development</strong>, <strong>MLOps</strong>, and <strong>QA automation</strong>. Open to AI Engineer, Data Scientist, ML Engineer, and QA Engineer roles — remote, hybrid, or based in Yogyakarta/Jakarta.</p>`,
+        skillsBlock: `<div class="skills-block-title">Core Stack</div><div class="skills-columns"><div class="skills-col"><div class="skills-col-header">AI/ML Core</div><div class="skill-row"><strong>ML &amp; Data Science</strong>Python, scikit-learn, XGBoost, TensorFlow, pandas, numpy</div><div class="skill-row"><strong>LLM &amp; RAG</strong>LangGraph, Qdrant, FastAPI, prompt optimization, hallucination detection</div><div class="skill-row"><strong>Computer Vision</strong>YOLOv8, object detection, precision/recall/AP@50</div><div class="skill-row"><strong>NLP</strong>Intent classification, sentiment analysis, Bahasa Indonesia, LSA, KNN</div></div><div class="skills-col"><div class="skills-col-header">Production &amp; Quality</div><div class="skill-row"><strong>MLOps &amp; Deployment</strong>MLflow, Docker, GitHub Actions, Prometheus, Grafana, Hugging Face Hub, DagsHub</div><div class="skill-row"><strong>QA &amp; Test Automation</strong>Playwright, Selenium, Postman, pytest, SIT/UAT, AI stability testing</div><div class="skill-row"><strong>AI Quality &amp; Auditing</strong>KPI dashboards, grounding validation, root-cause analysis, hallucination detection</div></div><div class="skills-col"><div class="skills-col-header">Infrastructure</div><div class="skill-row"><strong>Data Engineering</strong>PostgreSQL, MySQL, MongoDB, Redis, REST APIs</div><div class="skill-row"><strong>Analytics &amp; Visualization</strong>Metabase, Looker Studio, Grafana, Matplotlib, Seaborn</div><div class="skill-row"><strong>Backend</strong>Node.js (Fastify), Python (FastAPI, Flask), JavaScript</div></div></div>`,
+        contactEyebrow: 'contact',
+        contactHeadline: 'Let\'s build something<br><em>impactful</em> together.',
+        contactNote: 'Open to AI Engineer, Data Scientist, ML Engineer, and QA Engineer roles. Remote, hybrid, or based in Yogyakarta / Jakarta.',
+        contactLocation: 'Yogyakarta, Indonesia',
+        footerText: '© 2026 Ninditya Salma Nur Aini · AI Engineer &amp; Data Scientist · Yogyakarta<br><a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a>'
+      },
+      id: {
+        navProjects: 'Project',
+        navExperience: 'Pengalaman',
+        navEducation: 'Pendidikan',
+        navAbout: 'Tentang',
+        navContact: 'Kontak',
+        heroStatus: 'Terbuka untuk peluang',
+        heroTag: 'Remote / Yogyakarta / Jakarta',
+        heroRole: 'AI Engineer · Data Scientist · QA Engineer',
+        heroDesc: '<strong>3,5+ tahun</strong> membangun, mengevaluasi, dan menguatkan sistem AI production — dari chatbot banking dan pipeline RAG sampai layanan ML termonitor dan workflow quality AI. Saya menggabungkan <strong>LLM engineering</strong>, <strong>applied data science</strong>, <strong>NLP untuk Bahasa Indonesia</strong>, dan <strong>disiplin QA</strong> untuk mengirim sistem yang bekerja di production dan tetap andal setelah rilis.',
+        ctaEmail: '✉ Email',
+        ctaLinkedin: 'in LinkedIn',
+        ctaGithub: '↗ GitHub',
+        ctaWhatsapp: '☎ WhatsApp',
+        strength1Label: 'AI Systems Engineering',
+        strength1Desc: 'LLM routing, layanan RAG, workflow evaluasi, dan keputusan arsitektur yang siap production.',
+        strength2Label: 'ML &amp; Data Science',
+        strength2Desc: 'Pipeline end-to-end dengan MLflow, Docker, Prometheus, Grafana, dan modeling yang berorientasi bisnis.',
+        strength3Label: 'NLP &amp; Bahasa Indonesia',
+        strength3Desc: 'Intent system, sentiment, entity extraction, dan NLP modern dari LSA sampai BERT.',
+        strength4Label: 'QA &amp; AI Evaluation',
+        strength4Desc: 'SIT/UAT, Playwright, Selenium, Postman, cek halusinasi, dan evaluasi model dengan mindset QA.',
+        projectsEyebrow: 'rencana portfolio 23 hari',
+        projectsTitle: 'AI dulu. Data kedua. QA sebagai pembeda.',
+        projectsSubtitle: 'Urutan project disusun untuk menunjukkan production AI stack lebih dulu, lalu kedalaman ML/data science, lalu QA mindset yang menguatkan semuanya. Saat ini hanya <strong>Day 01</strong> yang sudah live.',
+        projectSummary: `<div class="summary-card info-card"><strong>Babak I: Power Opening</strong><span>Hari 1-6 fokus ke build, deploy, evaluate, dan fintech use case yang paling cepat menarik recruiter.</span></div><div class="summary-card info-card"><strong>Babak II-III: Technical Depth</strong><span>Hari 7-20 memperluas narasi ke NLP Indonesia, AI product, data engineering, dan fondasi data science.</span></div><div class="summary-card info-card"><strong>Babak IV: Origin &amp; Closing</strong><span>Hari 21-23 menutup cerita dengan QA origin, product exposure, dan recap 23 project secara utuh.</span></div>`,
+        stage1Kicker: 'Section 01',
+        stage1Title: 'AI / LLM Engineering',
+        stage1Desc: 'Bagian ini membuka portfolio dengan proyek yang langsung memetakan kemampuan AI engineer end-to-end: cost control, MLOps, RAG, evaluation, dan NLP production.',
+        stage1Note: 'Days 01-12',
+        stage1Grid: document.querySelector('[data-i18n="stage1Grid"]').innerHTML,
+        stage2Kicker: 'Section 02',
+        stage2Title: 'ML / Data Science',
+        stage2Desc: 'Setelah AI stack terlihat jelas, bagian ini menunjukkan fondasi data science yang kuat: time series, ETL, people analytics, math intuition, dan classical NLP yang tetap relevan.',
+        stage2Note: 'Days 13-20',
+        stage2Grid: document.querySelector('[data-i18n="stage2Grid"]').innerHTML,
+        stage3Kicker: 'Section 03',
+        stage3Title: 'QA &amp; Testing',
+        stage3Desc: 'Bagian akhir menegaskan bahwa QA bukan jalur samping, tapi alasan kenapa evaluasi, reliability, dan product thinking saya terasa berbeda.',
+        stage3Note: 'Days 21-23',
+        stage3Grid: document.querySelector('[data-i18n="stage3Grid"]').innerHTML,
+        experienceEyebrow: 'pengalaman kerja',
+        experienceTitle: 'Tempat saya membangun &amp; mengirim sistem',
+        experienceSubtitle: 'Pengalaman ini yang membentuk cara saya membangun AI system: paham production flow, paham evaluasi, dan paham apa yang rusak setelah sistem dipakai user sungguhan.',
+        exp1Meta: 'Bekasi · On-site<br>Terpilih dari 900 pendaftar (60 diterima)',
+        exp1Body: `<div class="exp-role">Full-Stack Developer Trainee</div><div class="exp-company">Korea-ASEAN Digital Academy (KADA) · NIPA · Komdigi · Elice</div><ul class="exp-bullets"><li>Program fully-funded ASEAN-Korea yang mencakup <strong>Full-Stack Development, AI/ML, Cloud Services, Data Analysis, dan AI Ethics</strong>.</li><li>Ikut mengembangkan <strong>CineTrack</strong>, dashboard analitik bioskop — berkontribusi di backend dengan Fastify (Node.js ESM), PostgreSQL, dan Redis caching.</li><li>Mengintegrasikan <strong>komponen LLM</strong> untuk menampilkan business insight dari data operasional mentah — hands-on dengan arsitektur chatbot generatif modern.</li></ul>`,
+        exp2Body: `<div class="exp-role">Chatbot Quality Assurance Analyst</div><div class="exp-company">PT Fliptech Lentera Inspirasi Pertiwi (Flip)</div><ul class="exp-bullets"><li>Mengevaluasi dan menyempurnakan <strong>chatbot berbasis LLM dengan framework RAG</strong> — fokus pada optimasi prompt dan grounding response agar akurat dan sesuai kebijakan.</li><li>Melakukan audit terjadwal berbasis sampling: review prompt, scoring relevance response, <strong>validasi grounding, deteksi halusinasi</strong>, dan pengecekan konsistensi bahasa.</li><li>Melakukan root-cause analysis untuk interaksi dengan CSAT rendah; menerjemahkan temuan menjadi rekomendasi restrukturisasi prompt, fallback logic, dan coverage knowledge base.</li><li>Mendesain dan memelihara <strong>KPI dashboard</strong> (CSAT, fallback rate, hallucination rate, intent accuracy) untuk menentukan prioritas iterasi prompt.</li></ul><span class="exp-impact">Unidentified utterances &lt;12% · CSAT 65% (H1) · Fallback rate 3% (H2)</span>`,
+        exp3Body: `<div class="exp-role">IT Operational · Chatbot &amp; Omnichannel Development</div><div class="exp-company">PT Infomedia Nusantara (Telkom Group)</div><ul class="exp-bullets"><li>Merancang dan membangun <strong>alur chatbot e-commerce end-to-end</strong> dari requirement gathering sampai post-release tuning — mendukung <strong>~1.000 interaksi user harian</strong>.</li><li>Membangun dan memelihara komponen platform Omnichannel, mengintegrasikan chatbot, CRM, dan kanal customer service dalam satu alur layanan.</li><li>Memimpin QA untuk sistem Chatbot dan Omnichannel melalui SIT dan UAT, menangkap issue integrasi sebelum rilis dan menurunkan defect pasca-deployment.</li><li>Melakukan root-cause analysis untuk mengubah isu user berulang menjadi update rule chatbot — mengurangi tiket support yang sama.</li></ul>`,
+        educationEyebrow: 'kredensial',
+        educationTitle: 'Pendidikan &amp; sertifikasi',
+        educationBlock1: `<div class="edu-block-title">Pendidikan Formal</div><div class="edu-item"><div class="edu-title">Sarjana Informatika</div><div class="edu-sub">Universitas Pembangunan Nasional "Veteran" Yogyakarta</div><div class="edu-meta"><strong>IPK 3.66 / 4.00</strong> · Lulus Okt 2021<br>Skripsi: Klasifikasi Pertanyaan untuk Layanan Informasi Chatbot menggunakan LSA + KNN</div></div>`,
+        educationBlock2: `<div class="edu-block-title">Pelatihan &amp; Beasiswa</div><div class="edu-item"><div class="edu-title">IDCamp Data Scientist Track — Expert</div><div class="edu-sub">Indosat Ooredoo Hutchison · Penerima Beasiswa</div><div class="edu-meta">Sep 2025 – Apr 2026 · Beginner → Intermediate → Expert</div></div><div class="edu-item"><div class="edu-title">Data Science Bootcamp</div><div class="edu-sub">Binar Academy</div><div class="edu-meta">Nov 2023 · <strong>Hard Skill 4.80 / Soft Skill 4.50</strong></div></div><div class="edu-item"><div class="edu-title">Sertifikasi System Analyst (BNSP)</div><div class="edu-sub">Software Requirement, Analysis &amp; Design</div><div class="edu-meta">Nov 2020 · Sertifikasi profesi nasional</div></div>`,
+        aboutEyebrow: 'tentang',
+        aboutTitle: 'Latar belakang &amp; skill',
+        aboutText: `<p>Saya <strong>Ninditya Salma Nur Aini</strong>, seorang AI Engineer, Data Scientist, dan QA Engineer yang berbasis di <strong>Yogyakarta, Indonesia</strong> dengan <strong>3,5+ tahun pengalaman AI production</strong>.</p><p>Karier saya dimulai di pengembangan chatbot di <strong>Infomedia (Telkom Group)</strong>, merancang conversation flow berbasis rule yang melayani ribuan user harian — sekaligus memimpin SIT/UAT untuk menangkap issue integrasi sebelum masuk production. Setelah itu saya pindah ke <strong>Flip</strong> sebagai Chatbot QA Analyst, mengevaluasi chatbot berbasis LLM dengan framework RAG dan membangun kemampuan <strong>AI quality assessment</strong> yang sekarang sangat dibutuhkan ketika generative AI masuk ke production.</p><p>Secara paralel, saya memperdalam pelatihan data science formal melalui <strong>Binar Academy</strong> dan <strong>IDCamp Expert track (Indosat Ooredoo Hutchison)</strong>, membangun pipeline end-to-end dari ingestion API mentah, modelling ML, sampai deployment termonitor dengan MLflow, Docker, dan Grafana.</p><p>Yang membuat profil saya agak berbeda: saya sudah melihat apa yang terjadi pada sistem AI <em>setelah</em> dikirim — fallback rate, halusinasi, drift, dan regresi CSAT. Perspektif itu membentuk cara saya <em>membangun</em> model dan cara saya <em>menguji</em> model. Buat saya, QA bukan sekadar safety net — tapi kompetensi inti yang tertanam di setiap tahap development.</p><p>Saat ini saya terus memperdalam <strong>LLM application development</strong>, <strong>MLOps</strong>, dan <strong>QA automation</strong>. Terbuka untuk role AI Engineer, Data Scientist, ML Engineer, dan QA Engineer — remote, hybrid, atau berbasis di Yogyakarta/Jakarta.</p>`,
+        skillsBlock: `<div class="skills-block-title">Core Stack</div><div class="skills-columns"><div class="skills-col"><div class="skills-col-header">AI/ML Core</div><div class="skill-row"><strong>ML &amp; Data Science</strong>Python, scikit-learn, XGBoost, TensorFlow, pandas, numpy</div><div class="skill-row"><strong>LLM &amp; RAG</strong>LangGraph, Qdrant, FastAPI, prompt optimization, hallucination detection</div><div class="skill-row"><strong>Computer Vision</strong>YOLOv8, object detection, precision/recall/AP@50</div><div class="skill-row"><strong>NLP</strong>Intent classification, sentiment analysis, Bahasa Indonesia, LSA, KNN</div></div><div class="skills-col"><div class="skills-col-header">Production &amp; Quality</div><div class="skill-row"><strong>MLOps &amp; Deployment</strong>MLflow, Docker, GitHub Actions, Prometheus, Grafana, Hugging Face Hub, DagsHub</div><div class="skill-row"><strong>QA &amp; Test Automation</strong>Playwright, Selenium, Postman, pytest, SIT/UAT, AI stability testing</div><div class="skill-row"><strong>AI Quality &amp; Auditing</strong>KPI dashboard, grounding validation, root-cause analysis, hallucination detection</div></div><div class="skills-col"><div class="skills-col-header">Infrastructure</div><div class="skill-row"><strong>Data Engineering</strong>PostgreSQL, MySQL, MongoDB, Redis, REST APIs</div><div class="skill-row"><strong>Analytics &amp; Visualization</strong>Metabase, Looker Studio, Grafana, Matplotlib, Seaborn</div><div class="skill-row"><strong>Backend</strong>Node.js (Fastify), Python (FastAPI, Flask), JavaScript</div></div></div>`,
+        contactEyebrow: 'kontak',
+        contactHeadline: 'Mari bangun sesuatu yang<br><em>berdampak</em> bersama.',
+        contactNote: 'Terbuka untuk role AI Engineer, Data Scientist, ML Engineer, dan QA Engineer. Remote, hybrid, atau berbasis di Yogyakarta / Jakarta.',
+        contactLocation: 'Yogyakarta, Indonesia',
+        footerText: '© 2026 Ninditya Salma Nur Aini · AI Engineer &amp; Data Scientist · Yogyakarta<br><a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a>'
+      }
+    };
+
+    // Applies translated HTML to every tagged element and updates the active button state.
+    // This keeps language changes in one place and makes future edits easier.
+    function applyLanguage(language) {
+      document.documentElement.lang = language;
+      document.querySelectorAll('[data-i18n]').forEach((element) => {
+        const key = element.dataset.i18n;
+        const value = translations[language][key];
+        if (value) {
+          element.innerHTML = value;
+        }
+      });
+
+      document.querySelectorAll('[data-lang-target]').forEach((button) => {
+        button.classList.toggle('active', button.dataset.langTarget === language);
+      });
+    }
+
+    // Connects the EN/ID buttons to the translation function.
+    // The handler stays small so the toggle remains easy to maintain.
+    function bindLanguageSwitch() {
+      document.querySelectorAll('[data-lang-target]').forEach((button) => {
+        button.addEventListener('click', () => {
+          applyLanguage(button.dataset.langTarget);
+        });
+      });
+    }
+
+    bindLanguageSwitch();
+    applyLanguage('en');
+  </script>
 
 </body>
 
