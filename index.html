@@ -17,7 +17,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Mono:wght@400;500&amp;family=DM+Sans:wght@400;500;600&amp;display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=5">
   <link rel="icon" type="image/svg+xml"
     href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='100'%20height='100'%20rx='20'%20fill='%231a1a1a'/%3E%3Ctext%20x='50'%20y='68'%20font-family='Inter,%20sans-serif'%20font-size='50'%20font-weight='bold'%20fill='white'%20text-anchor='middle'%3ENA%3C/text%3E%3C/svg%3E">
 </head>
@@ -99,11 +99,75 @@
   <!-- PROJECTS -->
   <div class="section" id="projects">
     <p class="section-eyebrow" data-i18n="projectsEyebrow">selected work</p>
-    <h2 class="section-title" data-i18n="projectsTitle">Featured case studies for AI Engineer roles.</h2>
-    <p class="section-subtitle" data-i18n="projectsSubtitle">Detailed case studies and production-backed project stories.</p>
+    <h2 class="section-title" data-i18n="projectsTitle">The work. Explained in full.</h2>
+    <p class="section-subtitle" data-i18n="projectsSubtitle">End-to-end case studies — from problem framing to shipped result.</p>
+
+    <div class="featured-grid">
+
+      <article class="featured-card">
+        <div class="featured-top">
+          <span class="featured-label" data-i18n="feat1Label">Section 01 · LLM &amp; Generative AI</span>
+          <span class="featured-live" data-i18n="featLive">Live</span>
+        </div>
+        <div class="featured-name" data-i18n="feat1Name">Banking Intent Router</div>
+        <p class="featured-hook" data-i18n="feat1Hook"><strong>"I reduced banking chatbot LLM cost by 96%."</strong> A 4-tier routing system that decides when a query needs a regex filter, a template, RAG, or an actual LLM call — based on confidence from SBERT + LinearSVC.</p>
+        <div class="featured-stats">
+          <div class="featured-stat">
+            <span class="featured-stat-num">0.9305</span>
+            <span class="featured-stat-label" data-i18n="feat1Stat1">F1 Macro</span>
+          </div>
+          <div class="featured-stat">
+            <span class="featured-stat-num">−96%</span>
+            <span class="featured-stat-label" data-i18n="feat1Stat2">LLM Cost</span>
+          </div>
+          <div class="featured-stat">
+            <span class="featured-stat-num">~50ms</span>
+            <span class="featured-stat-label" data-i18n="feat1Stat3">Latency</span>
+          </div>
+        </div>
+        <div class="featured-tags">
+          <span class="proj-tag">LLM routing</span>
+          <span class="proj-tag">Banking</span>
+          <span class="proj-tag">FastAPI</span>
+          <span class="proj-tag">SBERT</span>
+        </div>
+        <a class="featured-cta" href="day1-banking-intent-router.html" data-i18n="featCta">Open case study →</a>
+      </article>
+
+      <article class="featured-card">
+        <div class="featured-top">
+          <span class="featured-label" data-i18n="feat2Label">Section 02 · Applied Data Science</span>
+          <span class="featured-live" data-i18n="featLive">Live</span>
+        </div>
+        <div class="featured-name" data-i18n="feat2Name">NLP KNN LSA &amp; Chatbot (Thesis 2021)</div>
+        <p class="featured-hook" data-i18n="feat2Hook"><strong>"My 2021 thesis. End-to-end from research to product."</strong> Classical NLP (KNN + LSA) implemented from scratch in PHP — accuracy from 92.1% to 93.2%, compute time cut 35%, then deployed as a web app and Telegram bot.</p>
+        <div class="featured-stats">
+          <div class="featured-stat">
+            <span class="featured-stat-num">93.2%</span>
+            <span class="featured-stat-label" data-i18n="feat2Stat1">Accuracy</span>
+          </div>
+          <div class="featured-stat">
+            <span class="featured-stat-num">−35%</span>
+            <span class="featured-stat-label" data-i18n="feat2Stat2">Compute</span>
+          </div>
+          <div class="featured-stat">
+            <span class="featured-stat-num">1,410</span>
+            <span class="featured-stat-label" data-i18n="feat2Stat3">Questions</span>
+          </div>
+        </div>
+        <div class="featured-tags">
+          <span class="proj-tag">Thesis</span>
+          <span class="proj-tag">Classical NLP</span>
+          <span class="proj-tag">Full-stack</span>
+          <span class="proj-tag">PHP</span>
+        </div>
+        <a class="featured-cta" href="chatbot-lsa.html" data-i18n="featCta">Open case study →</a>
+      </article>
+
+    </div>
 
     <div class="proj-card-group">
-      <details class="project-stage" open>
+      <details class="project-stage">
         <summary class="stage-head">
           <div>
             <div class="stage-kicker" data-i18n="stage1Kicker">Section 01</div>
@@ -185,6 +249,21 @@
           <div class="stage-note" data-i18n="stage2Note">Data stack</div>
         </summary>
         <div class="roadmap-grid" data-i18n="stage2Grid">
+          <article class="roadmap-card is-live">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Case study</span>
+              <span class="roadmap-status is-live">Live case study</span>
+            </div>
+            <div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Thesis 2021)</div>
+            <div class="roadmap-hook"><strong>"My 2021 thesis. End-to-end from research to product."</strong> Classical NLP model (KNN + LSA) integrated as frontend and database of a working chatbot.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Thesis</span>
+              <span class="proj-tag">Classical NLP</span>
+              <span class="proj-tag">Full-stack</span>
+            </div>
+            <a class="roadmap-link" href="chatbot-lsa.html">Open case study →</a>
+          </article>
+
           <article class="roadmap-card">
             <div class="roadmap-top">
               <span class="roadmap-day">Planned case</span>
@@ -226,21 +305,6 @@
               <span class="proj-tag">Fintech</span>
               <span class="proj-tag">Fraud</span>
               <span class="proj-tag">ML pipeline</span>
-            </div>
-            <span class="roadmap-link is-disabled">Coming soon</span>
-          </article>
-
-          <article class="roadmap-card">
-            <div class="roadmap-top">
-              <span class="roadmap-day">Planned case</span>
-              <span class="roadmap-status">Coming soon</span>
-            </div>
-            <div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Thesis 2021)</div>
-            <div class="roadmap-hook"><strong>"My 2021 thesis. End-to-end from research to product."</strong> Classical NLP model (KNN + LSA) integrated as frontend and database of a working chatbot.</div>
-            <div class="roadmap-tags">
-              <span class="proj-tag">Thesis</span>
-              <span class="proj-tag">Classical NLP</span>
-              <span class="proj-tag">Full-stack</span>
             </div>
             <span class="roadmap-link is-disabled">Coming soon</span>
           </article>
@@ -553,8 +617,22 @@
         strength4Label: 'QA &amp; AI Evaluation',
         strength4Desc: 'SIT/UAT, Playwright, Selenium, Postman, hallucination checks, and QA-minded model evaluation.',
         projectsEyebrow: 'selected work',
-        projectsTitle: 'Featured case studies for AI Engineer roles.',
-        projectsSubtitle: 'Detailed case studies and production-backed project stories.',
+        projectsTitle: 'The work. Explained in full.',
+        projectsSubtitle: 'End-to-end case studies — from problem framing to shipped result.',
+        featLive: 'Live',
+        feat1Label: 'Section 01 · LLM &amp; Generative AI',
+        feat1Name: 'Banking Intent Router',
+        feat1Hook: '<strong>"I reduced banking chatbot LLM cost by 96%."</strong> A 4-tier routing system that decides when a query needs a regex filter, a template, RAG, or an actual LLM call — based on confidence from SBERT + LinearSVC.',
+        feat1Stat1: 'F1 Macro',
+        feat1Stat2: 'LLM Cost',
+        feat1Stat3: 'Latency',
+        feat2Label: 'Section 02 · Applied Data Science',
+        feat2Name: 'NLP KNN LSA &amp; Chatbot (Thesis 2021)',
+        feat2Hook: '<strong>"My 2021 thesis. End-to-end from research to product."</strong> Classical NLP (KNN + LSA) implemented from scratch in PHP — accuracy from 92.1% to 93.2%, compute time cut 35%, then deployed as a web app and Telegram bot.',
+        feat2Stat1: 'Accuracy',
+        feat2Stat2: 'Compute',
+        feat2Stat3: 'Questions',
+        featCta: 'Open case study →',
         stage1Kicker: 'Section 01',
         stage1Title: 'LLM & Generative AI',
         stage1Desc: 'This section focuses on generative AI systems: cost control, prompt optimization, RAG architecture, LLM evaluation, and production-ready applications.',
@@ -564,7 +642,7 @@
         stage2Title: 'Applied Data Science',
         stage2Desc: 'This section shows solid data science foundations: time series, MLOps, people analytics, and classical NLP that still matters.',
         stage2Note: 'Data stack',
-        stage2Grid: `<article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">MLOps Earthquake Pipeline</div><div class="roadmap-hook"><strong>"How I make sure an ML model does not fail silently in production."</strong> End-to-end pipeline with monitoring, experiment tracking, and deployment discipline.</div><div class="roadmap-tags"><span class="proj-tag">MLOps</span><span class="proj-tag">Monitoring</span><span class="proj-tag">MLflow</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-hook"><strong>"From LSA to BERT: what changed and what did not."</strong> Modern financial NLP with transformer fine-tuning for domain-specific sentiment.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">Fintech</span><span class="proj-tag">Sentiment</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Transaction Fraud Pipeline</div><div class="roadmap-hook"><strong>"Detecting fraud without labels — where QA mindset becomes useful."</strong> Fraud pipeline with imbalanced learning and feature engineering for fintech scenarios.</div><div class="roadmap-tags"><span class="proj-tag">Fintech</span><span class="proj-tag">Fraud</span><span class="proj-tag">ML pipeline</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Thesis 2021)</div><div class="roadmap-hook"><strong>"My 2021 thesis. End-to-end from research to product."</strong> Classical NLP model (KNN + LSA) integrated as frontend and database of a working chatbot.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Classical NLP</span><span class="proj-tag">Full-stack</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        stage2Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Thesis 2021)</div><div class="roadmap-hook"><strong>"My 2021 thesis. End-to-end from research to product."</strong> Classical NLP model (KNN + LSA) integrated as frontend and database of a working chatbot.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Classical NLP</span><span class="proj-tag">Full-stack</span></div><a class="roadmap-link" href="chatbot-lsa.html">Open case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">MLOps Earthquake Pipeline</div><div class="roadmap-hook"><strong>"How I make sure an ML model does not fail silently in production."</strong> End-to-end pipeline with monitoring, experiment tracking, and deployment discipline.</div><div class="roadmap-tags"><span class="proj-tag">MLOps</span><span class="proj-tag">Monitoring</span><span class="proj-tag">MLflow</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-hook"><strong>"From LSA to BERT: what changed and what did not."</strong> Modern financial NLP with transformer fine-tuning for domain-specific sentiment.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">Fintech</span><span class="proj-tag">Sentiment</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Transaction Fraud Pipeline</div><div class="roadmap-hook"><strong>"Detecting fraud without labels — where QA mindset becomes useful."</strong> Fraud pipeline with imbalanced learning and feature engineering for fintech scenarios.</div><div class="roadmap-tags"><span class="proj-tag">Fintech</span><span class="proj-tag">Fraud</span><span class="proj-tag">ML pipeline</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
         stage3Kicker: 'Section 03',
         stage3Title: 'Quality Assurance & Testing',
         stage3Desc: 'The final section makes the point clear: QA is not a side path, but the reason my evaluation, reliability, and product thinking feel different.',
@@ -614,8 +692,22 @@
         strength4Label: 'QA &amp; AI Evaluation',
         strength4Desc: 'SIT/UAT, Playwright, Selenium, Postman, cek halusinasi, dan evaluasi model dengan mindset QA.',
         projectsEyebrow: 'pilihan utama',
-        projectsTitle: 'Studi kasus unggulan untuk role AI Engineer.',
-        projectsSubtitle: 'Studi kasus detail dan cerita di balik proyek-proyek yang berjalan di production.',
+        projectsTitle: 'Karya saya. Dijelaskan tuntas.',
+        projectsSubtitle: 'Studi kasus end-to-end — dari perumusan masalah sampai hasil yang dikirim.',
+        featLive: 'Live',
+        feat1Label: 'Section 01 · LLM &amp; Generative AI',
+        feat1Name: 'Banking Intent Router',
+        feat1Hook: '<strong>"Saya kurangi biaya LLM chatbot banking 96%."</strong> Sistem routing 4-tier yang memutuskan kapan query cukup lewat regex, template, RAG, atau benar-benar perlu panggilan ke LLM — berdasarkan confidence dari SBERT + LinearSVC.',
+        feat1Stat1: 'F1 Macro',
+        feat1Stat2: 'Biaya LLM',
+        feat1Stat3: 'Latency',
+        feat2Label: 'Section 02 · Applied Data Science',
+        feat2Name: 'NLP KNN LSA &amp; Chatbot (Skripsi 2021)',
+        feat2Hook: '<strong>"Skripsi saya 2021. End-to-end dari penelitian ke produk."</strong> NLP klasik (KNN + LSA) dari awal di PHP — akurasi naik 92,1% ke 93,2%, waktu komputasi turun 35%, lalu dirilis sebagai web app dan bot Telegram.',
+        feat2Stat1: 'Akurasi',
+        feat2Stat2: 'Komputasi',
+        feat2Stat3: 'Pertanyaan',
+        featCta: 'Buka case study →',
         stage1Kicker: 'Section 01',
         stage1Title: 'LLM & Generative AI',
         stage1Desc: 'Bagian ini fokus pada sistem generative AI: cost control, prompt optimization, arsitektur RAG, evaluasi LLM, dan aplikasi siap production.',
@@ -625,7 +717,7 @@
         stage2Title: 'Applied Data Science',
         stage2Desc: 'Bagian ini menunjukkan fondasi data science yang kuat: time series, MLOps, people analytics, dan classical NLP yang tetap relevan.',
         stage2Note: 'Data stack',
-        stage2Grid: `<article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">MLOps Earthquake Pipeline</div><div class="roadmap-hook"><strong>"Cara saya pastikan model ML tidak gagal diam-diam di production."</strong> End-to-end pipeline dengan monitoring, experiment tracking, dan deployment discipline.</div><div class="roadmap-tags"><span class="proj-tag">MLOps</span><span class="proj-tag">Monitoring</span><span class="proj-tag">MLflow</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-hook"><strong>"Dari LSA ke BERT: yang berubah dan yang tidak."</strong> Modernisasi NLP finansial dengan fine-tuning model transformer untuk sentimen domain-specific.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">Fintech</span><span class="proj-tag">Sentiment</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Transaction Fraud Pipeline</div><div class="roadmap-hook"><strong>"Mendeteksi fraud tanpa label — mindset QA yang terbukti relevan."</strong> Fraud pipeline berbasis imbalanced learning dan feature engineering untuk skenario fintech.</div><div class="roadmap-tags"><span class="proj-tag">Fintech</span><span class="proj-tag">Fraud</span><span class="proj-tag">ML pipeline</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Skripsi 2021)</div><div class="roadmap-hook"><strong>"Skripsi saya 4 tahun lalu. End-to-end dari research hingga produk."</strong> Model classical NLP (KNN + LSA) yang diintegrasikan langsung sebagai frontend dan database chatbot.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Classical NLP</span><span class="proj-tag">Full-stack</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        stage2Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Skripsi 2021)</div><div class="roadmap-hook"><strong>"Skripsi saya 4 tahun lalu. End-to-end dari research hingga produk."</strong> Model classical NLP (KNN + LSA) yang diintegrasikan langsung sebagai frontend dan database chatbot.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Classical NLP</span><span class="proj-tag">Full-stack</span></div><a class="roadmap-link" href="chatbot-lsa.html">Buka case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">MLOps Earthquake Pipeline</div><div class="roadmap-hook"><strong>"Cara saya pastikan model ML tidak gagal diam-diam di production."</strong> End-to-end pipeline dengan monitoring, experiment tracking, dan deployment discipline.</div><div class="roadmap-tags"><span class="proj-tag">MLOps</span><span class="proj-tag">Monitoring</span><span class="proj-tag">MLflow</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-hook"><strong>"Dari LSA ke BERT: yang berubah dan yang tidak."</strong> Modernisasi NLP finansial dengan fine-tuning model transformer untuk sentimen domain-specific.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">Fintech</span><span class="proj-tag">Sentiment</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Transaction Fraud Pipeline</div><div class="roadmap-hook"><strong>"Mendeteksi fraud tanpa label — mindset QA yang terbukti relevan."</strong> Fraud pipeline berbasis imbalanced learning dan feature engineering untuk skenario fintech.</div><div class="roadmap-tags"><span class="proj-tag">Fintech</span><span class="proj-tag">Fraud</span><span class="proj-tag">ML pipeline</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
         stage3Kicker: 'Section 03',
         stage3Title: 'Quality Assurance & Testing',
         stage3Desc: 'Bagian akhir menegaskan bahwa QA bukan jalur samping, tapi alasan kenapa evaluasi, reliability, dan product thinking saya terasa berbeda.',

@@ -768,9 +768,9 @@
 
     .refs {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px 32px;
-      max-width: 900px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px 28px;
+      max-width: 1100px;
       margin-top: 32px;
     }
 
@@ -944,7 +944,7 @@
       }
 
       .refs {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .nav-tools {
@@ -990,6 +990,110 @@
         border-bottom: none;
       }
     }
+
+    /* ─── Arch diagram ─── */
+    .arch-vis {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 2rem 0 2.5rem;
+      background: var(--bg);
+    }
+    .arch-input-col {
+      display: flex;
+      align-items: center;
+      padding: 1.2rem;
+      background: var(--bg-alt);
+      border-right: 1px solid var(--line);
+    }
+    .arch-box { text-align: center; }
+    .arch-box-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+    .arch-box-title { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+    .arch-box-sub { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--muted); margin-top: 0.2rem; }
+    .arch-sep { display: flex; align-items: center; padding: 0 0.5rem; color: var(--muted); font-size: 1rem; }
+    .arch-router-col {
+      border-right: 1px solid var(--line);
+      background: rgba(26,82,118,0.04);
+      display: flex;
+      flex-direction: column;
+      min-width: 190px;
+    }
+    .arch-router-header {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary);
+      padding: 0.45rem 0.8rem;
+      border-bottom: 1px solid rgba(26,82,118,0.12);
+      background: rgba(26,82,118,0.06);
+    }
+    .arch-router-step { padding: 0.3rem 0.8rem; font-size: 0.82rem; color: var(--ink); }
+    .arch-router-step.rsub { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--muted); padding-top: 0; }
+    .arch-router-div { height: 1px; background: var(--line); margin: 0.25rem 0; }
+    .arch-tiers-col { display: flex; flex-direction: column; flex: 1; }
+    .arch-tier { flex: 1; padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; }
+    .arch-tier:last-child { border-bottom: none; }
+    .tier-head { font-size: 0.84rem; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.15rem; }
+    .tier-badge { font-family: 'DM Mono', monospace; font-size: 0.58rem; padding: 0.1rem 0.35rem; border-radius: 4px; }
+    .tier-meta { font-family: 'DM Mono', monospace; font-size: 0.67rem; color: var(--muted); }
+    .arch-tier.t0 { background: rgba(45,106,79,0.04); }
+    .arch-tier.t0 .tier-badge { background: rgba(45,106,79,0.12); color: var(--green); }
+    .arch-tier.t1 { background: rgba(26,82,118,0.03); }
+    .arch-tier.t1 .tier-badge { background: rgba(26,82,118,0.1); color: var(--primary); }
+    .arch-tier.t2 { background: rgba(196,73,12,0.03); }
+    .arch-tier.t2 .tier-badge { background: rgba(196,73,12,0.1); color: #a03a08; }
+    .arch-tier.t3 { background: rgba(196,73,12,0.07); }
+    .arch-tier.t3 .tier-badge { background: rgba(196,73,12,0.15); color: var(--red); }
+    @media (max-width: 640px) {
+      .arch-vis { flex-direction: column; }
+      .arch-sep { display: none; }
+      .arch-input-col { border-right: none; border-bottom: 1px solid var(--line); }
+      .arch-router-col { border-right: none; border-bottom: 1px solid var(--line); }
+    }
+
+    /* ─── Screenshots ─── */
+    .img-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .img-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .img-block img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      display: block;
+    }
+    .img-caption {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.66rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    @media (max-width: 640px) {
+      .img-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Screenshot slot ─── */
+    .screenshot-slot {
+      border: 2px dashed var(--line);
+      border-radius: 10px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      margin: 2rem 0;
+      background: var(--bg-alt);
+    }
+    .screenshot-slot .slot-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .screenshot-slot .slot-title { font-size: 0.9rem; font-weight: 500; color: var(--ink-soft); }
+    .screenshot-slot .slot-hint { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 0.35rem; }
   </style>
 </head>
 
@@ -1259,12 +1363,114 @@
 
   <section class="content alt">
     <div class="wrap">
-      <div class="section-num" data-i18n="architectureNum">02 · The Architecture</div>
+      <div class="section-num" data-i18n="foundationNum">02 · From LSA to SBERT</div>
+      <h2 data-i18n="foundationTitle">TF-IDF alone was never enough. <em>The question was always how to represent meaning.</em></h2>
+
+      <p class="lede" data-i18n="foundationLede">This project didn't start from a banking brief. It started from a 2021 undergraduate thesis that ran into the exact same problem: raw word counts don't capture what a sentence means.</p>
+
+      <h3 data-i18n="foundation2021Title">2021 thesis: the LSA insight.</h3>
+      <p data-i18n="foundation2021P1">In my thesis, I was building a question classifier for a university chatbot using KNN. The first approach — KNN on raw TF-IDF vectors — had a structural problem. A sparse vector treats "lost card" and "card stolen" as completely unrelated: they share zero terms, so their distance is maximal even though they mean the same thing. KNN on sparse, high-dimensional vectors is both slow to compute and semantically blind.</p>
+      <p data-i18n="foundation2021P2">LSA fixed this via SVD: decompose the TF-IDF matrix, keep the top-k singular values, and project every question into a lower-dimensional latent space. In that space, words that appear in similar contexts cluster together — "lost" and "stolen" both appear near "card" in the corpus, so they end up geometrically close. Accuracy improved from 92.1% to 93.2%, compute time dropped 35%. The lesson: <em>co-occurrence implies meaning, and you need a dense space to exploit it.</em></p>
+
+      <h3 data-i18n="foundationSBERTTitle">2025: SBERT solves the same problem at a different scale.</h3>
+      <p data-i18n="foundationSBERTP1">SBERT (Sentence-BERT) does exactly what LSA did — but instead of decomposing a matrix built from 1,410 local questions, a transformer learns dense representations from pre-training on over a billion sentence pairs. The 384-dimensional output vector encodes meaning through attention weights, not co-occurrence statistics.</p>
+      <p data-i18n="foundationSBERTP2">"Lost my card" and "card stolen" map to nearby points in the SBERT embedding space not because they appeared in the same documents in a small corpus, but because the model learned their shared semantic role across billions of examples. The classifier (LinearSVC) then operates in that already-meaningful space — and confidence in that space becomes a reliable routing signal.</p>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th data-i18n="foundationTableCol0"></th>
+            <th data-i18n="foundationTableCol1">LSA · 2021 thesis</th>
+            <th data-i18n="foundationTableCol2">SBERT · this project</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-i18n="foundationRow1Label">Semantic knowledge</td>
+            <td data-i18n="foundationRow1A">Co-occurrence in 1,410 questions</td>
+            <td data-i18n="foundationRow1B">Pre-trained on 1B+ sentence pairs</td>
+          </tr>
+          <tr>
+            <td data-i18n="foundationRow2Label">How meaning is found</td>
+            <td data-i18n="foundationRow2A">SVD on TF-IDF matrix (k = 661 dims)</td>
+            <td data-i18n="foundationRow2B">Transformer attention → 384-dim vector</td>
+          </tr>
+          <tr>
+            <td data-i18n="foundationRow3Label">Synonym handling</td>
+            <td data-i18n="foundationRow3A">Partial — only if both appear in corpus</td>
+            <td data-i18n="foundationRow3B">Yes — learned from pre-training</td>
+          </tr>
+          <tr>
+            <td data-i18n="foundationRow4Label">Downstream classifier</td>
+            <td data-i18n="foundationRow4A">KNN (Manhattan distance)</td>
+            <td data-i18n="foundationRow4B">LinearSVC + calibrated probabilities</td>
+          </tr>
+          <tr class="highlight">
+            <td data-i18n="foundationRow5Label">Core mechanism</td>
+            <td data-i18n="foundationRow5A">Co-occurrence → matrix decomposition</td>
+            <td data-i18n="foundationRow5B">Context → attention → embedding</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pullquote" data-i18n="foundationQuote">
+        "The insight was the same in 2021 and 2025: counting words isn't enough. You need to represent meaning. LSA used matrix algebra to find it in a small corpus. SBERT learned it from pre-training at scale."
+        <span class="attr">— the thread connecting thesis to production</span>
+      </div>
+
+      <p data-i18n="foundationRef">Full breakdown of the 2021 LSA implementation: <a href="chatbot-lsa.html">NLP KNN LSA &amp; Chatbot — thesis case study →</a></p>
+    </div>
+  </section>
+
+  <section class="content">
+    <div class="wrap">
+      <div class="section-num" data-i18n="architectureNum">03 · The Architecture</div>
       <h2 data-i18n="architectureTitle">Route by <em>confidence,</em> not by hope.</h2>
 
       <p class="lede" data-i18n="architectureLede">Every query first hits a small SBERT (all-MiniLM-L6-v2) encoder, then
         a LinearSVC classifier
         predicts intent + confidence. The confidence score then routes the query through one of four tiers.</p>
+
+      <div class="arch-vis">
+        <div class="arch-input-col">
+          <div class="arch-box">
+            <div class="arch-box-label">Input</div>
+            <div class="arch-box-title">User Query</div>
+            <div class="arch-box-sub">banking question</div>
+          </div>
+        </div>
+        <div class="arch-sep">→</div>
+        <div class="arch-router-col">
+          <div class="arch-router-header">Confidence Router</div>
+          <div class="arch-router-step">① Regex pre-filter</div>
+          <div class="arch-router-step rsub">greetings · farewells</div>
+          <div class="arch-router-div"></div>
+          <div class="arch-router-step">② SBERT Encoder</div>
+          <div class="arch-router-step rsub">all-MiniLM-L6-v2 · 384-dim</div>
+          <div class="arch-router-div"></div>
+          <div class="arch-router-step">③ LinearSVC + confidence</div>
+          <div class="arch-router-step rsub">intent label · score [0, 1]</div>
+        </div>
+        <div class="arch-sep">→</div>
+        <div class="arch-tiers-col">
+          <div class="arch-tier t0">
+            <div class="tier-head"><span class="tier-badge">TIER 00</span> Conversational</div>
+            <div class="tier-meta">regex match · $0.000 · &lt;1ms</div>
+          </div>
+          <div class="arch-tier t1">
+            <div class="tier-head"><span class="tier-badge">TIER 01</span> Template Handler</div>
+            <div class="tier-meta">conf ≥ 0.55 · $0.001 · ~8ms</div>
+          </div>
+          <div class="arch-tier t2">
+            <div class="tier-head"><span class="tier-badge">TIER 02</span> RAG Pipeline</div>
+            <div class="tier-meta">conf ≥ 0.30 · $0.010 · ~300ms</div>
+          </div>
+          <div class="arch-tier t3">
+            <div class="tier-head"><span class="tier-badge">TIER 03</span> LLM Escalation</div>
+            <div class="tier-meta">conf &lt; 0.30 · $0.050 · ~2s</div>
+          </div>
+        </div>
+      </div>
 
       <pre class="code"
         data-i18n="architectureCode"><span class="c"># Tier 0: regex pre-filter (bypass model entirely)</span>
@@ -1341,7 +1547,7 @@ confidence = proba.max()
 
   <section class="content">
     <div class="wrap">
-      <div class="section-num" data-i18n="numbersNum">03 · The Numbers</div>
+      <div class="section-num" data-i18n="numbersNum">04 · The Numbers</div>
       <h2 data-i18n="numbersTitle">Benchmarked on <em>Banking77.</em></h2>
 
       <p data-i18n="numbersIntro">13,083 customer queries across 77 banking intents — the standard benchmark for banking
@@ -1404,7 +1610,7 @@ confidence = proba.max()
 
   <section class="content alt">
     <div class="wrap">
-      <div class="section-num" data-i18n="productionNum">04 · Production Engineering</div>
+      <div class="section-num" data-i18n="productionNum">05 · Production Engineering</div>
       <h2 data-i18n="productionTitle">Not a notebook. <em>A service.</em></h2>
 
       <div class="two-col">
@@ -1461,12 +1667,23 @@ confidence = proba.max()
             misconfiguration is logged, not raised.</p>
         </div>
       </div>
+
+      <div class="img-grid">
+        <div class="img-block">
+          <img src="bangking%20image/Hugging%20Face%20Spaces%20live%20demo.png" alt="Hugging Face Spaces live demo — chat UI showing routing tier badge, confidence score, and latency per query" loading="lazy">
+          <div class="img-caption">Live demo · routing badge + confidence score visible per query</div>
+        </div>
+        <div class="img-block">
+          <img src="bangking%20image/Dashboard%20Grafana.png" alt="Grafana Cloud monitoring dashboard — request rate, routing distribution, latency histograms, and cost metrics" loading="lazy">
+          <div class="img-caption">Grafana Cloud · 12 custom Prometheus metrics in production</div>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="content">
     <div class="wrap">
-      <div class="section-num" data-i18n="decisionsNum">05 · Production-Grade Decisions</div>
+      <div class="section-num" data-i18n="decisionsNum">06 · Production-Grade Decisions</div>
       <h2 data-i18n="decisionsTitle">The small choices <em>that matter.</em></h2>
 
       <p class="lede" data-i18n="decisionsLede">A notebook lives for 30 minutes. A service lives in production. These
@@ -1504,8 +1721,8 @@ confidence = proba.max()
 
   <section class="content alt">
     <div class="wrap">
-      <div class="section-num" data-i18n="lessonsNum">06 · What I Learned</div>
-      <h2 data-i18n="lessonsTitle">Three lessons <em>I'll carry forward.</em></h2>
+      <div class="section-num" data-i18n="lessonsNum">07 · What I Learned</div>
+      <h2 data-i18n="lessonsTitle">Four lessons <em>I'll carry forward.</em></h2>
 
       <h3 data-i18n="lesson1Title">1. Real ML engineering = knowing when NOT to use the big model.</h3>
       <p data-i18n="lesson1Text">The instinct to throw GPT-4 at every problem is the most expensive habit in modern ML.
@@ -1523,8 +1740,11 @@ confidence = proba.max()
         distribution is drifting. <code>router_estimated_cost_usd_total</code> tells finance exactly what the chatbot
         costs them per day. Without these, you're blind.</p>
 
+      <h3 data-i18n="lesson4Title">4. Classical NLP clarifies what modern NLP is actually solving.</h3>
+      <p data-i18n="lesson4Text">Implementing LSA from scratch in 2021 — manually computing SVD, projecting into the latent space, measuring cosine similarity — made it immediately obvious what SBERT was doing when I picked it up in 2025. The mechanism changed; the problem didn't. Understanding the classical version makes you a sharper judge of when the modern version is overkill, when it's necessary, and what its failure modes look like.</p>
+
       <div class="pullquote" data-i18n="lessonsQuote">
-        "Real engineering isn't about using the biggest model. It's about knowing when not to."
+        "Real engineering isn't about using the biggest model. It's about knowing when not to — and understanding the classical baseline is how you develop that judgment."
         <span class="attr">— Banking Intent Router case study</span>
       </div>
     </div>
@@ -1532,7 +1752,7 @@ confidence = proba.max()
 
   <section class="content alt">
     <div class="wrap">
-      <div class="section-num">07 · References</div>
+      <div class="section-num">08 · References</div>
       <h2>Sources I used to ground the <em>technical choices.</em></h2>
 
       <p class="lede">The project decisions are tied to public datasets, papers, model cards, and official documentation
@@ -1587,6 +1807,22 @@ confidence = proba.max()
             target="_blank" rel="noopener">Grafana Cloud remote_write docs</a>
           <p>Reference for pushing Prometheus-compatible metrics to Grafana Cloud.</p>
         </div>
+        <div class="ref">
+          <a href="https://arxiv.org/abs/2406.18665" target="_blank" rel="noopener">RouteLLM — Ong et al. (2024)</a>
+          <p>Framework for learning cost-effective LLM routing between strong and weak models using preference data. Direct academic grounding for the 4-tier routing architecture.</p>
+        </div>
+        <div class="ref">
+          <a href="https://arxiv.org/abs/2305.05176" target="_blank" rel="noopener">FrugalGPT — Chen et al. (2023)</a>
+          <p>Cascade strategy that achieves GPT-4-level quality at 98% lower cost. Motivates the regex→template→RAG→LLM escalation pattern used in this project.</p>
+        </div>
+        <div class="ref">
+          <a href="https://arxiv.org/abs/1706.04599" target="_blank" rel="noopener">On Calibration of Modern Neural Networks — Guo et al. (2017)</a>
+          <p>Foundational study on confidence miscalibration in deep networks. Grounds the confidence threshold design for tier-escalation decisions.</p>
+        </div>
+        <div class="ref">
+          <a href="https://arxiv.org/abs/1810.04805" target="_blank" rel="noopener">BERT — Devlin et al. (2019)</a>
+          <p>Pre-training deep bidirectional transformer representations from unlabelled text. The architectural foundation that SBERT extends for sentence-level embeddings.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1639,7 +1875,36 @@ confidence = proba.max()
         problemBullet1: '<strong>Routine FAQs</strong> (70–80%) — "lost card", "forgot PIN", "check balance" — perfectly handled by templates',
         problemBullet2: '<strong>Knowledge queries</strong> (15–25%) — "what\'s the limit for international wire?" — handled by RAG over a curated FAQ',
         problemBullet3: '<strong>Complex/edge cases</strong> (~5%) — multi-turn reasoning, unusual phrasing — actually need an LLM',
-        architectureNum: '02 · The Architecture',
+        foundationNum: '02 · From LSA to SBERT',
+        foundationTitle: 'TF-IDF alone was never enough. <em>The question was always how to represent meaning.</em>',
+        foundationLede: 'This project didn\'t start from a banking brief. It started from a 2021 undergraduate thesis that ran into the exact same problem: raw word counts don\'t capture what a sentence means.',
+        foundation2021Title: '2021 thesis: the LSA insight.',
+        foundation2021P1: 'In my thesis, I was building a question classifier for a university chatbot using KNN. The first approach — KNN on raw TF-IDF vectors — had a structural problem. A sparse vector treats "lost card" and "card stolen" as completely unrelated: they share zero terms, so their distance is maximal even though they mean the same thing. KNN on sparse, high-dimensional vectors is both slow to compute and semantically blind.',
+        foundation2021P2: 'LSA fixed this via SVD: decompose the TF-IDF matrix, keep the top-k singular values, and project every question into a lower-dimensional latent space. In that space, words that appear in similar contexts cluster together. Accuracy improved from 92.1% to 93.2%, compute time dropped 35%. The lesson: <em>co-occurrence implies meaning, and you need a dense space to exploit it.</em>',
+        foundationSBERTTitle: '2025: SBERT solves the same problem at a different scale.',
+        foundationSBERTP1: 'SBERT (Sentence-BERT) does exactly what LSA did — but instead of decomposing a matrix built from 1,410 local questions, a transformer learns dense representations from pre-training on over a billion sentence pairs. The 384-dimensional output vector encodes meaning through attention weights, not co-occurrence statistics.',
+        foundationSBERTP2: '"Lost my card" and "card stolen" map to nearby points in the SBERT embedding space not because they appeared in the same documents in a small corpus, but because the model learned their shared semantic role across billions of examples. The classifier (LinearSVC) then operates in that already-meaningful space — and confidence in that space becomes a reliable routing signal.',
+        foundationTableCol0: '',
+        foundationTableCol1: 'LSA · 2021 thesis',
+        foundationTableCol2: 'SBERT · this project',
+        foundationRow1Label: 'Semantic knowledge',
+        foundationRow1A: 'Co-occurrence in 1,410 questions',
+        foundationRow1B: 'Pre-trained on 1B+ sentence pairs',
+        foundationRow2Label: 'How meaning is found',
+        foundationRow2A: 'SVD on TF-IDF matrix (k = 661 dims)',
+        foundationRow2B: 'Transformer attention → 384-dim vector',
+        foundationRow3Label: 'Synonym handling',
+        foundationRow3A: 'Partial — only if both appear in corpus',
+        foundationRow3B: 'Yes — learned from pre-training',
+        foundationRow4Label: 'Downstream classifier',
+        foundationRow4A: 'KNN (Manhattan distance)',
+        foundationRow4B: 'LinearSVC + calibrated probabilities',
+        foundationRow5Label: 'Core mechanism',
+        foundationRow5A: 'Co-occurrence → matrix decomposition',
+        foundationRow5B: 'Context → attention → embedding',
+        foundationQuote: '"The insight was the same in 2021 and 2025: counting words isn\'t enough. You need to represent meaning. LSA used matrix algebra to find it in a small corpus. SBERT learned it from pre-training at scale."<span class="attr">— the thread connecting thesis to production</span>',
+        foundationRef: 'Full breakdown of the 2021 LSA implementation: <a href="chatbot-lsa.html">NLP KNN LSA &amp; Chatbot — thesis case study →</a>',
+        architectureNum: '03 · The Architecture',
         architectureTitle: 'Route by <em>confidence,</em> not by hope.',
         architectureLede: 'Every query first hits a small SBERT (all-MiniLM-L6-v2) encoder, then a LinearSVC classifier predicts intent + confidence. The confidence score then routes the query through one of four tiers.',
         architectureCode: `<span class="c"># Tier 0: regex pre-filter (bypass model entirely)</span>
@@ -1675,7 +1940,7 @@ confidence = proba.max()
         tier3Metric2: '<small>Latency</small><strong>~2s</strong>',
         architectureBitTitle: 'The clever bit: <em>confidence-aware</em> LLM hint',
         architectureBitText: 'Even when escalating to the LLM, the classifier\'s output isn\'t thrown away. The predicted intent label is passed as a soft context hint to the LLM — <em>but only if</em> confidence ≥ 0.25. Below that threshold, the prediction is too noisy to be useful and would mislead the model, so the hint is dropped. Engineering decisions like this are what separate a notebook from a production service.',
-        numbersNum: '03 · The Numbers',
+        numbersNum: '04 · The Numbers',
         numbersTitle: 'Benchmarked on <em>Banking77.</em>',
         numbersIntro: '13,083 customer queries across 77 banking intents — the standard benchmark for banking NLP.',
         tableMetric: 'Metric',
@@ -1703,7 +1968,7 @@ confidence = proba.max()
 <span class="c"># A very template-heavy mix approaches ~96%.</span>
 <span class="c"># A conservative mix (heavier LLM usage) sits closer to ~70%.</span>`,
         savingsDisclaimer: '⚠️ The exact % depends on real traffic distribution. The honest answer in an interview: "it\'s an 88–96% range for the assumed mixes — and a more conservative mix can be lower."',
-        productionNum: '04 · Production Engineering',
+        productionNum: '05 · Production Engineering',
         productionTitle: 'Not a notebook. <em>A service.</em>',
         servingTitle: 'Serving stack',
         servingText: 'Single Docker image, served via FastAPI with Pydantic schemas. <code>/predict</code> endpoint returns intent_id, confidence, routing decision, latency, and the actual generated answer. Custom chat UI in <code>static/index.html</code> with per-tier routing badges.',
@@ -1713,7 +1978,7 @@ confidence = proba.max()
         observabilityText: '12 custom metrics exposed via <code>/metrics</code>: request count, latency histograms, routing distribution, confidence histogram, rolling low-confidence rate, cumulative estimated cost per tier. Async push to Grafana Cloud via Prometheus remote_write (manual protobuf + snappy compression).',
         resilienceTitle: 'Resilience',
         resilienceText: 'LLM call failures degrade gracefully to a support-message fallback. Health endpoint reports model + RAG + LLM provider status. Lifespan hooks ensure model load happens before serving traffic. Provider misconfiguration is logged, not raised.',
-        decisionsNum: '05 · Production-Grade Decisions',
+        decisionsNum: '06 · Production-Grade Decisions',
         decisionsTitle: 'The small choices <em>that matter.</em>',
         decisionsLede: 'A notebook lives for 30 minutes. A service lives in production. These are the trade-offs that show up only when you actually ship something.',
         decision1: '<strong>CPU-only PyTorch in the Dockerfile.</strong> ~200 MB instead of ~2 GB CUDA wheels. HF Spaces free tier has no GPU — bundling CUDA just bloats the image and slows cold starts.',
@@ -1722,15 +1987,17 @@ confidence = proba.max()
         decision4: '<strong>Confidence-aware LLM prompting.</strong> The classifier\'s predicted intent is passed to the LLM as a soft hint — but only if <code>confidence ≥ 0.25</code>. Below that, the prediction is too noisy and gets dropped to avoid misleading the LLM.',
         decision5: '<strong>Bilingual conversational pre-filter.</strong> The keyword set includes Indonesian greetings/farewells (<code>halo</code>, <code>selamat pagi</code>, <code>terima kasih</code>) — built for actual Indonesian users, not an English-only demo.',
         decision6: '<strong>Pinned exact dependency versions.</strong> All 16 serving deps pinned to specific versions. No "works on my machine" surprises three months later.',
-        lessonsNum: '06 · What I Learned',
-        lessonsTitle: 'Three lessons <em>I\'ll carry forward.</em>',
+        lessonsNum: '07 · What I Learned',
+        lessonsTitle: 'Four lessons <em>I\'ll carry forward.</em>',
         lesson1Title: '1. Real ML engineering = knowing when NOT to use the big model.',
         lesson1Text: 'The instinct to throw GPT-4 at every problem is the most expensive habit in modern ML. The router proves a small model + good architecture can beat a big model on cost-per-correct-answer.',
         lesson2Title: '2. Confidence is a first-class signal — use it.',
         lesson2Text: 'Most classifiers throw away the confidence score. It\'s the most useful signal in production: it tells you when to escalate, when to ask for clarification, when to log for review.',
         lesson3Title: '3. Observability is not optional for ML services.',
         lesson3Text: 'The Prometheus metrics aren\'t decoration. <code>router_low_confidence_rate</code> trending up = your distribution is drifting. <code>router_estimated_cost_usd_total</code> tells finance exactly what the chatbot costs them per day. Without these, you\'re blind.',
-        lessonsQuote: '"Real engineering isn\'t about using the biggest model. It\'s about knowing when not to."<span class="attr">— Case study</span>',
+        lesson4Title: '4. Classical NLP clarifies what modern NLP is actually solving.',
+        lesson4Text: 'Implementing LSA from scratch in 2021 — manually computing SVD, projecting into the latent space, measuring cosine similarity — made it immediately obvious what SBERT was doing when I picked it up in 2025. The mechanism changed; the problem didn\'t. Understanding the classical version makes you a sharper judge of when the modern version is overkill, when it\'s necessary, and what its failure modes look like.',
+        lessonsQuote: '"Real engineering isn\'t about using the biggest model. It\'s about knowing when not to — and understanding the classical baseline is how you develop that judgment."<span class="attr">— Banking Intent Router case study</span>',
         ctaNum: 'Try it · See the code',
         ctaTitle: 'Live demo + full source <em>on Hugging Face.</em>',
         ctaText: 'Type any banking question — the UI shows which tier handled it, the confidence score, the latency, and the actual response. Click through the Files tab for the full FastAPI + Prometheus + RAG implementation.',
@@ -1762,7 +2029,36 @@ confidence = proba.max()
         problemBullet1: '<strong>FAQ rutin</strong> (70–80%) — "kartu hilang", "lupa PIN", "cek saldo" — sangat cocok dijawab template',
         problemBullet2: '<strong>Query pengetahuan</strong> (15–25%) — "berapa limit transfer internasional?" — cocok ditangani RAG di atas FAQ terkurasi',
         problemBullet3: '<strong>Kasus kompleks / edge case</strong> (~5%) — reasoning multi-turn, phrasing tidak biasa — baru benar-benar perlu LLM',
-        architectureNum: '02 · Arsitekturnya',
+        foundationNum: '02 · Dari LSA ke SBERT',
+        foundationTitle: 'TF-IDF saja tidak pernah cukup. <em>Pertanyaannya selalu: bagaimana merepresentasikan makna?</em>',
+        foundationLede: 'Project ini tidak bermula dari brief perbankan. Ia bermula dari skripsi 2021 yang menemukan masalah fundamental yang sama persis: penghitungan kata tidak menangkap makna sebuah kalimat.',
+        foundation2021Title: 'Skripsi 2021: insight dari LSA.',
+        foundation2021P1: 'Di skripsi, saya membangun classifier pertanyaan untuk chatbot universitas menggunakan KNN. Pendekatan pertama — KNN pada vektor TF-IDF mentah — punya masalah struktural. Vektor sparse memperlakukan "kartu hilang" dan "kartu dicuri" sebagai dua hal yang sama sekali tidak berkaitan: mereka tidak berbagi satu token pun, sehingga jaraknya maksimal meskipun maknanya sama. KNN pada vektor sparse berdimensi tinggi lambat sekaligus buta secara semantik.',
+        foundation2021P2: 'LSA memperbaiki ini via SVD: dekomposisi matriks TF-IDF, pertahankan top-k singular value, proyeksikan setiap pertanyaan ke ruang laten berdimensi lebih rendah. Di ruang itu, kata-kata yang muncul dalam konteks serupa berkerumun bersama. Akurasi naik dari 92,1% ke 93,2%, waktu komputasi turun 35%. Pelajarannya: <em>ko-okulrensi mengimplikasikan makna, dan kamu butuh ruang yang dense untuk memanfaatkannya.</em>',
+        foundationSBERTTitle: '2025: SBERT menyelesaikan masalah yang sama pada skala berbeda.',
+        foundationSBERTP1: 'SBERT (Sentence-BERT) melakukan persis yang dilakukan LSA — tetapi alih-alih mendekomposisi matriks yang dibangun dari 1.410 pertanyaan lokal, transformer mempelajari representasi dense dari pre-training pada lebih dari satu miliar pasang kalimat. Vektor output 384-dimensi mengkodekan makna melalui attention weight, bukan statistik ko-okuren.',
+        foundationSBERTP2: '"Kartu saya hilang" dan "kartu dicuri" memetakan ke titik yang berdekatan di ruang embedding SBERT bukan karena keduanya muncul di dokumen yang sama dalam corpus kecil, melainkan karena model telah mempelajari peran semantik mereka yang sama dari miliaran contoh. Classifier (LinearSVC) kemudian beroperasi di ruang yang sudah bermakna itu — dan confidence di ruang itu menjadi sinyal routing yang andal.',
+        foundationTableCol0: '',
+        foundationTableCol1: 'LSA · skripsi 2021',
+        foundationTableCol2: 'SBERT · project ini',
+        foundationRow1Label: 'Sumber pengetahuan semantik',
+        foundationRow1A: 'Ko-okuren dari 1.410 pertanyaan',
+        foundationRow1B: 'Pre-trained pada 1M+ pasang kalimat',
+        foundationRow2Label: 'Cara makna ditemukan',
+        foundationRow2A: 'SVD pada matriks TF-IDF (k = 661 dims)',
+        foundationRow2B: 'Transformer attention → vektor 384-dim',
+        foundationRow3Label: 'Penanganan sinonim',
+        foundationRow3A: 'Sebagian — hanya jika keduanya ada di corpus',
+        foundationRow3B: 'Ya — dipelajari dari pre-training',
+        foundationRow4Label: 'Classifier downstream',
+        foundationRow4A: 'KNN (Manhattan distance)',
+        foundationRow4B: 'LinearSVC + calibrated probabilities',
+        foundationRow5Label: 'Mekanisme inti',
+        foundationRow5A: 'Ko-okuren → dekomposisi matriks',
+        foundationRow5B: 'Konteks → attention → embedding',
+        foundationQuote: '"Insight-nya sama di 2021 dan 2025: menghitung kata tidak cukup. Kamu butuh merepresentasikan makna. LSA menemukan makna lewat aljabar matriks pada corpus kecil. SBERT mempelajarinya dari pre-training pada skala besar."<span class="attr">— benang merah yang menghubungkan skripsi ke production</span>',
+        foundationRef: 'Penjelasan lengkap implementasi LSA 2021: <a href="chatbot-lsa.html">NLP KNN LSA &amp; Chatbot — studi kasus skripsi →</a>',
+        architectureNum: '03 · Arsitekturnya',
         architectureTitle: 'Routing berdasarkan <em>confidence,</em> bukan harapan.',
         architectureLede: 'Setiap query pertama-tama masuk ke encoder SBERT kecil (all-MiniLM-L6-v2), lalu classifier LinearSVC memprediksi intent + confidence. Skor confidence inilah yang menentukan query masuk ke salah satu dari empat tier.',
         architectureCode: `<span class="c"># Tier 0: regex pre-filter (lewati model sepenuhnya)</span>
@@ -1798,7 +2094,7 @@ confidence = proba.max()
         tier3Metric2: '<small>Latency</small><strong>~2s</strong>',
         architectureBitTitle: 'Bagian menariknya: hint LLM yang <em>confidence-aware</em>',
         architectureBitText: 'Bahkan saat query dieskalasikan ke LLM, output classifier tidak dibuang. Label intent hasil prediksi diberikan sebagai soft context hint ke LLM — <em>tetapi hanya jika</em> confidence ≥ 0.25. Di bawah threshold itu, prediksinya terlalu noisy dan justru berisiko menyesatkan model, jadi hint-nya dibuang. Keputusan engineering kecil seperti ini yang membedakan notebook dari service production.',
-        numbersNum: '03 · Angkanya',
+        numbersNum: '04 · Angkanya',
         numbersTitle: 'Diuji di atas <em>Banking77.</em>',
         numbersIntro: '13.083 query nasabah untuk 77 intent banking — benchmark standar untuk NLP perbankan.',
         tableMetric: 'Metrik',
@@ -1826,7 +2122,7 @@ confidence = proba.max()
 <span class="c"># Mix yang sangat dominan template bisa mendekati ~96%.</span>
 <span class="c"># Mix yang lebih konservatif (pemakaian LLM lebih berat) bisa turun ke ~70%.</span>`,
         savingsDisclaimer: '⚠️ Persentase tepatnya tetap bergantung pada distribusi traffic nyata. Jawaban yang jujur saat interview: "rentang utamanya 88–96% untuk mix yang diasumsikan — dan mix yang lebih konservatif bisa lebih rendah."',
-        productionNum: '04 · Production Engineering',
+        productionNum: '05 · Production Engineering',
         productionTitle: 'Bukan notebook. <em>Service sungguhan.</em>',
         servingTitle: 'Serving stack',
         servingText: 'Satu Docker image, disajikan lewat FastAPI dengan schema Pydantic. Endpoint <code>/predict</code> mengembalikan intent_id, confidence, keputusan routing, latency, dan jawaban final. Saya juga buat custom chat UI di <code>static/index.html</code> dengan badge tier per routing.',
@@ -1836,7 +2132,7 @@ confidence = proba.max()
         observabilityText: 'ada 12 custom metric di <code>/metrics</code>: request count, histogram latency, distribusi routing, histogram confidence, rolling low-confidence rate, dan estimasi biaya kumulatif per tier. Data dikirim async ke Grafana Cloud via Prometheus remote_write (manual protobuf + snappy compression).',
         resilienceTitle: 'Resilience',
         resilienceText: 'Kalau panggilan LLM gagal, sistem turun secara graceful ke fallback message untuk support. Health endpoint melaporkan status model + RAG + provider LLM. Lifespan hook memastikan model selesai load sebelum menerima traffic. Salah konfigurasi provider dicatat ke log, bukan dilempar jadi error.',
-        decisionsNum: '05 · Keputusan Production-Grade',
+        decisionsNum: '06 · Keputusan Production-Grade',
         decisionsTitle: 'Pilihan kecil <em>yang penting.</em>',
         decisionsLede: 'Notebook hidup 30 menit. Service hidup di production. Trade-off seperti ini baru terasa ketika kamu benar-benar mengirim sistem ke pengguna.',
         decision1: '<strong>PyTorch CPU-only di Dockerfile.</strong> Sekitar 200 MB dibanding wheel CUDA yang bisa mendekati 2 GB. HF Spaces tier gratis tidak punya GPU — membawa CUDA hanya membuat image gemuk dan cold start lebih lambat.',
@@ -1845,15 +2141,17 @@ confidence = proba.max()
         decision4: '<strong>Prompting LLM yang sadar confidence.</strong> Prediksi intent dari classifier diberikan ke LLM sebagai soft hint — tetapi hanya jika <code>confidence ≥ 0.25</code>. Di bawah itu, prediksi terlalu noisy dan dibuang agar tidak menyesatkan LLM.',
         decision5: '<strong>Conversational pre-filter bilingual.</strong> Daftar keyword juga memasukkan greeting/farewell Indonesia (<code>halo</code>, <code>selamat pagi</code>, <code>terima kasih</code>) — dibangun untuk user Indonesia sungguhan, bukan demo yang hanya mengasumsikan English.',
         decision6: '<strong>Versi dependency dipin dengan tepat.</strong> Semua 16 dependency serving dipasang pada versi spesifik. Tidak ada kejutan "works on my machine" tiga bulan kemudian.',
-        lessonsNum: '06 · Yang Saya Pelajari',
-        lessonsTitle: 'Tiga pelajaran <em>yang saya bawa terus.</em>',
+        lessonsNum: '07 · Yang Saya Pelajari',
+        lessonsTitle: 'Empat pelajaran <em>yang saya bawa terus.</em>',
         lesson1Title: '1. ML engineering yang nyata = tahu kapan TIDAK memakai model besar.',
         lesson1Text: 'Kebiasaan melempar GPT-4 ke setiap masalah adalah kebiasaan paling mahal di ML modern. Router ini membuktikan bahwa model kecil + arsitektur yang baik bisa mengalahkan model besar dari sisi cost-per-correct-answer.',
         lesson2Title: '2. Confidence adalah sinyal kelas satu — pakai itu.',
         lesson2Text: 'Banyak classifier membuang confidence score. Padahal itu sinyal paling berguna di production: memberi tahu kapan harus eskalasi, kapan harus minta klarifikasi, dan kapan harus dicatat untuk review.',
         lesson3Title: '3. Observability bukan opsi tambahan untuk service ML.',
         lesson3Text: 'Metric Prometheus di sini bukan dekorasi. <code>router_low_confidence_rate</code> yang naik berarti distribusi kamu sedang drift. <code>router_estimated_cost_usd_total</code> memberi tim finance angka pasti biaya chatbot per hari. Tanpa itu, kamu buta.',
-        lessonsQuote: '"Engineering yang nyata bukan soal memakai model terbesar. Tapi soal tahu kapan tidak perlu memakainya."<span class="attr">— Case study</span>',
+        lesson4Title: '4. NLP klasik memperjelas apa yang sebenarnya diselesaikan NLP modern.',
+        lesson4Text: 'Mengimplementasikan LSA dari awal di 2021 — menghitung SVD secara manual, memproyeksikan ke ruang laten, mengukur cosine similarity — membuat saya langsung paham apa yang dilakukan SBERT saat saya menggunakannya di 2025. Mekanismenya berubah; masalahnya tidak. Memahami versi klasiknya membuat kamu lebih tajam dalam menilai kapan versi modernnya terlalu berlebihan, kapan memang diperlukan, dan apa failure mode-nya.',
+        lessonsQuote: '"Engineering yang nyata bukan soal memakai model terbesar. Tapi soal tahu kapan tidak perlu — dan memahami baseline klasik adalah cara kamu membangun penilaian itu."<span class="attr">— Banking Intent Router case study</span>',
         ctaNum: 'Coba · Lihat kodenya',
         ctaTitle: 'Live demo + source code lengkap <em>di Hugging Face.</em>',
         ctaText: 'Ketik pertanyaan banking apa saja — UI akan menunjukkan tier mana yang menangani query, confidence score, latency, dan respons finalnya. Buka tab Files untuk melihat implementasi lengkap FastAPI + Prometheus + RAG.',

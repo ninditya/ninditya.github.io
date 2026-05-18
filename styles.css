@@ -25,8 +25,8 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1
 
 /* NAV */
 nav{background:rgba(245,243,238,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 2rem;position:sticky;top:0;z-index:100}
-.nav-inner{max-width:1040px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:56px}
-.logo{font-family:var(--serif);font-size:1.2rem;font-style:italic;color:var(--ink);text-decoration:none}
+.nav-inner{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:56px}
+.logo{font-family:var(--serif);font-size:20px;letter-spacing:-0.01em;font-style:normal;color:var(--ink);text-decoration:none}
 .nav-tools{display:flex;align-items:center;gap:10px}
 .mobile-nav-toggle{display:none;background:transparent;border:none;color:var(--ink);font-size:1.5rem;cursor:pointer;padding:0 5px;line-height:1}
 .nav-pills{display:flex;gap:4px}
@@ -37,7 +37,7 @@ nav{background:rgba(245,243,238,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .lang-btn.active{background:var(--ink);color:#fff}
 
 /* HERO */
-.hero{max-width:1040px;margin:0 auto;padding:5rem 2rem 4rem;border-bottom:1px solid var(--border)}
+.hero{max-width:1080px;margin:0 auto;padding:5rem 2rem 4rem;border-bottom:1px solid var(--border)}
 .hero-kicker{display:inline-flex;align-items:center;gap:10px;margin-bottom:2rem;padding:5px 14px;border-radius:100px;border:1px solid var(--border);background:var(--surface)}
 .kicker-dot{width:7px;height:7px;border-radius:50%;background:var(--success);animation:blink 1.8s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
@@ -47,7 +47,7 @@ nav{background:rgba(245,243,238,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .hero-name{font-family:var(--serif);font-size:clamp(3rem,6vw,5.5rem);line-height:1;letter-spacing:-0.01em;margin-bottom:1.25rem}
 .hero-name em{font-style:italic;color:var(--primary)}
 .hero-role{font-family:var(--mono);font-size:0.9rem;color:var(--accent);margin-bottom:1.5rem;letter-spacing:0.02em;font-weight:500}
-.hero-desc{font-size:1.05rem;color:var(--ink2);max-width:580px;line-height:1.7;margin-bottom:2.5rem}
+.hero-desc{font-size:0.9rem;color:var(--ink2);max-width:580px;line-height:1.7;margin-bottom:2.5rem}
 .hero-desc strong{color:var(--ink);font-weight:600}
 .hero-ctas{display:flex;gap:0.65rem;flex-wrap:wrap;margin-bottom:3.5rem}
 .cta{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:8px;font-family:var(--mono);font-size:0.78rem;text-decoration:none;transition:all 0.15s;letter-spacing:0.03em;cursor:pointer;border:1px solid transparent}
@@ -66,7 +66,7 @@ nav{background:rgba(245,243,238,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .plan-desc{font-size:0.8rem;color:var(--ink2);line-height:1.55;margin-top:0.35rem}
 
 /* SECTION */
-.section{max-width:1040px;margin:0 auto;padding:4.5rem 2rem;border-bottom:1px solid var(--border)}
+.section{max-width:1080px;margin:0 auto;padding:4.5rem 2rem;border-bottom:1px solid var(--border)}
 .section-eyebrow{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink2);margin-bottom:0.6rem;font-weight:500}
 .section-title{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.1;margin-bottom:0.5rem;color:var(--ink)}
 .section-subtitle{font-size:0.95rem;color:var(--ink2);margin-bottom:3rem;max-width:640px;line-height:1.65}
@@ -145,6 +145,25 @@ nav{background:rgba(245,243,238,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .roadmap-card:has(.is-disabled){opacity:0.65;border-style:dashed}
 .roadmap-link{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0.7rem 0.9rem;border-radius:8px;border:1px solid var(--ink);background:var(--ink);color:#fff;text-decoration:none;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.04em}
 .roadmap-link.is-disabled{background:transparent;border-color:var(--border);color:var(--ink3);cursor:default}
+
+/* FEATURED LIVE CASES */
+.featured-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+.featured-card{background:var(--surface);border:1px solid var(--primary-mid);border-radius:12px;padding:1.4rem;display:flex;flex-direction:column;gap:0;box-shadow:0 8px 24px rgba(26,82,118,0.07)}
+.featured-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.featured-label{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--primary)}
+.featured-live{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--success);background:var(--success-light);border:1px solid rgba(45,106,79,0.18);border-radius:999px;padding:0.22rem 0.55rem}
+.featured-name{font-family:var(--serif);font-size:1.25rem;line-height:1.2;color:var(--ink);margin-bottom:0.5rem}
+.featured-hook{font-size:0.86rem;color:var(--ink2);line-height:1.65;margin-bottom:1rem;flex-grow:1}
+.featured-hook strong{color:var(--ink);font-weight:600}
+.featured-stats{display:flex;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:1rem}
+.featured-stat{flex:1;padding:0.7rem 0.6rem;display:flex;flex-direction:column;gap:0.2rem;border-right:1px solid var(--border)}
+.featured-stat:last-child{border-right:none}
+.featured-stat-num{font-family:var(--mono);font-size:0.9rem;color:var(--ink);font-weight:500;line-height:1}
+.featured-stat-label{font-family:var(--mono);font-size:0.58rem;color:var(--ink3);text-transform:uppercase;letter-spacing:0.07em}
+.featured-tags{display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:1rem}
+.featured-cta{display:flex;align-items:center;justify-content:center;padding:0.65rem;border-radius:8px;border:1px solid var(--ink);background:var(--ink);color:#fff;text-decoration:none;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.04em;transition:all 0.15s;margin-top:auto}
+.featured-cta:hover{background:var(--primary);border-color:var(--primary)}
+@media(max-width:640px){.featured-grid{grid-template-columns:1fr}}
 
 /* EDUCATION */
 .edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
