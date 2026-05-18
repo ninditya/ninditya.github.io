@@ -7,6 +7,11 @@
   <title>Banking Intent Router — Ninditya Salma Nur Aini</title>
   <meta name="description"
     content="End-to-end banking intent router project: EDA, preprocessing, SBERT modelling, RAG serving, deployment, and Prometheus/Grafana monitoring.">
+  <link rel="canonical" href="https://ninditya.github.io/day1-banking-intent-router/">
+  <meta property="og:title" content="Banking Intent Router — Ninditya Salma Nur Aini">
+  <meta property="og:description" content="End-to-end banking intent router project: EDA, preprocessing, SBERT modelling, RAG serving, deployment, and Prometheus/Grafana monitoring.">
+  <meta property="og:url" content="https://ninditya.github.io/day1-banking-intent-router/">
+  <meta property="og:type" content="article">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -1101,14 +1106,14 @@
   <a href="#problem" class="skip-link">Skip to main content</a>
   <nav id="mainNav">
     <div class="nav-inner">
-      <a href="index.html" class="logo">Ninditya Salma Nur Aini</a>
+      <a href="/" class="logo">Ninditya Salma Nur Aini</a>
       <div class="nav-tools">
         <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
           onclick="document.getElementById('mainNav').classList.toggle('nav-open')">☰</button>
         <div class="nav-pills">
-          <a class="nav-pill back" href="index.html#projects" data-i18n="navBack">← All projects</a>
-          <a class="nav-pill" href="index.html#about" data-i18n="navAbout">About</a>
-          <a class="nav-pill" href="index.html#contact" data-i18n="navContact">Contact</a>
+          <a class="nav-pill back" href="/#projects" data-i18n="navBack">← All projects</a>
+          <a class="nav-pill" href="/#about" data-i18n="navAbout">About</a>
+          <a class="nav-pill" href="/#contact" data-i18n="navContact">Contact</a>
         </div>
         <div class="lang-switch" aria-label="Language switch">
           <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
@@ -1418,7 +1423,7 @@
         <span class="attr">— the thread connecting thesis to production</span>
       </div>
 
-      <p data-i18n="foundationRef">Full breakdown of the 2021 LSA implementation: <a href="chatbot-lsa.html">NLP KNN LSA &amp; Chatbot — thesis case study →</a></p>
+      <p data-i18n="foundationRef">Full breakdown of the 2021 LSA implementation: <a href="../chatbot-lsa/">NLP KNN LSA &amp; Chatbot — thesis case study →</a></p>
     </div>
   </section>
 
@@ -1670,11 +1675,11 @@ confidence = proba.max()
 
       <div class="img-grid">
         <div class="img-block">
-          <img src="bangking%20image/Hugging%20Face%20Spaces%20live%20demo.png" alt="Hugging Face Spaces live demo — chat UI showing routing tier badge, confidence score, and latency per query" loading="lazy">
+          <img src="../banking-images/huggingface-spaces-demo.png" alt="Hugging Face Spaces live demo — chat UI showing routing tier badge, confidence score, and latency per query" loading="lazy">
           <div class="img-caption">Live demo · routing badge + confidence score visible per query</div>
         </div>
         <div class="img-block">
-          <img src="bangking%20image/Dashboard%20Grafana.png" alt="Grafana Cloud monitoring dashboard — request rate, routing distribution, latency histograms, and cost metrics" loading="lazy">
+          <img src="../banking-images/dashboard-grafana.png" alt="Grafana Cloud monitoring dashboard — request rate, routing distribution, latency histograms, and cost metrics" loading="lazy">
           <div class="img-caption">Grafana Cloud · 12 custom Prometheus metrics in production</div>
         </div>
       </div>
@@ -1840,7 +1845,7 @@ confidence = proba.max()
           rel="noopener" data-i18n="ctaDemo">Live demo →</a>
         <a class="btn ghost" href="https://github.com/ninditya/mlops-banking-rag-query-router-intent-classifier"
           target="_blank" rel="noopener" data-i18n="ctaSource">View source →</a>
-        <a class="btn ghost" href="index.html#projects" data-i18n="ctaBack">← Back to all projects</a>
+        <a class="btn ghost" href="/#projects" data-i18n="ctaBack">← Back to all projects</a>
       </div>
     </div>
   </section>
@@ -1903,7 +1908,7 @@ confidence = proba.max()
         foundationRow5A: 'Co-occurrence → matrix decomposition',
         foundationRow5B: 'Context → attention → embedding',
         foundationQuote: '"The insight was the same in 2021 and 2025: counting words isn\'t enough. You need to represent meaning. LSA used matrix algebra to find it in a small corpus. SBERT learned it from pre-training at scale."<span class="attr">— the thread connecting thesis to production</span>',
-        foundationRef: 'Full breakdown of the 2021 LSA implementation: <a href="chatbot-lsa.html">NLP KNN LSA &amp; Chatbot — thesis case study →</a>',
+        foundationRef: 'Full breakdown of the 2021 LSA implementation: <a href="../chatbot-lsa/">NLP KNN LSA &amp; Chatbot — thesis case study →</a>',
         architectureNum: '03 · The Architecture',
         architectureTitle: 'Route by <em>confidence,</em> not by hope.',
         architectureLede: 'Every query first hits a small SBERT (all-MiniLM-L6-v2) encoder, then a LinearSVC classifier predicts intent + confidence. The confidence score then routes the query through one of four tiers.',
@@ -2005,7 +2010,7 @@ confidence = proba.max()
         ctaSource: 'View source →',
         ctaBack: '← Back to all projects',
         footerLeft: '© 2026 Ninditya Salma Nur Aini · Case study',
-        footerRight: 'Built with FastAPI, SBERT, FAISS, Prometheus · <a href="index.html">← Back to portfolio</a>'
+        footerRight: 'Built with FastAPI, SBERT, FAISS, Prometheus · <a href="/">← Back to portfolio</a>'
       },
       id: {
         navBack: '← Semua project',
@@ -2057,7 +2062,7 @@ confidence = proba.max()
         foundationRow5A: 'Ko-okuren → dekomposisi matriks',
         foundationRow5B: 'Konteks → attention → embedding',
         foundationQuote: '"Insight-nya sama di 2021 dan 2025: menghitung kata tidak cukup. Kamu butuh merepresentasikan makna. LSA menemukan makna lewat aljabar matriks pada corpus kecil. SBERT mempelajarinya dari pre-training pada skala besar."<span class="attr">— benang merah yang menghubungkan skripsi ke production</span>',
-        foundationRef: 'Penjelasan lengkap implementasi LSA 2021: <a href="chatbot-lsa.html">NLP KNN LSA &amp; Chatbot — studi kasus skripsi →</a>',
+        foundationRef: 'Penjelasan lengkap implementasi LSA 2021: <a href="../chatbot-lsa/">NLP KNN LSA &amp; Chatbot — studi kasus skripsi →</a>',
         architectureNum: '03 · Arsitekturnya',
         architectureTitle: 'Routing berdasarkan <em>confidence,</em> bukan harapan.',
         architectureLede: 'Setiap query pertama-tama masuk ke encoder SBERT kecil (all-MiniLM-L6-v2), lalu classifier LinearSVC memprediksi intent + confidence. Skor confidence inilah yang menentukan query masuk ke salah satu dari empat tier.',
@@ -2159,7 +2164,7 @@ confidence = proba.max()
         ctaSource: 'Lihat source →',
         ctaBack: '← Kembali ke semua project',
         footerLeft: '© 2026 Ninditya Salma Nur Aini · Case study',
-        footerRight: 'Dibangun dengan FastAPI, SBERT, FAISS, Prometheus · <a href="index.html">← Kembali ke portfolio</a>'
+        footerRight: 'Dibangun dengan FastAPI, SBERT, FAISS, Prometheus · <a href="/">← Kembali ke portfolio</a>'
       }
     };
 
