@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NLP KNN LSA & Chatbot — Ninditya Salma Nur Aini</title>
+  <meta name="description"
+    content="2021 undergraduate thesis: applying Latent Semantic Analysis to question classification using KNN for a working departmental chatbot. Accuracy improved from 92.1% to 93.2%, compute time cut from 27.49s to 17.97s.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f3ee;
+      --bg-alt: #eceae4;
+      --bg-dark: #1a1814;
+      --ink: #1a1814;
+      --ink-soft: #5a574f;
+      --muted: #8c887f;
+      --line: #dddad3;
+      --line-strong: #8c887f;
+      --primary: #1a5276;
+      --accent: #c4490c;
+      --accent-soft: #eaf2fb;
+      --green: #2d6a4f;
+      --red: #c4490c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(250, 250, 247, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      z-index: 100;
+    }
+
+    .nav-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 20px;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--ink);
+      color: #fff;
+      padding: 8px 16px;
+      z-index: 1000;
+      transition: top 0.2s;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+
+    .skip-link:focus { top: 0; }
+
+    *:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .mobile-nav-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--ink);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0 5px;
+      line-height: 1;
+    }
+
+    .nav-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-pill {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 100px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-pill:hover { background: var(--bg-alt); color: var(--ink); }
+
+    .nav-pill.back {
+      color: var(--primary);
+      border: 1px solid var(--line);
+    }
+
+    .nav-pill.back:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--bg);
+    }
+
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn.active { background: var(--ink); color: var(--bg); }
+
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+    .hero {
+      padding: 80px 0 60px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-kicker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .kicker-tag {
+      background: var(--ink);
+      color: var(--accent);
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .kicker-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--primary);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    h1.title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(44px, 6.5vw, 80px);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 32px;
+      font-weight: 400;
+    }
+
+    h1.title em { font-style: italic; color: var(--primary); }
+
+    .hero-lede {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(20px, 2.2vw, 26px);
+      line-height: 1.45;
+      max-width: 760px;
+      color: var(--ink-soft);
+      font-weight: 400;
+    }
+
+    .hero-lede strong {
+      background: linear-gradient(180deg, transparent 60%, var(--accent-soft) 60%);
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      margin-top: 44px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+    }
+
+    .hero-meta span strong {
+      color: var(--ink);
+      font-weight: 500;
+      margin-right: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 10px;
+    }
+
+    .stats-strip {
+      background: var(--bg-dark);
+      color: var(--bg);
+      padding: 60px 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    .stat {
+      text-align: left;
+      padding: 0 28px;
+      border-left: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .stat:first-child { border-left: none; padding-left: 0; }
+
+    .stat .num {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(40px, 5.5vw, 60px);
+      font-weight: 400;
+      line-height: 1;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .stat .num small {
+      font-size: 0.5em;
+      color: var(--bg);
+      opacity: 0.7;
+      font-family: 'Instrument Serif', serif;
+    }
+
+    .stat .label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 16px;
+      opacity: 0.75;
+      line-height: 1.4;
+    }
+
+    section.content {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section.content.alt { background: var(--bg-alt); }
+    section.content:last-of-type { border-bottom: none; }
+
+    .section-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--primary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(32px, 4.5vw, 48px);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      margin-bottom: 36px;
+      max-width: 800px;
+      color: var(--ink);
+    }
+
+    h2 em { font-style: italic; color: var(--primary); }
+
+    h3 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 24px;
+      font-weight: 400;
+      margin: 36px 0 14px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    h3 em { font-style: italic; color: var(--primary); }
+
+    .lede {
+      font-family: 'Instrument Serif', serif;
+      font-size: 22px;
+      line-height: 1.5;
+      color: var(--ink-soft);
+      max-width: 760px;
+      margin-bottom: 22px;
+      font-weight: 400;
+    }
+
+    p {
+      margin-bottom: 16px;
+      max-width: 760px;
+      color: var(--ink-soft);
+      font-size: 16px;
+    }
+
+    p code, li code {
+      background: var(--bg-alt);
+      border: 1px solid var(--line);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    pre.code {
+      background: var(--bg-dark);
+      color: #d8d3c4;
+      padding: 24px 28px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      line-height: 1.75;
+      overflow-x: auto;
+      margin: 32px 0;
+      border-radius: 6px;
+      border-left: 3px solid var(--accent);
+      max-width: 900px;
+    }
+
+    pre.code .c { color: #7a8696; font-style: italic; }
+    pre.code .s { color: var(--accent); }
+    pre.code .k { color: #d96b78; }
+    pre.code .arrow { color: var(--accent); }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin: 40px 0;
+    }
+
+    .two-col h3 { margin-top: 0; }
+
+    ul.checklist {
+      list-style: none;
+      padding: 0;
+      margin: 24px 0;
+      max-width: 800px;
+    }
+
+    ul.checklist li {
+      padding: 14px 0 14px 36px;
+      position: relative;
+      border-bottom: 1px solid var(--line);
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
+
+    ul.checklist li:last-child { border-bottom: none; }
+
+    ul.checklist li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      top: 14px;
+      color: var(--green);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    ul.checklist li strong { font-weight: 600; color: var(--ink); }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 20px 0;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 5px 11px;
+      border: 1px solid var(--line-strong);
+      background: white;
+      border-radius: 3px;
+      color: var(--ink-soft);
+    }
+
+    .tag.accent {
+      background: var(--accent);
+      border-color: var(--primary);
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .pullquote {
+      border-left: 3px solid var(--accent);
+      padding: 16px 0 16px 28px;
+      margin: 32px 0;
+      font-family: 'Instrument Serif', serif;
+      font-size: 24px;
+      font-style: italic;
+      line-height: 1.45;
+      max-width: 760px;
+      color: var(--ink);
+    }
+
+    .pullquote .attr {
+      display: block;
+      font-style: normal;
+      font-size: 12px;
+      font-family: 'DM Mono', monospace;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 14px;
+      font-weight: 500;
+    }
+
+    table.compare {
+      width: 100%;
+      max-width: 760px;
+      border-collapse: collapse;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+
+    table.compare th, table.compare td {
+      text-align: left;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    table.compare th {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--bg-alt);
+      font-weight: 500;
+    }
+
+    table.compare td.num {
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    table.compare tr.highlight td { background: var(--accent-soft); }
+
+    .timeline-shell {
+      margin-top: 44px;
+      padding: 0 56px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .timeline {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - 24px) / 2);
+      gap: 24px;
+      transition: transform 0.35s ease;
+    }
+
+    .step {
+      border-top: 2px solid var(--line-strong);
+      padding: 22px 0 8px;
+      min-width: 0;
+    }
+
+    .step .step-id {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .step h4 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 24px;
+      line-height: 1.1;
+      margin-bottom: 12px;
+      color: var(--ink);
+      font-weight: 400;
+    }
+
+    .step p { font-size: 15px; color: var(--muted); margin-bottom: 14px; }
+
+    .step ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+
+    .step li::before { content: '→ '; color: var(--primary); }
+
+    .timeline-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .timeline-buttons {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .timeline-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: var(--bg);
+      color: var(--ink);
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      font-size: 18px;
+      line-height: 1;
+      transition: all 0.2s ease;
+      pointer-events: auto;
+    }
+
+    .timeline-btn[data-timeline-prev] { left: 0; }
+    .timeline-btn[data-timeline-next] { right: 0; }
+
+    .timeline-btn:hover:not(:disabled),
+    .timeline-btn:focus-visible {
+      background: var(--ink);
+      color: var(--bg);
+      outline: none;
+    }
+
+    .timeline-btn:disabled { cursor: not-allowed; opacity: 0.35; }
+
+    .timeline-status {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .refs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px 28px;
+      max-width: 1100px;
+      margin-top: 32px;
+    }
+
+    .ref { border-top: 1px solid var(--line-strong); padding-top: 16px; }
+
+    .ref a {
+      color: var(--ink);
+      font-weight: 600;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    .ref p { font-size: 14px; color: var(--muted); margin: 8px 0 0; }
+
+    .cta-section {
+      background: var(--bg-dark);
+      color: var(--bg);
+      padding: 80px 0;
+      text-align: left;
+    }
+
+    .cta-section h2 { color: var(--bg); }
+    .cta-section h2 em { color: var(--accent); }
+    .cta-section p { color: rgba(255,255,255,0.7); }
+    .cta-section .section-num { color: var(--accent); }
+
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 26px;
+      background: var(--accent);
+      color: var(--ink);
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: 2px solid var(--accent);
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover { background: transparent; color: var(--accent); }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--bg);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .btn.ghost:hover {
+      background: var(--bg);
+      color: var(--ink);
+      border-color: var(--bg);
+    }
+
+    footer {
+      background: var(--bg-dark);
+      color: var(--bg);
+      padding: 28px 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      opacity: 0.7;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    footer .wrap {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    .disclaimer {
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 8px;
+      max-width: 760px;
+      line-height: 1.5;
+    }
+
+    .delta {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 500;
+      margin-left: 6px;
+    }
+
+    .delta.neg { color: var(--red); }
+
+    @media (max-width: 800px) {
+      .two-col { grid-template-columns: 1fr; gap: 28px; }
+      .timeline { grid-auto-columns: 100%; }
+      .timeline-shell { padding: 0 48px; }
+    }
+
+    @media (max-width: 720px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+      .stat { border-left: none !important; padding: 0; }
+      .refs { grid-template-columns: repeat(2, 1fr); }
+
+      .nav-tools { width: 100%; justify-content: space-between; }
+      .mobile-nav-toggle { display: block; }
+
+      .nav-pills {
+        display: none;
+        position: absolute;
+        top: 56px;
+        left: 0;
+        width: 100%;
+        background: rgba(245, 243, 238, 0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--line);
+        flex-direction: column;
+        padding: 1rem 2rem;
+        gap: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      }
+
+      nav.nav-open .nav-pills { display: flex; }
+    }
+
+    /* ─── Pipeline diagram ─── */
+    .pipe-vis {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 2rem 0 2.5rem;
+    }
+    .pipe-step {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.7rem 1.1rem;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg);
+    }
+    .pipe-step:last-child { border-bottom: none; }
+    .pipe-step.pipe-io { background: var(--bg-alt); }
+    .pipe-num { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.06em; color: var(--muted); min-width: 24px; }
+    .pipe-content { flex: 1; }
+    .pipe-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 0.1rem; }
+    .pipe-sub { font-family: 'DM Mono', monospace; font-size: 0.67rem; color: var(--muted); }
+    .pipe-badge { font-family: 'DM Mono', monospace; font-size: 0.62rem; padding: 0.18rem 0.45rem; border-radius: 4px; background: rgba(26,82,118,0.08); color: var(--primary); white-space: nowrap; align-self: flex-start; margin-top: 2px; }
+
+    /* ─── Metric bar chart ─── */
+    .metric-chart { margin: 2rem 0; }
+    .metric-legend { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.2rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); }
+    .legend-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+    .legend-swatch.s-base { background: #b0bbc8; }
+    .legend-swatch.s-lsa { background: var(--primary); }
+    .metric-group { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem; }
+    .metric-lbl { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); min-width: 88px; text-align: right; }
+    .metric-bars { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+    .mbar-row { display: flex; align-items: center; gap: 0.45rem; }
+    .mbar-track { flex: 1; height: 18px; background: rgba(0,0,0,0.04); border-radius: 3px; overflow: hidden; }
+    .mbar { height: 100%; border-radius: 3px; }
+    .mbar.base { background: #b0bbc8; }
+    .mbar.lsa { background: var(--primary); }
+    .mbar-val { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--ink-soft); min-width: 38px; text-align: right; }
+
+    /* ─── Screenshots ─── */
+    .img-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .img-block { display: flex; flex-direction: column; gap: 0.5rem; }
+    .img-block img {
+      width: 100%;
+      aspect-ratio: 3024 / 1964;
+      object-fit: contain;
+      object-position: center top;
+      background: var(--bg-alt);
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      display: block;
+    }
+    .img-caption { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--muted); letter-spacing: 0.04em; }
+    @media (max-width: 640px) { .img-grid { grid-template-columns: 1fr; } }
+
+    /* ─── Screenshot slot ─── */
+    .screenshot-slot {
+      border: 2px dashed var(--line);
+      border-radius: 10px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      margin: 2rem 0;
+      background: var(--bg-alt);
+    }
+    .screenshot-slot .slot-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .screenshot-slot .slot-title { font-size: 0.9rem; font-weight: 500; color: var(--ink-soft); }
+    .screenshot-slot .slot-hint { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 0.35rem; }
+  </style>
+</head>
+
+<body>
+  <a href="#problem" class="skip-link">Skip to main content</a>
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">Ninditya Salma Nur Aini</a>
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="document.getElementById('mainNav').classList.toggle('nav-open')">☰</button>
+        <div class="nav-pills">
+          <a class="nav-pill back" href="index.html#projects" data-i18n="navBack">← All projects</a>
+          <a class="nav-pill" href="index.html#about" data-i18n="navAbout">About</a>
+          <a class="nav-pill" href="index.html#contact" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-kicker">
+        <span class="kicker-tag" data-i18n="kickerTag">Thesis</span>
+        <span class="kicker-text" data-i18n="heroKicker">Classical NLP · Full-stack · UPN "Veteran" Yogyakarta · 2021</span>
+      </div>
+      <h1 class="title" data-i18n="heroTitle">Classical NLP, from <em>research to working chatbot.</em></h1>
+      <p class="hero-lede" data-i18n="heroLede">
+        1,410 student questions. <strong>KNN + LSA implemented from scratch in PHP.</strong>
+        Accuracy improved from 92.1% to 93.2% while cutting compute time by 35% —
+        then shipped as a web application and Telegram bot for the Informatics department.
+      </p>
+      <div class="hero-meta">
+        <span data-i18n="heroMetaStack"><strong>Stack</strong> PHP · KNN · LSA · TF-IDF · SVD</span>
+        <span data-i18n="heroMetaData"><strong>Dataset</strong> 1,410 student questions</span>
+        <span data-i18n="heroMetaAcc"><strong>LSA+KNN Accuracy</strong> 93.2%</span>
+        <span data-i18n="heroMetaDate"><strong>Graduated</strong> Oct 2021 · GPA 3.66</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-strip">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="num">93.2<small>%</small></div>
+          <div class="label" data-i18n="stat1">LSA+KNN accuracy<br>(up from 92.1% baseline)</div>
+        </div>
+        <div class="stat">
+          <div class="num">−35<small>%</small></div>
+          <div class="label" data-i18n="stat2">Compute time reduction<br>(27.49s → 17.97s)</div>
+        </div>
+        <div class="stat">
+          <div class="num">1,410</div>
+          <div class="label" data-i18n="stat3">Labelled student questions<br>collected via form</div>
+        </div>
+        <div class="stat">
+          <div class="num">10<small>-fold</small></div>
+          <div class="label" data-i18n="stat4">K-Fold Cross Validation<br>90% train · 10% test</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content" id="problem">
+    <div class="wrap">
+      <div class="section-num">00 · Execution Log</div>
+      <h2>What I actually built, <em>end to end.</em></h2>
+
+      <p class="lede" data-i18n="execLede">This was not just a model experiment. I went from collecting data via a form to a working chatbot deployed on the web and Telegram — implementing KNN and LSA from the mathematical level up in PHP.</p>
+
+      <div class="timeline-shell" aria-label="Execution steps carousel" tabindex="0">
+        <div class="timeline-buttons">
+          <button class="timeline-btn" type="button" data-timeline-prev aria-label="Previous steps">←</button>
+          <button class="timeline-btn" type="button" data-timeline-next aria-label="Next steps">→</button>
+        </div>
+        <div class="timeline">
+          <div class="step">
+            <div class="step-id" data-i18n="step1Id">Step 01 · Data Collection</div>
+            <h4 data-i18n="step1H">Collect real questions from the department.</h4>
+            <p data-i18n="step1P">I gathered student questions from the Informatics Department of UPN "Veteran" Yogyakarta using a structured form. Each question was manually labelled by topic category.</p>
+            <ul>
+              <li data-i18n="step1L1">1,410 questions across multiple intent categories</li>
+              <li data-i18n="step1L2">Labels: per topic (academic, registration, facilities, etc.)</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id" data-i18n="step2Id">Step 02 · Text Preprocessing</div>
+            <h4 data-i18n="step2H">Clean and normalise Indonesian text.</h4>
+            <p data-i18n="step2P">Raw questions go through a 6-stage pipeline before any ML is applied. Indonesian has complex morphology — stemming here requires a purpose-built Indonesian algorithm.</p>
+            <ul>
+              <li data-i18n="step2L1">Case folding → remove punctuation → remove numbers</li>
+              <li data-i18n="step2L2">Tokenising → stopword removal (custom ID list)</li>
+              <li data-i18n="step2L3">Stemming: Nazief-Andriani algorithm for Bahasa Indonesia</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id" data-i18n="step3Id">Step 03 · TF-IDF Feature Extraction</div>
+            <h4 data-i18n="step3H">Turn words into weighted vectors.</h4>
+            <p data-i18n="step3P">Each preprocessed question is encoded as a TF-IDF vector over the full vocabulary. This creates a high-dimensional, sparse feature matrix — the problem KNN struggles with.</p>
+            <ul>
+              <li data-i18n="step3L1">Term Frequency × Inverse Document Frequency weighting</li>
+              <li data-i18n="step3L2">Output: sparse document-term matrix (high dimensionality)</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id" data-i18n="step4Id">Step 04 · SVD Decomposition</div>
+            <h4 data-i18n="step4H">Reduce dimensions via Singular Value Decomposition.</h4>
+            <p data-i18n="step4P">The TF-IDF matrix is decomposed using SVD. I implemented the SVD matrix operations directly in PHP using custom numerical computation. The top-k singular values are retained.</p>
+            <ul>
+              <li data-i18n="step4L1">SVD: A = U × Σ × Vᵀ</li>
+              <li data-i18n="step4L2">Precomputed SVD matrix: 59MB stored as JSON</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id" data-i18n="step5Id">Step 05 · LSA Feature Selection</div>
+            <h4 data-i18n="step5H">Map questions into a dense semantic space.</h4>
+            <p data-i18n="step5P">LSA uses the reduced SVD representations to project questions into a latent semantic space, capturing relationships between words that co-occur in similar contexts. This eliminates redundant features and links synonymous phrases.</p>
+            <ul>
+              <li data-i18n="step5L1">Cosine similarity in reduced space (k=661 dimensions)</li>
+              <li data-i18n="step5L2">Connects semantically similar questions even with different words</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id" data-i18n="step6Id">Step 06 · KNN Training</div>
+            <h4 data-i18n="step6H">Train the classifier on LSA-reduced features.</h4>
+            <p data-i18n="step6P">K-Nearest Neighbors is trained on the LSA-projected feature vectors. Distance is computed using Manhattan distance. The model is serialised to disk for serving.</p>
+            <ul>
+              <li data-i18n="step6L1">Distance metric: Manhattan</li>
+              <li data-i18n="step6L2">Models: knn.model (8.7 MB), knn-lsa.model (18.5 MB)</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id" data-i18n="step7Id">Step 07 · K-Fold Evaluation</div>
+            <h4 data-i18n="step7H">Evaluate rigorously with 10-fold cross-validation.</h4>
+            <p data-i18n="step7P">Both KNN and LSA+KNN are evaluated on all 10 folds. I compare accuracy, precision, recall, and AUC — not just accuracy — to show the full picture of the improvement.</p>
+            <ul>
+              <li data-i18n="step7L1">10-fold CV: 90% train / 10% test per fold</li>
+              <li data-i18n="step7L2">Metrics: accuracy, precision, recall, F-beta, AUC</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id" data-i18n="step8Id">Step 08 · Web App + Telegram Bot</div>
+            <h4 data-i18n="step8H">Deploy as a working product.</h4>
+            <p data-i18n="step8P">The trained model is integrated into a PHP web application that visualises the full pipeline (from raw question to classified answer), and a Telegram bot for real conversational access by students.</p>
+            <ul>
+              <li data-i18n="step8L1">Web: PHP + MySQL + Bootstrap 3 — shows pipeline step by step</li>
+              <li data-i18n="step8L2">Telegram bot: connected to same classification backend</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-controls" aria-label="Execution step navigation">
+        <div class="timeline-status" data-timeline-status>Steps 1–2 of 8</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content alt">
+    <div class="wrap">
+      <div class="section-num" data-i18n="problemNum">01 · Why This Exists</div>
+      <h2 data-i18n="problemTitle">Students kept asking the same questions. <em>The department had no scalable answer.</em></h2>
+
+      <p class="lede" data-i18n="problemLede">The Informatics Department at UPN "Veteran" Yogyakarta delivered information through circulars, social media, and manual replies — limited by office hours and repeated the same answers to the same questions over and over.</p>
+
+      <p data-i18n="problemP1">The core problem was not a lack of information, but a lack of an accessible, scalable retrieval system. Students needed answers at any hour, not just during staff working hours. A retrieval-based NLP chatbot was the right fit — but the classification layer needed to work well on Indonesian text.</p>
+
+      <ul class="checklist">
+        <li data-i18n="problemB1"><strong>Repeated questions</strong> — the same questions about registration, schedules, and facilities were answered manually again and again</li>
+        <li data-i18n="problemB2"><strong>Working-hours constraint</strong> — students needed information outside office hours but had no self-service option</li>
+        <li data-i18n="problemB3"><strong>KNN's sparse-vector weakness</strong> — standard KNN on raw TF-IDF is slow and less accurate on high-dimensional, sparse vectors; it also cannot handle synonymous phrasing</li>
+        <li data-i18n="problemB4"><strong>Indonesian morphology</strong> — Bahasa Indonesia has complex affixation; existing English-trained tools were insufficient; a dedicated stemmer was necessary</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="content">
+    <div class="wrap">
+      <div class="section-num" data-i18n="pipelineNum">02 · The NLP Pipeline</div>
+      <h2 data-i18n="pipelineTitle">From raw text to <em>semantic classification.</em></h2>
+
+      <p class="lede" data-i18n="pipelineLede">The pipeline handles two problems at once: the linguistics of Indonesian text, and the geometry of high-dimensional sparse vectors. LSA solves both by projecting TF-IDF features into a dense, lower-dimensional semantic space.</p>
+
+      <div class="pipe-vis">
+        <div class="pipe-step pipe-io">
+          <span class="pipe-num">—</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Pertanyaan Mahasiswa</div>
+            <div class="pipe-sub">raw Indonesian text input</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">01</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Normalisasi</div>
+            <div class="pipe-sub">case fold · hapus tanda baca &amp; angka</div>
+          </div>
+          <span class="pipe-badge">clean text</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">02</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Tokenisasi</div>
+            <div class="pipe-sub">split per kata (whitespace tokeniser)</div>
+          </div>
+          <span class="pipe-badge">token[ ]</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">03</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Stopword Removal</div>
+            <div class="pipe-sub">hapus kata fungsi bahasa Indonesia</div>
+          </div>
+          <span class="pipe-badge">filter</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">04</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Stemming — Sastrawi</div>
+            <div class="pipe-sub">Nazief-Andriani · kembalikan ke kata dasar</div>
+          </div>
+          <span class="pipe-badge">kata dasar</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">05</span>
+          <div class="pipe-content">
+            <div class="pipe-name">TF-IDF Vectorisation</div>
+            <div class="pipe-sub">sparse, high-dimensional term weights</div>
+          </div>
+          <span class="pipe-badge">sparse vec</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">06</span>
+          <div class="pipe-content">
+            <div class="pipe-name">SVD → LSA Projection</div>
+            <div class="pipe-sub">k=661 · dimensionality ↓ · semantic space</div>
+          </div>
+          <span class="pipe-badge">dense vec</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">07</span>
+          <div class="pipe-content">
+            <div class="pipe-name">KNN Classification</div>
+            <div class="pipe-sub">Manhattan distance · k-nearest neighbors</div>
+          </div>
+          <span class="pipe-badge">intent label</span>
+        </div>
+        <div class="pipe-step pipe-io">
+          <span class="pipe-num">—</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Jawaban Chatbot</div>
+            <div class="pipe-sub">template answer from database</div>
+          </div>
+        </div>
+      </div>
+
+      <pre class="code" data-i18n="pipelineCode"><span class="c"># Full classification pipeline</span>
+raw_question
+  <span class="arrow">→</span> case_fold() + remove_punct() + remove_num()   <span class="c"># normalise</span>
+  <span class="arrow">→</span> tokenise()                                      <span class="c"># split to words</span>
+  <span class="arrow">→</span> remove_stopwords(id_stoplist)                   <span class="c"># filter noise</span>
+  <span class="arrow">→</span> stem(nazief_andriani)                           <span class="c"># Indonesian stemmer</span>
+  <span class="arrow">→</span> tfidf_vectorise()                               <span class="c"># sparse, high-dim</span>
+  <span class="arrow">→</span> svd_reduce(k=661)                               <span class="c"># dimensionality ↓</span>
+  <span class="arrow">→</span> lsa_project()                                   <span class="c"># semantic space</span>
+  <span class="arrow">→</span> knn_classify(manhattan_distance)                <span class="c"># → intent label</span></pre>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="whyLSATitle">Why LSA over raw TF-IDF?</h3>
+          <p data-i18n="whyLSAP1">KNN on raw TF-IDF has two structural problems: sparse high-dimensional vectors make distance computation slow and noisy, and lexical matching fails when students phrase the same question differently.</p>
+          <p data-i18n="whyLSAP2">LSA fixes both: SVD reduces dimensionality (cutting noise and compute time), and the latent semantic space groups words that appear in similar contexts — so "daftar ulang" and "her" map to the same intent region even if they never overlap in the training data.</p>
+        </div>
+        <div>
+          <h3 data-i18n="indonesianNLPTitle">Indonesian NLP specifics</h3>
+          <p data-i18n="indonesianNLPP1">Bahasa Indonesia uses prefix, suffix, and circumfix morphology — the root word "ajar" can appear as "mengajar", "pelajaran", "diajarkan", "pembelajaran". Treating each as a separate token would fracture the vocabulary.</p>
+          <p data-i18n="indonesianNLPP2">The Nazief-Andriani stemmer handles this by stripping affixes according to Indonesian morphological rules, collapsing all surface forms back to their root. Without this, TF-IDF would produce severely fragmented features.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content alt">
+    <div class="wrap">
+      <div class="section-num" data-i18n="resultsNum">03 · The Results</div>
+      <h2 data-i18n="resultsTitle">LSA improves every metric <em>and cuts compute time by 35%.</em></h2>
+
+      <p data-i18n="resultsIntro">Results across 10-fold cross-validation. The key finding: LSA does not just improve accuracy — it improves precision, recall, and AUC simultaneously, while making the model meaningfully faster.</p>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th data-i18n="tableMetric">Metric</th>
+            <th data-i18n="tableKNN">KNN (baseline)</th>
+            <th data-i18n="tableLSAKNN">LSA + KNN</th>
+            <th data-i18n="tableDelta">Change</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-i18n="tableRowAcc">Accuracy (avg)</td>
+            <td class="num">92.1%</td>
+            <td class="num">93.2%</td>
+            <td><span class="delta">+1.1pp</span></td>
+          </tr>
+          <tr>
+            <td data-i18n="tableRowPrec">Precision (avg)</td>
+            <td class="num">76.7%</td>
+            <td class="num">78.8%</td>
+            <td><span class="delta">+2.1pp</span></td>
+          </tr>
+          <tr>
+            <td data-i18n="tableRowRec">Recall (avg)</td>
+            <td class="num">74.9%</td>
+            <td class="num">77.9%</td>
+            <td><span class="delta">+3.0pp</span></td>
+          </tr>
+          <tr class="highlight">
+            <td data-i18n="tableRowAUC">AUC (avg)</td>
+            <td class="num">85%</td>
+            <td class="num">87%</td>
+            <td><span class="delta">+2pp</span></td>
+          </tr>
+          <tr>
+            <td data-i18n="tableRowTime">Compute time</td>
+            <td class="num">27.49s</td>
+            <td class="num">17.97s</td>
+            <td><span class="delta">−35%</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pullquote" data-i18n="resultsPullquote">
+        "LSA doesn't just improve accuracy — it makes the model faster by giving KNN less distance to compute over a denser, more meaningful space."
+        <span class="attr">— Thesis conclusion, Aug 2021</span>
+      </div>
+
+      <p data-i18n="resultsNote">Both KNN and LSA+KNN reach AUC in the "good classification" band (≥ 85%). LSA pushes it closer to "excellent" — important because AUC is more reliable than accuracy alone when class distributions are uneven.</p>
+
+      <div class="metric-chart">
+        <div class="metric-legend">
+          <span class="legend-swatch s-base"></span> KNN baseline &nbsp;
+          <span class="legend-swatch s-lsa"></span> LSA + KNN
+        </div>
+        <div class="metric-group">
+          <div class="metric-lbl">Accuracy</div>
+          <div class="metric-bars">
+            <div class="mbar-row"><div class="mbar-track"><div class="mbar base" style="width:92.1%"></div></div><span class="mbar-val">92.1%</span></div>
+            <div class="mbar-row"><div class="mbar-track"><div class="mbar lsa" style="width:93.2%"></div></div><span class="mbar-val">93.2%</span></div>
+          </div>
+        </div>
+        <div class="metric-group">
+          <div class="metric-lbl">Precision</div>
+          <div class="metric-bars">
+            <div class="mbar-row"><div class="mbar-track"><div class="mbar base" style="width:76.7%"></div></div><span class="mbar-val">76.7%</span></div>
+            <div class="mbar-row"><div class="mbar-track"><div class="mbar lsa" style="width:78.8%"></div></div><span class="mbar-val">78.8%</span></div>
+          </div>
+        </div>
+        <div class="metric-group">
+          <div class="metric-lbl">Recall</div>
+          <div class="metric-bars">
+            <div class="mbar-row"><div class="mbar-track"><div class="mbar base" style="width:74.9%"></div></div><span class="mbar-val">74.9%</span></div>
+            <div class="mbar-row"><div class="mbar-track"><div class="mbar lsa" style="width:77.9%"></div></div><span class="mbar-val">77.9%</span></div>
+          </div>
+        </div>
+        <div class="metric-group">
+          <div class="metric-lbl">AUC</div>
+          <div class="metric-bars">
+            <div class="mbar-row"><div class="mbar-track"><div class="mbar base" style="width:85%"></div></div><span class="mbar-val">85%</span></div>
+            <div class="mbar-row"><div class="mbar-track"><div class="mbar lsa" style="width:87%"></div></div><span class="mbar-val">87%</span></div>
+          </div>
+        </div>
+        <div class="metric-group">
+          <div class="metric-lbl">Compute time</div>
+          <div class="metric-bars">
+            <div class="mbar-row"><div class="mbar-track"><div class="mbar base" style="width:100%"></div></div><span class="mbar-val">27.49s</span></div>
+            <div class="mbar-row"><div class="mbar-track"><div class="mbar lsa" style="width:65.4%"></div></div><span class="mbar-val">17.97s</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content">
+    <div class="wrap">
+      <div class="section-num" data-i18n="stackNum">04 · Full-Stack Product</div>
+      <h2 data-i18n="stackTitle">Not a notebook. <em>A working department chatbot.</em></h2>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="stackWebTitle">Web application</h3>
+          <div class="tags">
+            <span class="tag accent">PHP</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">Bootstrap 3</span>
+            <span class="tag">jQuery</span>
+          </div>
+          <p data-i18n="stackWebP">The web interface exposes the full pipeline interactively — users can see the raw input, the TF-IDF matrix, the SVD reduction, the LSA projection, and the final KNN classification result step by step. The database stores the question corpus and the Indonesian base-word dictionary (<code>tb_katadasar</code>).</p>
+        </div>
+        <div>
+          <h3 data-i18n="stackBotTitle">Telegram bot</h3>
+          <div class="tags">
+            <span class="tag accent">Telegram API</span>
+            <span class="tag">PHP</span>
+            <span class="tag">Webhook</span>
+          </div>
+          <p data-i18n="stackBotP">The same classification backend powers a Telegram bot, giving students a conversational interface to ask questions and get categorised answers at any time — without needing to open a browser or wait for a staff reply.</p>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="stackNLPTitle">NLP stack</h3>
+          <div class="tags">
+            <span class="tag accent">Rubix ML</span>
+            <span class="tag">Sastrawi</span>
+            <span class="tag">PHP-NLP-Client</span>
+            <span class="tag">NumPHP</span>
+          </div>
+          <p data-i18n="stackNLPP">Sastrawi provides the Nazief-Andriani Indonesian stemmer. Rubix ML handles the KNN classifier and TF-IDF vectorisation. SVD is implemented using custom PHP matrix operations (NumPHP + Math-PHP) — the 59 MB precomputed SVD matrix is stored as JSON for fast retrieval at serve time.</p>
+        </div>
+        <div>
+          <h3 data-i18n="stackDataTitle">Data & model artifacts</h3>
+          <div class="tags">
+            <span class="tag">JSON</span>
+            <span class="tag">CSV / XLSX</span>
+            <span class="tag">.model files</span>
+          </div>
+          <p data-i18n="stackDataP">Serialised models: <code>knn.model</code> (8.7 MB) and <code>knn-lsa.model</code> (18.5 MB). Feature matrices and K-Fold splits are stored as JSON. The raw dataset is versioned as CSV and XLSX. The precomputed SVD matrix (<code>svd.json</code>, 59 MB) is loaded at request time to avoid re-computing decomposition on each query.</p>
+        </div>
+      </div>
+
+      <div class="img-grid">
+        <div class="img-block">
+          <img src="chatbot-lsa/chatbot%20web.png" alt="Web app chatbot — antarmuka tanya-jawab mahasiswa dengan tampilan step-by-step pipeline TF-IDF, SVD, dan KNN" loading="lazy">
+          <div class="img-caption">Web app · pipeline classification step-by-step visible</div>
+        </div>
+        <div class="img-block">
+          <img src="chatbot-lsa/chatbot%20telegram.png" alt="Telegram bot chatbot — mahasiswa tanya lewat Telegram dan mendapat jawaban otomatis dari sistem KNN LSA" loading="lazy">
+          <div class="img-caption">Telegram bot · same backend, conversational interface</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content alt">
+    <div class="wrap">
+      <div class="section-num" data-i18n="lessonsNum">05 · What This Proved</div>
+      <h2 data-i18n="lessonsTitle">Three things I still <em>carry from this thesis.</em></h2>
+
+      <h3 data-i18n="lesson1Title">1. Feature selection matters more than model choice.</h3>
+      <p data-i18n="lesson1P">The classifier did not change — KNN is KNN. What changed was the feature space. LSA gave KNN better geometry to work with: denser, lower-dimensional, semantically coherent. The lesson: fix your representation before tuning hyperparameters.</p>
+
+      <h3 data-i18n="lesson2Title">2. Language-specific preprocessing is non-negotiable.</h3>
+      <p data-i18n="lesson2P">Applying an English pipeline to Bahasa Indonesia would have produced a fractured vocabulary and degraded every downstream metric. The Nazief-Andriani stemmer and a custom Indonesian stopword list are not optional extras — they are the difference between a working model and a broken one.</p>
+
+      <h3 data-i18n="lesson3Title">3. Research becomes real when it ships as a product.</h3>
+      <p data-i18n="lesson3P">The thesis passed. But implementing it in PHP, wiring it to a MySQL database, and exposing it through a Telegram bot taught me things no experiment ever could: serialisation, request handling, latency tradeoffs, and what "accuracy" means when a real user gets a wrong answer.</p>
+
+      <div class="pullquote" data-i18n="lessonsPullquote">
+        "Accuracy improved 1.1 pp. Compute time dropped 35%. But the real result was learning to take a research paper all the way to a deployed chatbot."
+        <span class="attr">— Ninditya Salma Nur Aini, 2021</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="content alt">
+    <div class="wrap">
+      <div class="section-num">06 · References</div>
+      <h2>Grounding the <em>technical choices.</em></h2>
+
+      <div class="refs">
+        <div class="ref">
+          <a href="https://www.semanticscholar.org/paper/Indexing-by-latent-semantic-analysis-Deerwester-Dumais/20a80a7356859daa2a83d7e64d1b7c9f1d077e7b" target="_blank" rel="noopener">Deerwester et al. (1990) — LSA</a>
+          <p>Original paper introducing Latent Semantic Analysis via SVD on term-document matrices.</p>
+        </div>
+        <div class="ref">
+          <a href="https://www.illc.uva.nl/Research/Publications/Reports/MoL-2003-02.text.pdf" target="_blank" rel="noopener">Tala (2003) — A Study of Stemming Effects on Information Retrieval in Bahasa Indonesia</a>
+          <p>University of Amsterdam Master's thesis evaluating Indonesian stemming algorithms including Nazief-Andriani. The primary academic reference for Indonesian morphological normalisation in IR tasks.</p>
+        </div>
+        <div class="ref">
+          <a href="https://rubix.ml/" target="_blank" rel="noopener">Rubix ML</a>
+          <p>PHP machine learning library used for KNN classifier and TF-IDF vectorisation.</p>
+        </div>
+        <div class="ref">
+          <a href="https://github.com/sastrawi/sastrawi" target="_blank" rel="noopener">Sastrawi</a>
+          <p>PHP library providing the Nazief-Andriani Indonesian stemmer used in preprocessing.</p>
+        </div>
+        <div class="ref">
+          <a href="https://ieeexplore.ieee.org/document/1053964" target="_blank" rel="noopener">Cover &amp; Hart (1967) — Nearest Neighbor Pattern Classification</a>
+          <p>Seminal paper proving KNN asymptotically achieves at most twice the Bayes error rate. The theoretical foundation for using KNN as the classifier in this system.</p>
+        </div>
+        <div class="ref">
+          <a href="https://nlp.stanford.edu/IR-book/html/htmledition/tf-idf-weighting-1.html" target="_blank" rel="noopener">Manning, Raghavan &amp; Schütze — Introduction to Information Retrieval (2008)</a>
+          <p>Free online textbook covering TF-IDF weighting, vector space models, and SVD-based LSI. Chapter 18 directly covers the mathematical basis for this project's pipeline.</p>
+        </div>
+        <div class="ref">
+          <a href="https://ai.stanford.edu/~ronnyk/accEst.pdf" target="_blank" rel="noopener">Kohavi (1995) — Cross-Validation and Bootstrap for Accuracy Estimation</a>
+          <p>IJCAI paper establishing k-fold cross-validation as the standard for model evaluation. Grounds the 10-fold CV methodology used to report the 93.2% accuracy.</p>
+        </div>
+        <div class="ref">
+          <a href="https://aclanthology.org/2020.aacl-main.85/" target="_blank" rel="noopener">Wilie et al. (2020) — IndoNLU Benchmark</a>
+          <p>ACL Anthology paper benchmarking Indonesian NLP models across 12 tasks. Provides context for the difficulty of Indonesian text classification and the baseline expectations for accuracy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ctaNum">Try the demo · Read the thesis · See the code</div>
+      <h2 data-i18n="ctaTitle">Live demo on Streamlit. <em>Full source on GitHub.</em></h2>
+      <p style="font-size: 17px; max-width: 720px; line-height: 1.6;" data-i18n="ctaText">
+        The complete thesis (110+ pages, in Indonesian) covers the full mathematical derivation of SVD and LSA,
+        the dataset collection methodology, and all 10-fold evaluation results in detail.
+        The source code includes the PHP web interface, all NLP pipeline stages, and the Telegram bot integration.
+      </p>
+      <div class="cta-buttons">
+        <a class="btn" href="https://chatbot-skripsi-lsa-knn.streamlit.app/" target="_blank" rel="noopener" data-i18n="ctaDemo">Try live demo →</a>
+        <a class="btn ghost" href="https://github.com/ninditya/chatbot-lsa" target="_blank" rel="noopener" data-i18n="ctaSource">View source →</a>
+        <a class="btn ghost" href="index.html#projects" data-i18n="ctaBack">← Back to all projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div data-i18n="footerLeft">© 2026 Ninditya Salma Nur Aini · Thesis 2021</div>
+      <div><a href="index.html">← Back to portfolio</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        navBack: '← All projects',
+        navAbout: 'About',
+        navContact: 'Contact',
+        kickerTag: 'Thesis',
+        heroKicker: 'Classical NLP · Full-stack · UPN "Veteran" Yogyakarta · 2021',
+        heroTitle: 'Classical NLP, from <em>research to working chatbot.</em>',
+        heroLede: '1,410 student questions. <strong>KNN + LSA implemented from scratch in PHP.</strong> Accuracy improved from 92.1% to 93.2% while cutting compute time by 35% — then shipped as a web application and Telegram bot for the Informatics department.',
+        heroMetaStack: '<strong>Stack</strong> PHP · KNN · LSA · TF-IDF · SVD',
+        heroMetaData: '<strong>Dataset</strong> 1,410 student questions',
+        heroMetaAcc: '<strong>LSA+KNN Accuracy</strong> 93.2%',
+        heroMetaDate: '<strong>Graduated</strong> Oct 2021 · GPA 3.66',
+        stat1: 'LSA+KNN accuracy<br>(up from 92.1% baseline)',
+        stat2: 'Compute time reduction<br>(27.49s → 17.97s)',
+        stat3: 'Labelled student questions<br>collected via form',
+        stat4: 'K-Fold Cross Validation<br>90% train · 10% test',
+        execLede: 'This was not just a model experiment. I went from collecting data via a form to a working chatbot deployed on the web and Telegram — implementing KNN and LSA from the mathematical level up in PHP.',
+        step1Id: 'Step 01 · Data Collection',
+        step1H: 'Collect real questions from the department.',
+        step1P: 'I gathered student questions from the Informatics Department of UPN "Veteran" Yogyakarta using a structured form. Each question was manually labelled by topic category.',
+        step1L1: '1,410 questions across multiple intent categories',
+        step1L2: 'Labels: per topic (academic, registration, facilities, etc.)',
+        step2Id: 'Step 02 · Text Preprocessing',
+        step2H: 'Clean and normalise Indonesian text.',
+        step2P: 'Raw questions go through a 6-stage pipeline before any ML is applied. Indonesian has complex morphology — stemming here requires a purpose-built Indonesian algorithm.',
+        step2L1: 'Case folding → remove punctuation → remove numbers',
+        step2L2: 'Tokenising → stopword removal (custom ID list)',
+        step2L3: 'Stemming: Nazief-Andriani algorithm for Bahasa Indonesia',
+        step3Id: 'Step 03 · TF-IDF Feature Extraction',
+        step3H: 'Turn words into weighted vectors.',
+        step3P: 'Each preprocessed question is encoded as a TF-IDF vector over the full vocabulary. This creates a high-dimensional, sparse feature matrix — the problem KNN struggles with.',
+        step3L1: 'Term Frequency × Inverse Document Frequency weighting',
+        step3L2: 'Output: sparse document-term matrix (high dimensionality)',
+        step4Id: 'Step 04 · SVD Decomposition',
+        step4H: 'Reduce dimensions via Singular Value Decomposition.',
+        step4P: 'The TF-IDF matrix is decomposed using SVD. I implemented the SVD matrix operations directly in PHP using custom numerical computation. The top-k singular values are retained.',
+        step4L1: 'SVD: A = U × Σ × Vᵀ',
+        step4L2: 'Precomputed SVD matrix: 59MB stored as JSON',
+        step5Id: 'Step 05 · LSA Feature Selection',
+        step5H: 'Map questions into a dense semantic space.',
+        step5P: 'LSA uses the reduced SVD representations to project questions into a latent semantic space, capturing relationships between words that co-occur in similar contexts.',
+        step5L1: 'Cosine similarity in reduced space (k=661 dimensions)',
+        step5L2: 'Connects semantically similar questions even with different words',
+        step6Id: 'Step 06 · KNN Training',
+        step6H: 'Train the classifier on LSA-reduced features.',
+        step6P: 'K-Nearest Neighbors is trained on the LSA-projected feature vectors. Distance is computed using Manhattan distance. The model is serialised to disk for serving.',
+        step6L1: 'Distance metric: Manhattan',
+        step6L2: 'Models: knn.model (8.7 MB), knn-lsa.model (18.5 MB)',
+        step7Id: 'Step 07 · K-Fold Evaluation',
+        step7H: 'Evaluate rigorously with 10-fold cross-validation.',
+        step7P: 'Both KNN and LSA+KNN are evaluated on all 10 folds. Accuracy, precision, recall, and AUC are compared — not just accuracy.',
+        step7L1: '10-fold CV: 90% train / 10% test per fold',
+        step7L2: 'Metrics: accuracy, precision, recall, F-beta, AUC',
+        step8Id: 'Step 08 · Web App + Telegram Bot',
+        step8H: 'Deploy as a working product.',
+        step8P: 'The trained model is integrated into a PHP web application that visualises the full pipeline step by step, and a Telegram bot for real conversational access.',
+        step8L1: 'Web: PHP + MySQL + Bootstrap 3',
+        step8L2: 'Telegram bot: connected to same classification backend',
+        problemNum: '01 · Why This Exists',
+        problemTitle: 'Students kept asking the same questions. <em>The department had no scalable answer.</em>',
+        problemLede: 'The Informatics Department at UPN "Veteran" Yogyakarta delivered information through circulars, social media, and manual replies — limited by office hours and repeated the same answers to the same questions over and over.',
+        problemP1: 'The core problem was not a lack of information, but a lack of an accessible, scalable retrieval system. Students needed answers at any hour, not just during staff working hours.',
+        problemB1: '<strong>Repeated questions</strong> — the same questions about registration, schedules, and facilities were answered manually again and again',
+        problemB2: '<strong>Working-hours constraint</strong> — students needed information outside office hours but had no self-service option',
+        problemB3: '<strong>KNN\'s sparse-vector weakness</strong> — standard KNN on raw TF-IDF is slow and less accurate on high-dimensional sparse vectors; it also cannot handle synonymous phrasing',
+        problemB4: '<strong>Indonesian morphology</strong> — Bahasa Indonesia has complex affixation; a dedicated stemmer was necessary',
+        pipelineNum: '02 · The NLP Pipeline',
+        pipelineTitle: 'From raw text to <em>semantic classification.</em>',
+        pipelineLede: 'The pipeline handles two problems at once: the linguistics of Indonesian text, and the geometry of high-dimensional sparse vectors. LSA solves both.',
+        pipelineCode: `<span class="c"># Full classification pipeline</span>
+raw_question
+  <span class="arrow">→</span> case_fold() + remove_punct() + remove_num()   <span class="c"># normalise</span>
+  <span class="arrow">→</span> tokenise()                                      <span class="c"># split to words</span>
+  <span class="arrow">→</span> remove_stopwords(id_stoplist)                   <span class="c"># filter noise</span>
+  <span class="arrow">→</span> stem(nazief_andriani)                           <span class="c"># Indonesian stemmer</span>
+  <span class="arrow">→</span> tfidf_vectorise()                               <span class="c"># sparse, high-dim</span>
+  <span class="arrow">→</span> svd_reduce(k=661)                               <span class="c"># dimensionality ↓</span>
+  <span class="arrow">→</span> lsa_project()                                   <span class="c"># semantic space</span>
+  <span class="arrow">→</span> knn_classify(manhattan_distance)                <span class="c"># → intent label</span>`,
+        whyLSATitle: 'Why LSA over raw TF-IDF?',
+        whyLSAP1: 'KNN on raw TF-IDF has two structural problems: sparse high-dimensional vectors make distance computation slow and noisy, and lexical matching fails when students phrase the same question differently.',
+        whyLSAP2: 'LSA fixes both: SVD reduces dimensionality (cutting noise and compute time), and the latent semantic space groups words that appear in similar contexts.',
+        indonesianNLPTitle: 'Indonesian NLP specifics',
+        indonesianNLPP1: 'Bahasa Indonesia uses prefix, suffix, and circumfix morphology — the root "ajar" can appear as "mengajar", "pelajaran", "diajarkan", "pembelajaran". Treating each as a separate token fractures the vocabulary.',
+        indonesianNLPP2: 'The Nazief-Andriani stemmer handles this by stripping affixes according to Indonesian morphological rules, collapsing all surface forms back to their root.',
+        resultsNum: '03 · The Results',
+        resultsTitle: 'LSA improves every metric <em>and cuts compute time by 35%.</em>',
+        resultsIntro: 'Results across 10-fold cross-validation. The key finding: LSA does not just improve accuracy — it improves precision, recall, and AUC simultaneously, while making the model meaningfully faster.',
+        tableMetric: 'Metric',
+        tableKNN: 'KNN (baseline)',
+        tableLSAKNN: 'LSA + KNN',
+        tableDelta: 'Change',
+        tableRowAcc: 'Accuracy (avg)',
+        tableRowPrec: 'Precision (avg)',
+        tableRowRec: 'Recall (avg)',
+        tableRowAUC: 'AUC (avg)',
+        tableRowTime: 'Compute time',
+        resultsPullquote: '"LSA doesn\'t just improve accuracy — it makes the model faster by giving KNN less distance to compute over a denser, more meaningful space."<span class="attr">— Thesis conclusion, Aug 2021</span>',
+        resultsNote: 'Both KNN and LSA+KNN reach AUC in the "good classification" band (≥ 85%). LSA pushes it closer to "excellent" — important because AUC is more reliable than accuracy alone when class distributions are uneven.',
+        stackNum: '04 · Full-Stack Product',
+        stackTitle: 'Not a notebook. <em>A working department chatbot.</em>',
+        stackWebTitle: 'Web application',
+        stackWebP: 'The web interface exposes the full pipeline interactively — users can see the raw input, the TF-IDF matrix, the SVD reduction, the LSA projection, and the final KNN classification result step by step.',
+        stackBotTitle: 'Telegram bot',
+        stackBotP: 'The same classification backend powers a Telegram bot, giving students a conversational interface to ask questions and get categorised answers at any time.',
+        stackNLPTitle: 'NLP stack',
+        stackNLPP: 'Sastrawi provides the Nazief-Andriani Indonesian stemmer. Rubix ML handles the KNN classifier and TF-IDF vectorisation. SVD is implemented via custom PHP matrix operations.',
+        stackDataTitle: 'Data & model artifacts',
+        stackDataP: 'Serialised models: knn.model (8.7 MB) and knn-lsa.model (18.5 MB). Feature matrices and K-Fold splits stored as JSON. The precomputed SVD matrix (svd.json, 59 MB) is loaded at request time.',
+        lessonsNum: '05 · What This Proved',
+        lessonsTitle: 'Three things I still <em>carry from this thesis.</em>',
+        lesson1Title: '1. Feature selection matters more than model choice.',
+        lesson1P: 'The classifier did not change — KNN is KNN. What changed was the feature space. LSA gave KNN better geometry to work with: denser, lower-dimensional, semantically coherent.',
+        lesson2Title: '2. Language-specific preprocessing is non-negotiable.',
+        lesson2P: 'Applying an English pipeline to Bahasa Indonesia would have produced a fractured vocabulary and degraded every downstream metric. The Nazief-Andriani stemmer and custom stopword list are not optional.',
+        lesson3Title: '3. Research becomes real when it ships as a product.',
+        lesson3P: 'The thesis passed. But wiring the model to a MySQL database and exposing it through a Telegram bot taught me things no experiment could: serialisation, request handling, and what accuracy means when a real user gets a wrong answer.',
+        lessonsPullquote: '"Accuracy improved 1.1 pp. Compute time dropped 35%. But the real result was learning to take a research paper all the way to a deployed chatbot."<span class="attr">— Ninditya Salma Nur Aini, 2021</span>',
+        ctaNum: 'Try the demo · Read the thesis · See the code',
+        ctaTitle: 'Live demo on Streamlit. <em>Full source on GitHub.</em>',
+        ctaText: 'The complete thesis (110+ pages, in Indonesian) covers the full mathematical derivation of SVD and LSA, the dataset collection methodology, and all 10-fold evaluation results in detail. The source code includes the PHP web interface, all NLP pipeline stages, and the Telegram bot integration.',
+        ctaDemo: 'Try live demo →',
+        ctaSource: 'View source →',
+        ctaBack: '← Back to all projects',
+        footerLeft: '© 2026 Ninditya Salma Nur Aini · Thesis 2021',
+      },
+      id: {
+        navBack: '← Semua project',
+        navAbout: 'Tentang',
+        navContact: 'Kontak',
+        kickerTag: 'Skripsi',
+        heroKicker: 'NLP Klasik · Full-stack · UPN "Veteran" Yogyakarta · 2021',
+        heroTitle: 'NLP klasik, dari <em>penelitian ke chatbot nyata.</em>',
+        heroLede: '1.410 pertanyaan mahasiswa. <strong>KNN + LSA diimplementasikan dari awal dalam PHP.</strong> Akurasi meningkat dari 92,1% menjadi 93,2% dengan waktu komputasi berkurang 35% — kemudian dirilis sebagai web dan bot Telegram untuk Jurusan Informatika.',
+        heroMetaStack: '<strong>Stack</strong> PHP · KNN · LSA · TF-IDF · SVD',
+        heroMetaData: '<strong>Dataset</strong> 1.410 pertanyaan mahasiswa',
+        heroMetaAcc: '<strong>Akurasi LSA+KNN</strong> 93,2%',
+        heroMetaDate: '<strong>Lulus</strong> Okt 2021 · IPK 3,66',
+        stat1: 'Akurasi LSA+KNN<br>(dari baseline 92,1%)',
+        stat2: 'Penurunan waktu komputasi<br>(27,49 dtk → 17,97 dtk)',
+        stat3: 'Pertanyaan mahasiswa berlabel<br>dikumpulkan via formulir',
+        stat4: 'K-Fold Cross Validation<br>90% latih · 10% uji',
+        execLede: 'Ini bukan sekedar eksperimen model. Saya mulai dari mengumpulkan data via formulir hingga chatbot yang berjalan di web dan Telegram — mengimplementasikan KNN dan LSA dari level matematis di PHP.',
+        step1Id: 'Langkah 01 · Pengumpulan Data',
+        step1H: 'Kumpulkan pertanyaan nyata dari jurusan.',
+        step1P: 'Saya mengumpulkan pertanyaan mahasiswa Jurusan Informatika UPN "Veteran" Yogyakarta via formulir terstruktur. Setiap pertanyaan dilabeli manual berdasarkan kategori topik.',
+        step1L1: '1.410 pertanyaan lintas kategori intent',
+        step1L2: 'Label: per topik (akademik, registrasi, fasilitas, dll.)',
+        step2Id: 'Langkah 02 · Text Preprocessing',
+        step2H: 'Bersihkan dan normalisasi teks Bahasa Indonesia.',
+        step2P: 'Pertanyaan mentah melewati pipeline 6 tahap sebelum ML diterapkan. Bahasa Indonesia punya morfologi kompleks — stemming di sini memerlukan algoritma khusus Indonesia.',
+        step2L1: 'Case folding → hapus tanda baca → hapus angka',
+        step2L2: 'Tokenisasi → hapus stopwords (daftar ID kustom)',
+        step2L3: 'Stemming: algoritma Nazief-Andriani untuk Bahasa Indonesia',
+        step3Id: 'Langkah 03 · Ekstraksi Fitur TF-IDF',
+        step3H: 'Ubah kata menjadi vektor berbobot.',
+        step3P: 'Setiap pertanyaan yang sudah diproses direpresentasikan sebagai vektor TF-IDF atas seluruh kosakata. Hasilnya matriks fitur sparse berdimensi tinggi — masalah utama KNN.',
+        step3L1: 'Pembobotan Term Frequency × Inverse Document Frequency',
+        step3L2: 'Output: matriks document-term sparse (dimensi tinggi)',
+        step4Id: 'Langkah 04 · Dekomposisi SVD',
+        step4H: 'Reduksi dimensi via Singular Value Decomposition.',
+        step4P: 'Matriks TF-IDF didekomposisi menggunakan SVD. Saya mengimplementasikan operasi matriks SVD langsung di PHP. Nilai singular top-k dipertahankan.',
+        step4L1: 'SVD: A = U × Σ × Vᵀ',
+        step4L2: 'Matriks SVD precomputed: 59MB disimpan sebagai JSON',
+        step5Id: 'Langkah 05 · Pemilihan Fitur LSA',
+        step5H: 'Proyeksikan pertanyaan ke ruang semantik dense.',
+        step5P: 'LSA menggunakan representasi SVD yang direduksi untuk memproyeksikan pertanyaan ke ruang semantik laten, menangkap relasi antar kata yang muncul dalam konteks serupa.',
+        step5L1: 'Cosine similarity di ruang tereduksi (k=661 dimensi)',
+        step5L2: 'Menghubungkan pertanyaan serupa meski kata berbeda',
+        step6Id: 'Langkah 06 · Training KNN',
+        step6H: 'Latih classifier pada fitur yang sudah direduksi LSA.',
+        step6P: 'K-Nearest Neighbors dilatih pada vektor fitur hasil proyeksi LSA. Jarak dihitung menggunakan Manhattan distance. Model diserialisasi ke disk untuk serving.',
+        step6L1: 'Metrik jarak: Manhattan',
+        step6L2: 'Model: knn.model (8,7 MB), knn-lsa.model (18,5 MB)',
+        step7Id: 'Langkah 07 · Evaluasi K-Fold',
+        step7H: 'Evaluasi ketat dengan 10-fold cross-validation.',
+        step7P: 'KNN dan LSA+KNN dievaluasi di semua 10 fold. Akurasi, presisi, recall, dan AUC dibandingkan — bukan hanya akurasi.',
+        step7L1: '10-fold CV: 90% latih / 10% uji per fold',
+        step7L2: 'Metrik: akurasi, presisi, recall, F-beta, AUC',
+        step8Id: 'Langkah 08 · Web App + Bot Telegram',
+        step8H: 'Deploy sebagai produk nyata.',
+        step8P: 'Model yang sudah dilatih diintegrasikan ke aplikasi web PHP yang memvisualisasikan seluruh pipeline langkah demi langkah, dan bot Telegram untuk akses percakapan nyata.',
+        step8L1: 'Web: PHP + MySQL + Bootstrap 3',
+        step8L2: 'Bot Telegram: terhubung ke backend klasifikasi yang sama',
+        problemNum: '01 · Kenapa Project Ini Dibuat',
+        problemTitle: 'Mahasiswa terus mengajukan pertanyaan yang sama. <em>Jurusan tidak punya jawaban yang skalabel.</em>',
+        problemLede: 'Jurusan Informatika UPN "Veteran" Yogyakarta menyampaikan informasi lewat edaran, media sosial, dan balasan manual — terbatas jam kerja dan terus mengulang jawaban yang sama untuk pertanyaan yang sama.',
+        problemP1: 'Masalah utamanya bukan kurangnya informasi, melainkan tidak adanya sistem retrieval yang mudah diakses dan skalabel. Mahasiswa butuh jawaban kapan saja, tidak hanya saat staf masuk kerja.',
+        problemB1: '<strong>Pertanyaan berulang</strong> — pertanyaan yang sama tentang pendaftaran, jadwal, dan fasilitas dijawab manual berulang-ulang',
+        problemB2: '<strong>Keterbatasan jam kerja</strong> — mahasiswa butuh informasi di luar jam kantor tapi tidak ada opsi swalayan',
+        problemB3: '<strong>Kelemahan KNN pada vektor sparse</strong> — KNN standar pada TF-IDF mentah lambat dan kurang akurat pada vektor berdimensi tinggi; juga tidak bisa menangani phrasing sinonim',
+        problemB4: '<strong>Morfologi Bahasa Indonesia</strong> — Bahasa Indonesia punya afiksasi kompleks; stemmer khusus sangat diperlukan',
+        pipelineNum: '02 · Pipeline NLP',
+        pipelineTitle: 'Dari teks mentah ke <em>klasifikasi semantik.</em>',
+        pipelineLede: 'Pipeline ini menangani dua masalah sekaligus: linguistik teks Bahasa Indonesia, dan geometri vektor sparse berdimensi tinggi. LSA menyelesaikan keduanya.',
+        pipelineCode: `<span class="c"># Pipeline klasifikasi lengkap</span>
+pertanyaan_mentah
+  <span class="arrow">→</span> case_fold() + hapus_tanda_baca() + hapus_angka()  <span class="c"># normalisasi</span>
+  <span class="arrow">→</span> tokenisasi()                                        <span class="c"># pisah kata</span>
+  <span class="arrow">→</span> hapus_stopwords(daftar_id)                          <span class="c"># filter noise</span>
+  <span class="arrow">→</span> stemming(nazief_andriani)                           <span class="c"># stemmer Indonesia</span>
+  <span class="arrow">→</span> vektorisasi_tfidf()                                 <span class="c"># sparse, dim tinggi</span>
+  <span class="arrow">→</span> reduksi_svd(k=661)                                  <span class="c"># dimensi ↓</span>
+  <span class="arrow">→</span> proyeksi_lsa()                                      <span class="c"># ruang semantik</span>
+  <span class="arrow">→</span> klasifikasi_knn(jarak_manhattan)                    <span class="c"># → label intent</span>`,
+        whyLSATitle: 'Kenapa LSA bukan TF-IDF langsung?',
+        whyLSAP1: 'KNN pada TF-IDF mentah punya dua masalah struktural: vektor sparse berdimensi tinggi membuat komputasi jarak lambat dan bising; lexical matching gagal saat mahasiswa memfrasa pertanyaan yang sama dengan kata berbeda.',
+        whyLSAP2: 'LSA menyelesaikan keduanya: SVD mereduksi dimensi (mengurangi noise dan waktu komputasi), dan ruang semantik laten mengelompokkan kata yang muncul dalam konteks serupa.',
+        indonesianNLPTitle: 'Spesifik NLP Bahasa Indonesia',
+        indonesianNLPP1: 'Bahasa Indonesia menggunakan morfologi prefiks, sufiks, dan sirkumfiks — kata dasar "ajar" bisa muncul sebagai "mengajar", "pelajaran", "diajarkan", "pembelajaran". Menganggap masing-masing sebagai token terpisah akan memecah kosakata.',
+        indonesianNLPP2: 'Stemmer Nazief-Andriani menangani ini dengan melepas imbuhan sesuai aturan morfologi Indonesia, mengkonversi semua bentuk permukaan kembali ke kata dasarnya.',
+        resultsNum: '03 · Hasil',
+        resultsTitle: 'LSA meningkatkan semua metrik <em>dan memangkas waktu komputasi 35%.</em>',
+        resultsIntro: 'Hasil dari 10-fold cross-validation. Temuan utama: LSA tidak hanya meningkatkan akurasi — ia meningkatkan presisi, recall, dan AUC sekaligus, sambil membuat model secara signifikan lebih cepat.',
+        tableMetric: 'Metrik',
+        tableKNN: 'KNN (baseline)',
+        tableLSAKNN: 'LSA + KNN',
+        tableDelta: 'Perubahan',
+        tableRowAcc: 'Akurasi (rata-rata)',
+        tableRowPrec: 'Presisi (rata-rata)',
+        tableRowRec: 'Recall (rata-rata)',
+        tableRowAUC: 'AUC (rata-rata)',
+        tableRowTime: 'Waktu komputasi',
+        resultsPullquote: '"LSA tidak hanya meningkatkan akurasi — ia membuat model lebih cepat dengan memberi KNN ruang yang lebih dense dan bermakna untuk dihitung."<span class="attr">— Kesimpulan skripsi, Agustus 2021</span>',
+        resultsNote: 'Baik KNN maupun LSA+KNN mencapai AUC di band "good classification" (≥ 85%). LSA mendorongnya lebih dekat ke "excellent" — penting karena AUC lebih andal dari akurasi saja saat distribusi kelas tidak seimbang.',
+        stackNum: '04 · Produk Full-Stack',
+        stackTitle: 'Bukan sekedar notebook. <em>Chatbot jurusan yang berjalan nyata.</em>',
+        stackWebTitle: 'Aplikasi web',
+        stackWebP: 'Antarmuka web memperlihatkan seluruh pipeline secara interaktif — pengguna bisa melihat input mentah, matriks TF-IDF, reduksi SVD, proyeksi LSA, dan hasil klasifikasi KNN akhir langkah demi langkah.',
+        stackBotTitle: 'Bot Telegram',
+        stackBotP: 'Backend klasifikasi yang sama menggerakkan bot Telegram, memberi mahasiswa antarmuka percakapan untuk mengajukan pertanyaan dan mendapat jawaban terkategori kapan saja.',
+        stackNLPTitle: 'Stack NLP',
+        stackNLPP: 'Sastrawi menyediakan stemmer Nazief-Andriani untuk Bahasa Indonesia. Rubix ML menangani classifier KNN dan vektorisasi TF-IDF. SVD diimplementasikan via operasi matriks PHP kustom.',
+        stackDataTitle: 'Data & artefak model',
+        stackDataP: 'Model terserialisasi: knn.model (8,7 MB) dan knn-lsa.model (18,5 MB). Matriks fitur dan split K-Fold disimpan sebagai JSON. Matriks SVD precomputed (svd.json, 59 MB) dimuat saat request.',
+        lessonsNum: '05 · Yang Terbukti dari Skripsi Ini',
+        lessonsTitle: 'Tiga hal yang masih <em>saya bawa dari skripsi ini.</em>',
+        lesson1Title: '1. Pemilihan fitur lebih penting dari pilihan model.',
+        lesson1P: 'Classifiernya tidak berubah — KNN tetap KNN. Yang berubah adalah ruang fiturnya. LSA memberi KNN geometri yang lebih baik: lebih dense, berdimensi rendah, dan koheren secara semantik.',
+        lesson2Title: '2. Preprocessing spesifik bahasa tidak bisa dinegosiasi.',
+        lesson2P: 'Menerapkan pipeline bahasa Inggris ke Bahasa Indonesia akan menghasilkan kosakata yang terfragmentasi dan menurunkan semua metrik downstream. Stemmer Nazief-Andriani dan daftar stopwords Indonesia bukan opsi tambahan.',
+        lesson3Title: '3. Penelitian menjadi nyata ketika ia jadi produk.',
+        lesson3P: 'Skripsi lulus. Tapi mengintegrasikan model ke database MySQL dan mengeksposnya lewat bot Telegram mengajarkan hal yang tidak bisa diajarkan eksperimen: serialisasi, penanganan request, dan apa artinya "akurasi" ketika pengguna nyata mendapat jawaban yang salah.',
+        lessonsPullquote: '"Akurasi naik 1,1 pp. Waktu komputasi turun 35%. Tapi hasil sesungguhnya adalah belajar membawa paper penelitian sampai ke chatbot yang ter-deploy."<span class="attr">— Ninditya Salma Nur Aini, 2021</span>',
+        ctaNum: 'Coba demo · Baca skripsi · Lihat kode',
+        ctaTitle: 'Demo langsung di Streamlit. <em>Source lengkap di GitHub.</em>',
+        ctaText: 'Skripsi lengkap (110+ halaman, dalam Bahasa Indonesia) mencakup derivasi matematis SVD dan LSA, metodologi pengumpulan dataset, dan semua hasil evaluasi 10-fold secara detail. Source code mencakup antarmuka web PHP, semua tahap pipeline NLP, dan integrasi bot Telegram.',
+        ctaDemo: 'Coba demo langsung →',
+        ctaSource: 'Lihat source →',
+        ctaBack: '← Kembali ke semua project',
+        footerLeft: '© 2026 Ninditya Salma Nur Aini · Skripsi 2021',
+      }
+    };
+
+    let currentLang = 'en';
+
+    function applyTranslations(lang) {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key] !== undefined) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+      document.documentElement.lang = lang;
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-lang-target');
+        if (target === currentLang) return;
+        currentLang = target;
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyTranslations(target);
+      });
+    });
+
+    // Timeline carousel
+    document.querySelectorAll('.timeline-shell').forEach(shell => {
+      const track = shell.querySelector('.timeline');
+      const steps = track ? track.querySelectorAll('.step') : [];
+      const prevBtn = shell.querySelector('[data-timeline-prev]');
+      const nextBtn = shell.querySelector('[data-timeline-next]');
+      const statusEl = shell.closest('section')?.querySelector('[data-timeline-status]');
+
+      const visibleCount = () => window.innerWidth <= 800 ? 1 : 2;
+      let pos = 0;
+
+      function update() {
+        const vc = visibleCount();
+        const maxPos = Math.max(0, steps.length - vc);
+        pos = Math.min(pos, maxPos);
+        const pct = pos * (100 / vc);
+        track.style.transform = `translateX(-${pct}%)`;
+        if (prevBtn) prevBtn.disabled = pos === 0;
+        if (nextBtn) nextBtn.disabled = pos >= maxPos;
+        if (statusEl) {
+          const from = pos + 1;
+          const to = Math.min(pos + vc, steps.length);
+          statusEl.textContent = `Steps ${from}–${to} of ${steps.length}`;
+        }
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', () => { pos = Math.max(0, pos - 1); update(); });
+      if (nextBtn) nextBtn.addEventListener('click', () => { pos = Math.min(steps.length - visibleCount(), pos + 1); update(); });
+      window.addEventListener('resize', update);
+      update();
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.stat, .step, .ref, .two-col > div').forEach(el => {
+      el.classList.add('reveal');
+      observer.observe(el);
+    });
+
+    applyTranslations('en');
+  </script>
+</body>
+
+</html>
