@@ -147,8 +147,15 @@ nav{background:rgba(245,243,238,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .roadmap-link.is-disabled{background:transparent;border-color:var(--border);color:var(--ink3);cursor:default}
 
 /* FEATURED LIVE CASES */
-.featured-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
-.featured-card{background:var(--surface);border:1px solid var(--primary-mid);border-radius:12px;padding:1.4rem;display:flex;flex-direction:column;gap:0;box-shadow:0 8px 24px rgba(26,82,118,0.07)}
+.featured-carousel{margin-bottom:2rem}
+.featured-carousel-controls{display:none;justify-content:flex-end;gap:0.4rem;margin-bottom:0.75rem}
+.featured-carousel-controls.is-visible{display:flex}
+.carousel-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--ink2);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;line-height:1}
+.carousel-btn:hover:not(:disabled){background:var(--ink);color:#fff;border-color:var(--ink)}
+.carousel-btn:disabled{opacity:0.28;cursor:default}
+.featured-track-wrap{overflow:hidden}
+.featured-grid{display:flex;flex-wrap:nowrap;gap:1rem;transition:transform 0.4s cubic-bezier(.25,.46,.45,.94)}
+.featured-card{flex:0 0 auto;min-width:0;background:var(--surface);border:1px solid var(--primary-mid);border-radius:12px;padding:1.4rem;display:flex;flex-direction:column;gap:0;box-shadow:0 8px 24px rgba(26,82,118,0.07)}
 .featured-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
 .featured-label{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--primary)}
 .featured-live{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--success);background:var(--success-light);border:1px solid rgba(45,106,79,0.18);border-radius:999px;padding:0.22rem 0.55rem}
@@ -163,7 +170,6 @@ nav{background:rgba(245,243,238,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .featured-tags{display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:1rem}
 .featured-cta{display:flex;align-items:center;justify-content:center;padding:0.65rem;border-radius:8px;border:1px solid var(--ink);background:var(--ink);color:#fff;text-decoration:none;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.04em;transition:all 0.15s;margin-top:auto}
 .featured-cta:hover{background:var(--primary);border-color:var(--primary)}
-@media(max-width:640px){.featured-grid{grid-template-columns:1fr}}
 
 /* EDUCATION */
 .edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
