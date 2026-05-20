@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Attrition Prediction — Ninditya Salma Nur Aini</title>
+  <meta name="description"
+    content="IDCamp Expert Data Science project: XGBoost-based HR analytics system for early employee attrition detection at Jaya Jaya Maju. 86.11% recall, AUC 81.93%, Metabase dashboard, Docker deployment. Overtime identified as 3x risk multiplier.">
+  <link rel="canonical" href="https://ninditya.github.io/employee-attrition/">
+  <meta property="og:title" content="Employee Attrition Prediction — Ninditya Salma Nur Aini">
+  <meta property="og:description" content="IDCamp Expert: XGBoost HR analytics (86.11% recall, AUC 81.93%) for employee attrition early warning. Metabase dashboard + Docker infrastructure.">
+  <meta property="og:url" content="https://ninditya.github.io/employee-attrition/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f3ee;
+      --bg-alt: #eceae4;
+      --bg-dark: #1a1814;
+      --ink: #1a1814;
+      --ink-soft: #5a574f;
+      --muted: #8c887f;
+      --line: #dddad3;
+      --line-strong: #8c887f;
+      --primary: #1a5276;
+      --accent: #c4490c;
+      --accent-soft: #eaf2fb;
+      --green: #2d6a4f;
+      --red: #c4490c;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    .skip-link { position: absolute; top: -40px; left: 0; background: var(--ink); color: #fff; padding: 8px 16px; z-index: 1000; transition: top 0.2s; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-decoration: none; }
+    .skip-link:focus { top: 0; }
+    *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    nav { position: sticky; top: 0; background: rgba(245,243,238,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
+    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+    .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .nav-pill { font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 100px; transition: all 0.2s ease; }
+    .nav-pill:hover { background: var(--bg-alt); color: var(--ink); }
+    .nav-pill.back { color: var(--primary); border: 1px solid var(--line); }
+    .nav-pill.back:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+    .hero { padding: 80px 0 60px; border-bottom: 1px solid var(--line); }
+    .hero-kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
+    .kicker-tag { background: var(--ink); color: var(--accent); padding: 5px 12px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+    .kicker-text { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
+    h1.title { font-family: 'Instrument Serif', serif; font-size: clamp(44px, 6.5vw, 80px); line-height: 1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 32px; font-weight: 400; }
+    h1.title em { font-style: italic; color: var(--primary); }
+    .hero-lede { font-family: 'Instrument Serif', serif; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.45; max-width: 760px; color: var(--ink-soft); font-weight: 400; }
+    .hero-lede strong { background: linear-gradient(180deg, transparent 60%, var(--accent-soft) 60%); font-weight: 500; color: var(--ink); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 44px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
+    .hero-meta span strong { color: var(--ink); font-weight: 500; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+    .stats-strip { background: var(--bg-dark); color: var(--bg); padding: 60px 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+    .stat { text-align: left; padding: 0 28px; border-left: 1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left: none; padding-left: 0; }
+    .stat .num { font-family: 'Instrument Serif', serif; font-size: clamp(40px, 5.5vw, 60px); font-weight: 400; line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
+    .stat .num small { font-size: 0.5em; color: var(--bg); opacity: 0.7; font-family: 'Instrument Serif', serif; }
+    .stat .label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px; opacity: 0.75; line-height: 1.4; }
+    section.content { padding: 80px 0; border-bottom: 1px solid var(--line); }
+    section.content.alt { background: var(--bg-alt); }
+    .section-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
+    h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 4.5vw, 48px); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 36px; max-width: 800px; color: var(--ink); }
+    h2 em { font-style: italic; color: var(--primary); }
+    h3 { font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; margin: 36px 0 14px; letter-spacing: -0.01em; color: var(--ink); }
+    h3 em { font-style: italic; color: var(--primary); }
+    .lede { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 760px; margin-bottom: 22px; font-weight: 400; }
+    p { margin-bottom: 16px; max-width: 760px; color: var(--ink-soft); font-size: 16px; }
+    p code, li code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin: 40px 0; }
+    .two-col h3 { margin-top: 0; }
+    ul.checklist { list-style: none; padding: 0; margin: 24px 0; max-width: 800px; }
+    ul.checklist li { padding: 14px 0 14px 36px; position: relative; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+    ul.checklist li:last-child { border-bottom: none; }
+    ul.checklist li::before { content: '✓'; position: absolute; left: 0; top: 14px; color: var(--green); font-weight: 700; font-size: 16px; }
+    ul.checklist li strong { font-weight: 600; color: var(--ink); }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0; }
+    .tag { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 5px 11px; border: 1px solid var(--line-strong); background: white; border-radius: 3px; color: var(--ink-soft); }
+    .pullquote { border-left: 3px solid var(--accent); padding: 16px 0 16px 28px; margin: 32px 0; font-family: 'Instrument Serif', serif; font-size: 24px; font-style: italic; line-height: 1.45; max-width: 760px; color: var(--ink); }
+    table.compare { width: 100%; max-width: 760px; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
+    table.compare th, table.compare td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    table.compare th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--bg-alt); font-weight: 500; }
+    table.compare td.num { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--ink); }
+    table.compare tr.highlight td { background: var(--accent-soft); font-weight: 600; color: var(--ink); }
+    .risk-table { width: 100%; max-width: 760px; border-collapse: collapse; margin: 28px 0; }
+    .risk-table th, .risk-table td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .risk-table th { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--bg-alt); }
+    .risk-table td.danger { font-family: 'DM Mono', monospace; font-weight: 700; color: var(--red); }
+    .risk-table td.safe { font-family: 'DM Mono', monospace; color: var(--green); }
+    .insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 32px 0; max-width: 900px; }
+    .insight-cell { background: white; padding: 24px; }
+    .insight-num { font-family: 'Instrument Serif', serif; font-size: 36px; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+    .insight-label { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+    .insight-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+    .journey-section { background: var(--bg-dark); color: var(--bg); padding: 80px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .journey-section .section-num { color: var(--accent); }
+    .journey-section h2 { color: var(--bg); max-width: 800px; }
+    .journey-section h2 em { color: var(--accent); }
+    .journey-section p { color: rgba(255,255,255,0.7); max-width: 720px; }
+    .journey-section h3 { color: rgba(255,255,255,0.9); margin-top: 40px; margin-bottom: 12px; }
+    .journey-path { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 32px; }
+    .journey-tag { font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 11px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.05em; }
+    .journey-tag.active { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 500; }
+    .feedback-block { border-left: 3px solid var(--accent); padding: 16px 0 16px 24px; margin: 20px 0; }
+    .feedback-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
+    .feedback-block p { font-size: 15px; color: rgba(255,255,255,0.65); }
+    .feedback-block p strong { color: rgba(255,255,255,0.9); }
+    .lesson-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0; max-width: 800px; }
+    .lesson-cell { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px; }
+    .lesson-cell-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
+    .lesson-cell p { font-size: 14px; color: rgba(255,255,255,0.65); margin: 0; max-width: none; }
+    .lesson-cell p strong { color: rgba(255,255,255,0.9); }
+    @media (max-width: 600px) { .lesson-grid { grid-template-columns: 1fr; } }
+    .screenshot-frame { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 24px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .screenshot-frame img { width: 100%; display: block; }
+    .img-caption { padding: 10px 16px; background: var(--bg); border-top: 1px solid var(--line); font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .screenshot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+    @media (max-width: 700px) { .screenshot-grid { grid-template-columns: 1fr; } }
+    .cta-section { background: var(--bg-alt); color: var(--ink); padding: 80px 0; }
+    .cta-section h2 { color: var(--ink); }
+    .cta-section h2 em { color: var(--primary); }
+    .cta-section p { color: var(--ink-soft); }
+    .cta-section .section-num { color: var(--primary); }
+    .cta-buttons { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+    .btn { display: inline-block; padding: 14px 26px; background: var(--accent); color: var(--ink); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid var(--accent); border-radius: 4px; transition: all 0.2s ease; }
+    .btn:hover { background: transparent; color: var(--accent); }
+    .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+    .btn.ghost:hover { background: var(--ink); color: white; border-color: var(--ink); }
+    footer { background: var(--bg-dark); color: rgba(255,255,255,0.7); padding: 28px 0; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em; border-top: 1px solid rgba(255,255,255,0.1); }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    footer a { color: var(--accent); text-decoration: none; }
+    .stack-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; margin: 28px 0; }
+    .stack-item { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; min-width: 140px; }
+    .stack-item-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 4px; }
+    .stack-item-val { font-size: 14px; color: var(--ink); font-weight: 500; }
+    .nav-tools { display: flex; align-items: center; gap: 10px; }
+    .mobile-nav-toggle { display: none; background: transparent; border: none; color: var(--ink); font-size: 1.5rem; cursor: pointer; padding: 0 5px; line-height: 1; }
+    .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+    .lang-btn { border: none; background: transparent; color: var(--muted); padding: 6px 10px; border-radius: 999px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.15s; }
+    .lang-btn.active { background: var(--ink); color: white; }
+    @media (max-width: 760px) {
+      .two-col { grid-template-columns: 1fr; gap: 32px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 0; }
+      .stat:nth-child(3) { border-left: none; }
+      .wrap { padding: 0 20px; }
+      .nav-inner { padding: 14px 20px; }
+      .hero { padding: 56px 0 40px; }
+      .insight-grid { grid-template-columns: 1fr; }
+      .mobile-nav-toggle { display: block; }
+      .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(245,243,238,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 1.5rem; gap: 0.4rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+      nav.nav-open .nav-pills { display: flex; }
+      .lesson-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <a href="/" class="logo">Ninditya Salma Nur Aini</a>
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a href="/" class="nav-pill back" data-i18n="navBack">← Back to portfolio</a>
+          <a href="/#projects" class="nav-pill" data-i18n="navProjects">Projects</a>
+          <a href="/#contact" class="nav-pill" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="wrap">
+        <div class="hero-kicker">
+          <span class="kicker-tag">Section 02 · Applied Data Science</span>
+          <span class="kicker-text" data-i18n="kickerText">IDCamp Expert · HR Analytics · ML Classification</span>
+        </div>
+        <h1 class="title" data-i18n="heroTitle">Employee Attrition<br><em>Prediction</em></h1>
+        <p class="hero-lede" data-i18n="heroLede">
+          Jaya Jaya Maju — a multinational company with 1,000+ employees — was losing staff at a <strong>16.92% annual attrition rate</strong>. I built an XGBoost early-warning system achieving <strong>86.11% recall</strong>, combined with a 5-tab Metabase dashboard and Docker-based infrastructure to turn prediction into operational HR intelligence.
+        </p>
+        <div class="hero-meta">
+          <span><strong>Model</strong> XGBoost · Logistic Regression</span>
+          <span><strong>Stack</strong> scikit-learn · SMOTE · Metabase · PostgreSQL · Docker</span>
+          <span><strong>Dataset</strong> 1,470 employees · 72 features · IBM HR Analytics</span>
+          <span data-i18n="metaLevel"><strong>Level</strong> IDCamp Expert</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS STRIP -->
+    <div class="stats-strip">
+      <div class="wrap">
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="num">86.11<small>%</small></div>
+            <div class="label">Recall on test set<br>catches 86% of attritors</div>
+          </div>
+          <div class="stat">
+            <div class="num">81.93<small>%</small></div>
+            <div class="label">ROC-AUC score<br>XGBoost selected</div>
+          </div>
+          <div class="stat">
+            <div class="num">3×</div>
+            <div class="label">Overtime risk multiplier<br>31.92% vs 10.79%</div>
+          </div>
+          <div class="stat">
+            <div class="num">5</div>
+            <div class="label">Metabase dashboard tabs<br>Docker deployed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: PROBLEM -->
+    <section class="content" id="problem">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s1Num">01 — Problem</div>
+        <h2 data-i18n="s1H2">Attrition above 10% is <em>a management warning sign</em>. Theirs was 16.92%.</h2>
+        <p class="lede" data-i18n="s1Lede">
+          Jaya Jaya Maju operates across multiple countries, employing 1,000+ staff. Their attrition rate — 16.92%, or roughly 179 employees per year — was significantly above the acceptable threshold. No structured early-warning system existed.
+        </p>
+        <p>
+          Attrition is expensive. Replacing an employee costs an estimated 50–200% of their annual salary when recruitment, onboarding, and lost productivity are accounted for. At 179 employees per year, the financial exposure is substantial — and most of it is preventable with early identification.
+        </p>
+        <p>
+          The dataset contains 72 features covering four domains:
+        </p>
+        <ul class="checklist">
+          <li><strong>Work conditions</strong> — Overtime requirement, business travel frequency, distance from home. These are the strongest controllable risk factors.</li>
+          <li><strong>Compensation</strong> — Monthly income, daily rate, hourly rate, salary hike percentage, stock option level. Underpayment relative to peers is a key retention lever.</li>
+          <li><strong>Satisfaction scores</strong> — Job satisfaction, environment satisfaction, work-life balance score, job involvement. Self-reported scores that predict behavior.</li>
+          <li><strong>Career trajectory</strong> — Total working years, years at company, years in current role, years since last promotion, training frequency. Stagnation is a warning sign.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">XGBoost</span>
+          <span class="tag">SMOTE</span>
+          <span class="tag">HR Analytics</span>
+          <span class="tag">Metabase</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">Docker</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: MODEL SELECTION -->
+    <section class="content alt" id="modeling">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s2Num">02 — Why XGBoost Won</div>
+        <h2 data-i18n="s2H2">Recall beats accuracy when <em>missing a leaver costs more</em> than a false alarm</h2>
+        <p class="lede" data-i18n="s2Lede">
+          Two models were compared: Logistic Regression (interpretable baseline) and XGBoost (non-linear ensemble). The right choice depended on what kind of error was more expensive.
+        </p>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Logistic Regression</th>
+              <th>XGBoost (Selected)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Test Accuracy</td>
+              <td class="num">74.53%</td>
+              <td class="num">59.91%</td>
+            </tr>
+            <tr class="highlight">
+              <td>Test Recall (Attrition)</td>
+              <td class="num">72.22%</td>
+              <td class="num">86.11% ✓</td>
+            </tr>
+            <tr class="highlight">
+              <td>ROC-AUC</td>
+              <td class="num">79.92%</td>
+              <td class="num">81.93% ✓</td>
+            </tr>
+            <tr>
+              <td>False Negatives</td>
+              <td class="num">More</td>
+              <td class="num">Only 5</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          XGBoost has lower raw accuracy but dramatically higher recall. In an HR context, a false negative (missing a leaver) means losing an employee without any chance to intervene. A false positive (flagging someone who stays) costs a counseling conversation. The asymmetry clearly favors recall — XGBoost was chosen.
+        </p>
+        <p>
+          SMOTE was applied to training data only. Class imbalance (roughly 83% stay / 17% leave) would have biased any model toward always predicting "no attrition." SMOTE synthesizes minority-class examples during training to force the model to learn both distributions.
+        </p>
+
+        <div class="stack-row">
+          <div class="stack-item"><div class="stack-item-label">Primary model</div><div class="stack-item-val">XGBoost</div></div>
+          <div class="stack-item"><div class="stack-item-label">Imbalance</div><div class="stack-item-val">SMOTE</div></div>
+          <div class="stack-item"><div class="stack-item-label">Tuning</div><div class="stack-item-val">GridSearchCV (4-fold)</div></div>
+          <div class="stack-item"><div class="stack-item-label">Eval</div><div class="stack-item-val">5-fold StratifiedKFold</div></div>
+          <div class="stack-item"><div class="stack-item-label">Batch predict</div><div class="stack-item-val">Python + SQLAlchemy</div></div>
+          <div class="stack-item"><div class="stack-item-label">Infra</div><div class="stack-item-val">Docker + PostgreSQL</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: RISK FACTORS -->
+    <section class="content" id="risks">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s3Num">03 — Risk Factors</div>
+        <h2 data-i18n="s3H2">Overtime is a <em>3× risk multiplier</em>. First year is the most dangerous.</h2>
+
+        <table class="risk-table">
+          <thead>
+            <tr>
+              <th>Risk Factor</th>
+              <th>High-Risk Rate</th>
+              <th>Low-Risk Rate</th>
+              <th>Multiplier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Overtime (Yes)</strong></td>
+              <td class="danger">31.92%</td>
+              <td class="safe">10.79%</td>
+              <td>~3×</td>
+            </tr>
+            <tr>
+              <td><strong>Salary (Lowest quartile)</strong></td>
+              <td class="danger">29.06%</td>
+              <td class="safe">9.81% (highest)</td>
+              <td>~3×</td>
+            </tr>
+            <tr>
+              <td><strong>Tenure ≤ 1 year</strong></td>
+              <td class="danger">34.59%</td>
+              <td class="safe">~8% (5+ years)</td>
+              <td>~4×</td>
+            </tr>
+            <tr>
+              <td><strong>Sales Representative role</strong></td>
+              <td class="danger">43.10%</td>
+              <td class="safe">—</td>
+              <td>Highest role</td>
+            </tr>
+            <tr>
+              <td><strong>Age 18–25</strong></td>
+              <td class="danger">38.04%</td>
+              <td class="safe">~9% (46+)</td>
+              <td>~4×</td>
+            </tr>
+            <tr>
+              <td><strong>Business Travel (Frequent)</strong></td>
+              <td class="danger">24.88%</td>
+              <td class="safe">~8% (no travel)</td>
+              <td>~3×</td>
+            </tr>
+            <tr>
+              <td><strong>Work-Life Balance score 1</strong></td>
+              <td class="danger">32.14%</td>
+              <td class="safe">&lt;10% (score 4)</td>
+              <td>~3×</td>
+            </tr>
+            <tr>
+              <td><strong>Single (marital status)</strong></td>
+              <td class="danger">26.70%</td>
+              <td class="safe">—</td>
+              <td>vs 12% married</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pullquote">
+          "The first year is the most vulnerable — 34.59% of employees with ≤1 year tenure leave. Pair that with overtime or low salary, and you've identified employees who almost certainly won't see year 2."
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: KEY FINDINGS -->
+    <section class="content alt" id="findings">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s4Num">04 — Key Findings</div>
+        <h2 data-i18n="s4H2">The pattern: <em>workload + underpayment + stagnation</em> = attrition</h2>
+
+        <div class="insight-grid">
+          <div class="insight-cell">
+            <div class="insight-label">Overall attrition</div>
+            <div class="insight-num">16.92%</div>
+            <div class="insight-desc">179 out of 1,058 labeled employees left. This is the baseline the model aims to reduce through early identification.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-label">Overtime risk</div>
+            <div class="insight-num">31.92%</div>
+            <div class="insight-desc">The single strongest controllable factor. Employees required to work overtime are nearly 3× more likely to leave. Policy change here has the highest leverage.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-label">Salary quartile gap</div>
+            <div class="insight-num">29% vs 9%</div>
+            <div class="insight-desc">Bottom salary quartile loses 29% annually. Top quartile loses 9.81%. The retention premium of competitive pay is clearly visible in the data.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-label">New employee risk</div>
+            <div class="insight-num">34.59%</div>
+            <div class="insight-desc">First-year attrition is the highest of any tenure band. Onboarding quality and early job fit are more critical than later retention programs.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-label">Work-life balance</div>
+            <div class="insight-num">32% vs 10%</div>
+            <div class="insight-desc">Score 1 (poor) leads to 32.14% attrition. Score 4 (good) drops below 10%. Self-reported satisfaction scores are genuine predictors, not just HR survey noise.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-label">Model false negatives</div>
+            <div class="insight-num">5</div>
+            <div class="insight-desc">XGBoost missed only 5 actual attritors on the test set. In an HR intervention context, this means the model's flags are reliable enough to act on.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: DELIVERABLES -->
+    <section class="content" id="deliverables">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s5Num">05 — Deliverables</div>
+        <h2 data-i18n="s5H2">From model to <em>operational HR infrastructure</em></h2>
+
+        <div class="two-col">
+          <div>
+            <h3>Metabase Dashboard (5 Tabs)</h3>
+            <p>Built on Docker + PostgreSQL, accessible to HR teams through the browser:</p>
+            <ul class="checklist">
+              <li><strong>Executive Summary</strong> — KPIs (attrition rate, department breakdown, role breakdown), filterable by department and role</li>
+              <li><strong>Compensation &amp; Workload</strong> — Overtime distribution, business travel impact, salary band attrition rates</li>
+              <li><strong>Satisfaction &amp; Engagement</strong> — Job satisfaction scores, environment satisfaction, work-life balance, job involvement correlations</li>
+              <li><strong>Demographics &amp; Career</strong> — Age distribution, marital status, tenure bands, promotion recency, training times</li>
+              <li><strong>Early Warning System</strong> — Model predictions per employee with interactive filters for HR to prioritize outreach</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Batch Prediction Script</h3>
+            <p>Production-ready Python script for recurring HR use:</p>
+            <ul class="checklist">
+              <li><strong>Input</strong> — Accepts CSV of employee records with the 72 feature columns</li>
+              <li><strong>Processing</strong> — Custom <code>HRFeatureEngineer</code> transformer handles age grouping, binary encoding, ordinal encoding, one-hot encoding in a scikit-learn pipeline</li>
+              <li><strong>Output</strong> — Returns attrition probability (0–100%) and binary prediction per employee</li>
+              <li><strong>Database integration</strong> — SQLAlchemy connector to write results directly to PostgreSQL, populating the Metabase Early Warning tab</li>
+            </ul>
+            <p><strong>Infrastructure:</strong> Docker Compose orchestrates PostgreSQL + Metabase containers. The entire analytics environment spins up with a single <code>docker compose up</code>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: DASHBOARD PREVIEW -->
+    <section class="content alt" id="dashboard">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s6Num">06 — Dashboard Preview</div>
+        <h2 data-i18n="s6H2">5-tab Metabase dashboard — <em>from KPIs to Early Warning</em></h2>
+        <p class="lede" data-i18n="s6Lede">Built on Docker + PostgreSQL, the Metabase dashboard gives HR teams a browser-based view across 5 tabs — from executive KPIs to ML-powered individual risk scores.</p>
+
+        <div class="screenshot-frame">
+          <img src="ninditya_sna_dicoding-dashboard.png" alt="Metabase Executive Summary — 1,058 total employees, 16.92% attrition rate, department breakdown and top job roles by attrition rate" loading="lazy">
+          <div class="img-caption">Executive Summary · 1,058 employees · 16.92% attrition rate · department &amp; role breakdown</div>
+        </div>
+
+        <div class="screenshot-grid">
+          <div class="screenshot-frame">
+            <img src="ninditya_sna_dicoding-dashboard_2.png" alt="Compensation and Workload tab — overtime vs attrition, business travel impact, monthly income group, salary benchmarking table" loading="lazy">
+            <div class="img-caption">Compensation &amp; Workload · Overtime impact · salary quartile analysis</div>
+          </div>
+          <div class="screenshot-frame">
+            <img src="ninditya_sna_dicoding-dashboard_5.png" alt="Satisfaction and Engagement tab — job satisfaction scores, work-life balance, environment and relationship satisfaction vs attrition" loading="lazy">
+            <div class="img-caption">Satisfaction &amp; Engagement · Self-reported scores vs attrition rate</div>
+          </div>
+          <div class="screenshot-frame">
+            <img src="ninditya_sna_dicoding-dashboard_4.png" alt="Demographics and Career tab — attrition by age group, gender, education field, tenure cohort, years since last promotion" loading="lazy">
+            <div class="img-caption">Demographics &amp; Career · Age groups, tenure bands, promotion recency</div>
+          </div>
+          <div class="screenshot-frame">
+            <img src="ninditya_sna_dicoding-dashboard_3.png" alt="Early Warning System tab — ML model predictions per employee, risk tier distribution, top 50 high-risk employees table with department filter" loading="lazy">
+            <div class="img-caption">Early Warning System · Risk tiers · top 50 high-risk employees · department filter</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING CONTEXT + FUTURE DEVELOPMENT -->
+    <div class="journey-section">
+      <div class="wrap">
+
+        <!-- Part 1: Context -->
+        <div class="section-num" data-i18n="lcNum">Learning Context</div>
+        <h2 data-i18n="lcTitle">Expert level, first submission. <em>Rejected once, then ★4.</em></h2>
+        <p data-i18n="lcDesc">
+          This project was the first submission for <strong>Belajar Penerapan Data Science</strong>, the IDCamp 2025 Expert level course (110 hours, rated 4.89 by learners). It was the capstone of a full learning path — from Python and SQL basics at Beginner, to data analysis at Intermediate, to full-scale data science projects at Expert.
+        </p>
+        <div class="journey-path">
+          <span class="journey-tag">Beginner (4 courses)</span>
+          <span class="journey-tag">Belajar Matematika untuk Data Science</span>
+          <span class="journey-tag active" data-i18n="lcPathActive">→ Belajar Penerapan Data Science — Submission 1 (this project)</span>
+          <span class="journey-tag">Submission 2 (Student Dropout)</span>
+        </div>
+
+        <!-- Part 2: Reviewer Feedback -->
+        <h3 data-i18n="lcFeedbackTitle">Reviewer feedback — two rounds of rejection.</h3>
+        <p data-i18n="lcFeedbackDesc">First rejected for missing infrastructure, second rated ★4 for generic recommendations:</p>
+
+        <div class="feedback-block">
+          <div class="feedback-label" data-i18n="fb1label">Feedback #1 — Missing Infrastructure File</div>
+          <p data-i18n="fb1body"><strong>The command <code>python setup_database.py</code> failed because the file was not attached.</strong> Reviewer could not verify the dashboard at all. No matter how good the model or the Metabase setup is — if someone can't reproduce it, it doesn't exist from the evaluator's perspective.</p>
+        </div>
+
+        <div class="feedback-block">
+          <div class="feedback-label" data-i18n="fb2label">Feedback #2 — README Completeness</div>
+          <p data-i18n="fb2body">The README needed: <strong>dataset source link</strong> (so the reviewer can verify the data), <strong>Python version</strong> (so the environment can be reproduced), and <strong>step-by-step virtual environment setup</strong> (create → activate → install from requirements.txt).</p>
+        </div>
+
+        <div class="feedback-block">
+          <div class="feedback-label" data-i18n="fb3label">Why Not ★5 — Action Items Were Too Generic</div>
+          <p data-i18n="fb3body">Recommendations like <em>"evaluate compensation"</em> or <em>"improve work-life balance"</em> are valid in principle but <strong>not grounded in the specific data from this analysis</strong>. A ★5 action item looks like: <em>"Employees in Sales Representative roles earning below [X] with overtime have a &gt;70% attrition probability."</em> Each recommendation needs a segment, a number, and an implementation step — not a category.</p>
+        </div>
+
+        <!-- Part 3: Future Development -->
+        <h3 data-i18n="fdTitle" style="margin-top:56px;">Future Development</h3>
+        <p data-i18n="fdDesc">Based on reviewer feedback and the direction this analysis points toward, here's what the next iteration of this project will include:</p>
+
+        <div class="lesson-grid">
+          <div class="lesson-cell">
+            <div class="lesson-cell-label" data-i18n="fd1label">Data-Backed Recommendations</div>
+            <p data-i18n="fd1body">Add a segment × metric table to every action item — e.g., <strong>"Sales Representatives earning below Q1 with overtime have &gt;70% predicted attrition risk."</strong> Each recommendation includes a specific employee segment, measured risk level, and estimated retention impact.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label" data-i18n="fd2label">What-If Simulation</div>
+            <p data-i18n="fd2body">Add a Streamlit interface where HR can simulate: <strong>"if overtime is eliminated for this department, how does predicted attrition change?"</strong> Turns the passive dashboard into an active decision tool.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label" data-i18n="fd3label">Explainability (SHAP)</div>
+            <p data-i18n="fd3body">Integrate SHAP values to show per-employee <em>why</em> the model flagged them — not just "high risk" but <strong>"high risk because: overtime=Yes, tenure=0.8yr, salary=low quartile."</strong> Makes predictions actionable at the individual level.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label" data-i18n="fd4label">Employee ID in Output</div>
+            <p data-i18n="fd4body">The batch prediction output needs an <strong>employee ID column</strong> so HR can map predictions back to individuals in their HR system. Simple to add — critical for operationalization.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <div class="wrap">
+        <div class="section-num" data-i18n="ctaNum">Try it · See the code</div>
+        <h2 data-i18n="ctaH2">Prediction app + full source <em>on GitHub.</em></h2>
+        <p data-i18n="ctaP">Try the Streamlit prediction interface or explore the XGBoost pipeline, Metabase dashboard setup, and Docker infrastructure on GitHub.</p>
+        <div class="cta-buttons">
+          <a href="https://idcamp2025-menyelesaikan-permasalahan-perusahaan-edutech-lh9vp.streamlit.app/" class="btn" target="_blank" rel="noopener">Live demo →</a>
+          <a href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-human-resources" class="btn ghost" target="_blank" rel="noopener">View source →</a>
+          <a href="/#projects" class="btn ghost">← Back to all projects</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Ninditya Salma Nur Aini · AI Engineer &amp; Data Scientist</span>
+      <span><a href="/">Portfolio</a> · <a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a> · <a href="https://linkedin.com/in/ninditya-salma-nur-aini" target="_blank" rel="noopener">LinkedIn</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        navBack: '← Back to portfolio',
+        navProjects: 'Projects',
+        navContact: 'Contact',
+        kickerText: 'IDCamp Expert · HR Analytics · ML Classification',
+        heroTitle: 'Employee Attrition<br><em>Prediction</em>',
+        heroLede: 'Jaya Jaya Maju — a multinational company with 1,000+ employees — was losing staff at a <strong>16.92% annual attrition rate</strong>. I built an XGBoost early-warning system achieving <strong>86.11% recall</strong>, combined with a 5-tab Metabase dashboard and Docker-based infrastructure to turn prediction into operational HR intelligence.',
+        metaLevel: '<strong>Level</strong> IDCamp Expert',
+        s1Num: '01 — Problem',
+        s1H2: 'Attrition above 10% is <em>a management warning sign</em>. Theirs was 16.92%.',
+        s1Lede: 'Jaya Jaya Maju operates across multiple countries, employing 1,000+ staff. Their attrition rate — 16.92%, or roughly 179 employees per year — was significantly above the acceptable threshold. No structured early-warning system existed.',
+        s2Num: '02 — Why XGBoost Won',
+        s2H2: 'Recall beats accuracy when <em>missing a leaver costs more</em> than a false alarm',
+        s2Lede: 'Two models were compared: Logistic Regression (interpretable baseline) and XGBoost (non-linear ensemble). The right choice depended on what kind of error was more expensive.',
+        s3Num: '03 — Risk Factors',
+        s3H2: 'Overtime is a <em>3× risk multiplier</em>. First year is the most dangerous.',
+        s4Num: '04 — Key Findings',
+        s4H2: 'The pattern: <em>workload + underpayment + stagnation</em> = attrition',
+        s5Num: '05 — Deliverables',
+        s5H2: 'From model to <em>operational HR infrastructure</em>',
+        s6Num: '06 — Dashboard Preview',
+        s6H2: '5-tab Metabase dashboard — <em>from KPIs to Early Warning</em>',
+        s6Lede: 'Built on Docker + PostgreSQL, the Metabase dashboard gives HR teams a browser-based view across 5 tabs — from executive KPIs to ML-powered individual risk scores.',
+        ctaNum: 'Try it · See the code',
+        ctaH2: 'Prediction app + full source <em>on GitHub.</em>',
+        ctaP: 'Try the Streamlit prediction interface or explore the XGBoost pipeline, Metabase dashboard setup, and Docker infrastructure on GitHub.',
+        lcNum: 'Learning Context',
+        lcTitle: 'Expert level, first submission. <em>Rejected once, then ★4.</em>',
+        lcDesc: 'This project was the first submission for <strong>Belajar Penerapan Data Science</strong>, the IDCamp 2025 Expert level course (110 hours, rated 4.89 by learners). It was the capstone of a full learning path — from Python and SQL basics at Beginner, to data analysis at Intermediate, to full-scale data science projects at Expert.',
+        lcPathActive: '→ Belajar Penerapan Data Science — Submission 1 (this project)',
+        lcFeedbackTitle: 'Reviewer feedback — two rounds of rejection.',
+        lcFeedbackDesc: 'First rejected for missing infrastructure, second rated ★4 for generic recommendations:',
+        fb1label: 'Feedback #1 — Missing Infrastructure File',
+        fb1body: '<strong>The command <code>python setup_database.py</code> failed because the file was not attached.</strong> Reviewer could not verify the dashboard at all. No matter how good the model or the Metabase setup is — if someone can\'t reproduce it, it doesn\'t exist from the evaluator\'s perspective.',
+        fb2label: 'Feedback #2 — README Completeness',
+        fb2body: 'The README needed: <strong>dataset source link</strong> (so the reviewer can verify the data), <strong>Python version</strong> (so the environment can be reproduced), and <strong>step-by-step virtual environment setup</strong> (create → activate → install from requirements.txt).',
+        fb3label: 'Why Not ★5 — Action Items Were Too Generic',
+        fb3body: 'Recommendations like <em>"evaluate compensation"</em> or <em>"improve work-life balance"</em> are valid in principle but <strong>not grounded in the specific data from this analysis</strong>. A ★5 action item looks like: <em>"Employees in Sales Representative roles earning below [X] with overtime have a &gt;70% attrition probability."</em> Each recommendation needs a segment, a number, and an implementation step — not a category.',
+        fdTitle: 'Future Development',
+        fdDesc: 'Based on reviewer feedback and the direction this analysis points toward, here\'s what the next iteration of this project will include:',
+        fd1label: 'Data-Backed Recommendations',
+        fd1body: 'Add a segment × metric table to every action item — e.g., <strong>"Sales Representatives earning below Q1 with overtime have &gt;70% predicted attrition risk."</strong> Each recommendation includes a specific employee segment, measured risk level, and estimated retention impact.',
+        fd2label: 'What-If Simulation',
+        fd2body: 'Add a Streamlit interface where HR can simulate: <strong>"if overtime is eliminated for this department, how does predicted attrition change?"</strong> Turns the passive dashboard into an active decision tool.',
+        fd3label: 'Explainability (SHAP)',
+        fd3body: 'Integrate SHAP values to show per-employee <em>why</em> the model flagged them — not just "high risk" but <strong>"high risk because: overtime=Yes, tenure=0.8yr, salary=low quartile."</strong> Makes predictions actionable at the individual level.',
+        fd4label: 'Employee ID in Output',
+        fd4body: 'The batch prediction output needs an <strong>employee ID column</strong> so HR can map predictions back to individuals in their HR system. Simple to add — critical for operationalization.'
+      },
+      id: {
+        navBack: '← Kembali ke portfolio',
+        navProjects: 'Proyek',
+        navContact: 'Kontak',
+        kickerText: 'IDCamp Expert · Analitik SDM · Klasifikasi ML',
+        heroTitle: 'Prediksi Attrisi<br><em>Karyawan</em>',
+        heroLede: 'Jaya Jaya Maju — perusahaan multinasional dengan 1.000+ karyawan — kehilangan staf pada tingkat <strong>attrisi tahunan 16,92%</strong>. Saya membangun sistem peringatan dini berbasis XGBoost dengan <strong>recall 86,11%</strong>, dikombinasikan dengan dashboard Metabase 5 tab dan infrastruktur berbasis Docker untuk mengubah prediksi menjadi kecerdasan HR operasional.',
+        metaLevel: '<strong>Level</strong> IDCamp Expert',
+        s1Num: '01 — Problem',
+        s1H2: 'Attrisi di atas 10% adalah <em>sinyal peringatan manajemen</em>. Mereka di angka 16,92%.',
+        s1Lede: 'Jaya Jaya Maju beroperasi di berbagai negara, mempekerjakan lebih dari 1.000 karyawan. Tingkat attrisi mereka — 16,92%, atau sekitar 179 karyawan per tahun — jauh di atas ambang batas wajar. Tidak ada sistem early-warning yang terstruktur.',
+        s2Num: '02 — Mengapa XGBoost Menang',
+        s2H2: 'Recall mengalahkan akurasi ketika <em>melewatkan satu karyawan yang akan resign lebih mahal</em> dari false alarm',
+        s2Lede: 'Dua model dibandingkan: Logistic Regression (baseline interpretatif) dan XGBoost (ensemble non-linear). Pilihan yang tepat bergantung pada jenis kesalahan mana yang lebih mahal.',
+        s3Num: '03 — Faktor Risiko',
+        s3H2: 'Overtime adalah <em>pengganda risiko 3×</em>. Tahun pertama yang paling berbahaya.',
+        s4Num: '04 — Temuan Utama',
+        s4H2: 'Polanya: <em>beban kerja + gaji rendah + stagnasi</em> = attrisi',
+        s5Num: '05 — Deliverables',
+        s5H2: 'Dari model ke <em>infrastruktur HR operasional</em>',
+        s6Num: '06 — Preview Dashboard',
+        s6H2: 'Dashboard Metabase 5 tab — <em>dari KPI hingga Early Warning</em>',
+        s6Lede: 'Dibangun di atas Docker + PostgreSQL, dashboard Metabase memberikan visibilitas kepada tim HR di 5 tab — dari KPI eksekutif hingga prediksi risiko individual berbasis ML.',
+        ctaNum: 'Coba · Lihat kodenya',
+        ctaH2: 'App prediksi + source lengkap <em>di GitHub.</em>',
+        ctaP: 'Coba antarmuka prediksi Streamlit atau jelajahi pipeline XGBoost, setup dashboard Metabase, dan infrastruktur Docker di GitHub.',
+        lcNum: 'Konteks Pembelajaran',
+        lcTitle: 'Level Expert, submission pertama. <em>Ditolak sekali, lalu dapat ★4.</em>',
+        lcDesc: 'Proyek ini adalah submission pertama untuk <strong>Belajar Penerapan Data Science</strong>, kursus level Expert IDCamp 2025 (110 jam, dinilai 4,89 oleh peserta). Ini adalah puncak dari jalur belajar penuh — dari dasar Python dan SQL di level Beginner, analisis data di Intermediate, hingga proyek data science skala penuh di Expert.',
+        lcPathActive: '→ Belajar Penerapan Data Science — Submission 1 (proyek ini)',
+        lcFeedbackTitle: 'Feedback reviewer — dua putaran penolakan.',
+        lcFeedbackDesc: 'Pertama ditolak karena infrastruktur hilang, kedua dinilai ★4 karena rekomendasi terlalu generik:',
+        fb1label: 'Feedback #1 — File Infrastruktur Hilang',
+        fb1body: '<strong>Perintah <code>python setup_database.py</code> gagal karena file tidak dilampirkan.</strong> Reviewer tidak dapat memverifikasi dashboard sama sekali. Tidak peduli seberapa bagus model atau setup Metabase — jika seseorang tidak dapat mereproduksinya, itu tidak ada dari perspektif evaluator.',
+        fb2label: 'Feedback #2 — Kelengkapan README',
+        fb2body: 'README membutuhkan: <strong>link sumber dataset</strong> (agar reviewer dapat memverifikasi data), <strong>versi Python</strong> (agar lingkungan dapat direproduksi), dan <strong>instruksi setup virtual environment langkah demi langkah</strong> (buat → aktifkan → install dari requirements.txt).',
+        fb3label: 'Kenapa Tidak ★5 — Action Items Terlalu Generik',
+        fb3body: 'Rekomendasi seperti <em>"evaluasi kompensasi"</em> atau <em>"tingkatkan work-life balance"</em> valid secara prinsip tapi <strong>tidak berdasarkan data spesifik dari analisis ini</strong>. Action item ★5 terlihat seperti: <em>"Karyawan di peran Sales Representative dengan penghasilan di bawah [X] dan overtime memiliki probabilitas attrisi &gt;70%."</em> Setiap rekomendasi membutuhkan segmen, angka, dan langkah implementasi — bukan kategori.',
+        fdTitle: 'Pengembangan ke Depan',
+        fdDesc: 'Berdasarkan feedback reviewer dan arah yang ditunjukkan analisis ini, berikut yang akan disertakan dalam iterasi berikutnya:',
+        fd1label: 'Rekomendasi Berbasis Data',
+        fd1body: 'Tambahkan tabel segmen × metrik pada setiap action item — mis., <strong>"Sales Representative dengan penghasilan di bawah Q1 dan overtime memiliki risiko attrisi yang diprediksi &gt;70%."</strong> Setiap rekomendasi mencakup segmen karyawan spesifik, tingkat risiko terukur, dan estimasi dampak retensi.',
+        fd2label: 'Simulasi What-If',
+        fd2body: 'Tambahkan antarmuka Streamlit di mana HR dapat mensimulasikan: <strong>"jika overtime dihapus untuk departemen ini, bagaimana prediksi attrisi berubah?"</strong> Mengubah dashboard pasif menjadi alat keputusan aktif.',
+        fd3label: 'Explainability (SHAP)',
+        fd3body: 'Integrasikan SHAP values untuk menunjukkan per karyawan <em>mengapa</em> model menandai mereka — bukan hanya "risiko tinggi" tapi <strong>"risiko tinggi karena: overtime=Ya, masa kerja=0,8 tahun, gaji=kuartil rendah."</strong> Membuat prediksi dapat ditindaklanjuti di tingkat individu.',
+        fd4label: 'ID Karyawan dalam Output',
+        fd4body: 'Output prediksi batch membutuhkan <strong>kolom ID karyawan</strong> agar HR dapat memetakan prediksi kembali ke individu dalam sistem HR mereka. Sederhana untuk ditambahkan — kritis untuk operasionalisasi.'
+      }
+    };
+
+    function applyLanguage(lang) {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[lang] && translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.langTarget === lang);
+      });
+      document.documentElement.lang = lang;
+      localStorage.setItem('lang', lang);
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyLanguage(btn.dataset.langTarget));
+    });
+
+    const savedLang = localStorage.getItem('lang') || 'en';
+    applyLanguage(savedLang);
+  </script>
+</body>
+</html>

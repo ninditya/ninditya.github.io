@@ -87,6 +87,7 @@ nav{background:rgba(245,243,238,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .exp-impact{display:inline-block;background:var(--success-light);color:var(--success);font-family:var(--mono);font-size:0.74rem;padding:4px 10px;border-radius:4px;margin-top:0.6rem;font-weight:500}
 
 /* PROJECTS */
+.projects-sublabel{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.75rem;font-weight:500;border-top:1px solid var(--border);padding-top:1rem}
 
 .project-preview{height:138px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);position:relative;overflow:hidden;padding:1rem}
 .project-preview span{position:relative;z-index:2;display:inline-flex;background:rgba(255,255,255,0.9);border:1px solid var(--border);border-radius:999px;padding:0.28rem 0.58rem;font-family:var(--mono);font-size:0.65rem;color:var(--ink)}

@@ -57,11 +57,7 @@
     <h1 class="hero-name">Ninditya<br><em>Salma</em> Nur Aini</h1>
     <p class="hero-role" data-i18n="heroRole">AI Engineer · Data Scientist · QA Engineer</p>
     <p class="hero-desc" data-i18n="heroDesc">
-      AI & Chatbot Development Professional with 3.5+ years of experience building, evaluating, and hardening production
-      conversational AI systems—from enterprise customer-service chatbots to RAG pipelines. I combine LLM engineering,
-      applied data science, NLP for Bahasa Indonesia, and QA discipline to optimize conversational flows and drive
-      continuous model tuning. Proven ability to translate large-scale user interactions into measurable improvements in
-      chatbot accuracy, response quality, and system reliability after release.
+      3.5 years in production AI — building chatbot flows at Telkom Group, evaluating RAG &amp; LLM systems as QA at Flip, and end-to-end ML at IDCamp Expert. The profile that brings engineering rigor, data science, and QA discipline to the same build.
     </p>
     <div class="hero-ctas">
       <a href="mailto:ninditya.sna025@gmail.com" class="cta cta-primary" data-i18n="ctaEmail">✉ Email</a>
@@ -102,6 +98,7 @@
     <h2 class="section-title" data-i18n="projectsTitle">The work. Explained in full.</h2>
     <p class="section-subtitle" data-i18n="projectsSubtitle">End-to-end case studies — from problem framing to shipped result.</p>
 
+    <p class="projects-sublabel" data-i18n="projectsSpotlightLabel">Featured spotlight</p>
     <div class="featured-carousel">
       <div class="featured-carousel-controls" id="featuredControls">
         <button class="carousel-btn carousel-prev" id="carouselPrev" disabled aria-label="Previous">&#8249;</button>
@@ -167,52 +164,56 @@
               <span class="proj-tag">FastAPI</span>
               <span class="proj-tag">SBERT</span>
             </div>
-            <a class="featured-cta" href="day1-banking-intent-router/" data-i18n="featCta">Open case study →</a>
+            <a class="featured-cta" href="banking-intent-router/" data-i18n="featCta">Open case study →</a>
           </article>
 
           <article class="featured-card">
             <div class="featured-top">
-              <span class="featured-label" data-i18n="feat2Label">Section 02 · Applied Data Science</span>
+              <span class="featured-label" data-i18n="feat4Label">Section 02 · Applied Data Science</span>
               <span class="featured-live" data-i18n="featLive">Live</span>
             </div>
-            <div class="featured-name" data-i18n="feat2Name">NLP KNN LSA &amp; Chatbot (Thesis 2021)</div>
-            <p class="featured-hook" data-i18n="feat2Hook"><strong>"My 2021 thesis. End-to-end from research to product."</strong> Classical NLP (KNN + LSA) implemented from scratch in PHP — accuracy from 92.1% to 93.2%, compute time cut 35%, then deployed as a web app and Telegram bot.</p>
+            <div class="featured-name" data-i18n="feat4Name">Student Dropout Prediction</div>
+            <p class="featured-hook" data-i18n="feat4Hook"><strong>"1 in 3 students drops out. I built the early-warning system."</strong> XGBoost classifier on 4,424 student records — 92.42% accuracy, AUC 97.27%, with Looker Studio dashboard and Streamlit prediction app for counselors.</p>
             <div class="featured-stats">
               <div class="featured-stat">
-                <span class="featured-stat-num">93.2%</span>
-                <span class="featured-stat-label" data-i18n="feat2Stat1">Accuracy</span>
+                <span class="featured-stat-num">92.42%</span>
+                <span class="featured-stat-label" data-i18n="feat4Stat1">Accuracy</span>
               </div>
               <div class="featured-stat">
-                <span class="featured-stat-num">−35%</span>
-                <span class="featured-stat-label" data-i18n="feat2Stat2">Compute</span>
+                <span class="featured-stat-num">97.27%</span>
+                <span class="featured-stat-label" data-i18n="feat4Stat2">ROC-AUC</span>
               </div>
               <div class="featured-stat">
-                <span class="featured-stat-num">1,410</span>
-                <span class="featured-stat-label" data-i18n="feat2Stat3">Questions</span>
+                <span class="featured-stat-num">32.12%</span>
+                <span class="featured-stat-label" data-i18n="feat4Stat3">Dropout rate</span>
               </div>
             </div>
             <div class="featured-tags">
-              <span class="proj-tag">Thesis</span>
-              <span class="proj-tag">Classical NLP</span>
-              <span class="proj-tag">Full-stack</span>
-              <span class="proj-tag">PHP</span>
+              <span class="proj-tag">XGBoost</span>
+              <span class="proj-tag">Education</span>
+              <span class="proj-tag">SMOTE</span>
+              <span class="proj-tag">Streamlit</span>
             </div>
-            <a class="featured-cta" href="chatbot-lsa/" data-i18n="featCta">Open case study →</a>
+            <a class="featured-cta" href="student-dropout/" data-i18n="featCta">Open case study →</a>
           </article>
 
         </div>
       </div>
     </div>
 
+    <p class="projects-sublabel" data-i18n="projectsAllLabel">All projects by domain</p>
     <div class="proj-card-group">
-      <details class="project-stage">
+      <details class="project-stage" open>
         <summary class="stage-head">
           <div>
             <div class="stage-kicker" data-i18n="stage1Kicker">Section 01</div>
             <div class="stage-title" data-i18n="stage1Title">LLM &amp; Generative AI</div>
             <div class="stage-desc" data-i18n="stage1Desc">This section focuses on generative AI systems: cost control, prompt optimization, RAG architecture, LLM evaluation, and production-ready applications.</div>
           </div>
-          <div class="stage-note" data-i18n="stage1Note">AI stack</div>
+          <div class="stage-head-right">
+            <div class="stage-note" data-i18n="stage1Note">AI stack</div>
+            <span class="stage-toggle-icon">+</span>
+          </div>
         </summary>
         <div class="roadmap-grid" data-i18n="stage1Grid">
           <article class="roadmap-card is-live">
@@ -227,7 +228,7 @@
               <span class="proj-tag">Banking</span>
               <span class="proj-tag">FastAPI</span>
             </div>
-            <a class="roadmap-link" href="day1-banking-intent-router/">Open case study →</a>
+            <a class="roadmap-link" href="banking-intent-router/">Open case study →</a>
           </article>
 
           <article class="roadmap-card is-live">
@@ -284,7 +285,10 @@
             <div class="stage-title" data-i18n="stage2Title">Applied Data Science</div>
             <div class="stage-desc" data-i18n="stage2Desc">This section shows solid data science foundations: time series, MLOps, people analytics, and classical NLP that still matters.</div>
           </div>
-          <div class="stage-note" data-i18n="stage2Note">Data stack</div>
+          <div class="stage-head-right">
+            <div class="stage-note" data-i18n="stage2Note">Data stack</div>
+            <span class="stage-toggle-icon">+</span>
+          </div>
         </summary>
         <div class="roadmap-grid" data-i18n="stage2Grid">
           <article class="roadmap-card is-live">
@@ -300,6 +304,54 @@
               <span class="proj-tag">Full-stack</span>
             </div>
             <a class="roadmap-link" href="chatbot-lsa/">Open case study →</a>
+          </article>
+
+          <article class="roadmap-card is-live">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Case study</span>
+              <span class="roadmap-status is-live">Live case study</span>
+            </div>
+            <div class="roadmap-name">Beijing Air Quality Dashboard</div>
+            <div class="roadmap-hook"><strong>"46 MB of sensor data, 5 years, 12 stations — turned into one actionable dashboard."</strong> Streamlit app with AQI computation, seasonal trends, meteorological correlations, and geospatial priority mapping.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">Streamlit</span>
+              <span class="proj-tag">Plotly</span>
+              <span class="proj-tag">Chi-square</span>
+              <span class="proj-tag">Geospatial</span>
+            </div>
+            <a class="roadmap-link" href="air-quality-dashboard/">Open case study →</a>
+          </article>
+
+          <article class="roadmap-card is-live">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Case study</span>
+              <span class="roadmap-status is-live">Live case study</span>
+            </div>
+            <div class="roadmap-name">Student Dropout Prediction</div>
+            <div class="roadmap-hook"><strong>"1 in 3 students drops out. I built the early-warning system."</strong> XGBoost classifier, 92.42% accuracy, AUC 97.27%, with Looker Studio dashboard and Streamlit app for counselor intervention.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">XGBoost</span>
+              <span class="proj-tag">Education</span>
+              <span class="proj-tag">SMOTE</span>
+              <span class="proj-tag">Streamlit</span>
+            </div>
+            <a class="roadmap-link" href="student-dropout/">Open case study →</a>
+          </article>
+
+          <article class="roadmap-card is-live">
+            <div class="roadmap-top">
+              <span class="roadmap-day">Case study</span>
+              <span class="roadmap-status is-live">Live case study</span>
+            </div>
+            <div class="roadmap-name">Employee Attrition Prediction</div>
+            <div class="roadmap-hook"><strong>"Overtime is a 3× risk multiplier. The data proved it."</strong> XGBoost HR system with 86.11% recall, Metabase dashboard on Docker + PostgreSQL for operational early-warning.</div>
+            <div class="roadmap-tags">
+              <span class="proj-tag">XGBoost</span>
+              <span class="proj-tag">HR Analytics</span>
+              <span class="proj-tag">Metabase</span>
+              <span class="proj-tag">Docker</span>
+            </div>
+            <a class="roadmap-link" href="employee-attrition/">Open case study →</a>
           </article>
 
           <article class="roadmap-card">
@@ -331,21 +383,6 @@
             </div>
             <span class="roadmap-link is-disabled">Coming soon</span>
           </article>
-
-          <article class="roadmap-card">
-            <div class="roadmap-top">
-              <span class="roadmap-day">Planned case</span>
-              <span class="roadmap-status">Coming soon</span>
-            </div>
-            <div class="roadmap-name">Transaction Fraud Pipeline</div>
-            <div class="roadmap-hook"><strong>"Detecting fraud without labels — where QA mindset becomes useful."</strong> Fraud pipeline with imbalanced learning and feature engineering for fintech scenarios.</div>
-            <div class="roadmap-tags">
-              <span class="proj-tag">Fintech</span>
-              <span class="proj-tag">Fraud</span>
-              <span class="proj-tag">ML pipeline</span>
-            </div>
-            <span class="roadmap-link is-disabled">Coming soon</span>
-          </article>
         </div>
       </details>
 
@@ -354,51 +391,56 @@
           <div>
             <div class="stage-kicker" data-i18n="stage3Kicker">Section 03</div>
             <div class="stage-title" data-i18n="stage3Title">Quality Assurance &amp; Testing</div>
-            <div class="stage-desc" data-i18n="stage3Desc">The final section makes the point clear: QA is not a side path, but the reason my evaluation, reliability, and product thinking feel different.</div>
+            <div class="stage-desc" data-i18n="stage3Desc">The final section makes the point clear: QA is not a side path, but the reason my evaluation, reliability, and product thinking feel different. Cards 1–2 document real production QA work at Flip and Telkom — write-ups in progress.</div>
           </div>
-          <div class="stage-note" data-i18n="stage3Note">QA stack</div>
+          <div class="stage-head-right">
+            <div class="stage-note" data-i18n="stage3Note">QA stack</div>
+            <span class="stage-toggle-icon">+</span>
+          </div>
         </summary>
         <div class="roadmap-grid" data-i18n="stage3Grid">
           <article class="roadmap-card">
             <div class="roadmap-top">
-              <span class="roadmap-day">Planned case</span>
-              <span class="roadmap-status">Coming soon</span>
+              <span class="roadmap-day">Production · Flip</span>
+              <span class="roadmap-status">Write-up in progress</span>
             </div>
-            <div class="roadmap-name">Enterprise LLM Evaluation Platform</div>
-            <div class="roadmap-hook"><strong>"How do I know my LLM is actually good?"</strong> A framework for measuring answer quality, failure modes, and readiness before release.</div>
+            <div class="roadmap-name">LLM Chatbot Evaluation Framework</div>
+            <div class="roadmap-hook"><strong>"How do you know your LLM isn't hallucinating on users right now?"</strong> At Flip, I built and ran QA for an LLM-based chatbot with RAG — tracking hallucination rate, answer grounding, fallback triggers, and CSAT correlation across releases.</div>
             <div class="roadmap-tags">
               <span class="proj-tag">LLM eval</span>
-              <span class="proj-tag">QA mindset</span>
-              <span class="proj-tag">Observability</span>
+              <span class="proj-tag">RAG QA</span>
+              <span class="proj-tag">Hallucination detection</span>
+              <span class="proj-tag">Flip</span>
             </div>
-            <span class="roadmap-link is-disabled">Coming soon</span>
+            <span class="roadmap-link is-disabled">Write-up in progress</span>
           </article>
           <article class="roadmap-card">
             <div class="roadmap-top">
-              <span class="roadmap-day">Planned case</span>
-              <span class="roadmap-status">Coming soon</span>
+              <span class="roadmap-day">Production · Telkom + Portfolio</span>
+              <span class="roadmap-status">Write-up in progress</span>
             </div>
-            <div class="roadmap-name">QA Automation MovieMatch</div>
-            <div class="roadmap-hook"><strong>"Why my QA background makes me a better AI Engineer."</strong> Test strategy for AI systems with stability testing, multilingual checks, and bug triage.</div>
+            <div class="roadmap-name">AI System Test Automation</div>
+            <div class="roadmap-hook"><strong>"AI systems fail at edges humans don't test for."</strong> Playwright + Selenium automation for AI-facing products — multilingual intent stability, regression suite, SIT/UAT workflow for chatbot releases at Telkom Group.</div>
             <div class="roadmap-tags">
               <span class="proj-tag">Playwright</span>
               <span class="proj-tag">Selenium</span>
-              <span class="proj-tag">AI QA</span>
+              <span class="proj-tag">pytest</span>
+              <span class="proj-tag">SIT/UAT</span>
             </div>
-            <span class="roadmap-link is-disabled">Coming soon</span>
+            <span class="roadmap-link is-disabled">Write-up in progress</span>
           </article>
-
           <article class="roadmap-card">
             <div class="roadmap-top">
-              <span class="roadmap-day">Planned case</span>
+              <span class="roadmap-day">Portfolio project</span>
               <span class="roadmap-status">Coming soon</span>
             </div>
             <div class="roadmap-name">ETL Fashion Pipeline</div>
-            <div class="roadmap-hook"><strong>"Why AI Engineers should also understand data pipelines."</strong> Modular ETL from scraping to multi-destination load with strong test coverage.</div>
+            <div class="roadmap-hook"><strong>"Data pipelines break at the edges. pytest finds the edges."</strong> Modular ETL from scraping to multi-destination PostgreSQL load — each transform step independently verified with pytest, with schema validation and anomaly detection built in.</div>
             <div class="roadmap-tags">
               <span class="proj-tag">ETL</span>
               <span class="proj-tag">PostgreSQL</span>
               <span class="proj-tag">pytest</span>
+              <span class="proj-tag">Test coverage</span>
             </div>
             <span class="roadmap-link is-disabled">Coming soon</span>
           </article>
@@ -641,7 +683,7 @@
         heroStatus: 'Open to opportunities',
         heroTag: 'Remote / Yogyakarta / Jakarta',
         heroRole: 'AI Engineer · Data Scientist · QA Engineer',
-        heroDesc: 'AI & Chatbot Development Professional with 3.5+ years of experience building, evaluating, and hardening production conversational AI systems—from enterprise customer-service chatbots to RAG pipelines. I combine LLM engineering, applied data science, NLP for Bahasa Indonesia, and QA discipline to optimize conversational flows and drive continuous model tuning. Proven ability to translate large-scale user interactions into measurable improvements in chatbot accuracy, response quality, and system reliability after release.',
+        heroDesc: '3.5 years in production AI — building chatbot flows at Telkom Group, evaluating RAG &amp; LLM systems as QA at Flip, and end-to-end ML at IDCamp Expert. The profile that brings engineering rigor, data science, and QA discipline to the same build.',
         ctaEmail: '✉ Email',
         ctaLinkedin: 'in LinkedIn',
         ctaGithub: '↗ GitHub',
@@ -657,6 +699,8 @@
         projectsEyebrow: 'selected work',
         projectsTitle: 'The work. Explained in full.',
         projectsSubtitle: 'End-to-end case studies — from problem framing to shipped result.',
+        projectsSpotlightLabel: 'Featured spotlight',
+        projectsAllLabel: 'All projects by domain',
         featLive: 'Live',
         feat1Label: 'Section 01 · LLM &amp; Generative AI',
         feat1Name: 'Banking Intent Router',
@@ -676,22 +720,34 @@
         feat3Stat1: 'Graph nodes',
         feat3Stat2: 'Embedding dim',
         feat3Stat3: 'Response modes',
+        feat4Label: 'Section 02 · Applied Data Science',
+        feat4Name: 'Student Dropout Prediction',
+        feat4Hook: '<strong>"1 in 3 students drops out. I built the early-warning system."</strong> XGBoost classifier on 4,424 student records — 92.42% accuracy, AUC 97.27%, with Looker Studio dashboard and Streamlit prediction app for counselors.',
+        feat4Stat1: 'Accuracy',
+        feat4Stat2: 'ROC-AUC',
+        feat4Stat3: 'Dropout rate',
+        feat5Label: 'Section 02 · Applied Data Science',
+        feat5Name: 'Employee Attrition Prediction',
+        feat5Hook: '<strong>"Overtime is a 3× risk multiplier. The data proved it."</strong> XGBoost HR analytics system with 86.11% recall, identifying at-risk employees before they resign. Metabase dashboard + Docker infrastructure.',
+        feat5Stat1: 'Recall',
+        feat5Stat2: 'Overtime risk',
+        feat5Stat3: 'ROC-AUC',
         featCta: 'Open case study →',
         stage1Kicker: 'Section 01',
         stage1Title: 'LLM & Generative AI',
         stage1Desc: 'This section focuses on generative AI systems: cost control, prompt optimization, RAG architecture, LLM evaluation, and production-ready applications.',
         stage1Note: 'AI stack',
-        stage1Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Banking Intent Router</div><div class="roadmap-hook"><strong>"I reduced banking chatbot LLM cost by 96%."</strong> A 4-tier router that decides when a query is cheap enough for template handling, when it needs RAG, and when it must escalate to an LLM.</div><div class="roadmap-tags"><span class="proj-tag">LLM routing</span><span class="proj-tag">Banking</span><span class="proj-tag">FastAPI</span></div><a class="roadmap-link" href="day1-banking-intent-router/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">RAG Chatbot Service</div><div class="roadmap-hook"><strong>"3 design decisions I kept while building a production RAG system."</strong> An LLM app with FastAPI, LangGraph, and vector search for grounded knowledge retrieval.</div><div class="roadmap-tags"><span class="proj-tag">RAG</span><span class="proj-tag">LangGraph</span><span class="proj-tag">Qdrant</span></div><a class="roadmap-link" href="rag-chatbot-service/">Open case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">NutriPal AI</div><div class="roadmap-hook"><strong>"From idea to AI product: what I learned building NutriPal."</strong> End-to-end AI product for personal nutrition guidance with a structured decision layer.</div><div class="roadmap-tags"><span class="proj-tag">AI product</span><span class="proj-tag">Health</span><span class="proj-tag">LLM app</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">CineTrack Frontend</div><div class="roadmap-hook"><strong>"AI Engineers should also understand product — this is where I learned it."</strong> Frontend and dashboard exposure that keeps AI work grounded in user-facing constraints.</div><div class="roadmap-tags"><span class="proj-tag">Frontend</span><span class="proj-tag">Product</span><span class="proj-tag">KADA</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        stage1Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Banking Intent Router</div><div class="roadmap-hook"><strong>"I reduced banking chatbot LLM cost by 96%."</strong> A 4-tier router that decides when a query is cheap enough for template handling, when it needs RAG, and when it must escalate to an LLM.</div><div class="roadmap-tags"><span class="proj-tag">LLM routing</span><span class="proj-tag">Banking</span><span class="proj-tag">FastAPI</span></div><a class="roadmap-link" href="banking-intent-router/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">RAG Chatbot Service</div><div class="roadmap-hook"><strong>"3 design decisions I kept while building a production RAG system."</strong> An LLM app with FastAPI, LangGraph, and vector search for grounded knowledge retrieval.</div><div class="roadmap-tags"><span class="proj-tag">RAG</span><span class="proj-tag">LangGraph</span><span class="proj-tag">Qdrant</span></div><a class="roadmap-link" href="rag-chatbot-service/">Open case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">NutriPal AI</div><div class="roadmap-hook"><strong>"From idea to AI product: what I learned building NutriPal."</strong> End-to-end AI product for personal nutrition guidance with a structured decision layer.</div><div class="roadmap-tags"><span class="proj-tag">AI product</span><span class="proj-tag">Health</span><span class="proj-tag">LLM app</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">CineTrack Frontend</div><div class="roadmap-hook"><strong>"AI Engineers should also understand product — this is where I learned it."</strong> Frontend and dashboard exposure that keeps AI work grounded in user-facing constraints.</div><div class="roadmap-tags"><span class="proj-tag">Frontend</span><span class="proj-tag">Product</span><span class="proj-tag">KADA</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
         stage2Kicker: 'Section 02',
         stage2Title: 'Applied Data Science',
         stage2Desc: 'This section shows solid data science foundations: time series, MLOps, people analytics, and classical NLP that still matters.',
         stage2Note: 'Data stack',
-        stage2Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Thesis 2021)</div><div class="roadmap-hook"><strong>"My 2021 thesis. End-to-end from research to product."</strong> Classical NLP model (KNN + LSA) integrated as frontend and database of a working chatbot.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Classical NLP</span><span class="proj-tag">Full-stack</span></div><a class="roadmap-link" href="chatbot-lsa/">Open case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">MLOps Earthquake Pipeline</div><div class="roadmap-hook"><strong>"How I make sure an ML model does not fail silently in production."</strong> End-to-end pipeline with monitoring, experiment tracking, and deployment discipline.</div><div class="roadmap-tags"><span class="proj-tag">MLOps</span><span class="proj-tag">Monitoring</span><span class="proj-tag">MLflow</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-hook"><strong>"From LSA to BERT: what changed and what did not."</strong> Modern financial NLP with transformer fine-tuning for domain-specific sentiment.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">Fintech</span><span class="proj-tag">Sentiment</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Transaction Fraud Pipeline</div><div class="roadmap-hook"><strong>"Detecting fraud without labels — where QA mindset becomes useful."</strong> Fraud pipeline with imbalanced learning and feature engineering for fintech scenarios.</div><div class="roadmap-tags"><span class="proj-tag">Fintech</span><span class="proj-tag">Fraud</span><span class="proj-tag">ML pipeline</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        stage2Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Thesis 2021)</div><div class="roadmap-hook"><strong>"My 2021 thesis. End-to-end from research to product."</strong> Classical NLP model (KNN + LSA) integrated as frontend and database of a working chatbot.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Classical NLP</span><span class="proj-tag">Full-stack</span></div><a class="roadmap-link" href="chatbot-lsa/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Beijing Air Quality Dashboard</div><div class="roadmap-hook"><strong>"46 MB of sensor data, 5 years, 12 stations — one actionable dashboard."</strong> Streamlit app with AQI computation, seasonal trends, meteorological correlations, and geospatial priority mapping.</div><div class="roadmap-tags"><span class="proj-tag">Streamlit</span><span class="proj-tag">Plotly</span><span class="proj-tag">Chi-square</span><span class="proj-tag">Geospatial</span></div><a class="roadmap-link" href="air-quality-dashboard/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Student Dropout Prediction</div><div class="roadmap-hook"><strong>"1 in 3 students drops out. I built the early-warning system."</strong> XGBoost classifier, 92.42% accuracy, AUC 97.27%, with Looker Studio dashboard and Streamlit app for counselor intervention.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">Education</span><span class="proj-tag">SMOTE</span><span class="proj-tag">Streamlit</span></div><a class="roadmap-link" href="student-dropout/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Employee Attrition Prediction</div><div class="roadmap-hook"><strong>"Overtime is a 3× risk multiplier. The data proved it."</strong> XGBoost HR system with 86.11% recall, Metabase dashboard on Docker + PostgreSQL for operational early-warning.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">HR Analytics</span><span class="proj-tag">Metabase</span><span class="proj-tag">Docker</span></div><a class="roadmap-link" href="employee-attrition/">Open case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">MLOps Earthquake Pipeline</div><div class="roadmap-hook"><strong>"How I make sure an ML model does not fail silently in production."</strong> End-to-end pipeline with monitoring, experiment tracking, and deployment discipline.</div><div class="roadmap-tags"><span class="proj-tag">MLOps</span><span class="proj-tag">Monitoring</span><span class="proj-tag">MLflow</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-hook"><strong>"From LSA to BERT: what changed and what did not."</strong> Modern financial NLP with transformer fine-tuning for domain-specific sentiment.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">Fintech</span><span class="proj-tag">Sentiment</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
         stage3Kicker: 'Section 03',
         stage3Title: 'Quality Assurance & Testing',
-        stage3Desc: 'The final section makes the point clear: QA is not a side path, but the reason my evaluation, reliability, and product thinking feel different.',
+        stage3Desc: 'The final section makes the point clear: QA is not a side path, but the reason my evaluation, reliability, and product thinking feel different. Cards 1–2 document real production QA work at Flip and Telkom — write-ups in progress.',
         stage3Note: 'QA stack',
-        stage3Grid: `<article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Enterprise LLM Evaluation Platform</div><div class="roadmap-hook"><strong>"How do I know my LLM is actually good?"</strong> A framework for measuring answer quality, failure modes, and readiness before release.</div><div class="roadmap-tags"><span class="proj-tag">LLM eval</span><span class="proj-tag">QA mindset</span><span class="proj-tag">Observability</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">QA Automation MovieMatch</div><div class="roadmap-hook"><strong>"Why my QA background makes me a better AI Engineer."</strong> Test strategy for AI systems with stability testing, multilingual checks, and bug triage.</div><div class="roadmap-tags"><span class="proj-tag">Playwright</span><span class="proj-tag">Selenium</span><span class="proj-tag">AI QA</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">ETL Fashion Pipeline</div><div class="roadmap-hook"><strong>"Why AI Engineers should also understand data pipelines."</strong> Modular ETL from scraping to multi-destination load with strong test coverage.</div><div class="roadmap-tags"><span class="proj-tag">ETL</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">pytest</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        stage3Grid: `<article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Production · Flip</span><span class="roadmap-status">Write-up in progress</span></div><div class="roadmap-name">LLM Chatbot Evaluation Framework</div><div class="roadmap-hook"><strong>"How do you know your LLM isn't hallucinating on users right now?"</strong> At Flip, I built and ran QA for an LLM-based chatbot with RAG — tracking hallucination rate, answer grounding, fallback triggers, and CSAT correlation across releases.</div><div class="roadmap-tags"><span class="proj-tag">LLM eval</span><span class="proj-tag">RAG QA</span><span class="proj-tag">Hallucination detection</span><span class="proj-tag">Flip</span></div><span class="roadmap-link is-disabled">Write-up in progress</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Production · Telkom + Portfolio</span><span class="roadmap-status">Write-up in progress</span></div><div class="roadmap-name">AI System Test Automation</div><div class="roadmap-hook"><strong>"AI systems fail at edges humans don't test for."</strong> Playwright + Selenium automation for AI-facing products — multilingual intent stability, regression suite, SIT/UAT workflow for chatbot releases at Telkom Group.</div><div class="roadmap-tags"><span class="proj-tag">Playwright</span><span class="proj-tag">Selenium</span><span class="proj-tag">pytest</span><span class="proj-tag">SIT/UAT</span></div><span class="roadmap-link is-disabled">Write-up in progress</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Portfolio project</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">ETL Fashion Pipeline</div><div class="roadmap-hook"><strong>"Data pipelines break at the edges. pytest finds the edges."</strong> Modular ETL from scraping to multi-destination PostgreSQL load — each transform step independently verified with pytest, with schema validation and anomaly detection built in.</div><div class="roadmap-tags"><span class="proj-tag">ETL</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">pytest</span><span class="proj-tag">Test coverage</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
         experienceEyebrow: 'work experience',
         experienceTitle: 'Where I\'ve built &amp; shipped',
         experienceSubtitle: 'These roles shaped how I build AI systems: understanding production flow, evaluation discipline, and what actually breaks after real users touch the system.',
@@ -722,7 +778,7 @@
         heroStatus: 'Terbuka untuk peluang',
         heroTag: 'Remote / Yogyakarta / Jakarta',
         heroRole: 'AI Engineer · Data Scientist · QA Engineer',
-        heroDesc: 'Profesional Pengembangan AI & Chatbot dengan 3,5+ tahun pengalaman membangun, mengevaluasi, dan memperkuat sistem AI percakapan production—dari chatbot customer-service enterprise hingga pipeline RAG. Saya menggabungkan LLM engineering, applied data science, NLP untuk Bahasa Indonesia, dan disiplin QA untuk mengoptimalkan alur percakapan dan mendorong tuning model yang berkelanjutan. Terbukti mampu menerjemahkan interaksi pengguna skala besar menjadi peningkatan terukur pada akurasi chatbot, kualitas respons, dan keandalan sistem setelah rilis.',
+        heroDesc: '3,5 tahun di production AI — membangun chatbot flow di Telkom Group, mengevaluasi sistem RAG &amp; LLM sebagai QA di Flip, dan ML end-to-end di IDCamp Expert. Profil yang membawa engineering rigor, data science, dan disiplin QA ke dalam satu build.',
         ctaEmail: '✉ Email',
         ctaLinkedin: 'in LinkedIn',
         ctaGithub: '↗ GitHub',
@@ -738,6 +794,8 @@
         projectsEyebrow: 'pilihan utama',
         projectsTitle: 'Karya saya. Dijelaskan tuntas.',
         projectsSubtitle: 'Studi kasus end-to-end — dari perumusan masalah sampai hasil yang dikirim.',
+        projectsSpotlightLabel: 'Sorotan pilihan',
+        projectsAllLabel: 'Semua project berdasarkan domain',
         featLive: 'Live',
         feat1Label: 'Section 01 · LLM &amp; Generative AI',
         feat1Name: 'Banking Intent Router',
@@ -757,22 +815,34 @@
         feat3Stat1: 'Node graph',
         feat3Stat2: 'Dimensi embedding',
         feat3Stat3: 'Mode respons',
+        feat4Label: 'Section 02 · Applied Data Science',
+        feat4Name: 'Prediksi Dropout Mahasiswa',
+        feat4Hook: '<strong>"1 dari 3 mahasiswa dropout. Saya bangun sistem peringatannya."</strong> Classifier XGBoost pada 4.424 data mahasiswa — akurasi 92,42%, AUC 97,27%, dengan dashboard Looker Studio dan app Streamlit untuk intervensi konselor.',
+        feat4Stat1: 'Akurasi',
+        feat4Stat2: 'ROC-AUC',
+        feat4Stat3: 'Dropout rate',
+        feat5Label: 'Section 02 · Applied Data Science',
+        feat5Name: 'Prediksi Attrisi Karyawan',
+        feat5Hook: '<strong>"Overtime adalah 3× faktor risiko. Data membuktikannya."</strong> Sistem HR analytics XGBoost dengan recall 86,11%, mengidentifikasi karyawan berisiko sebelum resign. Dashboard Metabase + infrastruktur Docker.',
+        feat5Stat1: 'Recall',
+        feat5Stat2: 'Risiko overtime',
+        feat5Stat3: 'ROC-AUC',
         featCta: 'Buka case study →',
         stage1Kicker: 'Section 01',
         stage1Title: 'LLM & Generative AI',
         stage1Desc: 'Bagian ini fokus pada sistem generative AI: cost control, prompt optimization, arsitektur RAG, evaluasi LLM, dan aplikasi siap production.',
         stage1Note: 'AI stack',
-        stage1Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Banking Intent Router</div><div class="roadmap-hook"><strong>"Saya kurangi biaya LLM chatbot banking 96%."</strong> Router 4-tier yang memutuskan kapan query cukup dijawab template, kapan perlu RAG, dan kapan benar-benar butuh LLM.</div><div class="roadmap-tags"><span class="proj-tag">LLM routing</span><span class="proj-tag">Banking</span><span class="proj-tag">FastAPI</span></div><a class="roadmap-link" href="day1-banking-intent-router/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">RAG Chatbot Service</div><div class="roadmap-hook"><strong>"3 design decision yang saya pertahankan saat membangun RAG production."</strong> LLM app dengan FastAPI, LangGraph, dan vector search untuk knowledge-grounded answers.</div><div class="roadmap-tags"><span class="proj-tag">RAG</span><span class="proj-tag">LangGraph</span><span class="proj-tag">Qdrant</span></div><a class="roadmap-link" href="rag-chatbot-service/">Open case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">NutriPal AI</div><div class="roadmap-hook"><strong>"Dari ide ke produk AI: pelajaran membangun NutriPal."</strong> AI product end-to-end untuk personal nutrition guidance dengan decision layer yang lebih terstruktur.</div><div class="roadmap-tags"><span class="proj-tag">AI product</span><span class="proj-tag">Health</span><span class="proj-tag">LLM app</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">CineTrack Frontend</div><div class="roadmap-hook"><strong>"AI Engineer juga harus paham product — pengalaman saya."</strong> Exposure ke frontend dan dashboard product agar sistem AI tidak lepas dari user-facing constraints.</div><div class="roadmap-tags"><span class="proj-tag">Frontend</span><span class="proj-tag">Product</span><span class="proj-tag">KADA</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        stage1Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Banking Intent Router</div><div class="roadmap-hook"><strong>"Saya kurangi biaya LLM chatbot banking 96%."</strong> Router 4-tier yang memutuskan kapan query cukup dijawab template, kapan perlu RAG, dan kapan benar-benar butuh LLM.</div><div class="roadmap-tags"><span class="proj-tag">LLM routing</span><span class="proj-tag">Banking</span><span class="proj-tag">FastAPI</span></div><a class="roadmap-link" href="banking-intent-router/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">RAG Chatbot Service</div><div class="roadmap-hook"><strong>"3 design decision yang saya pertahankan saat membangun RAG production."</strong> LLM app dengan FastAPI, LangGraph, dan vector search untuk knowledge-grounded answers.</div><div class="roadmap-tags"><span class="proj-tag">RAG</span><span class="proj-tag">LangGraph</span><span class="proj-tag">Qdrant</span></div><a class="roadmap-link" href="rag-chatbot-service/">Open case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">NutriPal AI</div><div class="roadmap-hook"><strong>"Dari ide ke produk AI: pelajaran membangun NutriPal."</strong> AI product end-to-end untuk personal nutrition guidance dengan decision layer yang lebih terstruktur.</div><div class="roadmap-tags"><span class="proj-tag">AI product</span><span class="proj-tag">Health</span><span class="proj-tag">LLM app</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">CineTrack Frontend</div><div class="roadmap-hook"><strong>"AI Engineer juga harus paham product — pengalaman saya."</strong> Exposure ke frontend dan dashboard product agar sistem AI tidak lepas dari user-facing constraints.</div><div class="roadmap-tags"><span class="proj-tag">Frontend</span><span class="proj-tag">Product</span><span class="proj-tag">KADA</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
         stage2Kicker: 'Section 02',
         stage2Title: 'Applied Data Science',
         stage2Desc: 'Bagian ini menunjukkan fondasi data science yang kuat: time series, MLOps, people analytics, dan classical NLP yang tetap relevan.',
         stage2Note: 'Data stack',
-        stage2Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Skripsi 2021)</div><div class="roadmap-hook"><strong>"Skripsi saya 4 tahun lalu. End-to-end dari research hingga produk."</strong> Model classical NLP (KNN + LSA) yang diintegrasikan langsung sebagai frontend dan database chatbot.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Classical NLP</span><span class="proj-tag">Full-stack</span></div><a class="roadmap-link" href="chatbot-lsa/">Buka case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">MLOps Earthquake Pipeline</div><div class="roadmap-hook"><strong>"Cara saya pastikan model ML tidak gagal diam-diam di production."</strong> End-to-end pipeline dengan monitoring, experiment tracking, dan deployment discipline.</div><div class="roadmap-tags"><span class="proj-tag">MLOps</span><span class="proj-tag">Monitoring</span><span class="proj-tag">MLflow</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-hook"><strong>"Dari LSA ke BERT: yang berubah dan yang tidak."</strong> Modernisasi NLP finansial dengan fine-tuning model transformer untuk sentimen domain-specific.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">Fintech</span><span class="proj-tag">Sentiment</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Transaction Fraud Pipeline</div><div class="roadmap-hook"><strong>"Mendeteksi fraud tanpa label — mindset QA yang terbukti relevan."</strong> Fraud pipeline berbasis imbalanced learning dan feature engineering untuk skenario fintech.</div><div class="roadmap-tags"><span class="proj-tag">Fintech</span><span class="proj-tag">Fraud</span><span class="proj-tag">ML pipeline</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        stage2Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Skripsi 2021)</div><div class="roadmap-hook"><strong>"Skripsi saya 4 tahun lalu. End-to-end dari research hingga produk."</strong> Model classical NLP (KNN + LSA) yang diintegrasikan langsung sebagai frontend dan database chatbot.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Classical NLP</span><span class="proj-tag">Full-stack</span></div><a class="roadmap-link" href="chatbot-lsa/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Dashboard Kualitas Udara Beijing</div><div class="roadmap-hook"><strong>"46 MB data sensor, 5 tahun, 12 stasiun — satu dashboard yang bisa ditindaklanjuti."</strong> App Streamlit dengan komputasi AQI, tren musiman, korelasi meteorologi, dan peta prioritas geospasial.</div><div class="roadmap-tags"><span class="proj-tag">Streamlit</span><span class="proj-tag">Plotly</span><span class="proj-tag">Chi-square</span><span class="proj-tag">Geospatial</span></div><a class="roadmap-link" href="air-quality-dashboard/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Prediksi Dropout Mahasiswa</div><div class="roadmap-hook"><strong>"1 dari 3 mahasiswa dropout. Saya bangun sistem peringatannya."</strong> Classifier XGBoost, akurasi 92,42%, AUC 97,27%, dengan dashboard Looker Studio dan app Streamlit untuk intervensi konselor.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">Education</span><span class="proj-tag">SMOTE</span><span class="proj-tag">Streamlit</span></div><a class="roadmap-link" href="student-dropout/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Prediksi Attrisi Karyawan</div><div class="roadmap-hook"><strong>"Overtime adalah 3× faktor risiko. Data membuktikannya."</strong> Sistem HR XGBoost dengan recall 86,11%, dashboard Metabase di Docker + PostgreSQL untuk early-warning operasional.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">HR Analytics</span><span class="proj-tag">Metabase</span><span class="proj-tag">Docker</span></div><a class="roadmap-link" href="employee-attrition/">Buka case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">MLOps Earthquake Pipeline</div><div class="roadmap-hook"><strong>"Cara saya pastikan model ML tidak gagal diam-diam di production."</strong> End-to-end pipeline dengan monitoring, experiment tracking, dan deployment discipline.</div><div class="roadmap-tags"><span class="proj-tag">MLOps</span><span class="proj-tag">Monitoring</span><span class="proj-tag">MLflow</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-hook"><strong>"Dari LSA ke BERT: yang berubah dan yang tidak."</strong> Modernisasi NLP finansial dengan fine-tuning model transformer untuk sentimen domain-specific.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">Fintech</span><span class="proj-tag">Sentiment</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
         stage3Kicker: 'Section 03',
         stage3Title: 'Quality Assurance & Testing',
-        stage3Desc: 'Bagian akhir menegaskan bahwa QA bukan jalur samping, tapi alasan kenapa evaluasi, reliability, dan product thinking saya terasa berbeda.',
+        stage3Desc: 'Bagian akhir menegaskan bahwa QA bukan jalur samping, tapi alasan kenapa evaluasi, reliability, dan product thinking saya terasa berbeda. Kartu 1–2 mendokumentasikan pekerjaan QA production nyata di Flip dan Telkom — write-up sedang dalam proses.',
         stage3Note: 'QA stack',
-        stage3Grid: `<article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">Enterprise LLM Evaluation Platform</div><div class="roadmap-hook"><strong>"Bagaimana saya tahu LLM saya benar-benar bagus?"</strong> Framework untukmengukur kualitas jawaban, failure mode, dan readiness sebelum sistem dirilis.</div><div class="roadmap-tags"><span class="proj-tag">LLM eval</span><span class="proj-tag">QA mindset</span><span class="proj-tag">Observability</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">QA Automation MovieMatch</div><div class="roadmap-hook"><strong>"Mengapa background QA membuat saya AI Engineer yang lebih baik."</strong>Test strategy untuk sistem AI dengan stability testing, multilingual checks, dan bug triage.</div><div class="roadmap-tags"><span class="proj-tag">Playwright</span><span class="proj-tag">Selenium</span><span class="proj-tag">AI QA</span></div><span class="roadmap-link is-disabled">Coming soon</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Planned case</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">ETL Fashion Pipeline</div><div class="roadmap-hook"><strong>"Kenapa AI Engineer juga harus paham data pipeline."</strong> ETL modulardari scraping sampai load ke beberapa destination dengan test coverage tinggi.</div><div class="roadmap-tags"><span class="proj-tag">ETL</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">pytest</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
+        stage3Grid: `<article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Production · Flip</span><span class="roadmap-status">Write-up in progress</span></div><div class="roadmap-name">LLM Chatbot Evaluation Framework</div><div class="roadmap-hook"><strong>"Bagaimana kamu tahu LLM kamu tidak sedang berhalusinasi ke user sekarang?"</strong> Di Flip, saya membangun dan menjalankan QA untuk chatbot berbasis LLM dengan RAG — tracking hallucination rate, answer grounding, fallback trigger, dan korelasi CSAT di setiap rilis.</div><div class="roadmap-tags"><span class="proj-tag">LLM eval</span><span class="proj-tag">RAG QA</span><span class="proj-tag">Hallucination detection</span><span class="proj-tag">Flip</span></div><span class="roadmap-link is-disabled">Write-up in progress</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Production · Telkom + Portfolio</span><span class="roadmap-status">Write-up in progress</span></div><div class="roadmap-name">AI System Test Automation</div><div class="roadmap-hook"><strong>"Sistem AI gagal di edge case yang tidak ditest manusia."</strong> Playwright + Selenium automation untuk produk berbasis AI — multilingual intent stability, regression suite, alur SIT/UAT untuk rilis chatbot di Telkom Group.</div><div class="roadmap-tags"><span class="proj-tag">Playwright</span><span class="proj-tag">Selenium</span><span class="proj-tag">pytest</span><span class="proj-tag">SIT/UAT</span></div><span class="roadmap-link is-disabled">Write-up in progress</span></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Portfolio project</span><span class="roadmap-status">Coming soon</span></div><div class="roadmap-name">ETL Fashion Pipeline</div><div class="roadmap-hook"><strong>"Pipeline data rusak di tepinya. pytest yang menemukannya."</strong> ETL modular dari scraping ke PostgreSQL multi-destination — setiap step transform diverifikasi independen dengan pytest, dilengkapi validasi schema dan deteksi anomali.</div><div class="roadmap-tags"><span class="proj-tag">ETL</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">pytest</span><span class="proj-tag">Test coverage</span></div><span class="roadmap-link is-disabled">Coming soon</span></article>`,
         experienceEyebrow: 'pengalaman kerja',
         experienceTitle: 'Tempat saya membangun &amp; mengirim sistem',
         experienceSubtitle: 'Pengalaman ini yang membentuk cara saya membangun AI system: paham production flow, paham evaluasi, dan paham apa yang rusak setelah sistem dipakai user sungguhan.',
