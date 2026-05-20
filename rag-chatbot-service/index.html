@@ -822,13 +822,13 @@ diverifikasi, bukan sebagai instruksi.
   <!-- ── CTA ── -->
   <section class="cta-section">
     <div class="wrap">
-      <div class="section-num">09 · Next</div>
+      <div class="section-num" data-i18n="nextNum">09 · Next</div>
       <h2 data-i18n="ctaTitle">Try the demo <em>or read the code.</em></h2>
       <p data-i18n="ctaP">The live chatbot is at health-truth-chatbot.up.railway.app. The source — <code>RagWorkflow.py</code>, <code>DocumentStore.py</code>, <code>chatbot.py</code> — is the most direct way to see these decisions in context.</p>
       <div class="cta-buttons">
-        <a href="https://health-truth-chatbot.up.railway.app" class="btn" target="_blank" rel="noopener" data-i18n="ctaDemo">Try the demo →</a>
-        <a href="https://github.com/ninditya" class="btn ghost" target="_blank" rel="noopener" data-i18n="ctaGithub">View on GitHub →</a>
-        <a href="../day1-banking-intent-router/" class="btn ghost" data-i18n="ctaNext">Next: Banking Intent Router →</a>
+        <a href="https://health-truth-chatbot.up.railway.app" class="btn" target="_blank" rel="noopener" data-i18n="ctaDemo">Live demo →</a>
+        <a href="https://github.com/ninditya" class="btn ghost" target="_blank" rel="noopener" data-i18n="ctaGithub">View source →</a>
+        <a href="../#projects" class="btn ghost" data-i18n="ctaNext">← Back to all projects</a>
       </div>
     </div>
   </section>
@@ -963,9 +963,10 @@ diverifikasi, bukan sebagai instruksi.
         r4P:`The graph always runs <code>retrieve → answer</code> regardless of retrieval quality. If retrieval returns zero relevant documents, the answer node still runs — it just gets empty context. A dedicated fallback node that catches low-confidence retrieval and routes differently would make the pipeline more honest about what it actually found.`,
         ctaTitle:`Try the demo <em>or read the code.</em>`,
         ctaP:`The live chatbot is at health-truth-chatbot.up.railway.app. The source — <code>RagWorkflow.py</code>, <code>DocumentStore.py</code>, <code>chatbot.py</code> — is the most direct way to see these decisions in context.`,
-        ctaDemo:"Try the demo →",
-        ctaGithub:"View on GitHub →",
-        ctaNext:"Next: Banking Intent Router →",
+        nextNum:"09 · Next",
+        ctaDemo:"Live demo →",
+        ctaGithub:"View source →",
+        ctaNext:"← Back to all projects",
       },
       id: {
         navBack:"← Semua proyek", navAbout:"Tentang", navContact:"Kontak",
@@ -1088,9 +1089,10 @@ diverifikasi, bukan sebagai instruksi.
         r4P:`Graph selalu menjalankan <code>retrieve → answer</code> tanpa mempertimbangkan kualitas retrieval. Kalau retrieval tidak menemukan dokumen relevan, answer node tetap jalan — hanya saja mendapat context kosong. Node fallback khusus yang menangkap retrieval berkualitas rendah dan me-route secara berbeda akan membuat pipeline lebih jujur tentang apa yang benar-benar ditemukan.`,
         ctaTitle:`Coba demo-nya <em>atau baca kodenya.</em>`,
         ctaP:`Chatbot live ada di health-truth-chatbot.up.railway.app. Source — <code>RagWorkflow.py</code>, <code>DocumentStore.py</code>, <code>chatbot.py</code> — adalah cara paling langsung melihat keputusan-keputusan ini dalam konteks.`,
-        ctaDemo:"Coba demo →",
-        ctaGithub:"Lihat di GitHub →",
-        ctaNext:"Berikutnya: Banking Intent Router →",
+        nextNum:"09 · Selanjutnya",
+        ctaDemo:"Live demo →",
+        ctaGithub:"Lihat source →",
+        ctaNext:"← Kembali ke semua project",
       }
     };
 

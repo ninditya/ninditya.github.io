@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dropout Prediction — Ninditya Salma Nur Aini</title>
+  <meta name="description"
+    content="IDCamp Expert Data Science project: ML system for early detection of at-risk students at Jaya Jaya Institut. XGBoost classifier achieving 92.42% accuracy, 90.37% F1-score, and AUC 97.27% on 4,424 student records. Includes Looker Studio dashboard and Streamlit prediction app.">
+  <link rel="canonical" href="https://ninditya.github.io/student-dropout/">
+  <meta property="og:title" content="Student Dropout Prediction — Ninditya Salma Nur Aini">
+  <meta property="og:description" content="IDCamp Expert: XGBoost model (92.42% accuracy, AUC 97.27%) for early student dropout detection. Looker Studio dashboard + Streamlit prediction app.">
+  <meta property="og:url" content="https://ninditya.github.io/student-dropout/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f3ee;
+      --bg-alt: #eceae4;
+      --bg-dark: #1a1814;
+      --ink: #1a1814;
+      --ink-soft: #5a574f;
+      --muted: #8c887f;
+      --line: #dddad3;
+      --line-strong: #8c887f;
+      --primary: #1a5276;
+      --accent: #c4490c;
+      --accent-soft: #eaf2fb;
+      --green: #2d6a4f;
+      --red: #c4490c;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    .skip-link { position: absolute; top: -40px; left: 0; background: var(--ink); color: #fff; padding: 8px 16px; z-index: 1000; transition: top 0.2s; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-decoration: none; }
+    .skip-link:focus { top: 0; }
+    *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    nav { position: sticky; top: 0; background: rgba(245,243,238,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
+    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+    .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .nav-pill { font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 100px; transition: all 0.2s ease; }
+    .nav-pill:hover { background: var(--bg-alt); color: var(--ink); }
+    .nav-pill.back { color: var(--primary); border: 1px solid var(--line); }
+    .nav-pill.back:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+    .hero { padding: 80px 0 60px; border-bottom: 1px solid var(--line); }
+    .hero-kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
+    .kicker-tag { background: var(--ink); color: var(--accent); padding: 5px 12px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+    .kicker-text { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
+    h1.title { font-family: 'Instrument Serif', serif; font-size: clamp(44px, 6.5vw, 80px); line-height: 1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 32px; font-weight: 400; }
+    h1.title em { font-style: italic; color: var(--primary); }
+    .hero-lede { font-family: 'Instrument Serif', serif; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.45; max-width: 760px; color: var(--ink-soft); font-weight: 400; }
+    .hero-lede strong { background: linear-gradient(180deg, transparent 60%, var(--accent-soft) 60%); font-weight: 500; color: var(--ink); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 44px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
+    .hero-meta span strong { color: var(--ink); font-weight: 500; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+    .stats-strip { background: var(--bg-dark); color: var(--bg); padding: 60px 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+    .stat { text-align: left; padding: 0 28px; border-left: 1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left: none; padding-left: 0; }
+    .stat .num { font-family: 'Instrument Serif', serif; font-size: clamp(40px, 5.5vw, 60px); font-weight: 400; line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
+    .stat .num small { font-size: 0.5em; color: var(--bg); opacity: 0.7; font-family: 'Instrument Serif', serif; }
+    .stat .label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px; opacity: 0.75; line-height: 1.4; }
+    section.content { padding: 80px 0; border-bottom: 1px solid var(--line); }
+    section.content.alt { background: var(--bg-alt); }
+    .section-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
+    h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 4.5vw, 48px); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 36px; max-width: 800px; color: var(--ink); }
+    h2 em { font-style: italic; color: var(--primary); }
+    h3 { font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; margin: 36px 0 14px; letter-spacing: -0.01em; color: var(--ink); }
+    h3 em { font-style: italic; color: var(--primary); }
+    .lede { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 760px; margin-bottom: 22px; font-weight: 400; }
+    p { margin-bottom: 16px; max-width: 760px; color: var(--ink-soft); font-size: 16px; }
+    p code, li code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin: 40px 0; }
+    .two-col h3 { margin-top: 0; }
+    ul.checklist { list-style: none; padding: 0; margin: 24px 0; max-width: 800px; }
+    ul.checklist li { padding: 14px 0 14px 36px; position: relative; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+    ul.checklist li:last-child { border-bottom: none; }
+    ul.checklist li::before { content: '✓'; position: absolute; left: 0; top: 14px; color: var(--green); font-weight: 700; font-size: 16px; }
+    ul.checklist li strong { font-weight: 600; color: var(--ink); }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0; }
+    .tag { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 5px 11px; border: 1px solid var(--line-strong); background: white; border-radius: 3px; color: var(--ink-soft); }
+    .pullquote { border-left: 3px solid var(--accent); padding: 16px 0 16px 28px; margin: 32px 0; font-family: 'Instrument Serif', serif; font-size: 24px; font-style: italic; line-height: 1.45; max-width: 760px; color: var(--ink); }
+    table.compare { width: 100%; max-width: 760px; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
+    table.compare th, table.compare td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    table.compare th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--bg-alt); font-weight: 500; }
+    table.compare td.num { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--ink); }
+    table.compare tr.highlight td { background: var(--accent-soft); font-weight: 600; color: var(--ink); }
+    .insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 32px 0; max-width: 900px; }
+    .insight-cell { background: white; padding: 24px; }
+    .insight-num { font-family: 'Instrument Serif', serif; font-size: 36px; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+    .insight-label { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+    .insight-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+    .journey-section { background: var(--bg-dark); color: var(--bg); padding: 80px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .journey-section .section-num { color: var(--accent); }
+    .journey-section h2 { color: var(--bg); max-width: 800px; }
+    .journey-section h2 em { color: var(--accent); }
+    .journey-section p { color: rgba(255,255,255,0.7); max-width: 720px; }
+    .journey-section h3 { color: rgba(255,255,255,0.9); margin-top: 40px; margin-bottom: 12px; }
+    .journey-path { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 32px; }
+    .journey-tag { font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 11px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.05em; }
+    .journey-tag.active { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 500; }
+    .feedback-block { border-left: 3px solid var(--accent); padding: 16px 0 16px 24px; margin: 20px 0; }
+    .feedback-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
+    .feedback-block p { font-size: 15px; color: rgba(255,255,255,0.65); }
+    .feedback-block p strong { color: rgba(255,255,255,0.9); }
+    .feedback-block.positive { border-color: var(--green); }
+    .feedback-block.positive .feedback-label { color: #5cb88e; }
+    .lesson-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0; max-width: 800px; }
+    .lesson-cell { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px; }
+    .lesson-cell-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
+    .lesson-cell p { font-size: 14px; color: rgba(255,255,255,0.65); margin: 0; max-width: none; }
+    .lesson-cell p strong { color: rgba(255,255,255,0.9); }
+    @media (max-width: 600px) { .lesson-grid { grid-template-columns: 1fr; } }
+    .risk-bar-wrap { margin: 32px 0; max-width: 680px; }
+    .risk-bar { margin-bottom: 18px; }
+    .risk-bar-label { font-family: 'DM Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .risk-bar-track { height: 10px; background: var(--bg-alt); border-radius: 999px; overflow: hidden; }
+    .risk-bar-fill { height: 100%; border-radius: 999px; background: var(--accent); }
+    .risk-bar-fill.high { background: var(--red); }
+    .risk-bar-fill.med { background: var(--primary); }
+    .screenshot-frame { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 24px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .screenshot-frame img { width: 100%; display: block; }
+    .img-caption { padding: 10px 16px; background: var(--bg); border-top: 1px solid var(--line); font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .screenshot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+    @media (max-width: 700px) { .screenshot-grid { grid-template-columns: 1fr; } }
+    .cta-section { background: var(--bg-alt); color: var(--ink); padding: 80px 0; }
+    .cta-section h2 { color: var(--ink); }
+    .cta-section h2 em { color: var(--primary); }
+    .cta-section p { color: var(--ink-soft); }
+    .cta-section .section-num { color: var(--primary); }
+    .cta-buttons { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+    .btn { display: inline-block; padding: 14px 26px; background: var(--accent); color: var(--ink); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid var(--accent); border-radius: 4px; transition: all 0.2s ease; }
+    .btn:hover { background: transparent; color: var(--accent); }
+    .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+    .btn.ghost:hover { background: var(--ink); color: white; border-color: var(--ink); }
+    footer { background: var(--bg-dark); color: rgba(255,255,255,0.7); padding: 28px 0; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em; border-top: 1px solid rgba(255,255,255,0.1); }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    footer a { color: var(--accent); text-decoration: none; }
+    .stack-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; margin: 28px 0; }
+    .stack-item { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; min-width: 140px; }
+    .stack-item-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 4px; }
+    .stack-item-val { font-size: 14px; color: var(--ink); font-weight: 500; }
+    .nav-tools { display: flex; align-items: center; gap: 10px; }
+    .mobile-nav-toggle { display: none; background: transparent; border: none; color: var(--ink); font-size: 1.5rem; cursor: pointer; padding: 0 5px; line-height: 1; }
+    .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+    .lang-btn { border: none; background: transparent; color: var(--muted); padding: 6px 10px; border-radius: 999px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.15s; }
+    .lang-btn.active { background: var(--ink); color: white; }
+    @media (max-width: 760px) {
+      .two-col { grid-template-columns: 1fr; gap: 32px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 0; }
+      .stat:nth-child(3) { border-left: none; }
+      .wrap { padding: 0 20px; }
+      .nav-inner { padding: 14px 20px; }
+      .hero { padding: 56px 0 40px; }
+      .insight-grid { grid-template-columns: 1fr; }
+      .mobile-nav-toggle { display: block; }
+      .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(245,243,238,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 1.5rem; gap: 0.4rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+      nav.nav-open .nav-pills { display: flex; }
+      .lesson-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <a href="/" class="logo">Ninditya Salma Nur Aini</a>
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a href="/" class="nav-pill back" data-i18n="navBack">← Back to portfolio</a>
+          <a href="/#projects" class="nav-pill" data-i18n="navProjects">Projects</a>
+          <a href="/#contact" class="nav-pill" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="wrap">
+        <div class="hero-kicker">
+          <span class="kicker-tag">Section 02 · Applied Data Science</span>
+          <span class="kicker-text" data-i18n="kickerText">IDCamp Expert · Education Analytics · ML Classification</span>
+        </div>
+        <h1 class="title" data-i18n="heroTitle">Student Dropout<br><em>Prediction</em></h1>
+        <p class="hero-lede" data-i18n="heroLede">
+          Jaya Jaya Institut had a <strong>32% dropout rate</strong> — 1 in 3 students never finishing their degree. I built a machine learning system using XGBoost to identify at-risk students early, achieving <strong>92.42% accuracy and AUC 97.27%</strong>, with a Looker Studio dashboard and Streamlit app for actionable intervention.
+        </p>
+        <div class="hero-meta">
+          <span><strong>Model</strong> XGBoost · Random Forest</span>
+          <span><strong>Stack</strong> scikit-learn · SMOTE · Streamlit · Looker Studio</span>
+          <span><strong>Dataset</strong> 4,424 students · 37 features · 2008–2015</span>
+          <span data-i18n="metaLevel"><strong>Level</strong> IDCamp Expert</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS STRIP -->
+    <div class="stats-strip">
+      <div class="wrap">
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="num">92.42<small>%</small></div>
+            <div class="label">Model accuracy<br>on test set</div>
+          </div>
+          <div class="stat">
+            <div class="num">97.27<small>%</small></div>
+            <div class="label">ROC-AUC score<br>near-perfect</div>
+          </div>
+          <div class="stat">
+            <div class="num">32.12<small>%</small></div>
+            <div class="label">Institutional<br>dropout rate</div>
+          </div>
+          <div class="stat">
+            <div class="num">4,424</div>
+            <div class="label">Student records<br>2008–2015</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: PROBLEM -->
+    <section class="content" id="problem">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s1Num">01 — Problem</div>
+        <h2 data-i18n="s1H2">1 in 3 students drops out. <em>The institution has no early warning.</em></h2>
+        <p class="lede" data-i18n="s1Lede">
+          Jaya Jaya Institut has operated since 2000 with over 1,000 enrolled students. By 2015, 32.12% of their students — 1,421 out of 4,424 — had dropped out before graduating. No system existed to flag at-risk students early enough for intervention.
+        </p>
+        <p>
+          Late intervention is expensive and ineffective. A student who reaches their 4th semester with consistent academic struggles has already established patterns that are hard to break. The business problem: build a system that identifies dropout risk in the <em>first two semesters</em>, while there's still time to act.
+        </p>
+        <p>
+          The dataset contains 37 features across three domains:
+        </p>
+        <ul class="checklist">
+          <li><strong>Academic signals</strong> — Curricular units enrolled, approved, and evaluated per semester (1st and 2nd). Grade averages. These are the strongest predictors.</li>
+          <li><strong>Financial signals</strong> — Tuition fee payment status, debtor status, scholarship holder status. A student behind on fees is at dramatically elevated risk.</li>
+          <li><strong>Demographic context</strong> — Age at enrollment, gender, marital status, program (course), nationality. These provide context for interpretation.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">XGBoost</span>
+          <span class="tag">SMOTE</span>
+          <span class="tag">Classification</span>
+          <span class="tag">Education Analytics</span>
+          <span class="tag">Looker Studio</span>
+          <span class="tag">Streamlit</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: DATA & MODELING -->
+    <section class="content alt" id="modeling">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s2Num">02 — Modeling Approach</div>
+        <h2 data-i18n="s2H2">Pipeline design: from <em>imbalanced data</em> to production-ready model</h2>
+        <p class="lede" data-i18n="s2Lede">
+          Three technical challenges had to be solved before any model could be evaluated: class imbalance, feature encoding, and model selection.
+        </p>
+
+        <h3>Class Imbalance — SMOTE</h3>
+        <p>
+          The "Enrolled" class (students still in progress) created a 3-class problem, but the real classification goal was binary: Graduate vs Dropout. After removing "Enrolled" students, the dataset was still imbalanced (~60% Graduate, ~40% Dropout). SMOTE was applied to the training set only — never the test set — to avoid data leakage.
+        </p>
+
+        <h3>Feature Engineering</h3>
+        <p>
+          Categorical features were encoded differently based on their structure: ordinal variables (like enrollment mode) used ordinal encoding; nominal variables (marital status, nationality) used one-hot encoding. Binary variables (gender, debtor status, scholarship) were mapped directly to 0/1. No magic — just matching the encoding to the feature's actual structure.
+        </p>
+
+        <h3>Model Selection — GridSearchCV</h3>
+        <p>
+          Two candidate models were evaluated: Random Forest and XGBoost. Both were tuned via <code>GridSearchCV</code> with 4-fold inner cross-validation. Final evaluation used 5-fold Stratified K-Fold to handle class proportions correctly.
+        </p>
+        <p>
+          XGBoost was selected as the final model. Primary metric was <strong>F1-Score</strong> (balances precision and recall for imbalanced classes), secondary metric was <strong>Recall</strong> (missing a dropout is costlier than a false alarm).
+        </p>
+
+        <div class="stack-row">
+          <div class="stack-item"><div class="stack-item-label">Model</div><div class="stack-item-val">XGBoost</div></div>
+          <div class="stack-item"><div class="stack-item-label">Imbalance</div><div class="stack-item-val">SMOTE</div></div>
+          <div class="stack-item"><div class="stack-item-label">Tuning</div><div class="stack-item-val">GridSearchCV</div></div>
+          <div class="stack-item"><div class="stack-item-label">Eval</div><div class="stack-item-val">5-fold StratifiedKFold</div></div>
+          <div class="stack-item"><div class="stack-item-label">Dashboard</div><div class="stack-item-val">Looker Studio</div></div>
+          <div class="stack-item"><div class="stack-item-label">App</div><div class="stack-item-val">Streamlit</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: MODEL RESULTS -->
+    <section class="content" id="results">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s3Num">03 — Model Results</div>
+        <h2 data-i18n="s3H2">92.42% accuracy, AUC 97.27% — <em>what do these numbers mean</em> operationally?</h2>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Result</th>
+              <th>Interpretation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight">
+              <td>Accuracy</td>
+              <td class="num">92.42%</td>
+              <td>Of all predictions, 92.42% are correct</td>
+            </tr>
+            <tr class="highlight">
+              <td>F1-Score (Dropout class)</td>
+              <td class="num">90.37%</td>
+              <td>Balanced precision/recall on the class that matters</td>
+            </tr>
+            <tr class="highlight">
+              <td>ROC-AUC</td>
+              <td class="num">97.27%</td>
+              <td>Excellent discrimination between dropout and graduate</td>
+            </tr>
+            <tr>
+              <td>Precision (Dropout)</td>
+              <td class="num">High</td>
+              <td>When model flags dropout, it's usually right</td>
+            </tr>
+            <tr>
+              <td>Recall (Dropout)</td>
+              <td class="num">High</td>
+              <td>Model catches most actual dropouts</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Top 3 Feature Importance</h3>
+        <div class="risk-bar-wrap">
+          <div class="risk-bar">
+            <div class="risk-bar-label"><span>Curricular Units 2nd Sem (Approved)</span><span>28.6%</span></div>
+            <div class="risk-bar-track"><div class="risk-bar-fill high" style="width:100%"></div></div>
+          </div>
+          <div class="risk-bar">
+            <div class="risk-bar-label"><span>Tuition Fees Up To Date</span><span>10.7%</span></div>
+            <div class="risk-bar-track"><div class="risk-bar-fill med" style="width:37%"></div></div>
+          </div>
+          <div class="risk-bar">
+            <div class="risk-bar-label"><span>Curricular Units 1st Sem (Enrolled)</span><span>4.9%</span></div>
+            <div class="risk-bar-track"><div class="risk-bar-fill" style="width:17%"></div></div>
+          </div>
+        </div>
+        <p>
+          The dominant signal is academic performance in semester 2 — specifically, how many courses a student actually passes. Students who pass 0–4 units in semester 1 show 74–88% dropout rates. Tuition payment status is the second-strongest signal globally — a student who is behind on fees is at dramatically elevated risk regardless of academic performance.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 4: EDA INSIGHTS -->
+    <section class="content alt" id="insights">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s4Num">04 — Key Risk Insights</div>
+        <h2 data-i18n="s4H2">What the data reveals about <em>who drops out and why</em></h2>
+
+        <div class="insight-grid">
+          <div class="insight-cell">
+            <div class="insight-label">Financial risk</div>
+            <div class="insight-num">94%</div>
+            <div class="insight-desc">Students with overdue tuition fees show a 94.0% dropout rate — the single most predictive individual factor.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-label">Debtor status</div>
+            <div class="insight-num">75.5%</div>
+            <div class="insight-desc">Students with outstanding debt to the institution show 75.5% dropout rate. Financial stress and academic failure co-occur.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-label">Scholarship effect</div>
+            <div class="insight-num">13.8%</div>
+            <div class="insight-desc">Scholarship holders show only 13.8% dropout rate vs 48.4% for non-holders. Financial support dramatically changes outcomes.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-label">Academic threshold</div>
+            <div class="insight-num">0–4</div>
+            <div class="insight-desc">Passing 0–4 units in semester 1 predicts 74–88% dropout. This is the clearest early-warning threshold for counselor intervention.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-label">Graduation rate</div>
+            <div class="insight-num">49.93%</div>
+            <div class="insight-desc">Less than half of enrolled students graduate. Combined with 32.12% dropout, the institution has room for significant improvement.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-label">Age factor</div>
+            <div class="insight-num">&gt;25</div>
+            <div class="insight-desc">Students who enroll after age 25 show elevated dropout rates — likely due to competing work and family obligations.</div>
+          </div>
+        </div>
+
+        <div class="pullquote">
+          "A student behind on tuition AND passing fewer than 4 courses in semester 1 has a dropout probability that the model flags above 90%. These students need intervention in week 8 of semester 1 — not after year 2."
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: DELIVERABLES -->
+    <section class="content" id="deliverables">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s5Num">05 — Deliverables</div>
+        <h2 data-i18n="s5H2">From model to <em>two production interfaces</em></h2>
+
+        <div class="two-col">
+          <div>
+            <h3>Looker Studio Dashboard (4 Pages)</h3>
+            <p>Interactive business dashboard built for academic leadership and counselors:</p>
+            <ul class="checklist">
+              <li><strong>Overview page</strong> — 4 KPIs (dropout rate 32.12%, graduation rate 49.93%), department and gender filter controls</li>
+              <li><strong>Academic factors</strong> — Semester 1 and 2 performance breakdown, grade distributions, approved units vs dropout correlation</li>
+              <li><strong>Financial &amp; demographics</strong> — Tuition payment status, scholarship impact, age distribution, marital status breakdown</li>
+              <li><strong>Intervention page</strong> — Action recommendations with before/after impact simulation showing how targeted support could shift outcomes</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Streamlit Prediction App (2 Tabs)</h3>
+            <p>Deployed prediction interface for counselors to assess individual students:</p>
+            <ul class="checklist">
+              <li><strong>Model explanation tab</strong> — Algorithm comparison (RF vs XGBoost), feature importance chart, methodology notes for non-technical users</li>
+              <li><strong>Prediction form tab</strong> — 20-feature input form (academic + financial + demographic), real-time risk gauge showing dropout probability percentage, and actionable intervention recommendations based on the specific risk factors flagged</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: DASHBOARD PREVIEW -->
+    <section class="content alt" id="dashboard">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s6Num">06 — Dashboard Preview</div>
+        <h2 data-i18n="s6H2">4-page Looker Studio dashboard — <em>from overview to intervention</em></h2>
+        <p class="lede" data-i18n="s6Lede">Interactive Looker Studio dashboard for academic leadership and counselors, covering institutional dropout patterns, academic and financial risk factors, and prioritized intervention targets.</p>
+
+        <div class="screenshot-frame">
+          <img src="ninditya_sna-dashboard.png" alt="Looker Studio Overview — 4,424 students, 1,421 dropouts (32.12% rate), dropout distribution by major and gender with filter controls" loading="lazy">
+          <div class="img-caption">Overview · 4,424 students · 32.12% dropout rate · distribution by program and gender</div>
+        </div>
+
+        <div class="screenshot-grid">
+          <div class="screenshot-frame">
+            <img src="ninditya_sna-dashboard-2.png" alt="Academic Factors — dropout rate by approved units in semester 1 and 2, admission grade vs dropout scatter plot, comparison metric table" loading="lazy">
+            <div class="img-caption">Analisis Akademik · Units approved vs dropout rate · admission grade correlation</div>
+          </div>
+          <div class="screenshot-frame">
+            <img src="ninditya_sna-dashboard-3.png" alt="Financial and Demographic factors — UKT payment status, debt, scholarship impact, dropout rate by age group and marital status" loading="lazy">
+            <div class="img-caption">Finansial &amp; Demografi · UKT status · scholarship effect · age group breakdown</div>
+          </div>
+        </div>
+
+        <div class="screenshot-frame">
+          <img src="ninditya_sna-dashboard-4.png" alt="Action Items — 4 priority intervention segments (P1–P4), current dropout rate vs target rate, estimated students that can be saved per intervention" loading="lazy">
+          <div class="img-caption">Rekomendasi &amp; Intervensi · 4 priority segments · estimated students saved per action</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING CONTEXT + FUTURE DEVELOPMENT -->
+    <div class="journey-section">
+      <div class="wrap">
+
+        <!-- Part 1: Context -->
+        <div class="section-num" data-i18n="lcNum">Learning Context</div>
+        <h2 data-i18n="lcTitle">Expert level, final submission. <em>Passed — with honest notes.</em></h2>
+        <p data-i18n="lcDesc">
+          This project was the <strong>final submission</strong> for <strong>Belajar Penerapan Data Science</strong>, the IDCamp 2025 Expert level. It came after the Employee Attrition project (first submission), where I had already absorbed lessons about reproducibility, specific recommendations, and the cost of missed details. This was the second chance to apply all of that.
+        </p>
+        <div class="journey-path">
+          <span class="journey-tag">Beginner (4 courses)</span>
+          <span class="journey-tag">Intermediate (Air Quality Dashboard)</span>
+          <span class="journey-tag">Belajar Matematika untuk Data Science</span>
+          <span class="journey-tag">Expert Submission 1 (Employee Attrition)</span>
+          <span class="journey-tag active" data-i18n="lcPathActive">→ Expert Submission 2 (this project)</span>
+        </div>
+
+        <!-- Part 2: Reviewer Feedback -->
+        <h3 data-i18n="lcFeedbackTitle">Reviewer feedback — passed, with honest notes.</h3>
+        <p data-i18n="lcFeedbackDesc">Two areas of feedback: what worked well and what could be improved:</p>
+
+        <div class="feedback-block positive">
+          <div class="feedback-label" data-i18n="fb1label">Reviewer — What Worked</div>
+          <p data-i18n="fb1body"><strong>"Kode yang kamu tulis sudah rapi, ringkas, dan terstruktur"</strong> (Your code is clean, concise, and well-structured). The UI prototype had a good look and feel. Documentation in the notebook was confirmed complete. The video walkthrough covered the ML solution, dashboard, and conclusion — all required points.</p>
+        </div>
+
+        <div class="feedback-block">
+          <div class="feedback-label" data-i18n="fb2label">Reviewer — Visualization Issue</div>
+          <p data-i18n="fb2body">One specific issue flagged: <strong>using different colors to differentiate categories already labeled on the x-axis.</strong> When category labels are visible in axis text, color encoding the same dimension is redundant — it adds visual noise, not information. Color should only be applied when it carries data not already encoded elsewhere.</p>
+        </div>
+
+        <div class="feedback-block">
+          <div class="feedback-label" data-i18n="fb3label">Reviewer — Suggestions for Next Iteration</div>
+          <p data-i18n="fb3body">The prediction app would be stronger with: a <strong>mass upload option</strong> (CSV/Excel for batch predictions, not just one student at a time), a <strong>student identifier column</strong> so counselors can refer back to specific records, and a <strong>user manual tab</strong>. The reviewer also suggested exploring <strong>bias checks</strong> — does the model predict dropout differently based on socioeconomic status?</p>
+        </div>
+
+        <!-- Part 3: Future Development -->
+        <h3 data-i18n="fdTitle" style="margin-top:56px;">Future Development</h3>
+        <p data-i18n="fdDesc">Based on reviewer feedback, here's what the next iteration of this tool will include:</p>
+
+        <div class="lesson-grid">
+          <div class="lesson-cell">
+            <div class="lesson-cell-label" data-i18n="fd1label">Mass Upload (Batch Prediction)</div>
+            <p data-i18n="fd1body">Replace the one-student-at-a-time form with a <strong>CSV/Excel upload interface</strong> for batch predictions. A counselor managing 300 students can't manually enter each one — batch upload is what makes the tool usable at institutional scale.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label" data-i18n="fd2label">Student Identifier Column</div>
+            <p data-i18n="fd2body">Add a <strong>Student ID field</strong> to the prediction output so counselors can map results back to their enrollment system. Without an identifier, the prediction data is hard to act on in practice.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label" data-i18n="fd3label">User Manual Tab</div>
+            <p data-i18n="fd3body">Add a dedicated <strong>how-to-use tab</strong> in the Streamlit app explaining the input fields, how to interpret the risk score, and what actions to take for high-risk students. Makes the tool accessible to non-technical counselors.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label" data-i18n="fd4label">Bias & Fairness Check</div>
+            <p data-i18n="fd4body">Run a fairness analysis: <strong>does the model predict dropout differently based on socioeconomic status, age, or gender?</strong> A model that achieves 92% accuracy overall can still be systematically wrong for specific subgroups — this check is non-optional for any ML system applied to human outcomes.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <div class="wrap">
+        <div class="section-num" data-i18n="ctaNum">Try it · See the code</div>
+        <h2 data-i18n="ctaH2">Dropout prediction app + full source <em>on GitHub.</em></h2>
+        <p data-i18n="ctaP">Try the Streamlit counselor interface or explore the XGBoost pipeline, Looker Studio dashboard, and full source on GitHub.</p>
+        <div class="cta-buttons">
+          <a href="https://idcamp2025-menyelesaikan-permasalahan-perusahaan-edutech-lh9vp.streamlit.app/" class="btn" target="_blank" rel="noopener">Live demo →</a>
+          <a href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-perusahaan-edutech" class="btn ghost" target="_blank" rel="noopener">View source →</a>
+          <a href="/#projects" class="btn ghost">← Back to all projects</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Ninditya Salma Nur Aini · AI Engineer &amp; Data Scientist</span>
+      <span><a href="/">Portfolio</a> · <a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a> · <a href="https://linkedin.com/in/ninditya-salma-nur-aini" target="_blank" rel="noopener">LinkedIn</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        navBack: '← Back to portfolio',
+        navProjects: 'Projects',
+        navContact: 'Contact',
+        kickerText: 'IDCamp Expert · Education Analytics · ML Classification',
+        heroTitle: 'Student Dropout<br><em>Prediction</em>',
+        heroLede: 'Jaya Jaya Institut had a <strong>32% dropout rate</strong> — 1 in 3 students never finishing their degree. I built a machine learning system using XGBoost to identify at-risk students early, achieving <strong>92.42% accuracy and AUC 97.27%</strong>, with a Looker Studio dashboard and Streamlit app for actionable intervention.',
+        metaLevel: '<strong>Level</strong> IDCamp Expert',
+        s1Num: '01 — Problem',
+        s1H2: '1 in 3 students drops out. <em>The institution has no early warning.</em>',
+        s1Lede: 'Jaya Jaya Institut has operated since 2000 with over 1,000 enrolled students. By 2015, 32.12% of their students — 1,421 out of 4,424 — had dropped out before graduating. No system existed to flag at-risk students early enough for intervention.',
+        s2Num: '02 — Modeling Approach',
+        s2H2: 'Pipeline design: from <em>imbalanced data</em> to production-ready model',
+        s2Lede: 'Three technical challenges had to be solved before any model could be evaluated: class imbalance, feature encoding, and model selection.',
+        s3Num: '03 — Model Results',
+        s3H2: '92.42% accuracy, AUC 97.27% — <em>what do these numbers mean</em> operationally?',
+        s4Num: '04 — Key Risk Insights',
+        s4H2: 'What the data reveals about <em>who drops out and why</em>',
+        s5Num: '05 — Deliverables',
+        s5H2: 'From model to <em>two production interfaces</em>',
+        s6Num: '06 — Dashboard Preview',
+        s6H2: '4-page Looker Studio dashboard — <em>from overview to intervention</em>',
+        s6Lede: 'Interactive Looker Studio dashboard for academic leadership and counselors, covering institutional dropout patterns, academic and financial risk factors, and prioritized intervention targets.',
+        ctaNum: 'Try it · See the code',
+        ctaH2: 'Dropout prediction app + full source <em>on GitHub.</em>',
+        ctaP: 'Try the Streamlit counselor interface or explore the XGBoost pipeline, Looker Studio dashboard, and full source on GitHub.',
+        lcNum: 'Learning Context',
+        lcTitle: 'Expert level, final submission. <em>Passed — with honest notes.</em>',
+        lcDesc: 'This project was the <strong>final submission</strong> for <strong>Belajar Penerapan Data Science</strong>, the IDCamp 2025 Expert level. It came after the Employee Attrition project (first submission), where I had already absorbed lessons about reproducibility, specific recommendations, and the cost of missed details. This was the second chance to apply all of that.',
+        lcPathActive: '→ Expert Submission 2 (this project)',
+        lcFeedbackTitle: 'Reviewer feedback — passed, with honest notes.',
+        lcFeedbackDesc: 'Two areas of feedback: what worked well and what could be improved:',
+        fb1label: 'Reviewer — What Worked',
+        fb1body: '<strong>"Kode yang kamu tulis sudah rapi, ringkas, dan terstruktur"</strong> (Your code is clean, concise, and well-structured). The UI prototype had a good look and feel. Documentation in the notebook was confirmed complete. The video walkthrough covered the ML solution, dashboard, and conclusion — all required points.',
+        fb2label: 'Reviewer — Visualization Issue',
+        fb2body: 'One specific issue flagged: <strong>using different colors to differentiate categories already labeled on the x-axis.</strong> When category labels are visible in axis text, color encoding the same dimension is redundant — it adds visual noise, not information. Color should only be applied when it carries data not already encoded elsewhere.',
+        fb3label: 'Reviewer — Suggestions for Next Iteration',
+        fb3body: 'The prediction app would be stronger with: a <strong>mass upload option</strong> (CSV/Excel for batch predictions, not just one student at a time), a <strong>student identifier column</strong> so counselors can refer back to specific records, and a <strong>user manual tab</strong>. The reviewer also suggested exploring <strong>bias checks</strong> — does the model predict dropout differently based on socioeconomic status?',
+        fdTitle: 'Future Development',
+        fdDesc: 'Based on reviewer feedback, here\'s what the next iteration of this tool will include:',
+        fd1label: 'Mass Upload (Batch Prediction)',
+        fd1body: 'Replace the one-student-at-a-time form with a <strong>CSV/Excel upload interface</strong> for batch predictions. A counselor managing 300 students can\'t manually enter each one — batch upload is what makes the tool usable at institutional scale.',
+        fd2label: 'Student Identifier Column',
+        fd2body: 'Add a <strong>Student ID field</strong> to the prediction output so counselors can map results back to their enrollment system. Without an identifier, the prediction data is hard to act on in practice.',
+        fd3label: 'User Manual Tab',
+        fd3body: 'Add a dedicated <strong>how-to-use tab</strong> in the Streamlit app explaining the input fields, how to interpret the risk score, and what actions to take for high-risk students. Makes the tool accessible to non-technical counselors.',
+        fd4label: 'Bias & Fairness Check',
+        fd4body: 'Run a fairness analysis: <strong>does the model predict dropout differently based on socioeconomic status, age, or gender?</strong> A model that achieves 92% accuracy overall can still be systematically wrong for specific subgroups — this check is non-optional for any ML system applied to human outcomes.'
+      },
+      id: {
+        navBack: '← Kembali ke portfolio',
+        navProjects: 'Proyek',
+        navContact: 'Kontak',
+        kickerText: 'IDCamp Expert · Analitik Pendidikan · Klasifikasi ML',
+        heroTitle: 'Prediksi Dropout<br><em>Mahasiswa</em>',
+        heroLede: 'Jaya Jaya Institut memiliki <strong>tingkat dropout 32%</strong> — 1 dari 3 mahasiswa tidak pernah menyelesaikan gelarnya. Saya membangun sistem machine learning menggunakan XGBoost untuk mengidentifikasi mahasiswa berisiko lebih awal, mencapai <strong>akurasi 92,42% dan AUC 97,27%</strong>, dengan dashboard Looker Studio dan aplikasi Streamlit untuk intervensi yang dapat ditindaklanjuti.',
+        metaLevel: '<strong>Level</strong> IDCamp Expert',
+        s1Num: '01 — Problem',
+        s1H2: '1 dari 3 mahasiswa dropout. <em>Institusi tidak memiliki early warning.</em>',
+        s1Lede: 'Jaya Jaya Institut telah beroperasi sejak 2000 dengan lebih dari 1.000 mahasiswa terdaftar. Pada 2015, 32,12% mahasiswanya — 1.421 dari 4.424 — dropout sebelum lulus. Tidak ada sistem untuk mendeteksi mahasiswa berisiko sedini mungkin.',
+        s2Num: '02 — Pendekatan Pemodelan',
+        s2H2: 'Desain pipeline: dari <em>data tidak seimbang</em> ke model siap produksi',
+        s2Lede: 'Tiga tantangan teknis harus diselesaikan sebelum model bisa dievaluasi: class imbalance, feature encoding, dan pemilihan model.',
+        s3Num: '03 — Hasil Model',
+        s3H2: 'Akurasi 92,42%, AUC 97,27% — <em>apa arti angka-angka ini</em> secara operasional?',
+        s4Num: '04 — Wawasan Risiko Utama',
+        s4H2: 'Apa yang data ungkap tentang <em>siapa yang dropout dan mengapa</em>',
+        s5Num: '05 — Deliverables',
+        s5H2: 'Dari model ke <em>dua antarmuka produksi</em>',
+        s6Num: '06 — Preview Dashboard',
+        s6H2: 'Dashboard Looker Studio 4 halaman — <em>dari overview hingga intervensi</em>',
+        s6Lede: 'Dashboard Looker Studio interaktif untuk pimpinan akademik dan konselor, mencakup pola dropout institusional, faktor risiko akademik dan finansial, serta target intervensi yang diprioritaskan.',
+        ctaNum: 'Coba · Lihat kodenya',
+        ctaH2: 'App prediksi dropout + source lengkap <em>di GitHub.</em>',
+        ctaP: 'Coba antarmuka konselor Streamlit atau jelajahi pipeline XGBoost, dashboard Looker Studio, dan source lengkap di GitHub.',
+        lcNum: 'Konteks Pembelajaran',
+        lcTitle: 'Level Expert, submission final. <em>Lulus — dengan catatan jujur.</em>',
+        lcDesc: 'Proyek ini adalah <strong>submission final</strong> untuk <strong>Belajar Penerapan Data Science</strong>, level Expert IDCamp 2025. Datang setelah proyek Employee Attrition (submission pertama), di mana saya sudah menyerap pelajaran tentang reproduksibilitas, rekomendasi spesifik, dan biaya detail yang terlewat. Ini adalah kesempatan kedua untuk menerapkan semuanya.',
+        lcPathActive: '→ Expert Submission 2 (proyek ini)',
+        lcFeedbackTitle: 'Feedback reviewer — lulus, dengan catatan jujur.',
+        lcFeedbackDesc: 'Dua area feedback: apa yang berhasil dan apa yang bisa diperbaiki:',
+        fb1label: 'Reviewer — Yang Berhasil',
+        fb1body: '<strong>"Kode yang kamu tulis sudah rapi, ringkas, dan terstruktur"</strong>. Prototipe UI memiliki tampilan dan nuansa yang baik. Dokumentasi di notebook dikonfirmasi lengkap. Walkthrough video mencakup solusi ML, dashboard, dan kesimpulan — semua poin yang diperlukan.',
+        fb2label: 'Reviewer — Masalah Visualisasi',
+        fb2body: 'Satu masalah spesifik ditandai: <strong>menggunakan warna berbeda untuk membedakan kategori yang sudah dilabeli di sumbu x.</strong> Ketika label kategori sudah terlihat di teks sumbu, pengkodean warna untuk dimensi yang sama bersifat redundan — menambah kebisingan visual, bukan informasi. Warna hanya boleh digunakan ketika membawa data yang tidak sudah dikodekan di tempat lain.',
+        fb3label: 'Reviewer — Saran untuk Iterasi Berikutnya',
+        fb3body: 'Aplikasi prediksi akan lebih kuat dengan: <strong>opsi mass upload</strong> (CSV/Excel untuk prediksi batch, bukan satu mahasiswa pada satu waktu), <strong>kolom pengenal mahasiswa</strong> agar konselor dapat merujuk kembali ke catatan tertentu, dan <strong>tab panduan pengguna</strong>. Reviewer juga menyarankan mengeksplorasi <strong>pemeriksaan bias</strong> — apakah model memprediksi dropout secara berbeda berdasarkan status sosial ekonomi?',
+        fdTitle: 'Pengembangan ke Depan',
+        fdDesc: 'Berdasarkan feedback reviewer, berikut yang akan disertakan dalam iterasi berikutnya dari alat ini:',
+        fd1label: 'Mass Upload (Prediksi Batch)',
+        fd1body: 'Ganti formulir satu-mahasiswa-pada-satu-waktu dengan <strong>antarmuka upload CSV/Excel</strong> untuk prediksi batch. Konselor yang mengelola 300 mahasiswa tidak dapat memasukkan setiap mahasiswa secara manual — upload batch adalah yang membuat alat ini dapat digunakan di skala institusi.',
+        fd2label: 'Kolom Pengenal Mahasiswa',
+        fd2body: 'Tambahkan <strong>kolom ID Mahasiswa</strong> pada output prediksi agar konselor dapat memetakan hasil kembali ke sistem pendaftaran mereka. Tanpa pengenal, data prediksi sulit ditindaklanjuti dalam praktik.',
+        fd3label: 'Tab Panduan Pengguna',
+        fd3body: 'Tambahkan <strong>tab cara penggunaan</strong> khusus di aplikasi Streamlit yang menjelaskan bidang input, cara menginterpretasikan skor risiko, dan tindakan apa yang perlu diambil untuk mahasiswa berisiko tinggi. Membuat alat ini dapat diakses oleh konselor non-teknis.',
+        fd4label: 'Pemeriksaan Bias & Keadilan',
+        fd4body: 'Jalankan analisis keadilan: <strong>apakah model memprediksi dropout secara berbeda berdasarkan status sosial ekonomi, usia, atau jenis kelamin?</strong> Model yang mencapai akurasi 92% secara keseluruhan masih dapat salah secara sistematis untuk subkelompok tertentu — pemeriksaan ini wajib untuk sistem ML apa pun yang diterapkan pada hasil manusia.'
+      }
+    };
+
+    function applyLanguage(lang) {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[lang] && translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.langTarget === lang);
+      });
+      document.documentElement.lang = lang;
+      localStorage.setItem('lang', lang);
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyLanguage(btn.dataset.langTarget));
+    });
+
+    const savedLang = localStorage.getItem('lang') || 'en';
+    applyLanguage(savedLang);
+  </script>
+</body>
+</html>
