@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudioAI — Generative Image Pipeline · Ninditya Salma Nur Aini</title>
+  <meta name="description"
+    content="How I built a Stable Diffusion pipeline from first principles — hyperparameter experiments, inpainting with CLIPSeg auto-masking, outpainting zoom-out, and a Streamlit web app.">
+  <link rel="canonical" href="https://ninditya.github.io/generative-ai-pipeline/">
+  <meta property="og:title" content="StudioAI — Generative Image Pipeline · Ninditya Salma Nur Aini">
+  <meta property="og:description" content="How I built a Stable Diffusion pipeline from first principles — hyperparameter experiments, inpainting with CLIPSeg auto-masking, outpainting zoom-out, and a Streamlit web app.">
+  <meta property="og:url" content="https://ninditya.github.io/generative-ai-pipeline/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f3ee; --bg-alt: #eceae4; --bg-dark: #1a1814;
+      --ink: #1a1814; --ink-soft: #5a574f; --muted: #8c887f;
+      --line: #dddad3; --line-strong: #8c887f;
+      --primary: #1a5276; --accent: #c4490c; --accent-soft: #eaf2fb;
+      --green: #2d6a4f; --red: #c4490c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+    /* ── Nav ── */
+    nav { position: sticky; top: 0; background: rgba(250,250,247,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
+    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+    .skip-link { position: absolute; top: -40px; left: 0; background: var(--ink); color: #fff; padding: 8px 16px; z-index: 1000; transition: top 0.2s; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-decoration: none; }
+    .skip-link:focus { top: 0; }
+    *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .mobile-nav-toggle { display: none; background: transparent; border: none; color: var(--ink); font-size: 1.5rem; cursor: pointer; padding: 0 5px; line-height: 1; }
+    .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .nav-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-pill { font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 100px; transition: all 0.2s ease; }
+    .nav-pill:hover { background: var(--bg-alt); color: var(--ink); }
+    .nav-pill.back { color: var(--primary); border: 1px solid var(--line); }
+    .nav-pill.back:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+    .lang-btn { border: none; background: transparent; color: var(--muted); padding: 6px 10px; border-radius: 999px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
+    .lang-btn.active { background: var(--ink); color: var(--bg); }
+
+    /* ── Layout ── */
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+    section.content { padding: 80px 0; border-bottom: 1px solid var(--line); }
+    section.content.alt { background: var(--bg-alt); }
+    section.content:last-of-type { border-bottom: none; }
+    .section-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
+
+    /* ── Typography ── */
+    .hero { padding: 80px 0 60px; border-bottom: 1px solid var(--line); }
+    .hero-kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
+    .kicker-tag { background: var(--ink); color: var(--accent); padding: 5px 12px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+    .kicker-text { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
+    h1.title { font-family: 'Instrument Serif', serif; font-size: clamp(44px,6.5vw,80px); line-height: 1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 32px; font-weight: 400; }
+    h1.title em { font-style: italic; color: var(--primary); }
+    .hero-lede { font-family: 'Instrument Serif', serif; font-size: clamp(20px,2.2vw,26px); line-height: 1.45; max-width: 760px; color: var(--ink-soft); font-weight: 400; }
+    .hero-lede strong { background: linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%); font-weight: 500; color: var(--ink); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 44px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
+    .hero-meta span strong { color: var(--ink); font-weight: 500; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+    h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px,4.5vw,48px); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 36px; max-width: 800px; color: var(--ink); }
+    h2 em { font-style: italic; color: var(--primary); }
+    h3 { font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; margin: 36px 0 14px; letter-spacing: -0.01em; color: var(--ink); }
+    h3 em { font-style: italic; color: var(--primary); }
+    .lede { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 760px; margin-bottom: 22px; font-weight: 400; }
+    p { margin-bottom: 16px; max-width: 760px; color: var(--ink-soft); font-size: 16px; }
+    p code, li code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink); }
+
+    /* ── Stats strip ── */
+    .stats-strip { background: var(--bg-dark); color: var(--bg); padding: 60px 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+    .stat { text-align: left; padding: 0 28px; border-left: 1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left: none; padding-left: 0; }
+    .stat .num { font-family: 'Instrument Serif', serif; font-size: clamp(40px,5.5vw,60px); font-weight: 400; line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
+    .stat .num small { font-size: 0.5em; color: var(--bg); opacity: 0.7; font-family: 'Instrument Serif', serif; }
+    .stat .label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px; opacity: 0.75; line-height: 1.4; }
+
+    /* ── Code blocks ── */
+    pre.code { background: var(--bg-dark); color: #d8d3c4; padding: 24px 28px; font-family: 'DM Mono', monospace; font-size: 13px; line-height: 1.75; overflow-x: auto; margin: 32px 0; border-radius: 6px; border-left: 3px solid var(--accent); max-width: 900px; }
+    pre.code .c { color: #7a8696; font-style: italic; }
+    pre.code .s { color: #e8946a; }
+    pre.code .k { color: #d96b78; }
+    pre.code .fn { color: #82b3d8; }
+    pre.code .cls { color: #c8a96e; }
+    pre.code .num { color: #b5cea8; }
+
+    /* ── Tags / pills ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0; }
+    .tag { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 5px 11px; border: 1px solid var(--line-strong); background: white; border-radius: 3px; color: var(--ink-soft); }
+
+    /* ── Checklists ── */
+    ul.checklist { list-style: none; padding: 0; margin: 24px 0; max-width: 800px; }
+    ul.checklist li { padding: 14px 0 14px 36px; position: relative; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+    ul.checklist li:last-child { border-bottom: none; }
+    ul.checklist li::before { content: '✓'; position: absolute; left: 0; top: 14px; color: var(--green); font-weight: 700; font-size: 16px; }
+    ul.checklist li strong { font-weight: 600; color: var(--ink); }
+
+    /* ── Pullquote ── */
+    .pullquote { border-left: 3px solid var(--accent); padding: 16px 0 16px 28px; margin: 32px 0; font-family: 'Instrument Serif', serif; font-size: 24px; font-style: italic; line-height: 1.45; max-width: 760px; color: var(--ink); }
+
+    /* ── Two-col ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin: 40px 0; }
+    .two-col h3 { margin-top: 0; }
+
+    /* ── Pipeline diagram ── */
+    .pipe-vis { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 2rem 0 2.5rem; max-width: 760px; }
+    .pipe-step { display: flex; align-items: center; gap: 0.85rem; padding: 0.7rem 1.1rem; border-bottom: 1px solid var(--line); background: var(--bg); }
+    .pipe-step:last-child { border-bottom: none; }
+    .pipe-step.pipe-io { background: var(--bg-alt); }
+    .pipe-num { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.06em; color: var(--muted); min-width: 24px; }
+    .pipe-content { flex: 1; }
+    .pipe-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 0.1rem; }
+    .pipe-sub { font-family: 'DM Mono', monospace; font-size: 0.67rem; color: var(--muted); }
+    .pipe-badge { font-family: 'DM Mono', monospace; font-size: 0.62rem; padding: 0.18rem 0.45rem; border-radius: 4px; background: rgba(26,82,118,0.08); color: var(--primary); white-space: nowrap; align-self: flex-start; margin-top: 2px; }
+    .pipe-badge.green { background: rgba(45,106,79,0.08); color: var(--green); }
+    .pipe-badge.orange { background: rgba(196,73,12,0.08); color: var(--accent); }
+
+    /* ── Experiment grid ── */
+    .experiment-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 32px 0; max-width: 900px; }
+    .exp-card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--bg); }
+    .exp-header { background: var(--bg-dark); color: var(--bg); padding: 10px 14px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; display: flex; align-items: center; gap: 8px; }
+    .exp-icon { width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; font-weight: 700; color: white; }
+    .exp-icon.blue { background: rgba(26,82,118,0.7); }
+    .exp-icon.orange { background: rgba(196,73,12,0.7); }
+    .exp-icon.green { background: rgba(45,106,79,0.7); }
+    .exp-body { padding: 14px; }
+    .exp-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .exp-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 10px; }
+    .exp-result { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--primary); padding: 3px 0; border-top: 1px solid var(--line); line-height: 1.5; }
+
+    /* ── Compare table ── */
+    table.compare { width: 100%; max-width: 760px; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
+    table.compare th, table.compare td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    table.compare th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--bg-alt); font-weight: 500; }
+    table.compare td code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink); }
+    table.compare tr.highlight td { background: var(--accent-soft); }
+    table.compare td.good { color: var(--green); font-weight: 500; }
+    table.compare td.bad { color: var(--red); font-weight: 500; }
+
+    /* ── Module grid ── */
+    .module-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 32px 0; max-width: 900px; }
+    .module-card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--bg); }
+    .module-header { background: var(--bg-dark); color: var(--bg); padding: 10px 14px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; display: flex; align-items: center; gap: 8px; }
+    .module-icon { width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+    .module-icon.blue { background: rgba(26,82,118,0.7); }
+    .module-icon.green { background: rgba(45,106,79,0.7); }
+    .module-icon.orange { background: rgba(196,73,12,0.7); }
+    .module-icon.purple { background: rgba(90,60,150,0.7); }
+    .module-body { padding: 14px; }
+    .module-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .module-role { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 10px; }
+    .module-methods { list-style: none; padding: 0; margin: 0; }
+    .module-methods li { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--primary); padding: 3px 0; border-top: 1px solid var(--line); line-height: 1.4; }
+    .module-methods li:first-child { border-top: none; }
+
+    /* ── Decision block ── */
+    .decision-block { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 28px 0; max-width: 760px; }
+    .decision-header { background: var(--bg-dark); color: var(--bg); padding: 12px 20px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+    .decision-num { background: var(--accent); color: var(--ink); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .decision-body { padding: 24px 20px; background: var(--bg); }
+    .decision-body h3 { margin-top: 0; font-size: 22px; }
+
+    /* ── CTA ── */
+    .cta-section { background: var(--bg-dark); color: var(--bg); padding: 80px 0; }
+    .cta-section h2 { color: var(--bg); }
+    .cta-section h2 em { color: var(--accent); }
+    .cta-section p { color: rgba(255,255,255,0.7); }
+    .cta-section .section-num { color: var(--accent); }
+    .cta-buttons { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+    .btn { display: inline-block; padding: 14px 26px; background: var(--accent); color: var(--ink); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid var(--accent); border-radius: 4px; transition: all 0.2s ease; }
+    .btn:hover { background: transparent; color: var(--accent); }
+    .btn.ghost { background: transparent; color: var(--bg); border-color: rgba(255,255,255,0.4); }
+    .btn.ghost:hover { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+
+    /* ── Footer ── */
+    footer { background: var(--bg-dark); color: var(--bg); padding: 28px 0; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em; opacity: 0.7; border-top: 1px solid rgba(255,255,255,0.1); }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── Image blocks ── */
+    .img-block { margin: 32px 0; max-width: 900px; }
+    .img-block img { width: 100%; border-radius: 8px; border: 1px solid var(--line); display: block; }
+    .img-caption { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 10px; letter-spacing: 0.04em; line-height: 1.5; }
+    .img-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; max-width: 900px; }
+    .img-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 32px 0; max-width: 900px; }
+    .img-item img { width: 100%; border-radius: 8px; border: 1px solid var(--line); display: block; }
+    .img-item .img-caption { margin-top: 8px; }
+
+    /* ── App frame mockup ── */
+    .app-frame { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 32px 0; max-width: 900px; background: #0f1116; }
+    .app-titlebar { background: #1e2029; padding: 10px 14px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .app-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .app-dot.r { background: #ff5f57; } .app-dot.y { background: #febc2e; } .app-dot.g { background: #28c840; }
+    .app-name { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.3); margin-left: 8px; }
+    .app-body { display: grid; grid-template-columns: 200px 1fr; }
+    .app-side { background: #1a1c24; padding: 14px 12px; border-right: 1px solid rgba(255,255,255,0.06); }
+    .app-side-hd { font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .app-ctrl { margin-bottom: 11px; }
+    .app-ctrl-name { font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.55); margin-bottom: 4px; }
+    .app-track { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; position: relative; }
+    .app-fill { height: 100%; background: #ff4b4b; border-radius: 2px; }
+    .app-thumb { position: absolute; top: -4px; width: 10px; height: 10px; background: white; border-radius: 50%; transform: translateX(-50%); }
+    .app-select-mock { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.6); padding: 3px 7px; display: inline-block; }
+    .app-sep { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 10px 0; }
+    .app-flush-btn { display: block; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.4); text-align: center; padding: 5px 8px; margin-top: 4px; }
+    .app-content { padding: 14px; }
+    .app-tabrow { display: flex; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 12px; }
+    .app-tab-item { font-family: 'DM Mono', monospace; font-size: 10px; padding: 7px 12px; color: rgba(255,255,255,0.3); }
+    .app-tab-item.on { color: #ff4b4b; border-bottom: 2px solid #ff4b4b; }
+    .app-twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .app-pane-hd { font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 7px; }
+    .app-textarea-mock { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 6px 8px; height: 44px; font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+    .app-primary-btn { display: block; background: #ff4b4b; border-radius: 4px; padding: 6px 8px; font-family: 'DM Mono', monospace; font-size: 9px; color: white; text-align: center; margin-top: 7px; font-weight: 600; }
+    .app-img-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 2px; }
+    .app-img-box { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); border-radius: 6px; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.15); text-align: center; line-height: 1.5; gap: 4px; }
+    .app-canvas-mock { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.2); text-align: center; line-height: 1.6; }
+    .app-radio-group { display: flex; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
+    .app-radio { font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.12); border-radius: 3px; padding: 3px 7px; }
+    .app-radio.on { color: #ff4b4b; border-color: rgba(255,75,75,0.4); background: rgba(255,75,75,0.08); }
+    .app-sec-btn { display: block; background: transparent; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; padding: 5px 8px; font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.5); text-align: center; margin-top: 7px; }
+    @media (max-width: 680px) {
+      .app-body { grid-template-columns: 1fr; }
+      .app-side { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .app-twocol { grid-template-columns: 1fr; }
+      .app-img-grid2 { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── Feature item list ── */
+    .feature-list { list-style: none; padding: 0; margin: 20px 0; max-width: 760px; }
+    .feature-list li { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.55; color: var(--ink-soft); align-items: flex-start; }
+    .feature-list li:last-child { border-bottom: none; }
+    .feature-tag { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--primary); background: rgba(26,82,118,0.08); border: 1px solid rgba(26,82,118,0.2); border-radius: 3px; padding: 2px 7px; white-space: nowrap; flex-shrink: 0; align-self: flex-start; margin-top: 2px; }
+    .feature-list li strong { font-weight: 600; color: var(--ink); }
+
+    /* ── Reveal animation ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .module-grid { grid-template-columns: 1fr 1fr; }
+      .experiment-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 800px) {
+      .two-col { grid-template-columns: 1fr; gap: 28px; }
+    }
+    @media (max-width: 720px) {
+      .img-grid-2, .img-grid-3 { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 32px; }
+      .stat { border-left: none !important; padding: 0; }
+      .module-grid { grid-template-columns: 1fr; }
+      .experiment-grid { grid-template-columns: 1fr; }
+      .nav-tools { width: 100%; justify-content: space-between; }
+      .mobile-nav-toggle { display: block; }
+      .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(245,243,238,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 2rem; gap: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+      nav.nav-open .nav-pills { display: flex; }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#origin" class="skip-link">Skip to main content</a>
+
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <a href="../" class="logo">Ninditya Salma Nur Aini</a>
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a class="nav-pill back" href="../#projects" data-i18n="navBack">← All projects</a>
+          <a class="nav-pill" href="../#about" data-i18n="navAbout">About</a>
+          <a class="nav-pill" href="../#contact" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-kicker">
+        <span class="kicker-tag" data-i18n="kickerTag">Case Study</span>
+        <span class="kicker-text" data-i18n="heroKicker">Stable Diffusion · Diffusers · CLIPSeg · Streamlit · PyTorch</span>
+      </div>
+      <h1 class="title" data-i18n="heroTitle">StudioAI — <em>generate, refine,</em> paint beyond the frame.</h1>
+      <p class="hero-lede" data-i18n="heroLede">
+        A Stable Diffusion pipeline built from first principles for the Bangkit Generative AI Challenge.
+        The real question I was trying to answer: <strong>how much does each hyperparameter actually matter</strong> — and how do you build an editing workflow on top of generation?
+      </p>
+      <div class="hero-meta">
+        <span data-i18n="heroMeta1"><strong>Origin</strong> Bangkit · BFGAI Challenge · Class assignment · Solo project</span>
+        <span data-i18n="heroMeta2"><strong>Stack</strong> Stable Diffusion v1.5 · Diffusers · CLIPSeg · Streamlit · PyTorch</span>
+        <span data-i18n="heroMeta3"><strong>Features</strong> Text-to-image · Inpainting · Outpainting · Web app</span>
+        <span data-i18n="heroMeta4"><strong>Deliverable</strong> Research notebook + Streamlit app + demo video</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats ── -->
+  <section class="stats-strip" aria-label="Key numbers">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="num">4</div>
+          <div class="label" data-i18n="stat1">Scheduler variants<br>compared head-to-head</div>
+        </div>
+        <div class="stat">
+          <div class="num">3</div>
+          <div class="label" data-i18n="stat2">Masking approaches<br>manual · auto · segmentation</div>
+        </div>
+        <div class="stat">
+          <div class="num">2</div>
+          <div class="label" data-i18n="stat3">App tabs<br>Generate + Edit</div>
+        </div>
+        <div class="stat">
+          <div class="num">3<small>GB+</small></div>
+          <div class="label" data-i18n="stat4">Model weights<br>managed in GPU memory</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 00 Origin ── -->
+  <section class="content" id="origin">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec00Num">00 · Origin</div>
+      <h2 data-i18n="sec00Title">I wanted to understand <em>what actually moves the output.</em></h2>
+      <p class="lede" data-i18n="sec00Lede">
+        Every generative AI tutorial shows a prompt going in and an image coming out. Nobody shows you what happens when you change the guidance scale from 2 to 15 — or why 50 inference steps costs more than 5 but doesn't always look 10× better.
+      </p>
+      <p data-i18n="sec00P1">
+        The Bangkit Generative AI Challenge gave me a structured reason to go deeper. The assignment wasn't just "generate images" — it required demonstrating mastery of the three technical pillars: text-to-image generation with hyperparameter control, image refinement through multi-stage pipelines, and a deployed interactive application. That structure forced me to understand each layer before moving to the next.
+      </p>
+      <p data-i18n="sec00P2">
+        I chose to build everything on Stable Diffusion v1.5 using the HuggingFace Diffusers library — not the easiest starting point, but the one that gives you the most visibility into what's actually happening inside the model. Three goals drove the project:
+      </p>
+      <ul class="checklist">
+        <li data-i18n="check00a"><strong>Build intuition through experiments</strong> — run systematic comparisons on guidance scale, inference steps, and schedulers so the outputs aren't magic, they're predictable.</li>
+        <li data-i18n="check00b"><strong>Implement real editing workflows</strong> — inpainting and outpainting are standard use cases; understanding them requires working with masks, latent space manipulation, and multi-step pipelines.</li>
+        <li data-i18n="check00c"><strong>Ship something usable</strong> — a Streamlit app with an interactive canvas that lets a real user generate and edit images without writing a line of code.</li>
+      </ul>
+      <div class="pullquote reveal" data-i18n="pq00">
+        "The hardest part wasn't generating the image. It was learning which knob to turn when the image was wrong."
+      </div>
+
+      <div class="img-block reveal">
+        <img src="simple%20image.png" alt="Basic text-to-image output — astronaut on moon, flat 2D illustration">
+        <p class="img-caption">First output — text-to-image with default parameters (seed=222, CFG=7.5, 30 steps, DPM++). Prompt: "astronaut with full white spacesuit, standing on a flat moon plain, with earth in the background, minimal detail, 2D digital illustration."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 01 Hyperparameter experiments ── -->
+  <section class="content alt" id="experiments">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec01Num">01 · Experiments</div>
+      <h2 data-i18n="sec01Title">Three knobs, <em>systematic comparison.</em></h2>
+      <p class="lede" data-i18n="sec01Lede">
+        Before building anything interactive, I ran controlled experiments on the three variables that most affect output quality and style. Each experiment held everything else constant and changed one parameter at a time.
+      </p>
+
+      <div class="experiment-grid reveal">
+        <div class="exp-card">
+          <div class="exp-header"><div class="exp-icon blue">G</div>Guidance Scale (CFG)</div>
+          <div class="exp-body">
+            <div class="exp-name">How strictly does the model follow the prompt?</div>
+            <div class="exp-desc">Tested at 2.0, 7.5, and 15.0. Low CFG gives the model freedom to be creative but loosely follows the prompt. High CFG adheres strictly but can over-saturate and lose coherence.</div>
+            <div class="exp-result">Optimal: 7.5 — best balance of prompt fidelity and visual quality</div>
+          </div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-header"><div class="exp-icon orange">S</div>Inference Steps</div>
+          <div class="exp-body">
+            <div class="exp-name">Quality vs. speed tradeoff</div>
+            <div class="exp-desc">Tested at 5, 15, 30, and 50 steps. At 5 steps the image is incoherent — the denoising process hasn't converged. At 30+ the quality plateaus and the gain from 30 to 50 is barely visible.</div>
+            <div class="exp-result">Optimal: 30 steps — diminishing returns after this point</div>
+          </div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-header"><div class="exp-icon green">C</div>Sampler / Scheduler</div>
+          <div class="exp-body">
+            <div class="exp-name">Which sampling algorithm fits the style?</div>
+            <div class="exp-desc">Compared Euler A, DPM++, and DDIM on the same prompt. Euler A trends photorealistic; DPM++ excels at flat illustration; DDIM lands in between.</div>
+            <div class="exp-result">Optimal: DPM++ for the flat 2D illustration target style</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="img-grid-2 reveal">
+        <div class="img-item">
+          <img src="guidenace%20Scale.png" alt="Perbandingan guidance scale: CFG 2.0 vs 7.5 vs 15.0">
+          <p class="img-caption">Guidance Scale — CFG 2.0 (left, loose/creative) · CFG 7.5 (center, optimal) · CFG 15.0 (right, over-constrained)</p>
+        </div>
+        <div class="img-item">
+          <img src="Inference%20Steps%20Comparison.png" alt="Perbandingan inference steps: 5, 15, 30, 50 steps">
+          <p class="img-caption">Inference Steps — 5 steps (incoherent) · 15 · 30 (optimal) · 50 steps (diminishing returns)</p>
+        </div>
+      </div>
+
+      <h3 data-i18n="exp1H">What the experiments actually taught me.</h3>
+      <p data-i18n="exp1P1">Running these comparisons made the model's behavior legible in a way that reading documentation doesn't. The key insight from the guidance scale test: <strong>the model doesn't "understand" the prompt more precisely at higher CFG — it just weights the text conditioning more heavily relative to the image prior.</strong> That's why high CFG images feel over-processed — the model is pulling hard in one direction and losing the nuance that comes from balancing multiple signals.</p>
+      <p data-i18n="exp1P2">The inference steps test clarified that diffusion models aren't iteratively improving — they're denoising. At 5 steps, the noise hasn't been adequately removed and the image looks like a dream. At 50, the denoising is complete but not more "correct" than at 30. The practical takeaway: spending 66% more compute to go from 30 to 50 steps is rarely worth it for non-critical generation.</p>
+
+      <table class="compare reveal" aria-label="Scheduler comparison">
+        <thead>
+          <tr>
+            <th data-i18n="tbl01Sched">Scheduler</th>
+            <th data-i18n="tbl01Style">Characteristic style</th>
+            <th data-i18n="tbl01Best">Best for</th>
+            <th data-i18n="tbl01Speed">Relative speed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Euler A</td>
+            <td data-i18n="tbl01r1">Photorealistic, organic textures</td>
+            <td data-i18n="tbl01r1b">Portraits, landscapes</td>
+            <td class="good" data-i18n="tbl01r1c">Fast</td>
+          </tr>
+          <tr class="highlight">
+            <td>DPM++</td>
+            <td data-i18n="tbl01r2">Flat, illustrative, clean edges</td>
+            <td data-i18n="tbl01r2b">2D illustration, icons</td>
+            <td class="good" data-i18n="tbl01r2c">Fast</td>
+          </tr>
+          <tr>
+            <td>DDIM</td>
+            <td data-i18n="tbl01r3">Balanced, deterministic</td>
+            <td data-i18n="tbl01r3b">Reproducible editing workflows</td>
+            <td class="bad" data-i18n="tbl01r3c">Slower</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="img-block reveal">
+        <img src="load%20scheduler.png" alt="Perbandingan output antar scheduler: Euler A, DPM++, DDIM">
+        <p class="img-caption">Scheduler comparison — same prompt, same seed. Left: Euler A (photorealistic) · Center: DPM++ (flat illustration, chosen) · Right: DDIM (balanced)</p>
+      </div>
+
+      <div class="tags">
+        <span class="tag">CFG Scale</span>
+        <span class="tag">Inference Steps</span>
+        <span class="tag">Euler A</span>
+        <span class="tag">DPM++</span>
+        <span class="tag">DDIM</span>
+        <span class="tag">Seed Control</span>
+        <span class="tag">Batch Inference</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02 Refinement pipeline ── -->
+  <section class="content" id="refinement">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec02Num">02 · Refinement</div>
+      <h2 data-i18n="sec02Title">Two-stage generation — <em>base model then refiner.</em></h2>
+      <p class="lede" data-i18n="sec02Lede">
+        Single-pass generation has a ceiling. The base model does 80% of the denoising; a second img2img pass picks up the remaining 20% — and the gap in visual quality is noticeable.
+      </p>
+
+      <p data-i18n="sec02P1">
+        The base + refiner pattern treats generation as two separate problems: the base model handles large-scale structure and composition, and the refiner model handles fine-grained detail and texture. In practice this means running the base pipeline with <code>output_type="latent"</code> to pass the intermediate latent representation directly to the refiner without decoding to pixel space — which saves a full encode/decode cycle.
+      </p>
+
+      <div class="pipe-vis reveal" role="img" aria-label="Two-stage generation pipeline">
+        <div class="pipe-step pipe-io">
+          <span class="pipe-num">IN</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Text prompt + negative prompt + seed</div>
+            <div class="pipe-sub">positive: "astronaut on moon, flat 2D illustration" · negative: "blur, low quality, text"</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">01</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Base pipeline — 80% denoising</div>
+            <div class="pipe-sub">StableDiffusionPipeline · denoising_end=0.8 · output_type="latent"</div>
+          </div>
+          <span class="pipe-badge">SD v1.5</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">02</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Refiner pipeline — img2img pass</div>
+            <div class="pipe-sub">StableDiffusionImg2ImgPipeline · strength=0.2 · operates on latent from step 01</div>
+          </div>
+          <span class="pipe-badge orange">Refiner</span>
+        </div>
+        <div class="pipe-step pipe-io">
+          <span class="pipe-num">OUT</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Refined image — sharper detail, better coherence</div>
+            <div class="pipe-sub">Decoded to pixel space only once · single VAE decode at the end</div>
+          </div>
+          <span class="pipe-badge green">PNG</span>
+        </div>
+      </div>
+
+      <p data-i18n="sec02P2">
+        The <code>denoising_end=0.8</code> value is deliberate — it tells the base model to stop 20% early and leave that denoising budget for the refiner. Setting it too low (e.g. 0.5) means the base model hasn't converged on a coherent structure yet and the refiner is working from noise, not from a draft. Setting it too high (e.g. 0.95) leaves almost nothing for the refiner to improve.
+      </p>
+
+      <div class="img-grid-2 reveal">
+        <div class="img-item">
+          <img src="simple%20and%20advanced%20image.png" alt="Perbandingan output: single-pass vs two-stage base+refiner">
+          <p class="img-caption">Single-pass (left) vs base+refiner (right) — edges and texture are visibly sharper after the refinement pass.</p>
+        </div>
+        <div class="img-item">
+          <img src="Refiner%20Pattern%20Logic.png" alt="Diagram logika refiner pattern: denoising_end=0.8">
+          <p class="img-caption">Refiner pattern — base model stops at 80%, img2img refiner handles the remaining 20% of the denoising budget.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 03 Editing pipeline ── -->
+  <section class="content alt" id="editing">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec03Num">03 · Editing</div>
+      <h2 data-i18n="sec03Title">Inpainting and outpainting — <em>editing inside and beyond the frame.</em></h2>
+      <p class="lede" data-i18n="sec03Lede">
+        Generation is a starting point. The more interesting engineering is in editing: how do you replace a specific region of an image, and how do you extend it past its original boundaries?
+      </p>
+
+      <h3 data-i18n="inp1H"><em>Inpainting:</em> three masking approaches.</h3>
+      <p data-i18n="inp1P">Inpainting requires a mask — a binary map telling the model which pixels to regenerate. I implemented three approaches with increasing levels of automation:</p>
+
+      <ul class="checklist">
+        <li data-i18n="inpA"><strong>Manual masking (hardcoded)</strong> — define the mask programmatically using NumPy array slicing. Fast and precise, but requires knowing the exact pixel coordinates. Used this to add a broken satellite to the moon landscape as a proof of concept.</li>
+        <li data-i18n="inpB"><strong>Auto-masking with CLIPSeg</strong> — describe the region in natural language ("the moon surface"), and CLIPSeg generates a semantic mask by computing similarity between the text embedding and each patch of the image. No pixel coordinates needed — the model finds the region from the description. Required thresholding the CLIPSeg output to a binary mask.</li>
+        <li data-i18n="inpC"><strong>Interactive canvas masking (Streamlit)</strong> — the deployed app uses <code>streamlit-drawable-canvas</code> to let users paint the mask directly on the image in the browser. The painted region is extracted as a binary mask and passed to the inpainting pipeline.</li>
+      </ul>
+
+      <pre class="code" aria-label="CLIPSeg auto-masking pipeline"><span class="c"># CLIPSeg segmentation → binary mask for inpainting</span>
+<span class="k">from</span> transformers <span class="k">import</span> CLIPSegProcessor, CLIPSegForImageSegmentation
+
+processor = CLIPSegProcessor.from_pretrained(<span class="s">"CIDAS/clipseg-rd64-refined"</span>)
+model     = CLIPSegForImageSegmentation.from_pretrained(<span class="s">"CIDAS/clipseg-rd64-refined"</span>)
+
+inputs  = processor(text=[<span class="s">"moon surface"</span>], images=[image], return_tensors=<span class="s">"pt"</span>, padding=<span class="k">True</span>)
+outputs = model(**inputs)
+logits  = outputs.logits[<span class="num">0</span>]
+
+<span class="c"># Threshold sigmoid activations → binary mask</span>
+mask = (torch.sigmoid(logits) > <span class="num">0.5</span>).float()
+mask_pil = Image.fromarray((mask.numpy() * <span class="num">255</span>).astype(<span class="s">"uint8"</span>)).resize(image.size)</pre>
+
+      <div class="img-grid-3 reveal">
+        <div class="img-item">
+          <img src="manual%20masking.png" alt="Manual masking — hardcoded NumPy region">
+          <p class="img-caption">Manual masking — region selected via NumPy pixel coordinates</p>
+        </div>
+        <div class="img-item">
+          <img src="masking%20segmentation.png" alt="CLIPSeg segmentation mask output">
+          <p class="img-caption">CLIPSeg segmentation — probability heatmap before thresholding to binary mask</p>
+        </div>
+        <div class="img-item">
+          <img src="auto%20mask.png" alt="Auto mask hasil CLIPSeg — binary mask siap dipakai inpainting">
+          <p class="img-caption">Auto mask — after sigmoid > 0.5 threshold and morphological dilation</p>
+        </div>
+      </div>
+
+      <div class="img-block reveal">
+        <img src="inpanting.png" alt="Hasil inpainting — satelit rusak ditambahkan ke landscape bulan">
+        <p class="img-caption">Inpainting result — a broken satellite inserted into the masked region of the moon landscape using a new prompt.</p>
+      </div>
+
+      <h3 data-i18n="out1H"><em>Outpainting:</em> extending the canvas.</h3>
+      <p data-i18n="out1P1">Outpainting expands the image in any direction — left, right, up, or down. The approach: pad the original image with a blurred version of itself (to provide contextual hints for the model at the boundary), define the padded region as the mask, and run inpainting on the expanded canvas.</p>
+      <p data-i18n="out1P2">The zoom-out mode chains this operation across 3+ iterations, each time expanding by 128px in all four directions and using a zoom-out prompt (<em>"same scene from farther away, consistent style"</em>) to guide the new content. The challenge with chaining is that each iteration compounds any inconsistencies in lighting, perspective, and style — so the prompt needs to be anchor-specific and the strength parameter tuned low enough to preserve the existing content while extending believably.</p>
+
+      <div class="pipe-vis reveal" role="img" aria-label="Outpainting zoom-out pipeline">
+        <div class="pipe-step pipe-io">
+          <span class="pipe-num">IN</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Original 512×512 image</div>
+            <div class="pipe-sub">Starting frame — astronaut on moon</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">01</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Pad canvas by 128px on each side</div>
+            <div class="pipe-sub">New size: 768×768 · blurred edge of original used as background fill</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">02</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Build border mask</div>
+            <div class="pipe-sub">128px ring around original content = region to regenerate</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">03</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Inpainting on expanded canvas</div>
+            <div class="pipe-sub">StableDiffusionInpaintPipeline · prompt guides new content at border</div>
+          </div>
+          <span class="pipe-badge">SD Inpaint</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">04</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Repeat × 3 iterations</div>
+            <div class="pipe-sub">Each pass expands by another 128px · cumulative zoom-out effect</div>
+          </div>
+        </div>
+        <div class="pipe-step pipe-io">
+          <span class="pipe-num">OUT</span>
+          <div class="pipe-content">
+            <div class="pipe-name">1024×1024+ zoomed-out scene</div>
+            <div class="pipe-sub">Original image visible at center · new context generated around it</div>
+          </div>
+          <span class="pipe-badge green">PNG</span>
+        </div>
+      </div>
+      <div class="img-grid-2 reveal">
+        <div class="img-item">
+          <img src="outpainting.png" alt="Outpainting — satu arah, canvas diperluas ke kanan">
+          <p class="img-caption">Outpainting single-pass — canvas expanded 128px, new content generated seamlessly at the edge.</p>
+        </div>
+        <div class="img-item">
+          <img src="outpainting%20Zoom%20Out.png" alt="Outpainting zoom-out — 3 iterasi, scene makin meluas">
+          <p class="img-caption">Zoom-out outpainting — 3+ chained passes, original scene visible at center, new context generated around it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 04 App architecture ── -->
+  <section class="content" id="architecture">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec04Num">04 · Architecture</div>
+      <h2 data-i18n="sec04Title">Two files, <em>one responsibility each.</em></h2>
+      <p class="lede" data-i18n="sec04Lede">
+        The Streamlit app separates generation logic from UI rendering into two files. This wasn't over-engineering — it was the only way to keep the notebook-to-app translation manageable.
+      </p>
+
+      <div class="module-grid reveal">
+        <div class="module-card">
+          <div class="module-header"><div class="module-icon orange">L</div>logic.py</div>
+          <div class="module-body">
+            <div class="module-name">Logic layer</div>
+            <div class="module-role">All model loading, caching, and generation functions. No Streamlit imports — pure Python functions that take inputs and return images.</div>
+            <ul class="module-methods">
+              <li>load_pipeline(scheduler) → pipe</li>
+              <li>generate(prompt, neg, steps, cfg, seed, n)</li>
+              <li>inpaint(image, mask, prompt, strength)</li>
+              <li>outpaint(image, direction, prompt)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="module-card">
+          <div class="module-header"><div class="module-icon blue">A</div>app.py</div>
+          <div class="module-body">
+            <div class="module-name">UI layer</div>
+            <div class="module-role">Streamlit components, tab layout, drawable canvas, session state. Calls logic.py functions — no model code lives here.</div>
+            <ul class="module-methods">
+              <li>Tab 1: Generate (prompt → grid)</li>
+              <li>Tab 2: Edit (canvas → inpaint / outpaint)</li>
+              <li>Session state: current_image, history</li>
+              <li>"Flush RAM" GPU cache clear</li>
+            </ul>
+          </div>
+        </div>
+        <div class="module-card">
+          <div class="module-header"><div class="module-icon green">D</div>Deployment</div>
+          <div class="module-body">
+            <div class="module-name">Ngrok tunnel</div>
+            <div class="module-role">Streamlit runs on localhost inside Colab. Ngrok creates a public HTTPS URL without requiring a cloud deployment or paid hosting.</div>
+            <ul class="module-methods">
+              <li>pyngrok creates tunnel on port 8501</li>
+              <li>Public URL shared for demo access</li>
+              <li>Session lifetime tied to Colab runtime</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h3 data-i18n="arch1H">Model caching — <em>why it matters.</em></h3>
+      <p data-i18n="arch1P">Stable Diffusion v1.5 weighs over 3.44 GB. Loading it takes 15–30 seconds on a Colab T4 GPU. Without caching, every generation request would reload the full model from disk — making the app unusable. The solution: <code>@st.cache_resource</code> on the pipeline loader, keyed by scheduler name. The model loads once per session and once per scheduler change. When the user switches from DPM++ to Euler A, only the sampler is swapped — the U-Net weights stay in GPU memory.</p>
+
+      <pre class="code" aria-label="Model caching with st.cache_resource"><span class="c"># logic.py — cache model by scheduler to avoid full reload</span>
+@st.cache_resource
+<span class="k">def</span> <span class="fn">load_pipeline</span>(scheduler_name: str):
+    pipe = StableDiffusionPipeline.from_pretrained(
+        <span class="s">"runwayml/stable-diffusion-v1-5"</span>,
+        torch_dtype=torch.float16,
+        safety_checker=<span class="k">None</span>
+    ).to(<span class="s">"cuda"</span>)
+
+    schedulers = {
+        <span class="s">"Euler A"</span>: EulerAncestralDiscreteScheduler,
+        <span class="s">"DPM++"</span>:  DPMSolverMultistepScheduler,
+        <span class="s">"DDIM"</span>:   DDIMScheduler,
+    }
+    pipe.scheduler = schedulers[scheduler_name].from_config(pipe.scheduler.config)
+    <span class="k">return</span> pipe</pre>
+    </div>
+  </section>
+
+  <!-- ── App Walkthrough ── -->
+  <section class="content alt" id="app-walkthrough">
+    <div class="wrap">
+      <div class="section-num" data-i18n="secAppNum">05 · App Walkthrough</div>
+      <h2 data-i18n="secAppTitle">StudioAI — <em>the interface.</em></h2>
+      <p class="lede" data-i18n="secAppLede">
+        Every feature from the research notebook maps to a UI control. Nothing is hardcoded — all parameters are adjustable directly from the browser.
+      </p>
+
+      <div class="img-block reveal">
+        <img src="streamlit.png" alt="StudioAI running in Streamlit — Generate tab with sidebar controls and visual output">
+        <p class="img-caption">StudioAI in Streamlit — Generate tab active. Left: parameter sidebar (Quality Steps, CFG, Seed Control, Scheduler, Batch Size). Right: prompt input and generated visual output.</p>
+      </div>
+
+      <!-- Tab 1 feature list -->
+      <h3 data-i18n="appTab1H">Tab 1 — <em>GENERATE.</em></h3>
+      <p data-i18n="appTab1P">Input and output are split into two columns so they're visible at the same time — the user can write a new prompt while seeing the previous output. All generation parameters live in the sidebar so the main area stays focused on the creative work.</p>
+      <ul class="feature-list">
+        <li>
+          <span class="feature-tag">Prompt</span>
+          <span><strong>Positive + negative prompt</strong> — two separate text areas. Negative prompt suppresses common artifacts like blur, bad anatomy, and low quality that frequently appear with SD v1.5.</span>
+        </li>
+        <li>
+          <span class="feature-tag">Sidebar</span>
+          <span><strong>Quality Steps (15–50)</strong> — determines how many denoising passes the model runs. Default 30, which is optimal for most cases without wasting compute.</span>
+        </li>
+        <li>
+          <span class="feature-tag">Sidebar</span>
+          <span><strong>Creativity / CFG (1.0–20.0)</strong> — controls how closely the model follows the prompt. Default 7.5. Below 5 is too loose; above 12 tends to over-saturate.</span>
+        </li>
+        <li>
+          <span class="feature-tag">Sidebar</span>
+          <span><strong>Seed Control</strong> — fixed seed for reproducibility. Same seed + same parameters = identical output. Essential for debugging and incremental editing.</span>
+        </li>
+        <li>
+          <span class="feature-tag">Advanced</span>
+          <span><strong>Scheduler selector</strong> — dropdown for Euler A / DPM++ / DDIM. Switching it calls <code>set_scheduler()</code> in <code>logic.py</code>, swapping the sampler without reloading U-Net weights from disk.</span>
+        </li>
+        <li>
+          <span class="feature-tag">Advanced</span>
+          <span><strong>Batch Size (1–4)</strong> — generate up to 4 images from a single prompt. Output is displayed in a 2-column grid, each with a Select button to send to Tab EDIT.</span>
+        </li>
+        <li>
+          <span class="feature-tag">Session</span>
+          <span><strong>st.session_state</strong> — the selected image is stored as <code>current_image</code>, which Tab EDIT reads for inpainting and outpainting operations. Without this, state is lost when tabs switch.</span>
+        </li>
+      </ul>
+
+      <!-- Tab 2 screenshot -->
+      <div class="img-block reveal">
+        <img src="edit_streamlit.png" alt="StudioAI Tab EDIT — Draw Mask canvas with inpainting controls and strength slider">
+        <p class="img-caption">StudioAI — EDIT tab. Left: draw mask canvas over the generated image. Right: new prompt input, strength slider (0.40), and Execute Inpainting button. Mode toggle: Inpainting (Edit Object) / Outpainting (Zoom Out).</p>
+      </div>
+
+      <!-- Tab 2 feature list -->
+      <h3 data-i18n="appTab2H">Tab 2 — <em>EDIT.</em></h3>
+      <p data-i18n="appTab2P">streamlit-drawable-canvas adds a live paintable canvas over the selected image. The drawn region becomes a binary mask that goes directly into the inpainting pipeline. No coordinates, no code — just paint what you want to change.</p>
+      <ul class="feature-list">
+        <li>
+          <span class="feature-tag">Canvas</span>
+          <span><strong>Drawable canvas</strong> — user paints the region to edit. The brushstroke is extracted as a binary mask (white = regenerate, black = keep) and fed directly into <code>run_inpainting()</code>.</span>
+        </li>
+        <li>
+          <span class="feature-tag">Inpaint</span>
+          <span><strong>Inpainting mode</strong> — fill in a new prompt, click Apply. <code>StableDiffusionInpaintPipeline</code> regenerates only the masked region according to the new prompt; everything else is preserved.</span>
+        </li>
+        <li>
+          <span class="feature-tag">Outpaint</span>
+          <span><strong>Outpainting mode</strong> — choose expansion direction (left/right/up/down). <code>prepare_outpainting()</code> builds a new canvas with a blurred border, then the inpainting pipeline fills the edge seamlessly.</span>
+        </li>
+        <li>
+          <span class="feature-tag">UX</span>
+          <span><strong>Strength parameter (0.0–1.0)</strong> — controls how much the model changes the masked region. Low values (0.3–0.5) preserve the original structure; high values (0.8+) give the model full interpretive freedom.</span>
+        </li>
+        <li>
+          <span class="feature-tag">UX</span>
+          <span><strong>Reset Canvas</strong> — clears the brushstroke from the canvas without removing the image from session state. Enables fast iteration: edit one area → reset → edit another area on the same image.</span>
+        </li>
+      </ul>
+
+      <!-- Deployment -->
+      <h3 data-i18n="appDeployH">Deployment — <em>Ngrok tunnel from Google Colab.</em></h3>
+      <p data-i18n="appDeployP">Streamlit runs on <code>localhost:8501</code> inside the Colab runtime. Ngrok creates an HTTPS tunnel to that port and generates a public URL accessible from any device — no paid cloud deployment, no server configuration needed. The URL stays alive as long as the Colab session runs.</p>
+
+      <pre class="code" aria-label="Ngrok deployment snippet"><span class="c"># Jalankan Streamlit di background</span>
+subprocess.Popen([<span class="s">"streamlit"</span>, <span class="s">"run"</span>, <span class="s">"app.py"</span>])
+
+<span class="c"># Buat tunnel ke port 8501</span>
+ngrok.set_auth_token(<span class="s">"YOUR_TOKEN"</span>)
+public_url = ngrok.connect(<span class="num">8501</span>).public_url
+<span class="fn">print</span>(public_url)  <span class="c"># → https://xxxx.ngrok.io</span></pre>
+
+      <div class="tags">
+        <span class="tag">Streamlit</span>
+        <span class="tag">drawable-canvas</span>
+        <span class="tag">session_state</span>
+        <span class="tag">cache_resource</span>
+        <span class="tag">Ngrok</span>
+        <span class="tag">Google Colab</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 05 Challenges ── -->
+  <section class="content alt" id="challenges">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec05Num">06 · Challenges</div>
+      <h2 data-i18n="sec05Title">Three problems I <em>didn't see coming.</em></h2>
+
+      <div class="decision-block reveal">
+        <div class="decision-header"><div class="decision-num">1</div><span data-i18n="ch1Header">GPU memory exhaustion — mid-session crashes</span></div>
+        <div class="decision-body">
+          <h3 data-i18n="ch1H"><em>The model lives in memory</em> but the session doesn't.</h3>
+          <p data-i18n="ch1P1">Generating a batch of 4 images followed by inpainting on a Colab T4 GPU (16 GB VRAM) would occasionally hit an out-of-memory error mid-session. The pipeline weights alone consume ~6 GB; generation peaks at ~10 GB with activations. Accumulated tensor references from earlier operations filled the remainder.</p>
+          <p data-i18n="ch1P2">The fix was explicit cache management: a "Flush RAM" button that calls <code>torch.cuda.empty_cache()</code> and <code>gc.collect()</code> between operations, plus converting intermediate tensors from <code>float32</code> to <code>float16</code> at load time. This halved the VRAM footprint of the base model and made multi-step workflows reliable.</p>
+        </div>
+      </div>
+
+      <div class="decision-block reveal">
+        <div class="decision-header"><div class="decision-num">2</div><span data-i18n="ch2Header">CLIPSeg mask quality — too soft for inpainting</span></div>
+        <div class="decision-body">
+          <h3 data-i18n="ch2H"><em>Semantic segmentation</em> outputs probabilities, not boundaries.</h3>
+          <p data-i18n="ch2P1">CLIPSeg's output is a heatmap of soft probabilities, not a clean binary mask. Running inpainting directly on a soft mask produces blurry results at the boundary — the model is confused about which pixels it's supposed to regenerate. The output also varies significantly with the text description used: "the astronaut" gives a different mask shape than "person in white suit."</p>
+          <p data-i18n="ch2P2">The solution was to apply a threshold (sigmoid > 0.5 → 1.0, else 0.0) and then run a morphological dilation pass to expand the mask slightly beyond the segment boundary. This gives the inpainting model clear, hard boundaries to work from and enough overlap at the edge to blend convincingly.</p>
+        </div>
+      </div>
+
+      <div class="decision-block reveal">
+        <div class="decision-header"><div class="decision-num">3</div><span data-i18n="ch3Header">Outpainting consistency — style drift across iterations</span></div>
+        <div class="decision-body">
+          <h3 data-i18n="ch3H"><em>Chaining generation</em> compounds inconsistencies.</h3>
+          <p data-i18n="ch3P1">The zoom-out outpainting looks good for the first expansion but starts to drift by the third iteration — the style becomes less consistent with the original as each generation step introduces small variations in lighting and line weight. The new content is semantically correct (still "moon surface") but visually slightly off from what was there before.</p>
+          <p data-i18n="ch3P2">Two things helped: keeping the <code>strength</code> parameter low (0.5–0.6) so the model preserves more of the existing content at the border, and including highly specific style anchors in the prompt ("flat 2D illustration, clean vector lines, same color palette"). The issue isn't fully solved — long chains still drift — but it's a known limitation of iterative inpainting and not something fixable without a dedicated outpainting fine-tuned model.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 06 What I learned ── -->
+  <section class="content" id="reflection">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec06Num">07 · Reflection</div>
+      <h2 data-i18n="sec06Title">What building this <em>actually taught me.</em></h2>
+      <p class="lede" data-i18n="sec06Lede">
+        The project was an assignment. The learning was not.
+      </p>
+
+      <ul class="checklist">
+        <li data-i18n="ref1"><strong>Diffusion models are not black boxes.</strong> Once I understood denoising as progressively removing noise from a latent representation — and that guidance scale, steps, and schedulers all shape that noise removal process — the model's behavior became predictable instead of mysterious. Good experiments are the fastest path from "magic" to "mechanism."</li>
+        <li data-i18n="ref2"><strong>Segmentation and generation are different problems.</strong> I went in thinking CLIPSeg would "just work" as an automatic masking tool. Instead I learned that segmentation is probabilistic and context-sensitive, and that the handoff between a segmentation model and a generation model requires explicit engineering (thresholding, dilation, mask format conversion) — not just plumbing.</li>
+        <li data-i18n="ref3"><strong>Memory management is a first-class concern in production.</strong> A research notebook can ignore GPU memory limits because each cell runs once. An interactive app runs arbitrary sequences of operations and has to manage memory deliberately. The "Flush RAM" button wasn't a nice-to-have — it was the difference between an app that works and one that crashes in the demo.</li>
+        <li data-i18n="ref4"><strong>Architecture pays dividends immediately.</strong> Separating logic.py from app.py felt like unnecessary overhead at the start. By the time I was debugging the outpainting chain, it meant I could test the generation functions directly in a notebook without going through Streamlit — which cut debugging time significantly.</li>
+        <li data-i18n="ref5"><strong>The submission format shapes what you build.</strong> Knowing the assignment required a video demo pushed me to prioritize the most visually compelling features — outpainting zoom-out, CLIPSeg auto-masking — over additional hyperparameter variants that would only show up in static images. Constraints are design inputs.</li>
+      </ul>
+
+      <div class="pullquote reveal" data-i18n="pq06">
+        "I didn't just learn how to generate images. I learned the operational discipline that makes generative models work reliably — not just impressively."
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ctaNum">Next</div>
+      <h2 data-i18n="ctaTitle">See more of <em>what I've built.</em></h2>
+      <p data-i18n="ctaP">This project was a Bangkit challenge submission — solo, class-assigned, and built from scratch. If you want to see the full research notebook, the Streamlit app code, or the video demo, I'm happy to walk through any of it.</p>
+      <div class="cta-buttons">
+        <a class="btn ghost" href="../#projects" data-i18n="ctaBtn1">← All case studies</a>
+        <a class="btn ghost" href="../rag-chatbot-service/" data-i18n="ctaBtn2">RAG Chatbot Service →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span data-i18n="footerLeft">© 2025 Ninditya Salma Nur Aini</span>
+      <span><a href="../" data-i18n="footerHome">ninditya.github.io</a></span>
+    </div>
+  </footer>
+
+  <script>
+    /* ── Reveal on scroll ── */
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+    /* ── i18n ── */
+    const translations = {
+      en: {
+        navBack: '← All projects', navAbout: 'About', navContact: 'Contact',
+        kickerTag: 'Case Study',
+        heroKicker: 'Stable Diffusion · Diffusers · CLIPSeg · Streamlit · PyTorch',
+        heroTitle: 'StudioAI — generate, refine, paint beyond the frame.',
+        heroLede: 'Most generative AI tutorials hand you a magic box: prompt goes in, image comes out. This project was about opening the box. I built a Stable Diffusion pipeline from scratch — not to ship fast, but to understand why the model produces what it produces when you turn each dial.',
+        heroMeta1: 'Origin: Bangkit · BFGAI Challenge · Class assignment · Solo project',
+        heroMeta2: 'Stack: Stable Diffusion v1.5 · Diffusers · CLIPSeg · Streamlit · PyTorch',
+        heroMeta3: 'Features: Text-to-image · Inpainting · Outpainting · Web app',
+        heroMeta4: 'Deliverable: Research notebook + Streamlit app + demo video',
+        stat1: 'Scheduler variants\ncompared head-to-head', stat2: 'Masking approaches\nmanual · auto · segmentation',
+        stat3: 'App tabs\nGenerate + Edit', stat4: 'Model weights\nmanaged in GPU memory',
+        sec00Num: '00 · Origin',
+        sec00Title: 'I was tired of using AI tools I didn\'t understand.',
+        sec00Lede: 'Every tutorial shows you what Stable Diffusion can do. None of them show you what breaks — or what makes a better output — when you change guidance scale from 7.5 to 15, or swap Euler A for DPM++.',
+        sec00P1: 'The Bangkit Generative AI Challenge gave me a deadline and a structure. The assignment required three things: text-to-image generation with hyperparameter control, multi-stage image refinement, and a deployed interactive app. That scope was exactly what I needed — it forced me to prove understanding at each layer before moving to the next.',
+        sec00P2: 'I chose Stable Diffusion v1.5 via HuggingFace Diffusers specifically because it exposes the internals. You control the scheduler. You see the latent representation mid-pipeline. You decide when to stop denoising. That visibility is exactly what you lose when you call a hosted API — and gaining it was the whole point.',
+        check00a: 'Build real intuition, not demo skills — run controlled experiments so I understand what\'s happening in the model, not just what looks right in the output.',
+        check00b: 'Implement editing that actually works — inpainting and outpainting require masking, latent manipulation, and iteration. Getting them reliable, not just running, was the real challenge.',
+        check00c: 'Ship something a non-engineer can use — a Streamlit app with a drawable canvas where the only tools needed are a prompt and a paintbrush.',
+        pq00: 'The hardest part wasn\'t getting it to generate. It was knowing what to change when the output was wrong.',
+        sec01Num: '01 · Experiments',
+        sec01Title: 'Three knobs, systematic comparison.',
+        sec01Lede: 'Before touching the app, I ran three controlled comparisons — one variable at a time, everything else fixed. The goal wasn\'t to find optimal settings. It was to build a mental model of how each parameter actually shapes the output.',
+        exp1H: 'What I actually learned — not what the docs say.',
+        exp1P1: 'The guidance scale experiment was the most clarifying. At CFG=2.0, the astronaut barely looks like an astronaut. At CFG=15.0, the image is technically precise but over-saturated and slightly uncanny. The key insight: high CFG doesn\'t make the model understand your prompt better — it just weights the text conditioning more aggressively against the image prior. You\'re not getting sharper comprehension. You\'re getting more pressure applied in one direction.',
+        exp1P2: 'The inference steps test settled an assumption I\'d held since first reading about diffusion models: more steps = better image. That\'s true up to a point. At 5 steps, the noise removal hasn\'t converged and the output looks like a fever dream. At 30, the image is clean and coherent. At 50, it\'s essentially the same image — with a 66% compute penalty. Quality plateaus long before cost does.',
+        sec02Num: '02 · Refinement',
+        sec02Title: 'Two-stage generation — base model then refiner.',
+        sec02Lede: 'Single-pass generation has a ceiling. Same prompt, same seed — after adding the refinement pass, the edges were sharper and the illustration style more consistent. The base model builds structure; the refiner sharpens it.',
+        sec02P1: 'The key implementation decision is passing the base pipeline\'s output as a latent tensor — skipping the VAE decode-encode round trip that would otherwise happen between the two stages. That saves roughly 1–2 seconds per image on Colab T4 and avoids compressing the intermediate representation through an extra quality-loss step.',
+        sec02P2: 'The 80/20 split (denoising_end=0.8) matters more than it sounds. I tested 0.5 and 0.95 as alternatives. At 0.5, the base hasn\'t committed to a composition yet — the refiner is trying to sharpen a sketch that isn\'t finished. At 0.95, there\'s barely anything left to touch. 0.8 is the point where structure exists but detail doesn\'t — which is exactly what a refinement pass is for.',
+        sec03Num: '03 · Editing',
+        sec03Title: 'Inpainting and outpainting — editing inside and beyond the frame.',
+        sec03Lede: 'Generating an image from text is one skill. Editing a generated image precisely — changing one region without touching the rest — is a completely different engineering problem. This is where the project got genuinely difficult.',
+        inp1H: 'Inpainting: three masking approaches.',
+        inp1P: 'Inpainting needs a mask: a binary image where white means "regenerate this" and black means "leave this alone." Getting that mask from different sources — a hardcoded NumPy array, a language model, a browser paintbrush — turned out to be three completely different problems with three different failure modes.',
+        inpA: 'Manual masking (hardcoded) — define the mask with NumPy array slicing. Fast and precise, but requires knowing exact pixel coordinates. Used this to add a broken satellite to the moon scene as a proof of concept.',
+        inpB: 'Auto-masking with CLIPSeg — describe the region in plain language ("the moon surface") and CLIPSeg computes a semantic mask from text-image similarity. No coordinates needed. Required thresholding the soft heatmap output to a usable binary mask — which turned into its own engineering problem.',
+        inpC: 'Interactive canvas masking (Streamlit) — streamlit-drawable-canvas adds a live HTML canvas to the UI. The user paints the region directly in the browser; the brushstroke is extracted as a binary mask and passed to the inpainting pipeline.',
+        out1H: 'Outpainting: extending the canvas.',
+        out1P1: 'Outpainting starts with a question: how do you give the model context for what should exist outside the frame? My approach: expand the canvas by 128px, fill the new border with a blurred version of the original (to give the model color and style cues), mark the border as the mask, and inpaint it. The result extends the scene without needing to re-describe it from scratch.',
+        out1P2: 'The zoom-out chains this across 3+ passes. Each iteration expands by 128px on all sides. In theory, style stays consistent because the model always sees the existing content. In practice, by pass three, the line weight drifts and the palette shifts slightly. Keeping strength low (0.5) and over-specifying the style in every prompt helps. It doesn\'t eliminate the drift — and I want to be clear that I haven\'t fully solved it.',
+        sec04Num: '04 · Architecture',
+        sec04Title: 'Two files, one responsibility each.',
+        sec04Lede: 'The Streamlit app separates generation logic from UI rendering into two files. This wasn\'t over-engineering — it was the only way to keep the notebook-to-app translation manageable.',
+        arch1H: 'Model caching — why it matters.',
+        arch1P: 'Stable Diffusion v1.5 weighs over 3.44 GB. Loading it takes 15–30 seconds on a Colab T4 GPU. Without caching, every generation request would reload the full model from disk — making the app unusable. The solution: @st.cache_resource on the pipeline loader, keyed by scheduler name. The model loads once per session and once per scheduler change. When the user switches from DPM++ to Euler A, only the sampler is swapped — the U-Net weights stay in GPU memory.',
+        secAppNum: '05 · App Walkthrough',
+        secAppTitle: 'StudioAI — the interface.',
+        secAppLede: 'Every feature from the research notebook maps to a UI control. Nothing is hardcoded — all parameters are adjustable directly from the browser.',
+        appTab1H: 'Tab 1 — GENERATE.',
+        appTab1P: 'Input and output are split into two columns so they\'re visible at the same time — the user can write a new prompt while seeing the previous output. All generation parameters live in the sidebar so the main area stays focused on the creative work.',
+        appTab2H: 'Tab 2 — EDIT.',
+        appTab2P: 'streamlit-drawable-canvas adds a live paintable canvas over the selected image. The drawn region becomes a binary mask that goes directly into the inpainting pipeline. No coordinates, no code — just paint what you want to change.',
+        appDeployH: 'Deployment — Ngrok tunnel from Google Colab.',
+        appDeployP: 'Streamlit runs on localhost:8501 inside the Colab runtime. Ngrok creates an HTTPS tunnel to that port and generates a public URL accessible from any device — no paid cloud deployment, no server configuration needed. The URL stays alive as long as the Colab session runs.',
+        sec05Num: '06 · Challenges',
+        sec05Title: 'Three things that broke — and what I did about them.',
+        ch1Header: 'GPU memory exhaustion — the app crashed mid-demo',
+        ch1H: 'The app crashed mid-demo.',
+        ch1P1: 'During a batch generation followed by inpainting on a Colab T4 GPU (16 GB VRAM), I hit an out-of-memory error. The pipeline alone sits at ~6 GB. Activations during inference push the peak to ~10 GB. Leftover tensor references from earlier calls filled the rest. The session crashed cleanly, which meant starting over.',
+        ch1P2: 'The fix required two things: loading with float16 to halve the model footprint, and explicitly clearing GPU cache between operations. The "Flush RAM" button in the app isn\'t a cosmetic touch — it was the difference between an app that survives a demo and one that doesn\'t.',
+        ch2Header: 'CLIPSeg mask quality — too soft for inpainting',
+        ch2H: 'CLIPSeg gave me probabilities, not a mask.',
+        ch2P1: 'I expected CLIPSeg to hand me a clean binary mask for the "moon surface" region. What I got was a heatmap — soft probabilities across every pixel. Running inpainting on that directly produced blurry, incoherent results at the boundary. The model didn\'t know where to stop changing things.',
+        ch2P2: 'The fix: threshold at sigmoid > 0.5 to get a hard binary, then apply a dilation pass to extend the mask slightly beyond the detected segment. That gives the inpainting model a clean boundary and enough edge overlap to blend. It works for objects with clear visual contrast. For textures and background regions, the segmentation is still inconsistent.',
+        ch3Header: 'Outpainting consistency — style drift across iterations',
+        ch3H: 'The style drifts when you chain passes.',
+        ch3P1: 'Pass one looks good. Pass two is fine. By pass three, the line weight is heavier and the palette is warmer than the original. Each generation step introduces micro-variations that compound. The new content is thematically correct — still a moon surface — but visually the style has wandered.',
+        ch3P2: 'Keeping strength low (0.5) and front-loading the style in every prompt ("flat 2D illustration, clean vector lines, pale blue palette") helps. It doesn\'t eliminate the drift. This is a known limitation of chaining inpainting — you\'d need a fine-tuned outpainting model to fix it properly. I documented it in the submission as a known tradeoff, not a solved problem.',
+        sec06Num: '07 · Reflection',
+        sec06Title: 'What building this actually taught me.',
+        sec06Lede: 'This was a class assignment I turned into a real learning project. Here\'s what I\'d carry into any generative AI work after this.',
+        ref1: 'The model stopped being a black box. Running experiments — not just reading docs — is what made Stable Diffusion legible to me. Once I understood that guidance scale adjusts the balance between text conditioning and image prior, and that inference steps are denoising iterations not quality improvements, the model\'s behavior became predictable. I could look at a bad output and know exactly what dial to turn.',
+        ref2: 'Segmentation and generation are completely different problems. I assumed CLIPSeg would be a trivial utility — image and text in, mask out. Instead it produces soft probabilistic boundaries that require post-processing before they\'re usable. The interface between two AI models isn\'t automatic. It requires explicit engineering decisions at every handoff.',
+        ref3: 'Memory management is architecture, not polish. A notebook ignores GPU memory because each cell runs once. An interactive app runs arbitrary operation sequences on shared GPU memory and will crash without deliberate cleanup. The "Flush RAM" button wasn\'t a feature — it was infrastructure.',
+        ref4: 'The logic.py / app.py split paid off during debugging, not during building. When the outpainting chain produced wrong results, I could run the generation functions directly in a notebook cell — no Streamlit, no UI, no state. Separating logic from interface made testing a 10-second operation instead of a 2-minute one.',
+        ref5: 'Constraints shaped what I built. Knowing the submission required a video demo changed what I prioritized. Zoom-out outpainting is more compelling in 30 seconds of screen recording than an extra CFG comparison chart. CLIPSeg auto-masking shows better live than in a static screenshot. Constraints aren\'t obstacles — they\'re design requirements.',
+        pq06: 'I didn\'t just learn how to generate images. I learned what breaks when you run generative models interactively — and that\'s the part no tutorial covers.',
+        ctaNum: 'Next',
+        ctaTitle: 'See more of what I\'ve built.',
+        ctaP: 'Bangkit BFGAI Challenge — solo submission, built in one sprint, zero external assets. The notebook, the app code, and the demo video are all available. If you want to dig into any specific part — the CLIPSeg integration, the outpainting chain, or the session state management — I can walk through it directly.',
+        ctaBtn1: '← All case studies', ctaBtn2: 'RAG Chatbot Service →',
+        footerLeft: '© 2025 Ninditya Salma Nur Aini', footerHome: 'ninditya.github.io',
+      },
+      id: {
+        navBack: '← Semua proyek', navAbout: 'Tentang', navContact: 'Kontak',
+        kickerTag: 'Studi Kasus',
+        heroKicker: 'Stable Diffusion · Diffusers · CLIPSeg · Streamlit · PyTorch',
+        heroTitle: 'StudioAI — generate, refine, lukis melampaui bingkai.',
+        heroLede: 'Pipeline Stable Diffusion yang dibangun dari nol untuk Bangkit Generative AI Challenge. Pertanyaan utama yang ingin saya jawab: seberapa besar pengaruh setiap hyperparameter — dan bagaimana membangun workflow editing di atas generation?',
+        heroMeta1: 'Asal: Bangkit · BFGAI Challenge · Tugas kelas · Proyek individual',
+        heroMeta2: 'Stack: Stable Diffusion v1.5 · Diffusers · CLIPSeg · Streamlit · PyTorch',
+        heroMeta3: 'Fitur: Text-to-image · Inpainting · Outpainting · Web app',
+        heroMeta4: 'Hasil: Research notebook + Streamlit app + video demo',
+        stat1: 'Varian scheduler\ndibandingkan langsung', stat2: 'Pendekatan masking\nmanual · auto · segmentasi',
+        stat3: 'Tab aplikasi\nGenerate + Edit', stat4: 'Bobot model\ndikelola di memori GPU',
+        sec00Num: '00 · Latar Belakang',
+        sec00Title: 'Saya ingin memahami apa yang benar-benar menggerakkan output.',
+        sec01Num: '01 · Eksperimen', sec01Title: 'Tiga parameter, perbandingan sistematis.',
+        sec02Num: '02 · Refinement', sec02Title: 'Generasi dua tahap — base model lalu refiner.',
+        sec03Num: '03 · Editing', sec03Title: 'Inpainting dan outpainting — mengedit di dalam dan di luar bingkai.',
+        sec04Num: '04 · Arsitektur', sec04Title: 'Dua file, satu tanggung jawab masing-masing.',
+        secAppNum: '05 · Walkthrough App', secAppTitle: 'StudioAI — tampilannya.',
+        secAppLede: 'Setiap fitur di research notebook dipetakan ke satu kontrol UI. Tidak ada yang di-hardcode — semua parameter bisa diubah langsung dari browser.',
+        appTab1H: 'Tab 1 — GENERATE.',
+        appTab1P: 'Tab pertama menangani seluruh workflow text-to-image. Input dan output dipisah ke dua kolom agar visible secara bersamaan — pengguna bisa menulis prompt sambil melihat output sebelumnya.',
+        appTab2H: 'Tab 2 — EDIT.',
+        appTab2P: 'Tab kedua menggunakan streamlit-drawable-canvas — library yang menambahkan HTML canvas interaktif ke dalam Streamlit. Pengguna bisa melukis mask langsung di atas gambar yang sudah di-generate di Tab 1.',
+        appDeployH: 'Deployment — Ngrok tunnel dari Google Colab.',
+        appDeployP: 'Streamlit berjalan di localhost:8501 di dalam Colab runtime. Ngrok membuat HTTPS tunnel ke port itu dan menghasilkan public URL yang bisa dibuka dari device manapun — tanpa cloud deployment berbayar, tanpa konfigurasi server. URL aktif selama Colab runtime berjalan.',
+        sec05Num: '06 · Tantangan', sec05Title: 'Tiga masalah yang tidak saya duga.',
+        sec06Num: '07 · Refleksi', sec06Title: 'Apa yang benar-benar saya pelajari dari membangun ini.',
+        ctaNum: 'Selanjutnya', ctaTitle: 'Lihat lebih banyak yang sudah saya bangun.',
+        ctaBtn1: '← Semua studi kasus', ctaBtn2: 'RAG Chatbot Service →',
+        footerLeft: '© 2025 Ninditya Salma Nur Aini', footerHome: 'ninditya.github.io',
+      }
+    };
+
+    let activeLang = 'en';
+
+    function applyLang(lang) {
+      activeLang = lang;
+      const t = translations[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang-target') === lang);
+      });
+      localStorage.setItem('lang', lang);
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang-target')));
+    });
+
+    const savedLang = localStorage.getItem('lang');
+    if (savedLang && translations[savedLang]) applyLang(savedLang);
+  </script>
+</body>
+
+</html>
