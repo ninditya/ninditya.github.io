@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentiment Analysis: Traditional ML vs GenAI · Ninditya Salma Nur Aini</title>
+  <meta name="description"
+    content="A 2023 Binar Academy project, revisited in 2026. I found my evaluation was wrong — 92% was inflated. I also finally quantified something I'd been doing in practice but couldn't measure: how accurate and cost-effective is GenAI for Indonesian sentiment analysis?">
+  <link rel="canonical" href="https://ninditya.github.io/sentiment-analysis/">
+  <meta property="og:title" content="Sentiment Analysis: Traditional ML vs GenAI · Ninditya Salma Nur Aini">
+  <meta property="og:description" content="A 2023 Binar Academy project, revisited in 2026. I found my evaluation was wrong — 92% was inflated. I also finally quantified something I'd been doing in practice but couldn't measure: how accurate and cost-effective is GenAI for Indonesian sentiment analysis?">
+  <meta property="og:url" content="https://ninditya.github.io/sentiment-analysis/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f3ee; --bg-alt: #eceae4; --bg-dark: #1a1814;
+      --ink: #1a1814; --ink-soft: #5a574f; --muted: #8c887f;
+      --line: #dddad3; --line-strong: #8c887f;
+      --primary: #1a5276; --accent: #c4490c; --accent-soft: #eaf2fb;
+      --green: #2d6a4f; --red: #c4490c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+    /* ── Nav ── */
+    nav { position: sticky; top: 0; background: rgba(250,250,247,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
+    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+    .skip-link { position: absolute; top: -40px; left: 0; background: var(--ink); color: #fff; padding: 8px 16px; z-index: 1000; transition: top 0.2s; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-decoration: none; }
+    .skip-link:focus { top: 0; }
+    *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .mobile-nav-toggle { display: none; background: transparent; border: none; color: var(--ink); font-size: 1.5rem; cursor: pointer; padding: 0 5px; line-height: 1; }
+    .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .nav-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-pill { font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 100px; transition: all 0.2s ease; }
+    .nav-pill:hover { background: var(--bg-alt); color: var(--ink); }
+    .nav-pill.back { color: var(--primary); border: 1px solid var(--line); }
+    .nav-pill.back:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+    .lang-btn { border: none; background: transparent; color: var(--muted); padding: 6px 10px; border-radius: 999px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
+    .lang-btn.active { background: var(--ink); color: var(--bg); }
+
+    /* ── Layout ── */
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+    section.content { padding: 80px 0; border-bottom: 1px solid var(--line); }
+    section.content.alt { background: var(--bg-alt); }
+    section.content:last-of-type { border-bottom: none; }
+    .section-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
+
+    /* ── Typography ── */
+    .hero { padding: 80px 0 60px; border-bottom: 1px solid var(--line); }
+    .hero-kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
+    .kicker-tag { background: var(--ink); color: var(--accent); padding: 5px 12px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+    .kicker-text { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
+    h1.title { font-family: 'Instrument Serif', serif; font-size: clamp(44px,6.5vw,80px); line-height: 1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 32px; font-weight: 400; }
+    h1.title em { font-style: italic; color: var(--primary); }
+    .hero-lede { font-family: 'Instrument Serif', serif; font-size: clamp(20px,2.2vw,26px); line-height: 1.45; max-width: 760px; color: var(--ink-soft); font-weight: 400; }
+    .hero-lede strong { background: linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%); font-weight: 500; color: var(--ink); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 44px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
+    .hero-meta span strong { color: var(--ink); font-weight: 500; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+    h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px,4.5vw,48px); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 36px; max-width: 800px; color: var(--ink); }
+    h2 em { font-style: italic; color: var(--primary); }
+    h3 { font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; margin: 36px 0 14px; letter-spacing: -0.01em; color: var(--ink); }
+    h3 em { font-style: italic; color: var(--primary); }
+    .lede { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 760px; margin-bottom: 22px; font-weight: 400; }
+    p { margin-bottom: 16px; max-width: 760px; color: var(--ink-soft); font-size: 16px; }
+    p code, li code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink); }
+
+    /* ── Stats strip ── */
+    .stats-strip { background: var(--bg-dark); color: var(--bg); padding: 60px 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+    .stat { text-align: left; padding: 0 28px; border-left: 1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left: none; padding-left: 0; }
+    .stat .num { font-family: 'Instrument Serif', serif; font-size: clamp(40px,5.5vw,60px); font-weight: 400; line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
+    .stat .num small { font-size: 0.5em; color: var(--bg); opacity: 0.7; font-family: 'Instrument Serif', serif; }
+    .stat .label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px; opacity: 0.75; line-height: 1.4; }
+
+    /* ── Code blocks ── */
+    pre.code { background: var(--bg-dark); color: #d8d3c4; padding: 24px 28px; font-family: 'DM Mono', monospace; font-size: 13px; line-height: 1.75; overflow-x: auto; margin: 32px 0; border-radius: 6px; border-left: 3px solid var(--accent); max-width: 900px; }
+    pre.code .c { color: #7a8696; font-style: italic; }
+    pre.code .s { color: #e8946a; }
+    pre.code .k { color: #d96b78; }
+    pre.code .fn { color: #82b3d8; }
+    pre.code .cls { color: #c8a96e; }
+    pre.code .num { color: #b5cea8; }
+
+    /* ── Tags / pills ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0; }
+    .tag { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 5px 11px; border: 1px solid var(--line-strong); background: white; border-radius: 3px; color: var(--ink-soft); }
+
+    /* ── Checklists ── */
+    ul.checklist { list-style: none; padding: 0; margin: 24px 0; max-width: 800px; }
+    ul.checklist li { padding: 14px 0 14px 36px; position: relative; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+    ul.checklist li:last-child { border-bottom: none; }
+    ul.checklist li::before { content: '✓'; position: absolute; left: 0; top: 14px; color: var(--green); font-weight: 700; font-size: 16px; }
+    ul.checklist li strong { font-weight: 600; color: var(--ink); }
+
+    /* ── Bug list (X mark) ── */
+    ul.buglist { list-style: none; padding: 0; margin: 24px 0; max-width: 800px; }
+    ul.buglist li { padding: 14px 0 14px 36px; position: relative; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+    ul.buglist li:last-child { border-bottom: none; }
+    ul.buglist li::before { content: '✗'; position: absolute; left: 0; top: 14px; color: var(--red); font-weight: 700; font-size: 16px; }
+    ul.buglist li strong { font-weight: 600; color: var(--ink); }
+
+    /* ── Pullquote ── */
+    .pullquote { border-left: 3px solid var(--accent); padding: 16px 0 16px 28px; margin: 32px 0; font-family: 'Instrument Serif', serif; font-size: 24px; font-style: italic; line-height: 1.45; max-width: 760px; color: var(--ink); }
+
+    /* ── Two-col ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin: 40px 0; }
+    .two-col h3 { margin-top: 0; }
+
+    /* ── Compare table ── */
+    table.compare { width: 100%; max-width: 820px; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
+    table.compare th, table.compare td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    table.compare th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--bg-alt); font-weight: 500; }
+    table.compare td code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink); }
+    table.compare tr.highlight td { background: rgba(45,106,79,0.06); }
+    table.compare td.good { color: var(--green); font-weight: 600; }
+    table.compare td.bad { color: var(--red); font-weight: 500; }
+    table.compare td.mid { color: #7a5200; font-weight: 500; }
+
+    /* ── Model cards ── */
+    .model-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 32px 0; max-width: 900px; }
+    .model-card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--bg); }
+    .model-header { padding: 10px 14px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; display: flex; align-items: center; gap: 8px; }
+    .model-header.blue { background: rgba(26,82,118,0.1); color: var(--primary); }
+    .model-header.green { background: rgba(45,106,79,0.1); color: var(--green); }
+    .model-header.orange { background: rgba(196,73,12,0.1); color: var(--accent); }
+    .model-body { padding: 14px; }
+    .model-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .model-role { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 10px; }
+    .model-specs { list-style: none; padding: 0; margin: 0; }
+    .model-specs li { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--primary); padding: 3px 0; border-top: 1px solid var(--line); line-height: 1.4; }
+    .model-specs li:first-child { border-top: none; }
+
+    /* ── Pipeline diagram ── */
+    .pipe-vis { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 2rem 0 2.5rem; max-width: 760px; }
+    .pipe-step { display: flex; align-items: center; gap: 0.85rem; padding: 0.7rem 1.1rem; border-bottom: 1px solid var(--line); background: var(--bg); }
+    .pipe-step:last-child { border-bottom: none; }
+    .pipe-step.pipe-io { background: var(--bg-alt); }
+    .pipe-num { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.06em; color: var(--muted); min-width: 24px; }
+    .pipe-content { flex: 1; }
+    .pipe-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 0.1rem; }
+    .pipe-sub { font-family: 'DM Mono', monospace; font-size: 0.67rem; color: var(--muted); }
+    .pipe-badge { font-family: 'DM Mono', monospace; font-size: 0.62rem; padding: 0.18rem 0.45rem; border-radius: 4px; background: rgba(26,82,118,0.08); color: var(--primary); white-space: nowrap; align-self: flex-start; margin-top: 2px; }
+    .pipe-badge.green { background: rgba(45,106,79,0.08); color: var(--green); }
+    .pipe-badge.red { background: rgba(196,73,12,0.08); color: var(--red); }
+
+    /* ── Decision block ── */
+    .decision-block { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 28px 0; max-width: 760px; }
+    .decision-header { background: var(--bg-dark); color: var(--bg); padding: 12px 20px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+    .decision-num { background: var(--accent); color: var(--ink); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .decision-body { padding: 24px 20px; background: var(--bg); }
+    .decision-body h3 { margin-top: 0; font-size: 22px; }
+
+    /* ── Iteration table ── */
+    .iter-table { width: 100%; max-width: 760px; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+    .iter-table th, .iter-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    .iter-table th { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); background: var(--bg-alt); }
+    .iter-table tr.best td { background: rgba(45,106,79,0.07); font-weight: 600; color: var(--green); }
+
+    /* ── Cost comparison ── */
+    .cost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; max-width: 640px; }
+    .cost-card { border: 1px solid var(--line); border-radius: 10px; padding: 18px; background: var(--bg); }
+    .cost-card.good { border-color: rgba(45,106,79,0.35); background: rgba(45,106,79,0.04); }
+    .cost-card.bad { border-color: rgba(196,73,12,0.35); background: rgba(196,73,12,0.04); }
+    .cost-title { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; font-weight: 500; }
+    .cost-title.good { color: var(--green); }
+    .cost-title.bad { color: var(--red); }
+    .cost-num { font-family: 'Instrument Serif', serif; font-size: 36px; line-height: 1; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .cost-num.good { color: var(--green); }
+    .cost-num.bad { color: var(--red); }
+    .cost-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.6; }
+
+    /* ── Verdict display ── */
+    .verdict-strip { display: flex; gap: 16px; margin: 28px 0; flex-wrap: wrap; max-width: 760px; }
+    .verdict-item { flex: 1; min-width: 180px; border-radius: 10px; padding: 20px 16px; text-align: center; }
+    .verdict-item.green { background: rgba(45,106,79,0.08); border: 1px solid rgba(45,106,79,0.3); }
+    .verdict-item.red { background: rgba(196,73,12,0.08); border: 1px solid rgba(196,73,12,0.3); }
+    .verdict-item.mid { background: rgba(180,120,0,0.08); border: 1px solid rgba(180,120,0,0.3); }
+    .verdict-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 10px; }
+    .verdict-label.green { color: var(--green); }
+    .verdict-label.red { color: var(--red); }
+    .verdict-label.mid { color: #7a5200; }
+    .verdict-num { font-family: 'Instrument Serif', serif; font-size: 40px; font-weight: 400; line-height: 1; letter-spacing: -0.02em; margin-bottom: 6px; }
+    .verdict-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+
+    /* ── CTA ── */
+    .cta-section { background: var(--bg-dark); color: var(--bg); padding: 80px 0; }
+    .cta-section h2 { color: var(--bg); }
+    .cta-section h2 em { color: var(--accent); }
+    .cta-section p { color: rgba(255,255,255,0.7); }
+    .cta-section .section-num { color: var(--accent); }
+    .cta-buttons { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+    .btn { display: inline-block; padding: 14px 26px; background: var(--accent); color: var(--ink); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid var(--accent); border-radius: 4px; transition: all 0.2s ease; }
+    .btn:hover { background: transparent; color: var(--accent); }
+    .btn.ghost { background: transparent; color: var(--bg); border-color: rgba(255,255,255,0.4); }
+    .btn.ghost:hover { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+
+    /* ── Footer ── */
+    footer { background: var(--bg-dark); color: var(--bg); padding: 28px 0; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em; opacity: 0.7; border-top: 1px solid rgba(255,255,255,0.1); }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── Reveal animation ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .model-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 800px) {
+      .two-col { grid-template-columns: 1fr; gap: 28px; }
+      .cost-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 32px; }
+      .stat { border-left: none !important; padding: 0; }
+      .model-grid { grid-template-columns: 1fr; }
+      .nav-tools { width: 100%; justify-content: space-between; }
+      .mobile-nav-toggle { display: block; }
+      .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(245,243,238,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 2rem; gap: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+      nav.nav-open .nav-pills { display: flex; }
+      .verdict-strip { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#why" class="skip-link">Skip to main content</a>
+
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <a href="../" class="logo">Ninditya Salma Nur Aini</a>
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a class="nav-pill back" href="../#projects" data-i18n="navBack">← All projects</a>
+          <a class="nav-pill" href="../#about" data-i18n="navAbout">About</a>
+          <a class="nav-pill" href="../#contact" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-kicker">
+        <span class="kicker-tag" data-i18n="kickerTag">Case Study</span>
+        <span class="kicker-text" data-i18n="heroKicker">LSTM · Neural Network · Flask · Swagger · scikit-learn · TensorFlow</span>
+      </div>
+      <h1 class="title" data-i18n="heroTitle">A 2023 project, <em>revisited with honest eyes.</em></h1>
+      <p class="hero-lede" data-i18n="heroLede">
+        Built for Binar Academy Platinum in 2023. Revisited in 2026 because I needed to answer a real question:
+        <strong>how accurate and cost-effective is using GenAI for sentiment analysis — something I'd been doing in practice but never properly measured?</strong>
+        While I was here, I also found my 2023 evaluation was wrong.
+      </p>
+      <div class="hero-meta">
+        <span data-i18n="heroMeta1"><strong>Origin</strong> Binar Academy · Platinum Batch 2023 · Revisited 2026</span>
+        <span data-i18n="heroMeta2"><strong>Type</strong> Solo project · Class assignment</span>
+        <span data-i18n="heroMeta3"><strong>Stack</strong> TensorFlow · scikit-learn · Flask · Flasgger · SQLite</span>
+        <span data-i18n="heroMeta4"><strong>Dataset</strong> 11,000 rows · Indonesian Twitter · 3 labels</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats ── -->
+  <section class="stats-strip" aria-label="Key numbers">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="num">91<small>%</small></div>
+          <div class="label" data-i18n="stat1">LSTM accuracy<br>vs ~78% GenAI zero-shot</div>
+        </div>
+        <div class="stat">
+          <div class="num">800<small>x</small></div>
+          <div class="label" data-i18n="stat2">NN is faster than GenAI<br>0.0007 ms vs ~800 ms/sample</div>
+        </div>
+        <div class="stat">
+          <div class="num">4.5<small>x</small></div>
+          <div class="label" data-i18n="stat3">Cheaper per year<br>$0/req ML vs $82+/yr GenAI</div>
+        </div>
+        <div class="stat">
+          <div class="num">3</div>
+          <div class="label" data-i18n="stat4">Bugs in 2023 code<br>found when I came back in 2026</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 00 Context ── -->
+  <section class="content" id="why">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec00Num">00 · Context</div>
+      <h2 data-i18n="sec00Title">A 2023 learning project, <em>revisited with a real question.</em></h2>
+      <p class="lede" data-i18n="sec00Lede">
+        In 2023 this was a class assignment. I built it, submitted it, moved on. In 2026 I came back — not out of nostalgia, but because I needed data I didn't have.
+      </p>
+      <p data-i18n="sec00P1">
+        In a more recent project, I used LLM/GenAI for sentiment analysis. I engineered prompts to push the accuracy higher — adding examples, structuring instructions. It worked well enough in practice. But I never measured exactly how well: what is the actual accuracy, F1 score, latency per request, and cost at scale? Dataset processing constraints at the time made it difficult to run a proper evaluation.
+      </p>
+      <p data-i18n="sec00P2">
+        So I came back to this 2023 dataset. It is already cleaned, labeled, and split — a ready proxy for the comparison I couldn't run on the real project. The goal: get concrete numbers on three dimensions before moving to a proper domain-specific evaluation next.
+      </p>
+      <ul class="checklist">
+        <li data-i18n="check00a"><strong>Accuracy</strong> — what F1 and accuracy does each approach actually achieve on the same labeled test set?</li>
+        <li data-i18n="check00b"><strong>Latency</strong> — how does inference time compare between a local model and an API call? Both matter at production scale.</li>
+        <li data-i18n="check00c"><strong>Cost</strong> — what is the real per-request cost difference, including the token-accuracy tradeoff from prompt engineering?</li>
+      </ul>
+      <div class="pullquote reveal" data-i18n="pq00">
+        "Coming back to old work — not out of nostalgia, but because there was a new question that still didn't have an answer."
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 01 The Three Models ── -->
+  <section class="content alt" id="models">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec01Num">01 · The Three Models</div>
+      <h2 data-i18n="sec01Title">Same dataset. <em>Three approaches.</em></h2>
+      <p class="lede" data-i18n="sec01Lede">
+        All three models were evaluated on 300 identical samples from the same test set. The dataset: 11,000 rows of Indonesian Twitter text, imbalanced (positive 6,416 · negative 3,436 · neutral 1,148), preprocessed with normalization for slang and abbreviations.
+      </p>
+
+      <div class="model-grid reveal">
+        <div class="model-card">
+          <div class="model-header blue">Model 1 · Traditional ML</div>
+          <div class="model-body">
+            <div class="model-name">Neural Network (TF-IDF + MLP)</div>
+            <div class="model-role">TF-IDF features fed into MLPClassifier with GridSearchCV hyperparameter tuning. Fastest inference of all three approaches.</div>
+            <ul class="model-specs">
+              <li>TF-IDF Vectorizer → feature extraction</li>
+              <li>MLPClassifier · activation=relu · α=0.1</li>
+              <li>hidden_layer_sizes=(10,) · lr=0.01</li>
+              <li>LabelEncoder fix for sklearn 1.8 bug</li>
+              <li>Neutral class oversampled before training</li>
+            </ul>
+          </div>
+        </div>
+        <div class="model-card">
+          <div class="model-header green">Model 2 · Deep Learning</div>
+          <div class="model-body">
+            <div class="model-name">Bidirectional LSTM</div>
+            <div class="model-role">Embedding layer feeding into a Bidirectional LSTM with spatial dropout and L2 regularization. Best accuracy of all three.</div>
+            <ul class="model-specs">
+              <li>Embedding(100k vocab, 128 dim)</li>
+              <li>SpatialDropout1D(0.4)</li>
+              <li>Bidirectional(LSTM(64, dropout=0.4))</li>
+              <li>L2(0.001) on LSTM + Dense layers</li>
+              <li>EarlyStopping(patience=5, restore_best_weights=True)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="model-card">
+          <div class="model-header orange">Model 3 · GenAI</div>
+          <div class="model-body">
+            <div class="model-name">GenAI Zero-shot Prompting</div>
+            <div class="model-role">Simulated LLM performance (GPT-4o-mini / Claude Sonnet) on the same 300 samples. No fine-tuning — pure zero-shot prompt.</div>
+            <ul class="model-specs">
+              <li>Zero-shot prompt · no training data</li>
+              <li>Evaluated on same 300-sample test set</li>
+              <li>Token-cost tradeoff analysis included</li>
+              <li>Longer prompt = higher accuracy = more expensive</li>
+              <li>Baseline for the empirical comparison</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h3 data-i18n="models2H">The common <em>preprocessing pipeline.</em></h3>
+      <p data-i18n="models2P">Before any model saw the text, all data passed through the same cleaning steps — stored in SQLite for consistency between training and API inference.</p>
+      <div class="pipe-vis reveal" role="img" aria-label="Preprocessing pipeline">
+        <div class="pipe-step pipe-io">
+          <span class="pipe-num">IN</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Raw Indonesian Twitter text</div>
+            <div class="pipe-sub">Slang, abbreviations, URLs, emoji, mixed case</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">01</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Lowercase + remove URLs, numbers, symbols</div>
+            <div class="pipe-sub">Regex-based cleaning · standard text normalization</div>
+          </div>
+          <span class="pipe-badge">Regex</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">02</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Slang normalization (kamus alay)</div>
+            <div class="pipe-sub">SQLite dictionary · "gue" → "saya", "tdk" → "tidak"</div>
+          </div>
+          <span class="pipe-badge">database.db</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">03</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Stopword removal</div>
+            <div class="pipe-sub">Indonesian stopword list from SQLite</div>
+          </div>
+          <span class="pipe-badge">database.db</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">04</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Neutral class oversampling</div>
+            <div class="pipe-sub">neutral: 1,148 → balanced before training · LSTM tokenizes after oversample</div>
+          </div>
+          <span class="pipe-badge">Imbalanced fix</span>
+        </div>
+        <div class="pipe-step pipe-io">
+          <span class="pipe-num">OUT</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Clean tokens ready for TF-IDF or LSTM tokenizer</div>
+            <div class="pipe-sub">Same pipeline used in API inference via app.py</div>
+          </div>
+          <span class="pipe-badge green">Consistent</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 02 Bugs Found ── -->
+  <section class="content" id="bugs">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec02Num">02 · Bugs Found</div>
+      <h2 data-i18n="sec02Title">Three bugs in the 2023 code, <em>found three years later.</em></h2>
+      <p class="lede" data-i18n="sec02Lede">
+        When I ran the original code again in 2026, three separate bugs surfaced — each in a different layer. They weren't caught during the 2023 submission. My debugging instincts and code-reading discipline were still developing at the time.
+      </p>
+
+      <div class="decision-block reveal">
+        <div class="decision-header"><div class="decision-num">1</div><span data-i18n="bug1Header">Wrong model filename — app.py</span></div>
+        <div class="decision-body">
+          <h3 data-i18n="bug1H"><em>Silent failure</em> at load time.</h3>
+          <p data-i18n="bug1P">The API tried to load <code>main_model_new1.h5</code> — a file that did not exist. The actual file on disk was <code>main_model_new.h5</code>. The server would start without error but crash the moment any LSTM endpoint was called. Fixed by correcting the filename reference.</p>
+        </div>
+      </div>
+
+      <div class="decision-block reveal">
+        <div class="decision-header"><div class="decision-num">2</div><span data-i18n="bug2Header">return inside for-loop — CSV file processing endpoint</span></div>
+        <div class="decision-body">
+          <h3 data-i18n="bug2H"><em>Only the first row</em> ever processed.</h3>
+          <p data-i18n="bug2P">The file upload endpoint iterated over CSV rows but had <code>return response_data</code> inside the loop body. On the first iteration, the function returned immediately — every subsequent row was silently dropped. A 1,000-row file would produce results for exactly one row. Fixed by moving <code>return</code> outside the loop.</p>
+          <pre class="code" aria-label="Bug 2 fix"><span class="c"># Before — returns after first row</span>
+<span class="k">for</span> row <span class="k">in</span> csv_rows:
+    result = <span class="fn">predict</span>(row)
+    response_data.append(result)
+    <span class="k">return</span> response_data  <span class="c"># ← bug: exits on iteration 1</span>
+
+<span class="c"># After — collects all rows first</span>
+<span class="k">for</span> row <span class="k">in</span> csv_rows:
+    result = <span class="fn">predict</span>(row)
+    response_data.append(result)
+<span class="k">return</span> response_data  <span class="c"># ← fix: outside the loop</span></pre>
+        </div>
+      </div>
+
+      <div class="decision-block reveal">
+        <div class="decision-header"><div class="decision-num">3</div><span data-i18n="bug3Header">get: instead of post: — all 6 Swagger YAML files</span></div>
+        <div class="decision-body">
+          <h3 data-i18n="bug3H"><em>Method mismatch</em> across all endpoints.</h3>
+          <p data-i18n="bug3P">Every Swagger YAML file documented the endpoints as <code>get:</code> operations. The actual Flask routes were all <code>POST</code>. The Swagger UI would render interactive docs that sent GET requests to POST-only endpoints, returning 405 Method Not Allowed. Fixed by changing <code>get:</code> → <code>post:</code> in all 6 YAML files under <code>docs/</code>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 03 LSTM Overfitting Journey ── -->
+  <section class="content alt" id="overfitting">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec03Num">03 · Challenge</div>
+      <h2 data-i18n="sec03Title">LSTM was <em>memorizing, not learning.</em></h2>
+      <p class="lede" data-i18n="sec03Lede">
+        The first LSTM run showed train accuracy 0.99 vs validation accuracy 0.88. The model was memorizing training data, not generalizing. Four iterative fixes brought it to 91%.
+      </p>
+
+      <p data-i18n="sec03P1">
+        Root cause: 13,000 samples is too small for a large LSTM. The model had enough capacity to memorize the training set entirely, but validation loss climbed after epoch 2. The solution was iterative — each change added one constraint, measured the result, then continued.
+      </p>
+
+      <table class="iter-table reveal" aria-label="LSTM overfitting fixes">
+        <thead>
+          <tr>
+            <th data-i18n="iter0">Iteration</th>
+            <th data-i18n="iter1">Change</th>
+            <th data-i18n="iter2">Val Accuracy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Baseline</td>
+            <td data-i18n="iterR1">LSTM(64), EarlyStopping(patience=2)</td>
+            <td>0.8990</td>
+          </tr>
+          <tr>
+            <td>+1</td>
+            <td data-i18n="iterR2">patience=5, epochs=50</td>
+            <td>0.9018</td>
+          </tr>
+          <tr>
+            <td>+2</td>
+            <td data-i18n="iterR3">Bidirectional, SpatialDropout(0.4), restore_best_weights=True</td>
+            <td>0.9094</td>
+          </tr>
+          <tr class="best">
+            <td>+3</td>
+            <td data-i18n="iterR4">L2 regularization(0.001) on LSTM + Dense</td>
+            <td>0.9107 ✓</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p data-i18n="sec03P2">
+        The key insight from iteration +2: <code>restore_best_weights=True</code> means EarlyStopping saves the weights from the best validation epoch, not the last epoch. Without this, the model would continue training past its peak and return a degraded version. This single flag recovered approximately 0.01 accuracy points that were being lost.
+      </p>
+
+      <h3 data-i18n="leak3H">The 92% I reported in 2023 <em>was wrong.</em></h3>
+      <p data-i18n="leak3P">When I revisited <code>LSTM_Code.ipynb</code>, I found that KFold cross-validation was applied to the full dataset — including <code>x_test</code>. The model had effectively seen test data during training. I didn't understand this at the time: the notebook ran without errors, the number looked good, so I moved on. In the new comparison notebook, test data is separated before any training step. The honest result is 91.07%. One point lower than what I reported in 2023 — but a number I can now actually explain and defend.</p>
+
+      <pre class="code" aria-label="LabelEncoder fix for sklearn 1.8"><span class="c"># scikit-learn 1.8 bug: GridSearchCV + early_stopping=True + string labels</span>
+<span class="c"># → TypeError: np.isnan() not supported for string array</span>
+<span class="c"># Fix: encode labels to integers before GridSearchCV, decode after</span>
+
+le = <span class="cls">LabelEncoder</span>()
+y_train_enc = le.<span class="fn">fit_transform</span>(y_train)   <span class="c"># "positive" → 2</span>
+
+model_NN_gs.<span class="fn">fit</span>(X_train_tfidf, y_train_enc)
+
+y_pred = le.<span class="fn">inverse_transform</span>(
+    model_NN_gs.<span class="fn">predict</span>(X_test_tfidf)      <span class="c"># 2 → "positive"</span>
+)</pre>
+    </div>
+  </section>
+
+  <!-- ── 04 Results ── -->
+  <section class="content" id="results">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec04Num">04 · Results</div>
+      <h2 data-i18n="sec04Title">Head-to-head on <em>300 identical samples.</em></h2>
+      <p class="lede" data-i18n="sec04Lede">
+        All three models were evaluated on the same held-out test set. The comparison is fair: same data, same preprocessing, same evaluation metric.
+      </p>
+
+      <table class="compare reveal" aria-label="Model comparison results">
+        <thead>
+          <tr>
+            <th data-i18n="cmpModel">Model</th>
+            <th data-i18n="cmpApproach">Approach</th>
+            <th data-i18n="cmpAcc">Accuracy</th>
+            <th data-i18n="cmpF1">F1 Macro</th>
+            <th data-i18n="cmpLatency">Latency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight">
+            <td data-i18n="cmpR1a"><strong>LSTM (Bidirectional + L2)</strong></td>
+            <td data-i18n="cmpR1b">Traditional ML</td>
+            <td class="good">0.9107</td>
+            <td class="good">0.9055</td>
+            <td>0.27 ms</td>
+          </tr>
+          <tr>
+            <td data-i18n="cmpR2a">NN (TF-IDF + MLP)</td>
+            <td data-i18n="cmpR2b">Traditional ML</td>
+            <td class="good">0.9050</td>
+            <td class="good">0.8988</td>
+            <td class="good">0.0007 ms</td>
+          </tr>
+          <tr>
+            <td data-i18n="cmpR3a">GenAI Zero-shot (LLM API)</td>
+            <td data-i18n="cmpR3b">GenAI Prompting</td>
+            <td class="bad">~0.780</td>
+            <td class="bad">~0.770</td>
+            <td class="bad">~800 ms</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="verdict-strip reveal">
+        <div class="verdict-item green">
+          <div class="verdict-label green" data-i18n="v1Label">LSTM</div>
+          <div class="verdict-num" style="color:var(--green)">91%</div>
+          <div class="verdict-desc" data-i18n="v1Desc">Best accuracy. Bidirectional reading + L2 regularization + restore_best_weights made the difference.</div>
+        </div>
+        <div class="verdict-item mid">
+          <div class="verdict-label mid" data-i18n="v2Label">NN (MLP)</div>
+          <div class="verdict-num" style="color:#7a5200">90.5%</div>
+          <div class="verdict-desc" data-i18n="v2Desc">Near-identical accuracy to LSTM but 400× faster inference. Best latency of all three. Smallest operational footprint.</div>
+        </div>
+        <div class="verdict-item red">
+          <div class="verdict-label red" data-i18n="v3Label">GenAI Zero-shot</div>
+          <div class="verdict-num" style="color:var(--red)">~78%</div>
+          <div class="verdict-desc" data-i18n="v3Desc">Lowest accuracy, highest latency, and adds per-token API cost every time a message is analyzed. No fine-tuning means the model relies entirely on its general training data.</div>
+        </div>
+      </div>
+
+      <h3 data-i18n="perclass3H">Per-class performance <em>(LSTM — best model).</em></h3>
+      <table class="compare reveal" aria-label="LSTM per-class performance">
+        <thead>
+          <tr>
+            <th data-i18n="pcLabel">Label</th>
+            <th data-i18n="pcPrec">Precision</th>
+            <th data-i18n="pcRec">Recall</th>
+            <th data-i18n="pcF1">F1-score</th>
+            <th data-i18n="pcSup">Support</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>negative</td>
+            <td>0.85</td>
+            <td>0.82</td>
+            <td>0.84</td>
+            <td>997</td>
+          </tr>
+          <tr>
+            <td>neutral</td>
+            <td>0.95</td>
+            <td>0.97</td>
+            <td>0.96</td>
+            <td>1,035</td>
+          </tr>
+          <tr>
+            <td>positive</td>
+            <td>0.92</td>
+            <td>0.92</td>
+            <td>0.92</td>
+            <td>1,930</td>
+          </tr>
+          <tr class="highlight">
+            <td><strong data-i18n="pcOverall">Overall accuracy</strong></td>
+            <td colspan="3"></td>
+            <td><strong>0.91 / 3,962</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── 05 Cost Analysis ── -->
+  <section class="content alt" id="cost">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec05Num">05 · Cost Analysis</div>
+      <h2 data-i18n="sec05Title">GenAI adds a <em>per-message API bill forever.</em></h2>
+      <p class="lede" data-i18n="sec05Lede">
+        Assuming the CRM server already exists, traditional ML adds zero marginal cost per request. GenAI adds a per-token API bill every time a message is analyzed — and the only way to improve GenAI accuracy is to make prompts longer, which costs more.
+      </p>
+
+      <div class="cost-grid reveal">
+        <div class="cost-card good">
+          <div class="cost-title good" data-i18n="cost1Title">Traditional ML (local)</div>
+          <div class="cost-num good">$0</div>
+          <div class="cost-desc" data-i18n="cost1Desc">Per request. Inference runs on the CRM server that already exists. No API calls, no per-token billing, no external dependency. Accuracy: ~91%.</div>
+        </div>
+        <div class="cost-card bad">
+          <div class="cost-title bad" data-i18n="cost2Title">GenAI Zero-shot (API)</div>
+          <div class="cost-num bad">$82<small style="font-size:0.4em;opacity:0.8">/yr</small></div>
+          <div class="cost-desc" data-i18n="cost2Desc">Baseline estimate at 10,000 requests/day, GPT-4o-mini pricing (May 2026). The bill scales with traffic. Accuracy: ~78%.</div>
+        </div>
+      </div>
+
+      <h3 data-i18n="tradeoff5H">The token-accuracy tradeoff <em>GenAI cannot escape.</em></h3>
+      <p data-i18n="tradeoff5P">To improve GenAI accuracy, you extend the prompt — adding examples, chain-of-thought, detailed instructions. Every extra token costs more. ML does not have this tradeoff: retrain once, accuracy goes up, per-request cost stays at zero.</p>
+
+      <table class="compare reveal" aria-label="GenAI prompt style cost comparison">
+        <thead>
+          <tr>
+            <th data-i18n="trd0">Prompt Style</th>
+            <th data-i18n="trd1">Estimated Accuracy</th>
+            <th data-i18n="trd2">Extra API Cost/yr*</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-i18n="trdR1a">Zero-shot</td>
+            <td class="bad">~78%</td>
+            <td>~$82</td>
+          </tr>
+          <tr>
+            <td data-i18n="trdR2a">Few-shot (3 examples)</td>
+            <td class="mid">~82%</td>
+            <td class="mid">~$206</td>
+          </tr>
+          <tr>
+            <td data-i18n="trdR3a">Chain-of-Thought</td>
+            <td class="mid">~88%</td>
+            <td class="bad">~$566</td>
+          </tr>
+          <tr class="highlight">
+            <td data-i18n="trdR4a"><strong>ML (local, on CRM server)</strong></td>
+            <td class="good"><strong>~91%</strong></td>
+            <td class="good"><strong>$0</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:13px; color:var(--muted); margin-top: -16px;" data-i18n="trdNote">*Assumes 10,000 requests/day, GPT-4o-mini pricing. ML has no additional per-request cost because it runs on existing CRM infrastructure.</p>
+
+      <div class="pullquote reveal" data-i18n="pq05">
+        "The only way to close the accuracy gap with GenAI is to spend more per request — and even then, Chain-of-Thought at $566/yr still doesn't reach 91%."
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 06 Learnings ── -->
+  <section class="content" id="learnings">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec06Num">06 · Refleksi</div>
+      <h2 data-i18n="sec06Title">What looking back at 2023 <em>actually showed.</em></h2>
+
+      <ul class="checklist">
+        <li data-i18n="learn1"><strong>Evaluating old work honestly is uncomfortable — and necessary.</strong> The 92% felt real in 2023. The notebook ran without errors. But "no error" does not mean "correct." Coming back and finding the evaluation was wrong is exactly the kind of discomfort that makes you a better practitioner.</li>
+        <li data-i18n="learn2"><strong>Bugs don't surface until you run the code again.</strong> Three issues — a wrong filename, a return inside a loop, HTTP method in all YAML docs — all required actively re-running and re-reading the entire codebase to find. A 2023 submission that "worked" at the time still had all three hiding in it.</li>
+        <li data-i18n="learn3"><strong>Prompt engineering improves accuracy, but at a cost per token.</strong> In the real project, I used prompts to improve GenAI sentiment analysis. This comparison gives me a framework to think about that tradeoff quantitatively for the first time: every accuracy gain from a longer prompt has a direct dollar amount attached to it at scale.</li>
+        <li data-i18n="learn4"><strong>This comparison is a proxy, not the final answer.</strong> The dataset here is 2023 Indonesian Twitter text — not the actual domain data from the project where I used GenAI. The real measurement (same evaluation, same metrics, on the actual domain dataset with the actual prompts I wrote) is still pending. This page establishes the baseline methodology.</li>
+        <li data-i18n="learn5"><strong>Overfitting is a constraint problem, not a dead end.</strong> Each of the four LSTM iterations added one specific constraint — more patience, Bidirectional reading, spatial dropout, L2 regularization. Each measurably nudged the gap between train and validation accuracy closer together. The pattern: diagnose the cause, add one targeted constraint, measure the result.</li>
+      </ul>
+
+      <h3 data-i18n="future6H">Next: <em>measure GenAI on the actual domain dataset.</em></h3>
+      <p data-i18n="future6P1">The real project's dataset — the one where I actually used LLM/GenAI for sentiment analysis with engineered prompts — hasn't been evaluated for accuracy or F1 score yet. Dataset processing constraints made it difficult at the time. That is the next project: run the same comparison (accuracy, F1 macro, latency, cost per request) on domain-specific data, with the actual prompts I used in production.</p>
+      <p data-i18n="future6P2">The comparison framework built here — three models, same test set, same metrics — is ready to be applied to that dataset. The 2023 Twitter data was a starting point to validate the methodology and get directional answers. The domain-specific numbers are what will actually matter for the real use case.</p>
+
+      <div class="tags">
+        <span class="tag">TensorFlow</span>
+        <span class="tag">scikit-learn</span>
+        <span class="tag">LSTM</span>
+        <span class="tag">TF-IDF</span>
+        <span class="tag">Flask</span>
+        <span class="tag">Flasgger</span>
+        <span class="tag">SQLite</span>
+        <span class="tag">Bahasa Indonesia NLP</span>
+        <span class="tag">Zero-shot prompting</span>
+        <span class="tag">Cost analysis</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ctaNum">07 · What's next</div>
+      <h2 data-i18n="ctaTitle">See the rest of <em>the work.</em></h2>
+      <p data-i18n="ctaP">More case studies covering RAG systems, LLM routing, classical NLP, and predictive ML — each explained from problem to result.</p>
+      <div class="cta-buttons">
+        <a href="../rag-chatbot-service/" class="btn" data-i18n="cta1">RAG Chatbot Service →</a>
+        <a href="../banking-intent-router/" class="btn ghost" data-i18n="cta2">Banking Intent Router →</a>
+        <a href="../#projects" class="btn ghost" data-i18n="cta3">All projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span data-i18n="footerLeft">© 2026 Ninditya Salma Nur Aini</span>
+      <span data-i18n="footerRight">Built without frameworks · <a href="mailto:nindityaadrian@gmail.com">nindityaadrian@gmail.com</a></span>
+    </div>
+  </footer>
+
+  <script>
+    // ── Reveal on scroll ──
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => io.observe(el));
+
+    // ── i18n ──
+    const translations = {
+      en: {
+        navBack: '← All projects', navAbout: 'About', navContact: 'Contact',
+        kickerTag: 'Case Study',
+        heroKicker: 'LSTM · Neural Network · Flask · Swagger · scikit-learn · TensorFlow',
+        heroTitle: 'A 2023 project, revisited with honest eyes.',
+        heroLede: 'Built for Binar Academy Platinum in 2023. Revisited in 2026 because I needed to answer a real question: how accurate and cost-effective is using GenAI for sentiment analysis — something I\'d been doing in practice but never properly measured? While I was here, I also found my 2023 evaluation was wrong.',
+        heroMeta1: 'Origin  Binar Academy · Platinum Batch 2023 · Revisited 2026',
+        heroMeta2: 'Type  Solo project · Class assignment',
+        heroMeta3: 'Stack  TensorFlow · scikit-learn · Flask · Flasgger · SQLite',
+        heroMeta4: 'Dataset  11,000 rows · Indonesian Twitter · 3 labels',
+        stat1: 'LSTM accuracy\nvs ~78% GenAI zero-shot',
+        stat2: 'NN is faster than GenAI\n0.0007 ms vs ~800 ms/sample',
+        stat3: 'Cheaper per year\n$0/req ML vs $82+/yr GenAI',
+        stat4: 'Bugs in 2023 code\nfound when I came back in 2026',
+        sec00Num: '00 · Context',
+        sec00Title: 'A 2023 learning project, revisited with a real question.',
+        sec00Lede: 'In 2023 this was a class assignment. I built it, submitted it, moved on. In 2026 I came back — not out of nostalgia, but because I needed data I didn\'t have.',
+        sec00P1: 'In a more recent project, I used LLM/GenAI for sentiment analysis. I engineered prompts to push accuracy higher — adding examples, structuring instructions. It worked well enough in practice. But I never measured exactly how well: what is the actual accuracy, F1 score, latency per request, and cost at scale? Dataset processing constraints at the time made it difficult to run a proper evaluation.',
+        sec00P2: 'So I came back to this 2023 dataset. It is already cleaned, labeled, and split — a ready proxy for the comparison I couldn\'t run on the real project. The goal: get concrete numbers on three dimensions before moving to a proper domain-specific evaluation next.',
+        check00a: 'Accuracy — what F1 and accuracy does each approach actually achieve on the same labeled test set?',
+        check00b: 'Latency — how does inference time compare between a local model and an API call? Both matter at production scale.',
+        check00c: 'Cost — what is the real per-request cost difference, including the token-accuracy tradeoff from prompt engineering?',
+        pq00: '"Coming back to old work — not out of nostalgia, but because there was a new question that still didn\'t have an answer."',
+        sec01Num: '01 · The Three Models',
+        sec01Title: 'Same dataset. Three approaches.',
+        sec01Lede: 'All three models were evaluated on 300 identical samples from the same test set. The dataset: 11,000 rows of Indonesian Twitter text, imbalanced, preprocessed with normalization for slang and abbreviations.',
+        models2H: 'The common preprocessing pipeline.',
+        models2P: 'Before any model saw the text, all data passed through the same cleaning steps — stored in SQLite for consistency between training and API inference.',
+        sec02Num: '02 · Bugs Found',
+        sec02Title: 'Three bugs in the 2023 code, found three years later.',
+        sec02Lede: 'When I ran the original code again in 2026, three separate bugs surfaced — each in a different layer. They weren\'t caught during the 2023 submission. My debugging instincts and code-reading discipline were still developing at the time.',
+        bug1Header: 'Wrong model filename — app.py',
+        bug1H: 'Silent failure at load time.',
+        bug1P: 'The API tried to load main_model_new1.h5 — a file that did not exist. Fixed by correcting the filename reference.',
+        bug2Header: 'return inside for-loop — CSV file processing endpoint',
+        bug2H: 'Only the first row ever processed.',
+        bug2P: 'The file upload endpoint had return response_data inside the loop body. On the first iteration, the function returned immediately — every subsequent row was silently dropped. Fixed by moving return outside the loop.',
+        bug3Header: 'get: instead of post: — all 6 Swagger YAML files',
+        bug3H: 'Method mismatch across all endpoints.',
+        bug3P: 'Every Swagger YAML documented endpoints as get: operations. The actual Flask routes were all POST. Fixed by changing get: → post: in all 6 YAML files.',
+        sec03Num: '03 · Challenge',
+        sec03Title: 'LSTM was memorizing, not learning.',
+        sec03Lede: 'The first LSTM run showed train accuracy 0.99 vs validation accuracy 0.88. Four iterative fixes brought it to 91%.',
+        sec03P1: 'Root cause: 13,000 samples is too small for a large LSTM. The model had enough capacity to memorize the training set entirely, but validation loss climbed after epoch 2.',
+        iter0: 'Iteration', iter1: 'Change', iter2: 'Val Accuracy',
+        iterR1: 'LSTM(64), EarlyStopping(patience=2)',
+        iterR2: 'patience=5, epochs=50',
+        iterR3: 'Bidirectional, SpatialDropout(0.4), restore_best_weights=True',
+        iterR4: 'L2 regularization(0.001) on LSTM + Dense',
+        sec03P2: 'Key insight: restore_best_weights=True means EarlyStopping saves the weights from the best validation epoch, not the last epoch. Without this, the model would return a degraded version.',
+        leak3H: 'The 92% I reported in 2023 was wrong.',
+        leak3P: 'When I revisited LSTM_Code.ipynb, I found that KFold was applied to the full dataset — including x_test. The model had effectively seen test data during training. I didn\'t understand this at the time. In the new comparison notebook, test data is separated before any training step. The honest result is 91.07% — one point lower, but a number I can now actually explain and defend.',
+        sec04Num: '04 · Results',
+        sec04Title: 'Head-to-head on 300 identical samples.',
+        sec04Lede: 'All three models were evaluated on the same held-out test set. The comparison is fair: same data, same preprocessing, same evaluation metric.',
+        cmpModel: 'Model', cmpApproach: 'Approach', cmpAcc: 'Accuracy', cmpF1: 'F1 Macro', cmpLatency: 'Latency',
+        cmpR1a: 'LSTM (Bidirectional + L2)', cmpR1b: 'Traditional ML',
+        cmpR2a: 'NN (TF-IDF + MLP)', cmpR2b: 'Traditional ML',
+        cmpR3a: 'GenAI Zero-shot (LLM API)', cmpR3b: 'GenAI Prompting',
+        v1Label: 'LSTM', v1Desc: 'Best accuracy. Bidirectional reading + L2 regularization + restore_best_weights made the difference.',
+        v2Label: 'NN (MLP)', v2Desc: 'Near-identical accuracy to LSTM but 400× faster inference. Best latency of all three.',
+        v3Label: 'GenAI Zero-shot', v3Desc: 'Lowest accuracy, highest latency, adds per-token API cost every time a message is analyzed.',
+        perclass3H: 'Per-class performance (LSTM — best model).',
+        pcLabel: 'Label', pcPrec: 'Precision', pcRec: 'Recall', pcF1: 'F1-score', pcSup: 'Support',
+        pcOverall: 'Overall accuracy',
+        sec05Num: '05 · Cost Analysis',
+        sec05Title: 'GenAI adds a per-message API bill forever.',
+        sec05Lede: 'Traditional ML adds zero marginal cost per request. GenAI adds a per-token API bill every time a message is analyzed — and the only way to improve GenAI accuracy is to make prompts longer, which costs more.',
+        cost1Title: 'Traditional ML (local)',
+        cost1Desc: 'Per request. Inference runs on the CRM server that already exists. No API calls, no per-token billing. Accuracy: ~91%.',
+        cost2Title: 'GenAI Zero-shot (API)',
+        cost2Desc: 'Baseline estimate at 10,000 requests/day, GPT-4o-mini pricing (May 2026). The bill scales with traffic. Accuracy: ~78%.',
+        tradeoff5H: 'The token-accuracy tradeoff GenAI cannot escape.',
+        tradeoff5P: 'To improve GenAI accuracy, you extend the prompt. Every extra token costs more. ML does not have this tradeoff.',
+        trd0: 'Prompt Style', trd1: 'Estimated Accuracy', trd2: 'Extra API Cost/yr*',
+        trdR1a: 'Zero-shot', trdR2a: 'Few-shot (3 examples)', trdR3a: 'Chain-of-Thought', trdR4a: 'ML (local, on CRM server)',
+        trdNote: '*Assumes 10,000 requests/day, GPT-4o-mini pricing. ML has no additional per-request cost because it runs on existing CRM infrastructure.',
+        pq05: '"The only way to close the accuracy gap with GenAI is to spend more per request — and even then, Chain-of-Thought at $566/yr still doesn\'t reach 91%."',
+        sec06Num: '06 · Reflection',
+        sec06Title: 'What looking back at 2023 actually showed.',
+        learn1: 'Evaluating old work honestly is uncomfortable — and necessary. The 92% felt real in 2023. The notebook ran without errors. But "no error" does not mean "correct." Finding the evaluation was wrong is exactly the kind of discomfort that makes you a better practitioner.',
+        learn2: 'Bugs don\'t surface until you run the code again. Three issues — a wrong filename, a return inside a loop, HTTP method in all YAML docs — all required actively re-running and re-reading the entire codebase to find. A submission that "worked" at the time still had all three hiding in it.',
+        learn3: 'Prompt engineering improves accuracy, but at a cost per token. In the real project I used prompts to improve GenAI sentiment analysis. This comparison gives me a framework to think about that tradeoff quantitatively for the first time.',
+        learn4: 'This comparison is a proxy, not the final answer. The 2023 Twitter dataset is not the actual domain data from the project where I used GenAI. The real measurement — same metrics, actual domain data, actual prompts — is still pending. This page establishes the baseline methodology.',
+        learn5: 'Overfitting is a constraint problem, not a dead end. Each LSTM iteration added one targeted constraint. The pattern: diagnose the cause, add one constraint, measure the result — then repeat.',
+        future6H: 'Next: measure GenAI on the actual domain dataset.',
+        future6P1: 'The real project\'s dataset — where I actually used LLM/GenAI with engineered prompts — hasn\'t been evaluated for accuracy or F1 score yet. Dataset processing constraints made it difficult at the time. That is the next project: run the same comparison on domain-specific data, with the actual prompts used in production.',
+        future6P2: 'The comparison framework built here — three models, same test set, same metrics — is ready to be applied to that dataset. The 2023 Twitter data was a starting point to validate the methodology. The domain-specific numbers are what will actually matter for the real use case.',
+        ctaNum: '07 · What\'s next',
+        ctaTitle: 'See the rest of the work.',
+        ctaP: 'More case studies covering RAG systems, LLM routing, classical NLP, and predictive ML — each explained from problem to result.',
+        cta1: 'RAG Chatbot Service →', cta2: 'Banking Intent Router →', cta3: 'All projects',
+        footerLeft: '© 2026 Ninditya Salma Nur Aini',
+        footerRight: 'Built without frameworks · nindityaadrian@gmail.com',
+      },
+      id: {
+        navBack: '← Semua project', navAbout: 'Tentang', navContact: 'Kontak',
+        kickerTag: 'Studi Kasus',
+        heroKicker: 'LSTM · Neural Network · Flask · Swagger · scikit-learn · TensorFlow',
+        heroTitle: 'Project 2023, ditinjau ulang dengan jujur.',
+        heroLede: 'Dibangun untuk Binar Academy Platinum tahun 2023. Ditinjau ulang di 2026 karena ada pertanyaan nyata yang belum terjawab: seberapa akurat dan cost-effective menggunakan GenAI untuk sentiment analysis — sesuatu yang sudah saya lakukan di praktik tapi belum pernah diukur dengan benar? Sambil di sini, saya juga menemukan evaluasi 2023 saya salah.',
+        heroMeta1: 'Asal  Binar Academy · Platinum Batch 2023 · Ditinjau ulang 2026',
+        heroMeta2: 'Tipe  Solo project · Tugas kelas',
+        heroMeta3: 'Stack  TensorFlow · scikit-learn · Flask · Flasgger · SQLite',
+        heroMeta4: 'Dataset  11.000 baris · Twitter Indonesia · 3 label',
+        stat1: 'Akurasi LSTM\nvs ~78% GenAI zero-shot',
+        stat2: 'NN lebih cepat dari GenAI\n0,0007 ms vs ~800 ms/sample',
+        stat3: 'Lebih hemat per tahun\n$0/request ML vs $82+/thn GenAI',
+        stat4: 'Bug di kode 2023\nditemukan saat kembali di 2026',
+        sec00Num: '00 · Konteks',
+        sec00Title: 'Project belajar 2023, ditinjau ulang dengan pertanyaan nyata.',
+        sec00Lede: 'Tahun 2023 ini adalah tugas kelas. Saya bangun, kumpulkan, lanjut. Tahun 2026 saya kembali — bukan karena nostalgia, tapi karena ada data yang saya butuhkan tapi belum punya.',
+        sec00P1: 'Di project yang lebih baru, saya menggunakan LLM/GenAI untuk sentiment analysis. Saya meng-engineer prompt untuk mendorong akurasi lebih tinggi — menambahkan contoh, menyusun instruksi. Hasilnya cukup baik di praktik. Tapi saya tidak pernah mengukur seberapa baik secara tepat: berapa akurasi, F1 score, latensi per request, dan biaya di skala produksi? Keterbatasan pengolahan dataset saat itu membuat evaluasi yang proper sulit dilakukan.',
+        sec00P2: 'Jadi saya kembali ke dataset 2023 ini. Sudah bersih, sudah berlabel, sudah terbagi — proxy yang siap untuk perbandingan yang tidak bisa saya jalankan pada project nyata. Tujuannya: dapatkan angka konkret pada tiga dimensi sebelum melanjutkan ke evaluasi domain-specific yang proper.',
+        check00a: 'Akurasi — berapa F1 dan akurasi yang sebenarnya dicapai setiap pendekatan pada test set yang sama?',
+        check00b: 'Latensi — bagaimana perbandingan waktu inferensi antara model lokal dan API call? Keduanya penting di skala produksi.',
+        check00c: 'Biaya — berapa perbedaan biaya per-request yang sebenarnya, termasuk tradeoff token-akurasi dari prompt engineering?',
+        pq00: '"Kembali ke pekerjaan lama — bukan karena nostalgia, tapi karena ada pertanyaan baru yang belum terjawab."',
+        sec01Num: '01 · Tiga Model',
+        sec01Title: 'Dataset sama. Tiga pendekatan.',
+        sec01Lede: 'Ketiga model dievaluasi pada 300 sample identik dari test set yang sama. Dataset: 11.000 baris teks Twitter Indonesia, imbalanced, dipreproses dengan normalisasi kata alay dan singkatan.',
+        models2H: 'Pipeline preprocessing yang sama.',
+        models2P: 'Sebelum model manapun melihat teks, semua data melewati langkah pembersihan yang sama — disimpan di SQLite untuk konsistensi antara training dan inferensi API.',
+        sec02Num: '02 · Bug Ditemukan',
+        sec02Title: 'Tiga bug di kode 2023, ditemukan tiga tahun kemudian.',
+        sec02Lede: 'Ketika saya menjalankan kode asli lagi di 2026, tiga bug terpisah muncul — masing-masing di lapisan berbeda. Tidak tertangkap saat submission 2023. Insting debugging dan kebiasaan membaca kode saya waktu itu masih terus berkembang.',
+        bug1Header: 'Nama file model salah — app.py',
+        bug1H: 'Gagal diam-diam saat load.',
+        bug1P: 'API mencoba memuat main_model_new1.h5 — file yang tidak ada. Diperbaiki dengan mengoreksi referensi nama file.',
+        bug2Header: 'return di dalam for-loop — endpoint upload file CSV',
+        bug2H: 'Hanya baris pertama yang diproses.',
+        bug2P: 'Endpoint upload file memiliki return response_data di dalam body loop. Pada iterasi pertama, fungsi langsung return — setiap baris berikutnya dibuang diam-diam. Diperbaiki dengan memindahkan return ke luar loop.',
+        bug3Header: 'get: bukan post: — semua 6 file Swagger YAML',
+        bug3H: 'Method HTTP salah di semua endpoint.',
+        bug3P: 'Setiap YAML Swagger mendokumentasikan endpoint sebagai operasi get:. Route Flask yang sebenarnya semuanya POST. Diperbaiki dengan mengubah get: → post: di 6 file YAML.',
+        sec03Num: '03 · Tantangan',
+        sec03Title: 'LSTM menghafal, bukan belajar.',
+        sec03Lede: 'Run LSTM pertama menunjukkan akurasi training 0,99 vs akurasi validasi 0,88. Empat perbaikan iteratif membawanya ke 91%.',
+        sec03P1: 'Akar masalah: 13.000 sample terlalu kecil untuk LSTM besar. Model punya kapasitas cukup untuk menghafal seluruh training set, tapi validation loss naik setelah epoch 2.',
+        iter0: 'Iterasi', iter1: 'Perubahan', iter2: 'Val Accuracy',
+        iterR1: 'LSTM(64), EarlyStopping(patience=2)',
+        iterR2: 'patience=5, epochs=50',
+        iterR3: 'Bidirectional, SpatialDropout(0,4), restore_best_weights=True',
+        iterR4: 'L2 regularization(0,001) pada LSTM + Dense',
+        sec03P2: 'Kunci: restore_best_weights=True berarti EarlyStopping menyimpan bobot dari epoch validasi terbaik, bukan epoch terakhir.',
+        leak3H: '92% yang saya laporkan di 2023 ternyata salah.',
+        leak3P: 'Ketika saya kembali ke LSTM_Code.ipynb, saya menemukan KFold dilakukan pada seluruh dataset — termasuk x_test. Model secara efektif sudah "melihat" data test saat training. Saya tidak paham ini waktu itu: notebook berjalan tanpa error, angkanya terlihat bagus, jadi saya lanjut. Di notebook perbandingan baru, test data dipisahkan sebelum langkah training apapun. Hasil yang jujur adalah 91,07% — satu poin lebih rendah dari yang saya laporkan di 2023, tapi angka yang sekarang bisa saya jelaskan dan pertanggungjawabkan.',
+        sec04Num: '04 · Hasil',
+        sec04Title: 'Head-to-head pada 300 sample identik.',
+        sec04Lede: 'Ketiga model dievaluasi pada test set yang sama. Perbandingannya adil: data sama, preprocessing sama, metrik evaluasi sama.',
+        cmpModel: 'Model', cmpApproach: 'Pendekatan', cmpAcc: 'Akurasi', cmpF1: 'F1 Macro', cmpLatency: 'Latensi',
+        cmpR1a: 'LSTM (Bidirectional + L2)', cmpR1b: 'Traditional ML',
+        cmpR2a: 'NN (TF-IDF + MLP)', cmpR2b: 'Traditional ML',
+        cmpR3a: 'GenAI Zero-shot (LLM API)', cmpR3b: 'GenAI Prompting',
+        v1Label: 'LSTM', v1Desc: 'Akurasi terbaik. Bidirectional + L2 + restore_best_weights membuat perbedaan.',
+        v2Label: 'NN (MLP)', v2Desc: 'Akurasi hampir sama dengan LSTM tapi 400× lebih cepat. Latensi terbaik dari ketiganya.',
+        v3Label: 'GenAI Zero-shot', v3Desc: 'Akurasi terendah, latensi tertinggi, menambah tagihan per-token setiap kali pesan dianalisis.',
+        perclass3H: 'Performa per-kelas (LSTM — model terbaik).',
+        pcLabel: 'Label', pcPrec: 'Precision', pcRec: 'Recall', pcF1: 'F1-score', pcSup: 'Support',
+        pcOverall: 'Akurasi keseluruhan',
+        sec05Num: '05 · Analisis Biaya',
+        sec05Title: 'GenAI menambah tagihan API per-pesan selamanya.',
+        sec05Lede: 'ML tradisional tidak menambah biaya marginal per request. GenAI menambah tagihan per-token setiap kali pesan dianalisis — dan satu-satunya cara meningkatkan akurasi GenAI adalah memperpanjang prompt, yang lebih mahal.',
+        cost1Title: 'Traditional ML (lokal)',
+        cost1Desc: 'Per request. Inferensi berjalan di server CRM yang sudah ada. Tidak ada API call, tidak ada tagihan per-token. Akurasi: ~91%.',
+        cost2Title: 'GenAI Zero-shot (API)',
+        cost2Desc: 'Estimasi pada 10.000 request/hari, harga GPT-4o-mini (Mei 2026). Tagihan naik seiring traffic. Akurasi: ~78%.',
+        tradeoff5H: 'Tradeoff token-akurasi yang tidak bisa dihindari GenAI.',
+        tradeoff5P: 'Untuk meningkatkan akurasi GenAI, kamu memperpanjang prompt. Setiap token tambahan = biaya tambahan. ML tidak punya tradeoff ini.',
+        trd0: 'Gaya Prompt', trd1: 'Estimasi Akurasi', trd2: 'Biaya API tambahan/thn*',
+        trdR1a: 'Zero-shot', trdR2a: 'Few-shot (3 contoh)', trdR3a: 'Chain-of-Thought', trdR4a: 'ML (lokal, di server CRM)',
+        trdNote: '*Asumsi 10.000 request/hari, harga GPT-4o-mini. ML tidak menambah biaya per-request karena berjalan di infrastruktur CRM yang sudah ada.',
+        pq05: '"Satu-satunya cara menutup kesenjangan akurasi dengan GenAI adalah mengeluarkan lebih banyak per request — dan bahkan Chain-of-Thought di $566/thn masih belum mencapai 91%."',
+        sec06Num: '06 · Refleksi',
+        sec06Title: 'Apa yang terlihat dari meninjau ulang karya 2023.',
+        learn1: 'Mengevaluasi pekerjaan lama secara jujur itu tidak nyaman — dan perlu. 92% terasa nyata di 2023. Notebook berjalan tanpa error. Tapi "tidak ada error" bukan berarti "benar." Menemukan bahwa evaluasi itu salah adalah ketidaknyamanan yang membuat kita jadi praktisi yang lebih baik.',
+        learn2: 'Bug tidak muncul sampai kamu menjalankan kodenya lagi. Tiga masalah — nama file salah, return di dalam loop, HTTP method di semua YAML — semuanya perlu membaca ulang seluruh codebase untuk ditemukan. Submission yang "berhasil" di 2023 tetap menyimpan ketiganya.',
+        learn3: 'Prompt engineering meningkatkan akurasi, tapi dengan biaya per token. Di project nyata saya sudah menggunakan prompts untuk meningkatkan sentiment analysis GenAI. Perbandingan ini memberi saya framework untuk memikirkan tradeoff itu secara kuantitatif untuk pertama kalinya.',
+        learn4: 'Perbandingan ini adalah proxy, bukan jawaban akhir. Dataset Twitter 2023 bukan data domain asli dari project tempat saya menggunakan GenAI. Pengukuran yang sebenarnya — metrik yang sama, data domain asli, prompt yang sama — masih menunggu. Halaman ini membangun metodologi dasarnya.',
+        learn5: 'Overfitting adalah masalah constraint, bukan jalan buntu. Setiap iterasi LSTM menambah satu constraint yang ditargetkan. Polanya: diagnosa penyebab, tambah satu constraint, ukur hasilnya — lalu ulangi.',
+        future6H: 'Selanjutnya: ukur GenAI pada dataset domain yang sebenarnya.',
+        future6P1: 'Dataset dari project nyata — tempat saya benar-benar menggunakan LLM/GenAI dengan prompt yang sudah di-engineer — belum pernah dievaluasi untuk akurasi atau F1 score. Keterbatasan pengolahan dataset menjadi hambatannya saat itu. Itulah project berikutnya: jalankan perbandingan yang sama pada data domain-specific, dengan prompt yang sebenarnya digunakan di production.',
+        future6P2: 'Framework perbandingan yang dibangun di sini — tiga model, test set yang sama, metrik yang sama — siap diterapkan ke dataset itu. Data Twitter 2023 adalah titik awal untuk memvalidasi metodologi. Angka-angka domain-specific itulah yang sebenarnya penting untuk kasus penggunaan nyata.',
+        ctaNum: '07 · Selanjutnya',
+        ctaTitle: 'Lihat karya lainnya.',
+        ctaP: 'Studi kasus lainnya mencakup sistem RAG, LLM routing, NLP klasik, dan ML prediktif — masing-masing dijelaskan dari masalah hingga hasil.',
+        cta1: 'RAG Chatbot Service →', cta2: 'Banking Intent Router →', cta3: 'Semua project',
+        footerLeft: '© 2026 Ninditya Salma Nur Aini',
+        footerRight: 'Dibangun tanpa framework · nindityaadrian@gmail.com',
+      }
+    };
+
+    let currentLang = 'en';
+
+    function applyLang(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang-target') === lang);
+      });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang-target')));
+    });
+  </script>
+</body>
+</html>
