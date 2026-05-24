@@ -190,6 +190,10 @@
     .verdict-num { font-family: 'Instrument Serif', serif; font-size: 40px; font-weight: 400; line-height: 1; letter-spacing: -0.02em; margin-bottom: 6px; }
     .verdict-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
 
+    /* ── Evidence images ── */
+    .evidence-img { width: 100%; max-width: 860px; border-radius: 8px; border: 1px solid var(--line); margin: 28px 0; display: block; }
+    .evidence-img-caption { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-top: -18px; margin-bottom: 28px; max-width: 860px; }
+
     /* ── CTA ── */
     .cta-section { background: var(--bg-dark); color: var(--bg); padding: 80px 0; }
     .cta-section h2 { color: var(--bg); }
@@ -294,7 +298,7 @@
         </div>
         <div class="stat">
           <div class="num">3</div>
-          <div class="label" data-i18n="stat4">Bugs in 2023 code<br>found when I came back in 2026</div>
+          <div class="label" data-i18n="stat4">Bugs in 2023 code<br>found on revisit in 2026</div>
         </div>
       </div>
     </div>
@@ -528,6 +532,9 @@
         The key insight from iteration +2: <code>restore_best_weights=True</code> means EarlyStopping saves the weights from the best validation epoch, not the last epoch. Without this, the model would continue training past its peak and return a degraded version. This single flag recovered approximately 0.01 accuracy points that were being lost.
       </p>
 
+      <img src="lstm_training_history.png" alt="LSTM training history — train vs validation accuracy and loss per epoch" class="evidence-img reveal">
+      <p class="evidence-img-caption">Train accuracy terus naik mendekati 0.97 sementara validation stagnan di 0.90 — tanda klasik overfitting pada dataset kecil.</p>
+
       <h3 data-i18n="leak3H">The 92% I reported in 2023 <em>was wrong.</em></h3>
       <p data-i18n="leak3P">When I revisited <code>LSTM_Code.ipynb</code>, I found that KFold cross-validation was applied to the full dataset — including <code>x_test</code>. The model had effectively seen test data during training. I didn't understand this at the time: the notebook ran without errors, the number looked good, so I moved on. In the new comparison notebook, test data is separated before any training step. The honest result is 91.07%. One point lower than what I reported in 2023 — but a number I can now actually explain and defend.</p>
 
@@ -589,6 +596,12 @@ y_pred = le.<span class="fn">inverse_transform</span>(
           </tr>
         </tbody>
       </table>
+
+      <img src="comparison_accuracy.png" alt="Bar chart: accuracy, F1 macro, and F1 weighted comparison across LSTM, NN, and GenAI zero-shot" class="evidence-img reveal">
+      <p class="evidence-img-caption">Perbandingan Accuracy, F1 Macro, dan F1 Weighted — Traditional ML (biru) konsisten unggul di semua metrik. <strong>Catatan:</strong> chart ini dibuat sebelum data leakage diperbaiki (LSTM tampil 0.933); angka yang terkoreksi setelah evaluasi jujur adalah 0.9107 seperti dijelaskan di section 03.</p>
+
+      <img src="comparison_latency.png" alt="Horizontal bar chart: inference latency comparison — GenAI 800ms, LSTM 0.27ms, NN 0.0007ms" class="evidence-img reveal">
+      <p class="evidence-img-caption">Kecepatan inferensi: GenAI zero-shot 800ms vs LSTM 0.27ms vs Neural Network 0.0007ms per sample.</p>
 
       <div class="verdict-strip reveal">
         <div class="verdict-item green">
@@ -709,6 +722,9 @@ y_pred = le.<span class="fn">inverse_transform</span>(
       </table>
       <p style="font-size:13px; color:var(--muted); margin-top: -16px;" data-i18n="trdNote">*Assumes 10,000 requests/day, GPT-4o-mini pricing. ML has no additional per-request cost because it runs on existing CRM infrastructure.</p>
 
+      <img src="comparison_cost_accuracy.png" alt="Dual chart: prompt cost curve (zero-shot to chain-of-thought) and accuracy vs cost scatter showing ML as the optimal point" class="evidence-img reveal">
+      <p class="evidence-img-caption">"Makin bagus prompt = makin mahal." ML (bintang biru) berada di sudut ideal — akurasi tertinggi, biaya terendah.</p>
+
       <div class="pullquote reveal" data-i18n="pq05">
         "The only way to close the accuracy gap with GenAI is to spend more per request — and even then, Chain-of-Thought at $566/yr still doesn't reach 91%."
       </div>
@@ -792,7 +808,7 @@ y_pred = le.<span class="fn">inverse_transform</span>(
         stat1: 'LSTM accuracy\nvs ~78% GenAI zero-shot',
         stat2: 'NN is faster than GenAI\n0.0007 ms vs ~800 ms/sample',
         stat3: 'Cheaper per year\n$0/req ML vs $82+/yr GenAI',
-        stat4: 'Bugs in 2023 code\nfound when I came back in 2026',
+        stat4: 'Bugs in 2023 code\nfound on revisit in 2026',
         sec00Num: '00 · Context',
         sec00Title: 'A 2023 learning project, revisited with a real question.',
         sec00Lede: 'In 2023 this was a class assignment. I built it, submitted it, moved on. In 2026 I came back — not out of nostalgia, but because I needed data I didn\'t have.',
@@ -887,7 +903,7 @@ y_pred = le.<span class="fn">inverse_transform</span>(
         stat1: 'Akurasi LSTM\nvs ~78% GenAI zero-shot',
         stat2: 'NN lebih cepat dari GenAI\n0,0007 ms vs ~800 ms/sample',
         stat3: 'Lebih hemat per tahun\n$0/request ML vs $82+/thn GenAI',
-        stat4: 'Bug di kode 2023\nditemukan saat kembali di 2026',
+        stat4: 'Bug di kode 2023\nditemukan saat revisit 2026',
         sec00Num: '00 · Konteks',
         sec00Title: 'Project belajar 2023, ditinjau ulang dengan pertanyaan nyata.',
         sec00Lede: 'Tahun 2023 ini adalah tugas kelas. Saya bangun, kumpulkan, lanjut. Tahun 2026 saya kembali — bukan karena nostalgia, tapi karena ada data yang saya butuhkan tapi belum punya.',
