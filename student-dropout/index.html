@@ -17,14 +17,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f5f3ee;
-      --bg-alt: #eceae4;
-      --bg-dark: #1a1814;
-      --ink: #1a1814;
-      --ink-soft: #5a574f;
-      --muted: #8c887f;
-      --line: #dddad3;
-      --line-strong: #8c887f;
+      --bg: #ffffff;
+      --bg-alt: #f5f5f5;
+      --bg-dark: #2d2d2d;
+      --ink: #4d4d4d;
+      --ink-soft: #6b6b6b;
+      --muted: #a0a0a0;
+      --line: #d3d3d3;
+      --line-strong: #a0a0a0;
       --primary: #1a5276;
       --accent: #c4490c;
       --accent-soft: #eaf2fb;
@@ -37,8 +37,8 @@
     .skip-link { position: absolute; top: -40px; left: 0; background: var(--ink); color: #fff; padding: 8px 16px; z-index: 1000; transition: top 0.2s; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-decoration: none; }
     .skip-link:focus { top: 0; }
     *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-    nav { position: sticky; top: 0; background: rgba(245,243,238,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
-    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    nav { position: sticky; top: 0; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
+    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 16px; }
     .logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
     .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
     .nav-pill { font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 100px; transition: all 0.2s ease; }
@@ -143,9 +143,9 @@
     .stack-item { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; min-width: 140px; }
     .stack-item-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 4px; }
     .stack-item-val { font-size: 14px; color: var(--ink); font-weight: 500; }
-    .nav-tools { display: flex; align-items: center; gap: 10px; }
+    .nav-tools { display: flex; align-items: center; gap: 10px; width: 100%; }
     .mobile-nav-toggle { display: none; background: transparent; border: none; color: var(--ink); font-size: 1.5rem; cursor: pointer; padding: 0 5px; line-height: 1; }
-    .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+    .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); margin-left: auto; }
     .lang-btn { border: none; background: transparent; color: var(--muted); padding: 6px 10px; border-radius: 999px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.15s; }
     .lang-btn.active { background: var(--ink); color: white; }
     @media (max-width: 760px) {
@@ -157,9 +157,28 @@
       .hero { padding: 56px 0 40px; }
       .insight-grid { grid-template-columns: 1fr; }
       .mobile-nav-toggle { display: block; }
-      .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(245,243,238,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 1.5rem; gap: 0.4rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+      .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 1.5rem; gap: 0.4rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
       nav.nav-open .nav-pills { display: flex; }
       .lesson-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Dark Mode — toggled via data-theme="dark" on <html> ── */
+    html[data-theme="dark"]{
+      --bg:#1c1c1e;--bg-alt:#2c2c2e;--bg-dark:#000000;
+      --ink:#ffffff;--ink-soft:rgba(235,235,245,0.6);--muted:rgba(235,235,245,0.3);
+      --line:rgba(84,84,88,0.65);--line-strong:rgba(84,84,88,0.9);
+      --primary:#5bb8e8;--accent:#ff7043;--accent-soft:rgba(91,184,232,0.12);--green:#30d158;
+    }
+    html[data-theme="dark"] nav{background:rgba(28,28,30,0.92)}
+    html[data-theme="dark"] .nav-pills{background:rgba(28,28,30,0.96)}
+    html[data-theme="dark"] .stats-strip{background:#000000}
+    html[data-theme="dark"] pre.code{background:#000000}
+    html[data-theme="dark"] .lang-btn.active{background:#e5e5ea;color:#1c1c1e}
+    .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}
+    /* ── Reduced Motion — accessibility ── */
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+      html{scroll-behavior:auto}
     }
   </style>
 </head>
@@ -182,6 +201,7 @@
           <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
           <button class="lang-btn" type="button" data-lang-target="id">ID</button>
         </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
       </div>
     </div>
   </nav>
@@ -676,6 +696,15 @@
 
     const savedLang = localStorage.getItem('lang') || 'en';
     applyLanguage(savedLang);
+  </script>
+  <script>
+    (function(){
+      var btn=document.getElementById('themeToggle');
+      var html=document.documentElement;
+      function updateBtn(t){btn.textContent=t==='dark'?'☀':'🌙';btn.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode');}
+      updateBtn(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click',function(){var next=html.getAttribute('data-theme')==='dark'?'light':'dark';html.setAttribute('data-theme',next);localStorage.setItem('theme',next);updateBtn(next);});
+    })();
   </script>
 </body>
 </html>
