@@ -19,14 +19,14 @@
     rel="stylesheet">
   <style>
     :root {
-      --bg: #f5f3ee;
-      --bg-alt: #eceae4;
-      --bg-dark: #1a1814;
-      --ink: #1a1814;
-      --ink-soft: #5a574f;
-      --muted: #8c887f;
-      --line: #dddad3;
-      --line-strong: #8c887f;
+      --bg: #ffffff;
+      --bg-alt: #f5f5f5;
+      --bg-dark: #2d2d2d;
+      --ink: #4d4d4d;
+      --ink-soft: #6b6b6b;
+      --muted: #a0a0a0;
+      --line: #d3d3d3;
+      --line-strong: #a0a0a0;
       --primary: #1a5276;
       --accent: #c4490c;
       --accent-soft: #eaf2fb;
@@ -48,7 +48,7 @@
     nav {
       position: sticky;
       top: 0;
-      background: rgba(250, 250, 247, 0.92);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
@@ -744,7 +744,7 @@
         top: 56px;
         left: 0;
         width: 100%;
-        background: rgba(245, 243, 238, 0.95);
+        background: rgba(255, 255, 255, 0.96);
         backdrop-filter: blur(8px);
         border-bottom: 1px solid var(--line);
         flex-direction: column;
@@ -828,14 +828,36 @@
     .screenshot-slot .slot-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
     .screenshot-slot .slot-title { font-size: 0.9rem; font-weight: 500; color: var(--ink-soft); }
     .screenshot-slot .slot-hint { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 0.35rem; }
+
+    /* ── Dark Mode — toggled via data-theme="dark" on <html> ── */
+    html[data-theme="dark"]{
+      --bg:#1c1c1e;--bg-alt:#2c2c2e;--bg-dark:#000000;
+      --ink:#ffffff;--ink-soft:rgba(235,235,245,0.6);--muted:rgba(235,235,245,0.3);
+      --line:rgba(84,84,88,0.65);--line-strong:rgba(84,84,88,0.9);
+      --primary:#5bb8e8;--accent:#ff7043;--accent-soft:rgba(91,184,232,0.12);--green:#30d158;
+    }
+    html[data-theme="dark"] nav{background:rgba(28,28,30,0.92)}
+    html[data-theme="dark"] .nav-pills{background:rgba(28,28,30,0.96)}
+    html[data-theme="dark"] .stats-strip{background:#000000}
+    html[data-theme="dark"] pre.code{background:#000000}
+    html[data-theme="dark"] .lang-btn.active{background:#e5e5ea;color:#1c1c1e}
+    html[data-theme="dark"] .screenshot-slot{background:#2c2c2e;border-color:rgba(84,84,88,0.65)}
+    .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}
+    /* ── Reduced Motion — accessibility ── */
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+      html{scroll-behavior:auto}
+    }
   </style>
+  <script>
+    (function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();
+  </script>
 </head>
 
 <body>
   <a href="#problem" class="skip-link">Skip to main content</a>
   <nav id="mainNav">
     <div class="nav-inner">
-      <a href="../" class="logo">Ninditya Salma Nur Aini</a>
       <div class="nav-tools">
         <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
           onclick="document.getElementById('mainNav').classList.toggle('nav-open')">☰</button>
@@ -848,6 +870,7 @@
           <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
           <button class="lang-btn" type="button" data-lang-target="id">ID</button>
         </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
       </div>
     </div>
   </nav>
@@ -1273,11 +1296,11 @@ raw_question
 
       <div class="img-grid">
         <div class="img-block">
-          <img src="chatbot-lsa/chatbot%20web.png" alt="Web app chatbot — antarmuka tanya-jawab mahasiswa dengan tampilan step-by-step pipeline TF-IDF, SVD, dan KNN" loading="lazy">
+          <img src="chatbot%20web.png" alt="Web app chatbot — antarmuka tanya-jawab mahasiswa dengan tampilan step-by-step pipeline TF-IDF, SVD, dan KNN" loading="lazy">
           <div class="img-caption">Web app · pipeline classification step-by-step visible</div>
         </div>
         <div class="img-block">
-          <img src="chatbot-lsa/chatbot%20telegram.png" alt="Telegram bot chatbot — mahasiswa tanya lewat Telegram dan mendapat jawaban otomatis dari sistem KNN LSA" loading="lazy">
+          <img src="chatbot%20telegram.png" alt="Telegram bot chatbot — mahasiswa tanya lewat Telegram dan mendapat jawaban otomatis dari sistem KNN LSA" loading="lazy">
           <div class="img-caption">Telegram bot · same backend, conversational interface</div>
         </div>
       </div>
@@ -1697,6 +1720,15 @@ pertanyaan_mentah
     });
 
     applyTranslations('en');
+  </script>
+  <script>
+    (function(){
+      var btn=document.getElementById('themeToggle');
+      var html=document.documentElement;
+      function updateBtn(t){btn.textContent=t==='dark'?'☀':'🌙';btn.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode');}
+      updateBtn(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click',function(){var next=html.getAttribute('data-theme')==='dark'?'light':'dark';html.setAttribute('data-theme',next);localStorage.setItem('theme',next);updateBtn(next);});
+    })();
   </script>
 </body>
 

@@ -17,9 +17,12 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Mono:wght@400;500&amp;family=DM+Sans:wght@400;500;600&amp;display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=7">
   <link rel="icon" type="image/svg+xml"
     href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='100'%20height='100'%20rx='20'%20fill='%231a1a1a'/%3E%3Ctext%20x='50'%20y='68'%20font-family='Inter,%20sans-serif'%20font-size='50'%20font-weight='bold'%20fill='white'%20text-anchor='middle'%3ENA%3C/text%3E%3C/svg%3E">
+  <script>
+    (function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();
+  </script>
 </head>
 
 <body>
@@ -27,7 +30,6 @@
   <!-- NAV -->
   <nav id="mainNav">
     <div class="nav-inner">
-      <a href="#top" class="logo">Ninditya Salma Nur Aini</a>
       <div class="nav-tools">
         <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
           onclick="const nav=document.getElementById('mainNav');nav.classList.toggle('nav-open');this.setAttribute('aria-expanded',nav.classList.contains('nav-open'))">☰</button>
@@ -42,6 +44,7 @@
           <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
           <button class="lang-btn" type="button" data-lang-target="id">ID</button>
         </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
       </div>
     </div>
   </nav>
@@ -60,7 +63,7 @@
       3.5 years in production AI — building chatbot flows at Telkom Group, evaluating RAG &amp; LLM systems as QA at Flip, and end-to-end ML at IDCamp Expert. The profile that brings engineering rigor, data science, and QA discipline to the same build.
     </p>
     <div class="hero-ctas">
-      <a href="mailto:ninditya.sna025@gmail.com" class="cta cta-primary" data-i18n="ctaEmail">✉ Email</a>
+      <a href="mailto:nindityaadrian@gmail.com" class="cta cta-primary" data-i18n="ctaEmail">✉ Email</a>
       <a href="https://linkedin.com/in/ninditya-salma-nur-aini" class="cta cta-secondary" target="_blank" rel="noopener"
         data-i18n="ctaLinkedin">in LinkedIn</a>
       <a href="https://github.com/ninditya" class="cta cta-secondary" target="_blank" rel="noopener"
@@ -703,9 +706,9 @@
           hybrid, or based in Yogyakarta / Jakarta.</p>
       </div>
       <div class="contact-items">
-        <a href="mailto:ninditya.sna025@gmail.com" class="contact-item">
+        <a href="mailto:nindityaadrian@gmail.com" class="contact-item">
           <div class="contact-icon" aria-hidden="true">✉</div>
-          ninditya.sna025@gmail.com
+          nindityaadrian@gmail.com
         </a>
         <a href="https://wa.me/62895371290495" class="contact-item" target="_blank" rel="noopener">
           <div class="contact-icon" aria-hidden="true">☎</div>
@@ -1038,6 +1041,24 @@
 
       requestAnimationFrame(update);
       window.addEventListener('resize', () => { idx = 0; update(); });
+    })();
+  </script>
+
+  <script>
+    (function(){
+      var btn=document.getElementById('themeToggle');
+      var html=document.documentElement;
+      function updateBtn(t){
+        btn.textContent=t==='dark'?'☀':'🌙';
+        btn.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode');
+      }
+      updateBtn(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click',function(){
+        var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+        html.setAttribute('data-theme',next);
+        localStorage.setItem('theme',next);
+        updateBtn(next);
+      });
     })();
   </script>
 
