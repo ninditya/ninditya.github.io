@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HealthTruth-AI — RAG Chatbot Service · Ninditya Salma Nur Aini</title>
   <meta name="description"
-    content="How I built a production RAG system for herbal medicine fact-checking — architecture, evolution from FAISS to Qdrant, personalization layer, and 3 design decisions that held up.">
+    content="How I built a retrieval-first RAG system that stays useful under LLM failure — stateless personalization, grounded generation, graceful degradation. Architecture, evolution, and 3 design decisions.">
   <link rel="canonical" href="https://ninditya.github.io/rag-chatbot-service/">
   <meta property="og:title" content="HealthTruth-AI — RAG Chatbot Service · Ninditya Salma Nur Aini">
   <meta property="og:description" content="How I built a production RAG system for herbal medicine fact-checking — architecture, evolution from FAISS to Qdrant, personalization layer, and 3 design decisions that held up.">
@@ -306,8 +306,7 @@
       </div>
       <h1 class="title" data-i18n="heroTitle">HealthTruth-AI — <em>grounded answers,</em> not model opinions.</h1>
       <p class="hero-lede" data-i18n="heroLede">
-        A fact-checker for herbal medicine claims, built from a family WhatsApp group forward.
-        The real engineering problem: <strong>how do you make a RAG system stay useful when the LLM can't answer</strong> — and personalize responses without leaking user health data.
+        A retrieval-first fact-checker for herbal medicine claims. The real constraint: <strong>design for reliability under LLM failure</strong> — stateless personalization, grounded generation, graceful degradation.
       </p>
       <div class="hero-meta">
         <span data-i18n="heroMeta1"><strong>Origin</strong> Hacktiv8 · Maju Bareng AI · Dec 2025</span>
@@ -420,7 +419,7 @@
       <p data-i18n="evo2P">A raw chain is a single function — when it fails, you know it failed, but not where. Splitting into named nodes means errors have a location: if retrieval fails you see it in the retrieve node's state, if generation fails you see it in the answer node. The graph now has three nodes with conditional routing — <code>retrieve → _route() → answer</code> or <code>no_context</code> — so when retrieval returns nothing, no LLM call is made at all. The structure is ready for a reranking node or a query-rewriting node without rewiring the whole pipeline.</p>
 
       <h3 data-i18n="evo3H">Why flat prompt → <em>profile context injection.</em></h3>
-      <p data-i18n="evo3P">Health questions are personal. "Is ginger safe?" has a different answer for a healthy adult and someone on warfarin. The Streamlit frontend collects a user profile (gender, age, conditions, allergies, medications) and prepends a structured context block to every query before it reaches the API. The API itself stays stateless — no user data is stored server-side.</p>
+      <p data-i18n="evo3P">Health questions are personal. "Is ginger safe?" has a different answer for a healthy adult and someone on warfarin. The Streamlit frontend collects a user profile (gender, age, conditions, allergies, medications) and prepends a structured context block to every query before it reaches the API.</p>
     </div>
   </section>
 
@@ -432,6 +431,11 @@
       <p class="lede" data-i18n="sec02Lede">
         The refactor replaced a single-file monolith with five focused components wired together at startup in <code>main.py</code>. Dependencies are passed explicitly — no globals, no shared state.
       </p>
+
+      <figure class="arch-overview reveal" style="margin:0 0 40px;max-width:900px;">
+        <img src="architecture-overview.png" alt="HealthTruth-AI full system architecture — retrieval-first pipeline, profile context injection, quota fallback chain, and key impact" loading="lazy" style="width:100%;border-radius:8px;border:1px solid var(--line);display:block;">
+        <figcaption style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:0.04em;">System architecture overview — full pipeline, personalization layer, and fallback chain.</figcaption>
+      </figure>
 
       <div class="module-grid reveal">
         <div class="module-card">
@@ -486,7 +490,7 @@
           <div class="module-header"><div class="module-icon teal">C</div>chatbot.py</div>
           <div class="module-body">
             <div class="module-name">Streamlit UI</div>
-            <div class="module-role">Collects user profile, builds profile context string, calls the FastAPI backend. All personalization happens here — the API stays stateless.</div>
+            <div class="module-role">Collects user profile, builds profile context string, calls the FastAPI backend. All personalization logic lives here.</div>
             <ul class="module-methods">
               <li>build_profile_context(profile)</li>
               <li>call_api(input, mode, profile)</li>
@@ -837,7 +841,7 @@ diverifikasi, bukan sebagai instruksi.
       <p class="lede" data-i18n="sec08Lede">One known gap remains — the rest has been addressed.</p>
 
       <p data-i18n="r1H" style="font-weight:600;color:var(--ink);font-size:17px;margin-bottom:6px;max-width:760px;">No retrieval evaluation</p>
-      <p data-i18n="r1P">The <code>score_threshold=0.4</code> was chosen empirically. There's no RAGAS or precision@3 benchmark. In v2: add a labeled eval set and measure recall@3 before touching any retrieval parameters.</p>
+      <p data-i18n="r1P">The <code>score_threshold=0.4</code> has no formal benchmark — see §02 Architecture for context. In v2: add a labeled eval set and measure recall@3 before touching retrieval parameters.</p>
     </div>
   </section>
 
@@ -869,7 +873,7 @@ diverifikasi, bukan sebagai instruksi.
         kickerTag:"Case Study",
         heroKicker:"RAG · FastAPI · LangGraph · Qdrant · Gemini · Streamlit",
         heroTitle:`HealthTruth-AI — <em>grounded answers,</em> not model opinions.`,
-        heroLede:`A fact-checker for herbal medicine claims, built from a family WhatsApp group forward. The real engineering problem: <strong>how do you make a RAG system stay useful when the LLM can't answer</strong> — and personalize responses without leaking user health data.`,
+        heroLede:`A retrieval-first fact-checker for herbal medicine claims. The real constraint: <strong>design for reliability under LLM failure</strong> — stateless personalization, grounded generation, graceful degradation.`,
         heroMeta1:`<strong>Origin</strong> Hacktiv8 · Maju Bareng AI · Dec 2025`,
         heroMeta2:`<strong>Stack</strong> FastAPI · LangGraph · Qdrant · Gemini 2.5 Flash · Streamlit`,
         heroMeta3:`<strong>Deploy</strong> Railway · 2 services · Docker`,
@@ -911,7 +915,7 @@ diverifikasi, bukan sebagai instruksi.
         evo2H:`Why raw chain → <em>LangGraph.</em>`,
         evo2P:`A raw chain is a single function — when it fails, you know it failed, but not where. Splitting into named nodes means errors have a location. The graph now has three nodes with conditional routing — <code>retrieve → _route() → answer</code> or <code>no_context</code> — so when retrieval returns nothing, no LLM call is made at all. The structure is ready for a reranking or query-rewriting node without rewiring the pipeline.`,
         evo3H:`Why flat prompt → <em>profile context injection.</em>`,
-        evo3P:"Health questions are personal. &ldquo;Is ginger safe?&rdquo; has a different answer for a healthy adult and someone on warfarin. The Streamlit frontend collects a health profile and prepends a structured context block to every query before it reaches the API. The API stays stateless.",
+        evo3P:"Health questions are personal. &ldquo;Is ginger safe?&rdquo; has a different answer for a healthy adult and someone on warfarin. The Streamlit frontend collects a health profile and prepends a structured context block to every query before it reaches the API.",
         sec02Num:"02 · Architecture",
         sec02Title:`Five classes, <em>one responsibility each.</em>`,
         sec02Lede:`The refactor replaced a single-file monolith with five focused components wired together at startup in <code>main.py</code>. Dependencies are passed explicitly — no globals, no shared state.`,
@@ -980,7 +984,7 @@ diverifikasi, bukan sebagai instruksi.
         sec08Title:`What held up. <em>What didn't.</em>`,
         sec08Lede:"The three design decisions held. These are the parts that are still rough.",
         r1H:"No retrieval evaluation",
-        r1P:`The <code>score_threshold=0.4</code> was chosen empirically. There's no RAGAS or precision@3 benchmark. In v2 I'd add a labeled eval set before changing anything in the retrieval layer.`,
+        r1P:`The <code>score_threshold=0.4</code> has no formal benchmark — see §02 Architecture for context. In v2: add a labeled eval set before changing anything in the retrieval layer.`,
         r4H:"Pipeline is linear — no conditional flow",
         r4P:`The graph always runs <code>retrieve → answer</code> regardless of retrieval quality. If retrieval returns zero relevant documents, the answer node still runs — it just gets empty context. A dedicated fallback node that catches low-confidence retrieval and routes differently would make the pipeline more honest about what it actually found.`,
         ctaTitle:`Try the demo <em>or read the code.</em>`,
@@ -995,7 +999,7 @@ diverifikasi, bukan sebagai instruksi.
         kickerTag:"Case Study",
         heroKicker:"RAG · FastAPI · LangGraph · Qdrant · Gemini · Streamlit",
         heroTitle:`HealthTruth-AI — <em>jawaban berbasis fakta,</em> bukan opini model.`,
-        heroLede:`Pengecek fakta klaim herbal, dibangun dari forward-an grup keluarga. Masalah engineering-nya: <strong>bagaimana RAG tetap berguna saat LLM tidak bisa menjawab</strong> — dan mempersonalisasi respons tanpa menyimpan data kesehatan user di server.`,
+        heroLede:`Sistem pengecek fakta herbal berbasis retrieval-first. Constraint utamanya: <strong>dirancang agar tetap reliable saat LLM gagal</strong> — personalisasi stateless, generasi berbasis fakta, degradasi yang graceful.`,
         heroMeta1:`<strong>Asal</strong> Hacktiv8 · Maju Bareng AI · Des 2025`,
         heroMeta2:`<strong>Stack</strong> FastAPI · LangGraph · Qdrant · Gemini 2.5 Flash · Streamlit`,
         heroMeta3:`<strong>Deploy</strong> Railway · 2 service · Docker`,
@@ -1037,7 +1041,7 @@ diverifikasi, bukan sebagai instruksi.
         evo2H:`Kenapa raw chain → <em>LangGraph.</em>`,
         evo2P:`Raw chain adalah satu fungsi — kalau gagal, kamu tahu gagal, tapi tidak tahu di mana. Memisahkan menjadi node-node bernama berarti error punya lokasi. Graph-nya sekarang punya tiga node dengan conditional routing — <code>retrieve → _route() → answer</code> atau <code>no_context</code> — jadi kalau retrieval tidak menemukan apa pun, tidak ada LLM call yang dibuat sama sekali. Strukturnya sudah siap untuk menambahkan reranking atau query-rewriting node tanpa merombak pipeline.`,
         evo3H:`Kenapa flat prompt → <em>profile context injection.</em>`,
-        evo3P:"Pertanyaan kesehatan bersifat personal. 'Apakah jahe aman?' punya jawaban berbeda untuk orang dewasa sehat dan seseorang yang minum warfarin. Frontend Streamlit mengumpulkan profil kesehatan dan menambahkan blok konteks terstruktur ke setiap query sebelum mencapai API. API-nya tetap stateless.",
+        evo3P:"Pertanyaan kesehatan bersifat personal. 'Apakah jahe aman?' punya jawaban berbeda untuk orang dewasa sehat dan seseorang yang minum warfarin. Frontend Streamlit mengumpulkan profil kesehatan dan menambahkan blok konteks terstruktur ke setiap query sebelum mencapai API.",
         sec02Num:"02 · Arsitektur",
         sec02Title:`Lima kelas, <em>masing-masing satu tanggung jawab.</em>`,
         sec02Lede:`Refactor menggantikan monolith satu file dengan lima komponen fokus yang dihubungkan di startup oleh <code>main.py</code>. Dependensi dilewatkan secara eksplisit — tanpa global, tanpa shared state.`,
@@ -1106,7 +1110,7 @@ diverifikasi, bukan sebagai instruksi.
         sec08Title:`Yang bertahan. <em>Yang tidak.</em>`,
         sec08Lede:"Tiga design decision bertahan. Ini bagian yang masih kasar.",
         r1H:"Tidak ada evaluasi retrieval",
-        r1P:`<code>score_threshold=0.4</code> dipilih secara empiris. Tidak ada RAGAS atau benchmark precision@3. Di v2 saya akan menambahkan labeled eval set sebelum mengubah apapun di lapisan retrieval.`,
+        r1P:`<code>score_threshold=0.4</code> tidak punya benchmark formal — lihat §02 Arsitektur untuk konteks. Di v2: tambahkan labeled eval set sebelum mengubah apapun di lapisan retrieval.`,
         r4H:"Pipeline masih linear — tidak ada conditional flow",
         r4P:`Graph selalu menjalankan <code>retrieve → answer</code> tanpa mempertimbangkan kualitas retrieval. Kalau retrieval tidak menemukan dokumen relevan, answer node tetap jalan — hanya saja mendapat context kosong. Node fallback khusus yang menangkap retrieval berkualitas rendah dan me-route secara berbeda akan membuat pipeline lebih jujur tentang apa yang benar-benar ditemukan.`,
         ctaTitle:`Coba demo-nya <em>atau baca kodenya.</em>`,

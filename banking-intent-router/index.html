@@ -67,7 +67,7 @@
       margin: 0 auto;
       padding: 16px 32px;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
@@ -125,7 +125,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      flex-wrap: wrap;
+      width: 100%;
     }
 
     .nav-pill {
@@ -159,6 +159,7 @@
       border: 1px solid var(--line);
       border-radius: 999px;
       background: var(--bg);
+      margin-left: auto;
     }
 
     .lang-btn {
@@ -996,69 +997,6 @@
       }
     }
 
-    /* ─── Arch diagram ─── */
-    .arch-vis {
-      display: flex;
-      align-items: stretch;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      overflow: hidden;
-      margin: 2rem 0 2.5rem;
-      background: var(--bg);
-    }
-    .arch-input-col {
-      display: flex;
-      align-items: center;
-      padding: 1.2rem;
-      background: var(--bg-alt);
-      border-right: 1px solid var(--line);
-    }
-    .arch-box { text-align: center; }
-    .arch-box-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
-    .arch-box-title { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
-    .arch-box-sub { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--muted); margin-top: 0.2rem; }
-    .arch-sep { display: flex; align-items: center; padding: 0 0.5rem; color: var(--muted); font-size: 1rem; }
-    .arch-router-col {
-      border-right: 1px solid var(--line);
-      background: rgba(26,82,118,0.04);
-      display: flex;
-      flex-direction: column;
-      min-width: 190px;
-    }
-    .arch-router-header {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--primary);
-      padding: 0.45rem 0.8rem;
-      border-bottom: 1px solid rgba(26,82,118,0.12);
-      background: rgba(26,82,118,0.06);
-    }
-    .arch-router-step { padding: 0.3rem 0.8rem; font-size: 0.82rem; color: var(--ink); }
-    .arch-router-step.rsub { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--muted); padding-top: 0; }
-    .arch-router-div { height: 1px; background: var(--line); margin: 0.25rem 0; }
-    .arch-tiers-col { display: flex; flex-direction: column; flex: 1; }
-    .arch-tier { flex: 1; padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; }
-    .arch-tier:last-child { border-bottom: none; }
-    .tier-head { font-size: 0.84rem; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.15rem; }
-    .tier-badge { font-family: 'DM Mono', monospace; font-size: 0.58rem; padding: 0.1rem 0.35rem; border-radius: 4px; }
-    .tier-meta { font-family: 'DM Mono', monospace; font-size: 0.67rem; color: var(--muted); }
-    .arch-tier.t0 { background: rgba(45,106,79,0.04); }
-    .arch-tier.t0 .tier-badge { background: rgba(45,106,79,0.12); color: var(--green); }
-    .arch-tier.t1 { background: rgba(26,82,118,0.03); }
-    .arch-tier.t1 .tier-badge { background: rgba(26,82,118,0.1); color: var(--primary); }
-    .arch-tier.t2 { background: rgba(196,73,12,0.03); }
-    .arch-tier.t2 .tier-badge { background: rgba(196,73,12,0.1); color: #a03a08; }
-    .arch-tier.t3 { background: rgba(196,73,12,0.07); }
-    .arch-tier.t3 .tier-badge { background: rgba(196,73,12,0.15); color: var(--red); }
-    @media (max-width: 640px) {
-      .arch-vis { flex-direction: column; }
-      .arch-sep { display: none; }
-      .arch-input-col { border-right: none; border-bottom: 1px solid var(--line); }
-      .arch-router-col { border-right: none; border-bottom: 1px solid var(--line); }
-    }
-
     /* ─── Screenshots ─── */
     .img-grid {
       display: grid;
@@ -1161,9 +1099,7 @@
       </p>
       <div class="hero-meta">
         <span data-i18n="heroMetaModel"><strong>Model</strong> SBERT + LinearSVC</span>
-        <span data-i18n="heroMetaDataset"><strong>Dataset</strong> Banking77 (13,083 samples)</span>
-        <span data-i18n="heroMetaF1"><strong>F1 Macro</strong> 0.9305</span>
-        <span data-i18n="heroMetaLatency"><strong>Latency</strong> ~50ms</span>
+        <span data-i18n="heroMetaDataset"><strong>Dataset</strong> Banking77 · 13,083 samples · 77 intents</span>
       </div>
     </div>
   </section>
@@ -1177,7 +1113,7 @@
         </div>
         <div class="stat">
           <div class="num">0.9305</div>
-          <div class="label" data-i18n="statF1">F1 Macro across<br>77 banking intents</div>
+          <div class="label" data-i18n="statF1">F1 Macro<br>Banking77 benchmark</div>
         </div>
         <div class="stat">
           <div class="num">~50<small>ms</small></div>
@@ -1187,176 +1123,6 @@
           <div class="num">77</div>
           <div class="label" data-i18n="statIntents">Banking intents classified</div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="content">
-    <div class="wrap">
-      <div class="section-num" data-i18n="execLogNum">00 · Execution Log</div>
-      <h2>What I actually built, <em>step by step.</em></h2>
-
-      <p class="lede">This project was not just a model benchmark. I took Banking77 from raw exploration to a monitored
-        FastAPI service: EDA, preprocessing, baseline modelling, SBERT upgrade, confidence routing, RAG answer layer,
-        LLM fallback, deployment, and observability.</p>
-
-      <h3>Method selection: why the model changed</h3>
-      <p>I did not start with SBERT. The first modelling path was deliberately simple: TF-IDF features with Logistic
-        Regression. After that, I compared LinearSVC on the same TF-IDF representation, because short intent texts often
-        work well with linear margin-based classifiers. SVM won the sparse-feature baseline, then SBERT embeddings
-        pushed the score higher again.</p>
-
-      <table class="compare">
-        <thead>
-          <tr>
-            <th>Iteration</th>
-            <th>Method</th>
-            <th>Decision</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Baseline 1</td>
-            <td class="num">TF-IDF + Logistic Regression</td>
-            <td>Used as the first interpretable baseline for multi-class intent classification.</td>
-          </tr>
-          <tr>
-            <td>Baseline 2</td>
-            <td class="num">TF-IDF + LinearSVC</td>
-            <td>Performed better in tuning; became the classical ML baseline with F1 macro around 0.8843.</td>
-          </tr>
-          <tr class="highlight">
-            <td>Final</td>
-            <td class="num">SBERT + LinearSVC</td>
-            <td>Chosen for serving because dense sentence embeddings improved F1 macro to 0.9305 while staying fast
-              enough for routing.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="timeline-shell" aria-label="Execution steps carousel" tabindex="0">
-        <div class="timeline-buttons">
-          <button class="timeline-btn" type="button" data-timeline-prev aria-label="Previous steps">←</button>
-          <button class="timeline-btn" type="button" data-timeline-next aria-label="Next steps">→</button>
-        </div>
-        <div class="timeline">
-          <div class="step">
-            <div class="step-id">Step 01 · EDA</div>
-            <h4>Read the Banking77 shape first.</h4>
-            <p>I started by checking sample count, 77 intent labels, class balance, text length distribution, and
-              examples per intent. The goal was to confirm this was an intent-routing problem, not a free-form
-              generation problem.</p>
-            <ul>
-              <li>Output: intent distribution</li>
-              <li>Output: text length distribution</li>
-            </ul>
-          </div>
-
-          <div class="step">
-            <div class="step-id">Step 02 · Preprocessing</div>
-            <h4>Turn notebook steps into a repeatable pipeline.</h4>
-            <p>I moved manual cleaning into a reusable pipeline: lowercase text, remove noisy characters, encode labels,
-              keep a stratified split, and save train/test artifacts so modelling and CI use the same data contract.</p>
-            <ul>
-              <li>Input: Hugging Face PolyAI/banking77</li>
-              <li>Output: train/test artifacts and label encoder</li>
-            </ul>
-          </div>
-
-          <div class="step">
-            <div class="step-id">Step 03 · Baseline</div>
-            <h4>Start simple with TF-IDF + Logistic Regression.</h4>
-            <p>I first used TF-IDF + Logistic Regression as a clean baseline, then tuned LinearSVC on the same TF-IDF
-              features. LinearSVC produced the stronger classical result, reaching roughly 0.8843 F1 macro.</p>
-            <ul>
-              <li>Feature: TF-IDF 1-2 gram, max 10,000 features</li>
-              <li>Models compared: Logistic Regression vs LinearSVC</li>
-            </ul>
-          </div>
-
-          <div class="step">
-            <div class="step-id">Step 04 · SBERT Upgrade</div>
-            <h4>Replace sparse features with dense sentence embeddings.</h4>
-            <p>I used sentence-transformers/all-MiniLM-L6-v2 to encode each query into a 384-dimensional normalized
-              embedding, then tested LinearSVC and Logistic Regression configs with calibrated probabilities.</p>
-            <ul>
-              <li>Best: SBERT + LinearSVC, C=5</li>
-              <li>Result: F1 macro 0.9305, accuracy 0.9285</li>
-            </ul>
-          </div>
-
-          <div class="step">
-            <div class="step-id">Step 05 · Confidence Routing</div>
-            <h4>Use confidence as the production decision signal.</h4>
-            <p>I converted classifier probability into a routing policy. High confidence goes to templates, medium
-              confidence goes to RAG, and low confidence escalates to the LLM.</p>
-            <ul>
-              <li>Template: confidence >= 0.55</li>
-              <li>RAG: 0.30 <= confidence &lt; 0.55</li>
-              <li>LLM: confidence &lt; 0.30</li>
-            </ul>
-          </div>
-
-          <div class="step">
-            <div class="step-id">Step 06 · RAG Layer</div>
-            <h4>Add retrieval for medium-confidence queries.</h4>
-            <p>I built the RAG layer with FAISS IndexFlatIP. FAQ questions are embedded with the same SBERT encoder,
-              normalized, and retrieved by inner product, which acts like cosine similarity for normalized vectors.</p>
-            <ul>
-              <li>Knowledge base: banking FAQ entries</li>
-              <li>Template path retrieves top-1; RAG path retrieves top-3 with sources</li>
-            </ul>
-          </div>
-
-          <div class="step">
-            <div class="step-id">Step 07 · Serving</div>
-            <h4>Package the model behind a FastAPI contract.</h4>
-            <p>I exposed predict, health, and metrics endpoints. The response includes intent id, confidence, routing
-              tier, latency, answer, RAG sources, and LLM answer when escalation happens.</p>
-            <ul>
-              <li>Schema: Pydantic request/response models</li>
-              <li>UI: static chat page with per-tier routing badges</li>
-            </ul>
-          </div>
-
-          <div class="step">
-            <div class="step-id">Step 08 · LLM Fallback</div>
-            <h4>Escalate only when cheaper layers are not enough.</h4>
-            <p>I made the LLM provider configurable: OpenAI, Groq, Ollama, or Mock. If keys are missing or a call fails,
-              the service falls back cleanly instead of crashing.</p>
-            <ul>
-              <li>Provider is switchable by environment variable</li>
-              <li>Intent hint is only passed when confidence is still useful</li>
-            </ul>
-          </div>
-
-          <div class="step">
-            <div class="step-id">Step 09 · Deployment</div>
-            <h4>Make it runnable outside the notebook.</h4>
-            <p>I prepared the serving package with pinned dependencies and a Dockerfile, then deployed it as a Hugging
-              Face Space. Model artifacts are loaded at startup, and CPU-only dependencies keep the image smaller for
-              free-tier hosting.</p>
-            <ul>
-              <li>Runtime: FastAPI + Uvicorn + Docker</li>
-              <li>Demo: Hugging Face Spaces</li>
-            </ul>
-          </div>
-
-          <div class="step">
-            <div class="step-id">Step 10 · Monitoring</div>
-            <h4>Instrument the router like a service.</h4>
-            <p>I added Prometheus metrics for request volume, latency, routing distribution, confidence drift, estimated
-              cost, errors, active requests, and throughput. Grafana dashboards make it clear whether traffic is getting
-              more expensive or less confident over time.</p>
-            <ul>
-              <li>Endpoint: /metrics</li>
-              <li>Dashboard: Grafana Cloud compatible JSON</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="timeline-controls" aria-label="Execution step navigation">
-        <div class="timeline-status" data-timeline-status>Steps 1-2 of 10</div>
       </div>
     </div>
   </section>
@@ -1389,116 +1155,19 @@
     </div>
   </section>
 
-  <section class="content alt">
-    <div class="wrap">
-      <div class="section-num" data-i18n="foundationNum">02 · From LSA to SBERT</div>
-      <h2 data-i18n="foundationTitle">TF-IDF alone was never enough. <em>The question was always how to represent meaning.</em></h2>
-
-      <p class="lede" data-i18n="foundationLede">This project didn't start from a banking brief. It started from a 2021 undergraduate thesis that ran into the exact same problem: raw word counts don't capture what a sentence means.</p>
-
-      <h3 data-i18n="foundation2021Title">2021 thesis: the LSA insight.</h3>
-      <p data-i18n="foundation2021P1">In my thesis, I was building a question classifier for a university chatbot using KNN. The first approach — KNN on raw TF-IDF vectors — had a structural problem. A sparse vector treats "lost card" and "card stolen" as completely unrelated: they share zero terms, so their distance is maximal even though they mean the same thing. KNN on sparse, high-dimensional vectors is both slow to compute and semantically blind.</p>
-      <p data-i18n="foundation2021P2">LSA fixed this via SVD: decompose the TF-IDF matrix, keep the top-k singular values, and project every question into a lower-dimensional latent space. In that space, words that appear in similar contexts cluster together — "lost" and "stolen" both appear near "card" in the corpus, so they end up geometrically close. Accuracy improved from 92.1% to 93.2%, compute time dropped 35%. The lesson: <em>co-occurrence implies meaning, and you need a dense space to exploit it.</em></p>
-
-      <h3 data-i18n="foundationSBERTTitle">2025: SBERT solves the same problem at a different scale.</h3>
-      <p data-i18n="foundationSBERTP1">SBERT (Sentence-BERT) does exactly what LSA did — but instead of decomposing a matrix built from 1,410 local questions, a transformer learns dense representations from pre-training on over a billion sentence pairs. The 384-dimensional output vector encodes meaning through attention weights, not co-occurrence statistics.</p>
-      <p data-i18n="foundationSBERTP2">"Lost my card" and "card stolen" map to nearby points in the SBERT embedding space not because they appeared in the same documents in a small corpus, but because the model learned their shared semantic role across billions of examples. The classifier (LinearSVC) then operates in that already-meaningful space — and confidence in that space becomes a reliable routing signal.</p>
-
-      <table class="compare">
-        <thead>
-          <tr>
-            <th data-i18n="foundationTableCol0"></th>
-            <th data-i18n="foundationTableCol1">LSA · 2021 thesis</th>
-            <th data-i18n="foundationTableCol2">SBERT · this project</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td data-i18n="foundationRow1Label">Semantic knowledge</td>
-            <td data-i18n="foundationRow1A">Co-occurrence in 1,410 questions</td>
-            <td data-i18n="foundationRow1B">Pre-trained on 1B+ sentence pairs</td>
-          </tr>
-          <tr>
-            <td data-i18n="foundationRow2Label">How meaning is found</td>
-            <td data-i18n="foundationRow2A">SVD on TF-IDF matrix (k = 661 dims)</td>
-            <td data-i18n="foundationRow2B">Transformer attention → 384-dim vector</td>
-          </tr>
-          <tr>
-            <td data-i18n="foundationRow3Label">Synonym handling</td>
-            <td data-i18n="foundationRow3A">Partial — only if both appear in corpus</td>
-            <td data-i18n="foundationRow3B">Yes — learned from pre-training</td>
-          </tr>
-          <tr>
-            <td data-i18n="foundationRow4Label">Downstream classifier</td>
-            <td data-i18n="foundationRow4A">KNN (Manhattan distance)</td>
-            <td data-i18n="foundationRow4B">LinearSVC + calibrated probabilities</td>
-          </tr>
-          <tr class="highlight">
-            <td data-i18n="foundationRow5Label">Core mechanism</td>
-            <td data-i18n="foundationRow5A">Co-occurrence → matrix decomposition</td>
-            <td data-i18n="foundationRow5B">Context → attention → embedding</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="pullquote" data-i18n="foundationQuote">
-        "The insight was the same in 2021 and 2025: counting words isn't enough. You need to represent meaning. LSA used matrix algebra to find it in a small corpus. SBERT learned it from pre-training at scale."
-        <span class="attr">— the thread connecting thesis to production</span>
-      </div>
-
-      <p data-i18n="foundationRef">Full breakdown of the 2021 LSA implementation: <a href="../chatbot-lsa/">NLP KNN LSA &amp; Chatbot — thesis case study →</a></p>
-    </div>
-  </section>
-
   <section class="content">
     <div class="wrap">
-      <div class="section-num" data-i18n="architectureNum">03 · The Architecture</div>
+      <div class="section-num" data-i18n="architectureNum">02 · The Architecture</div>
       <h2 data-i18n="architectureTitle">Route by <em>confidence,</em> not by hope.</h2>
 
       <p class="lede" data-i18n="architectureLede">Every query first hits a small SBERT (all-MiniLM-L6-v2) encoder, then
         a LinearSVC classifier
         predicts intent + confidence. The confidence score then routes the query through one of four tiers.</p>
 
-      <div class="arch-vis">
-        <div class="arch-input-col">
-          <div class="arch-box">
-            <div class="arch-box-label">Input</div>
-            <div class="arch-box-title">User Query</div>
-            <div class="arch-box-sub">banking question</div>
-          </div>
-        </div>
-        <div class="arch-sep">→</div>
-        <div class="arch-router-col">
-          <div class="arch-router-header">Confidence Router</div>
-          <div class="arch-router-step">① Regex pre-filter</div>
-          <div class="arch-router-step rsub">greetings · farewells</div>
-          <div class="arch-router-div"></div>
-          <div class="arch-router-step">② SBERT Encoder</div>
-          <div class="arch-router-step rsub">all-MiniLM-L6-v2 · 384-dim</div>
-          <div class="arch-router-div"></div>
-          <div class="arch-router-step">③ LinearSVC + confidence</div>
-          <div class="arch-router-step rsub">intent label · score [0, 1]</div>
-        </div>
-        <div class="arch-sep">→</div>
-        <div class="arch-tiers-col">
-          <div class="arch-tier t0">
-            <div class="tier-head"><span class="tier-badge">TIER 00</span> Conversational</div>
-            <div class="tier-meta">regex match · $0.000 · &lt;1ms</div>
-          </div>
-          <div class="arch-tier t1">
-            <div class="tier-head"><span class="tier-badge">TIER 01</span> Template Handler</div>
-            <div class="tier-meta">conf ≥ 0.55 · $0.001 · ~8ms</div>
-          </div>
-          <div class="arch-tier t2">
-            <div class="tier-head"><span class="tier-badge">TIER 02</span> RAG Pipeline</div>
-            <div class="tier-meta">conf ≥ 0.30 · $0.010 · ~300ms</div>
-          </div>
-          <div class="arch-tier t3">
-            <div class="tier-head"><span class="tier-badge">TIER 03</span> LLM Escalation</div>
-            <div class="tier-meta">conf &lt; 0.30 · $0.050 · ~2s</div>
-          </div>
-        </div>
-      </div>
+      <figure class="arch-overview" style="margin:0 0 40px;max-width:900px;">
+        <img src="architecture-overview.png" alt="Banking Intent Router — 4-tier confidence routing pipeline: regex pre-filter, SBERT + LinearSVC classifier, template handler, RAG pipeline, and LLM escalation" loading="lazy" style="width:100%;border-radius:8px;border:1px solid var(--line);display:block;">
+        <figcaption style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:0.04em;">System overview — 4-tier confidence routing, cost comparison, and key metrics.</figcaption>
+      </figure>
 
       <pre class="code"
         data-i18n="architectureCode"><span class="c"># Tier 0: regex pre-filter (bypass model entirely)</span>
@@ -1570,6 +1239,67 @@ confidence = proba.max()
         passed as a soft context hint to the LLM — <em>but only if</em> confidence ≥ 0.25. Below that threshold, the
         prediction is too noisy to be useful and would mislead the model, so the hint is dropped. Engineering
         decisions like this are what separate a notebook from a production service.</p>
+    </div>
+  </section>
+
+  <section class="content alt">
+    <div class="wrap">
+      <div class="section-num" data-i18n="foundationNum">03 · From LSA to SBERT</div>
+      <h2 data-i18n="foundationTitle">TF-IDF alone was never enough. <em>The question was always how to represent meaning.</em></h2>
+
+      <p class="lede" data-i18n="foundationLede">This project didn't start from a banking brief. It started from a 2021 undergraduate thesis that ran into the exact same problem: raw word counts don't capture what a sentence means.</p>
+
+      <h3 data-i18n="foundation2021Title">2021 thesis: the LSA insight.</h3>
+      <p data-i18n="foundation2021P1">In my thesis, I was building a question classifier for a university chatbot using KNN. The first approach — KNN on raw TF-IDF vectors — had a structural problem. A sparse vector treats "lost card" and "card stolen" as completely unrelated: they share zero terms, so their distance is maximal even though they mean the same thing. KNN on sparse, high-dimensional vectors is both slow to compute and semantically blind.</p>
+      <p data-i18n="foundation2021P2">LSA fixed this via SVD: decompose the TF-IDF matrix, keep the top-k singular values, and project every question into a lower-dimensional latent space. In that space, words that appear in similar contexts cluster together — "lost" and "stolen" both appear near "card" in the corpus, so they end up geometrically close. Accuracy improved from 92.1% to 93.2%, compute time dropped 35%. The lesson: <em>co-occurrence implies meaning, and you need a dense space to exploit it.</em></p>
+
+      <h3 data-i18n="foundationSBERTTitle">2025: SBERT solves the same problem at a different scale.</h3>
+      <p data-i18n="foundationSBERTP1">SBERT (Sentence-BERT) does exactly what LSA did — but instead of decomposing a matrix built from 1,410 local questions, a transformer learns dense representations from pre-training on over a billion sentence pairs. The 384-dimensional output vector encodes meaning through attention weights, not co-occurrence statistics.</p>
+      <p data-i18n="foundationSBERTP2">"Lost my card" and "card stolen" map to nearby points in the SBERT embedding space not because they appeared in the same documents in a small corpus, but because the model learned their shared semantic role across billions of examples. The classifier (LinearSVC) then operates in that already-meaningful space — and confidence in that space becomes a reliable routing signal.</p>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th data-i18n="foundationTableCol0"></th>
+            <th data-i18n="foundationTableCol1">LSA · 2021 thesis</th>
+            <th data-i18n="foundationTableCol2">SBERT · this project</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-i18n="foundationRow1Label">Semantic knowledge</td>
+            <td data-i18n="foundationRow1A">Co-occurrence in 1,410 questions</td>
+            <td data-i18n="foundationRow1B">Pre-trained on 1B+ sentence pairs</td>
+          </tr>
+          <tr>
+            <td data-i18n="foundationRow2Label">How meaning is found</td>
+            <td data-i18n="foundationRow2A">SVD on TF-IDF matrix (k = 661 dims)</td>
+            <td data-i18n="foundationRow2B">Transformer attention → 384-dim vector</td>
+          </tr>
+          <tr>
+            <td data-i18n="foundationRow3Label">Synonym handling</td>
+            <td data-i18n="foundationRow3A">Partial — only if both appear in corpus</td>
+            <td data-i18n="foundationRow3B">Yes — learned from pre-training</td>
+          </tr>
+          <tr>
+            <td data-i18n="foundationRow4Label">Downstream classifier</td>
+            <td data-i18n="foundationRow4A">KNN (Manhattan distance)</td>
+            <td data-i18n="foundationRow4B">LinearSVC + calibrated probabilities</td>
+          </tr>
+          <tr class="highlight">
+            <td data-i18n="foundationRow5Label">Core mechanism</td>
+            <td data-i18n="foundationRow5A">Co-occurrence → matrix decomposition</td>
+            <td data-i18n="foundationRow5B">Context → attention → embedding</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pullquote" data-i18n="foundationQuote">
+        "The insight was the same in 2021 and 2025: counting words isn't enough. You need to represent meaning. LSA used matrix algebra to find it in a small corpus. SBERT learned it from pre-training at scale."
+        <span class="attr">— the thread connecting thesis to production</span>
+      </div>
+
+      <p data-i18n="foundationRef">Full breakdown of the 2021 LSA implementation: <a href="../chatbot-lsa/">NLP KNN LSA &amp; Chatbot — thesis case study →</a></p>
     </div>
   </section>
 
@@ -1747,9 +1477,179 @@ confidence = proba.max()
     </div>
   </section>
 
+  <section class="content">
+    <div class="wrap">
+      <div class="section-num" data-i18n="execLogNum">07 · How It Was Built</div>
+      <h2>What I actually built, <em>step by step.</em></h2>
+
+      <p class="lede">This project was not just a model benchmark. I took Banking77 from raw exploration to a monitored
+        FastAPI service: EDA, preprocessing, baseline modelling, SBERT upgrade, confidence routing, RAG answer layer,
+        LLM fallback, deployment, and observability.</p>
+
+      <h3>Method selection: why the model changed</h3>
+      <p>I did not start with SBERT. The first modelling path was deliberately simple: TF-IDF features with Logistic
+        Regression. After that, I compared LinearSVC on the same TF-IDF representation, because short intent texts often
+        work well with linear margin-based classifiers. SVM won the sparse-feature baseline, then SBERT embeddings
+        pushed the score higher again.</p>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th>Iteration</th>
+            <th>Method</th>
+            <th>Decision</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Baseline 1</td>
+            <td class="num">TF-IDF + Logistic Regression</td>
+            <td>Used as the first interpretable baseline for multi-class intent classification.</td>
+          </tr>
+          <tr>
+            <td>Baseline 2</td>
+            <td class="num">TF-IDF + LinearSVC</td>
+            <td>Performed better in tuning; became the classical ML baseline with F1 macro around 0.8843.</td>
+          </tr>
+          <tr class="highlight">
+            <td>Final</td>
+            <td class="num">SBERT + LinearSVC</td>
+            <td>Chosen for serving because dense sentence embeddings improved F1 macro to 0.9305 while staying fast
+              enough for routing.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="timeline-shell" aria-label="Execution steps carousel" tabindex="0">
+        <div class="timeline-buttons">
+          <button class="timeline-btn" type="button" data-timeline-prev aria-label="Previous steps">←</button>
+          <button class="timeline-btn" type="button" data-timeline-next aria-label="Next steps">→</button>
+        </div>
+        <div class="timeline">
+          <div class="step">
+            <div class="step-id">Step 01 · EDA</div>
+            <h4>Read the Banking77 shape first.</h4>
+            <p>I started by checking sample count, 77 intent labels, class balance, text length distribution, and
+              examples per intent. The goal was to confirm this was an intent-routing problem, not a free-form
+              generation problem.</p>
+            <ul>
+              <li>Output: intent distribution</li>
+              <li>Output: text length distribution</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id">Step 02 · Preprocessing</div>
+            <h4>Turn notebook steps into a repeatable pipeline.</h4>
+            <p>I moved manual cleaning into a reusable pipeline: lowercase text, remove noisy characters, encode labels,
+              keep a stratified split, and save train/test artifacts so modelling and CI use the same data contract.</p>
+            <ul>
+              <li>Input: Hugging Face PolyAI/banking77</li>
+              <li>Output: train/test artifacts and label encoder</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id">Step 03 · Baseline</div>
+            <h4>Start simple with TF-IDF + Logistic Regression.</h4>
+            <p>I first used TF-IDF + Logistic Regression as a clean baseline, then tuned LinearSVC on the same TF-IDF
+              features. LinearSVC produced the stronger classical result, reaching roughly 0.8843 F1 macro.</p>
+            <ul>
+              <li>Feature: TF-IDF 1-2 gram, max 10,000 features</li>
+              <li>Models compared: Logistic Regression vs LinearSVC</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id">Step 04 · SBERT Upgrade</div>
+            <h4>Replace sparse features with dense sentence embeddings.</h4>
+            <p>I used sentence-transformers/all-MiniLM-L6-v2 to encode each query into a 384-dimensional normalized
+              embedding, then tested LinearSVC and Logistic Regression configs with calibrated probabilities.</p>
+            <ul>
+              <li>Best: SBERT + LinearSVC, C=5</li>
+              <li>Result: F1 macro 0.9305, accuracy 0.9285</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id">Step 05 · Confidence Routing</div>
+            <h4>Use confidence as the production decision signal.</h4>
+            <p>I converted classifier probability into a routing policy. High confidence goes to templates, medium
+              confidence goes to RAG, and low confidence escalates to the LLM.</p>
+            <ul>
+              <li>Template: confidence >= 0.55</li>
+              <li>RAG: 0.30 <= confidence &lt; 0.55</li>
+              <li>LLM: confidence &lt; 0.30</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id">Step 06 · RAG Layer</div>
+            <h4>Add retrieval for medium-confidence queries.</h4>
+            <p>I built the RAG layer with FAISS IndexFlatIP. FAQ questions are embedded with the same SBERT encoder,
+              normalized, and retrieved by inner product, which acts like cosine similarity for normalized vectors.</p>
+            <ul>
+              <li>Knowledge base: banking FAQ entries</li>
+              <li>Template path retrieves top-1; RAG path retrieves top-3 with sources</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id">Step 07 · Serving</div>
+            <h4>Package the model behind a FastAPI contract.</h4>
+            <p>I exposed predict, health, and metrics endpoints. The response includes intent id, confidence, routing
+              tier, latency, answer, RAG sources, and LLM answer when escalation happens.</p>
+            <ul>
+              <li>Schema: Pydantic request/response models</li>
+              <li>UI: static chat page with per-tier routing badges</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id">Step 08 · LLM Fallback</div>
+            <h4>Escalate only when cheaper layers are not enough.</h4>
+            <p>I made the LLM provider configurable: OpenAI, Groq, Ollama, or Mock. If keys are missing or a call fails,
+              the service falls back cleanly instead of crashing.</p>
+            <ul>
+              <li>Provider is switchable by environment variable</li>
+              <li>Intent hint is only passed when confidence is still useful</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id">Step 09 · Deployment</div>
+            <h4>Make it runnable outside the notebook.</h4>
+            <p>I prepared the serving package with pinned dependencies and a Dockerfile, then deployed it as a Hugging
+              Face Space. Model artifacts are loaded at startup, and CPU-only dependencies keep the image smaller for
+              free-tier hosting.</p>
+            <ul>
+              <li>Runtime: FastAPI + Uvicorn + Docker</li>
+              <li>Demo: Hugging Face Spaces</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <div class="step-id">Step 10 · Monitoring</div>
+            <h4>Instrument the router like a service.</h4>
+            <p>I added Prometheus metrics for request volume, latency, routing distribution, confidence drift, estimated
+              cost, errors, active requests, and throughput. Grafana dashboards make it clear whether traffic is getting
+              more expensive or less confident over time.</p>
+            <ul>
+              <li>Endpoint: /metrics</li>
+              <li>Dashboard: Grafana Cloud compatible JSON</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-controls" aria-label="Execution step navigation">
+        <div class="timeline-status" data-timeline-status>Steps 1-2 of 10</div>
+      </div>
+    </div>
+  </section>
+
   <section class="content alt">
     <div class="wrap">
-      <div class="section-num" data-i18n="lessonsNum">07 · What I Learned</div>
+      <div class="section-num" data-i18n="lessonsNum">08 · What I Learned</div>
       <h2 data-i18n="lessonsTitle">Four lessons <em>I'll carry forward.</em></h2>
 
       <h3 data-i18n="lesson1Title">1. Real ML engineering = knowing when NOT to use the big model.</h3>
@@ -1780,7 +1680,7 @@ confidence = proba.max()
 
   <section class="content alt">
     <div class="wrap">
-      <div class="section-num" data-i18n="refsNum">08 · References</div>
+      <div class="section-num" data-i18n="refsNum">09 · References</div>
       <h2>Sources I used to ground the <em>technical choices.</em></h2>
 
       <p class="lede">The project decisions are tied to public datasets, papers, model cards, and official documentation
@@ -1889,15 +1789,13 @@ confidence = proba.max()
         heroTitle: 'Cut banking LLM costs <em>88%.</em>',
         heroLede: 'A 4-tier routing system that decides when a customer query needs <strong>a regex pre-filter</strong>, <strong>a template</strong>, <strong>RAG</strong>, or <strong>an actual LLM call</strong> — based on a confidence threshold from SBERT + LinearSVC. Because 80% of banking questions never needed GPT-4 in the first place.',
         heroMetaModel: '<strong>Model</strong> SBERT + LinearSVC',
-        heroMetaDataset: '<strong>Dataset</strong> Banking77 (13,083 samples)',
-        heroMetaF1: '<strong>F1 Macro</strong> 0.9305',
-        heroMetaLatency: '<strong>Latency</strong> ~50ms',
+        heroMetaDataset: '<strong>Dataset</strong> Banking77 · 13,083 samples · 77 intents',
         statCost: 'Cost savings vs all-LLM<br>(range across traffic mixes)',
-        statF1: 'F1 Macro across<br>77 banking intents',
+        statF1: 'F1 Macro<br>Banking77 benchmark',
         statLatency: 'Avg end-to-end latency',
         statIntents: 'Banking intents classified',
-        execLogNum: '00 · Execution Log',
-        refsNum: '08 · References',
+        execLogNum: '07 · How It Was Built',
+        refsNum: '09 · References',
         problemNum: '01 · Why This Exists',
         problemTitle: 'Routine support questions should not always take the <em>most expensive model path.</em>',
         problemLede: 'My chatbot experience spans 2.5 years in e-commerce flows and 1.5 years evaluating fintech chatbot quality. This project turns that product intuition into a banking-domain prototype: routine questions should be routed through cheaper, more predictable layers before escalating to an LLM.',
@@ -1905,7 +1803,7 @@ confidence = proba.max()
         problemBullet1: '<strong>Routine FAQs</strong> (70–80%) — "lost card", "forgot PIN", "check balance" — perfectly handled by templates',
         problemBullet2: '<strong>Knowledge queries</strong> (15–25%) — "what\'s the limit for international wire?" — handled by RAG over a curated FAQ',
         problemBullet3: '<strong>Complex/edge cases</strong> (~5%) — multi-turn reasoning, unusual phrasing — actually need an LLM',
-        foundationNum: '02 · From LSA to SBERT',
+        foundationNum: '03 · From LSA to SBERT',
         foundationTitle: 'TF-IDF alone was never enough. <em>The question was always how to represent meaning.</em>',
         foundationLede: 'This project didn\'t start from a banking brief. It started from a 2021 undergraduate thesis that ran into the exact same problem: raw word counts don\'t capture what a sentence means.',
         foundation2021Title: '2021 thesis: the LSA insight.',
@@ -1934,7 +1832,7 @@ confidence = proba.max()
         foundationRow5B: 'Context → attention → embedding',
         foundationQuote: '"The insight was the same in 2021 and 2025: counting words isn\'t enough. You need to represent meaning. LSA used matrix algebra to find it in a small corpus. SBERT learned it from pre-training at scale."<span class="attr">— the thread connecting thesis to production</span>',
         foundationRef: 'Full breakdown of the 2021 LSA implementation: <a href="../chatbot-lsa/">NLP KNN LSA &amp; Chatbot — thesis case study →</a>',
-        architectureNum: '03 · The Architecture',
+        architectureNum: '02 · The Architecture',
         architectureTitle: 'Route by <em>confidence,</em> not by hope.',
         architectureLede: 'Every query first hits a small SBERT (all-MiniLM-L6-v2) encoder, then a LinearSVC classifier predicts intent + confidence. The confidence score then routes the query through one of four tiers.',
         architectureCode: `<span class="c"># Tier 0: regex pre-filter (bypass model entirely)</span>
@@ -2017,7 +1915,7 @@ confidence = proba.max()
         decision4: '<strong>Confidence-aware LLM prompting.</strong> The classifier\'s predicted intent is passed to the LLM as a soft hint — but only if <code>confidence ≥ 0.25</code>. Below that, the prediction is too noisy and gets dropped to avoid misleading the LLM.',
         decision5: '<strong>Bilingual conversational pre-filter.</strong> The keyword set includes Indonesian greetings/farewells (<code>halo</code>, <code>selamat pagi</code>, <code>terima kasih</code>) — built for actual Indonesian users, not an English-only demo.',
         decision6: '<strong>Pinned exact dependency versions.</strong> All 16 serving deps pinned to specific versions. No "works on my machine" surprises three months later.',
-        lessonsNum: '07 · What I Learned',
+        lessonsNum: '08 · What I Learned',
         lessonsTitle: 'Four lessons <em>I\'ll carry forward.</em>',
         lesson1Title: '1. Real ML engineering = knowing when NOT to use the big model.',
         lesson1Text: 'The instinct to throw GPT-4 at every problem is the most expensive habit in modern ML. The router proves a small model + good architecture can beat a big model on cost-per-correct-answer.',
@@ -2045,15 +1943,13 @@ confidence = proba.max()
         heroTitle: 'Saya tekan biaya LLM banking <em>88%.</em>',
         heroLede: 'Sistem routing 4-tier ini memutuskan kapan pertanyaan nasabah cukup lewat <strong>regex pre-filter</strong>, <strong>template</strong>, <strong>RAG</strong>, atau benar-benar perlu <strong>panggilan ke LLM</strong> — berdasarkan confidence threshold dari SBERT + LinearSVC. Karena 80% pertanyaan perbankan sebenarnya tidak perlu GPT-4.',
         heroMetaModel: '<strong>Model</strong> SBERT + LinearSVC',
-        heroMetaDataset: '<strong>Dataset</strong> Banking77 (13.083 sampel)',
-        heroMetaF1: '<strong>F1 Macro</strong> 0.9305',
-        heroMetaLatency: '<strong>Latency</strong> ~50ms',
+        heroMetaDataset: '<strong>Dataset</strong> Banking77 · 13.083 sampel · 77 intent',
         statCost: 'Penghematan biaya vs all-LLM<br>(range across traffic mixes)',
-        statF1: 'F1 Macro untuk<br>77 intent banking',
+        statF1: 'F1 Macro<br>Banking77 benchmark',
         statLatency: 'Rata-rata latency end-to-end',
         statIntents: 'Intent banking yang diklasifikasi',
-        execLogNum: '00 · Log Eksekusi',
-        refsNum: '08 · Referensi',
+        execLogNum: '07 · Bagaimana Ini Dibangun',
+        refsNum: '09 · Referensi',
         problemNum: '01 · Kenapa Project Ini Dibuat',
         problemTitle: 'Pertanyaan support yang rutin tidak selalu perlu melewati <em>jalur model paling mahal.</em>',
         problemLede: 'Pengalaman chatbot saya mencakup 2,5 tahun membangun flow e-commerce dan 1,5 tahun mengevaluasi kualitas chatbot fintech. Project ini mengubah intuisi produk tersebut menjadi prototype domain banking: pertanyaan rutin sebaiknya melewati layer yang lebih murah dan lebih predictable sebelum dieskalasikan ke LLM.',
@@ -2061,7 +1957,7 @@ confidence = proba.max()
         problemBullet1: '<strong>FAQ rutin</strong> (70–80%) — "kartu hilang", "lupa PIN", "cek saldo" — sangat cocok dijawab template',
         problemBullet2: '<strong>Query pengetahuan</strong> (15–25%) — "berapa limit transfer internasional?" — cocok ditangani RAG di atas FAQ terkurasi',
         problemBullet3: '<strong>Kasus kompleks / edge case</strong> (~5%) — reasoning multi-turn, phrasing tidak biasa — baru benar-benar perlu LLM',
-        foundationNum: '02 · Dari LSA ke SBERT',
+        foundationNum: '03 · Dari LSA ke SBERT',
         foundationTitle: 'TF-IDF saja tidak pernah cukup. <em>Pertanyaannya selalu: bagaimana merepresentasikan makna?</em>',
         foundationLede: 'Project ini tidak bermula dari brief perbankan. Ia bermula dari skripsi 2021 yang menemukan masalah fundamental yang sama persis: penghitungan kata tidak menangkap makna sebuah kalimat.',
         foundation2021Title: 'Skripsi 2021: insight dari LSA.',
@@ -2090,7 +1986,7 @@ confidence = proba.max()
         foundationRow5B: 'Konteks → attention → embedding',
         foundationQuote: '"Insight-nya sama di 2021 dan 2025: menghitung kata tidak cukup. Kamu butuh merepresentasikan makna. LSA menemukan makna lewat aljabar matriks pada corpus kecil. SBERT mempelajarinya dari pre-training pada skala besar."<span class="attr">— benang merah yang menghubungkan skripsi ke production</span>',
         foundationRef: 'Penjelasan lengkap implementasi LSA 2021: <a href="../chatbot-lsa/">NLP KNN LSA &amp; Chatbot — studi kasus skripsi →</a>',
-        architectureNum: '03 · Arsitekturnya',
+        architectureNum: '02 · Arsitekturnya',
         architectureTitle: 'Routing berdasarkan <em>confidence,</em> bukan harapan.',
         architectureLede: 'Setiap query pertama-tama masuk ke encoder SBERT kecil (all-MiniLM-L6-v2), lalu classifier LinearSVC memprediksi intent + confidence. Skor confidence inilah yang menentukan query masuk ke salah satu dari empat tier.',
         architectureCode: `<span class="c"># Tier 0: regex pre-filter (lewati model sepenuhnya)</span>
@@ -2173,7 +2069,7 @@ confidence = proba.max()
         decision4: '<strong>Prompting LLM yang sadar confidence.</strong> Prediksi intent dari classifier diberikan ke LLM sebagai soft hint — tetapi hanya jika <code>confidence ≥ 0.25</code>. Di bawah itu, prediksi terlalu noisy dan dibuang agar tidak menyesatkan LLM.',
         decision5: '<strong>Conversational pre-filter bilingual.</strong> Daftar keyword juga memasukkan greeting/farewell Indonesia (<code>halo</code>, <code>selamat pagi</code>, <code>terima kasih</code>) — dibangun untuk user Indonesia sungguhan, bukan demo yang hanya mengasumsikan English.',
         decision6: '<strong>Versi dependency dipin dengan tepat.</strong> Semua 16 dependency serving dipasang pada versi spesifik. Tidak ada kejutan "works on my machine" tiga bulan kemudian.',
-        lessonsNum: '07 · Yang Saya Pelajari',
+        lessonsNum: '08 · Yang Saya Pelajari',
         lessonsTitle: 'Empat pelajaran <em>yang saya bawa terus.</em>',
         lesson1Title: '1. ML engineering yang nyata = tahu kapan TIDAK memakai model besar.',
         lesson1Text: 'Kebiasaan melempar GPT-4 ke setiap masalah adalah kebiasaan paling mahal di ML modern. Router ini membuktikan bahwa model kecil + arsitektur yang baik bisa mengalahkan model besar dari sisi cost-per-correct-answer.',
