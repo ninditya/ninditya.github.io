@@ -14,7 +14,7 @@
   <meta property="og:type" content="article">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #ffffff;
@@ -33,13 +33,13 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    body { background: var(--bg); color: var(--ink); font-family: 'Space Grotesk', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
     .skip-link { position: absolute; top: -40px; left: 0; background: var(--ink); color: #fff; padding: 8px 16px; z-index: 1000; transition: top 0.2s; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-decoration: none; }
     .skip-link:focus { top: 0; }
     *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
     nav { position: sticky; top: 0; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
     .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 16px; }
-    .logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+    .logo { font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; font-weight: 600; }
     .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
     .nav-pill { font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 100px; transition: all 0.2s ease; }
     .nav-pill:hover { background: var(--bg-alt); color: var(--ink); }
@@ -50,9 +50,9 @@
     .hero-kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
     .kicker-tag { background: var(--ink); color: var(--accent); padding: 5px 12px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
     .kicker-text { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
-    h1.title { font-family: 'Instrument Serif', serif; font-size: clamp(44px, 6.5vw, 80px); line-height: 1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 32px; font-weight: 400; }
+    h1.title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(44px, 6.5vw, 80px); line-height: 1; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 32px; font-weight: 700; }
     h1.title em { font-style: italic; color: var(--primary); }
-    .hero-lede { font-family: 'Instrument Serif', serif; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.45; max-width: 760px; color: var(--ink-soft); font-weight: 400; }
+    .hero-lede { font-family: 'Space Grotesk', sans-serif; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.45; max-width: 760px; color: var(--ink-soft); font-weight: 400; }
     .hero-lede strong { background: linear-gradient(180deg, transparent 60%, var(--accent-soft) 60%); font-weight: 500; color: var(--ink); }
     .hero-meta { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 44px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
     .hero-meta span strong { color: var(--ink); font-weight: 500; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
@@ -60,17 +60,17 @@
     .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
     .stat { text-align: left; padding: 0 28px; border-left: 1px solid rgba(255,255,255,0.12); }
     .stat:first-child { border-left: none; padding-left: 0; }
-    .stat .num { font-family: 'Instrument Serif', serif; font-size: clamp(40px, 5.5vw, 60px); font-weight: 400; line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
-    .stat .num small { font-size: 0.5em; color: var(--bg); opacity: 0.7; font-family: 'Instrument Serif', serif; }
+    .stat .num { font-family: 'Space Grotesk', sans-serif; font-size: clamp(40px, 5.5vw, 60px); font-weight: 700; line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
+    .stat .num small { font-size: 0.5em; color: var(--bg); opacity: 0.7; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
     .stat .label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px; opacity: 0.75; line-height: 1.4; }
     section.content { padding: 80px 0; border-bottom: 1px solid var(--line); }
     section.content.alt { background: var(--bg-alt); }
     .section-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
-    h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 4.5vw, 48px); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 36px; max-width: 800px; color: var(--ink); }
+    h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4.5vw, 48px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 36px; max-width: 800px; color: var(--ink); }
     h2 em { font-style: italic; color: var(--primary); }
-    h3 { font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; margin: 36px 0 14px; letter-spacing: -0.01em; color: var(--ink); }
+    h3 { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 500; margin: 36px 0 14px; letter-spacing: -0.01em; color: var(--ink); }
     h3 em { font-style: italic; color: var(--primary); }
-    .lede { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 760px; margin-bottom: 22px; font-weight: 400; }
+    .lede { font-family: 'Space Grotesk', sans-serif; font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 760px; margin-bottom: 22px; font-weight: 400; }
     p { margin-bottom: 16px; max-width: 760px; color: var(--ink-soft); font-size: 16px; }
     p code, li code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink); }
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin: 40px 0; }
@@ -82,7 +82,7 @@
     ul.checklist li strong { font-weight: 600; color: var(--ink); }
     .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0; }
     .tag { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 5px 11px; border: 1px solid var(--line-strong); background: white; border-radius: 3px; color: var(--ink-soft); }
-    .pullquote { border-left: 3px solid var(--accent); padding: 16px 0 16px 28px; margin: 32px 0; font-family: 'Instrument Serif', serif; font-size: 24px; font-style: italic; line-height: 1.45; max-width: 760px; color: var(--ink); }
+    .pullquote { border-left: 3px solid var(--accent); padding: 16px 0 16px 28px; margin: 32px 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-style: italic; line-height: 1.45; max-width: 760px; color: var(--ink); }
     table.compare { width: 100%; max-width: 760px; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
     table.compare th, table.compare td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); }
     table.compare th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--bg-alt); font-weight: 500; }
@@ -90,7 +90,7 @@
     table.compare tr.highlight td { background: var(--accent-soft); font-weight: 600; color: var(--ink); }
     .insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 32px 0; max-width: 900px; }
     .insight-cell { background: white; padding: 24px; }
-    .insight-num { font-family: 'Instrument Serif', serif; font-size: 36px; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+    .insight-num { font-family: 'Space Grotesk', sans-serif; font-size: 36px; color: var(--accent); line-height: 1; margin-bottom: 8px; font-weight: 700; }
     .insight-label { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
     .insight-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
     .journey-section { background: var(--bg-dark); color: var(--bg); padding: 80px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
