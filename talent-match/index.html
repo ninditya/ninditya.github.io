@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talent Match Intelligence — Ninditya Salma Nur Aini</title>
+  <meta name="description" content="HR analytics system for Paragon Corp: 17-CTE SQL matching algorithm that scores 2,010 employees against top-performer benchmarks, with a live Streamlit dashboard and AI-generated job profiles.">
+  <link rel="canonical" href="https://ninditya.github.io/talent-match/">
+  <meta property="og:title" content="Talent Match Intelligence — Ninditya Salma Nur Aini">
+  <meta property="og:description" content="17-CTE SQL matching algorithm for HR succession planning. Scores 2,010 employees against top-performer benchmarks. Live Streamlit app.">
+  <meta property="og:url" content="https://ninditya.github.io/talent-match/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#ffffff;--bg-alt:#f5f5f5;--bg-dark:#2d2d2d;
+      --ink:#4d4d4d;--ink-soft:#6b6b6b;--muted:#a0a0a0;
+      --line:#d3d3d3;--line-strong:#a0a0a0;
+      --primary:#1a5276;--accent:#c4490c;--accent-soft:#eaf2fb;
+      --green:#2d6a4f;--red:#c4490c;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--ink);font-family:'Space Grotesk',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+    .skip-link{position:absolute;top:-40px;left:0;background:var(--ink);color:#fff;padding:8px 16px;z-index:1000;transition:top 0.2s;font-family:'DM Mono',monospace;font-size:0.8rem;text-decoration:none}
+    .skip-link:focus{top:0}
+    *:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+    nav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+    .nav-inner{max-width:1080px;margin:0 auto;padding:16px 32px;display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:16px}
+    .nav-tools{display:flex;align-items:center;gap:10px;width:100%}
+    .mobile-nav-toggle{display:none;background:transparent;border:none;color:var(--ink);font-size:1.5rem;cursor:pointer;padding:0 5px;line-height:1}
+    .nav-pills{display:flex;gap:6px;flex-wrap:wrap}
+    .nav-pill{font-size:13px;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:100px;transition:all 0.2s ease}
+    .nav-pill:hover{background:var(--bg-alt);color:var(--ink)}
+    .nav-pill.back{color:var(--primary);border:1px solid var(--line)}
+    .nav-pill.back:hover{background:var(--primary);color:white;border-color:var(--primary)}
+    .lang-switch{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--bg);margin-left:auto}
+    .lang-btn{border:none;background:transparent;color:var(--muted);padding:6px 10px;border-radius:999px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.15s}
+    .lang-btn.active{background:var(--ink);color:white}
+    .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+    .hero{padding:80px 0 60px;border-bottom:1px solid var(--line)}
+    .hero-kicker{display:flex;align-items:center;gap:12px;margin-bottom:36px;flex-wrap:wrap}
+    .kicker-tag{background:var(--ink);color:var(--accent);padding:5px 12px;border-radius:4px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase}
+    .kicker-text{font-family:'DM Mono',monospace;font-size:12px;color:var(--primary);letter-spacing:0.05em;text-transform:uppercase}
+    h1.title{font-family:'Space Grotesk',sans-serif;font-size:clamp(44px,6.5vw,80px);line-height:1;letter-spacing:-0.03em;color:var(--ink);margin-bottom:32px;font-weight:700}
+    h1.title em{font-style:italic;color:var(--primary)}
+    .hero-lede{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,2.2vw,26px);line-height:1.45;max-width:760px;color:var(--ink-soft);font-weight:400}
+    .hero-lede strong{background:linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%);font-weight:500;color:var(--ink)}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:28px;margin-top:44px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.02em;color:var(--muted)}
+    .hero-meta span strong{color:var(--ink);font-weight:500;margin-right:6px;text-transform:uppercase;letter-spacing:0.08em;font-size:10px}
+    .stats-strip{background:var(--bg-dark);color:var(--bg);padding:60px 0}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+    .stat{text-align:left;padding:0 28px;border-left:1px solid rgba(255,255,255,0.12)}
+    .stat:first-child{border-left:none;padding-left:0}
+    .stat .num{font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,5.5vw,60px);font-weight:700;line-height:1;color:var(--accent);letter-spacing:-0.02em}
+    .stat .num small{font-size:0.5em;color:var(--bg);opacity:0.7;font-family:'Space Grotesk',sans-serif;font-weight:700}
+    .stat .label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;margin-top:16px;opacity:0.75;line-height:1.4}
+    section.content{padding:80px 0;border-bottom:1px solid var(--line)}
+    section.content.alt{background:var(--bg-alt)}
+    .section-num{font-family:'DM Mono',monospace;font-size:12px;color:var(--primary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:18px;font-weight:500}
+    h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,4.5vw,48px);font-weight:600;letter-spacing:-0.02em;line-height:1.1;margin-bottom:36px;max-width:800px;color:var(--ink)}
+    h2 em{font-style:italic;color:var(--primary)}
+    h3{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:500;margin:36px 0 14px;letter-spacing:-0.01em;color:var(--ink)}
+    .lede{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.5;color:var(--ink-soft);max-width:760px;margin-bottom:22px;font-weight:400}
+    p{margin-bottom:16px;max-width:760px;color:var(--ink-soft);font-size:16px}
+    p code,li code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'DM Mono',monospace;font-size:13px;color:var(--ink)}
+    pre.code{background:var(--bg-dark);color:#e0e0e0;padding:24px 28px;border-radius:8px;font-family:'DM Mono',monospace;font-size:13px;line-height:1.7;overflow-x:auto;margin:24px 0;max-width:760px}
+    pre.code .c{color:#888}
+    pre.code .k{color:#ff9068}
+    pre.code .n{color:#7ec8e3}
+    .tags{display:flex;flex-wrap:wrap;gap:7px;margin:20px 0}
+    .tag{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;padding:5px 11px;border:1px solid var(--line-strong);background:white;border-radius:3px;color:var(--ink-soft)}
+    .pullquote{border-left:3px solid var(--accent);padding:16px 0 16px 28px;margin:32px 0;font-family:'Space Grotesk',sans-serif;font-size:24px;font-style:italic;line-height:1.45;max-width:760px;color:var(--ink)}
+    table.compare{width:100%;max-width:760px;border-collapse:collapse;margin:28px 0;font-size:15px}
+    table.compare th,table.compare td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line)}
+    table.compare th{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);background:var(--bg-alt);font-weight:500}
+    table.compare td.num{font-family:'DM Mono',monospace;font-weight:500;color:var(--ink)}
+    table.compare tr.highlight td{background:var(--accent-soft);font-weight:600;color:var(--ink)}
+    .insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:32px 0;max-width:900px}
+    .insight-cell{background:white;padding:24px}
+    .insight-num{font-family:'Space Grotesk',sans-serif;font-size:36px;color:var(--accent);line-height:1;margin-bottom:8px;font-weight:700}
+    .insight-label{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px}
+    .insight-desc{font-size:14px;color:var(--ink-soft);line-height:1.55}
+    .journey-section{background:var(--bg-dark);color:var(--bg);padding:80px 0;border-bottom:1px solid rgba(255,255,255,0.08)}
+    .journey-section .section-num{color:var(--accent)}
+    .journey-section h2{color:var(--bg);max-width:800px}
+    .journey-section h2 em{color:var(--accent)}
+    .journey-section p{color:rgba(255,255,255,0.7);max-width:720px}
+    .journey-section h3{color:rgba(255,255,255,0.9);margin-top:40px;margin-bottom:12px}
+    .lesson-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:24px 0;max-width:800px}
+    .lesson-cell{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:20px}
+    .lesson-cell-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:8px}
+    .lesson-cell p{font-size:14px;color:rgba(255,255,255,0.65);margin:0;max-width:none}
+    .lesson-cell p strong{color:rgba(255,255,255,0.9)}
+    .cta-section{background:var(--bg-alt);color:var(--ink);padding:80px 0}
+    .cta-section h2{color:var(--ink)}
+    .cta-section h2 em{color:var(--primary)}
+    .cta-section p{color:var(--ink-soft)}
+    .cta-section .section-num{color:var(--primary)}
+    .cta-buttons{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+    .btn{display:inline-block;padding:14px 26px;background:var(--accent);color:var(--ink);text-decoration:none;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;border:2px solid var(--accent);border-radius:4px;transition:all 0.2s ease}
+    .btn:hover{background:transparent;color:var(--accent)}
+    .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+    .btn.ghost:hover{background:var(--ink);color:white;border-color:var(--ink)}
+    .stack-row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;margin:28px 0}
+    .stack-item{background:var(--bg-alt);border:1px solid var(--line);border-radius:8px;padding:12px 16px;min-width:140px}
+    .stack-item-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--primary);margin-bottom:4px}
+    .stack-item-val{font-size:14px;color:var(--ink);font-weight:500}
+    .cte-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:28px 0;max-width:760px}
+    .cte-row{display:contents}
+    .cte-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);padding:10px 14px;background:var(--bg-alt);border-bottom:1px solid var(--line);white-space:nowrap}
+    .cte-desc{font-family:'DM Mono',monospace;font-size:12px;color:var(--ink-soft);padding:10px 14px;background:var(--bg);border-bottom:1px solid var(--line)}
+    footer{background:var(--bg-dark);color:rgba(255,255,255,0.7);padding:28px 0;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;border-top:1px solid rgba(255,255,255,0.1)}
+    footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+    footer a{color:var(--accent);text-decoration:none}
+    ul.checklist{list-style:none;padding:0;margin:24px 0;max-width:800px}
+    ul.checklist li{padding:14px 0 14px 36px;position:relative;border-bottom:1px solid var(--line);font-size:15px;line-height:1.55;color:var(--ink-soft)}
+    ul.checklist li:last-child{border-bottom:none}
+    ul.checklist li::before{content:'✓';position:absolute;left:0;top:14px;color:var(--green);font-weight:700;font-size:16px}
+    ul.checklist li strong{font-weight:600;color:var(--ink)}
+    html[data-theme="dark"]{--bg:#1c1c1e;--bg-alt:#2c2c2e;--bg-dark:#000000;--ink:#ffffff;--ink-soft:rgba(235,235,245,0.6);--muted:rgba(235,235,245,0.3);--line:rgba(84,84,88,0.65);--line-strong:rgba(84,84,88,0.9);--primary:#5bb8e8;--accent:#ff7043;--accent-soft:rgba(91,184,232,0.12);--green:#30d158}
+    html[data-theme="dark"] nav{background:rgba(28,28,30,0.92)}
+    html[data-theme="dark"] .nav-pills{background:rgba(28,28,30,0.96)}
+    html[data-theme="dark"] .stats-strip{background:#000000}
+    html[data-theme="dark"] pre.code{background:#000000}
+    html[data-theme="dark"] .lang-btn.active{background:#e5e5ea;color:#1c1c1e}
+    html[data-theme="dark"] .insight-cell{background:var(--bg-alt)}
+    html[data-theme="dark"] .tag{background:var(--bg-alt)}
+    @media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,1fr);gap:32px 0}.stat:nth-child(3){border-left:none}.wrap{padding:0 20px}.nav-inner{padding:14px 20px}.hero{padding:56px 0 40px}.insight-grid{grid-template-columns:1fr}.lesson-grid{grid-template-columns:1fr}.mobile-nav-toggle{display:block}.nav-pills{display:none;position:absolute;top:56px;left:0;width:100%;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);flex-direction:column;padding:1rem 1.5rem;gap:0.4rem;box-shadow:0 4px 12px rgba(0,0,0,0.05)}nav.nav-open .nav-pills{display:flex}.cte-grid{grid-template-columns:1fr}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}html{scroll-behavior:auto}}
+  </style>
+  <script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light')})();</script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a href="/" class="nav-pill back">← Back to portfolio</a>
+          <a href="/#projects" class="nav-pill">Projects</a>
+          <a href="/#contact" class="nav-pill">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="wrap">
+        <div class="hero-kicker">
+          <span class="kicker-tag">Section 02 · Applied Data Science</span>
+          <span class="kicker-text" data-i18n="kickerText">HR Analytics · SQL · Succession Planning</span>
+        </div>
+        <h1 class="title" data-i18n="heroTitle">Talent Match<br><em>Intelligence</em></h1>
+        <p class="hero-lede" data-i18n="heroLede">
+          How do you systematically identify which of your 2,010 employees most closely matches the profile of your top performers? I built a <strong>17-CTE SQL matching algorithm</strong> that scores every employee against a manager-defined benchmark, wrapping it in a live Streamlit dashboard with AI-generated job profiles.
+        </p>
+        <div class="hero-meta">
+          <span><strong>SQL</strong> PostgreSQL · 17 CTEs · PERCENTILE_CONT · MODE()</span>
+          <span><strong>Stack</strong> Supabase · Streamlit · Python · Plotly · OpenRouter</span>
+          <span><strong>Dataset</strong> 2,010 employees · 5 years · 6 tables · 180K+ rows</span>
+          <span data-i18n="metaContext"><strong>Context</strong> Data Analyst Case Study 2025 · Paragon Corp</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-strip">
+      <div class="wrap">
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="num">2,010</div>
+            <div class="label">Employees<br>scored & ranked</div>
+          </div>
+          <div class="stat">
+            <div class="num">17</div>
+            <div class="label">SQL CTEs in<br>matching query</div>
+          </div>
+          <div class="stat">
+            <div class="num">5</div>
+            <div class="label">TGV categories<br>in Success Formula</div>
+          </div>
+          <div class="stat">
+            <div class="num">Live</div>
+            <div class="label">Streamlit app<br>deployed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: PROBLEM -->
+    <section class="content" id="problem">
+      <div class="wrap">
+        <div class="section-num">01 — Problem</div>
+        <h2>Succession planning done by gut. <em>Can data do better?</em></h2>
+        <p class="lede" data-i18n="s1Lede">
+          Company X needs to fill vacancies by matching candidates to the profile of their proven top performers. Without a systematic method, managers rely on subjective judgment — missing employees who look different on paper but share the same underlying success traits.
+        </p>
+        <p>The task: analyze what actually differentiates Rating-5 employees from everyone else, then encode that into a scoring system any manager can use.</p>
+        <p>The dataset spans 6 tables, 2,010 employees, and 5 years of assessment data:</p>
+        <ul class="checklist">
+          <li><strong>employees</strong> — 2,010 records with org structure (grade, directorate, tenure)</li>
+          <li><strong>performance_yearly</strong> — 10,050 rows: ratings 1–5 across 2021–2025</li>
+          <li><strong>profiles_psych</strong> — Psychometric scores: IQ, GTQ, TIKI, Pauli, Faxtor, DISC, MBTI</li>
+          <li><strong>papi_scores</strong> — 40,200 rows: 20 PAPI work preference scales per employee</li>
+          <li><strong>competencies_yearly</strong> — 100,500 rows: 10 competency pillars × 5 years</li>
+          <li><strong>strengths</strong> — 28,140 rows: top-14 CliftonStrengths themes per employee</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">SQL</span><span class="tag">PostgreSQL</span><span class="tag">HR Analytics</span>
+          <span class="tag">Succession Planning</span><span class="tag">Streamlit</span><span class="tag">OpenRouter</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: SUCCESS PATTERN -->
+    <section class="content alt" id="eda">
+      <div class="wrap">
+        <div class="section-num">02 — Success Pattern Discovery</div>
+        <h2>What actually separates top performers <em>from everyone else?</em></h2>
+        <p class="lede">187 employees have Rating=5 out of 1,975 valid records (9.5%). The EDA asked one question: across all dimensions, what do these 187 people have in common that the other 1,788 don't?</p>
+
+        <h3>Competency Execution — the strongest signal</h3>
+        <p>All 10 competency pillars show significant positive differences for R5 employees. The top four differentiators point to a success profile built around <em>people-orientation and business impact</em>, not just technical execution.</p>
+
+        <table class="compare">
+          <thead><tr><th>Pillar</th><th>Label</th><th class="num">R5 Mean</th><th class="num">Others</th><th class="num">Δ</th></tr></thead>
+          <tbody>
+            <tr class="highlight"><td>SEA</td><td>Social Empathy &amp; Awareness</td><td class="num">5.03</td><td class="num">2.92</td><td class="num">+2.10</td></tr>
+            <tr class="highlight"><td>VCU</td><td>Value Creation for Users</td><td class="num">5.01</td><td class="num">3.17</td><td class="num">+1.83</td></tr>
+            <tr class="highlight"><td>CSI</td><td>Commercial Savvy &amp; Impact</td><td class="num">5.04</td><td class="num">3.22</td><td class="num">+1.82</td></tr>
+            <tr class="highlight"><td>STO</td><td>Synergy &amp; Team Orientation</td><td class="num">4.96</td><td class="num">3.15</td><td class="num">+1.81</td></tr>
+            <tr><td>CEX</td><td>Curiosity &amp; Experimentation</td><td class="num">4.41</td><td class="num">2.96</td><td class="num">+1.44</td></tr>
+            <tr><td>QDD</td><td>Quality Delivery Discipline</td><td class="num">4.56</td><td class="num">3.16</td><td class="num">+1.40</td></tr>
+            <tr><td>LIE</td><td>Lead, Inspire &amp; Empower</td><td class="num">4.47</td><td class="num">3.18</td><td class="num">+1.29</td></tr>
+          </tbody>
+        </table>
+
+        <h3>The counterintuitive PAPI finding</h3>
+        <p>R5 employees score <em>lower</em> on the PAPI Leadership (G) scale (−0.35), but higher on Planning (Papi_P, +0.35) and Need to Belong (Papi_W, +0.12). High performers at this grade level drive results through collaboration and planning discipline — not positional authority.</p>
+
+        <h3>Psychometrics: stamina matters, IQ doesn't</h3>
+
+        <div class="insight-grid">
+          <div class="insight-cell">
+            <div class="insight-num">+3.05</div>
+            <div class="insight-label">Pauli score gap</div>
+            <div class="insight-desc">Mental arithmetic stamina — strongest cognitive differentiator. Sustained effort beats peak IQ.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-num">+1.20</div>
+            <div class="insight-label">GTQ gap</div>
+            <div class="insight-desc">General aptitude shows moderate positive signal for top performers.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-num">−0.59</div>
+            <div class="insight-label">IQ gap</div>
+            <div class="insight-desc">No meaningful IQ difference. Raw intelligence doesn't predict consistent excellence at this level.</div>
+          </div>
+        </div>
+
+        <h3>Behavioral strengths: future-oriented, self-driven</h3>
+        <p>The top CliftonStrengths themes in R5 — Futuristic (19.8%), Restorative (19.8%), Intellection (18.7%), Self-Assurance (17.6%), Activator (16.0%) — paint a consistent picture: visionary problem-solvers who take initiative without waiting for permission.</p>
+        <p>DISC type shows no single dominant pattern in R5. High performance is <em>execution-dependent</em>, not style-dependent.</p>
+
+        <h3>The Success Formula</h3>
+        <p>Based on the EDA, the weighted TGV formula:</p>
+        <pre class="code">Final Match Rate =
+  <span class="n">0.30</span> × Cognitive Ability     <span class="c">-- Pauli &amp; GTQ signal</span>
++ <span class="n">0.25</span> × Competency Execution  <span class="c">-- strongest differentiator</span>
++ <span class="n">0.20</span> × Work Preferences      <span class="c">-- planning &amp; achievement</span>
++ <span class="n">0.15</span> × Behavioral Strengths  <span class="c">-- theme cluster signal</span>
++ <span class="n">0.10</span> × Contextual Fit        <span class="c">-- tenure, grade (weak signal)</span></pre>
+      </div>
+    </section>
+
+    <!-- SECTION 3: SQL ALGORITHM -->
+    <section class="content" id="sql">
+      <div class="wrap">
+        <div class="section-num">03 — SQL Matching Algorithm</div>
+        <h2>17 CTEs. One query. <em>Every employee scored.</em></h2>
+        <p class="lede">The matching algorithm is a single parameterized SQL query that accepts a <code>job_vacancy_id</code> and returns every employee ranked by Final Match Rate — no precomputation, no hardcoded IDs.</p>
+
+        <div class="pullquote">"The benchmark is never fixed. Any manager can define it at runtime by selecting 1–3 top performers as reference."</div>
+
+        <h3>CTE Architecture</h3>
+        <div class="cte-grid">
+          <div class="cte-num">CTE 1–2</div><div class="cte-desc">benchmark_employees → unpack selected IDs from talent_benchmarks; benchmark_psych → psychometric scores for those employees</div>
+          <div class="cte-num">CTE 3–6</div><div class="cte-desc">baseline_psych, baseline_papi, baseline_competency → PERCENTILE_CONT(0.5) medians per TV across benchmarks</div>
+          <div class="cte-num">CTE 7–8</div><div class="cte-desc">benchmark_disc_mode, benchmark_mbti_mode → MODE() WITHIN GROUP for categorical baselines</div>
+          <div class="cte-num">CTE 9</div><div class="cte-desc">benchmark_strength_pool → pooled unique top-5 CliftonStrengths themes from all benchmarks</div>
+          <div class="cte-num">CTE 10–12</div><div class="cte-desc">candidate_info, candidate_psych, candidate_papi → all 2,010 employees with org context and scores</div>
+          <div class="cte-num">CTE 13</div><div class="cte-desc">candidate_strengths_overlap → top-5 theme overlap count per candidate vs benchmark pool</div>
+          <div class="cte-num">CTE 14</div><div class="cte-desc">tv_match_rates_long → per-employee × per-TV match rate in long format (UNION ALL across all TVs)</div>
+          <div class="cte-num">CTE 15–17</div><div class="cte-desc">tgv_match_rates → AVG within TGV; tgv_weights → hardcoded weights; final_match_rates → weighted total</div>
+        </div>
+
+        <h3>Scoring formulas</h3>
+        <pre class="code"><span class="c">-- Numeric TV (higher = better)</span>
+<span class="k">LEAST</span>(100, <span class="k">ROUND</span>(user_score / <span class="k">NULLIF</span>(baseline_score, 0) * 100, 2))
+
+<span class="c">-- Numeric TV (lower = better — inverse PAPI scales Z, K)</span>
+<span class="k">LEAST</span>(100, <span class="k">GREATEST</span>(0, <span class="k">ROUND</span>(
+    (2 * baseline_score - user_score) / <span class="k">NULLIF</span>(baseline_score, 0) * 100, 2
+)))
+
+<span class="c">-- Categorical (DISC, MBTI — exact match)</span>
+<span class="k">CASE WHEN</span> user_val = baseline_val <span class="k">THEN</span> 100.0 <span class="k">ELSE</span> 0.0 <span class="k">END</span>
+<span class="c">-- NULL when either value missing → no penalty for untested data</span>
+
+<span class="c">-- CliftonStrengths overlap</span>
+<span class="k">ROUND</span>(overlap_count::<span class="n">NUMERIC</span> / 5 * 100, 2)</pre>
+
+        <h3>Sample output</h3>
+        <table class="compare">
+          <thead><tr><th>Employee</th><th>Final Match</th><th class="num">Cognitive</th><th class="num">Competency</th><th class="num">Work Prefs</th></tr></thead>
+          <tbody>
+            <tr class="highlight"><td>Yoga Erlangga M.</td><td class="num">92.52%</td><td class="num">92.2%</td><td class="num">98.0%</td><td class="num">86.8%</td></tr>
+            <tr><td>Prasetyo Halim</td><td class="num">89.85%</td><td class="num">88.1%</td><td class="num">96.5%</td><td class="num">84.2%</td></tr>
+            <tr><td>Umar Wibowo</td><td class="num">89.05%</td><td class="num">90.3%</td><td class="num">94.2%</td><td class="num">83.1%</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Data model</h3>
+        <div class="stack-row">
+          <div class="stack-item"><div class="stack-item-label">Schema</div><div class="stack-item-val">Star schema</div></div>
+          <div class="stack-item"><div class="stack-item-label">Tables</div><div class="stack-item-val">11 tables + FK</div></div>
+          <div class="stack-item"><div class="stack-item-label">Indexes</div><div class="stack-item-val">6 composite indexes</div></div>
+          <div class="stack-item"><div class="stack-item-label">Database</div><div class="stack-item-val">Supabase (Postgres)</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: APP -->
+    <section class="content alt" id="app">
+      <div class="wrap">
+        <div class="section-num">04 — AI App &amp; Dashboard</div>
+        <h2>Any manager can now <em>run a vacancy search.</em></h2>
+        <p class="lede">The Streamlit app wraps the matching algorithm in a form-driven interface: define a vacancy, pick 1–3 top performers as benchmark, and get a ranked list of 2,010 employees — with AI-generated job profiles and interactive visualizations.</p>
+
+        <h3>What the app does</h3>
+        <ul class="checklist">
+          <li><strong>Runtime vacancy creation</strong> — Writes a new <code>talent_benchmarks</code> row with a unique vacancy ID. Baselines computed dynamically from selected benchmarks.</li>
+          <li><strong>AI job profile generation</strong> — Calls OpenRouter (MiniMax M2.5) with a structured prompt including TGV averages and top CliftonStrengths themes. Returns JSON: job_requirements, job_description, key_competencies.</li>
+          <li><strong>Match score distribution</strong> — Histogram of all 2,010 employees, top-15 bar chart, TGV heatmap for top-20 candidates.</li>
+          <li><strong>Candidate detail view</strong> — Radar chart (candidate vs benchmark = 100%), TV strengths &amp; gaps bar sorted by match rate, with an 80% threshold line marking competency targets.</li>
+        </ul>
+
+        <h3>Stack</h3>
+        <div class="stack-row">
+          <div class="stack-item"><div class="stack-item-label">Frontend</div><div class="stack-item-val">Streamlit 1.40</div></div>
+          <div class="stack-item"><div class="stack-item-label">Database</div><div class="stack-item-val">Supabase (Postgres)</div></div>
+          <div class="stack-item"><div class="stack-item-label">Charts</div><div class="stack-item-val">Plotly 5.24</div></div>
+          <div class="stack-item"><div class="stack-item-label">AI</div><div class="stack-item-val">OpenRouter / MiniMax</div></div>
+          <div class="stack-item"><div class="stack-item-label">Runtime</div><div class="stack-item-val">Python 3.11</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: CHALLENGES & LEARNINGS -->
+    <section class="journey-section" id="learnings">
+      <div class="wrap">
+        <div class="section-num">05 — Challenges &amp; Learnings</div>
+        <h2>What I would tell myself <em>before starting this project.</em></h2>
+        <div class="lesson-grid">
+          <div class="lesson-cell">
+            <div class="lesson-cell-label">ERD vs reality</div>
+            <p>The case study brief described GTQ1–GTQ5 and Tiki1–Tiki4 as separate columns. The actual database stores single composite values (<code>gtq</code>, <code>tiki</code>). <strong>Iterating through the live schema revealed the real structure</strong> — documentation can lie.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label">Model availability</div>
+            <p>OpenRouter free-tier models deprecated without notice mid-development. <strong>Required live API querying to discover a working model</strong>. Never hardcode a free-tier model name.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label">Supabase pagination</div>
+            <p>PostgREST caps at 1,000 rows per request. <strong>Built a custom paginated <code>fetch_table()</code> function</strong> to handle all 2,010 employees cleanly — the kind of edge case that only surfaces at scale.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label">Counterintuitive insights</div>
+            <p>The PAPI Leadership (G) finding — that R5 employees score <em>lower</em> on leadership style — was the most analytically valuable result. <strong>The data pushed back against the obvious assumption</strong>, which is exactly when EDA earns its keep.</p>
+          </div>
+        </div>
+        <h3>Ideas for future improvement</h3>
+        <p>Longitudinal competency trend (slope over 5 years) instead of single latest-year score. Role-specific weight sets per job family. Ensemble baseline using performance trajectory weighting. Auto-generated personalized development plans for each candidate.</p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="cta">
+      <div class="wrap">
+        <div class="section-num">Links</div>
+        <h2>The algorithm is live. <em>Try it.</em></h2>
+        <p>The Streamlit app is publicly deployed — enter a role, pick benchmark employees, get a ranked list of 2,010 candidates in under 10 seconds.</p>
+        <div class="cta-buttons">
+          <a href="https://ninditya-talent-match-intelligence.streamlit.app/" target="_blank" rel="noopener" class="btn">↗ Open Live App</a>
+          <a href="https://github.com/ninditya/talent-match-intelligence" target="_blank" rel="noopener" class="btn ghost">View on GitHub</a>
+          <a href="/" class="btn ghost">← Back to portfolio</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a></span>
+      <span><a href="https://github.com/ninditya/talent-match-intelligence" target="_blank" rel="noopener">GitHub</a> · <a href="https://ninditya-talent-match-intelligence.streamlit.app/" target="_blank" rel="noopener">Live App</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        kickerText: 'HR Analytics · SQL · Succession Planning',
+        heroTitle: 'Talent Match<br><em>Intelligence</em>',
+        heroLede: 'How do you systematically identify which of your 2,010 employees most closely matches the profile of your top performers? I built a <strong>17-CTE SQL matching algorithm</strong> that scores every employee against a manager-defined benchmark, wrapping it in a live Streamlit dashboard with AI-generated job profiles.',
+        metaContext: '<strong>Context</strong> Data Analyst Case Study 2025 · Paragon Corp',
+        s1Lede: 'Company X needs to fill vacancies by matching candidates to the profile of their proven top performers. Without a systematic method, managers rely on subjective judgment — missing employees who look different on paper but share the same underlying success traits.'
+      },
+      id: {
+        kickerText: 'HR Analytics · SQL · Succession Planning',
+        heroTitle: 'Talent Match<br><em>Intelligence</em>',
+        heroLede: 'Bagaimana cara sistematis mengidentifikasi mana dari 2.010 karyawan yang paling cocok dengan profil top performer? Saya membangun <strong>algoritma SQL matching 17 CTE</strong> yang men-score setiap karyawan terhadap benchmark yang ditentukan manajer, dibungkus dalam dashboard Streamlit live dengan job profile hasil AI.',
+        metaContext: '<strong>Konteks</strong> Data Analyst Case Study 2025 · Paragon Corp',
+        s1Lede: 'Perusahaan X perlu mengisi jabatan dengan mencocokkan kandidat ke profil top performer yang sudah terbukti. Tanpa metode sistematis, manajer mengandalkan penilaian subjektif — melewatkan karyawan yang di atas kertas berbeda namun memiliki traits sukses yang sama.'
+      }
+    };
+    function applyLanguage(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const v = translations[lang][el.dataset.i18n];
+        if (v) el.innerHTML = v;
+      });
+      document.querySelectorAll('[data-lang-target]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.langTarget === lang);
+      });
+    }
+    document.querySelectorAll('[data-lang-target]').forEach(btn => {
+      btn.addEventListener('click', () => applyLanguage(btn.dataset.langTarget));
+    });
+    applyLanguage('en');
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      function update(t){ btn.textContent = t==='dark'?'☀':'🌙'; btn.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode'); }
+      update(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click', function(){
+        const next = html.getAttribute('data-theme')==='dark'?'light':'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        update(next);
+      });
+    })();
+  </script>
+</body>
+</html>
