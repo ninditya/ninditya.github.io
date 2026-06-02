@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ETL Fashion Pipeline — Ninditya Salma Nur Aini</title>
+  <meta name="description" content="Modular Python ETL pipeline scraping 50 pages of fashion product data, cleaning and transforming it, then loading to 3 destinations: CSV, PostgreSQL, and Google Sheets — with full pytest coverage using MagicMock.">
+  <link rel="canonical" href="https://ninditya.github.io/etl-fashion-pipeline/">
+  <meta property="og:title" content="ETL Fashion Pipeline — Ninditya Salma Nur Aini">
+  <meta property="og:url" content="https://ninditya.github.io/etl-fashion-pipeline/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#ffffff;--bg-alt:#f5f5f5;--bg-dark:#2d2d2d;--ink:#4d4d4d;--ink-soft:#6b6b6b;--muted:#a0a0a0;--line:#d3d3d3;--line-strong:#a0a0a0;--primary:#1a5276;--accent:#c4490c;--accent-soft:#eaf2fb;--green:#2d6a4f;--red:#c4490c}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--ink);font-family:'Space Grotesk',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+    .skip-link{position:absolute;top:-40px;left:0;background:var(--ink);color:#fff;padding:8px 16px;z-index:1000;transition:top 0.2s;font-family:'DM Mono',monospace;font-size:0.8rem;text-decoration:none}
+    .skip-link:focus{top:0}
+    *:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+    nav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+    .nav-inner{max-width:1080px;margin:0 auto;padding:16px 32px;display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:16px}
+    .nav-tools{display:flex;align-items:center;gap:10px;width:100%}
+    .mobile-nav-toggle{display:none;background:transparent;border:none;color:var(--ink);font-size:1.5rem;cursor:pointer;padding:0 5px;line-height:1}
+    .nav-pills{display:flex;gap:6px;flex-wrap:wrap}
+    .nav-pill{font-size:13px;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:100px;transition:all 0.2s ease}
+    .nav-pill:hover{background:var(--bg-alt);color:var(--ink)}
+    .nav-pill.back{color:var(--primary);border:1px solid var(--line)}
+    .nav-pill.back:hover{background:var(--primary);color:white;border-color:var(--primary)}
+    .lang-switch{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--bg);margin-left:auto}
+    .lang-btn{border:none;background:transparent;color:var(--muted);padding:6px 10px;border-radius:999px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.15s}
+    .lang-btn.active{background:var(--ink);color:white}
+    .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+    .hero{padding:80px 0 60px;border-bottom:1px solid var(--line)}
+    .hero-kicker{display:flex;align-items:center;gap:12px;margin-bottom:36px;flex-wrap:wrap}
+    .kicker-tag{background:var(--ink);color:var(--accent);padding:5px 12px;border-radius:4px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase}
+    .kicker-text{font-family:'DM Mono',monospace;font-size:12px;color:var(--primary);letter-spacing:0.05em;text-transform:uppercase}
+    h1.title{font-family:'Space Grotesk',sans-serif;font-size:clamp(44px,6.5vw,80px);line-height:1;letter-spacing:-0.03em;color:var(--ink);margin-bottom:32px;font-weight:700}
+    h1.title em{font-style:italic;color:var(--primary)}
+    .hero-lede{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,2.2vw,26px);line-height:1.45;max-width:760px;color:var(--ink-soft);font-weight:400}
+    .hero-lede strong{background:linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%);font-weight:500;color:var(--ink)}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:28px;margin-top:44px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.02em;color:var(--muted)}
+    .hero-meta span strong{color:var(--ink);font-weight:500;margin-right:6px;text-transform:uppercase;letter-spacing:0.08em;font-size:10px}
+    .stats-strip{background:var(--bg-dark);color:var(--bg);padding:60px 0}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+    .stat{text-align:left;padding:0 28px;border-left:1px solid rgba(255,255,255,0.12)}
+    .stat:first-child{border-left:none;padding-left:0}
+    .stat .num{font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,5.5vw,60px);font-weight:700;line-height:1;color:var(--accent);letter-spacing:-0.02em}
+    .stat .num small{font-size:0.5em;color:var(--bg);opacity:0.7;font-weight:700}
+    .stat .label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;margin-top:16px;opacity:0.75;line-height:1.4}
+    section.content{padding:80px 0;border-bottom:1px solid var(--line)}
+    section.content.alt{background:var(--bg-alt)}
+    .section-num{font-family:'DM Mono',monospace;font-size:12px;color:var(--primary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:18px;font-weight:500}
+    h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,4.5vw,48px);font-weight:600;letter-spacing:-0.02em;line-height:1.1;margin-bottom:36px;max-width:800px;color:var(--ink)}
+    h2 em{font-style:italic;color:var(--primary)}
+    h3{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:500;margin:36px 0 14px;letter-spacing:-0.01em;color:var(--ink)}
+    .lede{font-family:'Space Grotesk',sans-serif;font-size:22px;line-height:1.5;color:var(--ink-soft);max-width:760px;margin-bottom:22px;font-weight:400}
+    p{margin-bottom:16px;max-width:760px;color:var(--ink-soft);font-size:16px}
+    p code,li code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'DM Mono',monospace;font-size:13px;color:var(--ink)}
+    pre.code{background:var(--bg-dark);color:#e0e0e0;padding:24px 28px;border-radius:8px;font-family:'DM Mono',monospace;font-size:13px;line-height:1.7;overflow-x:auto;margin:24px 0;max-width:760px}
+    pre.code .c{color:#888}
+    pre.code .k{color:#ff9068}
+    pre.code .n{color:#7ec8e3}
+    .tags{display:flex;flex-wrap:wrap;gap:7px;margin:20px 0}
+    .tag{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;padding:5px 11px;border:1px solid var(--line-strong);background:white;border-radius:3px;color:var(--ink-soft)}
+    .pullquote{border-left:3px solid var(--accent);padding:16px 0 16px 28px;margin:32px 0;font-family:'Space Grotesk',sans-serif;font-size:24px;font-style:italic;line-height:1.45;max-width:760px;color:var(--ink)}
+    table.compare{width:100%;max-width:760px;border-collapse:collapse;margin:28px 0;font-size:15px}
+    table.compare th,table.compare td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line)}
+    table.compare th{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);background:var(--bg-alt);font-weight:500}
+    table.compare td.num{font-family:'DM Mono',monospace;font-weight:500;color:var(--ink)}
+    table.compare tr.highlight td{background:var(--accent-soft);font-weight:600;color:var(--ink)}
+    .insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:32px 0;max-width:900px}
+    .insight-cell{background:white;padding:24px}
+    .insight-num{font-family:'Space Grotesk',sans-serif;font-size:36px;color:var(--accent);line-height:1;margin-bottom:8px;font-weight:700}
+    .insight-label{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px}
+    .insight-desc{font-size:14px;color:var(--ink-soft);line-height:1.55}
+    .journey-section{background:var(--bg-dark);color:var(--bg);padding:80px 0;border-bottom:1px solid rgba(255,255,255,0.08)}
+    .journey-section .section-num{color:var(--accent)}
+    .journey-section h2{color:var(--bg);max-width:800px}
+    .journey-section h2 em{color:var(--accent)}
+    .journey-section p{color:rgba(255,255,255,0.7);max-width:720px}
+    .journey-section h3{color:rgba(255,255,255,0.9);margin-top:40px;margin-bottom:12px}
+    .lesson-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:24px 0;max-width:800px}
+    .lesson-cell{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:20px}
+    .lesson-cell-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:8px}
+    .lesson-cell p{font-size:14px;color:rgba(255,255,255,0.65);margin:0;max-width:none}
+    .lesson-cell p strong{color:rgba(255,255,255,0.9)}
+    .cta-section{background:var(--bg-alt);color:var(--ink);padding:80px 0}
+    .cta-section h2{color:var(--ink)}
+    .cta-section h2 em{color:var(--primary)}
+    .cta-buttons{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+    .btn{display:inline-block;padding:14px 26px;background:var(--accent);color:var(--ink);text-decoration:none;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;border:2px solid var(--accent);border-radius:4px;transition:all 0.2s ease}
+    .btn:hover{background:transparent;color:var(--accent)}
+    .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+    .btn.ghost:hover{background:var(--ink);color:white;border-color:var(--ink)}
+    .stack-row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;margin:28px 0}
+    .stack-item{background:var(--bg-alt);border:1px solid var(--line);border-radius:8px;padding:12px 16px;min-width:140px}
+    .stack-item-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--primary);margin-bottom:4px}
+    .stack-item-val{font-size:14px;color:var(--ink);font-weight:500}
+    .pipeline-flow{display:flex;align-items:stretch;gap:0;margin:32px 0;max-width:760px;flex-wrap:wrap}
+    .pipeline-step{flex:1;min-width:180px;background:var(--bg-alt);border:1px solid var(--line);padding:20px;position:relative}
+    .pipeline-step:not(:first-child)::before{content:'→';position:absolute;left:-14px;top:50%;transform:translateY(-50%);color:var(--accent);font-size:18px;font-weight:700;background:var(--bg);padding:0 2px}
+    .pipeline-step-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--primary);margin-bottom:8px}
+    .pipeline-step-title{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:6px}
+    .pipeline-step-desc{font-size:13px;color:var(--ink-soft);line-height:1.5}
+    ul.checklist{list-style:none;padding:0;margin:24px 0;max-width:800px}
+    ul.checklist li{padding:14px 0 14px 36px;position:relative;border-bottom:1px solid var(--line);font-size:15px;line-height:1.55;color:var(--ink-soft)}
+    ul.checklist li:last-child{border-bottom:none}
+    ul.checklist li::before{content:'✓';position:absolute;left:0;top:14px;color:var(--green);font-weight:700;font-size:16px}
+    ul.checklist li strong{font-weight:600;color:var(--ink)}
+    footer{background:var(--bg-dark);color:rgba(255,255,255,0.7);padding:28px 0;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em}
+    footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+    footer a{color:var(--accent);text-decoration:none}
+    html[data-theme="dark"]{--bg:#1c1c1e;--bg-alt:#2c2c2e;--bg-dark:#000000;--ink:#ffffff;--ink-soft:rgba(235,235,245,0.6);--muted:rgba(235,235,245,0.3);--line:rgba(84,84,88,0.65);--line-strong:rgba(84,84,88,0.9);--primary:#5bb8e8;--accent:#ff7043;--accent-soft:rgba(91,184,232,0.12);--green:#30d158}
+    html[data-theme="dark"] nav{background:rgba(28,28,30,0.92)}
+    html[data-theme="dark"] .stats-strip,html[data-theme="dark"] pre.code{background:#000000}
+    html[data-theme="dark"] .insight-cell,html[data-theme="dark"] .tag{background:var(--bg-alt)}
+    html[data-theme="dark"] .lang-btn.active{background:#e5e5ea;color:#1c1c1e}
+    @media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,1fr);gap:32px 0}.stat:nth-child(3){border-left:none}.wrap{padding:0 20px}.nav-inner{padding:14px 20px}.hero{padding:56px 0 40px}.insight-grid{grid-template-columns:1fr}.lesson-grid{grid-template-columns:1fr}.pipeline-flow{flex-direction:column}.pipeline-step::before{display:none}.mobile-nav-toggle{display:block}.nav-pills{display:none;position:absolute;top:56px;left:0;width:100%;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);flex-direction:column;padding:1rem 1.5rem;gap:0.4rem}nav.nav-open .nav-pills{display:flex}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}html{scroll-behavior:auto}}
+  </style>
+  <script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light')})();</script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a href="/" class="nav-pill back">← Back to portfolio</a>
+          <a href="/#projects" class="nav-pill">Projects</a>
+          <a href="/#contact" class="nav-pill">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <div class="hero">
+      <div class="wrap">
+        <div class="hero-kicker">
+          <span class="kicker-tag">Section 03 · QA &amp; Testing</span>
+          <span class="kicker-text">ETL · pytest · Data Quality</span>
+        </div>
+        <h1 class="title">ETL Fashion<br><em>Pipeline</em></h1>
+        <p class="hero-lede">
+          Data pipelines fail silently. A scraper that crashes on page 23, a transform that drops null prices without logging it, a load that silently overwrites instead of appending — <strong>pytest finds these before they hit production.</strong> This project is an end-to-end ETL with full unit test coverage using MagicMock.
+        </p>
+        <div class="hero-meta">
+          <span><strong>Extract</strong> BeautifulSoup · requests · 50 pages</span>
+          <span><strong>Transform</strong> pandas · USD→IDR · data validation</span>
+          <span><strong>Load</strong> CSV · PostgreSQL (SQLAlchemy) · Google Sheets API</span>
+          <span><strong>Testing</strong> pytest · MagicMock · coverage</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-strip">
+      <div class="wrap">
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="num">50</div>
+            <div class="label">Pages scraped<br>per pipeline run</div>
+          </div>
+          <div class="stat">
+            <div class="num">3</div>
+            <div class="label">Load destinations<br>CSV · PG · Sheets</div>
+          </div>
+          <div class="stat">
+            <div class="num">3</div>
+            <div class="label">Test modules<br>extract · transform · load</div>
+          </div>
+          <div class="stat">
+            <div class="num">100<small>%</small></div>
+            <div class="label">Branch coverage<br>per module</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: PROBLEM -->
+    <section class="content" id="problem">
+      <div class="wrap">
+        <div class="section-num">01 — Problem</div>
+        <h2>Pipelines fail at the edges. <em>The edges you forgot to test.</em></h2>
+        <p class="lede">
+          Most ETL tutorials show the happy path: scrape → clean → load, everything works. Real pipelines fail when HTML structure changes mid-scrape, when a product has a null price, when the database connection drops after 40 successful writes.
+        </p>
+        <p>The goal of this project was to build an ETL pipeline where every possible failure mode is covered by a test — and where the tests use MagicMock so they run fast, in isolation, without needing a live database or live web server.</p>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">BeautifulSoup</span><span class="tag">pandas</span>
+          <span class="tag">PostgreSQL</span><span class="tag">SQLAlchemy</span><span class="tag">Google Sheets API</span>
+          <span class="tag">pytest</span><span class="tag">MagicMock</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: ARCHITECTURE -->
+    <section class="content alt" id="architecture">
+      <div class="wrap">
+        <div class="section-num">02 — Architecture</div>
+        <h2>Three modular layers. <em>Each independently testable.</em></h2>
+
+        <div class="pipeline-flow">
+          <div class="pipeline-step">
+            <div class="pipeline-step-label">Extract</div>
+            <div class="pipeline-step-title">utils/extract.py</div>
+            <div class="pipeline-step-desc">Web scrapes 50 pages of fashion-studio.dicoding.dev. Per-card parsing with graceful None on broken HTML.</div>
+          </div>
+          <div class="pipeline-step">
+            <div class="pipeline-step-label">Transform</div>
+            <div class="pipeline-step-title">utils/transform.py</div>
+            <div class="pipeline-step-desc">Filters invalid records, converts USD→IDR, parses numerics, strips prefixes, deduplicates.</div>
+          </div>
+          <div class="pipeline-step">
+            <div class="pipeline-step-label">Load</div>
+            <div class="pipeline-step-title">utils/load.py</div>
+            <div class="pipeline-step-desc">Writes to CSV, PostgreSQL (replace), and Google Sheets (clear + update). Each destination has its own error handler.</div>
+          </div>
+        </div>
+
+        <h3>Extract — safe against broken HTML</h3>
+        <p>Each product card is parsed by <code>extract_product()</code>. The function wraps all field access in a <code>try/except</code> and returns <code>None</code> on any error — so a single broken card never crashes the scrape loop. <code>extract_data()</code> skips failed pages with <code>continue</code>, ensuring partial data is still written rather than nothing.</p>
+
+        <h3>Transform — explicit validation chain</h3>
+        <p>The cleaning chain is ordered to fail fast: filter null titles and null prices first, then check that price strings actually contain digits (rejects <code>"Price Unavailable"</code>), then convert types. Currency conversion uses an environment variable <code>EXCHANGE_RATE_USD_TO_IDR</code> with a safe default, not a hardcoded constant.</p>
+
+        <pre class="code"><span class="c"># Explicit validation order — fast fail, no silent drops</span>
+df = df[df[<span class="n">"title"</span>].notna()]
+df = df[df[<span class="n">"title"</span>].str.lower() != <span class="n">"unknown product"</span>]
+df = df[df[<span class="n">"price"</span>].notna()]
+df = df[df[<span class="n">"price"</span>].str.contains(<span class="n">r"\d"</span>, regex=<span class="k">True</span>)]  <span class="c"># reject "Price Unavailable"</span>
+
+EXCHANGE_RATE = <span class="k">float</span>(os.getenv(<span class="n">"EXCHANGE_RATE_USD_TO_IDR"</span>, 16000))
+df[<span class="n">"price"</span>] = df[<span class="n">"price"</span>].str.replace(<span class="n">r"[$,]"</span>, <span class="n">""</span>, regex=<span class="k">True</span>).astype(<span class="k">float</span>) * EXCHANGE_RATE</pre>
+
+        <h3>Load — three destinations, one interface</h3>
+        <p><code>save_csv()</code>, <code>save_postgres()</code>, and <code>save_gsheet()</code> all follow the same contract: check if DataFrame is empty first, write if not, catch exceptions and log them. Each function is independently callable — the pipeline doesn't fail completely if one destination is unavailable.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 3: TESTING -->
+    <section class="content" id="testing">
+      <div class="wrap">
+        <div class="section-num">03 — Testing Strategy</div>
+        <h2>Every branch covered. <em>No live dependencies.</em></h2>
+        <p class="lede">The test suite uses <code>MagicMock</code> throughout — no real HTTP requests, no real database, no real Google Sheets API. Tests run in milliseconds and pass consistently regardless of network state.</p>
+
+        <div class="pullquote">"A test that requires a live database connection is a test that fails at 2am when the database is unreachable."</div>
+
+        <h3>test_extract.py — mocking HTML structure</h3>
+        <p>Each test creates a <code>mock_card()</code> that simulates a BeautifulSoup <code>div.collection-card</code> using <code>MagicMock.find.side_effect</code>. The mock dispatches on tag name — <code>h3</code> returns title, <code>span</code> returns price, <code>div</code> returns a detail box with configurable <code>&lt;p&gt;</code> tags.</p>
+
+        <table class="compare">
+          <thead><tr><th>Test</th><th>What it covers</th></tr></thead>
+          <tbody>
+            <tr><td><code>test_extract_product_success_full_fields</code></td><td>All fields present → dict with correct values and timestamp</td></tr>
+            <tr><td><code>test_extract_product_partial_missing_fields</code></td><td>Rating/colors/gender = None → function returns without crash, None fields preserved</td></tr>
+            <tr class="highlight"><td><code>test_extract_product_exception_returns_none</code></td><td>Broken HTML raises exception → returns None, never propagates</td></tr>
+            <tr><td><code>test_extract_data_success_mixed_products</code></td><td>2 cards returned → DataFrame with 2 rows</td></tr>
+            <tr><td><code>test_extract_data_empty_page</code></td><td>No cards on page → empty DataFrame</td></tr>
+            <tr class="highlight"><td><code>test_extract_data_request_exception</code></td><td>Network error on all pages → empty DataFrame, no crash</td></tr>
+          </tbody>
+        </table>
+
+        <h3>test_transform.py — data quality contracts</h3>
+        <p>Tests verify that the transform function enforces its contracts on mixed, empty, and all-invalid input:</p>
+        <ul class="checklist">
+          <li><strong>Mixed input</strong> — "Unknown Product" and None titles removed; price dtype is float; rating dtype is float; colors dtype is int; size/gender strings stripped of prefixes</li>
+          <li><strong>Empty DataFrame</strong> — function returns empty DataFrame without crash (guards against empty extract output)</li>
+          <li><strong>All-invalid input</strong> — all records filtered → empty DataFrame returned (not an error)</li>
+        </ul>
+
+        <h3>test_load.py — mocking external systems</h3>
+        <p><code>save_postgres</code> mocks <code>create_engine</code> and <code>to_sql</code> to verify the correct table name and <code>if_exists="replace"</code> strategy. <code>save_gsheet</code> mocks the full Google API chain — <code>service.spreadsheets().values().clear().execute()</code> and <code>.update().execute()</code> — asserting both are called once.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 4: DECISIONS -->
+    <section class="content alt" id="decisions">
+      <div class="wrap">
+        <div class="section-num">04 — Design Decisions</div>
+        <h2>Three choices that made the pipeline <em>production-ready.</em></h2>
+
+        <div class="insight-grid">
+          <div class="insight-cell">
+            <div class="insight-num">01</div>
+            <div class="insight-label">Fail-safe scraping</div>
+            <div class="insight-desc">Each card returns <code>None</code> on error instead of raising. The loop collects partial results — 47 good pages out of 50 is still useful data, not a total failure.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-num">02</div>
+            <div class="insight-label">Env-var exchange rate</div>
+            <div class="insight-desc">USD→IDR rate reads from <code>EXCHANGE_RATE_USD_TO_IDR</code> env var with a default. Changing the rate never requires a code change — just an env update.</div>
+          </div>
+          <div class="insight-cell">
+            <div class="insight-num">03</div>
+            <div class="insight-label">Injectable service in load</div>
+            <div class="insight-desc"><code>save_gsheet()</code> accepts an optional <code>service</code> parameter. When provided, it skips credential loading — making the function directly testable without a credentials file.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNINGS -->
+    <section class="journey-section" id="learnings">
+      <div class="wrap">
+        <div class="section-num">05 — What this project is really about</div>
+        <h2>QA isn't a safety net. <em>It's a design discipline.</em></h2>
+        <p>Writing tests for this pipeline changed how I wrote the pipeline itself. Functions that are hard to test are usually hard to maintain. The injectable <code>service</code> parameter in <code>save_gsheet()</code> wasn't planned — it emerged because I needed the function to be testable without credentials.</p>
+        <div class="lesson-grid">
+          <div class="lesson-cell">
+            <div class="lesson-cell-label">Testability shapes design</div>
+            <p>When you write the test first, you catch structural problems early. <strong>Functions with too many dependencies are hard to mock</strong> — and that difficulty is the design feedback.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label">MagicMock for external APIs</div>
+            <p>The Google Sheets API chain (<code>spreadsheets().values().clear().execute()</code>) looks daunting to mock. <strong>Chained MagicMock calls just work</strong> — each call returns another Mock by default.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label">Coverage is a floor, not a goal</div>
+            <p>100% branch coverage doesn't mean the pipeline is correct. <strong>It means every code path has been exercised at least once</strong>. The actual data quality contracts live in the assertions, not the coverage number.</p>
+          </div>
+          <div class="lesson-cell">
+            <div class="lesson-cell-label">Multi-destination load</div>
+            <p>Splitting into <code>save_csv</code>, <code>save_postgres</code>, <code>save_gsheet</code> made each independently testable and independently deployable. <strong>A single monolithic <code>save_all()</code> would have been a test nightmare</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="cta">
+      <div class="wrap">
+        <div class="section-num">Links</div>
+        <h2>Code is <em>complete.</em></h2>
+        <p>Full source code with extract, transform, load modules and pytest test suite. Write-up and GitHub publication in progress.</p>
+        <div class="cta-buttons">
+          <a href="/" class="btn ghost">← Back to portfolio</a>
+          <a href="/#projects" class="btn ghost">Other projects</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a></span>
+      <span><a href="/#contact">Get in touch</a></span>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('[data-lang-target]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.documentElement.lang = btn.dataset.langTarget;
+        document.querySelectorAll('[data-lang-target]').forEach(b => b.classList.toggle('active', b.dataset.langTarget === btn.dataset.langTarget));
+      });
+    });
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      function update(t){ btn.textContent = t==='dark'?'☀':'🌙'; btn.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode'); }
+      update(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click', function(){
+        const next = html.getAttribute('data-theme')==='dark'?'light':'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        update(next);
+      });
+    })();
+  </script>
+</body>
+</html>
