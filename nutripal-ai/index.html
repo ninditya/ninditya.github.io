@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriPal AI — AI-Powered Nutrition App · Ninditya Salma Nur Aini</title>
+  <meta name="description"
+    content="How I built a full-stack AI nutrition app with Gemini Vision, Genkit flows, Supabase Realtime, and a 4-key rotation system — from onboarding to production.">
+  <link rel="canonical" href="https://ninditya.github.io/nutripal-ai/">
+  <meta property="og:title" content="NutriPal AI — AI-Powered Nutrition App · Ninditya Salma Nur Aini">
+  <meta property="og:description" content="How I built a full-stack AI nutrition app with Gemini Vision, Genkit flows, Supabase Realtime, and a 4-key rotation system — from onboarding to production.">
+  <meta property="og:url" content="https://ninditya.github.io/nutripal-ai/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff; --bg-alt: #f5f5f5; --bg-dark: #2d2d2d;
+      --ink: #4d4d4d; --ink-soft: #6b6b6b; --muted: #a0a0a0;
+      --line: #d3d3d3; --line-strong: #a0a0a0;
+      --primary: #1a5276; --accent: #c4490c; --accent-soft: #eaf2fb;
+      --green: #2d6a4f; --red: #c4490c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+    /* ── Nav ── */
+    nav { position: sticky; top: 0; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
+    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .skip-link { position: absolute; top: -40px; left: 0; background: var(--ink); color: #fff; padding: 8px 16px; z-index: 1000; transition: top 0.2s; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-decoration: none; }
+    .skip-link:focus { top: 0; }
+    *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .mobile-nav-toggle { display: none; background: transparent; border: none; color: var(--ink); font-size: 1.5rem; cursor: pointer; padding: 0 5px; line-height: 1; }
+    .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .nav-tools { display: flex; align-items: center; gap: 10px; width: 100%; }
+    .nav-pill { font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 100px; transition: all 0.2s ease; }
+    .nav-pill:hover { background: var(--bg-alt); color: var(--ink); }
+    .nav-pill.back { color: var(--primary); border: 1px solid var(--line); }
+    .nav-pill.back:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); margin-left: auto; }
+    .lang-btn { border: none; background: transparent; color: var(--muted); padding: 6px 10px; border-radius: 999px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
+    .lang-btn.active { background: var(--ink); color: var(--bg); }
+
+    /* ── Layout ── */
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+    section.content { padding: 80px 0; border-bottom: 1px solid var(--line); }
+    section.content.alt { background: var(--bg-alt); }
+    section.content:last-of-type { border-bottom: none; }
+    .section-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
+
+    /* ── Typography ── */
+    .hero { padding: 80px 0 60px; border-bottom: 1px solid var(--line); }
+    .hero-kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
+    .kicker-tag { background: var(--ink); color: var(--accent); padding: 5px 12px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+    .kicker-text { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
+    h1.title { font-family: 'Instrument Serif', serif; font-size: clamp(44px,6.5vw,80px); line-height: 1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 32px; font-weight: 400; }
+    h1.title em { font-style: italic; color: var(--primary); }
+    .hero-lede { font-family: 'Instrument Serif', serif; font-size: clamp(20px,2.2vw,26px); line-height: 1.45; max-width: 760px; color: var(--ink-soft); font-weight: 400; }
+    .hero-lede strong { background: linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%); font-weight: 500; color: var(--ink); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 44px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
+    .hero-meta span strong { color: var(--ink); font-weight: 500; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+    h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px,4.5vw,48px); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 36px; max-width: 800px; color: var(--ink); }
+    h2 em { font-style: italic; color: var(--primary); }
+    h3 { font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; margin: 36px 0 14px; letter-spacing: -0.01em; color: var(--ink); }
+    h3 em { font-style: italic; color: var(--primary); }
+    .lede { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 760px; margin-bottom: 22px; font-weight: 400; }
+    p { margin-bottom: 16px; max-width: 760px; color: var(--ink-soft); font-size: 16px; }
+    p code, li code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink); }
+
+    /* ── Stats strip ── */
+    .stats-strip { background: var(--bg-dark); color: var(--bg); padding: 60px 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+    .stat { text-align: left; padding: 0 28px; border-left: 1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left: none; padding-left: 0; }
+    .stat .num { font-family: 'Instrument Serif', serif; font-size: clamp(40px,5.5vw,60px); font-weight: 400; line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
+    .stat .num small { font-size: 0.5em; color: var(--bg); opacity: 0.7; font-family: 'Instrument Serif', serif; }
+    .stat .label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px; opacity: 0.75; line-height: 1.4; }
+
+    /* ── Code blocks ── */
+    pre.code { background: var(--bg-dark); color: #d8d3c4; padding: 24px 28px; font-family: 'DM Mono', monospace; font-size: 13px; line-height: 1.75; overflow-x: auto; margin: 32px 0; border-radius: 6px; border-left: 3px solid var(--accent); max-width: 900px; }
+    pre.code .c { color: #7a8696; font-style: italic; }
+    pre.code .s { color: #e8946a; }
+    pre.code .k { color: #d96b78; }
+    pre.code .fn { color: #82b3d8; }
+    pre.code .cls { color: #c8a96e; }
+    pre.code .num { color: #b5cea8; }
+
+    /* ── Tags / pills ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0; }
+    .tag { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 5px 11px; border: 1px solid var(--line-strong); background: white; border-radius: 3px; color: var(--ink-soft); }
+
+    /* ── Checklists ── */
+    ul.checklist { list-style: none; padding: 0; margin: 24px 0; max-width: 800px; }
+    ul.checklist li { padding: 14px 0 14px 36px; position: relative; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+    ul.checklist li:last-child { border-bottom: none; }
+    ul.checklist li::before { content: '✓'; position: absolute; left: 0; top: 14px; color: var(--green); font-weight: 700; font-size: 16px; }
+    ul.checklist li strong { font-weight: 600; color: var(--ink); }
+
+    /* ── Pullquote ── */
+    .pullquote { border-left: 3px solid var(--accent); padding: 16px 0 16px 28px; margin: 32px 0; font-family: 'Instrument Serif', serif; font-size: 24px; font-style: italic; line-height: 1.45; max-width: 760px; color: var(--ink); }
+
+    /* ── Two-col ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin: 40px 0; }
+    .two-col h3 { margin-top: 0; }
+
+    /* ── Pipeline diagram ── */
+    .pipe-vis { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 2rem 0 2.5rem; max-width: 760px; }
+    .pipe-step { display: flex; align-items: center; gap: 0.85rem; padding: 0.7rem 1.1rem; border-bottom: 1px solid var(--line); background: var(--bg); }
+    .pipe-step:last-child { border-bottom: none; }
+    .pipe-step.pipe-io { background: var(--bg-alt); }
+    .pipe-num { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.06em; color: var(--muted); min-width: 24px; }
+    .pipe-content { flex: 1; }
+    .pipe-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 0.1rem; }
+    .pipe-sub { font-family: 'DM Mono', monospace; font-size: 0.67rem; color: var(--muted); }
+    .pipe-badge { font-family: 'DM Mono', monospace; font-size: 0.62rem; padding: 0.18rem 0.45rem; border-radius: 4px; background: rgba(26,82,118,0.08); color: var(--primary); white-space: nowrap; align-self: flex-start; margin-top: 2px; }
+    .pipe-badge.green { background: rgba(45,106,79,0.08); color: var(--green); }
+    .pipe-badge.orange { background: rgba(196,73,12,0.08); color: var(--accent); }
+
+    /* ── Module grid ── */
+    .module-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 32px 0; max-width: 900px; }
+    .module-card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--bg); }
+    .module-header { background: var(--bg-dark); color: var(--bg); padding: 10px 14px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; display: flex; align-items: center; gap: 8px; }
+    .module-icon { width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+    .module-icon.blue { background: rgba(26,82,118,0.7); }
+    .module-icon.green { background: rgba(45,106,79,0.7); }
+    .module-icon.orange { background: rgba(196,73,12,0.7); }
+    .module-icon.purple { background: rgba(90,60,150,0.7); }
+    .module-icon.teal { background: rgba(22,120,120,0.7); }
+    .module-body { padding: 14px; }
+    .module-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .module-role { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 10px; }
+    .module-methods { list-style: none; padding: 0; margin: 0; }
+    .module-methods li { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--primary); padding: 3px 0; border-top: 1px solid var(--line); line-height: 1.4; }
+    .module-methods li:first-child { border-top: none; }
+
+    /* ── Decision block ── */
+    .decision-block { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 28px 0; max-width: 760px; }
+    .decision-header { background: var(--bg-dark); color: var(--bg); padding: 12px 20px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+    .decision-num { background: var(--accent); color: var(--ink); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .decision-body { padding: 24px 20px; background: var(--bg); }
+    .decision-body h3 { margin-top: 0; font-size: 22px; }
+
+    /* ── CTA ── */
+    .cta-section { background: var(--bg-dark); color: var(--bg); padding: 80px 0; }
+    .cta-section h2 { color: var(--bg); }
+    .cta-section h2 em { color: var(--accent); }
+    .cta-section p { color: rgba(255,255,255,0.7); }
+    .cta-section .section-num { color: var(--accent); }
+    .cta-buttons { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+    .btn { display: inline-block; padding: 14px 26px; background: var(--accent); color: white; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid var(--accent); border-radius: 4px; transition: all 0.2s ease; }
+    .btn:hover { background: transparent; color: var(--accent); }
+    .btn.ghost { background: transparent; color: var(--bg); border-color: rgba(255,255,255,0.4); }
+    .btn.ghost:hover { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+
+    /* ── Footer ── */
+    footer { background: var(--bg-dark); color: var(--bg); padding: 28px 0; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em; opacity: 0.7; border-top: 1px solid rgba(255,255,255,0.1); }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── Feature item list ── */
+    .feature-list { list-style: none; padding: 0; margin: 20px 0; max-width: 760px; }
+    .feature-list li { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.55; color: var(--ink-soft); align-items: flex-start; }
+    .feature-list li:last-child { border-bottom: none; }
+    .feature-tag { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--primary); background: rgba(26,82,118,0.08); border: 1px solid rgba(26,82,118,0.2); border-radius: 3px; padding: 2px 7px; white-space: nowrap; flex-shrink: 0; align-self: flex-start; margin-top: 2px; }
+    .feature-list li strong { font-weight: 600; color: var(--ink); }
+
+    /* ── Reveal animation ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .module-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 800px) {
+      .two-col { grid-template-columns: 1fr; gap: 28px; }
+    }
+    @media (max-width: 720px) {
+      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 32px; }
+      .stat { border-left: none !important; padding: 0; }
+      .module-grid { grid-template-columns: 1fr; }
+      .nav-tools { width: 100%; justify-content: space-between; }
+      .mobile-nav-toggle { display: block; }
+      .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 2rem; gap: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+      nav.nav-open .nav-pills { display: flex; }
+    }
+
+    /* ── Dark Mode ── */
+    html[data-theme="dark"] {
+      --bg:#1c1c1e;--bg-alt:#2c2c2e;--bg-dark:#000000;
+      --ink:#ffffff;--ink-soft:rgba(235,235,245,0.6);--muted:rgba(235,235,245,0.3);
+      --line:rgba(84,84,88,0.65);--line-strong:rgba(84,84,88,0.9);
+      --primary:#5bb8e8;--accent:#ff7043;--accent-soft:rgba(91,184,232,0.12);--green:#30d158;
+    }
+    html[data-theme="dark"] nav { background: rgba(28,28,30,0.92); }
+    html[data-theme="dark"] .nav-pills { background: rgba(28,28,30,0.96); }
+    html[data-theme="dark"] .stats-strip { background: #000000; }
+    html[data-theme="dark"] pre.code { background: #000000; }
+    html[data-theme="dark"] .lang-btn.active { background: #e5e5ea; color: #1c1c1e; }
+    .theme-toggle { width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1; }
+    @media(prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#origin" class="skip-link">Skip to main content</a>
+
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a class="nav-pill back" href="../#projects" data-i18n="navBack">← All projects</a>
+          <a class="nav-pill" href="../#about" data-i18n="navAbout">About</a>
+          <a class="nav-pill" href="../#contact" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-kicker">
+        <span class="kicker-tag" data-i18n="kickerTag">Case Study</span>
+        <span class="kicker-text" data-i18n="heroKicker">Next.js 15 · Gemini 2.5 Flash · Genkit · Supabase · TypeScript</span>
+      </div>
+      <h1 class="title" data-i18n="heroTitle">NutriPal — <em>snap a photo,</em> know what you ate.</h1>
+      <p class="hero-lede" data-i18n="heroLede">
+        A full-stack AI nutrition app built with Next.js 15 and Google Gemini. The core question I was solving:
+        <strong>how do you make calorie tracking feel effortless</strong> — and how do you build a reliable AI backend when free-tier rate limits keep hitting you?
+      </p>
+      <div class="hero-meta">
+        <span data-i18n="heroMeta1"><strong>Type</strong> Solo project · Full-stack AI app · Production deployed</span>
+        <span data-i18n="heroMeta2"><strong>Stack</strong> Next.js 15 · React 19 · Genkit · Gemini 2.5 Flash · Supabase</span>
+        <span data-i18n="heroMeta3"><strong>AI</strong> Vision analysis · Meal planning · Delivery curation · Diet personalization</span>
+        <span data-i18n="heroMeta4"><strong>Live</strong> nutripal-rho.vercel.app</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats ── -->
+  <section class="stats-strip" aria-label="Key numbers">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="num">5</div>
+          <div class="label" data-i18n="stat1">Genkit AI flows<br>vision · text · planning · curation · diet</div>
+        </div>
+        <div class="stat">
+          <div class="num">4</div>
+          <div class="label" data-i18n="stat2">API key rotation<br>zero single point of failure</div>
+        </div>
+        <div class="stat">
+          <div class="num">10<small>+</small></div>
+          <div class="label" data-i18n="stat3">App routes<br>dashboard · snap · planner · explore</div>
+        </div>
+        <div class="stat">
+          <div class="num">99<small>%</small></div>
+          <div class="label" data-i18n="stat4">TypeScript<br>end-to-end type safety</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 00 Origin ── -->
+  <section class="content" id="origin">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec00Num">00 · Origin</div>
+      <h2 data-i18n="sec00Title">Nutrition apps are tedious. <em>I wanted to fix that.</em></h2>
+      <p class="lede" data-i18n="sec00Lede">
+        Every calorie tracker forces you to search a database, guess portions, and log everything manually. The friction is the reason people quit. What if the app did the thinking for you — from a single photo?
+      </p>
+      <p data-i18n="sec00P1">
+        NutriPal started as an exploration: could I build a nutrition assistant that feels like having a personal nutritionist, not a spreadsheet? The goal wasn't just AI integration — it was building the entire product loop: onboarding, daily tracking, meal planning, food discovery, and fitness sync, all wired together with live data.
+      </p>
+      <p data-i18n="sec00P2">
+        Three hard constraints shaped the architecture from the start:
+      </p>
+      <ul class="checklist">
+        <li data-i18n="check00a"><strong>AI must be the core, not a feature</strong> — Every major interaction should have AI behind it: photo analysis, meal planning, delivery curation, diet personalization.</li>
+        <li data-i18n="check00b"><strong>Rate limits are a real engineering problem</strong> — Free-tier Gemini keys have strict quotas. A single-key setup would collapse under normal usage. I needed a solution baked into the infrastructure, not a workaround.</li>
+        <li data-i18n="check00c"><strong>Data must feel live</strong> — Logging a meal and seeing the dashboard update without a page refresh isn't a nice-to-have. It's the difference between the app feeling like a product vs. a prototype.</li>
+      </ul>
+      <div class="pullquote reveal" data-i18n="pq00">
+        "The photo is the interface. Everything else is infrastructure."
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 01 Architecture ── -->
+  <section class="content alt" id="architecture">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec01Num">01 · Architecture</div>
+      <h2 data-i18n="sec01Title">Three layers, <em>one coherent system.</em></h2>
+      <p class="lede" data-i18n="sec01Lede">
+        The architecture separates concerns cleanly: Next.js handles rendering and routing, Genkit owns all AI logic, and Supabase manages data, auth, and realtime sync.
+      </p>
+
+      <div class="pipe-vis reveal">
+        <div class="pipe-step pipe-io">
+          <span class="pipe-num">IN</span>
+          <div class="pipe-content">
+            <div class="pipe-name">User Input</div>
+            <div class="pipe-sub">Photo upload · text input · biometric form · date selection</div>
+          </div>
+          <span class="pipe-badge orange">User action</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">01</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Next.js 15 — App Router</div>
+            <div class="pipe-sub">Server Components · Server Actions · route handlers</div>
+          </div>
+          <span class="pipe-badge">Frontend</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">02</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Genkit AI Layer</div>
+            <div class="pipe-sub">5 typed flows · Zod schema validation · 4-key rotation on every call</div>
+          </div>
+          <span class="pipe-badge orange">AI</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">03</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Gemini 2.5 Flash</div>
+            <div class="pipe-sub">Text + Vision multimodal · structured JSON output</div>
+          </div>
+          <span class="pipe-badge orange">LLM</span>
+        </div>
+        <div class="pipe-step">
+          <span class="pipe-num">04</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Supabase — PostgreSQL + Realtime</div>
+            <div class="pipe-sub">Row-Level Security · anonymous auth · live channel subscriptions</div>
+          </div>
+          <span class="pipe-badge green">Database</span>
+        </div>
+        <div class="pipe-step pipe-io">
+          <span class="pipe-num">OUT</span>
+          <div class="pipe-content">
+            <div class="pipe-name">Live UI Update</div>
+            <div class="pipe-sub">Dashboard reflects change without page refresh · macros recalculate instantly</div>
+          </div>
+          <span class="pipe-badge green">Realtime</span>
+        </div>
+      </div>
+
+      <h3 data-i18n="sec01H">State management without a state library.</h3>
+      <p data-i18n="sec01P1">
+        I deliberately avoided Redux or Zustand. Instead, four custom hooks — <code>useProfile</code>, <code>useDailyLog</code>, <code>useMeals</code>, <code>useDailyLogs</code> — each subscribe to their own Supabase realtime channel. When any row changes in the database (from any device), the hook fires and the component re-renders. The result is live sync that feels like magic but is actually just well-scoped subscriptions.
+      </p>
+      <p data-i18n="sec01P2">
+        This pattern also solved a common problem: stale AI output. When the Snap flow analyzes a photo and writes the result to Supabase, the dashboard hook picks it up immediately — no polling, no manual refresh, no prop drilling.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 02 AI Flows ── -->
+  <section class="content" id="ai-flows">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec02Num">02 · AI Flows</div>
+      <h2 data-i18n="sec02Title">Five flows, <em>one typed contract each.</em></h2>
+      <p class="lede" data-i18n="sec02Lede">
+        Every AI feature in NutriPal is a Genkit flow — a typed, server-side function with a Zod input schema and Zod output schema. The model never returns free-form text; it returns a validated object or throws.
+      </p>
+
+      <div class="module-grid reveal">
+        <div class="module-card">
+          <div class="module-header"><div class="module-icon orange">📸</div>analyze-meal</div>
+          <div class="module-body">
+            <div class="module-name">Food Photo Analysis</div>
+            <div class="module-role">Takes a photo data URI + user allergies/restrictions. Returns name, calories, macros, health score, ingredients, expert insight, and allergen warning.</div>
+            <ul class="module-methods">
+              <li>Gemini Vision multimodal</li>
+              <li>Allergy audit in same prompt</li>
+              <li>Max 180-char expert insight</li>
+            </ul>
+          </div>
+        </div>
+        <div class="module-card">
+          <div class="module-header"><div class="module-icon blue">✏️</div>analyze-text-meal</div>
+          <div class="module-body">
+            <div class="module-name">Text Meal Analysis</div>
+            <div class="module-role">Takes meal name + ingredients as text. Auto-calculates full nutrition breakdown, health score, and cooking instructions — no photo needed.</div>
+            <ul class="module-methods">
+              <li>Text-only Gemini call</li>
+              <li>Structured JSON output</li>
+              <li>Instant from meal planner</li>
+            </ul>
+          </div>
+        </div>
+        <div class="module-card">
+          <div class="module-header"><div class="module-icon green">📅</div>generate-daily-plan</div>
+          <div class="module-body">
+            <div class="module-name">AI Meal Plan Generator</div>
+            <div class="module-role">Takes calorie target, macro percentages, diet type, and allergies. Returns a full breakfast/lunch/dinner plan with recipes, timing, and swap alternatives.</div>
+            <ul class="module-methods">
+              <li>Macro-balanced planning</li>
+              <li>Full recipes per meal</li>
+              <li>Swap suggestion included</li>
+            </ul>
+          </div>
+        </div>
+        <div class="module-card">
+          <div class="module-header"><div class="module-icon teal">🛵</div>curate-meal-suggestions</div>
+          <div class="module-body">
+            <div class="module-name">Delivery Curation (ML)</div>
+            <div class="module-role">Scores and ranks food delivery options against the user's health profile, calorie target, and dietary markers. AI acts as a personalized scoring engine.</div>
+            <ul class="module-methods">
+              <li>Profile-aware ranking</li>
+              <li>Multi-option scoring</li>
+              <li>Delivery-context aware</li>
+            </ul>
+          </div>
+        </div>
+        <div class="module-card">
+          <div class="module-header"><div class="module-icon purple">🥗</div>personalized-diet-plans</div>
+          <div class="module-body">
+            <div class="module-name">Personalized Diet Plans</div>
+            <div class="module-role">Generates longer-horizon diet recommendations based on BMI category, health markers, and user goals. Provides the "pantry to recipe" feature.</div>
+            <ul class="module-methods">
+              <li>BMI-aware recommendations</li>
+              <li>Pantry-based recipe gen</li>
+              <li>Goal-aligned suggestions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h3 data-i18n="sec02H">Why Zod schemas matter for AI output.</h3>
+      <p data-i18n="sec02P1">
+        LLMs are non-deterministic. Without output validation, a single malformed response can crash the UI or silently show wrong data. Every Genkit flow in NutriPal defines both an input schema and an output schema using Zod. If Gemini returns something that doesn't match — wrong types, missing fields, out-of-range values — the flow throws before the data ever reaches the frontend.
+      </p>
+
+      <pre class="code"><span class="c">// Output schema for the food photo analysis flow</span>
+<span class="k">const</span> <span class="cls">AnalyzeMealOutputSchema</span> = <span class="fn">z</span>.object({
+  name:        <span class="fn">z</span>.<span class="fn">string</span>(),
+  calories:    <span class="fn">z</span>.<span class="fn">number</span>(),
+  macros:      <span class="fn">z</span>.object({
+    protein:   <span class="fn">z</span>.<span class="fn">number</span>(),
+    carbs:     <span class="fn">z</span>.<span class="fn">number</span>(),
+    fat:       <span class="fn">z</span>.<span class="fn">number</span>(),
+  }),
+  healthScore:    <span class="fn">z</span>.<span class="fn">number</span>().<span class="fn">min</span>(<span class="num">0</span>).<span class="fn">max</span>(<span class="num">100</span>),
+  expertInsight:  <span class="fn">z</span>.<span class="fn">string</span>().<span class="fn">max</span>(<span class="num">200</span>),
+  allergenWarning:<span class="fn">z</span>.<span class="fn">string</span>().<span class="fn">optional</span>(),
+});</pre>
+    </div>
+  </section>
+
+  <!-- ── 03 Key Decisions ── -->
+  <section class="content alt" id="decisions">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec03Num">03 · Engineering Decisions</div>
+      <h2 data-i18n="sec03Title">Three decisions that <em>kept the app alive.</em></h2>
+
+      <div class="decision-block reveal">
+        <div class="decision-header">
+          <div class="decision-num">1</div>
+          <span data-i18n="dec1Head">4-Key Rotation — solving rate limits at the infrastructure level</span>
+        </div>
+        <div class="decision-body">
+          <h3 data-i18n="dec1Title"><em>Why</em> a pool, not a single key.</h3>
+          <p data-i18n="dec1P1">
+            Free-tier Gemini keys have a low requests-per-minute cap. A single key fails the moment two users hit the app simultaneously. The naive fix — "just upgrade" — isn't useful for a portfolio app. Instead, I built a rotation wrapper: <code>executeWithRotation</code> tries key 1, catches any 429/quota/rate-limit error, then immediately retries with key 2, then 3, then 4.
+          </p>
+          <p data-i18n="dec1P2">
+            This turned 4 free-tier keys into one production-grade key pool. The app never exposes a rotation error to the user — it's all invisible retry logic at the AI layer.
+          </p>
+
+          <pre class="code"><span class="k">for</span> (<span class="k">let</span> i = <span class="num">0</span>; i &lt; GEMINI_KEYS.length; i++) {
+  <span class="k">try</span> {
+    <span class="k">const</span> tempAi = <span class="fn">genkit</span>({ plugins: [<span class="fn">googleAI</span>({ apiKey: GEMINI_KEYS[i] })] });
+    <span class="k">return await</span> <span class="fn">fn</span>(tempAi);
+  } <span class="k">catch</span> (error) {
+    <span class="k">if</span> (<span class="fn">isRateLimitError</span>(error) &amp;&amp; i &lt; GEMINI_KEYS.length - <span class="num">1</span>) {
+      <span class="k">continue</span>; <span class="c">// rotate to next key</span>
+    }
+    <span class="k">throw</span> error;
+  }
+}</pre>
+        </div>
+      </div>
+
+      <div class="decision-block reveal">
+        <div class="decision-header">
+          <div class="decision-num">2</div>
+          <span data-i18n="dec2Head">Supabase Realtime — live dashboard without WebSocket complexity</span>
+        </div>
+        <div class="decision-body">
+          <h3 data-i18n="dec2Title"><em>Why</em> custom hooks over a global store.</h3>
+          <p data-i18n="dec2P1">
+            The alternative was a global state store (Redux/Zustand) that I'd manually update after every AI call. The problem: AI calls are async, errors happen, and keeping global state in sync with the database is a full-time job. Instead, I let the database be the source of truth and subscribed to it directly.
+          </p>
+          <p data-i18n="dec2P2">
+            Each custom hook subscribes to a specific Supabase realtime channel scoped to the current user. When <code>analyzeMeal</code> writes to the <code>food_records</code> table, the <code>useDailyLog</code> hook fires and the dashboard re-renders — automatically, in real time, with no manual state update required.
+          </p>
+        </div>
+      </div>
+
+      <div class="decision-block reveal">
+        <div class="decision-header">
+          <div class="decision-num">3</div>
+          <span data-i18n="dec3Head">Genkit over raw API calls — typed flows as the AI contract</span>
+        </div>
+        <div class="decision-body">
+          <h3 data-i18n="dec3Title"><em>Why</em> a framework instead of <code>fetch()</code>.</h3>
+          <p data-i18n="dec3P1">
+            I could have called the Gemini API directly with <code>fetch</code> and parsed the JSON manually. But raw API calls mean untyped responses, no schema enforcement, and debugging that consists of logging strings and hoping. Genkit gives me typed input/output schemas, a local dev UI to inspect flow runs, and a clean separation between "AI logic" and "app logic."
+          </p>
+          <p data-i18n="dec3P2">
+            Running <code>npm run genkit:dev</code> opens a local Genkit inspector where every AI flow can be tested in isolation with custom inputs — before ever touching the frontend. That drastically cut debugging time.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 04 User Journey ── -->
+  <section class="content" id="journey">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec04Num">04 · User Journey</div>
+      <h2 data-i18n="sec04Title">From onboarding to <em>daily habit.</em></h2>
+      <p class="lede" data-i18n="sec04Lede">
+        The product is designed as a loop: onboard once, use every day. Each screen connects to the next.
+      </p>
+
+      <ul class="feature-list">
+        <li>
+          <span class="feature-tag">Onboarding</span>
+          <div><strong>Biometric setup in 2 steps.</strong> User enters gender, age, weight, height. App calculates BMI and category, sets calorie target, captures dietary restrictions and food allergies. All subsequent AI calls are personalized from this data.</div>
+        </li>
+        <li>
+          <span class="feature-tag">Dashboard</span>
+          <div><strong>Command center for today.</strong> Energy balance with macro breakdown (protein/carbs/fat progress bars), hydration log, active burn from fitness sync, weekly macro trend chart, and a live daily food record with AI insights.</div>
+        </li>
+        <li>
+          <span class="feature-tag">Snap</span>
+          <div><strong>Photo → nutrition in seconds.</strong> Camera or gallery upload triggers <code>analyzeMeal</code>. Gemini Vision identifies the dish, estimates portions, returns calories, macros, a health score, ingredients list, expert insight, and allergen warning if applicable.</div>
+        </li>
+        <li>
+          <span class="feature-tag">Planner</span>
+          <div><strong>Manual or AI-assisted scheduling.</strong> Add a meal by name and let <code>analyzeTextMeal</code> auto-calculate nutrition. Or let <code>generateDailyPlan</code> generate a full day of breakfast/lunch/dinner with recipes and timing suggestions.</div>
+        </li>
+        <li>
+          <span class="feature-tag">Explore</span>
+          <div><strong>Three discovery modes.</strong> Delivery Hub scores food delivery options against your profile. Recipe From Pantry generates creative recipes from ingredients you have. Predictive Path builds a complete meal plan with swap alternatives.</div>
+        </li>
+        <li>
+          <span class="feature-tag">Profile</span>
+          <div><strong>Live updates downstream.</strong> Any change to biometrics or dietary restrictions immediately recalculates calorie targets and updates all AI recommendation context. Fitness Sync integrates mock wearable data to adjust Active Burn.</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── 05 What I Learned ── -->
+  <section class="content alt" id="lessons">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sec05Num">05 · What I Learned</div>
+      <h2 data-i18n="sec05Title">Building AI products is <em>infrastructure work.</em></h2>
+      <p class="lede" data-i18n="sec05Lede">
+        The AI itself — calling Gemini, writing a prompt — is the easy part. The hard part is everything around it.
+      </p>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="lesson1H">Prompt engineering is product design.</h3>
+          <p data-i18n="lesson1P">
+            The allergen warning field in <code>analyzeMeal</code> was supposed to be simple — if conflict, warn. But early versions warned about everything: the model guessed at potential allergens that weren't present. The fix was a two-part instruction in the prompt: first, identify actual ingredients from the photo; second, check those specific ingredients against the user's allergy list. Framing matters more than phrasing.
+          </p>
+        </div>
+        <div>
+          <h3 data-i18n="lesson2H">Realtime is a product, not a feature.</h3>
+          <p data-i18n="lesson2P">
+            The moment I wired Supabase realtime channels to the dashboard hooks, the app felt completely different — like a native app rather than a web form. The technical cost was minimal (a few lines per hook). The product impact was significant. This is now my default pattern for any data-driven feature: database as source of truth, realtime subscription as the state layer.
+          </p>
+        </div>
+      </div>
+
+      <div class="pullquote reveal" data-i18n="pq05">
+        "Rate limits aren't a billing problem. They're an architecture problem."
+      </div>
+
+      <p data-i18n="sec05P1">
+        The 4-key rotation was the clearest example of this: what looks like a cost/quota issue is actually a resilience design question. How do you build an AI app that stays up when one key degrades? The answer isn't "upgrade" — it's building a fallback mechanism that handles it transparently.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section" id="cta">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ctaNum">See it live</div>
+      <h2 data-i18n="ctaTitle">Try NutriPal, or <em>read the code.</em></h2>
+      <p data-i18n="ctaP">
+        The full source is on GitHub — every Genkit flow, the rotation system, custom hooks, and Supabase schema. The live demo is on Vercel with a demo login (no account needed).
+      </p>
+      <div class="cta-buttons">
+        <a class="btn" href="http://nutripal-rho.vercel.app/" target="_blank" rel="noopener" data-i18n="ctaDemo">Live Demo →</a>
+        <a class="btn ghost" href="https://github.com/ninditya/nutripal-ai" target="_blank" rel="noopener" data-i18n="ctaRepo">GitHub Repo →</a>
+        <a class="btn ghost" href="../#projects" data-i18n="ctaBack">← All projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span data-i18n="footerLeft">© 2025 Ninditya Salma Nur Aini</span>
+      <span><a href="https://github.com/ninditya/nutripal-ai" target="_blank" rel="noopener" data-i18n="footerRight">View source on GitHub →</a></span>
+    </div>
+  </footer>
+
+  <script>
+    // ── Theme toggle ──
+    (function () {
+      var t = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', t || 'light');
+    })();
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      var html = document.documentElement;
+      var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      this.textContent = next === 'dark' ? '☀️' : '🌙';
+      this.setAttribute('aria-label', next === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    });
+    (function () {
+      var t = localStorage.getItem('theme');
+      document.getElementById('themeToggle').textContent = t === 'dark' ? '☀️' : '🌙';
+    })();
+
+    // ── Reveal on scroll ──
+    var reveals = document.querySelectorAll('.reveal');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(function (el) { io.observe(el); });
+
+    // ── i18n ──
+    var i18n = {
+      en: {
+        navBack: '← All projects', navAbout: 'About', navContact: 'Contact',
+        kickerTag: 'Case Study',
+        heroKicker: 'Next.js 15 · Gemini 2.5 Flash · Genkit · Supabase · TypeScript',
+        heroTitle: 'NutriPal — snap a photo, know what you ate.',
+        heroLede: 'A full-stack AI nutrition app built with Next.js 15 and Google Gemini. The core question I was solving: <strong>how do you make calorie tracking feel effortless</strong> — and how do you build a reliable AI backend when free-tier rate limits keep hitting you?',
+        heroMeta1: '<strong>Type</strong> Solo project · Full-stack AI app · Production deployed',
+        heroMeta2: '<strong>Stack</strong> Next.js 15 · React 19 · Genkit · Gemini 2.5 Flash · Supabase',
+        heroMeta3: '<strong>AI</strong> Vision analysis · Meal planning · Delivery curation · Diet personalization',
+        heroMeta4: '<strong>Live</strong> nutripal-rho.vercel.app',
+        stat1: 'Genkit AI flows<br>vision · text · planning · curation · diet',
+        stat2: 'API key rotation<br>zero single point of failure',
+        stat3: 'App routes<br>dashboard · snap · planner · explore',
+        stat4: 'TypeScript<br>end-to-end type safety',
+        sec00Num: '00 · Origin',
+        sec00Title: 'Nutrition apps are tedious. I wanted to fix that.',
+        sec00Lede: 'Every calorie tracker forces you to search a database, guess portions, and log everything manually. The friction is the reason people quit. What if the app did the thinking for you — from a single photo?',
+        sec00P1: 'NutriPal started as an exploration: could I build a nutrition assistant that feels like having a personal nutritionist, not a spreadsheet? The goal wasn\'t just AI integration — it was building the entire product loop: onboarding, daily tracking, meal planning, food discovery, and fitness sync, all wired together with live data.',
+        sec00P2: 'Three hard constraints shaped the architecture from the start:',
+        check00a: '<strong>AI must be the core, not a feature</strong> — Every major interaction should have AI behind it: photo analysis, meal planning, delivery curation, diet personalization.',
+        check00b: '<strong>Rate limits are a real engineering problem</strong> — Free-tier Gemini keys have strict quotas. A single-key setup would collapse under normal usage. I needed a solution baked into the infrastructure, not a workaround.',
+        check00c: '<strong>Data must feel live</strong> — Logging a meal and seeing the dashboard update without a page refresh isn\'t a nice-to-have. It\'s the difference between the app feeling like a product vs. a prototype.',
+        pq00: '"The photo is the interface. Everything else is infrastructure."',
+        sec01Num: '01 · Architecture',
+        sec01Title: 'Three layers, one coherent system.',
+        sec01Lede: 'The architecture separates concerns cleanly: Next.js handles rendering and routing, Genkit owns all AI logic, and Supabase manages data, auth, and realtime sync.',
+        sec01H: 'State management without a state library.',
+        sec01P1: 'I deliberately avoided Redux or Zustand. Instead, four custom hooks — useProfile, useDailyLog, useMeals, useDailyLogs — each subscribe to their own Supabase realtime channel. When any row changes in the database (from any device), the hook fires and the component re-renders. The result is live sync that feels like magic but is actually just well-scoped subscriptions.',
+        sec01P2: 'This pattern also solved a common problem: stale AI output. When the Snap flow analyzes a photo and writes the result to Supabase, the dashboard hook picks it up immediately — no polling, no manual refresh, no prop drilling.',
+        sec02Num: '02 · AI Flows',
+        sec02Title: 'Five flows, one typed contract each.',
+        sec02Lede: 'Every AI feature in NutriPal is a Genkit flow — a typed, server-side function with a Zod input schema and Zod output schema. The model never returns free-form text; it returns a validated object or throws.',
+        sec02H: 'Why Zod schemas matter for AI output.',
+        sec02P1: 'LLMs are non-deterministic. Without output validation, a single malformed response can crash the UI or silently show wrong data. Every Genkit flow in NutriPal defines both an input schema and an output schema using Zod. If Gemini returns something that doesn\'t match — wrong types, missing fields, out-of-range values — the flow throws before the data ever reaches the frontend.',
+        sec03Num: '03 · Engineering Decisions',
+        sec03Title: 'Three decisions that kept the app alive.',
+        dec1Head: '4-Key Rotation — solving rate limits at the infrastructure level',
+        dec1Title: 'Why a pool, not a single key.',
+        dec1P1: 'Free-tier Gemini keys have a low requests-per-minute cap. A single key fails the moment two users hit the app simultaneously. The naive fix — "just upgrade" — isn\'t useful for a portfolio app. Instead, I built a rotation wrapper: executeWithRotation tries key 1, catches any 429/quota/rate-limit error, then immediately retries with key 2, then 3, then 4.',
+        dec1P2: 'This turned 4 free-tier keys into one production-grade key pool. The app never exposes a rotation error to the user — it\'s all invisible retry logic at the AI layer.',
+        dec2Head: 'Supabase Realtime — live dashboard without WebSocket complexity',
+        dec2Title: 'Why custom hooks over a global store.',
+        dec2P1: 'The alternative was a global state store (Redux/Zustand) that I\'d manually update after every AI call. The problem: AI calls are async, errors happen, and keeping global state in sync with the database is a full-time job. Instead, I let the database be the source of truth and subscribed to it directly.',
+        dec2P2: 'Each custom hook subscribes to a specific Supabase realtime channel scoped to the current user. When analyzeMeal writes to the food_records table, the useDailyLog hook fires and the dashboard re-renders — automatically, in real time, with no manual state update required.',
+        dec3Head: 'Genkit over raw API calls — typed flows as the AI contract',
+        dec3Title: 'Why a framework instead of fetch().',
+        dec3P1: 'I could have called the Gemini API directly with fetch and parsed the JSON manually. But raw API calls mean untyped responses, no schema enforcement, and debugging that consists of logging strings and hoping. Genkit gives me typed input/output schemas, a local dev UI to inspect flow runs, and a clean separation between "AI logic" and "app logic."',
+        dec3P2: 'Running npm run genkit:dev opens a local Genkit inspector where every AI flow can be tested in isolation with custom inputs — before ever touching the frontend. That drastically cut debugging time.',
+        sec04Num: '04 · User Journey',
+        sec04Title: 'From onboarding to daily habit.',
+        sec04Lede: 'The product is designed as a loop: onboard once, use every day. Each screen connects to the next.',
+        sec05Num: '05 · What I Learned',
+        sec05Title: 'Building AI products is infrastructure work.',
+        sec05Lede: 'The AI itself — calling Gemini, writing a prompt — is the easy part. The hard part is everything around it.',
+        lesson1H: 'Prompt engineering is product design.',
+        lesson1P: 'The allergen warning field in analyzeMeal was supposed to be simple — if conflict, warn. But early versions warned about everything: the model guessed at potential allergens that weren\'t present. The fix was a two-part instruction in the prompt: first, identify actual ingredients from the photo; second, check those specific ingredients against the user\'s allergy list. Framing matters more than phrasing.',
+        lesson2H: 'Realtime is a product, not a feature.',
+        lesson2P: 'The moment I wired Supabase realtime channels to the dashboard hooks, the app felt completely different — like a native app rather than a web form. The technical cost was minimal (a few lines per hook). The product impact was significant. This is now my default pattern for any data-driven feature: database as source of truth, realtime subscription as the state layer.',
+        pq05: '"Rate limits aren\'t a billing problem. They\'re an architecture problem."',
+        sec05P1: 'The 4-key rotation was the clearest example of this: what looks like a cost/quota issue is actually a resilience design question. How do you build an AI app that stays up when one key degrades? The answer isn\'t "upgrade" — it\'s building a fallback mechanism that handles it transparently.',
+        ctaNum: 'See it live',
+        ctaTitle: 'Try NutriPal, or read the code.',
+        ctaP: 'The full source is on GitHub — every Genkit flow, the rotation system, custom hooks, and Supabase schema. The live demo is on Vercel with a demo login (no account needed).',
+        ctaDemo: 'Live Demo →',
+        ctaRepo: 'GitHub Repo →',
+        ctaBack: '← All projects',
+        footerLeft: '© 2025 Ninditya Salma Nur Aini',
+        footerRight: 'View source on GitHub →',
+      },
+      id: {
+        navBack: '← Semua project', navAbout: 'Tentang', navContact: 'Kontak',
+        kickerTag: 'Case Study',
+        heroKicker: 'Next.js 15 · Gemini 2.5 Flash · Genkit · Supabase · TypeScript',
+        heroTitle: 'NutriPal — foto makananmu, tahu apa yang kamu makan.',
+        heroLede: 'Aplikasi nutrisi AI full-stack dibangun dengan Next.js 15 dan Google Gemini. Pertanyaan inti yang saya selesaikan: <strong>bagaimana membuat pencatatan kalori terasa mudah</strong> — dan bagaimana membangun backend AI yang andal saat rate limit free-tier terus menghantam?',
+        heroMeta1: '<strong>Tipe</strong> Solo project · Full-stack AI app · Production deployed',
+        heroMeta2: '<strong>Stack</strong> Next.js 15 · React 19 · Genkit · Gemini 2.5 Flash · Supabase',
+        heroMeta3: '<strong>AI</strong> Analisis foto · Perencanaan makan · Kurasi delivery · Personalisasi diet',
+        heroMeta4: '<strong>Live</strong> nutripal-rho.vercel.app',
+        stat1: 'Genkit AI flows<br>vision · teks · perencanaan · kurasi · diet',
+        stat2: 'Rotasi API key<br>tanpa single point of failure',
+        stat3: 'App routes<br>dashboard · snap · planner · explore',
+        stat4: 'TypeScript<br>type safety end-to-end',
+        sec00Num: '00 · Latar Belakang',
+        sec00Title: 'Aplikasi nutrisi itu membosankan. Saya ingin memperbaikinya.',
+        sec00Lede: 'Setiap calorie tracker memaksamu mencari database, menebak porsi, dan mencatat semua secara manual. Hambatan itulah yang membuat orang berhenti. Bagaimana jika aplikasinya yang berpikir — hanya dari satu foto?',
+        sec00P1: 'NutriPal dimulai sebagai eksplorasi: bisakah saya membangun asisten nutrisi yang terasa seperti memiliki ahli gizi pribadi, bukan spreadsheet? Tujuannya bukan sekadar integrasi AI — melainkan membangun seluruh product loop: onboarding, tracking harian, perencanaan makan, penemuan makanan, dan sinkronisasi fitness, semuanya terhubung dengan data langsung.',
+        sec00P2: 'Tiga kendala utama membentuk arsitektur dari awal:',
+        check00a: '<strong>AI harus menjadi inti, bukan fitur</strong> — Setiap interaksi utama harus didukung AI: analisis foto, perencanaan makan, kurasi delivery, personalisasi diet.',
+        check00b: '<strong>Rate limit adalah masalah engineering nyata</strong> — Kunci Gemini free-tier punya kuota ketat. Satu kunci akan kolaps begitu dua pengguna mengakses bersamaan. Saya perlu solusi yang tertanam di infrastruktur, bukan workaround.',
+        check00c: '<strong>Data harus terasa langsung</strong> — Log makanan lalu dashboard update tanpa refresh bukan sekadar nice-to-have. Itu perbedaan antara app yang terasa seperti produk vs. prototipe.',
+        pq00: '"Foto adalah antarmukanya. Semua yang lain adalah infrastruktur."',
+        sec01Num: '01 · Arsitektur',
+        sec01Title: 'Tiga layer, satu sistem yang koheren.',
+        sec01Lede: 'Arsitektur memisahkan concern dengan bersih: Next.js menangani rendering dan routing, Genkit memiliki semua logika AI, dan Supabase mengelola data, auth, dan realtime sync.',
+        sec01H: 'State management tanpa library state.',
+        sec01P1: 'Saya sengaja menghindari Redux atau Zustand. Sebagai gantinya, empat custom hook — useProfile, useDailyLog, useMeals, useDailyLogs — masing-masing berlangganan ke channel realtime Supabase mereka sendiri. Ketika baris apa pun berubah di database (dari perangkat mana pun), hook langsung aktif dan komponen re-render.',
+        sec01P2: 'Pola ini juga menyelesaikan masalah umum: output AI yang stale. Ketika flow Snap menganalisis foto dan menulis hasilnya ke Supabase, hook dashboard langsung mengambilnya — tanpa polling, tanpa refresh manual.',
+        sec02Num: '02 · AI Flows',
+        sec02Title: 'Lima flow, satu kontrak bertipe masing-masing.',
+        sec02Lede: 'Setiap fitur AI di NutriPal adalah Genkit flow — fungsi server-side bertipe dengan Zod input schema dan Zod output schema. Model tidak pernah mengembalikan teks bebas; ia mengembalikan objek tervalidasi atau throw.',
+        sec02H: 'Mengapa Zod schema penting untuk output AI.',
+        sec02P1: 'LLM bersifat non-deterministik. Tanpa validasi output, satu respons yang cacat bisa crash UI atau menampilkan data yang salah secara diam-diam. Setiap Genkit flow di NutriPal mendefinisikan input schema dan output schema menggunakan Zod. Jika Gemini mengembalikan sesuatu yang tidak cocok — tipe salah, field hilang, nilai di luar rentang — flow akan throw sebelum data sampai ke frontend.',
+        sec03Num: '03 · Keputusan Engineering',
+        sec03Title: 'Tiga keputusan yang menjaga app tetap hidup.',
+        dec1Head: 'Rotasi 4 Key — menyelesaikan rate limit di level infrastruktur',
+        dec1Title: 'Mengapa pool, bukan satu key.',
+        dec1P1: 'Kunci Gemini free-tier punya batas requests-per-minute yang rendah. Satu kunci gagal begitu dua pengguna mengakses bersamaan. Solusi mudah — "upgrade saja" — tidak berguna untuk portfolio app. Sebagai gantinya, saya membangun rotation wrapper: executeWithRotation mencoba key 1, menangkap error 429/quota/rate-limit, lalu langsung retry dengan key 2, lalu 3, lalu 4.',
+        dec1P2: 'Ini mengubah 4 kunci free-tier menjadi satu pool production-grade. App tidak pernah mengekspos error rotasi ke pengguna — semuanya adalah logika retry tak terlihat di AI layer.',
+        dec2Head: 'Supabase Realtime — dashboard langsung tanpa kompleksitas WebSocket',
+        dec2Title: 'Mengapa custom hooks daripada global store.',
+        dec2P1: 'Alternatifnya adalah global state store (Redux/Zustand) yang harus diperbarui manual setelah setiap AI call. Masalahnya: AI call bersifat async, error terjadi, dan menjaga global state tetap sinkron dengan database adalah pekerjaan tersendiri. Sebagai gantinya, saya membiarkan database menjadi source of truth dan berlangganan langsung ke sana.',
+        dec2P2: 'Setiap custom hook berlangganan ke channel realtime Supabase yang spesifik dan ter-scope ke pengguna saat ini. Ketika analyzeMeal menulis ke tabel food_records, hook useDailyLog aktif dan dashboard re-render — otomatis, real time, tanpa pembaruan state manual.',
+        dec3Head: 'Genkit daripada raw API call — typed flows sebagai kontrak AI',
+        dec3Title: 'Mengapa framework daripada fetch().',
+        dec3P1: 'Saya bisa memanggil Gemini API langsung dengan fetch dan mem-parse JSON secara manual. Tapi raw API call berarti respons tidak bertipe, tidak ada schema enforcement, dan debugging yang terdiri dari logging string dan berharap. Genkit memberi typed input/output schema, dev UI lokal untuk memeriksa flow run, dan pemisahan bersih antara "logika AI" dan "logika app".',
+        dec3P2: 'Menjalankan npm run genkit:dev membuka Genkit inspector lokal di mana setiap AI flow bisa diuji secara terpisah dengan input kustom — sebelum pernah menyentuh frontend. Itu sangat memangkas waktu debugging.',
+        sec04Num: '04 · Perjalanan Pengguna',
+        sec04Title: 'Dari onboarding ke kebiasaan harian.',
+        sec04Lede: 'Produk dirancang sebagai loop: onboard sekali, gunakan setiap hari. Setiap layar terhubung ke yang berikutnya.',
+        sec05Num: '05 · Pelajaran',
+        sec05Title: 'Membangun AI product adalah pekerjaan infrastruktur.',
+        sec05Lede: 'AI-nya sendiri — memanggil Gemini, menulis prompt — adalah bagian yang mudah. Yang sulit adalah semua yang ada di sekelilingnya.',
+        lesson1H: 'Prompt engineering adalah product design.',
+        lesson1P: 'Field allergen warning di analyzeMeal seharusnya sederhana — jika ada konflik, berikan peringatan. Tapi versi awal memperingatkan segalanya: model menebak alergen potensial yang tidak ada. Solusinya adalah instruksi dua bagian di prompt: pertama, identifikasi bahan nyata dari foto; kedua, periksa bahan-bahan tersebut terhadap daftar alergi pengguna. Framing lebih penting dari phrasing.',
+        lesson2H: 'Realtime adalah produk, bukan fitur.',
+        lesson2P: 'Saat saya menghubungkan channel realtime Supabase ke hook dashboard, app terasa sangat berbeda — seperti native app daripada web form. Biaya teknis minimal (beberapa baris per hook). Dampak produknya signifikan. Ini sekarang menjadi pola default saya untuk fitur berbasis data: database sebagai source of truth, realtime subscription sebagai state layer.',
+        pq05: '"Rate limit bukan masalah billing. Itu masalah arsitektur."',
+        sec05P1: 'Rotasi 4-key adalah contoh paling jelas: apa yang terlihat sebagai masalah biaya/kuota sebenarnya adalah pertanyaan desain ketahanan. Bagaimana Anda membangun AI app yang tetap hidup ketika satu key menurun? Jawabannya bukan "upgrade" — melainkan membangun mekanisme fallback yang menanganinya secara transparan.',
+        ctaNum: 'Lihat langsung',
+        ctaTitle: 'Coba NutriPal, atau baca kodenya.',
+        ctaP: 'Source lengkap ada di GitHub — setiap Genkit flow, sistem rotasi, custom hooks, dan schema Supabase. Live demo ada di Vercel dengan demo login (tanpa perlu akun).',
+        ctaDemo: 'Live Demo →',
+        ctaRepo: 'GitHub Repo →',
+        ctaBack: '← Semua project',
+        footerLeft: '© 2025 Ninditya Salma Nur Aini',
+        footerRight: 'Lihat source di GitHub →',
+      }
+    };
+
+    var currentLang = localStorage.getItem('lang') || 'en';
+
+    function applyLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      document.documentElement.setAttribute('lang', lang);
+      var d = i18n[lang];
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n');
+        if (d[key] !== undefined) el.innerHTML = d[key];
+      });
+      document.querySelectorAll('.lang-btn').forEach(function (btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-lang-target') === lang);
+      });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () { applyLang(this.getAttribute('data-lang-target')); });
+    });
+
+    applyLang(currentLang);
+  </script>
+</body>
+</html>
