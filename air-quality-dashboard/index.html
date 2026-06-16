@@ -5,8 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beijing Air Quality Dashboard — Ninditya Salma Nur Aini</title>
-  <meta name="description"
-    content="IDCamp Intermediate Data Science project: interactive Streamlit dashboard analyzing 46MB of Beijing air quality data (2013–2017) across 12 monitoring stations. AQI trends, pollutant correlations, spatial mapping, and chi-square statistical tests.">
+  <meta name="description" content="IDCamp Intermediate Data Science project: interactive Streamlit dashboard analyzing 46MB of Beijing air quality data (2013–2017) across 12 monitoring stations. AQI trends, pollutant correlations, spatial mapping, and chi-square statistical tests.">
   <link rel="canonical" href="https://ninditya.github.io/air-quality-dashboard/">
   <meta property="og:title" content="Beijing Air Quality Dashboard — Ninditya Salma Nur Aini">
   <meta property="og:description" content="IDCamp Intermediate: Streamlit dashboard with AQI analysis, pollutant correlation, geospatial mapping, and chi-square tests on 46MB Beijing air quality data.">
@@ -61,6 +60,8 @@
     .hero-lede strong { background: linear-gradient(180deg, transparent 60%, var(--accent-soft) 60%); font-weight: 500; color: var(--ink); }
     .hero-meta { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 44px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
     .hero-meta span strong { color: var(--ink); font-weight: 500; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+    .hero-screenshot { margin-top: 48px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+    .hero-screenshot img { width: 100%; display: block; }
     .stats-strip { background: var(--bg-dark); color: var(--bg); padding: 60px 0; }
     .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
     .stat { text-align: left; padding: 0 28px; border-left: 1px solid rgba(255,255,255,0.12); }
@@ -81,11 +82,6 @@
     p code, li code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink); }
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin: 40px 0; }
     .two-col h3 { margin-top: 0; }
-    ul.checklist { list-style: none; padding: 0; margin: 24px 0; max-width: 800px; }
-    ul.checklist li { padding: 14px 0 14px 36px; position: relative; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
-    ul.checklist li:last-child { border-bottom: none; }
-    ul.checklist li::before { content: '✓'; position: absolute; left: 0; top: 14px; color: var(--green); font-weight: 700; font-size: 16px; }
-    ul.checklist li strong { font-weight: 600; color: var(--ink); }
     .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0; }
     .tag { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 5px 11px; border: 1px solid var(--line-strong); background: white; border-radius: 3px; color: var(--ink-soft); }
     .pullquote { border-left: 3px solid var(--accent); padding: 16px 0 16px 28px; margin: 32px 0; font-family: 'Instrument Serif', serif; font-size: 24px; font-style: italic; line-height: 1.45; max-width: 760px; color: var(--ink); }
@@ -94,30 +90,118 @@
     table.compare th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--bg-alt); font-weight: 500; }
     table.compare td.num { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--ink); }
     table.compare tr.highlight td { background: var(--accent-soft); }
-    .insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 32px 0; max-width: 900px; }
-    .insight-cell { background: white; padding: 24px; }
+    .stack-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; margin: 28px 0; }
+    .stack-item { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; min-width: 140px; }
+    .stack-item-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 4px; }
+    .stack-item-val { font-size: 14px; color: var(--ink); font-weight: 500; }
+
+    /* ── Executive Summary insights ── */
+    .insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 32px 0; }
+    .insight-cell { background: white; padding: 28px 24px; }
     .insight-num { font-family: 'Instrument Serif', serif; font-size: 36px; color: var(--accent); line-height: 1; margin-bottom: 8px; }
     .insight-label { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
     .insight-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+
+    /* ── Approach flow (horizontal on desktop) ── */
+    .approach-flow { display: flex; align-items: flex-start; gap: 0; margin: 40px 0; overflow-x: auto; padding-bottom: 8px; }
+    .approach-step { flex: 1; min-width: 120px; text-align: center; padding: 0 8px; position: relative; }
+    .approach-step:not(:last-child)::after { content: '→'; position: absolute; right: -10px; top: 18px; font-family: 'DM Mono', monospace; color: var(--muted); font-size: 16px; }
+    .approach-box { border: 1px solid var(--line); border-radius: 8px; padding: 14px 10px; background: var(--bg); font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.3; margin-bottom: 8px; }
+    .approach-box.io { background: var(--accent-soft); border-color: var(--primary); color: var(--primary); }
+    .approach-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); text-align: center; }
+
+    /* ── PSI cards (Problem / Solution / Impact) ── */
+    .psi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 40px 0; }
+    .psi-card { border: 1px solid var(--line); border-radius: 10px; padding: 28px 24px; background: var(--bg); }
+    .psi-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; margin-bottom: 14px; padding: 4px 10px; border-radius: 3px; display: inline-block; }
+    .psi-problem .psi-label { background: rgba(196,73,12,0.08); color: var(--accent); }
+    .psi-solution .psi-label { background: rgba(26,82,118,0.08); color: var(--primary); }
+    .psi-impact .psi-label { background: rgba(45,106,79,0.08); color: var(--green); }
+    .psi-card h3 { margin: 0 0 14px; font-size: 20px; }
+    .psi-card ul { list-style: none; padding: 0; }
+    .psi-card ul li { font-size: 14px; color: var(--ink-soft); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--line); line-height: 1.45; }
+    .psi-card ul li:last-child { border-bottom: none; }
+    .psi-problem ul li::before { content: '✗'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+    .psi-solution ul li::before { content: '→'; position: absolute; left: 0; color: var(--primary); }
+    .psi-impact ul li::before { content: '↑'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+    .psi-impact ul li.down::before { content: '↓'; }
+
+    /* ── Data pipeline (vertical) ── */
+    .pipe-flow { margin: 40px 0; max-width: 520px; }
+    .pipe-flow-row { display: flex; align-items: center; gap: 14px; margin-bottom: 2px; }
+    .pipe-flow-box { flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px; background: var(--bg); display: flex; align-items: center; gap: 14px; }
+    .pipe-flow-box.io { background: var(--accent-soft); border-color: var(--primary); }
+    .pipe-flow-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); min-width: 20px; flex-shrink: 0; }
+    .pipe-flow-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .pipe-flow-sub { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .pipe-flow-badge { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(26,82,118,0.08); color: var(--primary); margin-left: auto; white-space: nowrap; flex-shrink: 0; }
+    .pipe-flow-arrow { padding: 4px 0 4px 32px; font-family: 'DM Mono', monospace; color: var(--muted); font-size: 14px; }
+
+    /* ── Analysis framework cards ── */
+    .analysis-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 40px 0; }
+    .analysis-card { border: 1px solid var(--line); border-radius: 10px; padding: 28px 24px; background: var(--bg); }
+    .analysis-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+    .analysis-tag { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 10px; }
+    .analysis-card h3 { margin: 0 0 16px; font-size: 20px; }
+    .analysis-card ul { list-style: none; padding: 0; }
+    .analysis-card ul li { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-soft); padding: 6px 0 6px 16px; position: relative; border-bottom: 1px solid var(--line); }
+    .analysis-card ul li:last-child { border-bottom: none; }
+    .analysis-card ul li::before { content: '→'; position: absolute; left: 0; color: var(--primary); }
+
+    /* ── Dashboard showcase ── */
+    .showcase-item { margin-bottom: 64px; }
+    .showcase-item:last-child { margin-bottom: 0; }
+    .showcase-header { margin-bottom: 16px; }
+    .showcase-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 6px; }
+    .showcase-item h3 { margin: 0 0 8px; font-size: 22px; }
+    .showcase-desc { font-size: 15px; color: var(--ink-soft); max-width: 680px; line-height: 1.6; }
+    .showcase-slot { min-height: 260px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; border: 2px dashed var(--line); border-radius: 10px; background: var(--bg-alt); padding: 32px; text-align: center; margin-top: 16px; }
+    .slot-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .slot-title { font-size: 14px; font-weight: 500; color: var(--ink-soft); margin-top: 4px; }
+    .slot-hint { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .showcase-img { width: 100%; display: block; border-radius: 10px; border: 1px solid var(--line); margin-top: 16px; }
+
+    /* ── Key findings (consulting card style) ── */
+    .findings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 40px 0; }
+    .finding-card { border: 1px solid var(--line); border-radius: 8px; padding: 24px 20px; background: var(--bg); }
+    .finding-tag { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 12px; }
+    .finding-headline { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.2; color: var(--ink); margin-bottom: 10px; font-weight: 400; }
+    .finding-stat { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--primary); margin-bottom: 10px; font-weight: 500; }
+    .finding-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+
+    /* ── Journey / rejection story ── */
     .journey-section { background: var(--bg-dark); color: var(--bg); padding: 80px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
     .journey-section .section-num { color: var(--accent); }
     .journey-section h2 { color: var(--bg); max-width: 800px; }
     .journey-section h2 em { color: var(--accent); }
     .journey-section p { color: rgba(255,255,255,0.7); max-width: 720px; }
-    .journey-section h3 { color: rgba(255,255,255,0.9); margin-top: 40px; margin-bottom: 12px; }
-    .journey-path { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 32px; }
-    .journey-tag { font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 11px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.05em; }
-    .journey-tag.active { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 500; }
-    .feedback-block { border-left: 3px solid var(--accent); padding: 16px 0 16px 24px; margin: 20px 0; }
-    .feedback-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
-    .feedback-block p { font-size: 15px; color: rgba(255,255,255,0.65); }
+    .submission-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 36px 0; max-width: 680px; }
+    .submission-card { border-radius: 10px; padding: 24px; border: 1px solid rgba(255,255,255,0.1); }
+    .submission-card.fail { background: rgba(196,73,12,0.08); border-color: rgba(196,73,12,0.25); }
+    .submission-card.pass { background: rgba(45,106,79,0.08); border-color: rgba(45,106,79,0.25); }
+    .submission-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+    .submission-card.fail .submission-label { color: var(--accent); }
+    .submission-card.pass .submission-label { color: #30d158; }
+    .submission-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 14px; color: rgba(255,255,255,0.6); }
+    .submission-item:last-child { border-bottom: none; }
+    .submission-icon { flex-shrink: 0; font-size: 14px; }
+    .feedback-block { border-left: 2px solid var(--accent); padding: 14px 0 14px 20px; margin: 16px 0; }
+    .feedback-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 6px; }
+    .feedback-block p { font-size: 14px; color: rgba(255,255,255,0.65); margin: 0; max-width: none; }
     .feedback-block p strong { color: rgba(255,255,255,0.9); }
-    .lesson-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0; max-width: 800px; }
-    .lesson-cell { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px; }
-    .lesson-cell-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
-    .lesson-cell p { font-size: 14px; color: rgba(255,255,255,0.65); margin: 0; max-width: none; }
-    .lesson-cell p strong { color: rgba(255,255,255,0.9); }
-    @media (max-width: 600px) { .lesson-grid { grid-template-columns: 1fr; } }
+
+    /* ── Future roadmap ── */
+    .roadmap { margin: 40px 0; max-width: 420px; }
+    .roadmap-item { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+    .roadmap-item.current { background: var(--accent-soft); border-color: var(--primary); }
+    .roadmap-arrow { padding: 6px 0 6px 20px; font-family: 'DM Mono', monospace; color: var(--muted); font-size: 16px; }
+    .roadmap-step { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); flex-shrink: 0; min-width: 24px; }
+    .roadmap-label { font-size: 15px; font-weight: 500; color: var(--ink); }
+    .roadmap-item.current .roadmap-label { color: var(--primary); }
+    .roadmap-sub { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .roadmap-item.current .roadmap-sub { color: rgba(26,82,118,0.7); }
+
+    /* ── CTA ── */
     .cta-section { background: var(--bg-alt); color: var(--ink); padding: 80px 0; }
     .cta-section h2 { color: var(--ink); }
     .cta-section h2 em { color: var(--primary); }
@@ -131,43 +215,57 @@
     footer { background: var(--bg-dark); color: rgba(255,255,255,0.7); padding: 28px 0; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em; border-top: 1px solid rgba(255,255,255,0.1); }
     footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
     footer a { color: var(--accent); text-decoration: none; }
-    .stack-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; margin: 28px 0; }
-    .stack-item { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; min-width: 140px; }
-    .stack-item-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 4px; }
-    .stack-item-val { font-size: 14px; color: var(--ink); font-weight: 500; }
-    @media (max-width: 760px) {
-      .two-col { grid-template-columns: 1fr; gap: 32px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 0; }
-      .stat:nth-child(3) { border-left: none; }
-      .wrap { padding: 0 20px; }
-      .nav-inner { padding: 14px 20px; }
-      .hero { padding: 56px 0 40px; }
-      .insight-grid { grid-template-columns: 1fr; }
-      .mobile-nav-toggle { display: block; }
-      .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 1.5rem; gap: 0.4rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-      nav.nav-open .nav-pills { display: flex; }
-      .lesson-grid { grid-template-columns: 1fr; }
-    }
 
-    /* ── Dark Mode — toggled via data-theme="dark" on <html> ── */
-    html[data-theme="dark"]{
+    /* ── Dark Mode ── */
+    html[data-theme="dark"] {
       --bg:#1c1c1e;--bg-alt:#2c2c2e;--bg-dark:#000000;
       --ink:#ffffff;--ink-soft:rgba(235,235,245,0.6);--muted:rgba(235,235,245,0.3);
       --line:rgba(84,84,88,0.65);--line-strong:rgba(84,84,88,0.9);
       --primary:#5bb8e8;--accent:#ff7043;--accent-soft:rgba(91,184,232,0.12);--green:#30d158;
     }
-    html[data-theme="dark"] nav{background:rgba(28,28,30,0.92)}
-    html[data-theme="dark"] .nav-pills{background:rgba(28,28,30,0.96)}
-    html[data-theme="dark"] .stats-strip{background:#000000}
-    html[data-theme="dark"] pre.code{background:#000000}
-    html[data-theme="dark"] .lang-btn.active{background:#e5e5ea;color:#1c1c1e}
-    .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}
-    /* ── Reduced Motion — accessibility ── */
-    @media(prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
-      html{scroll-behavior:auto}
+    html[data-theme="dark"] nav { background: rgba(28,28,30,0.92); }
+    html[data-theme="dark"] .nav-pills { background: rgba(28,28,30,0.96); }
+    html[data-theme="dark"] .stats-strip { background: #000000; }
+    html[data-theme="dark"] .lang-btn.active { background: #e5e5ea; color: #1c1c1e; }
+    html[data-theme="dark"] .insight-cell { background: var(--bg-alt); }
+    html[data-theme="dark"] .psi-card { background: var(--bg-alt); }
+    html[data-theme="dark"] .pipe-flow-box { background: var(--bg-alt); }
+    html[data-theme="dark"] .analysis-card { background: var(--bg-alt); }
+    html[data-theme="dark"] .finding-card { background: var(--bg-alt); }
+    html[data-theme="dark"] .showcase-slot { background: var(--bg-alt); }
+    html[data-theme="dark"] .roadmap-item { background: var(--bg-alt); }
+    .theme-toggle { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg-alt); color: var(--ink); cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; line-height: 1; }
+
+    /* ── Reduced Motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 800px) {
+      .psi-grid { grid-template-columns: 1fr; }
+      .analysis-grid { grid-template-columns: 1fr; }
+      .findings-grid { grid-template-columns: 1fr; }
+      .submission-compare { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; gap: 32px; }
+      .insight-grid { grid-template-columns: 1fr; }
+      .approach-flow { flex-direction: column; align-items: stretch; }
+      .approach-step { min-width: auto; }
+      .approach-step:not(:last-child)::after { content: '↓'; position: static; display: block; text-align: center; padding: 4px 0; }
+    }
+    @media (max-width: 760px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 0; }
+      .stat:nth-child(3) { border-left: none; }
+      .wrap { padding: 0 20px; }
+      .nav-inner { padding: 14px 20px; }
+      .hero { padding: 56px 0 40px; }
+      .mobile-nav-toggle { display: block; }
+      .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 1.5rem; gap: 0.4rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+      nav.nav-open .nav-pills { display: flex; }
     }
   </style>
+  <script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
 </head>
 
 <body>
@@ -199,18 +297,21 @@
     <div class="hero">
       <div class="wrap">
         <div class="hero-kicker">
-          <span class="kicker-tag">Section 02 · Applied Data Science</span>
+          <span class="kicker-tag" data-i18n="kickerTag">Applied Data Science</span>
           <span class="kicker-text" data-i18n="kickerText">IDCamp Intermediate · Environmental Analytics</span>
         </div>
         <h1 class="title" data-i18n="heroTitle">Beijing Air<br><em>Quality</em> Dashboard</h1>
         <p class="hero-lede" data-i18n="heroLede">
-          An interactive Streamlit dashboard that turns <strong>46 MB of hourly sensor data</strong> from 12 Beijing monitoring stations (2013–2017) into actionable air quality insights — complete with AQI computation, seasonal trend analysis, meteorological correlations, and geospatial priority mapping.
+          Transforming <strong>46 MB of hourly sensor data</strong> from 12 Beijing monitoring stations into actionable air quality insights through AQI modeling, statistical hypothesis testing, and geospatial analysis.
         </p>
         <div class="hero-meta">
           <span data-i18n="metaType"><strong>Type</strong> EDA · Dashboard · Statistical Analysis</span>
           <span><strong>Stack</strong> Streamlit · Plotly · Folium · Pandas</span>
           <span><strong>Dataset</strong> 46 MB · Hourly · 12 Stations · 2013–2017</span>
           <span data-i18n="metaLevel"><strong>Level</strong> IDCamp Intermediate</span>
+        </div>
+        <div class="hero-screenshot">
+          <img src="videoframe_9283.png" alt="Beijing Air Quality Dashboard — Streamlit interface showing AQI trends, pollutant analysis, and geospatial map across 12 Beijing monitoring stations">
         </div>
       </div>
     </div>
@@ -221,273 +322,474 @@
         <div class="stats-grid">
           <div class="stat">
             <div class="num">12</div>
-            <div class="label">Monitoring Stations<br>across Beijing</div>
+            <div class="label" data-i18n="stat1">Monitoring stations<br>across Beijing</div>
           </div>
           <div class="stat">
             <div class="num">46<small>MB</small></div>
-            <div class="label">Hourly sensor data<br>2013–2017</div>
+            <div class="label" data-i18n="stat2">Hourly sensor data<br>2013–2017</div>
           </div>
           <div class="stat">
             <div class="num">χ²<small>11,819</small></div>
-            <div class="label">Season vs PM2.5<br>chi-square statistic</div>
+            <div class="label" data-i18n="stat3">Season vs PM2.5<br>chi-square statistic</div>
           </div>
           <div class="stat">
             <div class="num">6</div>
-            <div class="label">AQI categories<br>EPA breakpoints</div>
+            <div class="label" data-i18n="stat4">AQI categories<br>EPA breakpoints</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SECTION 1: PROBLEM -->
-    <section class="content" id="problem">
+    <!-- 01: EXECUTIVE SUMMARY -->
+    <section class="content" id="summary">
       <div class="wrap">
-        <div class="section-num" data-i18n="s1Num">01 — Problem</div>
-        <h2 data-i18n="s1H2">Beijing has a serious air quality problem. The data exists. <em>The story doesn't.</em></h2>
+        <div class="section-num" data-i18n="s1Num">01 · Executive Summary</div>
+        <h2 data-i18n="s1H2">Three findings every <em>stakeholder needs to know.</em></h2>
         <p class="lede" data-i18n="s1Lede">
-          Raw sensor CSV files across 12 stations and 5 years tell you nothing useful on their own. The goal was to build a dashboard that translates that raw data into patterns a policy analyst or researcher could actually act on.
+          Before diving into methodology: here's what this analysis revealed that matters for policy and planning.
         </p>
-        <p>
-          The dataset contains hourly measurements of PM2.5, PM10, SO₂, NO₂, CO, and O₃ alongside meteorological readings (temperature, pressure, dew point, wind speed, rainfall) from 12 stations spread across urban, suburban, and rural zones.
-        </p>
-        <p>
-          Three core questions shaped the analysis:
-        </p>
-        <ul class="checklist">
-          <li><strong>Temporal patterns</strong> — When is air quality worst? Is there a seasonal cycle? A weekly one? An hour-of-day cycle?</li>
-          <li><strong>Meteorological influence</strong> — Does wind speed actually disperse pollutants? How does rainfall interact with PM2.5 readings?</li>
-          <li><strong>Spatial inequality</strong> — Which stations consistently record the highest pollutant levels, and why?</li>
-        </ul>
-        <div class="tags">
-          <span class="tag">PM2.5</span>
-          <span class="tag">AQI</span>
-          <span class="tag">Seasonal Analysis</span>
-          <span class="tag">Chi-square</span>
-          <span class="tag">Geospatial</span>
-          <span class="tag">Streamlit</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 2: DATA & APPROACH -->
-    <section class="content alt" id="approach">
-      <div class="wrap">
-        <div class="section-num" data-i18n="s2Num">02 — Data &amp; Approach</div>
-        <h2 data-i18n="s2H2">From raw CSV to <em>EPA-grade AQI</em> — the pipeline</h2>
-        <p class="lede" data-i18n="s2Lede">
-          Before any visualization could happen, the raw measurements needed to be converted into a standardized AQI scale using the EPA breakpoint method.
-        </p>
-
-        <h3>AQI Calculation</h3>
-        <p>
-          The EPA uses a piecewise linear interpolation formula to convert raw pollutant concentrations into sub-index values. The final AQI is the maximum of all sub-indices:
-        </p>
-        <p>
-          <code>AQI = max(AQI_PM2.5, AQI_PM10, AQI_O3, AQI_CO, AQI_NO2, AQI_SO2)</code>
-        </p>
-        <p>
-          Each pollutant maps to one of six categories: Good (0–50), Moderate (51–100), Unhealthy for Sensitive Groups (101–150), Unhealthy (151–200), Very Unhealthy (201–300), Hazardous (301+).
-        </p>
-
-        <h3>Statistical Testing</h3>
-        <div class="two-col">
-          <div>
-            <p><strong>Spearman rank correlation</strong> was used for meteorological relationships (non-parametric, appropriate for non-normal distributions). Wind speed and rainfall showed negative correlation with pollutant levels — dispersal and washout effects respectively.</p>
-          </div>
-          <div>
-            <p><strong>Chi-square tests</strong> for categorical associations: zone type vs AQI category (χ² = 4,600.68, p &lt; 0.001) and season vs PM2.5 level (χ² = 11,819.36, p &lt; 0.001). Both statistically significant — zone and season genuinely predict air quality.</p>
-          </div>
-        </div>
-
-        <h3>Spatial Priority Scoring</h3>
-        <p>
-          Each station received a composite priority score using Z-score normalized values:
-        </p>
-        <p><code>priority = 0.5 × PM2.5_z + 0.35 × AQI_z + 0.15 × gas_index_z</code></p>
-        <p>
-          This weighted score drives the geospatial map — circle markers are sized by PM2.5 level, colored by priority tier, so the worst-polluted stations are immediately visible.
-        </p>
-
-        <div class="stack-row">
-          <div class="stack-item"><div class="stack-item-label">Dashboard</div><div class="stack-item-val">Streamlit</div></div>
-          <div class="stack-item"><div class="stack-item-label">Visualization</div><div class="stack-item-val">Plotly</div></div>
-          <div class="stack-item"><div class="stack-item-label">Geospatial</div><div class="stack-item-val">Folium</div></div>
-          <div class="stack-item"><div class="stack-item-label">Data</div><div class="stack-item-val">Pandas · NumPy</div></div>
-          <div class="stack-item"><div class="stack-item-label">Stats</div><div class="stack-item-val">Scipy</div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 3: DASHBOARD FEATURES -->
-    <section class="content" id="features">
-      <div class="wrap">
-        <div class="section-num" data-i18n="s3Num">03 — Dashboard Features</div>
-        <h2 data-i18n="s3H2">Five views, one <em>coherent picture</em> of Beijing air quality</h2>
-
-        <ul class="checklist">
-          <li>
-            <strong>Header KPIs</strong> — Real-time current AQI, dominant pollutant, and weather profile at a glance. The entry point that tells the user whether today is "Good" or "Hazardous" before they explore anything.
-          </li>
-          <li>
-            <strong>History Trends</strong> — Daily, monthly, and yearly AQI views switchable via toggle. Heatmap shows hour-of-day × month patterns — winter mornings are consistently the worst.
-          </li>
-          <li>
-            <strong>Dynamic Insights</strong> — Trend analysis surface, critical period detection, seasonal PM2.5 patterns, and extreme event flagging. Automatically highlights the worst 10% of readings as "critical periods."
-          </li>
-          <li>
-            <strong>Meteorology Analysis</strong> — Seasonal distribution box plots, Spearman correlation heatmap, and wind rose diagram. Answers: does rain help? (yes) does high pressure trap pollution? (yes).
-          </li>
-          <li>
-            <strong>Geospatial Priority Map</strong> — Interactive Folium map with circle markers. Station size = PM2.5 level; color = priority tier. Urban cluster stations clearly show higher pollution than rural zones.
-          </li>
-          <li>
-            <strong>Categorical Analysis</strong> — Zone type vs AQI category contingency table with chi-square output. Confirms statistically that where a station is located (urban/suburban/rural) predicts its air quality category.
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- SECTION 4: FINDINGS -->
-    <section class="content alt" id="findings">
-      <div class="wrap">
-        <div class="section-num" data-i18n="s4Num">04 — Key Findings</div>
-        <h2 data-i18n="s4H2">What the data actually <em>revealed</em></h2>
 
         <div class="insight-grid">
           <div class="insight-cell">
-            <div class="insight-label">Seasonal pattern</div>
+            <div class="insight-label" data-i18n="ins1Label">Seasonal pattern</div>
             <div class="insight-num">Winter</div>
-            <div class="insight-desc">December–February is consistently the most hazardous period for PM2.5 — coal heating + temperature inversions trap pollutants near ground level.</div>
+            <div class="insight-desc" data-i18n="ins1Desc">December–February is the dominant pollution season. Coal heating and temperature inversions trap PM2.5 near ground level — χ² = 11,819 confirms this isn't noise.</div>
           </div>
           <div class="insight-cell">
-            <div class="insight-label">Chi-square result</div>
-            <div class="insight-num">p&lt;0.001</div>
-            <div class="insight-desc">Both zone type and season have highly significant statistical relationships with AQI category. Not just visual patterns — confirmed with formal hypothesis testing.</div>
-          </div>
-          <div class="insight-cell">
-            <div class="insight-label">Meteorology key</div>
+            <div class="insight-label" data-i18n="ins2Label">Strongest natural cleaner</div>
             <div class="insight-num">Wind</div>
-            <div class="insight-desc">Wind speed (WSPM) showed the strongest negative correlation with PM2.5 levels. Days with high wind speed are consistently cleaner days.</div>
+            <div class="insight-desc" data-i18n="ins2Desc">Wind speed (WSPM) showed the strongest negative correlation with PM2.5 levels across all 12 stations. High-wind days are consistently the cleanest days in the dataset.</div>
           </div>
           <div class="insight-cell">
-            <div class="insight-label">Spatial pattern</div>
+            <div class="insight-label" data-i18n="ins3Label">Spatial inequality</div>
             <div class="insight-num">Urban</div>
-            <div class="insight-desc">Urban-zone stations consistently record higher AQI than suburban or rural stations — matching expected pollution concentration near high-density activity.</div>
+            <div class="insight-desc" data-i18n="ins3Desc">Urban stations are disproportionately polluted. Zone type is a statistically significant predictor of AQI category (χ² = 4,600, p &lt; 0.001) — location determines air quality outcome.</div>
           </div>
-          <div class="insight-cell">
-            <div class="insight-label">Rainfall effect</div>
-            <div class="insight-num">Cleanse</div>
-            <div class="insight-desc">Rainfall events show measurable PM2.5 reduction in the hours following precipitation — the "wet deposition" washout effect is visible in the data.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02: PROBLEM → APPROACH → IMPACT -->
+    <section class="content alt" id="approach">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s2Num">02 · Problem → Approach → Impact</div>
+        <h2 data-i18n="s2H2">Raw sensor data tells you <em>nothing. Until it does.</em></h2>
+
+        <div class="approach-flow" role="img" aria-label="Analysis pipeline flow">
+          <div class="approach-step">
+            <div class="approach-box io" data-i18n="flow1">Raw Sensor Data</div>
+            <div class="approach-sub">12 CSV files</div>
           </div>
-          <div class="insight-cell">
-            <div class="insight-label">Zone chi-square</div>
-            <div class="insight-num">4,600</div>
-            <div class="insight-desc">χ² = 4,600.68 for zone vs AQI category — an extremely strong signal that zone type (urban/suburban/rural) is a genuine predictor of air quality outcome.</div>
+          <div class="approach-step">
+            <div class="approach-box" data-i18n="flow2">AQI Calculation</div>
+            <div class="approach-sub">EPA formula</div>
+          </div>
+          <div class="approach-step">
+            <div class="approach-box" data-i18n="flow3">Statistical Analysis</div>
+            <div class="approach-sub">Spearman · χ²</div>
+          </div>
+          <div class="approach-step">
+            <div class="approach-box" data-i18n="flow4">Spatial Prioritization</div>
+            <div class="approach-sub">Composite score</div>
+          </div>
+          <div class="approach-step">
+            <div class="approach-box" data-i18n="flow5">Interactive Dashboard</div>
+            <div class="approach-sub">Streamlit</div>
+          </div>
+          <div class="approach-step">
+            <div class="approach-box io" data-i18n="flow6">Actionable Insights</div>
+            <div class="approach-sub">Policy-ready findings</div>
           </div>
         </div>
 
-        <div class="pullquote">
+        <div class="psi-grid">
+          <div class="psi-card psi-problem">
+            <span class="psi-label" data-i18n="psiChallengeLabel">Challenge</span>
+            <h3 data-i18n="psiChallengeTitle">The Problem</h3>
+            <ul>
+              <li data-i18n="psiC1">Beijing's air quality is a public health crisis — but raw CSV data doesn't tell the story</li>
+              <li data-i18n="psiC2">No standardized AQI metric across the 12 raw station datasets</li>
+              <li data-i18n="psiC3">Unclear which stations or seasons should be priority intervention targets</li>
+              <li data-i18n="psiC4">Meteorological relationships (wind, rain) were assumed but never quantified</li>
+            </ul>
+          </div>
+          <div class="psi-card psi-solution">
+            <span class="psi-label" data-i18n="psiSolutionLabel">Solution</span>
+            <h3 data-i18n="psiSolutionTitle">The Approach</h3>
+            <ul>
+              <li data-i18n="psiS1">Computed EPA-standard AQI from 6 raw pollutant readings per station</li>
+              <li data-i18n="psiS2">Ran Spearman correlation and chi-square tests to validate visual patterns statistically</li>
+              <li data-i18n="psiS3">Built a composite priority score to rank stations by pollution severity</li>
+              <li data-i18n="psiS4">Deployed as an interactive Streamlit dashboard with 5 analytical views</li>
+            </ul>
+          </div>
+          <div class="psi-card psi-impact">
+            <span class="psi-label" data-i18n="psiImpactLabel">Impact</span>
+            <h3 data-i18n="psiImpactTitle">The Results</h3>
+            <ul>
+              <li data-i18n="psiI1">Seasonal signal confirmed: χ² = 11,819 for season vs PM2.5</li>
+              <li data-i18n="psiI2">Spatial inequality confirmed: χ² = 4,600 for zone type vs AQI</li>
+              <li data-i18n="psiI3">Wind identified as the dominant natural pollution dispersal factor</li>
+              <li class="down" data-i18n="psiI4">Geospatial map surfaces highest-priority stations for intervention</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03: DATA PIPELINE -->
+    <section class="content" id="pipeline">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s3Num">03 · Data Pipeline</div>
+        <h2 data-i18n="s3H2">From 12 CSV files to <em>EPA-grade AQI.</em></h2>
+        <p class="lede" data-i18n="s3Lede">
+          Every step from raw sensor readings to dashboard-ready insights.
+        </p>
+
+        <div class="two-col">
+          <div class="pipe-flow" role="img" aria-label="Data pipeline steps">
+            <div class="pipe-flow-row">
+              <div class="pipe-flow-box io">
+                <div class="pipe-flow-num">—</div>
+                <div><div class="pipe-flow-name" data-i18n="pipe0Name">12 CSV Files</div><div class="pipe-flow-sub" data-i18n="pipe0Sub">hourly sensor readings, 2013–2017</div></div>
+              </div>
+            </div>
+            <div class="pipe-flow-arrow">↓</div>
+            <div class="pipe-flow-row">
+              <div class="pipe-flow-box">
+                <div class="pipe-flow-num">01</div>
+                <div><div class="pipe-flow-name" data-i18n="pipe1Name">Data Cleaning</div><div class="pipe-flow-sub" data-i18n="pipe1Sub">missing value handling · IQR outlier detection</div></div>
+                <span class="pipe-flow-badge">clean df</span>
+              </div>
+            </div>
+            <div class="pipe-flow-arrow">↓</div>
+            <div class="pipe-flow-row">
+              <div class="pipe-flow-box">
+                <div class="pipe-flow-num">02</div>
+                <div><div class="pipe-flow-name" data-i18n="pipe2Name">AQI Engine</div><div class="pipe-flow-sub" data-i18n="pipe2Sub">EPA breakpoint formula · max sub-index</div></div>
+                <span class="pipe-flow-badge">AQI col</span>
+              </div>
+            </div>
+            <div class="pipe-flow-arrow">↓</div>
+            <div class="pipe-flow-row">
+              <div class="pipe-flow-box">
+                <div class="pipe-flow-num">03</div>
+                <div><div class="pipe-flow-name" data-i18n="pipe3Name">Feature Engineering</div><div class="pipe-flow-sub" data-i18n="pipe3Sub">season · zone type · priority score</div></div>
+                <span class="pipe-flow-badge">features</span>
+              </div>
+            </div>
+            <div class="pipe-flow-arrow">↓</div>
+            <div class="pipe-flow-row">
+              <div class="pipe-flow-box">
+                <div class="pipe-flow-num">04</div>
+                <div><div class="pipe-flow-name" data-i18n="pipe4Name">Statistical Analysis</div><div class="pipe-flow-sub" data-i18n="pipe4Sub">Spearman correlation · chi-square tests</div></div>
+                <span class="pipe-flow-badge">stats</span>
+              </div>
+            </div>
+            <div class="pipe-flow-arrow">↓</div>
+            <div class="pipe-flow-row">
+              <div class="pipe-flow-box io">
+                <div class="pipe-flow-num">—</div>
+                <div><div class="pipe-flow-name" data-i18n="pipe5Name">Streamlit Dashboard</div><div class="pipe-flow-sub" data-i18n="pipe5Sub">Plotly · Folium · interactive filters</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 data-i18n="aqiFormulaTitle">AQI Calculation</h3>
+            <p data-i18n="aqiFormulaP1">The EPA uses piecewise linear interpolation to convert raw pollutant concentrations into sub-index values. The final AQI is the maximum across all pollutants:</p>
+            <p><code>AQI = max(AQI_PM2.5, AQI_PM10, AQI_O3, AQI_CO, AQI_NO2, AQI_SO2)</code></p>
+            <p data-i18n="aqiFormulaP2">Six categories from Good (0–50) through Hazardous (301+). This standardization makes all 12 stations directly comparable despite raw measurement differences.</p>
+
+            <h3 data-i18n="priorityTitle">Priority Score Formula</h3>
+            <p data-i18n="priorityP1">Each station receives a composite score using Z-score normalized values:</p>
+            <p><code>priority = 0.5 × PM2.5_z + 0.35 × AQI_z + 0.15 × gas_index_z</code></p>
+            <p data-i18n="priorityP2">This weighted score drives the geospatial map — stations needing the most policy attention are immediately visible as large, high-priority markers.</p>
+
+            <div class="stack-row">
+              <div class="stack-item"><div class="stack-item-label">Dashboard</div><div class="stack-item-val">Streamlit</div></div>
+              <div class="stack-item"><div class="stack-item-label">Viz</div><div class="stack-item-val">Plotly</div></div>
+              <div class="stack-item"><div class="stack-item-label">Maps</div><div class="stack-item-val">Folium</div></div>
+              <div class="stack-item"><div class="stack-item-label">Data</div><div class="stack-item-val">Pandas · NumPy</div></div>
+              <div class="stack-item"><div class="stack-item-label">Stats</div><div class="stack-item-val">SciPy</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04: ANALYSIS FRAMEWORK -->
+    <section class="content alt" id="framework">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s4Num">04 · Analysis Framework</div>
+        <h2 data-i18n="s4H2">Three analytical lenses, <em>one complete picture.</em></h2>
+
+        <div class="analysis-grid">
+          <div class="analysis-card">
+            <span class="analysis-icon">📈</span>
+            <div class="analysis-tag" data-i18n="anal1Tag">Temporal Analysis</div>
+            <h3 data-i18n="anal1Title">When does pollution peak?</h3>
+            <ul>
+              <li data-i18n="anal1L1">Hourly AQI patterns</li>
+              <li data-i18n="anal1L2">Monthly trend lines</li>
+              <li data-i18n="anal1L3">Seasonal decomposition</li>
+              <li data-i18n="anal1L4">Critical period detection</li>
+            </ul>
+          </div>
+          <div class="analysis-card">
+            <span class="analysis-icon">🌦</span>
+            <div class="analysis-tag" data-i18n="anal2Tag">Meteorological Analysis</div>
+            <h3 data-i18n="anal2Title">What drives pollution levels?</h3>
+            <ul>
+              <li data-i18n="anal2L1">Wind speed correlation</li>
+              <li data-i18n="anal2L2">Rainfall washout effect</li>
+              <li data-i18n="anal2L3">Temperature & pressure</li>
+              <li data-i18n="anal2L4">Spearman rank correlation</li>
+            </ul>
+          </div>
+          <div class="analysis-card">
+            <span class="analysis-icon">🗺</span>
+            <div class="analysis-tag" data-i18n="anal3Tag">Spatial Analysis</div>
+            <h3 data-i18n="anal3Title">Where is it worst?</h3>
+            <ul>
+              <li data-i18n="anal3L1">12 station comparison</li>
+              <li data-i18n="anal3L2">Urban vs suburban vs rural</li>
+              <li data-i18n="anal3L3">Priority scoring map</li>
+              <li data-i18n="anal3L4">Zone chi-square test</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05: DASHBOARD SHOWCASE -->
+    <section class="content" id="dashboard">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s5Num">05 · Dashboard Showcase</div>
+        <h2 data-i18n="s5H2">Five views, one <em>coherent story.</em></h2>
+
+        <div class="showcase-item">
+          <div class="showcase-header">
+            <div class="showcase-label" data-i18n="sc1Label">View 01 — 02</div>
+            <h3 data-i18n="sc1Title">KPI Dashboard &amp; Trend Analysis</h3>
+            <p class="showcase-desc" data-i18n="sc1Desc">The entry point: current AQI status, dominant pollutant, and weather profile at a glance. Daily, monthly, and yearly AQI views are switchable via toggle — the hour-of-day × month heatmap makes winter-morning pollution patterns immediately visible.</p>
+          </div>
+          <img class="showcase-img" src="dashboard-kpi-trends.png" alt="KPI Dashboard and Trend Analysis — AQI status, dominant pollutant, heatmap of hour-of-day vs month pollution patterns across Beijing monitoring stations" loading="lazy">
+        </div>
+
+        <div class="showcase-item">
+          <div class="showcase-header">
+            <div class="showcase-label" data-i18n="sc3Label">View 03</div>
+            <h3 data-i18n="sc3Title">Meteorology Analysis</h3>
+            <p class="showcase-desc" data-i18n="sc3Desc">Spearman correlation heatmap and wind rose diagram answer: does rain help? (yes) does high pressure trap pollution? (yes). Box plots show seasonal PM2.5 distributions across all stations.</p>
+          </div>
+          <img class="showcase-img" src="dashboard-meteo.png" alt="Meteorology Analysis — Spearman correlation heatmap, wind rose diagram, and seasonal PM2.5 box plots across 12 Beijing air quality stations" loading="lazy">
+        </div>
+
+        <div class="showcase-item">
+          <div class="showcase-header">
+            <div class="showcase-label" data-i18n="sc4Label">View 04</div>
+            <h3 data-i18n="sc4Title">Geospatial Priority Map</h3>
+            <p class="showcase-desc" data-i18n="sc4Desc">Interactive Folium map where circle size = PM2.5 level and color = priority tier. The urban cluster stations visually stand out — no explanation needed to see which zones need policy attention first.</p>
+          </div>
+          <img class="showcase-img" src="dashboard-map.png" alt="Geospatial Priority Map — interactive Folium map showing 12 Beijing stations with circle markers sized by PM2.5 and colored by pollution priority tier" loading="lazy">
+        </div>
+
+        <div class="showcase-item">
+          <div class="showcase-header">
+            <div class="showcase-label" data-i18n="sc5Label">View 05</div>
+            <h3 data-i18n="sc5Title">Categorical Analysis</h3>
+            <p class="showcase-desc" data-i18n="sc5Desc">Zone type vs AQI category contingency table with chi-square output. Confirms statistically that where a station is located (urban/suburban/rural) is a genuine predictor of its AQI outcome — not just a visual impression.</p>
+          </div>
+          <img class="showcase-img" src="dashboard-categorical.png" alt="Categorical Analysis — zone type vs AQI category contingency table with chi-square test output confirming spatial inequality across Beijing monitoring stations" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- 06: KEY FINDINGS -->
+    <section class="content alt" id="findings">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s6Num">06 · Key Findings</div>
+        <h2 data-i18n="s6H2">What the data <em>actually proved.</em></h2>
+
+        <div class="findings-grid">
+          <div class="finding-card">
+            <div class="finding-tag" data-i18n="f1Tag">Seasonality</div>
+            <div class="finding-headline" data-i18n="f1Head">Winter = highest AQI</div>
+            <div class="finding-stat">χ² = 11,819 · p &lt; 0.001</div>
+            <div class="finding-desc" data-i18n="f1Desc">December–February is the dominant pollution season. Coal heating and temperature inversions trap PM2.5 near ground level. This is statistically confirmed, not just visually observed.</div>
+          </div>
+          <div class="finding-card">
+            <div class="finding-tag" data-i18n="f2Tag">Meteorology</div>
+            <div class="finding-headline" data-i18n="f2Head">Wind reduces PM2.5</div>
+            <div class="finding-stat">Strongest negative Spearman ρ</div>
+            <div class="finding-desc" data-i18n="f2Desc">Wind speed (WSPM) showed the strongest negative correlation with PM2.5 of all meteorological variables. High-wind days are reliably the clearest days across all 12 stations.</div>
+          </div>
+          <div class="finding-card">
+            <div class="finding-tag" data-i18n="f3Tag">Spatial inequality</div>
+            <div class="finding-headline" data-i18n="f3Head">Urban &gt; rural AQI</div>
+            <div class="finding-stat">χ² = 4,600 · p &lt; 0.001</div>
+            <div class="finding-desc" data-i18n="f3Desc">Urban stations are disproportionately polluted compared to suburban and rural zones. Zone type is a statistically significant predictor of AQI category — location determines outcome.</div>
+          </div>
+          <div class="finding-card">
+            <div class="finding-tag" data-i18n="f4Tag">Rainfall effect</div>
+            <div class="finding-headline" data-i18n="f4Head">Rain cleanses PM2.5</div>
+            <div class="finding-stat">Wet deposition washout</div>
+            <div class="finding-desc" data-i18n="f4Desc">Rainfall events show measurable PM2.5 reduction in hours following precipitation. The wet deposition washout effect is clearly visible in the sensor time series.</div>
+          </div>
+          <div class="finding-card">
+            <div class="finding-tag" data-i18n="f5Tag">Station hotspot</div>
+            <div class="finding-headline" data-i18n="f5Head">Highest priority: urban cluster</div>
+            <div class="finding-stat">Composite priority score</div>
+            <div class="finding-desc" data-i18n="f5Desc">The priority scoring model surfaces stations requiring immediate policy attention — combining PM2.5 (50%), AQI (35%), and gas index (15%) into a single actionable metric.</div>
+          </div>
+          <div class="finding-card">
+            <div class="finding-tag" data-i18n="f6Tag">Critical period</div>
+            <div class="finding-headline" data-i18n="f6Head">Morning + winter = worst</div>
+            <div class="finding-stat">Heatmap: 06:00–10:00 Dec–Feb</div>
+            <div class="finding-desc" data-i18n="f6Desc">The hour-of-day × month heatmap shows that winter mornings (06:00–10:00) consistently register the highest AQI values — the compound effect of overnight accumulation plus morning activity.</div>
+          </div>
+        </div>
+
+        <div class="pullquote" data-i18n="findingsPQ">
           "The chi-square result alone — χ² = 11,819 for season vs PM2.5 — shows that seasonal patterns aren't noise. They're the dominant signal in this dataset."
         </div>
       </div>
     </section>
 
-    <!-- SECTION 5: TECHNICAL DECISIONS -->
+    <!-- 07: TECHNICAL DECISIONS -->
     <section class="content" id="decisions">
       <div class="wrap">
-        <div class="section-num" data-i18n="s5Num">05 — Technical Decisions</div>
-        <h2 data-i18n="s5H2">Three choices that shaped the <em>analysis</em></h2>
+        <div class="section-num" data-i18n="s7Num">07 · Technical Decisions</div>
+        <h2 data-i18n="s7H2">Every choice has <em>a reason.</em></h2>
+        <p data-i18n="s7Lede">Three non-obvious design decisions that shaped the validity of this analysis.</p>
 
-        <h3>Spearman over Pearson for meteorological correlations</h3>
-        <p>
-          Meteorological data (wind speed, rainfall) doesn't follow a normal distribution. Pearson correlation assumes linearity and normality — both violated here. Spearman rank correlation is more robust for this kind of skewed, sensor-based data. The resulting correlation heatmap is more honest.
-        </p>
-
-        <h3>Composite priority score instead of raw PM2.5 ranking</h3>
-        <p>
-          Ranking stations purely by PM2.5 misses the full picture. A station might have high PM2.5 but low AQI (if other pollutants are clean) or vice versa. The weighted composite (50% PM2.5, 35% AQI, 15% gas index) gives a more complete picture of which stations need policy attention most.
-        </p>
-
-        <h3>IQR-based outlier detection instead of z-score cutoffs</h3>
-        <p>
-          Sensor data includes genuine extreme events (dust storms, industrial incidents) that look like outliers statistically but are real. IQR method was chosen for outlier flagging to be more conservative — preserving real extreme readings while still identifying sensor malfunctions.
-        </p>
+        <table class="compare">
+          <thead>
+            <tr>
+              <th data-i18n="tdDecision">Decision</th>
+              <th data-i18n="tdAlternative">Alternative considered</th>
+              <th data-i18n="tdWhy">Why this choice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight">
+              <td><strong data-i18n="td1Decision">Spearman correlation</strong></td>
+              <td data-i18n="td1Alt">Pearson correlation</td>
+              <td data-i18n="td1Why">Meteorological data is non-normal and non-linear. Pearson assumes both. Spearman rank correlation is more honest for this kind of skewed sensor data.</td>
+            </tr>
+            <tr>
+              <td><strong data-i18n="td2Decision">Composite priority score</strong></td>
+              <td data-i18n="td2Alt">Rank by PM2.5 only</td>
+              <td data-i18n="td2Why">A single pollutant misses the full picture. The weighted composite (PM2.5 50%, AQI 35%, gas index 15%) gives a more complete view of which stations need policy attention most.</td>
+            </tr>
+            <tr class="highlight">
+              <td><strong data-i18n="td3Decision">IQR outlier detection</strong></td>
+              <td data-i18n="td3Alt">Z-score cutoffs</td>
+              <td data-i18n="td3Why">Sensor data includes real extreme events (dust storms, industrial incidents). IQR is more conservative — preserving genuine extremes while flagging sensor malfunctions.</td>
+            </tr>
+            <tr>
+              <td><strong data-i18n="td4Decision">Chi-square for zone/season</strong></td>
+              <td data-i18n="td4Alt">Visual inspection only</td>
+              <td data-i18n="td4Why">Visual patterns are hypothesis, not proof. Chi-square tests with p &lt; 0.001 convert the observation into a statistically validated finding.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <!-- LEARNING CONTEXT + FUTURE DEVELOPMENT -->
-    <div class="journey-section">
+    <!-- 08: LEARNING JOURNEY -->
+    <div class="journey-section" id="journey">
       <div class="wrap">
+        <div class="section-num" data-i18n="s8Num">08 · Learning Journey</div>
+        <h2 data-i18n="s8H2">This submission was <em>rejected once — then passed.</em></h2>
+        <p data-i18n="s8Desc">This dashboard is the capstone for <strong>Belajar Fundamental Analisis Data</strong> — IDCamp 2025 Intermediate level on Dicoding. The first submission was rejected. Here's what changed.</p>
 
-        <!-- Part 1: Context -->
-        <div class="section-num" data-i18n="lcNum">Learning Context</div>
-        <h2 data-i18n="lcTitle">Proyek ini adalah <em>submission yang pernah ditolak,</em> lalu lulus.</h2>
-        <p data-i18n="lcDesc">
-          Dashboard ini adalah tugas akhir <strong>Belajar Fundamental Analisis Data</strong> — IDCamp 2025 level Intermediate dari Dicoding. Datang setelah menyelesaikan empat modul Beginner (Python, SQL, Dasar Data Science, ML Pemula) — jalur yang saya ulangi dengan sengaja setelah hasil bootcamp analisis data 2023 yang kurang memuaskan.
-        </p>
-        <div class="journey-path">
-          <span class="journey-tag">Dasar Data Science</span>
-          <span class="journey-tag">SQL</span>
-          <span class="journey-tag">Python</span>
-          <span class="journey-tag">ML Pemula</span>
-          <span class="journey-tag active" data-i18n="lcPathActive">→ Belajar Fundamental Analisis Data (proyek ini)</span>
-        </div>
-
-        <!-- Part 2: Reviewer Feedback (honest) -->
-        <h3 data-i18n="lcFeedbackTitle">Feedback reviewer — submission pertama ditolak.</h3>
-        <p data-i18n="lcFeedbackDesc">Tiga area spesifik yang perlu diperbaiki:</p>
-
-        <div class="feedback-block">
-          <div class="feedback-label" data-i18n="fb1label">Feedback #1 — Pertanyaan Bisnis</div>
-          <p data-i18n="fb1body">Pertanyaan 2, 3, dan 4 belum memenuhi aspek <strong>Time-bound</strong> dari prinsip SMART. Pertanyaan seperti "kapan waktu-waktu kritis?" valid secara konsep, tapi tidak terukur secara analitis. Menambahkan <em>"selama periode 2013–2017"</em> mengubahnya dari samar menjadi testable.</p>
+        <div class="submission-compare">
+          <div class="submission-card fail">
+            <div class="submission-label">❌ Submission #1 — Rejected</div>
+            <div class="submission-item"><span class="submission-icon">✗</span><span data-i18n="fail1">Business questions not Time-bound (SMART criteria)</span></div>
+            <div class="submission-item"><span class="submission-icon">✗</span><span data-i18n="fail2">EDA missing skewness, kurtosis, Q-Q plots, Shapiro-Wilk</span></div>
+            <div class="submission-item"><span class="submission-icon">✗</span><span data-i18n="fail3">No chi-square tests for categorical associations</span></div>
+            <div class="submission-item"><span class="submission-icon">✗</span><span data-i18n="fail4">Dashboard lacked dynamic time filters</span></div>
+          </div>
+          <div class="submission-card pass">
+            <div class="submission-label">✅ Submission #2 — Passed</div>
+            <div class="submission-item"><span class="submission-icon">✓</span><span data-i18n="pass1">All questions scoped to "2013–2017 period"</span></div>
+            <div class="submission-item"><span class="submission-icon">✓</span><span data-i18n="pass2">Full EDA: univariate + multivariate + normality tests</span></div>
+            <div class="submission-item"><span class="submission-icon">✓</span><span data-i18n="pass3">Chi-square tests added — χ² = 11,819 and χ² = 4,600</span></div>
+            <div class="submission-item"><span class="submission-icon">✓</span><span data-i18n="pass4">Interactive filters for station, date range, pollutant</span></div>
+          </div>
         </div>
 
         <div class="feedback-block">
-          <div class="feedback-label" data-i18n="fb2label">Feedback #2 — Kedalaman EDA</div>
-          <p data-i18n="fb2body">Analisis univariat kurang <strong>skewness, kurtosis, Q-Q plot, dan uji normalitas Shapiro-Wilk</strong>. Bagian multivariat perlu <strong>scatter plot dengan regression line, pairplot, dan violin plot</strong>. Bagian kategorikal belum ada <strong>uji chi-square</strong> untuk memvalidasi asosiasi yang terlihat secara visual. Deteksi outlier berbasis IQR per polutan juga perlu didokumentasikan.</p>
+          <div class="feedback-label" data-i18n="fb1Label">Feedback #1 — Business Questions</div>
+          <p data-i18n="fb1Body">Questions 2, 3, and 4 didn't meet the <strong>Time-bound</strong> aspect of SMART criteria. "When are the critical periods?" is conceptually valid but analytically unmeasurable. Adding <em>"during the 2013–2017 period"</em> transforms it from vague to testable.</p>
         </div>
-
         <div class="feedback-block">
-          <div class="feedback-label" data-i18n="fb3label">Feedback #3 — Interaktivitas Dashboard</div>
-          <p data-i18n="fb3body">Dashboard Streamlit perlu <strong>filter waktu dinamis dan kontrol interaktif</strong> agar pengguna bisa mengeksplorasi data sendiri, bukan hanya melihat output statis.</p>
+          <div class="feedback-label" data-i18n="fb2Label">Feedback #2 — EDA Depth</div>
+          <p data-i18n="fb2Body">The univariate analysis was missing <strong>skewness, kurtosis, Q-Q plots, and Shapiro-Wilk normality tests</strong>. The multivariate section needed <strong>scatter plots with regression lines, pairplots, and violin plots</strong>. The categorical section lacked <strong>chi-square tests</strong> to validate visual patterns statistically.</p>
         </div>
-
-        <!-- Part 3: Future Development -->
-        <h3 data-i18n="fdTitle" style="margin-top:56px;">Pengembangan ke Depan</h3>
-        <p data-i18n="fdDesc">Berdasarkan feedback reviewer dan arah alami analisis ini, berikut yang akan dikerjakan pada iterasi berikutnya:</p>
-
-        <div class="lesson-grid">
-          <div class="lesson-cell">
-            <div class="lesson-cell-label" data-i18n="fd1label">Komponen Prediktif</div>
-            <p data-i18n="fd1body">Tambahkan model forecasting AQI berbasis kondisi cuaca (angin, tekanan, suhu). Dashboard saat ini menjelaskan pola historis — langkah berikutnya adalah <strong>memprediksi hari-hari berisiko sebelum terjadi.</strong></p>
-          </div>
-          <div class="lesson-cell">
-            <div class="lesson-cell-label" data-i18n="fd2label">Mode Perbandingan Stasiun</div>
-            <p data-i18n="fd2body">Filter interaktif untuk membandingkan dua stasiun secara berdampingan — berguna untuk analisis kebijakan zonasi antara area urban dan rural.</p>
-          </div>
-          <div class="lesson-cell">
-            <div class="lesson-cell-label" data-i18n="fd3label">Alert Otomatis Periode Kritis</div>
-            <p data-i18n="fd3body">Logika threshold PM2.5 yang secara otomatis menandai dan merangkum "critical periods" — sehingga pengguna tidak perlu mencarinya manual di heatmap.</p>
-          </div>
-          <div class="lesson-cell">
-            <div class="lesson-cell-label" data-i18n="fd4label">SMART sebagai Standar</div>
-            <p data-i18n="fd4body">Setiap pertanyaan bisnis di proyek mendatang akan diformulasikan dengan Time-bound eksplisit sejak awal — bukan sebagai revisi, tapi sebagai cara berpikir default.</p>
-          </div>
+        <div class="feedback-block">
+          <div class="feedback-label" data-i18n="fb3Label">Feedback #3 — Dashboard Interactivity</div>
+          <p data-i18n="fb3Body">The Streamlit dashboard needed <strong>dynamic time filters and interactive controls</strong> so users can explore the data themselves — not just view static pre-computed output.</p>
         </div>
-
       </div>
     </div>
+
+    <!-- 09: FUTURE DEVELOPMENT -->
+    <section class="content" id="future">
+      <div class="wrap">
+        <div class="section-num" data-i18n="s9Num">09 · Future Development</div>
+        <h2 data-i18n="s9H2">From descriptive analytics <em>to predictive action.</em></h2>
+        <p data-i18n="s9Lede">The current dashboard explains what happened. The next phase is predicting what will happen — and flagging it before it does.</p>
+
+        <div class="roadmap">
+          <div class="roadmap-item current">
+            <div class="roadmap-step">NOW</div>
+            <div>
+              <div class="roadmap-label" data-i18n="road0Label">Dashboard Analytics</div>
+              <div class="roadmap-sub" data-i18n="road0Sub">AQI trends · spatial map · chi-square</div>
+            </div>
+          </div>
+          <div class="roadmap-arrow">↓</div>
+          <div class="roadmap-item">
+            <div class="roadmap-step">01</div>
+            <div>
+              <div class="roadmap-label" data-i18n="road1Label">AQI Forecasting</div>
+              <div class="roadmap-sub" data-i18n="road1Sub">weather-based predictive model</div>
+            </div>
+          </div>
+          <div class="roadmap-arrow">↓</div>
+          <div class="roadmap-item">
+            <div class="roadmap-step">02</div>
+            <div>
+              <div class="roadmap-label" data-i18n="road2Label">Automated Alert System</div>
+              <div class="roadmap-sub" data-i18n="road2Sub">PM2.5 threshold · critical period flags</div>
+            </div>
+          </div>
+          <div class="roadmap-arrow">↓</div>
+          <div class="roadmap-item">
+            <div class="roadmap-step">03</div>
+            <div>
+              <div class="roadmap-label" data-i18n="road3Label">Policy Recommendation Engine</div>
+              <div class="roadmap-sub" data-i18n="road3Sub">station-level intervention priorities</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- CTA -->
     <div class="cta-section">
       <div class="wrap">
         <div class="section-num" data-i18n="ctaNum">Try it · See the code</div>
         <h2 data-i18n="ctaH2">Interactive dashboard <em>on Streamlit.</em></h2>
-        <p data-i18n="ctaP">Explore 12-station Beijing air quality data — AQI trends, seasonal patterns, and meteorological correlations across 2013–2017.</p>
+        <p data-i18n="ctaP">Explore 12-station Beijing air quality data — AQI trends, seasonal patterns, meteorological correlations, and a geospatial priority map. All from 46 MB of hourly sensor readings.</p>
         <div class="cta-buttons">
-          <a href="https://air-qualiity-x4kfpuhq2hftjtf4rtxfnq.streamlit.app/" class="btn" target="_blank" rel="noopener">Live demo →</a>
-          <a href="https://github.com/ninditya" class="btn ghost" target="_blank" rel="noopener">View source →</a>
-          <a href="/#projects" class="btn ghost">← Back to all projects</a>
+          <a href="https://air-qualiity-x4kfpuhq2hftjtf4rtxfnq.streamlit.app/" class="btn" target="_blank" rel="noopener" data-i18n="ctaDemo">Live demo →</a>
+          <a href="https://github.com/ninditya" class="btn ghost" target="_blank" rel="noopener" data-i18n="ctaSource">View source →</a>
+          <a href="/#projects" class="btn ghost" data-i18n="ctaBack">← Back to all projects</a>
         </div>
       </div>
     </div>
@@ -507,102 +809,364 @@
         navBack: '← Back to portfolio',
         navProjects: 'Projects',
         navContact: 'Contact',
+        kickerTag: 'Applied Data Science',
         kickerText: 'IDCamp Intermediate · Environmental Analytics',
         heroTitle: 'Beijing Air<br><em>Quality</em> Dashboard',
-        heroLede: 'An interactive Streamlit dashboard that turns <strong>46 MB of hourly sensor data</strong> from 12 Beijing monitoring stations (2013–2017) into actionable air quality insights — complete with AQI computation, seasonal trend analysis, meteorological correlations, and geospatial priority mapping.',
+        heroLede: 'Transforming <strong>46 MB of hourly sensor data</strong> from 12 Beijing monitoring stations into actionable air quality insights through AQI modeling, statistical hypothesis testing, and geospatial analysis.',
         metaType: '<strong>Type</strong> EDA · Dashboard · Statistical Analysis',
         metaLevel: '<strong>Level</strong> IDCamp Intermediate',
-        s1Num: '01 — Problem',
-        s1H2: 'Beijing has a serious air quality problem. The data exists. <em>The story doesn\'t.</em>',
-        s1Lede: 'Raw sensor CSV files across 12 stations and 5 years tell you nothing useful on their own. The goal was to build a dashboard that translates that raw data into patterns a policy analyst or researcher could actually act on.',
-        s2Num: '02 — Data &amp; Approach',
-        s2H2: 'From raw CSV to <em>EPA-grade AQI</em> — the pipeline',
-        s2Lede: 'Before any visualization could happen, the raw measurements needed to be converted into a standardized AQI scale using the EPA breakpoint method.',
-        s3Num: '03 — Dashboard Features',
-        s3H2: 'Five views, one <em>coherent picture</em> of Beijing air quality',
-        s4Num: '04 — Key Findings',
-        s4H2: 'What the data actually <em>revealed</em>',
-        s5Num: '05 — Technical Decisions',
-        s5H2: 'Three choices that shaped the <em>analysis</em>',
+        stat1: 'Monitoring stations<br>across Beijing',
+        stat2: 'Hourly sensor data<br>2013–2017',
+        stat3: 'Season vs PM2.5<br>chi-square statistic',
+        stat4: 'AQI categories<br>EPA breakpoints',
+        s1Num: '01 · Executive Summary',
+        s1H2: 'Three findings every <em>stakeholder needs to know.</em>',
+        s1Lede: 'Before diving into methodology: here\'s what this analysis revealed that matters for policy and planning.',
+        ins1Label: 'Seasonal pattern',
+        ins1Desc: 'December–February is the dominant pollution season. Coal heating and temperature inversions trap PM2.5 near ground level — χ² = 11,819 confirms this isn\'t noise.',
+        ins2Label: 'Strongest natural cleaner',
+        ins2Desc: 'Wind speed (WSPM) showed the strongest negative correlation with PM2.5 levels across all 12 stations. High-wind days are consistently the cleanest days in the dataset.',
+        ins3Label: 'Spatial inequality',
+        ins3Desc: 'Urban stations are disproportionately polluted. Zone type is a statistically significant predictor of AQI category (χ² = 4,600, p < 0.001) — location determines air quality outcome.',
+        s2Num: '02 · Problem → Approach → Impact',
+        s2H2: 'Raw sensor data tells you <em>nothing. Until it does.</em>',
+        flow1: 'Raw Sensor Data',
+        flow2: 'AQI Calculation',
+        flow3: 'Statistical Analysis',
+        flow4: 'Spatial Prioritization',
+        flow5: 'Interactive Dashboard',
+        flow6: 'Actionable Insights',
+        psiChallengeLabel: 'Challenge',
+        psiChallengeTitle: 'The Problem',
+        psiC1: 'Beijing\'s air quality is a public health crisis — but raw CSV data doesn\'t tell the story',
+        psiC2: 'No standardized AQI metric across the 12 raw station datasets',
+        psiC3: 'Unclear which stations or seasons should be priority intervention targets',
+        psiC4: 'Meteorological relationships (wind, rain) were assumed but never quantified',
+        psiSolutionLabel: 'Solution',
+        psiSolutionTitle: 'The Approach',
+        psiS1: 'Computed EPA-standard AQI from 6 raw pollutant readings per station',
+        psiS2: 'Ran Spearman correlation and chi-square tests to validate visual patterns statistically',
+        psiS3: 'Built a composite priority score to rank stations by pollution severity',
+        psiS4: 'Deployed as an interactive Streamlit dashboard with 5 analytical views',
+        psiImpactLabel: 'Impact',
+        psiImpactTitle: 'The Results',
+        psiI1: 'Seasonal signal confirmed: χ² = 11,819 for season vs PM2.5',
+        psiI2: 'Spatial inequality confirmed: χ² = 4,600 for zone type vs AQI',
+        psiI3: 'Wind identified as the dominant natural pollution dispersal factor',
+        psiI4: 'Geospatial map surfaces highest-priority stations for intervention',
+        s3Num: '03 · Data Pipeline',
+        s3H2: 'From 12 CSV files to <em>EPA-grade AQI.</em>',
+        s3Lede: 'Every step from raw sensor readings to dashboard-ready insights.',
+        pipe0Name: '12 CSV Files',
+        pipe0Sub: 'hourly sensor readings, 2013–2017',
+        pipe1Name: 'Data Cleaning',
+        pipe1Sub: 'missing value handling · IQR outlier detection',
+        pipe2Name: 'AQI Engine',
+        pipe2Sub: 'EPA breakpoint formula · max sub-index',
+        pipe3Name: 'Feature Engineering',
+        pipe3Sub: 'season · zone type · priority score',
+        pipe4Name: 'Statistical Analysis',
+        pipe4Sub: 'Spearman correlation · chi-square tests',
+        pipe5Name: 'Streamlit Dashboard',
+        pipe5Sub: 'Plotly · Folium · interactive filters',
+        aqiFormulaTitle: 'AQI Calculation',
+        aqiFormulaP1: 'The EPA uses piecewise linear interpolation to convert raw pollutant concentrations into sub-index values. The final AQI is the maximum across all pollutants:',
+        aqiFormulaP2: 'Six categories from Good (0–50) through Hazardous (301+). This standardization makes all 12 stations directly comparable despite raw measurement differences.',
+        priorityTitle: 'Priority Score Formula',
+        priorityP1: 'Each station receives a composite score using Z-score normalized values:',
+        priorityP2: 'This weighted score drives the geospatial map — stations needing the most policy attention are immediately visible as large, high-priority markers.',
+        s4Num: '04 · Analysis Framework',
+        s4H2: 'Three analytical lenses, <em>one complete picture.</em>',
+        anal1Tag: 'Temporal Analysis',
+        anal1Title: 'When does pollution peak?',
+        anal1L1: 'Hourly AQI patterns',
+        anal1L2: 'Monthly trend lines',
+        anal1L3: 'Seasonal decomposition',
+        anal1L4: 'Critical period detection',
+        anal2Tag: 'Meteorological Analysis',
+        anal2Title: 'What drives pollution levels?',
+        anal2L1: 'Wind speed correlation',
+        anal2L2: 'Rainfall washout effect',
+        anal2L3: 'Temperature & pressure',
+        anal2L4: 'Spearman rank correlation',
+        anal3Tag: 'Spatial Analysis',
+        anal3Title: 'Where is it worst?',
+        anal3L1: '12 station comparison',
+        anal3L2: 'Urban vs suburban vs rural',
+        anal3L3: 'Priority scoring map',
+        anal3L4: 'Zone chi-square test',
+        s5Num: '05 · Dashboard Showcase',
+        s5H2: 'Five views, one <em>coherent story.</em>',
+        sc1Label: 'View 01 — 02',
+        sc1Title: 'KPI Dashboard &amp; Trend Analysis',
+        sc1Desc: 'The entry point: current AQI status, dominant pollutant, and weather profile at a glance. Daily, monthly, and yearly AQI views are switchable via toggle — the hour-of-day × month heatmap makes winter-morning pollution patterns immediately visible.',
+        sc3Label: 'View 03',
+        sc3Title: 'Meteorology Analysis',
+        sc3Desc: 'Spearman correlation heatmap and wind rose diagram answer: does rain help? (yes) does high pressure trap pollution? (yes). Box plots show seasonal PM2.5 distributions across all stations.',
+        sc4Label: 'View 04',
+        sc4Title: 'Geospatial Priority Map',
+        sc4Desc: 'Interactive Folium map where circle size = PM2.5 level and color = priority tier. The urban cluster stations visually stand out — no explanation needed to see which zones need policy attention first.',
+        sc5Label: 'View 05',
+        sc5Title: 'Categorical Analysis',
+        sc5Desc: 'Zone type vs AQI category contingency table with chi-square output. Confirms statistically that where a station is located (urban/suburban/rural) is a genuine predictor of its AQI outcome.',
+        s6Num: '06 · Key Findings',
+        s6H2: 'What the data <em>actually proved.</em>',
+        f1Tag: 'Seasonality',
+        f1Head: 'Winter = highest AQI',
+        f1Desc: 'December–February is the dominant pollution season. Coal heating and temperature inversions trap PM2.5 near ground level. This is statistically confirmed, not just visually observed.',
+        f2Tag: 'Meteorology',
+        f2Head: 'Wind reduces PM2.5',
+        f2Desc: 'Wind speed (WSPM) showed the strongest negative correlation with PM2.5 of all meteorological variables. High-wind days are reliably the clearest days across all 12 stations.',
+        f3Tag: 'Spatial inequality',
+        f3Head: 'Urban > rural AQI',
+        f3Desc: 'Urban stations are disproportionately polluted compared to suburban and rural zones. Zone type is a statistically significant predictor of AQI category — location determines outcome.',
+        f4Tag: 'Rainfall effect',
+        f4Head: 'Rain cleanses PM2.5',
+        f4Desc: 'Rainfall events show measurable PM2.5 reduction in hours following precipitation. The wet deposition washout effect is clearly visible in the sensor time series.',
+        f5Tag: 'Station hotspot',
+        f5Head: 'Highest priority: urban cluster',
+        f5Desc: 'The priority scoring model surfaces stations requiring immediate policy attention — combining PM2.5 (50%), AQI (35%), and gas index (15%) into a single actionable metric.',
+        f6Tag: 'Critical period',
+        f6Head: 'Morning + winter = worst',
+        f6Desc: 'The hour-of-day × month heatmap shows winter mornings (06:00–10:00) consistently register the highest AQI values — the compound effect of overnight accumulation plus morning activity.',
+        findingsPQ: '"The chi-square result alone — χ² = 11,819 for season vs PM2.5 — shows that seasonal patterns aren\'t noise. They\'re the dominant signal in this dataset."',
+        s7Num: '07 · Technical Decisions',
+        s7H2: 'Every choice has <em>a reason.</em>',
+        s7Lede: 'Three non-obvious design decisions that shaped the validity of this analysis.',
+        tdDecision: 'Decision',
+        tdAlternative: 'Alternative considered',
+        tdWhy: 'Why this choice',
+        td1Decision: 'Spearman correlation',
+        td1Alt: 'Pearson correlation',
+        td1Why: 'Meteorological data is non-normal and non-linear. Pearson assumes both. Spearman rank correlation is more honest for this kind of skewed sensor data.',
+        td2Decision: 'Composite priority score',
+        td2Alt: 'Rank by PM2.5 only',
+        td2Why: 'A single pollutant misses the full picture. The weighted composite (PM2.5 50%, AQI 35%, gas index 15%) gives a more complete view of which stations need policy attention most.',
+        td3Decision: 'IQR outlier detection',
+        td3Alt: 'Z-score cutoffs',
+        td3Why: 'Sensor data includes real extreme events (dust storms, industrial incidents). IQR is more conservative — preserving genuine extremes while flagging sensor malfunctions.',
+        td4Decision: 'Chi-square for zone/season',
+        td4Alt: 'Visual inspection only',
+        td4Why: 'Visual patterns are hypothesis, not proof. Chi-square tests with p < 0.001 convert the observation into a statistically validated finding.',
+        s8Num: '08 · Learning Journey',
+        s8H2: 'This submission was <em>rejected once — then passed.</em>',
+        s8Desc: 'This dashboard is the capstone for <strong>Belajar Fundamental Analisis Data</strong> — IDCamp 2025 Intermediate level on Dicoding. The first submission was rejected. Here\'s what changed.',
+        fail1: 'Business questions not Time-bound (SMART criteria)',
+        fail2: 'EDA missing skewness, kurtosis, Q-Q plots, Shapiro-Wilk',
+        fail3: 'No chi-square tests for categorical associations',
+        fail4: 'Dashboard lacked dynamic time filters',
+        pass1: 'All questions scoped to "2013–2017 period"',
+        pass2: 'Full EDA: univariate + multivariate + normality tests',
+        pass3: 'Chi-square tests added — χ² = 11,819 and χ² = 4,600',
+        pass4: 'Interactive filters for station, date range, pollutant',
+        fb1Label: 'Feedback #1 — Business Questions',
+        fb1Body: 'Questions 2, 3, and 4 didn\'t meet the <strong>Time-bound</strong> aspect of SMART criteria. "When are the critical periods?" is conceptually valid but analytically unmeasurable. Adding <em>"during the 2013–2017 period"</em> transforms it from vague to testable.',
+        fb2Label: 'Feedback #2 — EDA Depth',
+        fb2Body: 'The univariate analysis was missing <strong>skewness, kurtosis, Q-Q plots, and Shapiro-Wilk normality tests</strong>. The multivariate section needed <strong>scatter plots with regression lines, pairplots, and violin plots</strong>. The categorical section lacked <strong>chi-square tests</strong> to validate visual patterns statistically.',
+        fb3Label: 'Feedback #3 — Dashboard Interactivity',
+        fb3Body: 'The Streamlit dashboard needed <strong>dynamic time filters and interactive controls</strong> so users can explore the data themselves — not just view static pre-computed output.',
+        s9Num: '09 · Future Development',
+        s9H2: 'From descriptive analytics <em>to predictive action.</em>',
+        s9Lede: 'The current dashboard explains what happened. The next phase is predicting what will happen — and flagging it before it does.',
+        road0Label: 'Dashboard Analytics',
+        road0Sub: 'AQI trends · spatial map · chi-square',
+        road1Label: 'AQI Forecasting',
+        road1Sub: 'weather-based predictive model',
+        road2Label: 'Automated Alert System',
+        road2Sub: 'PM2.5 threshold · critical period flags',
+        road3Label: 'Policy Recommendation Engine',
+        road3Sub: 'station-level intervention priorities',
         ctaNum: 'Try it · See the code',
         ctaH2: 'Interactive dashboard <em>on Streamlit.</em>',
-        ctaP: 'Explore 12-station Beijing air quality data — AQI trends, seasonal patterns, and meteorological correlations across 2013–2017.',
-        lcNum: 'Learning Context',
-        lcTitle: 'This project was a <em>submission — rejected once, then passed.</em>',
-        lcDesc: 'This dashboard is the capstone for <strong>Belajar Fundamental Analisis Data</strong> — IDCamp 2025 Intermediate level on Dicoding. It came after completing four Beginner modules (Python, SQL, Data Science Fundamentals, Beginner ML) — a track I deliberately repeated after an unsatisfying 2023 data analysis bootcamp experience.',
-        lcPathActive: '→ Belajar Fundamental Analisis Data (this project)',
-        lcFeedbackTitle: 'Reviewer feedback — first submission rejected.',
-        lcFeedbackDesc: 'Three specific areas that needed improvement:',
-        fb1label: 'Feedback #1 — Business Questions',
-        fb1body: 'Questions 2, 3, and 4 didn\'t meet the <strong>Time-bound</strong> aspect of SMART criteria. Questions like "when are the critical periods?" are conceptually valid but analytically unmeasurable. Adding <em>"during the 2013–2017 period"</em> transforms them from vague to testable.',
-        fb2label: 'Feedback #2 — EDA Depth',
-        fb2body: 'The univariate analysis was missing <strong>skewness, kurtosis, Q-Q plots, and Shapiro-Wilk normality tests</strong>. The multivariate section needed <strong>scatter plots with regression lines, pairplots, and violin plots</strong>. The categorical section lacked <strong>chi-square tests</strong> to validate visually observed associations. IQR-based outlier detection per pollutant also needed documentation.',
-        fb3label: 'Feedback #3 — Dashboard Interactivity',
-        fb3body: 'The Streamlit dashboard needed <strong>dynamic time filters and interactive controls</strong> so users can explore the data themselves, not just view static output.',
-        fdTitle: 'Future Development',
-        fdDesc: 'Based on reviewer feedback and the natural direction of this analysis, here\'s what will be tackled in the next iteration:',
-        fd1label: 'Predictive Component',
-        fd1body: 'Add an AQI forecasting model based on weather conditions (wind, pressure, temperature). The current dashboard explains historical patterns — the next step is <strong>predicting at-risk days before they happen.</strong>',
-        fd2label: 'Station Comparison Mode',
-        fd2body: 'Interactive filter to compare two stations side by side — useful for zoning policy analysis between urban and rural areas.',
-        fd3label: 'Auto Critical Period Alerts',
-        fd3body: 'PM2.5 threshold logic that automatically flags and summarizes "critical periods" — so users don\'t have to hunt for them manually in the heatmap.',
-        fd4label: 'SMART as Default Standard',
-        fd4body: 'Every business question in future projects will be formulated with an explicit Time-bound from the start — not as a revision, but as a default way of thinking.'
+        ctaP: 'Explore 12-station Beijing air quality data — AQI trends, seasonal patterns, meteorological correlations, and a geospatial priority map. All from 46 MB of hourly sensor readings.',
+        ctaDemo: 'Live demo →',
+        ctaSource: 'View source →',
+        ctaBack: '← Back to all projects',
       },
       id: {
         navBack: '← Kembali ke portfolio',
         navProjects: 'Proyek',
         navContact: 'Kontak',
+        kickerTag: 'Data Science Terapan',
         kickerText: 'IDCamp Intermediate · Analisis Lingkungan',
         heroTitle: 'Dashboard Kualitas<br><em>Udara</em> Beijing',
-        heroLede: 'Dashboard Streamlit interaktif yang mengubah <strong>46 MB data sensor per jam</strong> dari 12 stasiun pemantauan Beijing (2013–2017) menjadi wawasan kualitas udara yang dapat ditindaklanjuti — lengkap dengan komputasi AQI, analisis tren musiman, korelasi meteorologi, dan pemetaan prioritas geospasial.',
+        heroLede: 'Mengubah <strong>46 MB data sensor per jam</strong> dari 12 stasiun pemantauan Beijing menjadi wawasan kualitas udara yang dapat ditindaklanjuti melalui pemodelan AQI, uji hipotesis statistik, dan analisis geospasial.',
         metaType: '<strong>Tipe</strong> EDA · Dashboard · Analisis Statistik',
         metaLevel: '<strong>Level</strong> IDCamp Intermediate',
-        s1Num: '01 — Problem',
-        s1H2: 'Beijing punya masalah kualitas udara yang serius. Datanya ada. <em>Ceritanya belum.</em>',
-        s1Lede: 'File CSV sensor mentah dari 12 stasiun selama 5 tahun tidak memberikan informasi yang berguna sendiri. Tujuannya adalah membangun dashboard yang mengubah data mentah itu menjadi pola yang bisa digunakan oleh analis kebijakan atau peneliti.',
-        s2Num: '02 — Data &amp; Pendekatan',
-        s2H2: 'Dari CSV mentah ke <em>AQI standar EPA</em> — pipeline-nya',
-        s2Lede: 'Sebelum visualisasi bisa dibuat, pengukuran mentah perlu dikonversi ke skala AQI terstandarisasi menggunakan metode breakpoint EPA.',
-        s3Num: '03 — Fitur Dashboard',
-        s3H2: 'Lima tampilan, satu <em>gambaran utuh</em> kualitas udara Beijing',
-        s4Num: '04 — Temuan Utama',
-        s4H2: 'Apa yang sebenarnya <em>terungkap</em> dari data',
-        s5Num: '05 — Keputusan Teknis',
-        s5H2: 'Tiga pilihan yang membentuk <em>analisis</em>',
+        stat1: 'Stasiun pemantauan<br>di seluruh Beijing',
+        stat2: 'Data sensor per jam<br>2013–2017',
+        stat3: 'Musim vs PM2.5<br>statistik chi-square',
+        stat4: 'Kategori AQI<br>breakpoint EPA',
+        s1Num: '01 · Ringkasan Eksekutif',
+        s1H2: 'Tiga temuan yang perlu diketahui <em>setiap pemangku kepentingan.</em>',
+        s1Lede: 'Sebelum masuk ke metodologi: inilah yang terungkap dari analisis ini yang penting untuk kebijakan dan perencanaan.',
+        ins1Label: 'Pola musiman',
+        ins1Desc: 'Desember–Februari adalah musim polusi paling dominan. Pemanas batu bara dan inversi temperatur memerangkap PM2.5 dekat permukaan tanah — χ² = 11.819 mengkonfirmasi ini bukan noise.',
+        ins2Label: 'Pembersih alami terkuat',
+        ins2Desc: 'Kecepatan angin (WSPM) menunjukkan korelasi negatif terkuat dengan kadar PM2.5 di semua 12 stasiun. Hari-hari dengan angin kencang secara konsisten adalah hari-hari terbersih dalam dataset.',
+        ins3Label: 'Ketimpangan spasial',
+        ins3Desc: 'Stasiun urban secara tidak proporsional lebih tercemar. Tipe zona adalah prediktor signifikan secara statistik dari kategori AQI (χ² = 4.600, p < 0,001) — lokasi menentukan hasil kualitas udara.',
+        s2Num: '02 · Masalah → Pendekatan → Dampak',
+        s2H2: 'Data sensor mentah tidak bercerita. <em>Sampai kita membuatnya bercerita.</em>',
+        flow1: 'Data Sensor Mentah',
+        flow2: 'Kalkulasi AQI',
+        flow3: 'Analisis Statistik',
+        flow4: 'Prioritas Spasial',
+        flow5: 'Dashboard Interaktif',
+        flow6: 'Wawasan Actionable',
+        psiChallengeLabel: 'Tantangan',
+        psiChallengeTitle: 'Masalahnya',
+        psiC1: 'Kualitas udara Beijing adalah krisis kesehatan publik — tapi data CSV mentah tidak menceritakan kisahnya',
+        psiC2: 'Tidak ada metrik AQI terstandarisasi di 12 dataset stasiun mentah',
+        psiC3: 'Tidak jelas stasiun atau musim mana yang harus menjadi target intervensi prioritas',
+        psiC4: 'Hubungan meteorologis (angin, hujan) diasumsikan tapi tidak pernah dikuantifikasi',
+        psiSolutionLabel: 'Solusi',
+        psiSolutionTitle: 'Pendekatannya',
+        psiS1: 'Menghitung AQI standar EPA dari 6 bacaan polutan mentah per stasiun',
+        psiS2: 'Menjalankan korelasi Spearman dan uji chi-square untuk memvalidasi pola visual secara statistik',
+        psiS3: 'Membangun skor prioritas komposit untuk meranking stasiun berdasarkan tingkat polusi',
+        psiS4: 'Deploy sebagai dashboard Streamlit interaktif dengan 5 tampilan analitis',
+        psiImpactLabel: 'Dampak',
+        psiImpactTitle: 'Hasilnya',
+        psiI1: 'Sinyal musiman dikonfirmasi: χ² = 11.819 untuk musim vs PM2.5',
+        psiI2: 'Ketimpangan spasial dikonfirmasi: χ² = 4.600 untuk tipe zona vs AQI',
+        psiI3: 'Angin diidentifikasi sebagai faktor dispersi polusi alami yang dominan',
+        psiI4: 'Peta geospasial menampilkan stasiun prioritas tertinggi untuk intervensi',
+        s3Num: '03 · Pipeline Data',
+        s3H2: 'Dari 12 file CSV ke <em>AQI standar EPA.</em>',
+        s3Lede: 'Setiap langkah dari bacaan sensor mentah hingga wawasan siap dashboard.',
+        pipe0Name: '12 File CSV',
+        pipe0Sub: 'bacaan sensor per jam, 2013–2017',
+        pipe1Name: 'Pembersihan Data',
+        pipe1Sub: 'penanganan missing value · deteksi outlier IQR',
+        pipe2Name: 'Mesin AQI',
+        pipe2Sub: 'formula breakpoint EPA · max sub-index',
+        pipe3Name: 'Feature Engineering',
+        pipe3Sub: 'musim · tipe zona · skor prioritas',
+        pipe4Name: 'Analisis Statistik',
+        pipe4Sub: 'korelasi Spearman · uji chi-square',
+        pipe5Name: 'Dashboard Streamlit',
+        pipe5Sub: 'Plotly · Folium · filter interaktif',
+        aqiFormulaTitle: 'Kalkulasi AQI',
+        aqiFormulaP1: 'EPA menggunakan interpolasi linier piecewise untuk mengkonversi konsentrasi polutan mentah menjadi nilai sub-index. AQI akhir adalah maksimum dari semua polutan:',
+        aqiFormulaP2: 'Enam kategori dari Baik (0–50) hingga Berbahaya (301+). Standarisasi ini membuat semua 12 stasiun dapat dibandingkan secara langsung meski pengukuran mentahnya berbeda.',
+        priorityTitle: 'Formula Skor Prioritas',
+        priorityP1: 'Setiap stasiun mendapatkan skor komposit menggunakan nilai Z-score ternormalisasi:',
+        priorityP2: 'Skor berbobot ini menggerakkan peta geospasial — stasiun yang paling membutuhkan perhatian kebijakan langsung terlihat sebagai marker besar prioritas tinggi.',
+        s4Num: '04 · Kerangka Analisis',
+        s4H2: 'Tiga lensa analitis, <em>satu gambaran lengkap.</em>',
+        anal1Tag: 'Analisis Temporal',
+        anal1Title: 'Kapan polusi memuncak?',
+        anal1L1: 'Pola AQI per jam',
+        anal1L2: 'Tren bulanan',
+        anal1L3: 'Dekomposisi musiman',
+        anal1L4: 'Deteksi periode kritis',
+        anal2Tag: 'Analisis Meteorologi',
+        anal2Title: 'Apa yang mendorong kadar polusi?',
+        anal2L1: 'Korelasi kecepatan angin',
+        anal2L2: 'Efek washout hujan',
+        anal2L3: 'Suhu & tekanan udara',
+        anal2L4: 'Korelasi rank Spearman',
+        anal3Tag: 'Analisis Spasial',
+        anal3Title: 'Di mana yang terparah?',
+        anal3L1: 'Perbandingan 12 stasiun',
+        anal3L2: 'Urban vs suburban vs rural',
+        anal3L3: 'Peta skor prioritas',
+        anal3L4: 'Uji chi-square zona',
+        s5Num: '05 · Showcase Dashboard',
+        s5H2: 'Lima tampilan, satu <em>cerita yang koheren.</em>',
+        sc1Label: 'Tampilan 01 — 02',
+        sc1Title: 'Dashboard KPI &amp; Analisis Tren',
+        sc1Desc: 'Titik masuk: status AQI saat ini, polutan dominan, dan profil cuaca sekilas. Tampilan AQI harian, bulanan, dan tahunan bisa diubah via toggle — heatmap jam-per-hari × bulan membuat pola polusi pagi musim dingin langsung terlihat.',
+        sc3Label: 'Tampilan 03',
+        sc3Title: 'Analisis Meteorologi',
+        sc3Desc: 'Heatmap korelasi Spearman dan diagram wind rose menjawab: apakah hujan membantu? (ya) apakah tekanan tinggi memerangkap polusi? (ya). Box plot menunjukkan distribusi PM2.5 musiman.',
+        sc4Label: 'Tampilan 04',
+        sc4Title: 'Peta Prioritas Geospasial',
+        sc4Desc: 'Peta Folium interaktif di mana ukuran lingkaran = kadar PM2.5 dan warna = tier prioritas. Stasiun kluster urban langsung mencolok — tidak perlu penjelasan untuk melihat zona mana yang perlu intervensi pertama.',
+        sc5Label: 'Tampilan 05',
+        sc5Title: 'Analisis Kategorikal',
+        sc5Desc: 'Tabel kontingensi tipe zona vs kategori AQI dengan output chi-square. Mengkonfirmasi secara statistik bahwa lokasi stasiun (urban/suburban/rural) adalah prediktor nyata dari outcome AQI-nya.',
+        s6Num: '06 · Temuan Utama',
+        s6H2: 'Apa yang benar-benar <em>terbukti dari data.</em>',
+        f1Tag: 'Musiman',
+        f1Head: 'Musim dingin = AQI tertinggi',
+        f1Desc: 'Desember–Februari adalah musim polusi paling dominan. Pemanas batu bara dan inversi temperatur memerangkap PM2.5 dekat permukaan. Ini dikonfirmasi secara statistik, bukan hanya observasi visual.',
+        f2Tag: 'Meteorologi',
+        f2Head: 'Angin mengurangi PM2.5',
+        f2Desc: 'Kecepatan angin (WSPM) menunjukkan korelasi negatif terkuat dengan PM2.5 dari semua variabel meteorologis. Hari-hari berangin kencang secara konsisten adalah hari-hari terbersih.',
+        f3Tag: 'Ketimpangan spasial',
+        f3Head: 'AQI urban > rural',
+        f3Desc: 'Stasiun urban secara tidak proporsional lebih tercemar dibanding zona suburban dan rural. Tipe zona adalah prediktor signifikan secara statistik dari kategori AQI — lokasi menentukan hasil.',
+        f4Tag: 'Efek hujan',
+        f4Head: 'Hujan membersihkan PM2.5',
+        f4Desc: 'Kejadian hujan menunjukkan penurunan PM2.5 yang terukur dalam jam-jam berikutnya. Efek washout deposisi basah terlihat jelas dalam time series sensor.',
+        f5Tag: 'Hotspot stasiun',
+        f5Head: 'Prioritas tertinggi: kluster urban',
+        f5Desc: 'Model skor prioritas menampilkan stasiun yang membutuhkan perhatian kebijakan segera — menggabungkan PM2.5 (50%), AQI (35%), dan gas index (15%) menjadi satu metrik actionable.',
+        f6Tag: 'Periode kritis',
+        f6Head: 'Pagi + musim dingin = terparah',
+        f6Desc: 'Heatmap jam-per-hari × bulan menunjukkan pagi musim dingin (06:00–10:00) secara konsisten mencatat nilai AQI tertinggi — efek gabungan akumulasi semalam plus aktivitas pagi.',
+        findingsPQ: '"Hasil chi-square saja — χ² = 11.819 untuk musim vs PM2.5 — menunjukkan bahwa pola musiman bukan noise. Itu adalah sinyal dominan dalam dataset ini."',
+        s7Num: '07 · Keputusan Teknis',
+        s7H2: 'Setiap pilihan punya <em>alasannya.</em>',
+        s7Lede: 'Tiga keputusan desain tidak-obvious yang membentuk validitas analisis ini.',
+        tdDecision: 'Keputusan',
+        tdAlternative: 'Alternatif yang dipertimbangkan',
+        tdWhy: 'Mengapa pilihan ini',
+        td1Decision: 'Korelasi Spearman',
+        td1Alt: 'Korelasi Pearson',
+        td1Why: 'Data meteorologis tidak normal dan tidak linear. Pearson mengasumsikan keduanya. Korelasi rank Spearman lebih jujur untuk data sensor yang miring seperti ini.',
+        td2Decision: 'Skor prioritas komposit',
+        td2Alt: 'Ranking berdasarkan PM2.5 saja',
+        td2Why: 'Satu polutan melewatkan gambaran lengkap. Komposit berbobot (PM2.5 50%, AQI 35%, gas index 15%) memberikan pandangan lebih lengkap tentang stasiun mana yang paling membutuhkan perhatian kebijakan.',
+        td3Decision: 'Deteksi outlier IQR',
+        td3Alt: 'Cutoff z-score',
+        td3Why: 'Data sensor mencakup kejadian ekstrem nyata (badai debu, insiden industri). IQR lebih konservatif — mempertahankan kejadian ekstrem nyata sambil menandai kerusakan sensor.',
+        td4Decision: 'Chi-square untuk zona/musim',
+        td4Alt: 'Inspeksi visual saja',
+        td4Why: 'Pola visual adalah hipotesis, bukan bukti. Uji chi-square dengan p < 0,001 mengubah observasi menjadi temuan yang tervalidasi secara statistik.',
+        s8Num: '08 · Perjalanan Belajar',
+        s8H2: 'Submission ini <em>pernah ditolak — lalu lulus.</em>',
+        s8Desc: 'Dashboard ini adalah tugas akhir <strong>Belajar Fundamental Analisis Data</strong> — IDCamp 2025 level Intermediate dari Dicoding. Submission pertama ditolak. Ini yang berubah.',
+        fail1: 'Pertanyaan bisnis tidak Time-bound (kriteria SMART)',
+        fail2: 'EDA kurang skewness, kurtosis, Q-Q plot, Shapiro-Wilk',
+        fail3: 'Tidak ada uji chi-square untuk asosiasi kategorikal',
+        fail4: 'Dashboard kurang filter waktu dinamis',
+        pass1: 'Semua pertanyaan dibatasi pada "periode 2013–2017"',
+        pass2: 'EDA lengkap: univariat + multivariat + uji normalitas',
+        pass3: 'Uji chi-square ditambahkan — χ² = 11.819 dan χ² = 4.600',
+        pass4: 'Filter interaktif untuk stasiun, rentang tanggal, polutan',
+        fb1Label: 'Feedback #1 — Pertanyaan Bisnis',
+        fb1Body: 'Pertanyaan 2, 3, dan 4 belum memenuhi aspek <strong>Time-bound</strong> dari kriteria SMART. "Kapan periode kritis?" valid secara konsep tapi tidak terukur secara analitis. Menambahkan <em>"selama periode 2013–2017"</em> mengubahnya dari samar menjadi testable.',
+        fb2Label: 'Feedback #2 — Kedalaman EDA',
+        fb2Body: 'Analisis univariat kurang <strong>skewness, kurtosis, Q-Q plot, dan uji normalitas Shapiro-Wilk</strong>. Bagian multivariat perlu <strong>scatter plot dengan regression line, pairplot, dan violin plot</strong>. Bagian kategorikal belum ada <strong>uji chi-square</strong> untuk memvalidasi asosiasi visual secara statistik.',
+        fb3Label: 'Feedback #3 — Interaktivitas Dashboard',
+        fb3Body: 'Dashboard Streamlit perlu <strong>filter waktu dinamis dan kontrol interaktif</strong> agar pengguna bisa mengeksplorasi data sendiri — bukan hanya melihat output statis yang sudah dihitung sebelumnya.',
+        s9Num: '09 · Pengembangan ke Depan',
+        s9H2: 'Dari analitik deskriptif <em>ke aksi prediktif.</em>',
+        s9Lede: 'Dashboard saat ini menjelaskan apa yang terjadi. Fase berikutnya adalah memprediksi apa yang akan terjadi — dan menandainya sebelum terjadi.',
+        road0Label: 'Dashboard Analytics',
+        road0Sub: 'tren AQI · peta spasial · chi-square',
+        road1Label: 'Forecasting AQI',
+        road1Sub: 'model prediktif berbasis cuaca',
+        road2Label: 'Sistem Alert Otomatis',
+        road2Sub: 'threshold PM2.5 · flag periode kritis',
+        road3Label: 'Mesin Rekomendasi Kebijakan',
+        road3Sub: 'prioritas intervensi per stasiun',
         ctaNum: 'Coba · Lihat kodenya',
         ctaH2: 'Dashboard interaktif <em>di Streamlit.</em>',
-        ctaP: 'Jelajahi data kualitas udara Beijing dari 12 stasiun — tren AQI, pola musiman, dan korelasi meteorologi dari 2013–2017.',
-        lcNum: 'Konteks Pembelajaran',
-        lcTitle: 'Proyek ini adalah <em>submission yang pernah ditolak,</em> lalu lulus.',
-        lcDesc: 'Dashboard ini adalah tugas akhir <strong>Belajar Fundamental Analisis Data</strong> — IDCamp 2025 level Intermediate dari Dicoding. Datang setelah menyelesaikan empat modul Beginner (Python, SQL, Dasar Data Science, ML Pemula) — jalur yang saya ulangi dengan sengaja setelah hasil bootcamp analisis data 2023 yang kurang memuaskan.',
-        lcPathActive: '→ Belajar Fundamental Analisis Data (proyek ini)',
-        lcFeedbackTitle: 'Feedback reviewer — submission pertama ditolak.',
-        lcFeedbackDesc: 'Tiga area spesifik yang perlu diperbaiki:',
-        fb1label: 'Feedback #1 — Pertanyaan Bisnis',
-        fb1body: 'Pertanyaan 2, 3, dan 4 belum memenuhi aspek <strong>Time-bound</strong> dari prinsip SMART. Pertanyaan seperti "kapan waktu-waktu kritis?" valid secara konsep, tapi tidak terukur secara analitis. Menambahkan <em>"selama periode 2013–2017"</em> mengubahnya dari samar menjadi testable.',
-        fb2label: 'Feedback #2 — Kedalaman EDA',
-        fb2body: 'Analisis univariat kurang <strong>skewness, kurtosis, Q-Q plot, dan uji normalitas Shapiro-Wilk</strong>. Bagian multivariat perlu <strong>scatter plot dengan regression line, pairplot, dan violin plot</strong>. Bagian kategorikal belum ada <strong>uji chi-square</strong> untuk memvalidasi asosiasi yang terlihat secara visual. Deteksi outlier berbasis IQR per polutan juga perlu didokumentasikan.',
-        fb3label: 'Feedback #3 — Interaktivitas Dashboard',
-        fb3body: 'Dashboard Streamlit perlu <strong>filter waktu dinamis dan kontrol interaktif</strong> agar pengguna bisa mengeksplorasi data sendiri, bukan hanya melihat output statis.',
-        fdTitle: 'Pengembangan ke Depan',
-        fdDesc: 'Berdasarkan feedback reviewer dan arah alami analisis ini, berikut yang akan dikerjakan pada iterasi berikutnya:',
-        fd1label: 'Komponen Prediktif',
-        fd1body: 'Tambahkan model forecasting AQI berbasis kondisi cuaca (angin, tekanan, suhu). Dashboard saat ini menjelaskan pola historis — langkah berikutnya adalah <strong>memprediksi hari-hari berisiko sebelum terjadi.</strong>',
-        fd2label: 'Mode Perbandingan Stasiun',
-        fd2body: 'Filter interaktif untuk membandingkan dua stasiun secara berdampingan — berguna untuk analisis kebijakan zonasi antara area urban dan rural.',
-        fd3label: 'Alert Otomatis Periode Kritis',
-        fd3body: 'Logika threshold PM2.5 yang secara otomatis menandai dan merangkum "critical periods" — sehingga pengguna tidak perlu mencarinya manual di heatmap.',
-        fd4label: 'SMART sebagai Standar',
-        fd4body: 'Setiap pertanyaan bisnis di proyek mendatang akan diformulasikan dengan Time-bound eksplisit sejak awal — bukan sebagai revisi, tapi sebagai cara berpikir default.'
+        ctaP: 'Jelajahi data kualitas udara Beijing dari 12 stasiun — tren AQI, pola musiman, korelasi meteorologi, dan peta prioritas geospasial. Semua dari 46 MB data sensor per jam.',
+        ctaDemo: 'Live demo →',
+        ctaSource: 'Lihat source →',
+        ctaBack: '← Kembali ke semua project',
       }
     };
 
     function applyLanguage(lang) {
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.dataset.i18n;
-        if (translations[lang] && translations[lang][key]) {
+        if (translations[lang] && translations[lang][key] !== undefined) {
           el.innerHTML = translations[lang][key];
         }
       });
@@ -622,11 +1186,19 @@
   </script>
   <script>
     (function(){
-      var btn=document.getElementById('themeToggle');
-      var html=document.documentElement;
-      function updateBtn(t){btn.textContent=t==='dark'?'☀':'🌙';btn.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode');}
-      updateBtn(html.getAttribute('data-theme')||'light');
-      btn.addEventListener('click',function(){var next=html.getAttribute('data-theme')==='dark'?'light':'dark';html.setAttribute('data-theme',next);localStorage.setItem('theme',next);updateBtn(next);});
+      var btn = document.getElementById('themeToggle');
+      var html = document.documentElement;
+      function updateBtn(t) {
+        btn.textContent = t === 'dark' ? '☀' : '🌙';
+        btn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+      }
+      updateBtn(html.getAttribute('data-theme') || 'light');
+      btn.addEventListener('click', function() {
+        var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateBtn(next);
+      });
     })();
   </script>
 </body>

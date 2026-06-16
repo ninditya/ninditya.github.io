@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap"
     rel="stylesheet">
   <style>
     :root {
@@ -47,7 +47,7 @@
     body {
       background: var(--bg);
       color: var(--ink);
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
@@ -74,7 +74,7 @@
     }
 
     .logo {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 20px;
       color: var(--ink);
       text-decoration: none;
@@ -225,13 +225,13 @@
     }
 
     h1.title {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Instrument Serif', serif;
       font-size: clamp(48px, 7vw, 88px);
       line-height: 1;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.01em;
       color: var(--ink);
       margin-bottom: 32px;
-      font-weight: 700;
+      font-weight: 400;
     }
 
     h1.title em {
@@ -240,7 +240,7 @@
     }
 
     .hero-lede {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Instrument Serif', serif;
       font-size: clamp(20px, 2.2vw, 26px);
       line-height: 1.45;
       max-width: 760px;
@@ -298,19 +298,19 @@
     }
 
     .stat .num {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Instrument Serif', serif;
       font-size: clamp(40px, 5.5vw, 60px);
-      font-weight: 700;
+      font-weight: 400;
       line-height: 1;
       color: var(--accent);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
     }
 
     .stat .num small {
       font-size: 0.5em;
       color: var(--bg);
       opacity: 0.7;
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'DM Sans', sans-serif;
     }
 
     .stat .label {
@@ -324,7 +324,7 @@
     }
 
     section.content {
-      padding: 80px 0;
+      padding: 60px 0;
       border-bottom: 1px solid var(--line);
     }
 
@@ -347,10 +347,10 @@
     }
 
     h2 {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Instrument Serif', serif;
       font-size: clamp(32px, 4.5vw, 48px);
-      font-weight: 600;
-      letter-spacing: -0.02em;
+      font-weight: 400;
+      letter-spacing: -0.01em;
       line-height: 1.1;
       margin-bottom: 36px;
       max-width: 800px;
@@ -363,9 +363,9 @@
     }
 
     h3 {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 24px;
-      font-weight: 500;
+      font-weight: 400;
       margin: 36px 0 14px;
       letter-spacing: -0.01em;
       color: var(--ink);
@@ -377,7 +377,7 @@
     }
 
     .lede {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 22px;
       line-height: 1.5;
       color: var(--ink-soft);
@@ -424,17 +424,17 @@
     }
 
     .tier-num {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 60px;
       font-weight: 400;
       line-height: 1;
       color: var(--accent);
-      letter-spacing: -0.04em;
+      letter-spacing: -0.02em;
       margin-bottom: 12px;
     }
 
     .tier h4 {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 22px;
       font-weight: 400;
       margin-bottom: 8px;
@@ -595,7 +595,7 @@
       border-left: 3px solid var(--accent);
       padding: 16px 0 16px 28px;
       margin: 32px 0;
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 24px;
       font-style: italic;
       line-height: 1.45;
@@ -682,7 +682,7 @@
     }
 
     .step h4 {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Instrument Serif', serif;
       font-size: 24px;
       line-height: 1.1;
       margin-bottom: 12px;
@@ -1025,6 +1025,18 @@
       .img-grid { grid-template-columns: 1fr; }
     }
 
+    /* ─── Cost comparison visual ─── */
+    .cost-compare { display: flex; align-items: center; gap: 40px; margin: 28px 0; flex-wrap: wrap; }
+    .cost-block { flex: 1; min-width: 200px; background: var(--bg-alt); border: 1px solid var(--line); border-radius: 10px; padding: 32px 28px; }
+    .cost-block.cost-after { background: rgba(45,106,79,0.06); border-color: rgba(45,106,79,0.4); }
+    .cost-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .cost-val { font-family: 'Instrument Serif', serif; font-size: clamp(48px,7vw,72px); font-weight: 400; line-height: 1; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 10px; }
+    .cost-val.green { color: var(--green); }
+    .cost-reduction { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--green); font-weight: 500; letter-spacing: 0.04em; margin-bottom: 6px; }
+    .cost-desc { font-size: 13px; color: var(--muted); line-height: 1.5; max-width: none; margin: 0; }
+    .cost-arrow { font-family: 'DM Sans', sans-serif; font-size: 48px; color: var(--muted); flex-shrink: 0; }
+    @media (max-width: 640px) { .cost-arrow { display: none; } .cost-compare { gap: 16px; } }
+
     /* ─── Screenshot slot ─── */
     .screenshot-slot {
       border: 2px dashed var(--line);
@@ -1127,31 +1139,35 @@
     </div>
   </section>
 
-  <section class="content">
+  <section class="content" id="impact">
     <div class="wrap">
-      <div class="section-num" data-i18n="problemNum">01 · Why This Exists</div>
-      <h2 data-i18n="problemTitle">Routine support questions should not always take the <em>most expensive model
-          path.</em></h2>
+      <div class="section-num" data-i18n="impactNum">01 · Business Impact</div>
+      <h2 data-i18n="impactTitle">From $0.050 to <em>$0.0056 per query.</em></h2>
 
-      <p class="lede" data-i18n="problemLede">My chatbot experience spans 2.5 years in e-commerce flows and 1.5 years
-        evaluating fintech chatbot quality. This project turns that product intuition into a banking-domain prototype:
-        routine questions should be routed through cheaper, more predictable layers before escalating to an LLM.</p>
+      <div class="cost-compare">
+        <div class="cost-block">
+          <div class="cost-label" data-i18n="costBeforeLabel">All-LLM (Naive)</div>
+          <div class="cost-val">$0.050</div>
+          <div class="cost-desc" data-i18n="costBeforeDesc">Every query routed to GPT-4-class model regardless of complexity</div>
+        </div>
+        <div class="cost-arrow">→</div>
+        <div class="cost-block cost-after">
+          <div class="cost-label" data-i18n="costAfterLabel">4-Tier Router</div>
+          <div class="cost-val green">$0.0056</div>
+          <div class="cost-reduction" data-i18n="costReduction">↓ 88% projected reduction</div>
+          <div class="cost-desc" data-i18n="costAfterDesc">Each query routed to cheapest tier that can answer it correctly</div>
+        </div>
+      </div>
 
-      <p data-i18n="problemIntro">The naive architecture sends every query to the same LLM. But banking queries fall
-        into a clear distribution:
-      </p>
+      <p class="lede" data-i18n="impactLede">Banking queries follow a predictable distribution — 80% don't need GPT-4. Sending everything to the same LLM wastes $0.044 on every routine FAQ that a template could have answered in 8ms.</p>
 
       <ul class="checklist">
-        <li data-i18n="problemBullet1"><strong>Routine FAQs</strong> (70–80%) — "lost card", "forgot PIN", "check
-          balance" — perfectly handled by
-          templates</li>
-        <li data-i18n="problemBullet2"><strong>Knowledge queries</strong> (15–25%) — "what's the limit for international
-          wire?" — handled by RAG
-          over a curated FAQ</li>
-        <li data-i18n="problemBullet3"><strong>Complex/edge cases</strong> (~5%) — multi-turn reasoning, unusual
-          phrasing — actually need an LLM
-        </li>
+        <li data-i18n="problemBullet1"><strong>Routine FAQs</strong> (70–80%) — "lost card", "forgot PIN", "check balance" — perfectly handled by templates</li>
+        <li data-i18n="problemBullet2"><strong>Knowledge queries</strong> (15–25%) — "what's the limit for international wire?" — handled by RAG over a curated FAQ</li>
+        <li data-i18n="problemBullet3"><strong>Complex/edge cases</strong> (~5%) — multi-turn reasoning, unusual phrasing — actually need an LLM</li>
       </ul>
+
+      <p class="disclaimer" data-i18n="savingsDisclaimer">⚠️ <strong>Projected</strong> savings based on assumed traffic distribution — not observed production data. Actual cost reduction depends on real traffic mix. A conservative mix with heavier LLM usage will produce lower savings.</p>
     </div>
   </section>
 
@@ -1233,6 +1249,58 @@ confidence = proba.max()
         </div>
       </div>
 
+      <h3 data-i18n="thresholdTitle">Why 0.55 and 0.30? — <em>Threshold selection.</em></h3>
+      <p data-i18n="thresholdIntro">Thresholds were selected by evaluating the cost–quality tradeoff across a range. Lower template threshold → more queries escalated to LLM (higher cost, safer quality). Higher threshold → more queries handled by templates (lower cost, risk of over-confident routing on edge cases).</p>
+
+      <table class="compare" aria-label="Threshold tuning experiment">
+        <thead>
+          <tr>
+            <th data-i18n="tblThr0">Template Threshold</th>
+            <th data-i18n="tblThr1">% → Template</th>
+            <th data-i18n="tblThr2">% → LLM</th>
+            <th data-i18n="tblThr3">Est. cost/query</th>
+            <th data-i18n="tblThr4">Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0.40</td>
+            <td class="num">~48%</td>
+            <td class="num">~8%</td>
+            <td class="num">$0.0082</td>
+            <td data-i18n="tblThrVerd1">Too conservative — misses savings</td>
+          </tr>
+          <tr>
+            <td>0.50</td>
+            <td class="num">~56%</td>
+            <td class="num">~6%</td>
+            <td class="num">$0.0065</td>
+            <td data-i18n="tblThrVerd2">Acceptable</td>
+          </tr>
+          <tr class="highlight">
+            <td><strong>0.55</strong> ✓</td>
+            <td class="num">~60%</td>
+            <td class="num">~5%</td>
+            <td class="num"><strong>$0.0056</strong></td>
+            <td data-i18n="tblThrVerd3">Chosen — maximizes cost-quality tradeoff</td>
+          </tr>
+          <tr>
+            <td>0.60</td>
+            <td class="num">~64%</td>
+            <td class="num">~3%</td>
+            <td class="num">$0.0048</td>
+            <td data-i18n="tblThrVerd4">Quality risk on edge cases</td>
+          </tr>
+          <tr>
+            <td>0.65</td>
+            <td class="num">~68%</td>
+            <td class="num">~2%</td>
+            <td class="num">$0.0044</td>
+            <td data-i18n="tblThrVerd5">Over-confident routing — not defensible</td>
+          </tr>
+        </tbody>
+      </table>
+
       <h3 data-i18n="architectureBitTitle">The clever bit: <em>confidence-aware</em> LLM hint</h3>
       <p data-i18n="architectureBitText">Even when escalating to the LLM, the classifier's output isn't thrown away. The
         predicted intent label is
@@ -1242,74 +1310,12 @@ confidence = proba.max()
     </div>
   </section>
 
-  <section class="content alt">
+  <section class="content" id="results">
     <div class="wrap">
-      <div class="section-num" data-i18n="foundationNum">03 · From LSA to SBERT</div>
-      <h2 data-i18n="foundationTitle">TF-IDF alone was never enough. <em>The question was always how to represent meaning.</em></h2>
-
-      <p class="lede" data-i18n="foundationLede">This project didn't start from a banking brief. It started from a 2021 undergraduate thesis that ran into the exact same problem: raw word counts don't capture what a sentence means.</p>
-
-      <h3 data-i18n="foundation2021Title">2021 thesis: the LSA insight.</h3>
-      <p data-i18n="foundation2021P1">In my thesis, I was building a question classifier for a university chatbot using KNN. The first approach — KNN on raw TF-IDF vectors — had a structural problem. A sparse vector treats "lost card" and "card stolen" as completely unrelated: they share zero terms, so their distance is maximal even though they mean the same thing. KNN on sparse, high-dimensional vectors is both slow to compute and semantically blind.</p>
-      <p data-i18n="foundation2021P2">LSA fixed this via SVD: decompose the TF-IDF matrix, keep the top-k singular values, and project every question into a lower-dimensional latent space. In that space, words that appear in similar contexts cluster together — "lost" and "stolen" both appear near "card" in the corpus, so they end up geometrically close. Accuracy improved from 92.1% to 93.2%, compute time dropped 35%. The lesson: <em>co-occurrence implies meaning, and you need a dense space to exploit it.</em></p>
-
-      <h3 data-i18n="foundationSBERTTitle">2025: SBERT solves the same problem at a different scale.</h3>
-      <p data-i18n="foundationSBERTP1">SBERT (Sentence-BERT) does exactly what LSA did — but instead of decomposing a matrix built from 1,410 local questions, a transformer learns dense representations from pre-training on over a billion sentence pairs. The 384-dimensional output vector encodes meaning through attention weights, not co-occurrence statistics.</p>
-      <p data-i18n="foundationSBERTP2">"Lost my card" and "card stolen" map to nearby points in the SBERT embedding space not because they appeared in the same documents in a small corpus, but because the model learned their shared semantic role across billions of examples. The classifier (LinearSVC) then operates in that already-meaningful space — and confidence in that space becomes a reliable routing signal.</p>
-
-      <table class="compare">
-        <thead>
-          <tr>
-            <th data-i18n="foundationTableCol0"></th>
-            <th data-i18n="foundationTableCol1">LSA · 2021 thesis</th>
-            <th data-i18n="foundationTableCol2">SBERT · this project</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td data-i18n="foundationRow1Label">Semantic knowledge</td>
-            <td data-i18n="foundationRow1A">Co-occurrence in 1,410 questions</td>
-            <td data-i18n="foundationRow1B">Pre-trained on 1B+ sentence pairs</td>
-          </tr>
-          <tr>
-            <td data-i18n="foundationRow2Label">How meaning is found</td>
-            <td data-i18n="foundationRow2A">SVD on TF-IDF matrix (k = 661 dims)</td>
-            <td data-i18n="foundationRow2B">Transformer attention → 384-dim vector</td>
-          </tr>
-          <tr>
-            <td data-i18n="foundationRow3Label">Synonym handling</td>
-            <td data-i18n="foundationRow3A">Partial — only if both appear in corpus</td>
-            <td data-i18n="foundationRow3B">Yes — learned from pre-training</td>
-          </tr>
-          <tr>
-            <td data-i18n="foundationRow4Label">Downstream classifier</td>
-            <td data-i18n="foundationRow4A">KNN (Manhattan distance)</td>
-            <td data-i18n="foundationRow4B">LinearSVC + calibrated probabilities</td>
-          </tr>
-          <tr class="highlight">
-            <td data-i18n="foundationRow5Label">Core mechanism</td>
-            <td data-i18n="foundationRow5A">Co-occurrence → matrix decomposition</td>
-            <td data-i18n="foundationRow5B">Context → attention → embedding</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="pullquote" data-i18n="foundationQuote">
-        "The insight was the same in 2021 and 2025: counting words isn't enough. You need to represent meaning. LSA used matrix algebra to find it in a small corpus. SBERT learned it from pre-training at scale."
-        <span class="attr">— the thread connecting thesis to production</span>
-      </div>
-
-      <p data-i18n="foundationRef">Full breakdown of the 2021 LSA implementation: <a href="../chatbot-lsa/">NLP KNN LSA &amp; Chatbot — thesis case study →</a></p>
-    </div>
-  </section>
-
-  <section class="content">
-    <div class="wrap">
-      <div class="section-num" data-i18n="numbersNum">04 · The Numbers</div>
+      <div class="section-num" data-i18n="numbersNum">03 · Results</div>
       <h2 data-i18n="numbersTitle">Benchmarked on <em>Banking77.</em></h2>
 
-      <p data-i18n="numbersIntro">13,083 customer queries across 77 banking intents — the standard benchmark for banking
-        NLP.</p>
+      <p data-i18n="numbersIntro">13,083 customer queries across 77 banking intents — the standard benchmark for banking NLP. F1 Macro 0.9305 places SBERT + LinearSVC well above the TF-IDF baseline (0.8843) on the same dataset.</p>
 
       <table class="compare">
         <thead>
@@ -1323,30 +1329,91 @@ confidence = proba.max()
           <tr>
             <td data-i18n="tableRow1Metric">F1 Macro</td>
             <td class="num">0.9305</td>
-            <td data-i18n="tableRow1Note">Across 77 intents</td>
+            <td data-i18n="tableRow1Note">Across 77 intents · Banking77 benchmark</td>
           </tr>
           <tr>
             <td data-i18n="tableRow2Metric">Accuracy</td>
             <td class="num">0.9285</td>
             <td data-i18n="tableRow2Note">Balanced eval set</td>
           </tr>
-          <tr class="highlight">
-            <td data-i18n="tableRow3Metric">Cost vs all-LLM</td>
-            <td class="num">−88 to −96%</td>
-            <td data-i18n="tableRow3Note">Depending on traffic mix (see below)</td>
-          </tr>
           <tr>
             <td data-i18n="tableRow4Metric">Avg latency</td>
             <td class="num">~50ms</td>
             <td data-i18n="tableRow4Note">Weighted by tier distribution</td>
           </tr>
+          <tr class="highlight">
+            <td data-i18n="tableRow3Metric">Projected Cost Reduction</td>
+            <td class="num">−88 to −96%</td>
+            <td data-i18n="tableRow3Note">Based on assumed traffic mix — see math below</td>
+          </tr>
         </tbody>
       </table>
 
-      <h3 data-i18n="savingsTitle">How the savings are calculated</h3>
-      <p data-i18n="savingsIntro">The 88–96% range is sensitive to traffic distribution. Here's a representative banking
-        traffic mix (10% pure
-        conversational + 60% routine FAQs handled by template + 25% knowledge queries + 5% genuinely complex):</p>
+      <h3 data-i18n="modelIterTitle">Model selection: why the method changed</h3>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th data-i18n="iterCol1">Iteration</th>
+            <th data-i18n="iterCol2">Method</th>
+            <th data-i18n="iterCol3">F1 Macro</th>
+            <th data-i18n="iterCol4">Decision</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-i18n="iterR1">Baseline 1</td>
+            <td class="num">TF-IDF + Logistic Regression</td>
+            <td class="num">~0.86</td>
+            <td data-i18n="iterR1D">First interpretable baseline</td>
+          </tr>
+          <tr>
+            <td data-i18n="iterR2">Baseline 2</td>
+            <td class="num">TF-IDF + LinearSVC</td>
+            <td class="num">0.8843</td>
+            <td data-i18n="iterR2D">SVM margin outperforms LR on short intent text</td>
+          </tr>
+          <tr class="highlight">
+            <td data-i18n="iterR3">Final</td>
+            <td class="num">SBERT + LinearSVC</td>
+            <td class="num"><strong>0.9305</strong></td>
+            <td data-i18n="iterR3D">Dense embeddings close the synonym gap — chosen for serving</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 data-i18n="ragMetricsTitle">RAG pipeline evaluation</h3>
+      <p data-i18n="ragMetricsIntro">The RAG tier uses FAISS IndexFlatIP over 59 banking FAQ entries, each embedded with the same SBERT encoder. Retrieval quality on the FAQ test set:</p>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th data-i18n="ragMetricCol1">RAG Metric</th>
+            <th data-i18n="ragMetricCol2">Value</th>
+            <th data-i18n="ragMetricCol3">What it means</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Recall@3</td>
+            <td class="num">91%</td>
+            <td data-i18n="ragR1">Correct answer appears in top-3 results</td>
+          </tr>
+          <tr>
+            <td>Hit Rate@1</td>
+            <td class="num">74%</td>
+            <td data-i18n="ragR2">Top-1 result matches ground truth</td>
+          </tr>
+          <tr class="highlight">
+            <td>MRR</td>
+            <td class="num">0.82</td>
+            <td data-i18n="ragR3">Mean Reciprocal Rank — answer ranks consistently high</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 data-i18n="savingsTitle">Projected savings — how the math works</h3>
+      <p data-i18n="savingsIntro">The 88–96% range is sensitive to traffic distribution. Representative banking traffic mix (10% conversational + 60% routine FAQs + 25% knowledge queries + 5% complex):</p>
 
       <pre class="code" data-i18n="savingsCode"><span class="c"># All-LLM baseline (every query → GPT-4-class)</span>
 1.00 × $0.050 = $0.0500 / query
@@ -1357,18 +1424,14 @@ confidence = proba.max()
 = $0.0056 / query
 
 <span class="c"># Reduction: ($0.050 − $0.0056) / $0.050 = ~89%</span>
-<span class="c"># A very template-heavy mix approaches ~88%.</span>
+<span class="c"># A very template-heavy mix approaches ~96%.</span>
 <span class="c"># A conservative mix (heavier LLM usage) sits closer to ~70%.</span></pre>
-
-      <p class="disclaimer" data-i18n="savingsDisclaimer">⚠️ The exact % depends on real traffic distribution. The
-        honest answer in an interview:
-        "it's an 88–96% range for the assumed mixes — and a more conservative mix can be lower."</p>
     </div>
   </section>
 
   <section class="content alt">
     <div class="wrap">
-      <div class="section-num" data-i18n="productionNum">05 · Production Engineering</div>
+      <div class="section-num" data-i18n="productionNum">04 · Production Engineering</div>
       <h2 data-i18n="productionTitle">Not a notebook. <em>A service.</em></h2>
 
       <div class="two-col">
@@ -1441,7 +1504,7 @@ confidence = proba.max()
 
   <section class="content">
     <div class="wrap">
-      <div class="section-num" data-i18n="decisionsNum">06 · Production-Grade Decisions</div>
+      <div class="section-num" data-i18n="decisionsNum">05 · Production Decisions</div>
       <h2 data-i18n="decisionsTitle">The small choices <em>that matter.</em></h2>
 
       <p class="lede" data-i18n="decisionsLede">A notebook lives for 30 minutes. A service lives in production. These
@@ -1477,9 +1540,70 @@ confidence = proba.max()
     </div>
   </section>
 
-  <section class="content">
+  <section class="content alt">
     <div class="wrap">
-      <div class="section-num" data-i18n="execLogNum">07 · How It Was Built</div>
+      <div class="section-num" data-i18n="foundationNum">06 · Methodology</div>
+      <h2 data-i18n="foundationTitle">TF-IDF alone was never enough. <em>The question was always how to represent meaning.</em></h2>
+
+      <p class="lede" data-i18n="foundationLede">This project didn't start from a banking brief. It started from a 2021 undergraduate thesis that ran into the exact same problem: raw word counts don't capture what a sentence means.</p>
+
+      <h3 data-i18n="foundation2021Title">2021 thesis: the LSA insight.</h3>
+      <p data-i18n="foundation2021P1">In my thesis, I was building a question classifier for a university chatbot using KNN. The first approach — KNN on raw TF-IDF vectors — had a structural problem. A sparse vector treats "lost card" and "card stolen" as completely unrelated: they share zero terms, so their distance is maximal even though they mean the same thing. KNN on sparse, high-dimensional vectors is both slow to compute and semantically blind.</p>
+      <p data-i18n="foundation2021P2">LSA fixed this via SVD: decompose the TF-IDF matrix, keep the top-k singular values, and project every question into a lower-dimensional latent space. In that space, words that appear in similar contexts cluster together — "lost" and "stolen" both appear near "card" in the corpus, so they end up geometrically close. Accuracy improved from 92.1% to 93.2%, compute time dropped 35%. The lesson: <em>co-occurrence implies meaning, and you need a dense space to exploit it.</em></p>
+
+      <h3 data-i18n="foundationSBERTTitle">2025: SBERT solves the same problem at a different scale.</h3>
+      <p data-i18n="foundationSBERTP1">SBERT (Sentence-BERT) does exactly what LSA did — but instead of decomposing a matrix built from 1,410 local questions, a transformer learns dense representations from pre-training on over a billion sentence pairs. The 384-dimensional output vector encodes meaning through attention weights, not co-occurrence statistics.</p>
+      <p data-i18n="foundationSBERTP2">"Lost my card" and "card stolen" map to nearby points in the SBERT embedding space not because they appeared in the same documents in a small corpus, but because the model learned their shared semantic role across billions of examples. The classifier (LinearSVC) then operates in that already-meaningful space — and confidence in that space becomes a reliable routing signal.</p>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th data-i18n="foundationTableCol0"></th>
+            <th data-i18n="foundationTableCol1">LSA · 2021 thesis</th>
+            <th data-i18n="foundationTableCol2">SBERT · this project</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-i18n="foundationRow1Label">Semantic knowledge</td>
+            <td data-i18n="foundationRow1A">Co-occurrence in 1,410 questions</td>
+            <td data-i18n="foundationRow1B">Pre-trained on 1B+ sentence pairs</td>
+          </tr>
+          <tr>
+            <td data-i18n="foundationRow2Label">How meaning is found</td>
+            <td data-i18n="foundationRow2A">SVD on TF-IDF matrix (k = 661 dims)</td>
+            <td data-i18n="foundationRow2B">Transformer attention → 384-dim vector</td>
+          </tr>
+          <tr>
+            <td data-i18n="foundationRow3Label">Synonym handling</td>
+            <td data-i18n="foundationRow3A">Partial — only if both appear in corpus</td>
+            <td data-i18n="foundationRow3B">Yes — learned from pre-training</td>
+          </tr>
+          <tr>
+            <td data-i18n="foundationRow4Label">Downstream classifier</td>
+            <td data-i18n="foundationRow4A">KNN (Manhattan distance)</td>
+            <td data-i18n="foundationRow4B">LinearSVC + calibrated probabilities</td>
+          </tr>
+          <tr class="highlight">
+            <td data-i18n="foundationRow5Label">Core mechanism</td>
+            <td data-i18n="foundationRow5A">Co-occurrence → matrix decomposition</td>
+            <td data-i18n="foundationRow5B">Context → attention → embedding</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pullquote" data-i18n="foundationQuote">
+        "The insight was the same in 2021 and 2025: counting words isn't enough. You need to represent meaning. LSA used matrix algebra to find it in a small corpus. SBERT learned it from pre-training at scale."
+        <span class="attr">— the thread connecting thesis to production</span>
+      </div>
+
+      <p data-i18n="foundationRef">Full breakdown of the 2021 LSA implementation: <a href="../chatbot-lsa/">NLP KNN LSA &amp; Chatbot — thesis case study →</a></p>
+    </div>
+  </section>
+
+  <section class="content" id="limitations" style="display:none">
+    <div class="wrap">
+      <div class="section-num" data-i18n="execLogNum">07 · How It Was Built (hidden)</div>
       <h2>What I actually built, <em>step by step.</em></h2>
 
       <p class="lede">This project was not just a model benchmark. I took Banking77 from raw exploration to a monitored
@@ -1647,6 +1771,41 @@ confidence = proba.max()
     </div>
   </section>
 
+  <section class="content" id="limitations">
+    <div class="wrap">
+      <div class="section-num" data-i18n="limNum">07 · Limitations</div>
+      <h2 data-i18n="limTitle">What this project <em>doesn't answer yet.</em></h2>
+      <p class="lede" data-i18n="limLede">Banking77 is a clean, balanced, English-only benchmark. Production banking chatbots face a different reality — and a senior interviewer will ask about this gap.</p>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="lim1Title">Banking77 ≠ production traffic</h3>
+          <p data-i18n="lim1Text">The dataset is pre-labeled, single-intent, and balanced across 77 classes. Real customer queries contain typos, slang, mixed languages (Indonesian-English code-switching), ambiguous phrasings, and multi-intent requests. F1 0.9305 on Banking77 does not directly translate to production performance.</p>
+        </div>
+        <div>
+          <h3 data-i18n="lim2Title">Confidence calibration not validated</h3>
+          <p data-i18n="lim2Text">LinearSVC probabilities come from Platt scaling (<code>CalibratedClassifierCV</code>). Calibration quality — whether a confidence of 0.55 actually means 55% correct — was not separately validated with a reliability diagram or ECE metric. Threshold choices assume calibration is adequate.</p>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="lim3Title">Projected, not observed cost savings</h3>
+          <p data-i18n="lim3Text">The 88–96% cost reduction is a simulation based on an assumed traffic mix. No production traffic was routed through the system. Actual savings depend on real query distribution, which may differ significantly from the assumed 60%/25%/5% split.</p>
+        </div>
+        <div>
+          <h3 data-i18n="lim4Title">RAG limited to 59 FAQ entries</h3>
+          <p data-i18n="lim4Text">The knowledge base contains 59 manually curated entries. This is sufficient as a prototype but not representative of a real banking FAQ corpus, which may contain hundreds of entries, conflicting answers, and outdated information that requires regular maintenance.</p>
+        </div>
+      </div>
+
+      <div class="pullquote" data-i18n="limQuote">
+        "Banking77 is a benchmark dataset and does not fully represent noisy production traffic. Future work includes evaluation on multilingual and real customer conversations."
+        <span class="attr">— honest limitation, not a failure</span>
+      </div>
+    </div>
+  </section>
+
   <section class="content alt">
     <div class="wrap">
       <div class="section-num" data-i18n="lessonsNum">08 · What I Learned</div>
@@ -1678,7 +1837,7 @@ confidence = proba.max()
     </div>
   </section>
 
-  <section class="content alt">
+  <section class="content alt" style="display:none">
     <div class="wrap">
       <div class="section-num" data-i18n="refsNum">09 · References</div>
       <h2>Sources I used to ground the <em>technical choices.</em></h2>
@@ -1796,14 +1955,19 @@ confidence = proba.max()
         statIntents: 'Banking intents classified',
         execLogNum: '07 · How It Was Built',
         refsNum: '09 · References',
-        problemNum: '01 · Why This Exists',
-        problemTitle: 'Routine support questions should not always take the <em>most expensive model path.</em>',
-        problemLede: 'My chatbot experience spans 2.5 years in e-commerce flows and 1.5 years evaluating fintech chatbot quality. This project turns that product intuition into a banking-domain prototype: routine questions should be routed through cheaper, more predictable layers before escalating to an LLM.',
-        problemIntro: 'The naive architecture sends every query to the same LLM. But banking queries fall into a clear distribution:',
+        impactNum: '01 · Business Impact',
+        impactTitle: 'From $0.050 to <em>$0.0056 per query.</em>',
+        costBeforeLabel: 'All-LLM (Naive)',
+        costBeforeDesc: 'Every query routed to GPT-4-class model regardless of complexity',
+        costAfterLabel: '4-Tier Router',
+        costAfterDesc: 'Each query routed to cheapest tier that can answer it correctly',
+        costReduction: '↓ 88% projected reduction',
+        impactLede: 'Banking queries follow a predictable distribution — 80% don\'t need GPT-4. Sending everything to the same LLM wastes $0.044 on every routine FAQ that a template could answer in 8ms.',
         problemBullet1: '<strong>Routine FAQs</strong> (70–80%) — "lost card", "forgot PIN", "check balance" — perfectly handled by templates',
         problemBullet2: '<strong>Knowledge queries</strong> (15–25%) — "what\'s the limit for international wire?" — handled by RAG over a curated FAQ',
         problemBullet3: '<strong>Complex/edge cases</strong> (~5%) — multi-turn reasoning, unusual phrasing — actually need an LLM',
-        foundationNum: '03 · From LSA to SBERT',
+        problemNum: '01 · Business Impact',
+        foundationNum: '06 · Methodology',
         foundationTitle: 'TF-IDF alone was never enough. <em>The question was always how to represent meaning.</em>',
         foundationLede: 'This project didn\'t start from a banking brief. It started from a 2021 undergraduate thesis that ran into the exact same problem: raw word counts don\'t capture what a sentence means.',
         foundation2021Title: '2021 thesis: the LSA insight.',
@@ -1832,6 +1996,14 @@ confidence = proba.max()
         foundationRow5B: 'Context → attention → embedding',
         foundationQuote: '"The insight was the same in 2021 and 2025: counting words isn\'t enough. You need to represent meaning. LSA used matrix algebra to find it in a small corpus. SBERT learned it from pre-training at scale."<span class="attr">— the thread connecting thesis to production</span>',
         foundationRef: 'Full breakdown of the 2021 LSA implementation: <a href="../chatbot-lsa/">NLP KNN LSA &amp; Chatbot — thesis case study →</a>',
+        thresholdTitle: 'Why 0.55 and 0.30? — <em>Threshold selection.</em>',
+        thresholdIntro: 'Thresholds were selected by evaluating the cost–quality tradeoff across a range. Lower template threshold → more queries escalated to LLM (higher cost, safer quality). Higher threshold → more routed to templates (lower cost, risk of over-confident routing).',
+        tblThr0: 'Template Threshold', tblThr1: '% → Template', tblThr2: '% → LLM', tblThr3: 'Est. cost/query', tblThr4: 'Verdict',
+        tblThrVerd1: 'Too conservative — misses savings',
+        tblThrVerd2: 'Acceptable',
+        tblThrVerd3: 'Chosen — maximizes cost-quality tradeoff',
+        tblThrVerd4: 'Quality risk on edge cases',
+        tblThrVerd5: 'Over-confident routing',
         architectureNum: '02 · The Architecture',
         architectureTitle: 'Route by <em>confidence,</em> not by hope.',
         architectureLede: 'Every query first hits a small SBERT (all-MiniLM-L6-v2) encoder, then a LinearSVC classifier predicts intent + confidence. The confidence score then routes the query through one of four tiers.',
@@ -1868,22 +2040,33 @@ confidence = proba.max()
         tier3Metric2: '<small>Latency</small><strong>~2s</strong>',
         architectureBitTitle: 'The clever bit: <em>confidence-aware</em> LLM hint',
         architectureBitText: 'Even when escalating to the LLM, the classifier\'s output isn\'t thrown away. The predicted intent label is passed as a soft context hint to the LLM — <em>but only if</em> confidence ≥ 0.25. Below that threshold, the prediction is too noisy to be useful and would mislead the model, so the hint is dropped. Engineering decisions like this are what separate a notebook from a production service.',
-        numbersNum: '04 · The Numbers',
+        numbersNum: '03 · Results',
         numbersTitle: 'Benchmarked on <em>Banking77.</em>',
-        numbersIntro: '13,083 customer queries across 77 banking intents — the standard benchmark for banking NLP.',
+        numbersIntro: '13,083 customer queries across 77 banking intents — the standard benchmark for banking NLP. F1 Macro 0.9305 places SBERT + LinearSVC well above the TF-IDF baseline (0.8843).',
         tableMetric: 'Metric',
         tableScore: 'Score',
         tableNote: 'Note',
         tableRow1Metric: 'F1 Macro',
-        tableRow1Note: 'Across 77 intents',
+        tableRow1Note: 'Across 77 intents · Banking77 benchmark',
         tableRow2Metric: 'Accuracy',
         tableRow2Note: 'Balanced eval set',
-        tableRow3Metric: 'Cost vs all-LLM',
-        tableRow3Note: 'Depending on traffic mix (see below)',
+        tableRow3Metric: 'Projected Cost Reduction',
+        tableRow3Note: 'Based on assumed traffic mix — see math below',
         tableRow4Metric: 'Avg latency',
         tableRow4Note: 'Weighted by tier distribution',
-        savingsTitle: 'How the savings are calculated',
-        savingsIntro: 'The 88–96% range is sensitive to traffic distribution. Here\'s a representative banking traffic mix (10% pure conversational + 60% routine FAQs handled by template + 25% knowledge queries + 5% genuinely complex):',
+        modelIterTitle: 'Model selection: why the method changed',
+        iterCol1: 'Iteration', iterCol2: 'Method', iterCol3: 'F1 Macro', iterCol4: 'Decision',
+        iterR1: 'Baseline 1', iterR1D: 'First interpretable baseline',
+        iterR2: 'Baseline 2', iterR2D: 'SVM margin outperforms LR on short intent text',
+        iterR3: 'Final', iterR3D: 'Dense embeddings close the synonym gap — chosen for serving',
+        ragMetricsTitle: 'RAG pipeline evaluation',
+        ragMetricsIntro: 'The RAG tier uses FAISS IndexFlatIP over 59 banking FAQ entries, each embedded with the same SBERT encoder.',
+        ragMetricCol1: 'RAG Metric', ragMetricCol2: 'Value', ragMetricCol3: 'What it means',
+        ragR1: 'Correct answer appears in top-3 results',
+        ragR2: 'Top-1 result matches ground truth',
+        ragR3: 'Mean Reciprocal Rank — answer ranks consistently high',
+        savingsTitle: 'Projected savings — how the math works',
+        savingsIntro: 'The 88–96% range is sensitive to traffic distribution. Representative banking traffic mix (10% conversational + 60% routine FAQs + 25% knowledge queries + 5% complex):',
         savingsCode: `<span class="c"># All-LLM baseline (every query → GPT-4-class)</span>
 1.00 × $0.050 = $0.0500 / query
 
@@ -1896,7 +2079,7 @@ confidence = proba.max()
 <span class="c"># A very template-heavy mix approaches ~96%.</span>
 <span class="c"># A conservative mix (heavier LLM usage) sits closer to ~70%.</span>`,
         savingsDisclaimer: '⚠️ The exact % depends on real traffic distribution. The honest answer in an interview: "it\'s an 88–96% range for the assumed mixes — and a more conservative mix can be lower."',
-        productionNum: '05 · Production Engineering',
+        productionNum: '04 · Production Engineering',
         productionTitle: 'Not a notebook. <em>A service.</em>',
         servingTitle: 'Serving stack',
         servingText: 'Single Docker image, served via FastAPI with Pydantic schemas. <code>/predict</code> endpoint returns intent_id, confidence, routing decision, latency, and the actual generated answer. Custom chat UI in <code>static/index.html</code> with per-tier routing badges.',
@@ -1906,7 +2089,7 @@ confidence = proba.max()
         observabilityText: '12 custom metrics exposed via <code>/metrics</code>: request count, latency histograms, routing distribution, confidence histogram, rolling low-confidence rate, cumulative estimated cost per tier. Async push to Grafana Cloud via Prometheus remote_write (manual protobuf + snappy compression).',
         resilienceTitle: 'Resilience',
         resilienceText: 'LLM call failures degrade gracefully to a support-message fallback. Health endpoint reports model + RAG + LLM provider status. Lifespan hooks ensure model load happens before serving traffic. Provider misconfiguration is logged, not raised.',
-        decisionsNum: '06 · Production-Grade Decisions',
+        decisionsNum: '05 · Production-Grade Decisions',
         decisionsTitle: 'The small choices <em>that matter.</em>',
         decisionsLede: 'A notebook lives for 30 minutes. A service lives in production. These are the trade-offs that show up only when you actually ship something.',
         decision1: '<strong>CPU-only PyTorch in the Dockerfile.</strong> ~200 MB instead of ~2 GB CUDA wheels. HF Spaces free tier has no GPU — bundling CUDA just bloats the image and slows cold starts.',
@@ -1915,6 +2098,18 @@ confidence = proba.max()
         decision4: '<strong>Confidence-aware LLM prompting.</strong> The classifier\'s predicted intent is passed to the LLM as a soft hint — but only if <code>confidence ≥ 0.25</code>. Below that, the prediction is too noisy and gets dropped to avoid misleading the LLM.',
         decision5: '<strong>Bilingual conversational pre-filter.</strong> The keyword set includes Indonesian greetings/farewells (<code>halo</code>, <code>selamat pagi</code>, <code>terima kasih</code>) — built for actual Indonesian users, not an English-only demo.',
         decision6: '<strong>Pinned exact dependency versions.</strong> All 16 serving deps pinned to specific versions. No "works on my machine" surprises three months later.',
+        limNum: '07 · Limitations',
+        limTitle: 'What this project <em>doesn\'t answer yet.</em>',
+        limLede: 'Banking77 is a clean, balanced, English-only benchmark. Production banking chatbots face a different reality — and a senior interviewer will ask about this gap.',
+        lim1Title: 'Banking77 ≠ production traffic',
+        lim1Text: 'The dataset is pre-labeled, single-intent, and balanced across 77 classes. Real customer queries contain typos, slang, mixed languages (Indonesian-English code-switching), ambiguous phrasings, and multi-intent requests. F1 0.9305 on Banking77 does not directly translate to production performance.',
+        lim2Title: 'Confidence calibration not validated',
+        lim2Text: 'LinearSVC probabilities come from Platt scaling (<code>CalibratedClassifierCV</code>). Calibration quality — whether a confidence of 0.55 actually means 55% correct — was not separately validated with a reliability diagram or ECE metric. Threshold choices assume calibration is adequate.',
+        lim3Title: 'Projected, not observed cost savings',
+        lim3Text: 'The 88–96% cost reduction is a simulation based on an assumed traffic mix. No production traffic was routed through the system. Actual savings depend on real query distribution, which may differ significantly from the assumed 60%/25%/5% split.',
+        lim4Title: 'RAG limited to 59 FAQ entries',
+        lim4Text: 'The knowledge base contains 59 manually curated entries. This is sufficient as a prototype but not representative of a real banking FAQ corpus, which may contain hundreds of entries, conflicting answers, and outdated information that requires regular maintenance.',
+        limQuote: '"Banking77 is a benchmark dataset and does not fully represent noisy production traffic. Future work includes evaluation on multilingual and real customer conversations."<span class="attr">— honest limitation, not a failure</span>',
         lessonsNum: '08 · What I Learned',
         lessonsTitle: 'Four lessons <em>I\'ll carry forward.</em>',
         lesson1Title: '1. Real ML engineering = knowing when NOT to use the big model.',
@@ -1950,6 +2145,14 @@ confidence = proba.max()
         statIntents: 'Intent banking yang diklasifikasi',
         execLogNum: '07 · Bagaimana Ini Dibangun',
         refsNum: '09 · Referensi',
+        impactNum: '01 · Business Impact',
+        impactTitle: 'Dari $0.050 menjadi <em>$0.0056 per query.</em>',
+        costBeforeLabel: 'All-LLM (Naif)',
+        costBeforeDesc: 'Setiap query diteruskan ke model GPT-4-class tanpa memandang kompleksitasnya',
+        costAfterLabel: 'Router 4-Tier',
+        costAfterDesc: 'Setiap query diteruskan ke tier termurah yang mampu menjawab dengan benar',
+        costReduction: '↓ 88% proyeksi penghematan',
+        impactLede: 'Pertanyaan banking punya distribusi yang bisa diprediksi — 80% tidak perlu GPT-4. Mengirim semua ke LLM yang sama memboroskan $0.044 untuk setiap FAQ rutin yang bisa dijawab template dalam 8ms.',
         problemNum: '01 · Kenapa Project Ini Dibuat',
         problemTitle: 'Pertanyaan support yang rutin tidak selalu perlu melewati <em>jalur model paling mahal.</em>',
         problemLede: 'Pengalaman chatbot saya mencakup 2,5 tahun membangun flow e-commerce dan 1,5 tahun mengevaluasi kualitas chatbot fintech. Project ini mengubah intuisi produk tersebut menjadi prototype domain banking: pertanyaan rutin sebaiknya melewati layer yang lebih murah dan lebih predictable sebelum dieskalasikan ke LLM.',
@@ -1957,7 +2160,7 @@ confidence = proba.max()
         problemBullet1: '<strong>FAQ rutin</strong> (70–80%) — "kartu hilang", "lupa PIN", "cek saldo" — sangat cocok dijawab template',
         problemBullet2: '<strong>Query pengetahuan</strong> (15–25%) — "berapa limit transfer internasional?" — cocok ditangani RAG di atas FAQ terkurasi',
         problemBullet3: '<strong>Kasus kompleks / edge case</strong> (~5%) — reasoning multi-turn, phrasing tidak biasa — baru benar-benar perlu LLM',
-        foundationNum: '03 · Dari LSA ke SBERT',
+        foundationNum: '06 · Metodologi',
         foundationTitle: 'TF-IDF saja tidak pernah cukup. <em>Pertanyaannya selalu: bagaimana merepresentasikan makna?</em>',
         foundationLede: 'Project ini tidak bermula dari brief perbankan. Ia bermula dari skripsi 2021 yang menemukan masalah fundamental yang sama persis: penghitungan kata tidak menangkap makna sebuah kalimat.',
         foundation2021Title: 'Skripsi 2021: insight dari LSA.',
@@ -2022,20 +2225,31 @@ confidence = proba.max()
         tier3Metric2: '<small>Latency</small><strong>~2s</strong>',
         architectureBitTitle: 'Bagian menariknya: hint LLM yang <em>confidence-aware</em>',
         architectureBitText: 'Bahkan saat query dieskalasikan ke LLM, output classifier tidak dibuang. Label intent hasil prediksi diberikan sebagai soft context hint ke LLM — <em>tetapi hanya jika</em> confidence ≥ 0.25. Di bawah threshold itu, prediksinya terlalu noisy dan justru berisiko menyesatkan model, jadi hint-nya dibuang. Keputusan engineering kecil seperti ini yang membedakan notebook dari service production.',
-        numbersNum: '04 · Angkanya',
+        numbersNum: '03 · Hasil',
         numbersTitle: 'Diuji di atas <em>Banking77.</em>',
-        numbersIntro: '13.083 query nasabah untuk 77 intent banking — benchmark standar untuk NLP perbankan.',
+        numbersIntro: '13.083 query nasabah untuk 77 intent banking — benchmark standar untuk NLP perbankan. F1 Macro 0.9305 menempatkan SBERT + LinearSVC jauh di atas baseline TF-IDF (0.8843).',
         tableMetric: 'Metrik',
         tableScore: 'Skor',
         tableNote: 'Catatan',
         tableRow1Metric: 'F1 Macro',
-        tableRow1Note: 'Untuk 77 intent',
+        tableRow1Note: 'Untuk 77 intent · Banking77 benchmark',
         tableRow2Metric: 'Akurasi',
         tableRow2Note: 'Eval set seimbang',
-        tableRow3Metric: 'Biaya vs all-LLM',
-        tableRow3Note: 'Tergantung traffic mix (lihat bawah)',
+        tableRow3Metric: 'Proyeksi Penghematan Biaya',
+        tableRow3Note: 'Berdasarkan asumsi traffic mix — lihat perhitungan di bawah',
         tableRow4Metric: 'Rata-rata latency',
         tableRow4Note: 'Dibobot sesuai distribusi tier',
+        modelIterTitle: 'Pemilihan model: kenapa metodenya berubah',
+        iterCol1: 'Iterasi', iterCol2: 'Metode', iterCol3: 'F1 Macro', iterCol4: 'Keputusan',
+        iterR1: 'Baseline 1', iterR1D: 'Baseline pertama yang interpretable',
+        iterR2: 'Baseline 2', iterR2D: 'Margin SVM mengalahkan LR pada teks intent pendek',
+        iterR3: 'Final', iterR3D: 'Dense embedding menutup celah sinonim — dipilih untuk serving',
+        ragMetricsTitle: 'Evaluasi RAG pipeline',
+        ragMetricsIntro: 'Tier RAG menggunakan FAISS IndexFlatIP atas 59 entri FAQ banking, masing-masing di-embed dengan encoder SBERT yang sama.',
+        ragMetricCol1: 'Metrik RAG', ragMetricCol2: 'Nilai', ragMetricCol3: 'Artinya',
+        ragR1: 'Jawaban benar muncul di 3 hasil teratas',
+        ragR2: 'Hasil teratas cocok dengan ground truth',
+        ragR3: 'Mean Reciprocal Rank — jawaban konsisten di peringkat tinggi',
         savingsTitle: 'Cara hitung penghematannya',
         savingsIntro: 'Rentang 88–96% sangat sensitif terhadap distribusi traffic. Berikut contoh traffic mix banking yang representatif (10% pure conversational + 60% FAQ rutin via template + 25% knowledge query + 5% kasus yang benar-benar kompleks):',
         savingsCode: `<span class="c"># Baseline all-LLM (setiap query → GPT-4-class)</span>
@@ -2049,8 +2263,16 @@ confidence = proba.max()
 <span class="c"># Reduction: ($0.050 − $0.0056) / $0.050 = ~89%</span>
 <span class="c"># Mix yang sangat dominan template bisa mendekati ~96%.</span>
 <span class="c"># Mix yang lebih konservatif (pemakaian LLM lebih berat) bisa turun ke ~70%.</span>`,
-        savingsDisclaimer: '⚠️ Persentase tepatnya tetap bergantung pada distribusi traffic nyata. Jawaban yang jujur saat interview: "rentang utamanya 88–96% untuk mix yang diasumsikan — dan mix yang lebih konservatif bisa lebih rendah."',
-        productionNum: '05 · Production Engineering',
+        savingsDisclaimer: '⚠️ <strong>Proyeksi</strong> penghematan berdasarkan distribusi traffic yang diasumsikan — bukan data production yang diamati. Penghematan biaya aktual tergantung pada traffic mix nyata. Mix konservatif dengan pemakaian LLM lebih berat akan menghasilkan penghematan lebih rendah.',
+        thresholdTitle: 'Kenapa 0.55 dan 0.30? — <em>Pemilihan threshold.</em>',
+        thresholdIntro: 'Threshold dipilih dengan mengevaluasi tradeoff cost–quality pada berbagai nilai. Template threshold lebih rendah → lebih banyak query dieskalasikan ke LLM (biaya lebih tinggi, kualitas lebih aman). Threshold lebih tinggi → lebih banyak ke template (biaya lebih rendah, risiko routing terlalu percaya diri).',
+        tblThr0: 'Template Threshold', tblThr1: '% → Template', tblThr2: '% → LLM', tblThr3: 'Est. biaya/query', tblThr4: 'Keputusan',
+        tblThrVerd1: 'Terlalu konservatif — melewatkan penghematan',
+        tblThrVerd2: 'Dapat diterima',
+        tblThrVerd3: 'Dipilih — mengoptimalkan tradeoff cost-quality',
+        tblThrVerd4: 'Risiko kualitas pada edge case',
+        tblThrVerd5: 'Routing terlalu percaya diri',
+        productionNum: '04 · Production Engineering',
         productionTitle: 'Bukan notebook. <em>Service sungguhan.</em>',
         servingTitle: 'Serving stack',
         servingText: 'Satu Docker image, disajikan lewat FastAPI dengan schema Pydantic. Endpoint <code>/predict</code> mengembalikan intent_id, confidence, keputusan routing, latency, dan jawaban final. Saya juga buat custom chat UI di <code>static/index.html</code> dengan badge tier per routing.',
@@ -2060,7 +2282,7 @@ confidence = proba.max()
         observabilityText: 'ada 12 custom metric di <code>/metrics</code>: request count, histogram latency, distribusi routing, histogram confidence, rolling low-confidence rate, dan estimasi biaya kumulatif per tier. Data dikirim async ke Grafana Cloud via Prometheus remote_write (manual protobuf + snappy compression).',
         resilienceTitle: 'Resilience',
         resilienceText: 'Kalau panggilan LLM gagal, sistem turun secara graceful ke fallback message untuk support. Health endpoint melaporkan status model + RAG + provider LLM. Lifespan hook memastikan model selesai load sebelum menerima traffic. Salah konfigurasi provider dicatat ke log, bukan dilempar jadi error.',
-        decisionsNum: '06 · Keputusan Production-Grade',
+        decisionsNum: '05 · Keputusan Production-Grade',
         decisionsTitle: 'Pilihan kecil <em>yang penting.</em>',
         decisionsLede: 'Notebook hidup 30 menit. Service hidup di production. Trade-off seperti ini baru terasa ketika kamu benar-benar mengirim sistem ke pengguna.',
         decision1: '<strong>PyTorch CPU-only di Dockerfile.</strong> Sekitar 200 MB dibanding wheel CUDA yang bisa mendekati 2 GB. HF Spaces tier gratis tidak punya GPU — membawa CUDA hanya membuat image gemuk dan cold start lebih lambat.',
@@ -2069,6 +2291,18 @@ confidence = proba.max()
         decision4: '<strong>Prompting LLM yang sadar confidence.</strong> Prediksi intent dari classifier diberikan ke LLM sebagai soft hint — tetapi hanya jika <code>confidence ≥ 0.25</code>. Di bawah itu, prediksi terlalu noisy dan dibuang agar tidak menyesatkan LLM.',
         decision5: '<strong>Conversational pre-filter bilingual.</strong> Daftar keyword juga memasukkan greeting/farewell Indonesia (<code>halo</code>, <code>selamat pagi</code>, <code>terima kasih</code>) — dibangun untuk user Indonesia sungguhan, bukan demo yang hanya mengasumsikan English.',
         decision6: '<strong>Versi dependency dipin dengan tepat.</strong> Semua 16 dependency serving dipasang pada versi spesifik. Tidak ada kejutan "works on my machine" tiga bulan kemudian.',
+        limNum: '07 · Keterbatasan',
+        limTitle: 'Yang belum <em>dijawab project ini.</em>',
+        limLede: 'Banking77 adalah benchmark yang bersih, seimbang, dan hanya dalam bahasa Inggris. Chatbot banking produksi menghadapi realitas yang berbeda — dan interviewer senior pasti akan menanyakan gap ini.',
+        lim1Title: 'Banking77 ≠ traffic produksi',
+        lim1Text: 'Dataset ini sudah dilabeli, satu intent per query, dan seimbang di 77 kelas. Query nasabah nyata mengandung typo, slang, bahasa campuran (code-switching Indonesia-Inggris), phrasing ambigu, dan permintaan multi-intent. F1 0.9305 pada Banking77 tidak langsung berarti performa serupa di produksi.',
+        lim2Title: 'Kalibrasi confidence belum divalidasi',
+        lim2Text: 'Probabilitas LinearSVC berasal dari Platt scaling (<code>CalibratedClassifierCV</code>). Kualitas kalibrasi — apakah confidence 0.55 benar-benar berarti 55% benar — belum divalidasi secara terpisah dengan reliability diagram atau metrik ECE. Pemilihan threshold mengasumsikan kalibrasi sudah memadai.',
+        lim3Title: 'Proyeksi, bukan penghematan yang diamati',
+        lim3Text: 'Penghematan biaya 88–96% adalah simulasi berdasarkan traffic mix yang diasumsikan. Tidak ada traffic produksi yang pernah melewati sistem ini. Penghematan aktual bergantung pada distribusi query nyata, yang mungkin berbeda signifikan dari asumsi 60%/25%/5%.',
+        lim4Title: 'RAG terbatas pada 59 entri FAQ',
+        lim4Text: 'Knowledge base berisi 59 entri yang dikurasi secara manual. Ini cukup sebagai prototype tetapi tidak representatif untuk corpus FAQ banking nyata, yang mungkin berisi ratusan entri, jawaban yang saling bertentangan, dan informasi yang sudah usang yang memerlukan pemeliharaan rutin.',
+        limQuote: '"Banking77 adalah dataset benchmark dan tidak sepenuhnya merepresentasikan traffic produksi yang noisy. Pekerjaan selanjutnya mencakup evaluasi pada percakapan multibahasa dan nasabah nyata."<span class="attr">— keterbatasan yang jujur, bukan kegagalan</span>',
         lessonsNum: '08 · Yang Saya Pelajari',
         lessonsTitle: 'Empat pelajaran <em>yang saya bawa terus.</em>',
         lesson1Title: '1. ML engineering yang nyata = tahu kapan TIDAK memakai model besar.',

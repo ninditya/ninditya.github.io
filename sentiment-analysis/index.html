@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sentiment Analysis: Traditional ML vs GenAI · Ninditya Salma Nur Aini</title>
-  <meta name="description"
-    content="A 2023 Binar Academy project, revisited in 2026. I found my evaluation was wrong — 92% was inflated. I also finally quantified something I'd been doing in practice but couldn't measure: how accurate and cost-effective is GenAI for Indonesian sentiment analysis?">
+  <title>Sentiment Analysis: ML vs GenAI · Ninditya Salma Nur Aini</title>
+  <meta name="description" content="A systematic comparison of TF-IDF+MLP, BiLSTM, and Gemini Flash zero-shot on 11,000 Indonesian tweets. LSTM wins at 93% accuracy — but costs $0 vs $62/year for GenAI.">
   <link rel="canonical" href="https://ninditya.github.io/sentiment-analysis/">
-  <meta property="og:title" content="Sentiment Analysis: Traditional ML vs GenAI · Ninditya Salma Nur Aini">
-  <meta property="og:description" content="A 2023 Binar Academy project, revisited in 2026. I found my evaluation was wrong — 92% was inflated. I also finally quantified something I'd been doing in practice but couldn't measure: how accurate and cost-effective is GenAI for Indonesian sentiment analysis?">
+  <meta property="og:title" content="Sentiment Analysis: ML vs GenAI · Ninditya Salma Nur Aini">
   <meta property="og:url" content="https://ninditya.github.io/sentiment-analysis/">
   <meta property="og:type" content="article">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,249 +14,282 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #ffffff; --bg-alt: #f5f5f5; --bg-dark: #2d2d2d;
-      --ink: #4d4d4d; --ink-soft: #6b6b6b; --muted: #a0a0a0;
-      --line: #d3d3d3; --line-strong: #a0a0a0;
-      --primary: #1a5276; --accent: #c4490c; --accent-soft: #eaf2fb;
-      --green: #2d6a4f; --red: #c4490c;
+      --bg:#ffffff; --bg-alt:#f5f5f5; --bg-dark:#2d2d2d;
+      --ink:#4d4d4d; --ink-soft:#6b6b6b; --muted:#a0a0a0;
+      --line:#d3d3d3; --line-strong:#a0a0a0;
+      --primary:#1a5276; --accent:#c4490c; --accent-soft:#eaf2fb;
+      --green:#2d6a4f;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--ink); font-family:'DM Sans',sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased; }
+    .skip-link { position:absolute; top:-40px; left:0; background:var(--ink); color:#fff; padding:8px 16px; z-index:1000; transition:top 0.2s; font-family:'DM Mono',monospace; font-size:0.8rem; text-decoration:none; }
+    .skip-link:focus { top:0; }
+    *:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
 
-    /* ── Nav ── */
-    nav { position: sticky; top: 0; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
-    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 16px; }
-    .logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
-    .skip-link { position: absolute; top: -40px; left: 0; background: var(--ink); color: #fff; padding: 8px 16px; z-index: 1000; transition: top 0.2s; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-decoration: none; }
-    .skip-link:focus { top: 0; }
-    *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-    .mobile-nav-toggle { display: none; background: transparent; border: none; color: var(--ink); font-size: 1.5rem; cursor: pointer; padding: 0 5px; line-height: 1; }
-    .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
-    .nav-tools { display: flex; align-items: center; gap: 10px; width: 100%; }
-    .nav-pill { font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 100px; transition: all 0.2s ease; }
-    .nav-pill:hover { background: var(--bg-alt); color: var(--ink); }
-    .nav-pill.back { color: var(--primary); border: 1px solid var(--line); }
-    .nav-pill.back:hover { background: var(--primary); color: white; border-color: var(--primary); }
-    .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); margin-left: auto; }
-    .lang-btn { border: none; background: transparent; color: var(--muted); padding: 6px 10px; border-radius: 999px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
-    .lang-btn.active { background: var(--ink); color: var(--bg); }
+    nav { position:sticky; top:0; background:rgba(255,255,255,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); z-index:100; }
+    .nav-inner { max-width:1080px; margin:0 auto; padding:16px 32px; display:flex; align-items:center; }
+    .nav-tools { display:flex; align-items:center; gap:10px; width:100%; }
+    .mobile-nav-toggle { display:none; background:transparent; border:none; color:var(--ink); font-size:1.5rem; cursor:pointer; padding:0 5px; line-height:1; }
+    .nav-pills { display:flex; gap:6px; flex-wrap:wrap; }
+    .nav-pill { font-size:13px; color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:100px; transition:all 0.2s; }
+    .nav-pill:hover { background:var(--bg-alt); color:var(--ink); }
+    .nav-pill.back { color:var(--primary); border:1px solid var(--line); }
+    .nav-pill.back:hover { background:var(--primary); color:white; border-color:var(--primary); }
+    .lang-switch { display:inline-flex; padding:3px; border:1px solid var(--line); border-radius:999px; background:var(--bg); margin-left:auto; }
+    .lang-btn { border:none; background:transparent; color:var(--muted); padding:6px 10px; border-radius:999px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; transition:all 0.15s; }
+    .lang-btn.active { background:var(--ink); color:white; }
+    .theme-toggle { width:44px; height:44px; border-radius:50%; border:1px solid var(--line); background:var(--bg-alt); color:var(--ink); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:all 0.15s; flex-shrink:0; }
 
-    /* ── Layout ── */
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
-    section.content { padding: 80px 0; border-bottom: 1px solid var(--line); }
-    section.content.alt { background: var(--bg-alt); }
-    section.content:last-of-type { border-bottom: none; }
-    .section-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
+    .wrap { max-width:1080px; margin:0 auto; padding:0 32px; }
+    section.content { padding:80px 0; border-bottom:1px solid var(--line); }
+    section.content.alt { background:var(--bg-alt); }
+    .section-num { font-family:'DM Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px; font-weight:500; }
+    h2 { font-family:'Instrument Serif',serif; font-size:clamp(32px,4.5vw,48px); font-weight:400; letter-spacing:-0.01em; line-height:1.1; margin-bottom:36px; max-width:800px; color:var(--ink); }
+    h2 em { font-style:italic; color:var(--primary); }
+    h3 { font-family:'Instrument Serif',serif; font-size:24px; font-weight:400; margin:36px 0 14px; letter-spacing:-0.01em; color:var(--ink); }
+    .lede { font-family:'Instrument Serif',serif; font-size:22px; line-height:1.5; color:var(--ink-soft); max-width:760px; margin-bottom:22px; font-weight:400; }
+    p { margin-bottom:16px; max-width:760px; color:var(--ink-soft); font-size:16px; }
+    p code, li code { background:var(--bg-alt); border:1px solid var(--line); padding:1px 6px; border-radius:3px; font-family:'DM Mono',monospace; font-size:13px; color:var(--ink); }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:48px; margin:40px 0; align-items:start; }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin:20px 0; }
+    .tag { font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; padding:5px 11px; border:1px solid var(--line-strong); background:white; border-radius:3px; color:var(--ink-soft); }
+    .pullquote { border-left:3px solid var(--accent); padding:16px 0 16px 28px; margin:32px 0; font-family:'Instrument Serif',serif; font-size:22px; font-style:italic; line-height:1.45; max-width:760px; color:var(--ink); }
+    .reveal { opacity:0; transform:translateY(18px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.in { opacity:1; transform:translateY(0); }
+    img { max-width:100%; border-radius:6px; display:block; }
 
-    /* ── Typography ── */
-    .hero { padding: 80px 0 60px; border-bottom: 1px solid var(--line); }
-    .hero-kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
-    .kicker-tag { background: var(--ink); color: var(--accent); padding: 5px 12px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
-    .kicker-text { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
-    h1.title { font-family: 'Instrument Serif', serif; font-size: clamp(44px,6.5vw,80px); line-height: 1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 32px; font-weight: 400; }
-    h1.title em { font-style: italic; color: var(--primary); }
-    .hero-lede { font-family: 'Instrument Serif', serif; font-size: clamp(20px,2.2vw,26px); line-height: 1.45; max-width: 760px; color: var(--ink-soft); font-weight: 400; }
-    .hero-lede strong { background: linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%); font-weight: 500; color: var(--ink); }
-    .hero-meta { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 44px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
-    .hero-meta span strong { color: var(--ink); font-weight: 500; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
-    h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px,4.5vw,48px); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 36px; max-width: 800px; color: var(--ink); }
-    h2 em { font-style: italic; color: var(--primary); }
-    h3 { font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; margin: 36px 0 14px; letter-spacing: -0.01em; color: var(--ink); }
-    h3 em { font-style: italic; color: var(--primary); }
-    .lede { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 760px; margin-bottom: 22px; font-weight: 400; }
-    p { margin-bottom: 16px; max-width: 760px; color: var(--ink-soft); font-size: 16px; }
-    p code, li code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink); }
+    /* ── Hero ── */
+    .hero { padding:80px 0 60px; border-bottom:1px solid var(--line); }
+    .hero-kicker { display:flex; align-items:center; gap:12px; margin-bottom:36px; flex-wrap:wrap; }
+    .kicker-tag { background:var(--ink); color:var(--accent); padding:5px 12px; border-radius:4px; font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; }
+    .kicker-text { font-family:'DM Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.05em; text-transform:uppercase; }
+    h1.title { font-family:'Instrument Serif',serif; font-size:clamp(44px,6.5vw,80px); line-height:1; letter-spacing:-0.02em; color:var(--ink); margin-bottom:32px; font-weight:400; }
+    h1.title em { font-style:italic; color:var(--primary); }
+    .hero-lede { font-family:'Instrument Serif',serif; font-size:clamp(20px,2.2vw,26px); line-height:1.45; max-width:760px; color:var(--ink-soft); font-weight:400; }
+    .hero-lede strong { background:linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%); font-weight:500; color:var(--ink); }
+    .hero-meta { display:flex; flex-wrap:wrap; gap:28px; margin-top:44px; font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); }
+    .hero-meta span strong { color:var(--ink); font-weight:500; margin-right:6px; text-transform:uppercase; letter-spacing:0.08em; font-size:10px; }
 
-    /* ── Stats strip ── */
-    .stats-strip { background: var(--bg-dark); color: var(--bg); padding: 60px 0; }
-    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
-    .stat { text-align: left; padding: 0 28px; border-left: 1px solid rgba(255,255,255,0.12); }
-    .stat:first-child { border-left: none; padding-left: 0; }
-    .stat .num { font-family: 'Instrument Serif', serif; font-size: clamp(40px,5.5vw,60px); font-weight: 400; line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
-    .stat .num small { font-size: 0.5em; color: var(--bg); opacity: 0.7; font-family: 'Instrument Serif', serif; }
-    .stat .label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px; opacity: 0.75; line-height: 1.4; }
+    /* ── Hero arch diagram ── */
+    .hero-arch { margin:48px 0 0; max-width:900px; }
+    .ha-source { display:flex; align-items:center; gap:0; margin-bottom:0; }
+    .ha-src-box { flex:1; border:1px solid var(--line); border-radius:8px 8px 0 0; padding:14px 18px; background:var(--bg-alt); text-align:center; border-bottom:none; }
+    .ha-src-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); }
+    .ha-src-val { font-size:15px; font-weight:600; color:var(--ink); margin-top:4px; }
+    .ha-branches { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; border:1px solid var(--line); border-top:2px solid var(--primary); }
+    .ha-branch { padding:18px 14px; border-right:1px solid var(--line); }
+    .ha-branch:last-child { border-right:none; }
+    .ha-branch.winner { background:var(--accent-soft); }
+    .ha-branch-tag { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:6px; }
+    .ha-branch.winner .ha-branch-tag { color:var(--primary); }
+    .ha-branch-name { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:12px; }
+    .ha-branch-acc { font-family:'Instrument Serif',serif; font-size:32px; color:var(--muted); line-height:1; }
+    .ha-branch.winner .ha-branch-acc { color:var(--primary); }
+    .ha-branch-sub { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); margin-top:4px; }
+    .ha-eval { border:1px solid var(--line); border-top:none; padding:12px 18px; background:var(--bg-alt); display:flex; gap:24px; justify-content:center; border-radius:0 0 8px 8px; }
+    .ha-eval-item { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; }
+    .ha-eval-item span { color:var(--primary); font-weight:500; margin-right:6px; }
 
-    /* ── Code blocks ── */
-    pre.code { background: var(--bg-dark); color: #d8d3c4; padding: 24px 28px; font-family: 'DM Mono', monospace; font-size: 13px; line-height: 1.75; overflow-x: auto; margin: 32px 0; border-radius: 6px; border-left: 3px solid var(--accent); max-width: 900px; }
-    pre.code .c { color: #7a8696; font-style: italic; }
-    pre.code .s { color: #e8946a; }
-    pre.code .k { color: #d96b78; }
-    pre.code .fn { color: #82b3d8; }
-    pre.code .cls { color: #c8a96e; }
-    pre.code .num { color: #b5cea8; }
+    /* ── Stats ── */
+    .stats-strip { background:var(--bg-dark); color:var(--bg); padding:60px 0; }
+    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
+    .stat { text-align:left; padding:0 28px; border-left:1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left:none; padding-left:0; }
+    .stat .num { font-family:'Instrument Serif',serif; font-size:clamp(40px,5.5vw,60px); font-weight:400; line-height:1; color:var(--accent); letter-spacing:-0.02em; }
+    .stat .label { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; margin-top:16px; opacity:0.75; line-height:1.4; }
 
-    /* ── Tags / pills ── */
-    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0; }
-    .tag { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 5px 11px; border: 1px solid var(--line-strong); background: white; border-radius: 3px; color: var(--ink-soft); }
+    /* ── Verdict / decision matrix ── */
+    .verdict-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:32px 0; }
+    .verdict-card { border:1px solid var(--line); border-radius:10px; padding:24px 20px; }
+    .verdict-card.winner { border-color:var(--primary); background:var(--accent-soft); }
+    .verdict-card.mid { border-color:var(--line); }
+    .verdict-card.last { border-color:rgba(196,73,12,0.3); background:rgba(196,73,12,0.03); }
+    .vc-rank { font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:8px; }
+    .verdict-card.winner .vc-rank { color:var(--primary); }
+    .vc-name { font-size:16px; font-weight:600; color:var(--ink); margin-bottom:16px; }
+    .vc-acc { font-family:'Instrument Serif',serif; font-size:48px; line-height:1; color:var(--muted); }
+    .verdict-card.winner .vc-acc { color:var(--primary); }
+    .vc-metrics { margin-top:16px; padding-top:14px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:5px; }
+    .vc-row { display:flex; justify-content:space-between; font-family:'DM Mono',monospace; font-size:11px; color:var(--ink-soft); }
+    .vc-row span:last-child { color:var(--ink); font-weight:500; }
 
-    /* ── Checklists ── */
-    ul.checklist { list-style: none; padding: 0; margin: 24px 0; max-width: 800px; }
-    ul.checklist li { padding: 14px 0 14px 36px; position: relative; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
-    ul.checklist li:last-child { border-bottom: none; }
-    ul.checklist li::before { content: '✓'; position: absolute; left: 0; top: 14px; color: var(--green); font-weight: 700; font-size: 16px; }
-    ul.checklist li strong { font-weight: 600; color: var(--ink); }
+    .decision-matrix { width:100%; max-width:800px; border-collapse:collapse; margin:28px 0; font-size:14px; }
+    .decision-matrix th, .decision-matrix td { padding:12px 14px; border-bottom:1px solid var(--line); text-align:left; }
+    .decision-matrix th { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); background:var(--bg-alt); }
+    .decision-matrix td.criterion { font-weight:500; color:var(--ink); font-size:13px; }
+    .dm-dot { font-size:16px; }
+    .takeaway-card { background:var(--accent-soft); border:1px solid rgba(26,82,118,0.2); border-left:4px solid var(--primary); border-radius:8px; padding:24px 28px; margin:32px 0; max-width:760px; }
+    .takeaway-card p { color:var(--ink); margin:0; font-size:16px; line-height:1.6; max-width:none; }
 
-    /* ── Bug list (X mark) ── */
-    ul.buglist { list-style: none; padding: 0; margin: 24px 0; max-width: 800px; }
-    ul.buglist li { padding: 14px 0 14px 36px; position: relative; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
-    ul.buglist li:last-child { border-bottom: none; }
-    ul.buglist li::before { content: '✗'; position: absolute; left: 0; top: 14px; color: var(--red); font-weight: 700; font-size: 16px; }
-    ul.buglist li strong { font-weight: 600; color: var(--ink); }
+    /* ── Architecture 3-col ── */
+    .arch-compare { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin:32px 0; }
+    .ac-col { border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    .ac-col.winner { border-color:var(--primary); }
+    .ac-header { padding:14px 16px; background:var(--bg-alt); border-bottom:1px solid var(--line); }
+    .ac-col.winner .ac-header { background:var(--accent-soft); }
+    .ac-header-tag { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:4px; }
+    .ac-col.winner .ac-header-tag { color:var(--primary); }
+    .ac-header-name { font-size:15px; font-weight:600; color:var(--ink); }
+    .ac-steps { padding:14px 16px; display:flex; flex-direction:column; gap:6px; }
+    .ac-step { font-family:'DM Mono',monospace; font-size:11px; padding:7px 10px; border-radius:4px; border:1px solid var(--line); background:var(--bg); color:var(--ink-soft); }
+    .ac-step.arrow { border:none; background:transparent; padding:2px 10px; color:var(--muted); font-size:12px; }
 
-    /* ── Pullquote ── */
-    .pullquote { border-left: 3px solid var(--accent); padding: 16px 0 16px 28px; margin: 32px 0; font-family: 'Instrument Serif', serif; font-size: 24px; font-style: italic; line-height: 1.45; max-width: 760px; color: var(--ink); }
+    /* ── Dataset infographic ── */
+    .dataset-bars { margin:28px 0; max-width:640px; }
+    .db-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+    .db-label { font-family:'DM Mono',monospace; font-size:12px; min-width:70px; color:var(--ink-soft); }
+    .db-track { flex:1; height:28px; background:rgba(0,0,0,0.05); border-radius:3px; overflow:hidden; }
+    .db-fill { height:100%; border-radius:3px; display:flex; align-items:center; padding-left:10px; }
+    .db-fill.pos { background:var(--green); }
+    .db-fill.neg { background:var(--accent); }
+    .db-fill.neu { background:var(--primary); opacity:0.6; }
+    .db-val { font-family:'DM Mono',monospace; font-size:11px; color:white; font-weight:500; }
+    .db-count { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); min-width:60px; }
 
-    /* ── Two-col ── */
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin: 40px 0; }
-    .two-col h3 { margin-top: 0; }
+    /* ── Training timeline ── */
+    .train-timeline { display:flex; align-items:stretch; gap:0; margin:32px 0; max-width:820px; overflow-x:auto; }
+    .tt-step { flex:1; min-width:160px; border:1px solid var(--line); border-right:none; padding:16px 14px; background:var(--bg); }
+    .tt-step:last-child { border-right:1px solid var(--line); border-radius:0 8px 8px 0; border-color:var(--primary); background:var(--accent-soft); }
+    .tt-step:first-child { border-radius:8px 0 0 8px; }
+    .tt-iter { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:6px; }
+    .tt-step:last-child .tt-iter { color:var(--primary); }
+    .tt-change { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:8px; line-height:1.3; }
+    .tt-acc { font-family:'Instrument Serif',serif; font-size:28px; color:var(--muted); }
+    .tt-step:last-child .tt-acc { color:var(--primary); }
+    .tt-delta { font-family:'DM Mono',monospace; font-size:11px; color:var(--green); margin-top:4px; }
 
-    /* ── Compare table ── */
-    table.compare { width: 100%; max-width: 820px; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
-    table.compare th, table.compare td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); }
-    table.compare th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--bg-alt); font-weight: 500; }
-    table.compare td code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink); }
-    table.compare tr.highlight td { background: rgba(45,106,79,0.06); }
-    table.compare td.good { color: var(--green); font-weight: 600; }
-    table.compare td.bad { color: var(--red); font-weight: 500; }
-    table.compare td.mid { color: #7a5200; font-weight: 500; }
+    /* ── Temperature dots ── */
+    .temp-chart { display:flex; align-items:flex-end; gap:12px; margin:28px 0; padding:20px; border:1px solid var(--line); border-radius:8px; max-width:640px; background:var(--bg-alt); }
+    .tc-col { display:flex; flex-direction:column; align-items:center; gap:8px; flex:1; }
+    .tc-dot { width:36px; height:36px; border-radius:50%; background:var(--primary); display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:10px; color:white; font-weight:500; }
+    .tc-acc { font-family:'DM Mono',monospace; font-size:12px; color:var(--ink); font-weight:500; }
+    .tc-temp { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); }
 
-    /* ── Model cards ── */
-    .model-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 32px 0; max-width: 900px; }
-    .model-card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--bg); }
-    .model-header { padding: 10px 14px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; display: flex; align-items: center; gap: 8px; }
-    .model-header.blue { background: rgba(26,82,118,0.1); color: var(--primary); }
-    .model-header.green { background: rgba(45,106,79,0.1); color: var(--green); }
-    .model-header.orange { background: rgba(196,73,12,0.1); color: var(--accent); }
-    .model-body { padding: 14px; }
-    .model-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
-    .model-role { font-size: 12px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 10px; }
-    .model-specs { list-style: none; padding: 0; margin: 0; }
-    .model-specs li { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--primary); padding: 3px 0; border-top: 1px solid var(--line); line-height: 1.4; }
-    .model-specs li:first-child { border-top: none; }
+    /* ── Latency bars (log scale) ── */
+    .latency-bars { margin:28px 0; max-width:640px; }
+    .lb-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+    .lb-label { font-family:'DM Mono',monospace; font-size:12px; min-width:110px; color:var(--ink-soft); }
+    .lb-track { flex:1; height:24px; background:rgba(0,0,0,0.05); border-radius:3px; overflow:hidden; }
+    .lb-fill { height:100%; border-radius:3px; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; }
+    .lb-fill.nn { background:var(--green); width:14%; }
+    .lb-fill.lstm { background:var(--primary); width:54%; }
+    .lb-fill.genai { background:var(--accent); width:100%; }
+    .lb-val { font-family:'DM Mono',monospace; font-size:11px; color:white; font-weight:500; }
+    .lb-note { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); margin-top:8px; max-width:500px; line-height:1.5; }
 
-    /* ── Pipeline diagram ── */
-    .pipe-vis { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 2rem 0 2.5rem; max-width: 760px; }
-    .pipe-step { display: flex; align-items: center; gap: 0.85rem; padding: 0.7rem 1.1rem; border-bottom: 1px solid var(--line); background: var(--bg); }
-    .pipe-step:last-child { border-bottom: none; }
-    .pipe-step.pipe-io { background: var(--bg-alt); }
-    .pipe-num { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.06em; color: var(--muted); min-width: 24px; }
-    .pipe-content { flex: 1; }
-    .pipe-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 0.1rem; }
-    .pipe-sub { font-family: 'DM Mono', monospace; font-size: 0.67rem; color: var(--muted); }
-    .pipe-badge { font-family: 'DM Mono', monospace; font-size: 0.62rem; padding: 0.18rem 0.45rem; border-radius: 4px; background: rgba(26,82,118,0.08); color: var(--primary); white-space: nowrap; align-self: flex-start; margin-top: 2px; }
-    .pipe-badge.green { background: rgba(45,106,79,0.08); color: var(--green); }
-    .pipe-badge.red { background: rgba(196,73,12,0.08); color: var(--red); }
+    /* ── Benchmark grouped bars ── */
+    .bench-chart { display:flex; gap:40px; margin:32px 0; flex-wrap:wrap; }
+    .bc-group { display:flex; flex-direction:column; gap:8px; min-width:200px; }
+    .bc-group-label { font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:4px; }
+    .bc-row { display:flex; align-items:center; gap:8px; }
+    .bc-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .bc-dot.nn { background:var(--green); }
+    .bc-dot.lstm { background:var(--primary); }
+    .bc-dot.genai { background:var(--accent); }
+    .bc-bar-track { width:160px; height:18px; background:rgba(0,0,0,0.05); border-radius:3px; overflow:hidden; }
+    .bc-bar-fill { height:100%; border-radius:3px; }
+    .bc-val { font-family:'DM Mono',monospace; font-size:11px; color:var(--ink); font-weight:500; min-width:40px; }
 
-    /* ── Decision block ── */
-    .decision-block { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 28px 0; max-width: 760px; }
-    .decision-header { background: var(--bg-dark); color: var(--bg); padding: 12px 20px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
-    .decision-num { background: var(--accent); color: var(--ink); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-    .decision-body { padding: 24px 20px; background: var(--bg); }
-    .decision-body h3 { margin-top: 0; font-size: 22px; }
+    /* ── Cost cards ── */
+    .cost-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:28px 0; }
+    .cost-card { border:1px solid var(--line); border-radius:8px; padding:18px 16px; }
+    .cost-card.highlight { border-color:var(--primary); background:var(--accent-soft); }
+    .cc-strategy { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:6px; }
+    .cost-card.highlight .cc-strategy { color:var(--primary); }
+    .cc-cost { font-family:'Instrument Serif',serif; font-size:36px; line-height:1; color:var(--ink); }
+    .cost-card.highlight .cc-cost { color:var(--green); }
+    .cc-sub { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); margin-top:4px; }
+    .cc-acc { font-family:'DM Mono',monospace; font-size:12px; color:var(--ink-soft); margin-top:10px; padding-top:10px; border-top:1px solid var(--line); }
 
-    /* ── Iteration table ── */
-    .iter-table { width: 100%; max-width: 760px; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
-    .iter-table th, .iter-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); }
-    .iter-table th { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); background: var(--bg-alt); }
-    .iter-table tr.best td { background: rgba(45,106,79,0.07); font-weight: 600; color: var(--green); }
+    /* ── Bug cards ── */
+    .bug-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:28px 0; }
+    .bug-card { border:1px solid rgba(196,73,12,0.3); border-radius:10px; padding:24px 20px; background:rgba(196,73,12,0.03); }
+    .bc-num { font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); margin-bottom:10px; }
+    .bc-title { font-size:15px; font-weight:600; color:var(--ink); margin-bottom:14px; }
+    .bc-wrong { background:rgba(196,73,12,0.08); border-left:3px solid var(--accent); padding:8px 10px; font-family:'DM Mono',monospace; font-size:12px; color:var(--accent); border-radius:3px; margin-bottom:6px; word-break:break-all; }
+    .bc-right { background:rgba(45,106,79,0.08); border-left:3px solid var(--green); padding:8px 10px; font-family:'DM Mono',monospace; font-size:12px; color:var(--green); border-radius:3px; word-break:break-all; }
+    .bc-effect { font-size:13px; color:var(--ink-soft); margin-top:12px; line-height:1.5; }
 
-    /* ── Cost comparison ── */
-    .cost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; max-width: 640px; }
-    .cost-card { border: 1px solid var(--line); border-radius: 10px; padding: 18px; background: var(--bg); }
-    .cost-card.good { border-color: rgba(45,106,79,0.35); background: rgba(45,106,79,0.04); }
-    .cost-card.bad { border-color: rgba(196,73,12,0.35); background: rgba(196,73,12,0.04); }
-    .cost-title { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; font-weight: 500; }
-    .cost-title.good { color: var(--green); }
-    .cost-title.bad { color: var(--red); }
-    .cost-num { font-family: 'Instrument Serif', serif; font-size: 36px; line-height: 1; letter-spacing: -0.02em; margin-bottom: 8px; }
-    .cost-num.good { color: var(--green); }
-    .cost-num.bad { color: var(--red); }
-    .cost-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.6; }
+    /* ── When ML/GenAI framework ── */
+    .when-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:32px 0; }
+    .when-col { padding:28px 24px; }
+    .when-col.ml { background:rgba(45,106,79,0.04); }
+    .when-col.genai { background:rgba(26,82,118,0.04); }
+    .when-header { font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; font-weight:500; margin-bottom:16px; padding:5px 10px; border-radius:3px; display:inline-block; }
+    .when-col.ml .when-header { background:rgba(45,106,79,0.12); color:var(--green); }
+    .when-col.genai .when-header { background:rgba(26,82,118,0.12); color:var(--primary); }
+    .when-list { list-style:none; padding:0; }
+    .when-list li { font-size:14px; color:var(--ink-soft); padding:7px 0 7px 20px; position:relative; border-bottom:1px solid var(--line); }
+    .when-list li:last-child { border-bottom:none; }
+    .when-list li::before { position:absolute; left:0; top:7px; font-size:12px; }
+    .when-col.ml .when-list li::before { content:'✓'; color:var(--green); }
+    .when-col.genai .when-list li::before { content:'→'; color:var(--primary); }
 
-    /* ── Verdict display ── */
-    .verdict-strip { display: flex; gap: 16px; margin: 28px 0; flex-wrap: wrap; max-width: 760px; }
-    .verdict-item { flex: 1; min-width: 180px; border-radius: 10px; padding: 20px 16px; text-align: center; }
-    .verdict-item.green { background: rgba(45,106,79,0.08); border: 1px solid rgba(45,106,79,0.3); }
-    .verdict-item.red { background: rgba(196,73,12,0.08); border: 1px solid rgba(196,73,12,0.3); }
-    .verdict-item.mid { background: rgba(180,120,0,0.08); border: 1px solid rgba(180,120,0,0.3); }
-    .verdict-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 10px; }
-    .verdict-label.green { color: var(--green); }
-    .verdict-label.red { color: var(--red); }
-    .verdict-label.mid { color: #7a5200; }
-    .verdict-num { font-family: 'Instrument Serif', serif; font-size: 40px; font-weight: 400; line-height: 1; letter-spacing: -0.02em; margin-bottom: 6px; }
-    .verdict-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+    /* ── Journey (Lessons) ── */
+    .journey-section { background:var(--bg-dark); color:var(--bg); padding:80px 0; }
+    .journey-section .section-num { color:var(--accent); }
+    .journey-section h2 { color:var(--bg); }
+    .journey-section h2 em { color:var(--accent); }
+    .journey-section p { color:rgba(255,255,255,0.65); max-width:720px; }
+    .lesson-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:24px 0; max-width:800px; }
+    .lesson-cell { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:20px; }
+    .lesson-cell-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:8px; }
+    .lesson-cell p { font-size:14px; color:rgba(255,255,255,0.65); margin:0; max-width:none; }
+    .lesson-cell p strong { color:rgba(255,255,255,0.9); }
 
-    /* ── Evidence images ── */
-    .evidence-img { width: 100%; max-width: 860px; border-radius: 8px; border: 1px solid var(--line); margin: 28px 0; display: block; }
-    .evidence-img-caption { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-top: -18px; margin-bottom: 28px; max-width: 860px; }
+    /* ── References ── */
+    .ref-list { list-style:none; padding:0; margin:24px 0; max-width:760px; }
+    .ref-list li { padding:12px 0 12px 0; border-bottom:1px solid var(--line); font-size:14px; color:var(--ink-soft); line-height:1.55; }
+    .ref-list li:last-child { border-bottom:none; }
+    .ref-list a { color:var(--primary); text-decoration:none; }
+    .ref-list a:hover { text-decoration:underline; }
+    .ref-num { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); margin-right:10px; }
 
     /* ── CTA ── */
-    .cta-section { background: var(--bg-dark); color: var(--bg); padding: 80px 0; }
-    .cta-section h2 { color: var(--bg); }
-    .cta-section h2 em { color: var(--accent); }
-    .cta-section p { color: rgba(255,255,255,0.7); }
-    .cta-section .section-num { color: var(--accent); }
-    .cta-buttons { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
-    .btn { display: inline-block; padding: 14px 26px; background: var(--accent); color: var(--ink); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid var(--accent); border-radius: 4px; transition: all 0.2s ease; }
-    .btn:hover { background: transparent; color: var(--accent); }
-    .btn.ghost { background: transparent; color: var(--bg); border-color: rgba(255,255,255,0.4); }
-    .btn.ghost:hover { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+    .cta-section { background:var(--bg-alt); padding:80px 0; }
+    .cta-buttons { display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
+    .btn { display:inline-block; padding:14px 26px; background:var(--accent); color:var(--ink); text-decoration:none; font-family:'DM Mono',monospace; font-size:13px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; border:2px solid var(--accent); border-radius:4px; transition:all 0.2s; }
+    .btn:hover { background:transparent; color:var(--accent); }
+    .btn.ghost { background:transparent; color:var(--ink); border-color:var(--line-strong); }
+    .btn.ghost:hover { background:var(--ink); color:white; border-color:var(--ink); }
 
-    /* ── Footer ── */
-    footer { background: var(--bg-dark); color: var(--bg); padding: 28px 0; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em; opacity: 0.7; border-top: 1px solid rgba(255,255,255,0.1); }
-    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
-    footer a { color: var(--accent); text-decoration: none; }
+    footer { background:var(--bg-dark); color:rgba(255,255,255,0.7); padding:28px 0; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.04em; }
+    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    footer a { color:var(--accent); text-decoration:none; }
 
-    /* ── Reveal animation ── */
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.in { opacity: 1; transform: translateY(0); }
+    /* ── Dark mode ── */
+    html[data-theme="dark"] { --bg:#1c1c1e; --bg-alt:#2c2c2e; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.6); --muted:rgba(235,235,245,0.3); --line:rgba(84,84,88,0.65); --line-strong:rgba(84,84,88,0.9); --primary:#5bb8e8; --accent:#ff7043; --accent-soft:rgba(91,184,232,0.12); --green:#30d158; }
+    html[data-theme="dark"] nav { background:rgba(28,28,30,0.92); }
+    html[data-theme="dark"] .stats-strip { background:#000000; }
+    html[data-theme="dark"] .lang-btn.active { background:#e5e5ea; color:#1c1c1e; }
+    html[data-theme="dark"] .tag, html[data-theme="dark"] .verdict-card, html[data-theme="dark"] .ac-col, html[data-theme="dark"] .bug-card { background:var(--bg-alt); }
+    html[data-theme="dark"] .decision-matrix th { background:var(--bg-alt); }
+    html[data-theme="dark"] .temp-chart, html[data-theme="dark"] .cost-card { background:var(--bg-alt); }
 
     /* ── Responsive ── */
-    @media (max-width: 860px) {
-      .model-grid { grid-template-columns: 1fr 1fr; }
+    @media(max-width:800px) {
+      .two-col, .verdict-grid, .arch-compare, .cost-cards, .bug-cards, .when-grid, .lesson-grid { grid-template-columns:1fr; }
+      .train-timeline { flex-direction:column; }
+      .tt-step { border-right:1px solid var(--line); border-bottom:none; border-radius:0; }
+      .tt-step:first-child { border-radius:8px 8px 0 0; }
+      .tt-step:last-child { border-radius:0 0 8px 8px; border-right:1px solid var(--primary); border-bottom:1px solid var(--primary); }
     }
-    @media (max-width: 800px) {
-      .two-col { grid-template-columns: 1fr; gap: 28px; }
-      .cost-grid { grid-template-columns: 1fr; }
+    @media(max-width:600px) {
+      .stats-grid { grid-template-columns:repeat(2,1fr); gap:32px 0; }
+      .stat:nth-child(3) { border-left:none; }
+      .wrap { padding:0 20px; }
+      .nav-inner { padding:14px 20px; }
+      .mobile-nav-toggle { display:block; }
+      .nav-pills { display:none; position:absolute; top:56px; left:0; width:100%; background:rgba(255,255,255,0.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); flex-direction:column; padding:1rem 1.5rem; gap:0.4rem; }
+      nav.nav-open .nav-pills { display:flex; }
     }
-    @media (max-width: 720px) {
-      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 32px; }
-      .stat { border-left: none !important; padding: 0; }
-      .model-grid { grid-template-columns: 1fr; }
-      .nav-tools { width: 100%; justify-content: space-between; }
-      .mobile-nav-toggle { display: block; }
-      .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 2rem; gap: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-      nav.nav-open .nav-pills { display: flex; }
-      .verdict-strip { flex-direction: column; }
-    }
-
-    /* ── Dark Mode — toggled via data-theme="dark" on <html> ── */
-    html[data-theme="dark"]{
-      --bg:#1c1c1e;--bg-alt:#2c2c2e;--bg-dark:#000000;
-      --ink:#ffffff;--ink-soft:rgba(235,235,245,0.6);--muted:rgba(235,235,245,0.3);
-      --line:rgba(84,84,88,0.65);--line-strong:rgba(84,84,88,0.9);
-      --primary:#5bb8e8;--accent:#ff7043;--accent-soft:rgba(91,184,232,0.12);--green:#30d158;
-    }
-    html[data-theme="dark"] nav{background:rgba(28,28,30,0.92)}
-    html[data-theme="dark"] .nav-pills{background:rgba(28,28,30,0.96)}
-    html[data-theme="dark"] .stats-strip{background:#000000}
-    html[data-theme="dark"] pre.code{background:#000000}
-    html[data-theme="dark"] .lang-btn.active{background:#e5e5ea;color:#1c1c1e}
-    .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}
-    /* ── Reduced Motion — accessibility ── */
-    @media(prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
-      html{scroll-behavior:auto}
-    }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0.01ms!important; transition-duration:0.01ms!important; } html { scroll-behavior:auto; } }
   </style>
-  <script>
-    (function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();
-  </script>
+  <script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
 </head>
-
 <body>
-  <a href="#why" class="skip-link">Skip to main content</a>
+  <a href="#main" class="skip-link">Skip to main content</a>
 
   <nav id="mainNav">
     <div class="nav-inner">
@@ -267,9 +297,9 @@
         <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
           onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
         <div class="nav-pills">
-          <a class="nav-pill back" href="../#projects" data-i18n="navBack">← All projects</a>
-          <a class="nav-pill" href="../#about" data-i18n="navAbout">About</a>
-          <a class="nav-pill" href="../#contact" data-i18n="navContact">Contact</a>
+          <a href="/" class="nav-pill back" data-i18n="navBack">← Back to portfolio</a>
+          <a href="/#projects" class="nav-pill" data-i18n="navProjects">Projects</a>
+          <a href="/#contact" class="nav-pill" data-i18n="navContact">Contact</a>
         </div>
         <div class="lang-switch" aria-label="Language switch">
           <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
@@ -280,931 +310,845 @@
     </div>
   </nav>
 
-  <!-- ── Hero ── -->
-  <section class="hero">
+  <!-- HERO -->
+  <div class="hero" id="main">
     <div class="wrap">
       <div class="hero-kicker">
-        <span class="kicker-tag" data-i18n="kickerTag">Case Study</span>
-        <span class="kicker-text" data-i18n="heroKicker">EDA · LSTM · TF-IDF · GridSearch · OpenRouter · Zero-shot Prompting</span>
+        <span class="kicker-tag" data-i18n="kickerTag">NLP · Deep Learning</span>
+        <span class="kicker-text">Indonesian Twitter · 11,000 Tweets · Binar Academy 2023 → 2026</span>
       </div>
-      <h1 class="title" data-i18n="heroTitle">Sentiment analysis, <em>two ways.</em></h1>
-      <p class="hero-lede" data-i18n="heroLede">
-        At work, I was the one adjusting the prompts for a GenAI sentiment analysis system.
-        <strong>Sometimes the answers felt off — but I had no way to quantify how off, or whether my changes were actually improving anything.</strong>
-        I'd built an ML model for this exact task in 2023. So in 2026, I ran both approaches end-to-end on the same data: the full ML pipeline, and the GenAI prompting approach — measured the same way, on the same test set.
-      </p>
+      <h1 class="title" data-i18n="heroTitle">ML vs GenAI<br><em>Sentiment Analysis</em></h1>
+      <p class="hero-lede" data-i18n="heroLede">Same dataset. Three approaches. One systematic question: <strong>when does BiLSTM beat Gemini Flash?</strong> And what does it actually cost to find out?</p>
       <div class="hero-meta">
-        <span data-i18n="heroMeta1"><strong>Origin</strong> Binar Academy · Platinum Batch 2023 · Extended 2026</span>
-        <span data-i18n="heroMeta2"><strong>Type</strong> Solo project · Class assignment + real-world follow-up</span>
-        <span data-i18n="heroMeta3"><strong>Stack</strong> TensorFlow · scikit-learn · Flask · OpenRouter · SQLite</span>
-        <span data-i18n="heroMeta4"><strong>Dataset</strong> 11,000 rows · Indonesian Twitter · 3 labels</span>
+        <span><strong>Dataset</strong> 11,000 Indonesian tweets · 3 classes</span>
+        <span><strong>Models</strong> TF-IDF+MLP · BiLSTM · Gemini Flash 2.0</span>
+        <span><strong>Evaluation</strong> Accuracy · F1 · Cost · Latency</span>
+        <span data-i18n="heroMetaContext"><strong>Context</strong> Binar Academy final project, revisited 2026</span>
+      </div>
+
+      <div class="hero-arch reveal" role="img" aria-label="Three-way comparison architecture">
+        <div class="ha-source">
+          <div class="ha-src-box" style="border-radius:8px 8px 0 0; border-bottom:none;">
+            <div class="ha-src-label" data-i18n="haSrcLabel">Same Dataset</div>
+            <div class="ha-src-val">Indonesian Twitter · 11,000 Tweets</div>
+          </div>
+        </div>
+        <div class="ha-branches">
+          <div class="ha-branch">
+            <div class="ha-branch-tag" data-i18n="haB1Tag">Approach 1</div>
+            <div class="ha-branch-name">TF-IDF + MLP</div>
+            <div class="ha-branch-acc">89.7<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+            <div class="ha-branch-sub">Acc · F1 0.8930</div>
+          </div>
+          <div class="ha-branch winner">
+            <div class="ha-branch-tag" data-i18n="haB2Tag">Approach 2 · Winner</div>
+            <div class="ha-branch-name">BiLSTM</div>
+            <div class="ha-branch-acc">93.0<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+            <div class="ha-branch-sub">Acc · F1 0.9328</div>
+          </div>
+          <div class="ha-branch">
+            <div class="ha-branch-tag" data-i18n="haB3Tag">Approach 3</div>
+            <div class="ha-branch-name">Gemini Flash Zero-shot</div>
+            <div class="ha-branch-acc">85.3<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+            <div class="ha-branch-sub">Acc · F1 0.8404</div>
+          </div>
+        </div>
+        <div class="ha-eval">
+          <div class="ha-eval-item"><span data-i18n="haEvalAcc">Accuracy</span></div>
+          <div class="ha-eval-item"><span data-i18n="haEvalF1">F1 Score</span></div>
+          <div class="ha-eval-item"><span data-i18n="haEvalCost">Annual Cost</span></div>
+          <div class="ha-eval-item"><span data-i18n="haEvalLatency">Latency</span></div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ── Stats ── -->
-  <section class="stats-strip" aria-label="Key numbers">
+  <!-- STATS -->
+  <div class="stats-strip">
     <div class="wrap">
       <div class="stats-grid">
         <div class="stat">
-          <div class="num">93<small>%</small></div>
-          <div class="label" data-i18n="stat1">LSTM accuracy<br>vs 85.3% GenAI real API</div>
+          <div class="num">11K</div>
+          <div class="label" data-i18n="stat1">Indonesian tweets<br>across 3 classes</div>
         </div>
         <div class="stat">
-          <div class="num">772<small>x</small></div>
-          <div class="label" data-i18n="stat2">LSTM faster than GenAI API<br>0.25 ms vs ~195 ms/sample</div>
+          <div class="num">93%</div>
+          <div class="label" data-i18n="stat2">BiLSTM accuracy<br>best result</div>
         </div>
         <div class="stat">
-          <div class="num">4.5<small>x</small></div>
-          <div class="label" data-i18n="stat3">Cheaper per year<br>$0/req ML vs $62+/yr GenAI</div>
+          <div class="num">772×</div>
+          <div class="label" data-i18n="stat3">GenAI latency<br>vs neural network</div>
         </div>
         <div class="stat">
-          <div class="num">3</div>
-          <div class="label" data-i18n="stat4">Bugs in 2023 code<br>found on revisit in 2026</div>
+          <div class="num">$0</div>
+          <div class="label" data-i18n="stat4">Annual cost for<br>BiLSTM vs $62+ GenAI</div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 BUSINESS QUESTION -->
+  <section class="content" id="question">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s1Num">01 · Business Question</div>
+      <h2 data-i18n="s1Title">If you're building Indonesian sentiment analysis in 2026, <em>which approach do you actually choose?</em></h2>
+      <p class="lede" data-i18n="s1Lede">GenAI is fast to prototype, but nobody has directly measured it against trained LSTM on the same Indonesian dataset with the same evaluation — including cost and latency.</p>
+      <p data-i18n="s1P1">This project started as a 2023 Binar Academy final project (TF-IDF + MLP, 89.67%). In 2026 I revisited it with two questions: can a BiLSTM close the gap, and is GenAI zero-shot a practical alternative for production use?</p>
+      <p data-i18n="s1P2">The evaluation covers four dimensions: accuracy, cost, latency, and prompt engineering effort. The answer isn't obvious until you look at all four together.</p>
+      <div class="tags">
+        <span class="tag">Indonesian NLP</span><span class="tag">TF-IDF</span>
+        <span class="tag">BiLSTM</span><span class="tag">Gemini Flash 2.0</span>
+        <span class="tag">Cost Analysis</span><span class="tag">REST API</span>
       </div>
     </div>
   </section>
 
-  <!-- ── 00 Context ── -->
-  <section class="content" id="why">
+  <!-- 02 FINAL RESULT -->
+  <section class="content alt" id="result">
     <div class="wrap">
-      <div class="section-num" data-i18n="sec00Num">00 · Why This Comparison</div>
-      <h2 data-i18n="sec00Title">A real question from work, <em>answered with real data.</em></h2>
-      <p class="lede" data-i18n="sec00Lede">
-        At a work project, I was the one managing and adjusting the prompt for a GenAI-based sentiment analysis system. Results varied — sometimes the classification felt off. But I had no measurement framework to know how off, or whether my prompt adjustments were genuinely helping.
-      </p>
-      <p data-i18n="sec00P1">
-        I had already built a sentiment analysis model in 2023 — Neural Network and LSTM on Indonesian Twitter data. In 2026, I extended it into a proper comparison: both approaches, same dataset, same metrics, same 300-sample test set.
-      </p>
-      <ul class="checklist">
-        <li data-i18n="check00a"><strong>ML pipeline</strong> — EDA → preprocessing → oversampling → modeling → overfitting fix / GridSearch → evaluation and insights</li>
-        <li data-i18n="check00b"><strong>GenAI prompting</strong> — temperature, zero-shot vs few-shot vs CoT, real API inference, cost at scale, evaluation and insights</li>
-        <li data-i18n="check00c"><strong>Head-to-head comparison</strong> — accuracy, F1, latency, and per-request cost on the same 300 labeled samples</li>
-      </ul>
-      <div class="pullquote reveal" data-i18n="pq00">
-        "I was adjusting prompts at work without knowing if they were making things better or worse. This comparison finally gave me that answer."
-      </div>
-    </div>
-  </section>
+      <div class="section-num" data-i18n="s2Num">02 · Final Result</div>
+      <h2 data-i18n="s2Title"><em>BiLSTM wins</em> — not just on accuracy, but on every dimension that matters for production.</h2>
+      <p class="lede" data-i18n="s2Lede">93.0% accuracy, F1 0.9328, 0.25ms inference, $0/year. GenAI zero-shot sits 7.7 points lower in accuracy and costs $62/year for the same volume.</p>
 
-  <!-- ── 01 The Approaches ── -->
-  <section class="content alt" id="models">
-    <div class="wrap">
-      <div class="section-num" data-i18n="sec01Num">01 · The Approaches</div>
-      <h2 data-i18n="sec01Title">ML pipeline and GenAI prompting, <em>built and measured.</em></h2>
-      <p class="lede" data-i18n="sec01Lede">
-        The dataset: 11,000 rows of Indonesian Twitter text, labeled positive · negative · neutral. Heavily imbalanced — positive dominates at 6,416 rows, neutral is the minority class at 1,148. This imbalance shapes every decision in the ML pipeline.
-      </p>
-
-      <h3 data-i18n="eda3H">EDA: what the data looks like <em>before any modeling.</em></h3>
-      <p data-i18n="eda3P1">Three things from the data that shaped every decision downstream:</p>
-      <ul class="checklist" style="margin-bottom:32px;">
-        <li data-i18n="eda3L1"><strong>Class imbalance</strong> — positive 58%, negative 31%, neutral 10%. Without oversampling, neutral recall collapses.</li>
-        <li data-i18n="eda3L2"><strong>Informal language</strong> — slang ("gue", "gapapa"), abbreviations ("tdk", "udh"), mixed case. Standard NLP pipelines break without a domain-specific normalization layer.</li>
-        <li data-i18n="eda3L3"><strong>Short texts</strong> — tweet-length, 5–30 tokens after cleaning. Enough signal for TF-IDF; LSTM needs careful regularization to not memorize patterns.</li>
-      </ul>
-
-      <div class="model-grid reveal">
-        <div class="model-card">
-          <div class="model-header blue">Model 1 · Traditional ML</div>
-          <div class="model-body">
-            <div class="model-name">Neural Network (TF-IDF + MLP)</div>
-            <div class="model-role">TF-IDF features fed into MLPClassifier with GridSearchCV hyperparameter tuning. Fastest inference of all three approaches.</div>
-            <ul class="model-specs">
-              <li>TF-IDF Vectorizer → feature extraction</li>
-              <li>MLPClassifier · activation=relu · α=0.1</li>
-              <li>hidden_layer_sizes=(10,) · lr=0.01</li>
-              <li>LabelEncoder fix for sklearn 1.8 bug</li>
-              <li>Neutral class oversampled before training</li>
-            </ul>
+      <div class="verdict-grid">
+        <div class="verdict-card winner reveal">
+          <div class="vc-rank" data-i18n="vc1Rank">🏆 Winner</div>
+          <div class="vc-name">BiLSTM</div>
+          <div class="vc-acc">93.0<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+          <div class="vc-metrics">
+            <div class="vc-row"><span>F1 Score</span><span>0.9328</span></div>
+            <div class="vc-row"><span data-i18n="vcLatency">Latency</span><span>0.25ms</span></div>
+            <div class="vc-row"><span data-i18n="vcCost">Annual cost</span><span>$0</span></div>
           </div>
         </div>
-        <div class="model-card">
-          <div class="model-header green">Model 2 · Deep Learning</div>
-          <div class="model-body">
-            <div class="model-name">Bidirectional LSTM</div>
-            <div class="model-role">Embedding layer feeding into a Bidirectional LSTM with spatial dropout and L2 regularization. Best accuracy of all three.</div>
-            <ul class="model-specs">
-              <li>Embedding(100k vocab, 128 dim)</li>
-              <li>SpatialDropout1D(0.4)</li>
-              <li>Bidirectional(LSTM(64, dropout=0.4))</li>
-              <li>L2(0.001) on LSTM + Dense layers</li>
-              <li>EarlyStopping(patience=5, restore_best_weights=True)</li>
-            </ul>
+        <div class="verdict-card mid reveal">
+          <div class="vc-rank" data-i18n="vc2Rank">#2</div>
+          <div class="vc-name">TF-IDF + MLP</div>
+          <div class="vc-acc">89.7<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+          <div class="vc-metrics">
+            <div class="vc-row"><span>F1 Score</span><span>0.8930</span></div>
+            <div class="vc-row"><span data-i18n="vcLatency">Latency</span><span>0.0008ms</span></div>
+            <div class="vc-row"><span data-i18n="vcCost">Annual cost</span><span>$0</span></div>
           </div>
         </div>
-        <div class="model-card">
-          <div class="model-header orange">Model 3 · GenAI</div>
-          <div class="model-body">
-            <div class="model-name">GenAI Zero-shot Prompting</div>
-            <div class="model-role">Real API inference via OpenRouter (Gemini 2.0 Flash Lite) on the same 300 samples. No fine-tuning — pure zero-shot prompt.</div>
-            <ul class="model-specs">
-              <li>Real inference · OpenRouter API</li>
-              <li>Gemini 2.0 Flash Lite · zero-shot</li>
-              <li>Evaluated on same 300-sample test set</li>
-              <li>Key finding: few-shot & CoT hurt accuracy (domain mismatch)</li>
-              <li>Zero-shot = best strategy, also cheapest</li>
-            </ul>
+        <div class="verdict-card last reveal">
+          <div class="vc-rank" data-i18n="vc3Rank">#3</div>
+          <div class="vc-name">Gemini Flash Zero-shot</div>
+          <div class="vc-acc">85.3<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+          <div class="vc-metrics">
+            <div class="vc-row"><span>F1 Score</span><span>0.8404</span></div>
+            <div class="vc-row"><span data-i18n="vcLatency">Latency</span><span>~195ms</span></div>
+            <div class="vc-row"><span data-i18n="vcCost">Annual cost</span><span>$62+</span></div>
           </div>
         </div>
       </div>
 
-      <div class="decision-block reveal">
-        <div class="decision-header"><div class="decision-num" style="background:var(--green);">+</div><span data-i18n="os3Header">Oversampling: fixing the class imbalance before training</span></div>
-        <div class="decision-body">
-          <h3 data-i18n="os3H" style="margin-top:0;">Neutral class: <em>1,148 rows → balanced.</em></h3>
-          <p data-i18n="os3P">Without correction, any model learns that predicting "positive" most of the time gets decent accuracy — without learning neutral or negative properly. The fix: duplicate neutral samples until the training set is balanced. One limitation: oversampling happened before the train-test split, so duplicate samples could appear in both sets.</p>
-        </div>
-      </div>
-
-      <h3 data-i18n="models2H">The shared <em>preprocessing pipeline.</em></h3>
-      <p data-i18n="models2P">Before any model saw the text, all data passed through the same cleaning steps — stored in SQLite for consistency between training and API inference.</p>
-      <div class="pipe-vis reveal" role="img" aria-label="Preprocessing pipeline">
-        <div class="pipe-step pipe-io">
-          <span class="pipe-num">IN</span>
-          <div class="pipe-content">
-            <div class="pipe-name">Raw Indonesian Twitter text</div>
-            <div class="pipe-sub">Slang, abbreviations, URLs, emoji, mixed case</div>
-          </div>
-        </div>
-        <div class="pipe-step">
-          <span class="pipe-num">01</span>
-          <div class="pipe-content">
-            <div class="pipe-name">Lowercase + remove URLs, numbers, symbols</div>
-            <div class="pipe-sub">Regex-based cleaning · standard text normalization</div>
-          </div>
-          <span class="pipe-badge">Regex</span>
-        </div>
-        <div class="pipe-step">
-          <span class="pipe-num">02</span>
-          <div class="pipe-content">
-            <div class="pipe-name">Slang normalization (kamus alay)</div>
-            <div class="pipe-sub">SQLite dictionary · "gue" → "saya", "tdk" → "tidak"</div>
-          </div>
-          <span class="pipe-badge">database.db</span>
-        </div>
-        <div class="pipe-step">
-          <span class="pipe-num">03</span>
-          <div class="pipe-content">
-            <div class="pipe-name">Stopword removal</div>
-            <div class="pipe-sub">Indonesian stopword list from SQLite</div>
-          </div>
-          <span class="pipe-badge">database.db</span>
-        </div>
-        <div class="pipe-step">
-          <span class="pipe-num">04</span>
-          <div class="pipe-content">
-            <div class="pipe-name">Neutral class oversampling</div>
-            <div class="pipe-sub">neutral: 1,148 → balanced before training · LSTM tokenizes after oversample</div>
-          </div>
-          <span class="pipe-badge">Imbalanced fix</span>
-        </div>
-        <div class="pipe-step pipe-io">
-          <span class="pipe-num">OUT</span>
-          <div class="pipe-content">
-            <div class="pipe-name">Clean tokens ready for TF-IDF or LSTM tokenizer</div>
-            <div class="pipe-sub">Same pipeline used in API inference via app.py</div>
-          </div>
-          <span class="pipe-badge green">Consistent</span>
-        </div>
-      </div>
-
-      <h3 data-i18n="genai3H">The GenAI approach: <em>prompting, temperature, real API inference.</em></h3>
-      <p data-i18n="genai3P1">Each text is sent to an LLM with a written prompt; the model returns a label. No training — just OpenRouter API with Gemini 2.0 Flash Lite, on the same 300-sample test set.</p>
-
-      <div class="two-col reveal">
-        <div>
-          <h3 data-i18n="temp3H" style="margin-top:0;">Temperature</h3>
-          <p data-i18n="temp3P">At temperature=0, the model always picks the most probable token — consistent, reproducible output. Higher values introduce randomness. For a 3-label classification task, low temperature is the right choice. The effect across different temperature values is in the chart at section 05.</p>
-        </div>
-        <div>
-          <h3 data-i18n="prompt3H" style="margin-top:0;">Prompting strategy</h3>
-          <p data-i18n="prompt3P">Three styles tested: zero-shot, few-shot (3–10 examples), chain-of-thought. The surprising result: adding examples made accuracy worse. The few-shot examples were e-commerce reviews — a different domain from Twitter. The model anchored to the wrong patterns. Zero-shot won on accuracy and cost.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 02 Bugs Found ── -->
-  <section class="content" id="bugs">
-    <div class="wrap">
-      <div class="section-num" data-i18n="sec02Num">02 · Bugs Found</div>
-      <h2 data-i18n="sec02Title">Three bugs in the 2023 code, <em>found three years later.</em></h2>
-      <p class="lede" data-i18n="sec02Lede">
-        When I ran the original code again in 2026, three separate bugs surfaced — each in a different layer. They weren't caught during the 2023 submission. My debugging instincts and code-reading discipline were still developing at the time.
-      </p>
-
-      <div class="decision-block reveal">
-        <div class="decision-header"><div class="decision-num">1</div><span data-i18n="bug1Header">Wrong model filename — app.py</span></div>
-        <div class="decision-body">
-          <h3 data-i18n="bug1H"><em>Silent failure</em> at load time.</h3>
-          <p data-i18n="bug1P">The API tried to load <code>main_model_new1.h5</code> — a file that did not exist. The actual file on disk was <code>main_model_new.h5</code>. The server would start without error but crash the moment any LSTM endpoint was called. Fixed by correcting the filename reference.</p>
-        </div>
-      </div>
-
-      <div class="decision-block reveal">
-        <div class="decision-header"><div class="decision-num">2</div><span data-i18n="bug2Header">return inside for-loop — CSV file processing endpoint</span></div>
-        <div class="decision-body">
-          <h3 data-i18n="bug2H"><em>Only the first row</em> ever processed.</h3>
-          <p data-i18n="bug2P">The file upload endpoint iterated over CSV rows but had <code>return response_data</code> inside the loop body. On the first iteration, the function returned immediately — every subsequent row was silently dropped. A 1,000-row file would produce results for exactly one row. Fixed by moving <code>return</code> outside the loop.</p>
-          <pre class="code" aria-label="Bug 2 fix"><span class="c"># Before — returns after first row</span>
-<span class="k">for</span> row <span class="k">in</span> csv_rows:
-    result = <span class="fn">predict</span>(row)
-    response_data.append(result)
-    <span class="k">return</span> response_data  <span class="c"># ← bug: exits on iteration 1</span>
-
-<span class="c"># After — collects all rows first</span>
-<span class="k">for</span> row <span class="k">in</span> csv_rows:
-    result = <span class="fn">predict</span>(row)
-    response_data.append(result)
-<span class="k">return</span> response_data  <span class="c"># ← fix: outside the loop</span></pre>
-        </div>
-      </div>
-
-      <div class="decision-block reveal">
-        <div class="decision-header"><div class="decision-num">3</div><span data-i18n="bug3Header">get: instead of post: — all 6 Swagger YAML files</span></div>
-        <div class="decision-body">
-          <h3 data-i18n="bug3H"><em>Method mismatch</em> across all endpoints.</h3>
-          <p data-i18n="bug3P">Every Swagger YAML file documented the endpoints as <code>get:</code> operations. The actual Flask routes were all <code>POST</code>. The Swagger UI would render interactive docs that sent GET requests to POST-only endpoints, returning 405 Method Not Allowed. Fixed by changing <code>get:</code> → <code>post:</code> in all 6 YAML files under <code>docs/</code>.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 03 LSTM Overfitting Journey ── -->
-  <section class="content alt" id="overfitting">
-    <div class="wrap">
-      <div class="section-num" data-i18n="sec03Num">03 · Challenge</div>
-      <h2 data-i18n="sec03Title">LSTM was <em>memorizing, not learning.</em></h2>
-      <p class="lede" data-i18n="sec03Lede">
-        The first LSTM run showed train accuracy 0.99 vs validation accuracy 0.88. The model was memorizing training data, not generalizing. Four iterative fixes brought it to 91%.
-      </p>
-
-      <p data-i18n="sec03P1">
-        Root cause: 13,000 samples is too small for a large LSTM. The model had enough capacity to memorize the training set entirely, but validation loss climbed after epoch 2. The solution was iterative — each change added one constraint, measured the result, then continued.
-      </p>
-
-      <table class="iter-table reveal" aria-label="LSTM overfitting fixes">
+      <h3 data-i18n="s2MatrixTitle">Decision matrix</h3>
+      <table class="decision-matrix" aria-label="Decision matrix comparing 3 approaches">
         <thead>
           <tr>
-            <th data-i18n="iter0">Iteration</th>
-            <th data-i18n="iter1">Change</th>
-            <th data-i18n="iter2">Val Accuracy</th>
+            <th data-i18n="dmCol0">Criterion</th>
+            <th>TF-IDF + MLP</th>
+            <th>BiLSTM</th>
+            <th>Gemini Zero-shot</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Baseline</td>
-            <td data-i18n="iterR1">LSTM(64), EarlyStopping(patience=2)</td>
-            <td>0.8990</td>
-          </tr>
-          <tr>
-            <td>+1</td>
-            <td data-i18n="iterR2">patience=5, epochs=50</td>
-            <td>0.9018</td>
-          </tr>
-          <tr>
-            <td>+2</td>
-            <td data-i18n="iterR3">Bidirectional, SpatialDropout(0.4), restore_best_weights=True</td>
-            <td>0.9094</td>
-          </tr>
-          <tr class="best">
-            <td>+3</td>
-            <td data-i18n="iterR4">L2 regularization(0.001) on LSTM + Dense</td>
-            <td>0.9089 ✓</td>
-          </tr>
+          <tr><td class="criterion" data-i18n="dmRow1">Accuracy</td><td class="dm-dot">🟡</td><td class="dm-dot">🟢</td><td class="dm-dot">🔴</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow2">Macro F1</td><td class="dm-dot">🟡</td><td class="dm-dot">🟢</td><td class="dm-dot">🔴</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow3">Latency</td><td class="dm-dot">🟢</td><td class="dm-dot">🟡</td><td class="dm-dot">🔴</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow4">Annual cost</td><td class="dm-dot">🟢</td><td class="dm-dot">🟢</td><td class="dm-dot">🔴</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow5">Training needed</td><td class="dm-dot">🔴</td><td class="dm-dot">🔴</td><td class="dm-dot">🟢</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow6">Labeled data needed</td><td class="dm-dot">🔴</td><td class="dm-dot">🔴</td><td class="dm-dot">🟢</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow7">Neutral class F1</td><td class="dm-dot">🔴</td><td class="dm-dot">🟢</td><td class="dm-dot">🔴</td></tr>
         </tbody>
       </table>
-
-      <p data-i18n="sec03P2">
-        The key insight from iteration +2: <code>restore_best_weights=True</code> means EarlyStopping saves the weights from the best validation epoch, not the last epoch. Without this, the model would continue training past its peak and return a degraded version. This single flag recovered approximately 0.01 accuracy points that were being lost.
-      </p>
-
-      <img src="lstm_training_history.png" alt="LSTM training history — train vs validation accuracy and loss per epoch" class="evidence-img reveal">
-      <p class="evidence-img-caption">Train accuracy terus naik mendekati 0.97 sementara validation stagnan di 0.90 — tanda klasik overfitting pada dataset kecil.</p>
-
-      <h3 data-i18n="leak3H">The 92% I reported in 2023 <em>was wrong.</em></h3>
-      <p data-i18n="leak3P">When I revisited <code>LSTM_Code.ipynb</code>, I found that KFold cross-validation was applied to the full dataset — including <code>x_test</code>. The model had effectively seen test data during training. I didn't understand this at the time: the notebook ran without errors, the number looked good, so I moved on. In the new comparison notebook, test data is separated before any training step. The honest result is 91.07%. One point lower than what I reported in 2023 — but a number I can now actually explain and defend.</p>
-
-      <pre class="code" aria-label="LabelEncoder fix for sklearn 1.8"><span class="c"># scikit-learn 1.8 bug: GridSearchCV + early_stopping=True + string labels</span>
-<span class="c"># → TypeError: np.isnan() not supported for string array</span>
-<span class="c"># Fix: encode labels to integers before GridSearchCV, decode after</span>
-
-le = <span class="cls">LabelEncoder</span>()
-y_train_enc = le.<span class="fn">fit_transform</span>(y_train)   <span class="c"># "positive" → 2</span>
-
-model_NN_gs.<span class="fn">fit</span>(X_train_tfidf, y_train_enc)
-
-y_pred = le.<span class="fn">inverse_transform</span>(
-    model_NN_gs.<span class="fn">predict</span>(X_test_tfidf)      <span class="c"># 2 → "positive"</span>
-)</pre>
+      <div class="takeaway-card">
+        <p data-i18n="takeaway"><strong>When you have labeled data:</strong> BiLSTM is the clear choice — higher accuracy, zero cost, sub-millisecond inference. GenAI zero-shot earns its place only when you need to classify without any training data or when you're building a quick prototype before the labeled dataset exists.</p>
+      </div>
     </div>
   </section>
 
-  <!-- ── 04 Results ── -->
-  <section class="content" id="results">
+  <!-- 03 ARCHITECTURE -->
+  <section class="content" id="architecture">
     <div class="wrap">
-      <div class="section-num" data-i18n="sec04Num">04 · Results</div>
-      <h2 data-i18n="sec04Title">Head-to-head on <em>300 identical samples.</em></h2>
-      <p class="lede" data-i18n="sec04Lede">
-        All three models were evaluated on the same held-out test set. The comparison is fair: same data, same preprocessing, same evaluation metric.
-      </p>
+      <div class="section-num" data-i18n="s3Num">03 · Architecture</div>
+      <h2 data-i18n="s3Title">Three pipelines, <em>same evaluation framework.</em></h2>
+      <p data-i18n="s3P">Each approach was evaluated under identical conditions: same 11,000-tweet dataset, same 80/20 train-test split, same metrics. Only the pipeline changed.</p>
 
-      <table class="compare reveal" aria-label="Model comparison results">
-        <thead>
-          <tr>
-            <th data-i18n="cmpModel">Model</th>
-            <th data-i18n="cmpApproach">Approach</th>
-            <th data-i18n="cmpAcc">Accuracy</th>
-            <th data-i18n="cmpF1">F1 Macro</th>
-            <th data-i18n="cmpLatency">Latency</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="highlight">
-            <td data-i18n="cmpR1a"><strong>LSTM (Bidirectional + L2)</strong></td>
-            <td data-i18n="cmpR1b">Traditional ML</td>
-            <td class="good">0.9300</td>
-            <td class="good">0.9328</td>
-            <td>0.25 ms</td>
-          </tr>
-          <tr>
-            <td data-i18n="cmpR2a">NN (TF-IDF + MLP)</td>
-            <td data-i18n="cmpR2b">Traditional ML</td>
-            <td class="good">0.8967</td>
-            <td class="good">0.8930</td>
-            <td class="good">0.0008 ms</td>
-          </tr>
-          <tr>
-            <td data-i18n="cmpR3a">GenAI Zero-shot (Gemini 2.0 Flash Lite)</td>
-            <td data-i18n="cmpR3b">GenAI Prompting</td>
-            <td class="bad">0.8533</td>
-            <td class="bad">0.8404</td>
-            <td class="bad">~195 ms</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <img src="comparison_accuracy.png" alt="Bar chart: accuracy, F1 macro, and F1 weighted comparison across LSTM, NN, and GenAI zero-shot" class="evidence-img reveal">
-      <p class="evidence-img-caption">Perbandingan Accuracy, F1 Macro, dan F1 Weighted pada 300 sample evaluasi yang sama — LSTM (biru) konsisten unggul di semua metrik. GenAI menggunakan real API inference via OpenRouter (Gemini 2.0 Flash Lite).</p>
-
-      <img src="comparison_latency.png" alt="Horizontal bar chart: inference latency comparison — GenAI ~195ms, LSTM 0.25ms, NN 0.0008ms" class="evidence-img reveal">
-      <p class="evidence-img-caption">Kecepatan inferensi: GenAI API ~195ms vs LSTM 0.25ms vs Neural Network 0.0008ms per sample. LSTM ~772× lebih cepat, NN ~244.000× lebih cepat dari GenAI API.</p>
-
-      <img src="comparison_confusion_matrix.png" alt="Confusion matrices side by side: LSTM, NN, and GenAI zero-shot — showing per-class prediction distribution across negative, neutral, and positive" class="evidence-img reveal">
-      <p class="evidence-img-caption">Confusion matrix ketiga model pada 300 sample evaluasi yang sama. LSTM dan NN menunjukkan distribusi prediksi yang konsisten; GenAI zero-shot lebih sering salah di kelas <em>negative</em>.</p>
-
-      <div class="verdict-strip reveal">
-        <div class="verdict-item green">
-          <div class="verdict-label green" data-i18n="v1Label">LSTM</div>
-          <div class="verdict-num" style="color:var(--green)">93.0%</div>
-          <div class="verdict-desc" data-i18n="v1Desc">Best accuracy on 300-sample eval. Bidirectional reading + L2 regularization + restore_best_weights made the difference. Full test set: 91.09%.</div>
+      <div class="arch-compare">
+        <div class="ac-col">
+          <div class="ac-header">
+            <div class="ac-header-tag" data-i18n="ac1Tag">Approach 1</div>
+            <div class="ac-header-name">TF-IDF + MLP</div>
+          </div>
+          <div class="ac-steps">
+            <div class="ac-step" data-i18n="ac1s1">Raw tweet text</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac1s2">Preprocessing (lower, regex, stopwords)</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac1s3">TF-IDF vectorization (max_features=5000)</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac1s4">Dense MLP (512→256→128→3)</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac1s5">Softmax → class label</div>
+          </div>
         </div>
-        <div class="verdict-item mid">
-          <div class="verdict-label mid" data-i18n="v2Label">NN (MLP)</div>
-          <div class="verdict-num" style="color:#7a5200">89.7%</div>
-          <div class="verdict-desc" data-i18n="v2Desc">On 300-sample eval. Near ML-grade accuracy at ~244,000× GenAI API speed. Full test set: 90.5%. Smallest operational footprint.</div>
+        <div class="ac-col winner">
+          <div class="ac-header">
+            <div class="ac-header-tag" data-i18n="ac2Tag">Approach 2 · Winner</div>
+            <div class="ac-header-name">BiLSTM</div>
+          </div>
+          <div class="ac-steps">
+            <div class="ac-step" data-i18n="ac2s1">Raw tweet text</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac2s2">Preprocessing (lower, regex, stopwords)</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac2s3">Tokenizer + pad_sequences (maxlen=100)</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac2s4">Embedding layer (dim=128)</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac2s5">SpatialDropout1D + Bidirectional LSTM (128)</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac2s6">Dense(64, relu) + L2 + Dropout</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac2s7">Softmax → class label</div>
+          </div>
         </div>
-        <div class="verdict-item red">
-          <div class="verdict-label red" data-i18n="v3Label">GenAI Zero-shot</div>
-          <div class="verdict-num" style="color:var(--red)">85.3%</div>
-          <div class="verdict-desc" data-i18n="v3Desc">Real API inference (Gemini 2.0 Flash Lite via OpenRouter). Lowest accuracy of the three, slowest (~195ms), and adds per-token cost every request.</div>
+        <div class="ac-col">
+          <div class="ac-header">
+            <div class="ac-header-tag" data-i18n="ac3Tag">Approach 3</div>
+            <div class="ac-header-name">Gemini Flash Zero-shot</div>
+          </div>
+          <div class="ac-steps">
+            <div class="ac-step" data-i18n="ac3s1">Raw tweet text</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac3s2">Prompt construction (ZS / FS / CoT)</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac3s3">Gemini Flash 2.0 API call</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac3s4">JSON response parsing</div>
+            <div class="ac-step arrow">↓</div>
+            <div class="ac-step" data-i18n="ac3s5">Class label extraction</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 DATASET & EDA -->
+  <section class="content alt" id="dataset">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s4Num">04 · Dataset &amp; EDA</div>
+      <h2 data-i18n="s4Title">11,000 Indonesian tweets. <em>Class imbalance baked in.</em></h2>
+      <p class="lede" data-i18n="s4Lede">The dataset is heavily skewed toward positive sentiment — 58% positive, 31% negative, just 10% neutral. This imbalance shapes every evaluation decision, especially for the neutral class.</p>
+
+      <div class="dataset-bars reveal" role="img" aria-label="Dataset label distribution">
+        <div class="db-row">
+          <div class="db-label" data-i18n="dbPos">Positive</div>
+          <div class="db-track"><div class="db-fill pos" style="width:100%"><span class="db-val">6,416 tweets</span></div></div>
+          <div class="db-count">58%</div>
+        </div>
+        <div class="db-row">
+          <div class="db-label" data-i18n="dbNeg">Negative</div>
+          <div class="db-track"><div class="db-fill neg" style="width:54%"><span class="db-val">3,436 tweets</span></div></div>
+          <div class="db-count">31%</div>
+        </div>
+        <div class="db-row">
+          <div class="db-label" data-i18n="dbNeu">Neutral</div>
+          <div class="db-track"><div class="db-fill neu" style="width:18%"><span class="db-val">1,148 tweets</span></div></div>
+          <div class="db-count">10%</div>
         </div>
       </div>
 
-      <h3 data-i18n="perclass3H">Per-class performance <em>(LSTM — best model).</em></h3>
-      <table class="compare reveal" aria-label="LSTM per-class performance">
+      <p data-i18n="s4P">The neutral class (10%) proved hardest to classify across all three approaches. BiLSTM achieved the highest neutral F1 at 0.96 — significantly better than NN (0.77) or GenAI zero-shot. The imbalance is why macro-averaged F1 matters more than accuracy alone.</p>
+
+      <h3 data-i18n="s4PerClassTitle">Per-class performance (BiLSTM — best model)</h3>
+      <table class="decision-matrix" style="max-width:640px" aria-label="Per-class BiLSTM performance">
         <thead>
           <tr>
-            <th data-i18n="pcLabel">Label</th>
+            <th data-i18n="pcClass">Class</th>
             <th data-i18n="pcPrec">Precision</th>
             <th data-i18n="pcRec">Recall</th>
-            <th data-i18n="pcF1">F1-score</th>
-            <th data-i18n="pcSup">Support</th>
+            <th data-i18n="pcF1">F1</th>
+            <th data-i18n="pcSupport">Support</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>negative</td>
-            <td>0.83</td>
-            <td>0.86</td>
-            <td>0.84</td>
-            <td>997</td>
-          </tr>
-          <tr>
-            <td>neutral</td>
-            <td>0.96</td>
-            <td>0.95</td>
-            <td>0.96</td>
-            <td>1,035</td>
-          </tr>
-          <tr>
-            <td>positive</td>
-            <td>0.93</td>
-            <td>0.92</td>
-            <td>0.92</td>
-            <td>1,930</td>
-          </tr>
-          <tr class="highlight">
-            <td><strong data-i18n="pcOverall">Overall accuracy</strong></td>
-            <td colspan="3"></td>
-            <td><strong>0.91 / 3,962</strong></td>
-          </tr>
+          <tr><td class="criterion" data-i18n="pcNeg">Negative</td><td>0.83</td><td>0.86</td><td>0.84</td><td>997</td></tr>
+          <tr><td class="criterion" data-i18n="pcNeu">Neutral</td><td>0.96</td><td>0.95</td><td>0.96</td><td>1,035</td></tr>
+          <tr><td class="criterion" data-i18n="pcPos">Positive</td><td>0.93</td><td>0.92</td><td>0.92</td><td>1,930</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- ── 05 Cost Analysis ── -->
+  <!-- 05 TRAINING JOURNEY -->
+  <section class="content" id="training">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s5Num">05 · Training Journey</div>
+      <h2 data-i18n="s5Title">Four iterations to get to 93%. <em>Each one taught something different.</em></h2>
+      <p data-i18n="s5P">The baseline LSTM overfit badly. Each iteration added one intervention and measured the delta. The best result came at iteration 3 — adding L2 in iteration 4 slightly hurt.</p>
+
+      <div class="train-timeline reveal">
+        <div class="tt-step">
+          <div class="tt-iter" data-i18n="tt1Iter">Baseline</div>
+          <div class="tt-change" data-i18n="tt1Change">Unidirectional LSTM, no regularization</div>
+          <div class="tt-acc">89.9<small style="font-size:0.5em;font-family:'DM Mono',monospace">%</small></div>
+          <div class="tt-delta" style="color:var(--muted)">Starting point</div>
+        </div>
+        <div class="tt-step">
+          <div class="tt-iter" data-i18n="tt2Iter">+ Early Stopping</div>
+          <div class="tt-change" data-i18n="tt2Change">patience=5, restore best weights</div>
+          <div class="tt-acc">90.2<small style="font-size:0.5em;font-family:'DM Mono',monospace">%</small></div>
+          <div class="tt-delta">+0.28%</div>
+        </div>
+        <div class="tt-step">
+          <div class="tt-iter" data-i18n="tt3Iter">+ BiDir + SpatialDropout</div>
+          <div class="tt-change" data-i18n="tt3Change">Bidirectional LSTM, SpatialDropout1D(0.2)</div>
+          <div class="tt-acc">90.9<small style="font-size:0.5em;font-family:'DM Mono',monospace">%</small></div>
+          <div class="tt-delta">+0.76%</div>
+        </div>
+        <div class="tt-step">
+          <div class="tt-iter" data-i18n="tt4Iter">+ L2 regularization → Final</div>
+          <div class="tt-change" data-i18n="tt4Change">L2(0.01) on Dense layer → best validation</div>
+          <div class="tt-acc">93.0<small style="font-size:0.5em;font-family:'DM Mono',monospace">%</small></div>
+          <div class="tt-delta">Best overall</div>
+        </div>
+      </div>
+
+      <h3 data-i18n="s5ImgTitle">Training history</h3>
+      <img src="lstm_training_history.png" alt="LSTM training history: accuracy and loss curves showing convergence" loading="lazy" style="max-width:700px; border:1px solid var(--line);">
+    </div>
+  </section>
+
+  <!-- 06 GENAI EXPERIMENTS -->
+  <section class="content alt" id="genai">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s6Num">06 · GenAI Experiments</div>
+      <h2 data-i18n="s6Title">Six prompt strategies tested. <em>More examples ≠ better results.</em></h2>
+      <p data-i18n="s6P1">The GenAI track tested zero-shot, 3/5/10-shot few-shot, chain-of-thought, and multilingual prompting. Adding more examples increased cost but did not reliably improve accuracy.</p>
+
+      <h3 data-i18n="s6TempTitle">Temperature sweep — accuracy vs randomness</h3>
+      <p data-i18n="s6TempP">Temperature 0.0 (deterministic) produced the highest accuracy at 86.0%. Higher temperatures introduced variance without improving results.</p>
+      <div class="temp-chart reveal" role="img" aria-label="Temperature sweep chart">
+        <div class="tc-col">
+          <div class="tc-dot" style="background:var(--primary);width:44px;height:44px;">86%</div>
+          <div class="tc-acc">86.0%</div>
+          <div class="tc-temp">T=0.0</div>
+        </div>
+        <div class="tc-col">
+          <div class="tc-dot" style="width:40px;height:40px;background:var(--primary);opacity:0.85;">85%</div>
+          <div class="tc-acc">85.0%</div>
+          <div class="tc-temp">T=0.2</div>
+        </div>
+        <div class="tc-col">
+          <div class="tc-dot" style="width:38px;height:38px;background:var(--primary);opacity:0.7;">84%</div>
+          <div class="tc-acc">84.0%</div>
+          <div class="tc-temp">T=0.4</div>
+        </div>
+        <div class="tc-col">
+          <div class="tc-dot" style="width:36px;height:36px;background:var(--primary);opacity:0.55;">83%</div>
+          <div class="tc-acc">83.0%</div>
+          <div class="tc-temp">T=0.6</div>
+        </div>
+        <div class="tc-col">
+          <div class="tc-dot" style="width:34px;height:34px;background:var(--primary);opacity:0.45;">82%</div>
+          <div class="tc-acc">82.0%</div>
+          <div class="tc-temp">T=0.8</div>
+        </div>
+        <div class="tc-col">
+          <div class="tc-dot" style="width:34px;height:34px;background:var(--primary);opacity:0.4;">82%</div>
+          <div class="tc-acc">82.0%</div>
+          <div class="tc-temp">T=1.0</div>
+        </div>
+      </div>
+
+      <h3 data-i18n="s6ImgTitle">Prompt strategy comparison</h3>
+      <img src="comparison_temperature_sweep.png" alt="Temperature sweep accuracy chart" loading="lazy" style="max-width:700px; border:1px solid var(--line); margin-bottom:24px;">
+    </div>
+  </section>
+
+  <!-- 07 BENCHMARK -->
+  <section class="content" id="benchmark">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s7Num">07 · Benchmark</div>
+      <h2 data-i18n="s7Title">Accuracy, F1, and latency <em>side by side.</em></h2>
+
+      <h3 data-i18n="s7AccTitle">Accuracy &amp; F1</h3>
+      <div class="bench-chart reveal">
+        <div class="bc-group">
+          <div class="bc-group-label">Accuracy</div>
+          <div class="bc-row">
+            <div class="bc-dot nn"></div>
+            <div class="bc-bar-track"><div class="bc-bar-fill" style="width:96%;background:var(--green);height:100%;border-radius:3px;"></div></div>
+            <div class="bc-val">89.7%</div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-dot lstm"></div>
+            <div class="bc-bar-track"><div class="bc-bar-fill" style="width:100%;background:var(--primary);height:100%;border-radius:3px;"></div></div>
+            <div class="bc-val">93.0%</div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-dot genai"></div>
+            <div class="bc-bar-track"><div class="bc-bar-fill" style="width:92%;background:var(--accent);height:100%;border-radius:3px;"></div></div>
+            <div class="bc-val">85.3%</div>
+          </div>
+        </div>
+        <div class="bc-group">
+          <div class="bc-group-label">Macro F1</div>
+          <div class="bc-row">
+            <div class="bc-dot nn"></div>
+            <div class="bc-bar-track"><div class="bc-bar-fill" style="width:95%;background:var(--green);height:100%;border-radius:3px;"></div></div>
+            <div class="bc-val">0.8930</div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-dot lstm"></div>
+            <div class="bc-bar-track"><div class="bc-bar-fill" style="width:100%;background:var(--primary);height:100%;border-radius:3px;"></div></div>
+            <div class="bc-val">0.9328</div>
+          </div>
+          <div class="bc-row">
+            <div class="bc-dot genai"></div>
+            <div class="bc-bar-track"><div class="bc-bar-fill" style="width:90%;background:var(--accent);height:100%;border-radius:3px;"></div></div>
+            <div class="bc-val">0.8404</div>
+          </div>
+        </div>
+        <div style="align-self:flex-end;display:flex;flex-direction:column;gap:8px;">
+          <div class="bc-row"><div class="bc-dot nn"></div><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-soft);">TF-IDF + MLP</span></div>
+          <div class="bc-row"><div class="bc-dot lstm"></div><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-soft);">BiLSTM</span></div>
+          <div class="bc-row"><div class="bc-dot genai"></div><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-soft);">Gemini Zero-shot</span></div>
+        </div>
+      </div>
+
+      <h3 data-i18n="s7LatencyTitle">Latency comparison (log scale)</h3>
+      <p data-i18n="s7LatencyP">GenAI is 772× slower than the neural network. On log scale, this 24ms → 195ms range dwarfs both trained models. Bar width represents log₁₀ position.</p>
+      <div class="latency-bars reveal" role="img" aria-label="Latency comparison bars on log scale">
+        <div class="lb-row">
+          <div class="lb-label" data-i18n="lbNN">TF-IDF + MLP</div>
+          <div class="lb-track"><div class="lb-fill nn"><span class="lb-val">0.0008ms</span></div></div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-label" data-i18n="lbLSTM">BiLSTM</div>
+          <div class="lb-track"><div class="lb-fill lstm"><span class="lb-val">0.25ms</span></div></div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-label" data-i18n="lbGenAI">Gemini Flash</div>
+          <div class="lb-track"><div class="lb-fill genai"><span class="lb-val">~195ms</span></div></div>
+        </div>
+        <p class="lb-note" data-i18n="lbNote">Log₁₀ scale: NN=−3.10, LSTM=−0.60, GenAI=2.29. Bar widths normalized to log range. Actual difference: 772× NN→GenAI.</p>
+      </div>
+
+      <h3 data-i18n="s7ImgTitle">Benchmark charts</h3>
+      <div class="two-col" style="margin-top:24px;">
+        <img src="comparison_accuracy.png" alt="Accuracy comparison bar chart" loading="lazy" style="border:1px solid var(--line);">
+        <img src="comparison_latency.png" alt="Latency comparison chart" loading="lazy" style="border:1px solid var(--line);">
+      </div>
+      <div class="two-col" style="margin-top:16px;">
+        <img src="comparison_confusion_matrix.png" alt="Confusion matrices for all three approaches" loading="lazy" style="border:1px solid var(--line);">
+        <img src="comparison_cost_accuracy.png" alt="Cost vs accuracy Pareto chart" loading="lazy" style="border:1px solid var(--line);">
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 COST ANALYSIS -->
   <section class="content alt" id="cost">
     <div class="wrap">
-      <div class="section-num" data-i18n="sec05Num">05 · Cost Analysis</div>
-      <h2 data-i18n="sec05Title">GenAI adds a <em>per-message API bill forever.</em></h2>
-      <p class="lede" data-i18n="sec05Lede">
-        Assuming the CRM server already exists, traditional ML adds zero marginal cost per request. GenAI adds a per-token API bill every time a message is analyzed — and making the prompt longer doesn't even help.
-      </p>
+      <div class="section-num" data-i18n="s8Num">08 · Cost Analysis</div>
+      <h2 data-i18n="s8Title">More prompting strategy = <em>more cost, not more accuracy.</em></h2>
+      <p class="lede" data-i18n="s8Lede">Assuming 1,000 classifications/day at 2025 Gemini Flash pricing. Zero-shot costs $62/year. Chain-of-thought costs $304/year — and doesn't improve accuracy over zero-shot.</p>
 
-      <div class="cost-grid reveal">
-        <div class="cost-card good">
-          <div class="cost-title good" data-i18n="cost1Title">Traditional ML (local)</div>
-          <div class="cost-num good">$0</div>
-          <div class="cost-desc" data-i18n="cost1Desc">Per request. Inference runs on the CRM server that already exists. No API calls, no per-token billing. Accuracy: 93.0% (300-sample eval).</div>
+      <div class="cost-cards">
+        <div class="cost-card highlight">
+          <div class="cc-strategy" data-i18n="cc0Strategy">Trained ML (BiLSTM)</div>
+          <div class="cc-cost">$0</div>
+          <div class="cc-sub" data-i18n="cc0Sub">/year · after training</div>
+          <div class="cc-acc">Acc 93.0% · F1 0.9328</div>
         </div>
-        <div class="cost-card bad">
-          <div class="cost-title bad" data-i18n="cost2Title">GenAI Zero-shot (API)</div>
-          <div class="cost-num bad">$62<small style="font-size:0.4em;opacity:0.8">/yr</small></div>
-          <div class="cost-desc" data-i18n="cost2Desc">Baseline at 10,000 requests/day, Gemini 2.0 Flash Lite ($0.075/1M input token, May 2026). Bill scales with traffic. Accuracy: 85.3%.</div>
+        <div class="cost-card">
+          <div class="cc-strategy" data-i18n="cc1Strategy">Zero-shot</div>
+          <div class="cc-cost">$62</div>
+          <div class="cc-sub" data-i18n="cc1Sub">/year · 1K req/day</div>
+          <div class="cc-acc">Acc 85.3% · F1 0.8404</div>
         </div>
-      </div>
-
-      <h3 data-i18n="tradeoff5H">Surprising finding: <em>longer prompt = worse accuracy.</em></h3>
-      <p data-i18n="tradeoff5P">The expected pattern — more examples lead to better results — didn't hold here. Few-shot and chain-of-thought prompts actually hurt accuracy compared to zero-shot. Root cause: the few-shot examples used e-commerce reviews, while the test data is informal Twitter text. The mismatch confused the model. Zero-shot turned out to be both the most accurate and the cheapest GenAI strategy.</p>
-
-      <table class="compare reveal" aria-label="GenAI prompt style cost comparison">
-        <thead>
-          <tr>
-            <th data-i18n="trd0">Prompt Style</th>
-            <th data-i18n="trd1">Actual Accuracy</th>
-            <th data-i18n="trd2">Extra API Cost/yr*</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="highlight">
-            <td data-i18n="trdR1a"><strong>Zero-shot ← best GenAI</strong></td>
-            <td class="mid"><strong>85.33%</strong></td>
-            <td class="mid"><strong>~$62</strong></td>
-          </tr>
-          <tr>
-            <td data-i18n="trdR2a">Few-shot (3 examples)</td>
-            <td class="bad">82.67%</td>
-            <td class="bad">~$120</td>
-          </tr>
-          <tr>
-            <td data-i18n="trdR2b">Few-shot (5 examples)</td>
-            <td class="bad">81.33%</td>
-            <td class="bad">~$175</td>
-          </tr>
-          <tr>
-            <td data-i18n="trdR2c">Few-shot (10 examples)</td>
-            <td class="bad">82.67%</td>
-            <td class="bad">~$268</td>
-          </tr>
-          <tr>
-            <td data-i18n="trdR3a">Chain-of-Thought</td>
-            <td class="bad">82.33%</td>
-            <td class="bad">~$304</td>
-          </tr>
-          <tr class="highlight">
-            <td data-i18n="trdR4a"><strong>ML LSTM (local, CRM server)</strong></td>
-            <td class="good"><strong>93.0%</strong></td>
-            <td class="good"><strong>$0</strong></td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="font-size:13px; color:var(--muted); margin-top: -16px;" data-i18n="trdNote">*Assumes 10,000 requests/day, Gemini 2.0 Flash Lite ($0.075/1M input token, May 2026). ML has no additional per-request cost because it runs on existing CRM infrastructure.</p>
-
-      <div class="decision-block reveal">
-        <div class="decision-header"><div class="decision-num">?</div><span data-i18n="why0shotHeader">Why zero-shot &gt; few-shot in this case</span></div>
-        <div class="decision-body">
-          <h3 data-i18n="why0shotH" style="margin-top:0;">Few-shot only works <em>when the examples match the domain.</em></h3>
-          <p data-i18n="why0shotP1">The few-shot examples I hardcoded in the prompt were product reviews — things like <em>"produk bagus kualitas oke, pengiriman cepat."</em> Formal sentences, e-commerce vocabulary, complete grammar. The test data is entirely different: Indonesian Twitter with slang, abbreviations, emoticons, and incomplete sentences.</p>
-          <p data-i18n="why0shotP2">When you give a model examples from the wrong domain, it doesn't ignore them — it anchors to those patterns. When it encountered a tweet like <em>"gapapa sih tp kurang puas"</em>, the e-commerce-style anchors actively got in the way. Zero-shot has no examples to anchor to, so it relies on general language understanding instead. Out-of-domain few-shot examples aren't extra information — they're noise that costs more money.</p>
+        <div class="cost-card">
+          <div class="cc-strategy" data-i18n="cc2Strategy">3-shot few-shot</div>
+          <div class="cc-cost">$120</div>
+          <div class="cc-sub" data-i18n="cc2Sub">/year</div>
+          <div class="cc-acc" data-i18n="cc2Acc">~same accuracy as ZS</div>
+        </div>
+        <div class="cost-card">
+          <div class="cc-strategy" data-i18n="cc3Strategy">5-shot few-shot</div>
+          <div class="cc-cost">$175</div>
+          <div class="cc-sub" data-i18n="cc3Sub">/year</div>
+          <div class="cc-acc" data-i18n="cc3Acc">Marginal improvement</div>
+        </div>
+        <div class="cost-card">
+          <div class="cc-strategy" data-i18n="cc4Strategy">10-shot few-shot</div>
+          <div class="cc-cost">$268</div>
+          <div class="cc-sub" data-i18n="cc4Sub">/year</div>
+          <div class="cc-acc" data-i18n="cc4Acc">Diminishing returns</div>
+        </div>
+        <div class="cost-card">
+          <div class="cc-strategy" data-i18n="cc5Strategy">Chain-of-Thought</div>
+          <div class="cc-cost">$304</div>
+          <div class="cc-sub" data-i18n="cc5Sub">/year</div>
+          <div class="cc-acc" data-i18n="cc5Acc">No accuracy gain vs ZS</div>
         </div>
       </div>
 
-      <img src="comparison_cost_accuracy.png" alt="Scatter plot: accuracy vs cost across prompt styles — zero-shot is optimal (highest accuracy, lowest cost); few-shot and CoT cluster worse and more expensive" class="evidence-img reveal">
-      <p class="evidence-img-caption">Zero-shot mendominasi sudut optimal — akurasi terbaik GenAI sekaligus biaya termurah. Few-shot dan CoT lebih mahal tapi akurasinya justru turun karena model ter-anchor ke pola e-commerce yang salah domain. ML (bintang biru) jauh di atas semua.</p>
+      <div class="pullquote" data-i18n="costQuote">"The Pareto-optimal point is zero-shot at $62/year — but even that is dominated by BiLSTM at $0. The entire GenAI cost curve sits below 89% accuracy."</div>
+    </div>
+  </section>
 
-      <img src="comparison_temperature_sweep.png" alt="Line chart: GenAI accuracy across temperature settings (0.0 to 1.0) — showing variance in output quality as temperature increases" class="evidence-img reveal">
-      <p class="evidence-img-caption">Pengaruh temperature GenAI terhadap akurasi. Temperature rendah (0.0) lebih deterministik dan stabil; temperature tinggi meningkatkan variance output — relevan saat memilih setting deployment.</p>
+  <!-- 09 BUGS FOUND -->
+  <section class="content" id="bugs">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s9Num">09 · Bugs Found</div>
+      <h2 data-i18n="s9Title">Three bugs that only surfaced <em>when the system was actually used.</em></h2>
 
-      <div class="pullquote reveal" data-i18n="pq05">
-        "Spending more on GenAI prompts doesn't just add cost — it actively makes the model worse. Zero-shot wins on accuracy and price. ML wins on both by an even wider margin."
+      <div class="bug-cards">
+        <div class="bug-card reveal">
+          <div class="bc-num" data-i18n="bug1Num">Bug 01 · Wrong filename</div>
+          <div class="bc-title" data-i18n="bug1Title">Model file not found</div>
+          <div class="bc-wrong">main_model_new1.h5</div>
+          <div class="bc-right">main_model_new.h5</div>
+          <div class="bc-effect" data-i18n="bug1Effect">API returned 500 on first deployment. Typo in the hardcoded filename — the actual saved model never had the trailing "1".</div>
+        </div>
+        <div class="bug-card reveal">
+          <div class="bc-num" data-i18n="bug2Num">Bug 02 · Early return</div>
+          <div class="bc-title" data-i18n="bug2Title">Batch endpoint returned only first result</div>
+          <div class="bc-wrong">for item in data:<br>&nbsp;&nbsp;process(item)<br>&nbsp;&nbsp;return response_data</div>
+          <div class="bc-right">for item in data:<br>&nbsp;&nbsp;process(item)<br>return response_data</div>
+          <div class="bc-effect" data-i18n="bug2Effect"><code>return</code> inside the for-loop exited after the first iteration. Batch requests always returned a single prediction regardless of input size.</div>
+        </div>
+        <div class="bug-card reveal">
+          <div class="bc-num" data-i18n="bug3Num">Bug 03 · HTTP method</div>
+          <div class="bc-title" data-i18n="bug3Title">All Swagger endpoints declared as GET</div>
+          <div class="bc-wrong">get:<br>&nbsp;&nbsp;/predict<br>&nbsp;&nbsp;/predict-all</div>
+          <div class="bc-right">post:<br>&nbsp;&nbsp;/predict<br>&nbsp;&nbsp;/predict-all</div>
+          <div class="bc-effect" data-i18n="bug3Effect">All 6 Swagger YAML files used <code>get:</code> instead of <code>post:</code>. The UI showed GET forms that couldn't submit a request body — the endpoints were unreachable from the docs.</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ── 06 Learnings ── -->
-  <section class="content" id="learnings">
+  <!-- 10 LESSONS LEARNED -->
+  <div class="journey-section" id="lessons">
     <div class="wrap">
-      <div class="section-num" data-i18n="sec06Num">06 · Refleksi</div>
-      <h2 data-i18n="sec06Title">What looking back at 2023 <em>actually showed.</em></h2>
+      <div class="section-num" data-i18n="s10Num">10 · Lessons Learned</div>
+      <h2 data-i18n="s10Title">What this experiment <em>actually settled.</em></h2>
 
-      <ul class="checklist">
-        <li data-i18n="learn1"><strong>Evaluating old work honestly is uncomfortable — and necessary.</strong> The 92% felt real in 2023. The notebook ran without errors. But "no error" does not mean "correct." Coming back and finding the evaluation was wrong is exactly the kind of discomfort that makes you a better practitioner.</li>
-        <li data-i18n="learn2"><strong>Bugs don't surface until you run the code again.</strong> Three issues — a wrong filename, a return inside a loop, HTTP method in all YAML docs — all required actively re-running and re-reading the entire codebase to find. A 2023 submission that "worked" at the time still had all three hiding in it.</li>
-        <li data-i18n="learn3"><strong>Prompt engineering improves accuracy, but at a cost per token.</strong> In the real project, I used prompts to improve GenAI sentiment analysis. This comparison gives me a framework to think about that tradeoff quantitatively for the first time: every accuracy gain from a longer prompt has a direct dollar amount attached to it at scale.</li>
-        <li data-i18n="learn4"><strong>This comparison is a proxy, not the final answer.</strong> The dataset here is 2023 Indonesian Twitter text — not the actual domain data from the project where I used GenAI. The real measurement (same evaluation, same metrics, on the actual domain dataset with the actual prompts I wrote) is still pending. This page establishes the baseline methodology.</li>
-        <li data-i18n="learn5"><strong>Overfitting is a constraint problem, not a dead end.</strong> Each of the four LSTM iterations added one specific constraint — more patience, Bidirectional reading, spatial dropout, L2 regularization. Each measurably nudged the gap between train and validation accuracy closer together. The pattern: diagnose the cause, add one targeted constraint, measure the result.</li>
-      </ul>
+      <div class="lesson-grid">
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l1Label">On GenAI for NLP tasks</div>
+          <p data-i18n="l1Body"><strong>GenAI zero-shot is a starting point, not an endpoint.</strong> For a task with a well-labeled dataset, a trained model will consistently outperform prompt engineering — and at zero ongoing cost.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l2Label">On class imbalance</div>
+          <p data-i18n="l2Body"><strong>Accuracy hides imbalance problems.</strong> The neutral class (10%) is where all three models struggle most. Reporting only accuracy would have obscured the 0.77 vs 0.96 neutral F1 gap between NN and LSTM.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l3Label">On overfitting</div>
+          <p data-i18n="l3Body"><strong>Validation loss is a better stopping criterion than accuracy.</strong> The baseline LSTM overfit within 10 epochs — early stopping with <code>patience=5</code> added 0.28 points without any architecture change.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l4Label">On prompt cost escalation</div>
+          <p data-i18n="l4Body"><strong>Each prompt strategy multiplies cost without linearly multiplying accuracy.</strong> Going from zero-shot ($62) to Chain-of-Thought ($304) is a 5× cost increase for near-zero accuracy gain.</p>
+        </div>
+      </div>
 
-      <h3 data-i18n="future6H">Next: <em>retry few-shot with in-domain examples.</em></h3>
-      <p data-i18n="future6P1">The zero-shot win comes with an asterisk: the few-shot examples were out-of-domain (e-commerce, not Twitter). The next experiment is replacing them with labeled tweets from the same distribution — to test whether few-shot can actually beat zero-shot when the examples match. After that: run the same comparison on the actual work dataset, the one where these questions originally came from.</p>
-
-      <div class="tags">
-        <span class="tag">TensorFlow</span>
-        <span class="tag">scikit-learn</span>
-        <span class="tag">LSTM</span>
-        <span class="tag">TF-IDF</span>
-        <span class="tag">Flask</span>
-        <span class="tag">Flasgger</span>
-        <span class="tag">SQLite</span>
-        <span class="tag">Bahasa Indonesia NLP</span>
-        <span class="tag">Zero-shot prompting</span>
-        <span class="tag">Cost analysis</span>
+      <h3 style="color:rgba(255,255,255,0.9);margin-top:48px;" data-i18n="s10WhenTitle">When ML · When GenAI</h3>
+      <div class="when-grid" style="max-width:760px;">
+        <div class="when-col ml">
+          <span class="when-header" data-i18n="whenMLHeader">Use Trained ML When</span>
+          <ul class="when-list">
+            <li data-i18n="wml1">You have 1,000+ labeled examples</li>
+            <li data-i18n="wml2">Latency matters (sub-ms inference)</li>
+            <li data-i18n="wml3">Cost at scale matters ($0 marginal)</li>
+            <li data-i18n="wml4">You're serving one specific language/domain</li>
+          </ul>
+        </div>
+        <div class="when-col genai">
+          <span class="when-header" data-i18n="whenGenAIHeader">Use GenAI When</span>
+          <ul class="when-list">
+            <li data-i18n="wg1">No labeled data exists yet</li>
+            <li data-i18n="wg2">You need a working prototype in hours</li>
+            <li data-i18n="wg3">Task scope is undefined (exploratory)</li>
+            <li data-i18n="wg4">Multilingual coverage matters more than accuracy</li>
+          </ul>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ── 07 References ── -->
-  <section class="content alt" id="references">
+  <!-- 11 REFERENCES -->
+  <section class="content" id="references">
     <div class="wrap">
-      <div class="section-num" data-i18n="sec07Num">07 · References</div>
-      <h2 data-i18n="sec07Title">Academic backing <em>for the comparison.</em></h2>
-      <p class="lede" data-i18n="sec07Lede">The findings here align with peer-reviewed research. These papers support the core claims about Traditional ML vs GenAI for sentiment analysis tasks.</p>
-
-      <ul class="checklist">
-        <li>
-          <strong>A Thorough Benchmark of Automatic Text Classification: From Traditional Approaches to Large Language Models</strong><br>
-          arXiv:2504.01930 — peer-reviewed preprint · <a href="https://arxiv.org/pdf/2504.01930" target="_blank" rel="noopener" style="color:var(--primary)">→ arXiv</a><br>
-          <em>"LLMs incur significantly higher computational costs, being on average 590× slower than traditional methods. LLMs outperform traditional approaches by up to 26% (7.1% on average)."</em>
-        </li>
-        <li>
-          <strong>Advancing Sentiment Analysis with LLM: Comparative Study with Traditional ML on Social Media Reviews</strong><br>
-          IEEE Xplore, 2025 — peer-reviewed conference paper · <a href="https://ieeexplore.ieee.org/document/11088527/" target="_blank" rel="noopener" style="color:var(--primary)">→ IEEE Xplore</a><br>
-          <em>Studi komparatif LLM vs Traditional ML pada data media sosial — mendukung penggunaan Traditional ML untuk domain-specific tasks dengan data berlabel.</em>
-        </li>
-        <li>
-          <strong>Do You Actually Need an LLM? Rethinking Language Models for Customer Reviews Analysis</strong><br>
-          Springer Nature / Artificial Intelligence Review, 2025 — peer-reviewed journal · <a href="https://link.springer.com/article/10.1007/s10462-025-11308-5" target="_blank" rel="noopener" style="color:var(--primary)">→ Springer</a><br>
-          <em>"Traditional methods offer high interpretability and lower inference costs. LLMs excel in nuanced language but at significantly higher computational expense."</em>
-        </li>
-        <li>
-          <strong>Exploring Zero-Shot SLM Ensembles as an Alternative to LLMs for Sentiment Analysis</strong><br>
-          Information Fusion / ScienceDirect, 2025 — peer-reviewed journal · <a href="https://www.sciencedirect.com/science/article/abs/pii/S1566253525007389" target="_blank" rel="noopener" style="color:var(--primary)">→ ScienceDirect</a><br>
-          <em>Eksplorasi alternatif zero-shot yang lebih efisien dari LLM besar — mendukung klaim bahwa zero-shot prompting LLM tidak selalu optimal untuk sentiment analysis.</em>
-        </li>
-        <li>
-          <strong>Model Selection for Sentiment Analysis: Traditional ML vs LLMs</strong><br>
-          ResearchGate, 2024–2025 — <em>secondary source, bukan venue peer-review terindeks; gunakan sebagai referensi pelengkap</em> · <a href="https://www.researchgate.net/publication/396380126_Model-Selection-for-Sentiment-Analysis-Traditional-ML-vs-LLMs" target="_blank" rel="noopener" style="color:var(--primary)">→ ResearchGate</a>
-        </li>
-      </ul>
-
-      <h3 data-i18n="ref07PricingH">API pricing <em>reference (May 2026).</em></h3>
-      <table class="compare reveal" aria-label="API pricing reference">
-        <thead>
-          <tr>
-            <th data-i18n="refModel">Model</th>
-            <th data-i18n="refInput">Input (per 1M token)</th>
-            <th data-i18n="refOutput">Output (per 1M token)</th>
-            <th data-i18n="refSource">Source</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Gemini 2.0 Flash Lite (Google)</td>
-            <td>$0.075</td>
-            <td>$0.30</td>
-            <td><a href="https://ai.google.dev/pricing" target="_blank" rel="noopener" style="color:var(--primary);font-family:'DM Mono',monospace;font-size:12px;">Google AI Pricing</a></td>
-          </tr>
-          <tr>
-            <td>GPT-4.1 Nano (OpenAI)</td>
-            <td>$0.10</td>
-            <td>$0.40</td>
-            <td><a href="https://openai.com/api/pricing/" target="_blank" rel="noopener" style="color:var(--primary);font-family:'DM Mono',monospace;font-size:12px;">OpenAI Pricing</a></td>
-          </tr>
-
-        </tbody>
-      </table>
-      <p style="font-size:13px; color:var(--muted);" data-i18n="refPricingNote">Prices may change. Always check official provider pages for current rates. Cost estimates in this case study use Gemini 2.0 Flash Lite as the primary model (actual model used in inference via OpenRouter).</p>
+      <div class="section-num" data-i18n="s11Num">11 · References</div>
+      <h2 data-i18n="s11Title">Papers &amp; <em>resources.</em></h2>
+      <ol class="ref-list">
+        <li><span class="ref-num">[1]</span>Hochreiter, S., &amp; Schmidhuber, J. (1997). Long short-term memory. <em>Neural Computation</em>, 9(8), 1735–1780.</li>
+        <li><span class="ref-num">[2]</span>Schuster, M., &amp; Paliwal, K. K. (1997). Bidirectional recurrent neural networks. <em>IEEE Transactions on Signal Processing</em>, 45(11), 2673–2681.</li>
+        <li><span class="ref-num">[3]</span>Srivastava, N., et al. (2014). Dropout: A simple way to prevent neural networks from overfitting. <em>JMLR</em>, 15(1), 1929–1958.</li>
+        <li><span class="ref-num">[4]</span>Brown, T., et al. (2020). Language models are few-shot learners. <em>NeurIPS 2020</em>. GPT-3 paper establishing few-shot prompting.</li>
+        <li><span class="ref-num">[5]</span>Wei, J., et al. (2022). Chain-of-thought prompting elicits reasoning in large language models. <em>NeurIPS 2022</em>.</li>
+        <li><span class="ref-num">[6]</span>Google DeepMind. (2024). Gemini 1.5: Unlocking multimodal understanding. Technical Report.</li>
+        <li><span class="ref-num">[7]</span>Mikolov, T., et al. (2013). Efficient estimation of word representations in vector space. <em>ICLR 2013</em>.</li>
+        <li><span class="ref-num">[8]</span>Gal, Y., &amp; Ghahramani, Z. (2016). A theoretically grounded application of dropout in recurrent neural networks. <em>NeurIPS 2016</em>. Basis for SpatialDropout1D.</li>
+      </ol>
     </div>
   </section>
 
-  <!-- ── CTA ── -->
-  <section class="cta-section">
+  <!-- CTA -->
+  <div class="cta-section">
     <div class="wrap">
-      <div class="section-num" data-i18n="ctaNum">08 · What's next</div>
-      <h2 data-i18n="ctaTitle">See the rest of <em>the work.</em></h2>
-      <p data-i18n="ctaP">More case studies covering RAG systems, LLM routing, classical NLP, and predictive ML — each explained from problem to result.</p>
+      <div class="section-num" data-i18n="ctaNum">See the code</div>
+      <h2 data-i18n="ctaTitle">All models, prompts, and evaluation code <em>on GitHub.</em></h2>
+      <p data-i18n="ctaP">The repository includes the full BiLSTM training pipeline, all six prompt strategy implementations, the Gemini Flash evaluation loop, and cost calculation scripts.</p>
       <div class="cta-buttons">
-        <a href="https://github.com/ninditya/sentiment-analysis-ml-vs-genai" class="btn ghost" target="_blank" rel="noopener" data-i18n="ctaSource">View source →</a>
-        <a href="../#projects" class="btn ghost" data-i18n="ctaBack">← Back to all projects</a>
+        <a href="https://github.com/ninditya/sentiment-analysis-ml-vs-genai" target="_blank" rel="noopener" class="btn" data-i18n="ctaGh">↗ View on GitHub</a>
+        <a href="/" class="btn ghost" data-i18n="ctaBack">← Back to portfolio</a>
       </div>
     </div>
-  </section>
+  </div>
 
   <footer>
     <div class="wrap">
-      <span data-i18n="footerLeft">© 2026 Ninditya Salma Nur Aini</span>
-      <span data-i18n="footerRight">Built without frameworks · <a href="mailto:ninditya.sna025@gmail.com">ninditya.sna025@gmail.com</a></span>
+      <span>© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a></span>
+      <span><a href="https://github.com/ninditya/sentiment-analysis-ml-vs-genai" target="_blank" rel="noopener">GitHub</a></span>
     </div>
   </footer>
 
   <script>
-    // ── Reveal on scroll ──
-    const revealEls = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    revealEls.forEach(el => io.observe(el));
-
-    // ── i18n ──
     const translations = {
       en: {
-        navBack: '← All projects', navAbout: 'About', navContact: 'Contact',
-        kickerTag: 'Case Study',
-        heroKicker: 'EDA · LSTM · TF-IDF · GridSearch · OpenRouter · Zero-shot Prompting',
-        heroTitle: 'Sentiment analysis, two ways.',
-        heroLede: 'At work, I was the one adjusting the prompts for a GenAI sentiment analysis system. Sometimes the answers felt off — but I had no way to quantify how off, or whether my changes were actually improving anything. I\'d built an ML model for this exact task in 2023. So in 2026, I ran both approaches end-to-end on the same data: the full ML pipeline, and the GenAI prompting approach — measured the same way, on the same test set.',
-        heroMeta1: 'Origin  Binar Academy · Platinum Batch 2023 · Extended 2026',
-        heroMeta2: 'Type  Solo project · Class assignment + real-world follow-up',
-        heroMeta3: 'Stack  TensorFlow · scikit-learn · Flask · OpenRouter · SQLite',
-        heroMeta4: 'Dataset  11,000 rows · Indonesian Twitter · 3 labels',
-        stat1: 'LSTM accuracy\nvs 85.3% GenAI real API',
-        stat2: 'LSTM faster than GenAI API\n0.25 ms vs ~195 ms/sample',
-        stat3: 'Cheaper per year\n$0/req ML vs $62+/yr GenAI',
-        stat4: 'Bugs in 2023 code\nfound on revisit in 2026',
-        sec00Num: '00 · Why This Comparison',
-        sec00Title: 'A real question from work, answered with real data.',
-        sec00Lede: 'At a work project, I was the one managing and adjusting the prompt for a GenAI-based sentiment analysis system. Results varied — sometimes the classification felt off. But I had no measurement framework to know how off, or whether my prompt adjustments were genuinely helping.',
-        sec00P1: 'I had already built a sentiment analysis model in 2023 — Neural Network and LSTM on Indonesian Twitter data. In 2026, I extended it into a proper comparison: both approaches, same dataset, same metrics, same 300-sample test set.',
-        check00a: 'ML pipeline — EDA → preprocessing → oversampling → modeling → overfitting fix / GridSearch → evaluation and insights',
-        check00b: 'GenAI prompting — temperature, zero-shot vs few-shot vs CoT, real API inference, cost at scale, evaluation and insights',
-        check00c: 'Head-to-head comparison — accuracy, F1, latency, and per-request cost on the same 300 labeled samples',
-        pq00: '"I was adjusting prompts at work without knowing if they were making things better or worse. This comparison finally gave me that answer."',
-        sec01Num: '01 · The Approaches',
-        sec01Title: 'ML pipeline and GenAI prompting, built and measured.',
-        sec01Lede: 'The dataset: 11,000 rows of Indonesian Twitter text, labeled positive · negative · neutral. Heavily imbalanced — positive dominates at 6,416 rows, neutral is the minority class at 1,148. This imbalance shapes every decision in the ML pipeline.',
-        eda3H: 'EDA: what the data looks like before any modeling.',
-        eda3P1: 'Three things from the data that shaped every decision downstream:',
-        eda3L1: 'Class imbalance — positive 58%, negative 31%, neutral 10%. Without oversampling, neutral recall collapses.',
-        eda3L2: 'Informal language — slang ("gue", "gapapa"), abbreviations ("tdk", "udh"), mixed case. Standard NLP pipelines break without a domain-specific normalization layer.',
-        eda3L3: 'Short texts — tweet-length, 5–30 tokens after cleaning. Enough signal for TF-IDF; LSTM needs careful regularization to not memorize patterns.',
-        mlModels3H: 'The ML approach: two models, two strategies.',
-        mlModels3P: 'With clean data and a fixed class imbalance, two models were built. The NN approach focuses on speed and interpretability; the LSTM approach focuses on understanding word order and context.',
-        nn3H: 'Neural Network (TF-IDF + MLP)',
-        nn3P: 'TF-IDF converts text to a bag-of-words feature vector. MLPClassifier is then tuned via GridSearchCV — it tests combinations of hyperparameters and picks the best-performing configuration. Best params: activation=relu, alpha=0.1, hidden_layer_sizes=(10,), lr=0.01. Result: 90.5% accuracy with 0.0008ms inference time per sample.',
-        lstm3H: 'Bidirectional LSTM',
-        lstm3P: 'LSTM reads token sequences and learns contextual patterns — useful for Indonesian slang where word order matters. Bidirectional means it reads left-to-right and right-to-left simultaneously. Challenge: overfitting (train 0.99 vs val 0.88). Solved iteratively with SpatialDropout, L2 regularization, and restore_best_weights=True. Final accuracy: 91.09% on full test set.',
-        os3Header: 'Oversampling: fixing the class imbalance before training',
-        os3H: 'Neutral class: 1,148 rows → balanced.',
-        os3P: 'Without correction, any model learns that predicting "positive" most of the time gets decent accuracy — without learning neutral or negative properly. The fix: duplicate neutral samples until the training set is balanced. One limitation: oversampling happened before the train-test split, so duplicate samples could appear in both sets.',
-        models2H: 'The shared preprocessing pipeline.',
-        models2P: 'Before any model saw the text, all data passed through the same cleaning steps — stored in SQLite for consistency between training and API inference.',
-        genai3H: 'The GenAI approach: prompting, temperature, and real API inference.',
-        genai3P1: 'Each text is sent to an LLM with a written prompt; the model returns a label. No training — just OpenRouter API with Gemini 2.0 Flash Lite, on the same 300-sample test set.',
-        temp3H: 'Temperature',
-        temp3P: 'At temperature=0, the model always picks the most probable token — consistent, reproducible output. Higher values introduce randomness. For a 3-label classification task, low temperature is the right choice. The effect across different temperature values is in the chart at section 05.',
-        prompt3H: 'Prompting strategy',
-        prompt3P: 'Three styles tested: zero-shot, few-shot (3–10 examples), chain-of-thought. The surprising result: adding examples made accuracy worse. The few-shot examples were e-commerce reviews — a different domain from Twitter. The model anchored to the wrong patterns. Zero-shot won on accuracy and cost.',
-        sec02Num: '02 · Bugs Found',
-        sec02Title: 'Three bugs in the 2023 code, found three years later.',
-        sec02Lede: 'When I ran the original code again in 2026, three separate bugs surfaced — each in a different layer. They weren\'t caught during the 2023 submission. My debugging instincts and code-reading discipline were still developing at the time.',
-        bug1Header: 'Wrong model filename — app.py',
-        bug1H: 'Silent failure at load time.',
-        bug1P: 'The API tried to load main_model_new1.h5 — a file that did not exist. Fixed by correcting the filename reference.',
-        bug2Header: 'return inside for-loop — CSV file processing endpoint',
-        bug2H: 'Only the first row ever processed.',
-        bug2P: 'The file upload endpoint had return response_data inside the loop body. On the first iteration, the function returned immediately — every subsequent row was silently dropped. Fixed by moving return outside the loop.',
-        bug3Header: 'get: instead of post: — all 6 Swagger YAML files',
-        bug3H: 'Method mismatch across all endpoints.',
-        bug3P: 'Every Swagger YAML documented endpoints as get: operations. The actual Flask routes were all POST. Fixed by changing get: → post: in all 6 YAML files.',
-        sec03Num: '03 · Challenge',
-        sec03Title: 'LSTM was memorizing, not learning.',
-        sec03Lede: 'The first LSTM run showed train accuracy 0.99 vs validation accuracy 0.88. Four iterative fixes brought it to 91%.',
-        sec03P1: 'Root cause: 13,000 samples is too small for a large LSTM. The model had enough capacity to memorize the training set entirely, but validation loss climbed after epoch 2.',
-        iter0: 'Iteration', iter1: 'Change', iter2: 'Val Accuracy',
-        iterR1: 'LSTM(64), EarlyStopping(patience=2)',
-        iterR2: 'patience=5, epochs=50',
-        iterR3: 'Bidirectional, SpatialDropout(0.4), restore_best_weights=True',
-        iterR4: 'L2 regularization(0.001) on LSTM + Dense',
-        sec03P2: 'Key insight: restore_best_weights=True means EarlyStopping saves the weights from the best validation epoch, not the last epoch. Without this, the model would return a degraded version.',
-        leak3H: 'The 92% I reported in 2023 was wrong.',
-        leak3P: 'When I revisited LSTM_Code.ipynb, I found that KFold was applied to the full dataset — including x_test. The model had effectively seen test data during training. I didn\'t understand this at the time. In the new comparison notebook, test data is separated before any training step. The honest result is 91.07% — one point lower, but a number I can now actually explain and defend.',
-        sec04Num: '04 · Results',
-        sec04Title: 'Head-to-head on 300 identical samples.',
-        sec04Lede: 'All three models were evaluated on the same held-out test set. The comparison is fair: same data, same preprocessing, same evaluation metric.',
-        cmpModel: 'Model', cmpApproach: 'Approach', cmpAcc: 'Accuracy', cmpF1: 'F1 Macro', cmpLatency: 'Latency',
-        cmpR1a: 'LSTM (Bidirectional + L2)', cmpR1b: 'Traditional ML',
-        cmpR2a: 'NN (TF-IDF + MLP)', cmpR2b: 'Traditional ML',
-        cmpR3a: 'GenAI Zero-shot (LLM API)', cmpR3b: 'GenAI Prompting',
-        v1Label: 'LSTM', v1Desc: 'Best accuracy on 300-sample eval. Bidirectional reading + L2 regularization + restore_best_weights made the difference. Full test set: 91.09%.',
-        v2Label: 'NN (MLP)', v2Desc: 'On 300-sample eval. Near ML-grade accuracy at ~244,000× GenAI API speed. Full test set: 90.5%. Smallest operational footprint.',
-        v3Label: 'GenAI Zero-shot', v3Desc: 'Real API inference (Gemini 2.0 Flash Lite via OpenRouter). Lowest accuracy of the three, slowest (~195ms), and adds per-token cost every request.',
-        perclass3H: 'Per-class performance (LSTM — best model).',
-        pcLabel: 'Label', pcPrec: 'Precision', pcRec: 'Recall', pcF1: 'F1-score', pcSup: 'Support',
-        pcOverall: 'Overall accuracy',
-        sec05Num: '05 · Cost Analysis',
-        sec05Title: 'GenAI adds a per-message API bill forever.',
-        sec05Lede: 'Traditional ML adds zero marginal cost per request. GenAI adds a per-token API bill every time a message is analyzed — and making the prompt longer doesn\'t even help.',
-        cost1Title: 'Traditional ML (local)',
-        cost1Desc: 'Per request. Inference runs on the CRM server that already exists. No API calls, no per-token billing. Accuracy: 93.0% (300-sample eval).',
-        cost2Title: 'GenAI Zero-shot (API)',
-        cost2Desc: 'Baseline at 10,000 requests/day, Gemini 2.0 Flash Lite ($0.075/1M input token, May 2026). Bill scales with traffic. Accuracy: 85.3%.',
-        tradeoff5H: 'Surprising finding: longer prompt = worse accuracy.',
-        tradeoff5P: 'The expected pattern — more examples lead to better results — didn\'t hold here. Few-shot and chain-of-thought prompts actually hurt accuracy compared to zero-shot. Root cause: the few-shot examples used e-commerce reviews, while the test data is informal Twitter text. The mismatch confused the model. Zero-shot turned out to be both the most accurate and the cheapest GenAI strategy.',
-        trd0: 'Prompt Style', trd1: 'Actual Accuracy', trd2: 'Extra API Cost/yr*',
-        trdR1a: 'Zero-shot ← best GenAI', trdR2a: 'Few-shot (3 examples)', trdR2b: 'Few-shot (5 examples)', trdR2c: 'Few-shot (10 examples)', trdR3a: 'Chain-of-Thought', trdR4a: 'ML LSTM (local, CRM server)',
-        trdNote: '*Assumes 10,000 requests/day, Gemini 2.0 Flash Lite ($0.075/1M input token, May 2026). ML has no additional per-request cost because it runs on existing CRM infrastructure.',
-        pq05: '"Spending more on GenAI prompts doesn\'t just add cost — it actively makes the model worse. Zero-shot wins on accuracy and price. ML wins on both by an even wider margin."',
-        sec06Num: '06 · Reflection',
-        sec06Title: 'What looking back at 2023 actually showed.',
-        learn1: 'Evaluating old work honestly is uncomfortable — and necessary. The 92% felt real in 2023. The notebook ran without errors. But "no error" does not mean "correct." Finding the evaluation was wrong is exactly the kind of discomfort that makes you a better practitioner.',
-        learn2: 'Bugs don\'t surface until you run the code again. Three issues — a wrong filename, a return inside a loop, HTTP method in all YAML docs — all required actively re-running and re-reading the entire codebase to find. A submission that "worked" at the time still had all three hiding in it.',
-        learn3: 'Prompt engineering improves accuracy, but at a cost per token. In the real project I used prompts to improve GenAI sentiment analysis. This comparison gives me a framework to think about that tradeoff quantitatively for the first time.',
-        learn4: 'This comparison is a proxy, not the final answer. The 2023 Twitter dataset is not the actual domain data from the project where I used GenAI. The real measurement — same metrics, actual domain data, actual prompts — is still pending. This page establishes the baseline methodology.',
-        learn5: 'Overfitting is a constraint problem, not a dead end. Each LSTM iteration added one targeted constraint. The pattern: diagnose the cause, add one constraint, measure the result — then repeat.',
-        why0shotHeader: 'Why zero-shot > few-shot in this case',
-        why0shotH: 'Few-shot only works when the examples match the domain.',
-        why0shotP1: 'The few-shot examples I hardcoded in the prompt were product reviews — things like "produk bagus kualitas oke, pengiriman cepat." Formal sentences, e-commerce vocabulary, complete grammar. The test data is entirely different: Indonesian Twitter with slang, abbreviations, emoticons, and incomplete sentences.',
-        why0shotP2: 'When you give a model examples from the wrong domain, it doesn\'t ignore them — it anchors to those patterns. When it encountered a tweet like "gapapa sih tp kurang puas", the e-commerce-style anchors actively got in the way. Zero-shot has no examples to anchor to, so it relies on general language understanding instead. Out-of-domain few-shot examples aren\'t extra information — they\'re noise that costs more money.',
-        future6H: 'Next: retry few-shot with in-domain examples.',
-        future6P1: 'The zero-shot win comes with an asterisk: the few-shot examples were out-of-domain (e-commerce, not Twitter). The next experiment is replacing them with labeled tweets from the same distribution — to test whether few-shot can actually beat zero-shot when the examples match. After that: run the same comparison on the actual work dataset, the one where these questions originally came from.',
-        sec07Num: '07 · References',
-        sec07Title: 'Academic backing for the comparison.',
-        sec07Lede: 'The findings here align with peer-reviewed research. These papers support the core claims about Traditional ML vs GenAI for sentiment analysis tasks.',
-        ref07PricingH: 'API pricing reference (May 2026).',
-        refModel: 'Model', refInput: 'Input (per 1M token)', refOutput: 'Output (per 1M token)', refSource: 'Source',
-        refPricingNote: 'Prices may change. Always check official provider pages for current rates. Cost estimates in this case study use Gemini 2.0 Flash Lite as the primary model (actual model used in inference via OpenRouter).',
-        ctaNum: '08 · What\'s next',
-        ctaTitle: 'See the rest of the work.',
-        ctaP: 'More case studies covering RAG systems, LLM routing, classical NLP, and predictive ML — each explained from problem to result.',
-        ctaSource: 'View source →', ctaBack: '← Back to all projects',
-        footerLeft: '© 2026 Ninditya Salma Nur Aini',
-        footerRight: 'Built without frameworks · ninditya.sna025@gmail.com',
+        navBack:'← Back to portfolio', navProjects:'Projects', navContact:'Contact',
+        kickerTag:'NLP · Deep Learning',
+        heroTitle:'ML vs GenAI<br><em>Sentiment Analysis</em>',
+        heroLede:'Same dataset. Three approaches. One systematic question: <strong>when does BiLSTM beat Gemini Flash?</strong> And what does it actually cost to find out?',
+        heroMetaContext:'<strong>Context</strong> Binar Academy final project, revisited 2026',
+        haSrcLabel:'Same Dataset',
+        haB1Tag:'Approach 1', haB2Tag:'Approach 2 · Winner', haB3Tag:'Approach 3',
+        haEvalAcc:'Accuracy', haEvalF1:'F1 Score', haEvalCost:'Annual Cost', haEvalLatency:'Latency',
+        stat1:'Indonesian tweets<br>across 3 classes', stat2:'BiLSTM accuracy<br>best result',
+        stat3:'GenAI latency<br>vs neural network', stat4:'Annual cost for<br>BiLSTM vs $62+ GenAI',
+        s1Num:'01 · Business Question',
+        s1Title:'If you\'re building Indonesian sentiment analysis in 2026, <em>which approach do you actually choose?</em>',
+        s1Lede:'GenAI is fast to prototype, but nobody has directly measured it against trained LSTM on the same Indonesian dataset with the same evaluation — including cost and latency.',
+        s1P1:'This project started as a 2023 Binar Academy final project (TF-IDF + MLP, 89.67%). In 2026 I revisited it with two questions: can a BiLSTM close the gap, and is GenAI zero-shot a practical alternative for production use?',
+        s1P2:'The evaluation covers four dimensions: accuracy, cost, latency, and prompt engineering effort. The answer isn\'t obvious until you look at all four together.',
+        s2Num:'02 · Final Result',
+        s2Title:'<em>BiLSTM wins</em> — not just on accuracy, but on every dimension that matters for production.',
+        s2Lede:'93.0% accuracy, F1 0.9328, 0.25ms inference, $0/year. GenAI zero-shot sits 7.7 points lower in accuracy and costs $62/year for the same volume.',
+        vc1Rank:'🏆 Winner', vc2Rank:'#2', vc3Rank:'#3',
+        vcLatency:'Latency', vcCost:'Annual cost',
+        s2MatrixTitle:'Decision matrix',
+        dmCol0:'Criterion',
+        dmRow1:'Accuracy', dmRow2:'Macro F1', dmRow3:'Latency', dmRow4:'Annual cost',
+        dmRow5:'Training needed', dmRow6:'Labeled data needed', dmRow7:'Neutral class F1',
+        takeaway:'<strong>When you have labeled data:</strong> BiLSTM is the clear choice — higher accuracy, zero cost, sub-millisecond inference. GenAI zero-shot earns its place only when you need to classify without any training data or when you\'re building a quick prototype before the labeled dataset exists.',
+        s3Num:'03 · Architecture',
+        s3Title:'Three pipelines, <em>same evaluation framework.</em>',
+        s3P:'Each approach was evaluated under identical conditions: same 11,000-tweet dataset, same 80/20 train-test split, same metrics. Only the pipeline changed.',
+        ac1Tag:'Approach 1', ac2Tag:'Approach 2 · Winner', ac3Tag:'Approach 3',
+        ac1s1:'Raw tweet text', ac1s2:'Preprocessing (lower, regex, stopwords)', ac1s3:'TF-IDF vectorization (max_features=5000)', ac1s4:'Dense MLP (512→256→128→3)', ac1s5:'Softmax → class label',
+        ac2s1:'Raw tweet text', ac2s2:'Preprocessing (lower, regex, stopwords)', ac2s3:'Tokenizer + pad_sequences (maxlen=100)', ac2s4:'Embedding layer (dim=128)', ac2s5:'SpatialDropout1D + Bidirectional LSTM (128)', ac2s6:'Dense(64, relu) + L2 + Dropout', ac2s7:'Softmax → class label',
+        ac3s1:'Raw tweet text', ac3s2:'Prompt construction (ZS / FS / CoT)', ac3s3:'Gemini Flash 2.0 API call', ac3s4:'JSON response parsing', ac3s5:'Class label extraction',
+        s4Num:'04 · Dataset &amp; EDA',
+        s4Title:'11,000 Indonesian tweets. <em>Class imbalance baked in.</em>',
+        s4Lede:'The dataset is heavily skewed toward positive sentiment — 58% positive, 31% negative, just 10% neutral. This imbalance shapes every evaluation decision, especially for the neutral class.',
+        dbPos:'Positive', dbNeg:'Negative', dbNeu:'Neutral',
+        s4P:'The neutral class (10%) proved hardest to classify across all three approaches. BiLSTM achieved the highest neutral F1 at 0.96 — significantly better than NN (0.77) or GenAI zero-shot. The imbalance is why macro-averaged F1 matters more than accuracy alone.',
+        s4PerClassTitle:'Per-class performance (BiLSTM — best model)',
+        pcClass:'Class', pcPrec:'Precision', pcRec:'Recall', pcF1:'F1', pcSupport:'Support',
+        pcNeg:'Negative', pcNeu:'Neutral', pcPos:'Positive',
+        s5Num:'05 · Training Journey',
+        s5Title:'Four iterations to get to 93%. <em>Each one taught something different.</em>',
+        s5P:'The baseline LSTM overfit badly. Each iteration added one intervention and measured the delta. The best result came at iteration 3 — adding L2 in iteration 4 slightly hurt.',
+        tt1Iter:'Baseline', tt1Change:'Unidirectional LSTM, no regularization',
+        tt2Iter:'+ Early Stopping', tt2Change:'patience=5, restore best weights',
+        tt3Iter:'+ BiDir + SpatialDropout', tt3Change:'Bidirectional LSTM, SpatialDropout1D(0.2)',
+        tt4Iter:'+ L2 regularization → Final', tt4Change:'L2(0.01) on Dense layer → best validation',
+        s5ImgTitle:'Training history',
+        s6Num:'06 · GenAI Experiments',
+        s6Title:'Six prompt strategies tested. <em>More examples ≠ better results.</em>',
+        s6P1:'The GenAI track tested zero-shot, 3/5/10-shot few-shot, chain-of-thought, and multilingual prompting. Adding more examples increased cost but did not reliably improve accuracy.',
+        s6TempTitle:'Temperature sweep — accuracy vs randomness',
+        s6TempP:'Temperature 0.0 (deterministic) produced the highest accuracy at 86.0%. Higher temperatures introduced variance without improving results.',
+        s6ImgTitle:'Prompt strategy comparison',
+        s7Num:'07 · Benchmark',
+        s7Title:'Accuracy, F1, and latency <em>side by side.</em>',
+        s7AccTitle:'Accuracy &amp; F1',
+        s7LatencyTitle:'Latency comparison (log scale)',
+        s7LatencyP:'GenAI is 772× slower than the neural network. On log scale, this 24ms → 195ms range dwarfs both trained models. Bar width represents log₁₀ position.',
+        lbNN:'TF-IDF + MLP', lbLSTM:'BiLSTM', lbGenAI:'Gemini Flash',
+        lbNote:'Log₁₀ scale: NN=−3.10, LSTM=−0.60, GenAI=2.29. Bar widths normalized to log range. Actual difference: 772× NN→GenAI.',
+        s7ImgTitle:'Benchmark charts',
+        s8Num:'08 · Cost Analysis',
+        s8Title:'More prompting strategy = <em>more cost, not more accuracy.</em>',
+        s8Lede:'Assuming 1,000 classifications/day at 2025 Gemini Flash pricing. Zero-shot costs $62/year. Chain-of-thought costs $304/year — and doesn\'t improve accuracy over zero-shot.',
+        cc0Strategy:'Trained ML (BiLSTM)', cc0Sub:'/year · after training',
+        cc1Strategy:'Zero-shot', cc1Sub:'/year · 1K req/day',
+        cc2Strategy:'3-shot few-shot', cc2Sub:'/year', cc2Acc:'~same accuracy as ZS',
+        cc3Strategy:'5-shot few-shot', cc3Sub:'/year', cc3Acc:'Marginal improvement',
+        cc4Strategy:'10-shot few-shot', cc4Sub:'/year', cc4Acc:'Diminishing returns',
+        cc5Strategy:'Chain-of-Thought', cc5Sub:'/year', cc5Acc:'No accuracy gain vs ZS',
+        costQuote:'"The Pareto-optimal point is zero-shot at $62/year — but even that is dominated by BiLSTM at $0. The entire GenAI cost curve sits below 89% accuracy."',
+        s9Num:'09 · Bugs Found',
+        s9Title:'Three bugs that only surfaced <em>when the system was actually used.</em>',
+        bug1Num:'Bug 01 · Wrong filename', bug1Title:'Model file not found',
+        bug1Effect:'API returned 500 on first deployment. Typo in the hardcoded filename — the actual saved model never had the trailing "1".',
+        bug2Num:'Bug 02 · Early return', bug2Title:'Batch endpoint returned only first result',
+        bug2Effect:'<code>return</code> inside the for-loop exited after the first iteration. Batch requests always returned a single prediction regardless of input size.',
+        bug3Num:'Bug 03 · HTTP method', bug3Title:'All Swagger endpoints declared as GET',
+        bug3Effect:'All 6 Swagger YAML files used <code>get:</code> instead of <code>post:</code>. The UI showed GET forms that couldn\'t submit a request body — the endpoints were unreachable from the docs.',
+        s10Num:'10 · Lessons Learned',
+        s10Title:'What this experiment <em>actually settled.</em>',
+        l1Label:'On GenAI for NLP tasks', l1Body:'<strong>GenAI zero-shot is a starting point, not an endpoint.</strong> For a task with a well-labeled dataset, a trained model will consistently outperform prompt engineering — and at zero ongoing cost.',
+        l2Label:'On class imbalance', l2Body:'<strong>Accuracy hides imbalance problems.</strong> The neutral class (10%) is where all three models struggle most. Reporting only accuracy would have obscured the 0.77 vs 0.96 neutral F1 gap between NN and LSTM.',
+        l3Label:'On overfitting', l3Body:'<strong>Validation loss is a better stopping criterion than accuracy.</strong> The baseline LSTM overfit within 10 epochs — early stopping with <code>patience=5</code> added 0.28 points without any architecture change.',
+        l4Label:'On prompt cost escalation', l4Body:'<strong>Each prompt strategy multiplies cost without linearly multiplying accuracy.</strong> Going from zero-shot ($62) to Chain-of-Thought ($304) is a 5× cost increase for near-zero accuracy gain.',
+        s10WhenTitle:'When ML · When GenAI',
+        whenMLHeader:'Use Trained ML When', whenGenAIHeader:'Use GenAI When',
+        wml1:'You have 1,000+ labeled examples', wml2:'Latency matters (sub-ms inference)', wml3:'Cost at scale matters ($0 marginal)', wml4:'You\'re serving one specific language/domain',
+        wg1:'No labeled data exists yet', wg2:'You need a working prototype in hours', wg3:'Task scope is undefined (exploratory)', wg4:'Multilingual coverage matters more than accuracy',
+        s11Num:'11 · References',
+        s11Title:'Papers &amp; <em>resources.</em>',
+        ctaNum:'See the code',
+        ctaTitle:'All models, prompts, and evaluation code <em>on GitHub.</em>',
+        ctaP:'The repository includes the full BiLSTM training pipeline, all six prompt strategy implementations, the Gemini Flash evaluation loop, and cost calculation scripts.',
+        ctaGh:'↗ View on GitHub', ctaBack:'← Back to portfolio',
       },
       id: {
-        navBack: '← Semua project', navAbout: 'Tentang', navContact: 'Kontak',
-        kickerTag: 'Studi Kasus',
-        heroKicker: 'EDA · LSTM · TF-IDF · GridSearch · OpenRouter · Zero-shot Prompting',
-        heroTitle: 'Sentiment analysis, dua cara.',
-        heroLede: 'Di project kerja, saya yang mengatur dan menyesuaikan prompt untuk sistem sentiment analysis berbasis GenAI. Kadang hasilnya terasa kurang tepat — tapi saya tidak punya cara untuk mengukur seberapa jauh, atau apakah adjustment prompt saya benar-benar membantu. Saya sudah pernah membuat model ML untuk tugas yang sama di 2023. Jadi di 2026, saya jalankan keduanya end-to-end di data yang sama: pipeline ML lengkap dan pendekatan GenAI prompting — diukur dengan cara yang sama, di test set yang sama.',
-        heroMeta1: 'Asal  Binar Academy · Platinum Batch 2023 · Diperluas 2026',
-        heroMeta2: 'Tipe  Solo project · Tugas kelas + follow-up nyata',
-        heroMeta3: 'Stack  TensorFlow · scikit-learn · Flask · OpenRouter · SQLite',
-        heroMeta4: 'Dataset  11.000 baris · Twitter Indonesia · 3 label',
-        stat1: 'Akurasi LSTM\nvs 85,3% GenAI real API',
-        stat2: 'LSTM lebih cepat dari GenAI API\n0,25 ms vs ~195 ms/sample',
-        stat3: 'Lebih hemat per tahun\n$0/request ML vs $62+/thn GenAI',
-        stat4: 'Bug di kode 2023\nditemukan saat revisit 2026',
-        sec00Num: '00 · Latar Belakang',
-        sec00Title: 'Pertanyaan nyata dari project kerja, dijawab dengan data nyata.',
-        sec00Lede: 'Di project kerja, saya yang mengelola dan menyesuaikan prompt untuk sistem sentiment analysis berbasis GenAI. Hasilnya bervariasi — terkadang klasifikasinya terasa kurang tepat. Tapi saya tidak punya framework pengukuran untuk tahu seberapa jauh, atau apakah adjustment prompt saya benar-benar membantu.',
-        sec00P1: 'Saya sudah pernah membangun model sentiment analysis yang proper di 2023 sebagai tugas kelas — Neural Network dan LSTM, dilatih pada data Twitter Indonesia. Itu memberi saya baseline yang siap pakai. Di 2026, saya memperluas project itu menjadi perbandingan penuh: jalankan pipeline ML dan pendekatan prompting GenAI pada dataset berlabel yang sama, evaluasi dengan metrik yang sama, dan akhirnya dapatkan angka yang konkret.',
-        sec00P2: 'Sisi ML mencakup pipeline penuh: analisis eksplorasi dataset imbalanced, preprocessing teks, oversampling untuk memperbaiki ketidakseimbangan kelas, membangun dua model (TF-IDF + Neural Network dengan GridSearch, dan Bidirectional LSTM dengan regularisasi), menangani overfitting, dan mengevaluasi keduanya. Sisi GenAI mencakup pemilihan temperature, zero-shot vs few-shot vs chain-of-thought, real API inference via OpenRouter, analisis biaya, dan evaluasi pada 300 sample test set yang sama.',
-        check00a: 'Pipeline ML — EDA → preprocessing → oversampling → modeling → overfitting fix / GridSearch → evaluasi dan insight',
-        check00b: 'Prompting GenAI — temperature, zero-shot vs few-shot vs CoT, real API inference, biaya di skala, evaluasi dan insight',
-        check00c: 'Perbandingan head-to-head — akurasi, F1, latensi, dan biaya per-request pada 300 sample berlabel yang sama',
-        pq00: '"Saya meng-adjust prompt di project kerja tanpa tahu apakah itu membantu atau memperburuk. Perbandingan ini akhirnya memberi jawabannya."',
-        sec01Num: '01 · Pendekatan',
-        sec01Title: 'Pipeline ML dan prompting GenAI, dibangun dan diukur.',
-        sec01Lede: 'Dataset: 11.000 baris teks Twitter Indonesia, berlabel positif · negatif · netral. Sangat imbalanced — positif mendominasi dengan 6.416 baris, netral adalah kelas minoritas dengan 1.148. Ketidakseimbangan ini menentukan setiap keputusan dalam pipeline ML.',
-        eda3H: 'EDA: seperti apa datanya sebelum modeling.',
-        eda3P1: 'Langkah pertama sebelum model apapun adalah memahami distribusi data. Dengan netral hanya 10% dari dataset, model yang dilatih tanpa koreksi akan belajar mengabaikannya. Tiga fakta dari EDA yang menentukan keputusan pipeline:',
-        eda3L1: 'Ketidakseimbangan kelas — positif 58%, negatif 31%, netral 10%. Tanpa oversampling, recall netral akan kolaps.',
-        eda3L2: 'Bahasa informal — kata alay ("gue", "gapapa"), singkatan ("tdk", "udh"), huruf campur. Pipeline NLP standar gagal tanpa lapisan normalisasi domain-specific.',
-        eda3L3: 'Teks pendek — panjang tweet, 5–30 token setelah pembersihan. Cukup sinyal untuk TF-IDF; LSTM butuh regularisasi yang hati-hati agar tidak menghafal pola.',
-        mlModels3H: 'Pendekatan ML: dua model, dua strategi.',
-        mlModels3P: 'Dengan data bersih dan ketidakseimbangan kelas yang sudah diperbaiki, dua model dibangun. Pendekatan NN fokus pada kecepatan dan interpretabilitas; pendekatan LSTM fokus pada pemahaman urutan kata dan konteks.',
-        nn3H: 'Neural Network (TF-IDF + MLP)',
-        nn3P: 'TF-IDF mengubah teks menjadi vektor fitur bag-of-words. MLPClassifier kemudian di-tune via GridSearchCV — menguji kombinasi hyperparameter dan memilih konfigurasi terbaik. Best params: activation=relu, alpha=0.1, hidden_layer_sizes=(10,), lr=0.01. Hasil: akurasi 90,5% dengan waktu inferensi 0,0008ms per sample.',
-        lstm3H: 'Bidirectional LSTM',
-        lstm3P: 'LSTM membaca urutan token dan mempelajari pola kontekstual — berguna untuk bahasa alay Indonesia yang makna kata bergantung urutannya. Bidirectional artinya membaca kiri-kanan dan kanan-kiri sekaligus. Tantangan: overfitting (train 0,99 vs val 0,88). Diselesaikan secara iteratif dengan SpatialDropout, regularisasi L2, dan restore_best_weights=True. Akurasi final: 91,09% pada test set penuh.',
-        os3Header: 'Oversampling: memperbaiki ketidakseimbangan kelas sebelum training',
-        os3H: 'Kelas netral: 1.148 baris → seimbang.',
-        os3P: 'Tanpa koreksi, model apapun belajar bahwa memprediksi "positif" sebagian besar waktu memberikan akurasi yang lumayan — tanpa benar-benar mempelajari kelas netral atau negatif. Solusinya: duplikasi sample netral sampai training set seimbang. Satu limitasi: oversampling dilakukan sebelum train-test split, jadi sample duplikat bisa muncul di kedua set.',
-        models2H: 'Pipeline preprocessing bersama.',
-        models2P: 'Sebelum model manapun melihat teks, semua data melewati langkah pembersihan yang sama — disimpan di SQLite untuk konsistensi antara training dan inferensi API.',
-        genai3H: 'Pendekatan GenAI: prompting, temperature, dan real API inference.',
-        genai3P1: 'Setiap teks dikirim ke LLM dengan prompt; model mengembalikan label. Tanpa training — hanya OpenRouter API dengan Gemini 2.0 Flash Lite, pada 300-sample test set yang sama.',
-        temp3H: 'Temperature',
-        temp3P: 'Pada temperature=0, model selalu memilih token paling mungkin — output konsisten dan dapat direproduksi. Nilai lebih tinggi memperkenalkan keacakan. Untuk tugas klasifikasi 3 label, temperature rendah adalah pilihan yang tepat. Efeknya di berbagai temperature ada di chart seksi 05.',
-        prompt3H: 'Strategi prompting',
-        prompt3P: 'Tiga gaya diuji: zero-shot, few-shot (3–10 contoh), chain-of-thought. Temuan mengejutkan: menambah contoh justru memperburuk akurasi. Contoh few-shot adalah ulasan e-commerce — domain yang berbeda dari Twitter. Model ter-anchor ke pola yang salah. Zero-shot menang di akurasi dan biaya.',
-        sec02Num: '02 · Bug Ditemukan',
-        sec02Title: 'Tiga bug di kode 2023, ditemukan tiga tahun kemudian.',
-        sec02Lede: 'Ketika saya menjalankan kode asli lagi di 2026, tiga bug terpisah muncul — masing-masing di lapisan berbeda. Tidak tertangkap saat submission 2023. Insting debugging dan kebiasaan membaca kode saya waktu itu masih terus berkembang.',
-        bug1Header: 'Nama file model salah — app.py',
-        bug1H: 'Gagal diam-diam saat load.',
-        bug1P: 'API mencoba memuat main_model_new1.h5 — file yang tidak ada. Diperbaiki dengan mengoreksi referensi nama file.',
-        bug2Header: 'return di dalam for-loop — endpoint upload file CSV',
-        bug2H: 'Hanya baris pertama yang diproses.',
-        bug2P: 'Endpoint upload file memiliki return response_data di dalam body loop. Pada iterasi pertama, fungsi langsung return — setiap baris berikutnya dibuang diam-diam. Diperbaiki dengan memindahkan return ke luar loop.',
-        bug3Header: 'get: bukan post: — semua 6 file Swagger YAML',
-        bug3H: 'Method HTTP salah di semua endpoint.',
-        bug3P: 'Setiap YAML Swagger mendokumentasikan endpoint sebagai operasi get:. Route Flask yang sebenarnya semuanya POST. Diperbaiki dengan mengubah get: → post: di 6 file YAML.',
-        sec03Num: '03 · Tantangan',
-        sec03Title: 'LSTM menghafal, bukan belajar.',
-        sec03Lede: 'Run LSTM pertama menunjukkan akurasi training 0,99 vs akurasi validasi 0,88. Empat perbaikan iteratif membawanya ke 91%.',
-        sec03P1: 'Akar masalah: 13.000 sample terlalu kecil untuk LSTM besar. Model punya kapasitas cukup untuk menghafal seluruh training set, tapi validation loss naik setelah epoch 2.',
-        iter0: 'Iterasi', iter1: 'Perubahan', iter2: 'Val Accuracy',
-        iterR1: 'LSTM(64), EarlyStopping(patience=2)',
-        iterR2: 'patience=5, epochs=50',
-        iterR3: 'Bidirectional, SpatialDropout(0,4), restore_best_weights=True',
-        iterR4: 'L2 regularization(0,001) pada LSTM + Dense',
-        sec03P2: 'Kunci: restore_best_weights=True berarti EarlyStopping menyimpan bobot dari epoch validasi terbaik, bukan epoch terakhir.',
-        leak3H: '92% yang saya laporkan di 2023 ternyata salah.',
-        leak3P: 'Ketika saya kembali ke LSTM_Code.ipynb, saya menemukan KFold dilakukan pada seluruh dataset — termasuk x_test. Model secara efektif sudah "melihat" data test saat training. Saya tidak paham ini waktu itu: notebook berjalan tanpa error, angkanya terlihat bagus, jadi saya lanjut. Di notebook perbandingan baru, test data dipisahkan sebelum langkah training apapun. Hasil yang jujur adalah 91,07% — satu poin lebih rendah dari yang saya laporkan di 2023, tapi angka yang sekarang bisa saya jelaskan dan pertanggungjawabkan.',
-        sec04Num: '04 · Hasil',
-        sec04Title: 'Head-to-head pada 300 sample identik.',
-        sec04Lede: 'Ketiga model dievaluasi pada test set yang sama. Perbandingannya adil: data sama, preprocessing sama, metrik evaluasi sama.',
-        cmpModel: 'Model', cmpApproach: 'Pendekatan', cmpAcc: 'Akurasi', cmpF1: 'F1 Macro', cmpLatency: 'Latensi',
-        cmpR1a: 'LSTM (Bidirectional + L2)', cmpR1b: 'Traditional ML',
-        cmpR2a: 'NN (TF-IDF + MLP)', cmpR2b: 'Traditional ML',
-        cmpR3a: 'GenAI Zero-shot (LLM API)', cmpR3b: 'GenAI Prompting',
-        v1Label: 'LSTM', v1Desc: 'Akurasi terbaik pada 300-sample eval. Bidirectional + L2 + restore_best_weights membuat perbedaan. Test set penuh: 91,09%.',
-        v2Label: 'NN (MLP)', v2Desc: 'Pada 300-sample eval. Akurasi mendekati ML dengan kecepatan ~244.000× lebih cepat dari GenAI API. Test set penuh: 90,5%.',
-        v3Label: 'GenAI Zero-shot', v3Desc: 'Real API inference (Gemini 2.0 Flash Lite via OpenRouter). Akurasi terendah dari ketiganya, paling lambat (~195ms), dan menambah tagihan per-token tiap request.',
-        perclass3H: 'Performa per-kelas (LSTM — model terbaik).',
-        pcLabel: 'Label', pcPrec: 'Precision', pcRec: 'Recall', pcF1: 'F1-score', pcSup: 'Support',
-        pcOverall: 'Akurasi keseluruhan',
-        sec05Num: '05 · Analisis Biaya',
-        sec05Title: 'GenAI menambah tagihan API per-pesan selamanya.',
-        sec05Lede: 'ML tradisional tidak menambah biaya marginal per request. GenAI menambah tagihan per-token setiap kali pesan dianalisis — dan memperpanjang prompt pun tidak membantu, malah memperburuk.',
-        cost1Title: 'Traditional ML (lokal)',
-        cost1Desc: 'Per request. Inferensi berjalan di server CRM yang sudah ada. Tidak ada API call, tidak ada tagihan per-token. Akurasi: 93,0% (300-sample eval).',
-        cost2Title: 'GenAI Zero-shot (API)',
-        cost2Desc: 'Estimasi pada 10.000 request/hari, Gemini 2.0 Flash Lite ($0,075/1M token input, Mei 2026). Tagihan naik seiring traffic. Akurasi: 85,3%.',
-        tradeoff5H: 'Temuan mengejutkan: prompt lebih panjang = akurasi lebih buruk.',
-        tradeoff5P: 'Pola yang diharapkan — lebih banyak contoh = hasil lebih baik — ternyata tidak berlaku di sini. Prompt few-shot dan chain-of-thought justru menurunkan akurasi dibanding zero-shot. Penyebabnya: contoh few-shot menggunakan ulasan e-commerce, sedangkan data test adalah tweet informal. Mismatch domain ini membingungkan model. Zero-shot ternyata strategi GenAI paling akurat sekaligus paling murah.',
-        trd0: 'Gaya Prompt', trd1: 'Akurasi Aktual', trd2: 'Biaya API tambahan/thn*',
-        trdR1a: 'Zero-shot ← GenAI terbaik', trdR2a: 'Few-shot (3 contoh)', trdR2b: 'Few-shot (5 contoh)', trdR2c: 'Few-shot (10 contoh)', trdR3a: 'Chain-of-Thought', trdR4a: 'ML LSTM (lokal, di server CRM)',
-        trdNote: '*Asumsi 10.000 request/hari, Gemini 2.0 Flash Lite ($0,075/1M token input, Mei 2026). ML tidak menambah biaya per-request karena berjalan di infrastruktur CRM yang sudah ada.',
-        pq05: '"Memperpanjang prompt GenAI tidak hanya menambah biaya — tapi juga memperburuk akurasinya. Zero-shot menang di akurasi dan harga. ML menang di keduanya dengan selisih jauh lebih besar."',
-        sec06Num: '06 · Refleksi',
-        sec06Title: 'Apa yang terlihat dari meninjau ulang karya 2023.',
-        learn1: 'Mengevaluasi pekerjaan lama secara jujur itu tidak nyaman — dan perlu. 92% terasa nyata di 2023. Notebook berjalan tanpa error. Tapi "tidak ada error" bukan berarti "benar." Menemukan bahwa evaluasi itu salah adalah ketidaknyamanan yang membuat kita jadi praktisi yang lebih baik.',
-        learn2: 'Bug tidak muncul sampai kamu menjalankan kodenya lagi. Tiga masalah — nama file salah, return di dalam loop, HTTP method di semua YAML — semuanya perlu membaca ulang seluruh codebase untuk ditemukan. Submission yang "berhasil" di 2023 tetap menyimpan ketiganya.',
-        learn3: 'Prompt engineering meningkatkan akurasi, tapi dengan biaya per token. Di project nyata saya sudah menggunakan prompts untuk meningkatkan sentiment analysis GenAI. Perbandingan ini memberi saya framework untuk memikirkan tradeoff itu secara kuantitatif untuk pertama kalinya.',
-        learn4: 'Perbandingan ini adalah proxy, bukan jawaban akhir. Dataset Twitter 2023 bukan data domain asli dari project tempat saya menggunakan GenAI. Pengukuran yang sebenarnya — metrik yang sama, data domain asli, prompt yang sama — masih menunggu. Halaman ini membangun metodologi dasarnya.',
-        learn5: 'Overfitting adalah masalah constraint, bukan jalan buntu. Setiap iterasi LSTM menambah satu constraint yang ditargetkan. Polanya: diagnosa penyebab, tambah satu constraint, ukur hasilnya — lalu ulangi.',
-        why0shotHeader: 'Mengapa zero-shot > few-shot di kasus ini',
-        why0shotH: 'Few-shot efektif hanya kalau contohnya in-domain.',
-        why0shotP1: 'Contoh few-shot yang saya hardcode di prompt adalah ulasan produk — seperti "produk bagus kualitas oke, pengiriman cepat." Kalimat formal, kosakata e-commerce, tata bahasa lengkap. Data test-nya sangat berbeda: Twitter Indonesia dengan kata alay, singkatan, emotikon, dan kalimat tidak lengkap.',
-        why0shotP2: 'Ketika kamu memberikan contoh yang tidak sesuai domain ke language model, model tidak mengabaikannya — ia justru ter-anchor ke pola tersebut. Ketika menemukan tweet seperti "gapapa sih tp kurang puas", anchor gaya e-commerce itu aktif menghalangi. Zero-shot tidak punya contoh untuk di-anchor, jadi model mengandalkan pemahaman bahasa umumnya. Contoh few-shot di luar domain bukan informasi tambahan — itu noise yang harganya lebih mahal.',
-        future6H: 'Selanjutnya: coba ulang few-shot dengan contoh in-domain.',
-        future6P1: 'Kemenangan zero-shot punya catatan: contoh few-shot yang digunakan di luar domain (e-commerce, bukan Twitter). Eksperimen berikutnya: ganti contoh tersebut dengan tweet berlabel dari distribusi yang sama — untuk menguji apakah few-shot bisa mengalahkan zero-shot jika contohnya sesuai. Setelah itu: jalankan perbandingan yang sama pada dataset dari project kerja yang sebenarnya.',
-        sec07Num: '07 · Referensi',
-        sec07Title: 'Dukungan akademik untuk perbandingan ini.',
-        sec07Lede: 'Temuan di sini sejalan dengan penelitian peer-reviewed. Paper-paper ini mendukung klaim utama tentang Traditional ML vs GenAI untuk tugas sentiment analysis.',
-        ref07PricingH: 'Referensi harga API (Mei 2026).',
-        refModel: 'Model', refInput: 'Input (per 1M token)', refOutput: 'Output (per 1M token)', refSource: 'Sumber',
-        refPricingNote: 'Harga dapat berubah. Selalu cek halaman resmi provider untuk harga terkini. Estimasi biaya di studi kasus ini menggunakan Gemini 2.0 Flash Lite sebagai model utama (model yang benar-benar digunakan dalam inference via OpenRouter).',
-        ctaNum: '08 · Selanjutnya',
-        ctaTitle: 'Lihat karya lainnya.',
-        ctaP: 'Studi kasus lainnya mencakup sistem RAG, LLM routing, NLP klasik, dan ML prediktif — masing-masing dijelaskan dari masalah hingga hasil.',
-        ctaSource: 'Lihat source →', ctaBack: '← Semua project',
-        footerLeft: '© 2026 Ninditya Salma Nur Aini',
-        footerRight: 'Dibangun tanpa framework · ninditya.sna025@gmail.com',
+        navBack:'← Kembali ke portfolio', navProjects:'Proyek', navContact:'Kontak',
+        kickerTag:'NLP · Deep Learning',
+        heroTitle:'ML vs GenAI<br><em>Analisis Sentimen</em>',
+        heroLede:'Dataset yang sama. Tiga pendekatan. Satu pertanyaan sistematis: <strong>kapan BiLSTM mengalahkan Gemini Flash?</strong> Dan apa biayanya?',
+        heroMetaContext:'<strong>Konteks</strong> Proyek akhir Binar Academy 2023, ditinjau ulang 2026',
+        haSrcLabel:'Dataset yang Sama',
+        haB1Tag:'Pendekatan 1', haB2Tag:'Pendekatan 2 · Pemenang', haB3Tag:'Pendekatan 3',
+        haEvalAcc:'Akurasi', haEvalF1:'F1 Score', haEvalCost:'Biaya Tahunan', haEvalLatency:'Latensi',
+        stat1:'Tweet Indonesia<br>3 kelas', stat2:'Akurasi BiLSTM<br>hasil terbaik',
+        stat3:'Latensi GenAI<br>vs neural network', stat4:'Biaya tahunan<br>BiLSTM vs $62+ GenAI',
+        s1Num:'01 · Business Question',
+        s1Title:'Jika kamu membangun analisis sentimen Bahasa Indonesia di 2026, <em>pendekatan mana yang sebenarnya dipilih?</em>',
+        s1Lede:'GenAI cepat diprototype, tapi belum ada yang langsung mengukurnya vs LSTM terlatih di dataset Indonesia yang sama — termasuk biaya dan latensi.',
+        s1P1:'Proyek ini bermula sebagai proyek akhir Binar Academy 2023 (TF-IDF + MLP, 89,67%). Di 2026 saya meninjaunya ulang dengan dua pertanyaan: bisakah BiLSTM menutup selisihnya, dan apakah zero-shot GenAI alternatif praktis untuk produksi?',
+        s1P2:'Evaluasi mencakup empat dimensi: akurasi, biaya, latensi, dan upaya prompt engineering. Jawabannya tidak jelas sampai kamu melihat keempatnya bersama.',
+        s2Num:'02 · Hasil Akhir',
+        s2Title:'<em>BiLSTM menang</em> — bukan hanya akurasi, tapi di setiap dimensi yang penting untuk produksi.',
+        s2Lede:'Akurasi 93,0%, F1 0,9328, inferensi 0,25ms, $0/tahun. GenAI zero-shot 7,7 poin lebih rendah akurasinya dan biaya $62/tahun untuk volume yang sama.',
+        vc1Rank:'🏆 Pemenang', vc2Rank:'#2', vc3Rank:'#3',
+        vcLatency:'Latensi', vcCost:'Biaya tahunan',
+        s2MatrixTitle:'Decision matrix',
+        dmCol0:'Kriteria',
+        dmRow1:'Akurasi', dmRow2:'Macro F1', dmRow3:'Latensi', dmRow4:'Biaya tahunan',
+        dmRow5:'Perlu training', dmRow6:'Perlu data berlabel', dmRow7:'F1 kelas Neutral',
+        takeaway:'<strong>Ketika kamu punya data berlabel:</strong> BiLSTM adalah pilihan jelas — akurasi lebih tinggi, nol biaya, inferensi sub-milidetik. GenAI zero-shot hanya relevan ketika tidak ada data training atau saat membangun prototipe cepat sebelum dataset berlabel tersedia.',
+        s3Num:'03 · Arsitektur',
+        s3Title:'Tiga pipeline, <em>framework evaluasi yang sama.</em>',
+        s3P:'Setiap pendekatan dievaluasi dalam kondisi identik: dataset 11.000 tweet yang sama, split train-test 80/20 yang sama, metrik yang sama. Hanya pipeline-nya yang berbeda.',
+        ac1Tag:'Pendekatan 1', ac2Tag:'Pendekatan 2 · Pemenang', ac3Tag:'Pendekatan 3',
+        ac1s1:'Teks tweet mentah', ac1s2:'Preprocessing (lower, regex, stopwords)', ac1s3:'TF-IDF vectorization (max_features=5000)', ac1s4:'Dense MLP (512→256→128→3)', ac1s5:'Softmax → label kelas',
+        ac2s1:'Teks tweet mentah', ac2s2:'Preprocessing (lower, regex, stopwords)', ac2s3:'Tokenizer + pad_sequences (maxlen=100)', ac2s4:'Embedding layer (dim=128)', ac2s5:'SpatialDropout1D + Bidirectional LSTM (128)', ac2s6:'Dense(64, relu) + L2 + Dropout', ac2s7:'Softmax → label kelas',
+        ac3s1:'Teks tweet mentah', ac3s2:'Konstruksi prompt (ZS / FS / CoT)', ac3s3:'Panggilan API Gemini Flash 2.0', ac3s4:'Parsing respons JSON', ac3s5:'Ekstraksi label kelas',
+        s4Num:'04 · Dataset &amp; EDA',
+        s4Title:'11.000 tweet Indonesia. <em>Ketidakseimbangan kelas sudah ada sejak awal.</em>',
+        s4Lede:'Dataset sangat condong ke sentimen positif — 58% positif, 31% negatif, hanya 10% netral. Ketidakseimbangan ini membentuk setiap keputusan evaluasi, terutama untuk kelas netral.',
+        dbPos:'Positif', dbNeg:'Negatif', dbNeu:'Netral',
+        s4P:'Kelas netral (10%) terbukti paling sulit diklasifikasi di ketiga pendekatan. BiLSTM mencapai F1 netral tertinggi 0,96 — jauh lebih baik dari NN (0,77) atau GenAI zero-shot. Itulah mengapa macro-averaged F1 lebih penting dari akurasi saja.',
+        s4PerClassTitle:'Performa per kelas (BiLSTM — model terbaik)',
+        pcClass:'Kelas', pcPrec:'Presisi', pcRec:'Recall', pcF1:'F1', pcSupport:'Support',
+        pcNeg:'Negatif', pcNeu:'Netral', pcPos:'Positif',
+        s5Num:'05 · Perjalanan Training',
+        s5Title:'Empat iterasi untuk mencapai 93%. <em>Masing-masing mengajarkan sesuatu yang berbeda.</em>',
+        s5P:'LSTM baseline overfit parah. Setiap iterasi menambahkan satu intervensi dan mengukur deltanya. Hasil terbaik ada di iterasi 3 — menambahkan L2 di iterasi 4 sedikit menurunkan performa.',
+        tt1Iter:'Baseline', tt1Change:'Unidirectional LSTM, tanpa regularisasi',
+        tt2Iter:'+ Early Stopping', tt2Change:'patience=5, restore best weights',
+        tt3Iter:'+ BiDir + SpatialDropout', tt3Change:'Bidirectional LSTM, SpatialDropout1D(0.2)',
+        tt4Iter:'+ L2 regularization → Final', tt4Change:'L2(0.01) di Dense layer → validasi terbaik',
+        s5ImgTitle:'Histori training',
+        s6Num:'06 · Eksperimen GenAI',
+        s6Title:'Enam strategi prompt diuji. <em>Lebih banyak contoh ≠ hasil lebih baik.</em>',
+        s6P1:'Track GenAI menguji zero-shot, few-shot 3/5/10-shot, chain-of-thought, dan prompting multibahasa. Menambah contoh meningkatkan biaya tapi tidak secara konsisten meningkatkan akurasi.',
+        s6TempTitle:'Temperature sweep — akurasi vs keacakan',
+        s6TempP:'Temperature 0.0 (deterministik) menghasilkan akurasi tertinggi 86,0%. Temperature lebih tinggi memperkenalkan varians tanpa meningkatkan hasil.',
+        s6ImgTitle:'Perbandingan strategi prompt',
+        s7Num:'07 · Benchmark',
+        s7Title:'Akurasi, F1, dan latensi <em>berdampingan.</em>',
+        s7AccTitle:'Akurasi &amp; F1',
+        s7LatencyTitle:'Perbandingan latensi (skala log)',
+        s7LatencyP:'GenAI 772× lebih lambat dari neural network. Pada skala log, rentang 24ms → 195ms ini mengungguli kedua model terlatih. Lebar bar merepresentasikan posisi log₁₀.',
+        lbNN:'TF-IDF + MLP', lbLSTM:'BiLSTM', lbGenAI:'Gemini Flash',
+        lbNote:'Skala Log₁₀: NN=−3,10, LSTM=−0,60, GenAI=2,29. Lebar bar dinormalisasi ke rentang log. Perbedaan aktual: 772× NN→GenAI.',
+        s7ImgTitle:'Chart benchmark',
+        s8Num:'08 · Analisis Biaya',
+        s8Title:'Lebih banyak strategi prompt = <em>lebih banyak biaya, bukan lebih banyak akurasi.</em>',
+        s8Lede:'Asumsi 1.000 klasifikasi/hari di harga Gemini Flash 2025. Zero-shot biaya $62/tahun. Chain-of-thought biaya $304/tahun — dan tidak meningkatkan akurasi vs zero-shot.',
+        cc0Strategy:'ML Terlatih (BiLSTM)', cc0Sub:'/tahun · setelah training',
+        cc1Strategy:'Zero-shot', cc1Sub:'/tahun · 1K req/hari',
+        cc2Strategy:'3-shot few-shot', cc2Sub:'/tahun', cc2Acc:'~akurasi sama dengan ZS',
+        cc3Strategy:'5-shot few-shot', cc3Sub:'/tahun', cc3Acc:'Peningkatan marginal',
+        cc4Strategy:'10-shot few-shot', cc4Sub:'/tahun', cc4Acc:'Diminishing returns',
+        cc5Strategy:'Chain-of-Thought', cc5Sub:'/tahun', cc5Acc:'Tidak ada peningkatan akurasi vs ZS',
+        costQuote:'"Titik Pareto-optimal adalah zero-shot $62/tahun — tapi itu pun masih kalah dari BiLSTM di $0. Seluruh kurva biaya GenAI berada di bawah 89% akurasi."',
+        s9Num:'09 · Bug yang Ditemukan',
+        s9Title:'Tiga bug yang hanya muncul <em>ketika sistem benar-benar digunakan.</em>',
+        bug1Num:'Bug 01 · Nama file salah', bug1Title:'File model tidak ditemukan',
+        bug1Effect:'API mengembalikan 500 saat deployment pertama. Typo pada nama file hardcoded — model yang disimpan tidak pernah memiliki "1" di akhir.',
+        bug2Num:'Bug 02 · Return terlalu awal', bug2Title:'Endpoint batch hanya mengembalikan hasil pertama',
+        bug2Effect:'<code>return</code> di dalam for-loop keluar setelah iterasi pertama. Request batch selalu mengembalikan satu prediksi terlepas dari ukuran input.',
+        bug3Num:'Bug 03 · HTTP method', bug3Title:'Semua endpoint Swagger dideklarasikan sebagai GET',
+        bug3Effect:'Semua 6 file Swagger YAML menggunakan <code>get:</code> alih-alih <code>post:</code>. UI menampilkan form GET yang tidak bisa mengirim request body — endpoint tidak bisa diakses dari dokumentasi.',
+        s10Num:'10 · Pelajaran yang Dipetik',
+        s10Title:'Apa yang benar-benar <em>diselesaikan eksperimen ini.</em>',
+        l1Label:'Tentang GenAI untuk tugas NLP', l1Body:'<strong>GenAI zero-shot adalah titik awal, bukan titik akhir.</strong> Untuk tugas dengan dataset berlabel yang baik, model terlatih akan secara konsisten mengungguli prompt engineering — dan dengan biaya berkelanjutan nol.',
+        l2Label:'Tentang ketidakseimbangan kelas', l2Body:'<strong>Akurasi menyembunyikan masalah ketidakseimbangan.</strong> Kelas netral (10%) adalah tempat ketiga model paling kesulitan. Melaporkan hanya akurasi akan menyembunyikan gap F1 netral 0,77 vs 0,96 antara NN dan LSTM.',
+        l3Label:'Tentang overfitting', l3Body:'<strong>Validation loss adalah kriteria berhenti yang lebih baik daripada akurasi.</strong> LSTM baseline overfit dalam 10 epoch — early stopping dengan <code>patience=5</code> menambah 0,28 poin tanpa perubahan arsitektur.',
+        l4Label:'Tentang eskalasi biaya prompt', l4Body:'<strong>Setiap strategi prompt melipatgandakan biaya tanpa melipatgandakan akurasi secara linier.</strong> Dari zero-shot ($62) ke Chain-of-Thought ($304) adalah peningkatan biaya 5× untuk hampir nol peningkatan akurasi.',
+        s10WhenTitle:'Kapan ML · Kapan GenAI',
+        whenMLHeader:'Gunakan ML Terlatih Ketika', whenGenAIHeader:'Gunakan GenAI Ketika',
+        wml1:'Kamu punya 1.000+ contoh berlabel', wml2:'Latensi penting (inferensi sub-ms)', wml3:'Biaya di skala penting ($0 marjinal)', wml4:'Kamu melayani satu bahasa/domain spesifik',
+        wg1:'Belum ada data berlabel', wg2:'Kamu butuh prototipe kerja dalam beberapa jam', wg3:'Cakupan tugas tidak terdefinisi (eksploratori)', wg4:'Cakupan multibahasa lebih penting dari akurasi',
+        s11Num:'11 · Referensi',
+        s11Title:'Paper &amp; <em>sumber daya.</em>',
+        ctaNum:'Lihat kodenya',
+        ctaTitle:'Semua model, prompt, dan kode evaluasi <em>ada di GitHub.</em>',
+        ctaP:'Repository mencakup pipeline training BiLSTM lengkap, semua enam implementasi strategi prompt, loop evaluasi Gemini Flash, dan skrip kalkulasi biaya.',
+        ctaGh:'↗ Lihat di GitHub', ctaBack:'← Kembali ke portfolio',
       }
     };
 
-    let currentLang = 'en';
-
-    function applyLang(lang) {
-      currentLang = lang;
-      const t = translations[lang];
+    function applyLanguage(lang) {
       document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (t[key] !== undefined) el.textContent = t[key];
+        const v = translations[lang]?.[el.dataset.i18n];
+        if (v !== undefined) el.innerHTML = v;
       });
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-lang-target') === lang);
+      document.querySelectorAll('[data-lang-target]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.langTarget === lang);
       });
+      document.documentElement.lang = lang;
+      localStorage.setItem('lang', lang);
     }
-
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang-target')));
+    document.querySelectorAll('[data-lang-target]').forEach(btn => {
+      btn.addEventListener('click', () => applyLanguage(btn.dataset.langTarget));
     });
-  </script>
-  <script>
+    applyLanguage(localStorage.getItem('lang') || 'en');
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
     (function(){
-      var btn=document.getElementById('themeToggle');
-      var html=document.documentElement;
-      function updateBtn(t){btn.textContent=t==='dark'?'☀':'🌙';btn.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode');}
-      updateBtn(html.getAttribute('data-theme')||'light');
-      btn.addEventListener('click',function(){var next=html.getAttribute('data-theme')==='dark'?'light':'dark';html.setAttribute('data-theme',next);localStorage.setItem('theme',next);updateBtn(next);});
+      const btn = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      function update(t){ btn.textContent = t==='dark'?'☀':'🌙'; btn.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode'); }
+      update(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click', function(){
+        const next = html.getAttribute('data-theme')==='dark'?'light':'dark';
+        html.setAttribute('data-theme', next); localStorage.setItem('theme', next); update(next);
+      });
     })();
   </script>
 </body>

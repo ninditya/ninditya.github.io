@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Employee Attrition Prediction — Ninditya Salma Nur Aini</title>
-  <meta name="description"
-    content="IDCamp Expert Data Science project: XGBoost-based HR analytics system for early employee attrition detection at Jaya Jaya Maju. 86.11% recall, AUC 81.93%, Metabase dashboard, Docker deployment. Overtime identified as 3x risk multiplier.">
+  <meta name="description" content="XGBoost early-warning system for HR attrition. 86.11% recall, 81.93% ROC-AUC, 5-tab Metabase dashboard, Docker + PostgreSQL deployment. IBM HR Analytics dataset.">
   <link rel="canonical" href="https://ninditya.github.io/employee-attrition/">
   <meta property="og:title" content="Employee Attrition Prediction — Ninditya Salma Nur Aini">
-  <meta property="og:description" content="IDCamp Expert: XGBoost HR analytics (86.11% recall, AUC 81.93%) for employee attrition early warning. Metabase dashboard + Docker infrastructure.">
   <meta property="og:url" content="https://ninditya.github.io/employee-attrition/">
   <meta property="og:type" content="article">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,174 +14,267 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #ffffff;
-      --bg-alt: #f5f5f5;
-      --bg-dark: #2d2d2d;
-      --ink: #4d4d4d;
-      --ink-soft: #6b6b6b;
-      --muted: #a0a0a0;
-      --line: #d3d3d3;
-      --line-strong: #a0a0a0;
-      --primary: #1a5276;
-      --accent: #c4490c;
-      --accent-soft: #eaf2fb;
-      --green: #2d6a4f;
-      --red: #c4490c;
+      --bg:#ffffff; --bg-alt:#f5f5f5; --bg-dark:#2d2d2d;
+      --ink:#4d4d4d; --ink-soft:#6b6b6b; --muted:#a0a0a0;
+      --line:#d3d3d3; --line-strong:#a0a0a0;
+      --primary:#1a5276; --accent:#c4490c; --accent-soft:#eaf2fb;
+      --green:#2d6a4f; --red:#c4490c;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
-    .skip-link { position: absolute; top: -40px; left: 0; background: var(--ink); color: #fff; padding: 8px 16px; z-index: 1000; transition: top 0.2s; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-decoration: none; }
-    .skip-link:focus { top: 0; }
-    *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-    nav { position: sticky; top: 0; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
-    .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 16px; }
-    .logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
-    .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
-    .nav-pill { font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 100px; transition: all 0.2s ease; }
-    .nav-pill:hover { background: var(--bg-alt); color: var(--ink); }
-    .nav-pill.back { color: var(--primary); border: 1px solid var(--line); }
-    .nav-pill.back:hover { background: var(--primary); color: white; border-color: var(--primary); }
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
-    .hero { padding: 80px 0 60px; border-bottom: 1px solid var(--line); }
-    .hero-kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
-    .kicker-tag { background: var(--ink); color: var(--accent); padding: 5px 12px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
-    .kicker-text { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.05em; text-transform: uppercase; }
-    h1.title { font-family: 'Instrument Serif', serif; font-size: clamp(44px, 6.5vw, 80px); line-height: 1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 32px; font-weight: 400; }
-    h1.title em { font-style: italic; color: var(--primary); }
-    .hero-lede { font-family: 'Instrument Serif', serif; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.45; max-width: 760px; color: var(--ink-soft); font-weight: 400; }
-    .hero-lede strong { background: linear-gradient(180deg, transparent 60%, var(--accent-soft) 60%); font-weight: 500; color: var(--ink); }
-    .hero-meta { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 44px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
-    .hero-meta span strong { color: var(--ink); font-weight: 500; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
-    .stats-strip { background: var(--bg-dark); color: var(--bg); padding: 60px 0; }
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
-    .stat { text-align: left; padding: 0 28px; border-left: 1px solid rgba(255,255,255,0.12); }
-    .stat:first-child { border-left: none; padding-left: 0; }
-    .stat .num { font-family: 'Instrument Serif', serif; font-size: clamp(40px, 5.5vw, 60px); font-weight: 400; line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
-    .stat .num small { font-size: 0.5em; color: var(--bg); opacity: 0.7; font-family: 'Instrument Serif', serif; }
-    .stat .label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px; opacity: 0.75; line-height: 1.4; }
-    section.content { padding: 80px 0; border-bottom: 1px solid var(--line); }
-    section.content.alt { background: var(--bg-alt); }
-    .section-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--primary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px; font-weight: 500; }
-    h2 { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 4.5vw, 48px); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 36px; max-width: 800px; color: var(--ink); }
-    h2 em { font-style: italic; color: var(--primary); }
-    h3 { font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; margin: 36px 0 14px; letter-spacing: -0.01em; color: var(--ink); }
-    h3 em { font-style: italic; color: var(--primary); }
-    .lede { font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.5; color: var(--ink-soft); max-width: 760px; margin-bottom: 22px; font-weight: 400; }
-    p { margin-bottom: 16px; max-width: 760px; color: var(--ink-soft); font-size: 16px; }
-    p code, li code { background: var(--bg-alt); border: 1px solid var(--line); padding: 1px 6px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink); }
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin: 40px 0; }
-    .two-col h3 { margin-top: 0; }
-    ul.checklist { list-style: none; padding: 0; margin: 24px 0; max-width: 800px; }
-    ul.checklist li { padding: 14px 0 14px 36px; position: relative; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
-    ul.checklist li:last-child { border-bottom: none; }
-    ul.checklist li::before { content: '✓'; position: absolute; left: 0; top: 14px; color: var(--green); font-weight: 700; font-size: 16px; }
-    ul.checklist li strong { font-weight: 600; color: var(--ink); }
-    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0; }
-    .tag { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 5px 11px; border: 1px solid var(--line-strong); background: white; border-radius: 3px; color: var(--ink-soft); }
-    .pullquote { border-left: 3px solid var(--accent); padding: 16px 0 16px 28px; margin: 32px 0; font-family: 'Instrument Serif', serif; font-size: 24px; font-style: italic; line-height: 1.45; max-width: 760px; color: var(--ink); }
-    table.compare { width: 100%; max-width: 760px; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
-    table.compare th, table.compare td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); }
-    table.compare th { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--bg-alt); font-weight: 500; }
-    table.compare td.num { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--ink); }
-    table.compare tr.highlight td { background: var(--accent-soft); font-weight: 600; color: var(--ink); }
-    .risk-table { width: 100%; max-width: 760px; border-collapse: collapse; margin: 28px 0; }
-    .risk-table th, .risk-table td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 14px; }
-    .risk-table th { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--bg-alt); }
-    .risk-table td.danger { font-family: 'DM Mono', monospace; font-weight: 700; color: var(--red); }
-    .risk-table td.safe { font-family: 'DM Mono', monospace; color: var(--green); }
-    .insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 32px 0; max-width: 900px; }
-    .insight-cell { background: white; padding: 24px; }
-    .insight-num { font-family: 'Instrument Serif', serif; font-size: 36px; color: var(--accent); line-height: 1; margin-bottom: 8px; }
-    .insight-label { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
-    .insight-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
-    .journey-section { background: var(--bg-dark); color: var(--bg); padding: 80px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .journey-section .section-num { color: var(--accent); }
-    .journey-section h2 { color: var(--bg); max-width: 800px; }
-    .journey-section h2 em { color: var(--accent); }
-    .journey-section p { color: rgba(255,255,255,0.7); max-width: 720px; }
-    .journey-section h3 { color: rgba(255,255,255,0.9); margin-top: 40px; margin-bottom: 12px; }
-    .journey-path { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 32px; }
-    .journey-tag { font-family: 'DM Mono', monospace; font-size: 11px; padding: 5px 11px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.05em; }
-    .journey-tag.active { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 500; }
-    .feedback-block { border-left: 3px solid var(--accent); padding: 16px 0 16px 24px; margin: 20px 0; }
-    .feedback-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
-    .feedback-block p { font-size: 15px; color: rgba(255,255,255,0.65); }
-    .feedback-block p strong { color: rgba(255,255,255,0.9); }
-    .lesson-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0; max-width: 800px; }
-    .lesson-cell { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px; }
-    .lesson-cell-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
-    .lesson-cell p { font-size: 14px; color: rgba(255,255,255,0.65); margin: 0; max-width: none; }
-    .lesson-cell p strong { color: rgba(255,255,255,0.9); }
-    @media (max-width: 600px) { .lesson-grid { grid-template-columns: 1fr; } }
-    .screenshot-frame { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 24px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-    .screenshot-frame img { width: 100%; display: block; }
-    .img-caption { padding: 10px 16px; background: var(--bg); border-top: 1px solid var(--line); font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
-    .screenshot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
-    @media (max-width: 700px) { .screenshot-grid { grid-template-columns: 1fr; } }
-    .cta-section { background: var(--bg-alt); color: var(--ink); padding: 80px 0; }
-    .cta-section h2 { color: var(--ink); }
-    .cta-section h2 em { color: var(--primary); }
-    .cta-section p { color: var(--ink-soft); }
-    .cta-section .section-num { color: var(--primary); }
-    .cta-buttons { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
-    .btn { display: inline-block; padding: 14px 26px; background: var(--accent); color: var(--ink); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid var(--accent); border-radius: 4px; transition: all 0.2s ease; }
-    .btn:hover { background: transparent; color: var(--accent); }
-    .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
-    .btn.ghost:hover { background: var(--ink); color: white; border-color: var(--ink); }
-    footer { background: var(--bg-dark); color: rgba(255,255,255,0.7); padding: 28px 0; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em; border-top: 1px solid rgba(255,255,255,0.1); }
-    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
-    footer a { color: var(--accent); text-decoration: none; }
-    .stack-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; margin: 28px 0; }
-    .stack-item { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; min-width: 140px; }
-    .stack-item-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 4px; }
-    .stack-item-val { font-size: 14px; color: var(--ink); font-weight: 500; }
-    .nav-tools { display: flex; align-items: center; gap: 10px; width: 100%; }
-    .mobile-nav-toggle { display: none; background: transparent; border: none; color: var(--ink); font-size: 1.5rem; cursor: pointer; padding: 0 5px; line-height: 1; }
-    .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); margin-left: auto; }
-    .lang-btn { border: none; background: transparent; color: var(--muted); padding: 6px 10px; border-radius: 999px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.15s; }
-    .lang-btn.active { background: var(--ink); color: white; }
-    @media (max-width: 760px) {
-      .two-col { grid-template-columns: 1fr; gap: 32px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 0; }
-      .stat:nth-child(3) { border-left: none; }
-      .wrap { padding: 0 20px; }
-      .nav-inner { padding: 14px 20px; }
-      .hero { padding: 56px 0 40px; }
-      .insight-grid { grid-template-columns: 1fr; }
-      .mobile-nav-toggle { display: block; }
-      .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 1.5rem; gap: 0.4rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-      nav.nav-open .nav-pills { display: flex; }
-      .lesson-grid { grid-template-columns: 1fr; }
-    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--ink); font-family:'DM Sans',sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased; }
+    .skip-link { position:absolute; top:-40px; left:0; background:var(--ink); color:#fff; padding:8px 16px; z-index:1000; transition:top 0.2s; font-family:'DM Mono',monospace; font-size:0.8rem; text-decoration:none; }
+    .skip-link:focus { top:0; }
+    *:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
+    nav { position:sticky; top:0; background:rgba(255,255,255,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); z-index:100; }
+    .nav-inner { max-width:1080px; margin:0 auto; padding:16px 32px; display:flex; justify-content:flex-start; align-items:center; flex-wrap:wrap; gap:16px; }
+    .nav-tools { display:flex; align-items:center; gap:10px; width:100%; }
+    .mobile-nav-toggle { display:none; background:transparent; border:none; color:var(--ink); font-size:1.5rem; cursor:pointer; padding:0 5px; line-height:1; }
+    .nav-pills { display:flex; gap:6px; flex-wrap:wrap; }
+    .nav-pill { font-size:13px; color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:100px; transition:all 0.2s ease; }
+    .nav-pill:hover { background:var(--bg-alt); color:var(--ink); }
+    .nav-pill.back { color:var(--primary); border:1px solid var(--line); }
+    .nav-pill.back:hover { background:var(--primary); color:white; border-color:var(--primary); }
+    .lang-switch { display:inline-flex; padding:3px; border:1px solid var(--line); border-radius:999px; background:var(--bg); margin-left:auto; }
+    .lang-btn { border:none; background:transparent; color:var(--muted); padding:6px 10px; border-radius:999px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; transition:all 0.15s; }
+    .lang-btn.active { background:var(--ink); color:white; }
+    .theme-toggle { width:44px; height:44px; border-radius:50%; border:1px solid var(--line); background:var(--bg-alt); color:var(--ink); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:all 0.15s; flex-shrink:0; line-height:1; }
+    .wrap { max-width:1080px; margin:0 auto; padding:0 32px; }
+    section.content { padding:80px 0; border-bottom:1px solid var(--line); }
+    section.content.alt { background:var(--bg-alt); }
+    .section-num { font-family:'DM Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px; font-weight:500; }
+    h2 { font-family:'Instrument Serif',serif; font-size:clamp(32px,4.5vw,48px); font-weight:400; letter-spacing:-0.01em; line-height:1.1; margin-bottom:36px; max-width:800px; color:var(--ink); }
+    h2 em { font-style:italic; color:var(--primary); }
+    h3 { font-family:'Instrument Serif',serif; font-size:24px; font-weight:400; margin:36px 0 14px; letter-spacing:-0.01em; color:var(--ink); }
+    h3 em { font-style:italic; color:var(--primary); }
+    .lede { font-family:'Instrument Serif',serif; font-size:22px; line-height:1.5; color:var(--ink-soft); max-width:760px; margin-bottom:22px; font-weight:400; }
+    p { margin-bottom:16px; max-width:760px; color:var(--ink-soft); font-size:16px; }
+    p code, li code { background:var(--bg-alt); border:1px solid var(--line); padding:1px 6px; border-radius:3px; font-family:'DM Mono',monospace; font-size:13px; color:var(--ink); }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:48px; margin:40px 0; }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin:20px 0; }
+    .tag { font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; padding:5px 11px; border:1px solid var(--line-strong); background:white; border-radius:3px; color:var(--ink-soft); }
+    .pullquote { border-left:3px solid var(--accent); padding:16px 0 16px 28px; margin:32px 0; font-family:'Instrument Serif',serif; font-size:22px; font-style:italic; line-height:1.45; max-width:760px; color:var(--ink); }
+    ul.checklist { list-style:none; padding:0; margin:24px 0; max-width:800px; }
+    ul.checklist li { padding:12px 0 12px 32px; position:relative; border-bottom:1px solid var(--line); font-size:15px; line-height:1.5; color:var(--ink-soft); }
+    ul.checklist li:last-child { border-bottom:none; }
+    ul.checklist li::before { content:'✓'; position:absolute; left:0; top:12px; color:var(--green); font-weight:700; font-size:15px; }
+    ul.checklist li strong { color:var(--ink); }
+    .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.in { opacity:1; transform:translateY(0); }
 
-    /* ── Dark Mode — toggled via data-theme="dark" on <html> ── */
-    html[data-theme="dark"]{
-      --bg:#1c1c1e;--bg-alt:#2c2c2e;--bg-dark:#000000;
-      --ink:#ffffff;--ink-soft:rgba(235,235,245,0.6);--muted:rgba(235,235,245,0.3);
-      --line:rgba(84,84,88,0.65);--line-strong:rgba(84,84,88,0.9);
-      --primary:#5bb8e8;--accent:#ff7043;--accent-soft:rgba(91,184,232,0.12);--green:#30d158;
+    /* ── Hero ── */
+    .hero { padding:80px 0 60px; border-bottom:1px solid var(--line); }
+    .hero-kicker { display:flex; align-items:center; gap:12px; margin-bottom:36px; flex-wrap:wrap; }
+    .kicker-tag { background:var(--ink); color:var(--accent); padding:5px 12px; border-radius:4px; font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; }
+    .kicker-text { font-family:'DM Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.05em; text-transform:uppercase; }
+    h1.title { font-family:'Instrument Serif',serif; font-size:clamp(44px,6.5vw,80px); line-height:1; letter-spacing:-0.02em; color:var(--ink); margin-bottom:32px; font-weight:400; }
+    h1.title em { font-style:italic; color:var(--primary); }
+    .hero-lede { font-family:'Instrument Serif',serif; font-size:clamp(20px,2.2vw,26px); line-height:1.45; max-width:760px; color:var(--ink-soft); font-weight:400; }
+    .hero-lede strong { background:linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%); font-weight:500; color:var(--ink); }
+    .hero-meta { display:flex; flex-wrap:wrap; gap:28px; margin-top:44px; font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.02em; color:var(--muted); }
+    .hero-meta span strong { color:var(--ink); font-weight:500; margin-right:6px; text-transform:uppercase; letter-spacing:0.08em; font-size:10px; }
+
+    /* ── Stats ── */
+    .stats-strip { background:var(--bg-dark); color:var(--bg); padding:60px 0; }
+    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
+    .stat { text-align:left; padding:0 28px; border-left:1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left:none; padding-left:0; }
+    .stat .num { font-family:'Instrument Serif',serif; font-size:clamp(40px,5.5vw,60px); font-weight:400; line-height:1; color:var(--accent); letter-spacing:-0.02em; }
+    .stat .num small { font-size:0.5em; color:var(--bg); opacity:0.7; }
+    .stat .label { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; margin-top:16px; opacity:0.75; line-height:1.4; }
+
+    /* ── Problem infographic ── */
+    .problem-flow { display:flex; flex-direction:column; align-items:flex-start; max-width:300px; }
+    .pf-box { border:1px solid var(--line); border-radius:8px; padding:16px 22px; background:var(--bg); width:100%; }
+    .pf-box.danger { border-color:var(--accent); background:rgba(196,73,12,0.04); }
+    .pf-box.action { border-color:var(--primary); background:var(--accent-soft); }
+    .pf-num { font-family:'Instrument Serif',serif; font-size:32px; color:var(--accent); line-height:1; margin-bottom:2px; }
+    .pf-label { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+    .pf-arrow { padding:8px 0 8px 22px; font-family:'DM Mono',monospace; color:var(--muted); font-size:14px; }
+    .pf-action-label { font-family:'DM Mono',monospace; font-size:10px; color:var(--primary); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px; }
+    .pf-action-title { font-size:15px; font-weight:600; color:var(--ink); }
+
+    /* ── Architecture pipeline ── */
+    .arch-pipe { display:flex; flex-direction:column; align-items:center; max-width:380px; margin:40px 0; }
+    .ap-group { border:1px solid var(--line); border-radius:8px; overflow:hidden; width:100%; }
+    .ap-group-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); padding:8px 14px; background:var(--bg-alt); border-bottom:1px solid var(--line); }
+    .ap-step { display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--line); background:var(--bg); }
+    .ap-step:last-child { border-bottom:none; }
+    .ap-step-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
+    .ap-step-name { font-size:13px; font-weight:500; color:var(--ink); }
+    .ap-step-sub { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+    .ap-arrow { padding:6px 0; font-family:'DM Mono',monospace; color:var(--muted); font-size:14px; align-self:center; }
+    .ap-group.output { border-color:var(--green); }
+    .ap-group.output .ap-group-label { background:rgba(45,106,79,0.06); color:var(--green); border-bottom-color:var(--green); }
+    .ap-group.output .ap-step { background:rgba(45,106,79,0.03); }
+
+    /* ── Model comparison cards ── */
+    .model-compare { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:40px 0; }
+    .model-card { border:1px solid var(--line); border-radius:10px; padding:28px 24px; background:var(--bg); }
+    .model-card.winner { border-color:var(--primary); background:var(--accent-soft); }
+    .model-card-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px; font-weight:500; }
+    .model-card .model-card-label { color:var(--muted); }
+    .model-card.winner .model-card-label { color:var(--primary); }
+    .model-card h3 { margin:0 0 20px; font-size:22px; }
+    .model-metrics { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:20px; }
+    .model-metric { text-align:center; }
+    .model-metric-val { font-family:'Instrument Serif',serif; font-size:28px; line-height:1; color:var(--ink); }
+    .model-card.winner .model-metric-val { color:var(--primary); }
+    .model-metric-lbl { font-family:'DM Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-top:4px; }
+    .model-verdict { font-family:'DM Mono',monospace; font-size:12px; padding:8px 12px; border-radius:4px; }
+    .model-card:not(.winner) .model-verdict { background:rgba(196,73,12,0.06); color:var(--accent); }
+    .model-card.winner .model-verdict { background:rgba(45,106,79,0.1); color:var(--green); }
+    .fn-box { border:1px solid var(--line); border-radius:8px; padding:24px; background:var(--bg-alt); margin:32px 0; max-width:640px; }
+    .fn-box-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); margin-bottom:12px; font-weight:500; }
+    .fn-flow { display:flex; gap:0; flex-wrap:wrap; }
+    .fn-step { text-align:center; padding:0 16px; flex:1; min-width:100px; }
+    .fn-step-box { font-family:'DM Mono',monospace; font-size:11px; padding:8px 10px; border-radius:4px; background:var(--bg); border:1px solid var(--line); color:var(--ink); }
+    .fn-step-box.bad { background:rgba(196,73,12,0.08); border-color:var(--accent); color:var(--accent); }
+    .fn-arrow-h { display:flex; align-items:center; padding:0 4px; font-family:'DM Mono',monospace; color:var(--muted); font-size:14px; align-self:center; }
+
+    /* ── Risk ranking ── */
+    .risk-ranking { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:40px 0; }
+    .risk-card { border:1px solid var(--line); border-radius:8px; padding:20px 18px; background:var(--bg); }
+    .risk-rank { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
+    .risk-factor { font-size:15px; font-weight:600; color:var(--ink); margin-bottom:10px; }
+    .risk-rate { font-family:'Instrument Serif',serif; font-size:32px; color:var(--accent); line-height:1; }
+    .risk-rate-lbl { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-top:3px; }
+    .risk-multi { display:inline-block; font-family:'DM Mono',monospace; font-size:11px; font-weight:500; padding:3px 8px; background:rgba(196,73,12,0.08); color:var(--accent); border-radius:3px; margin-top:8px; }
+    .feat-bars { margin:40px 0; max-width:640px; }
+    .feat-bar-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+    .feat-bar-lbl { font-family:'DM Mono',monospace; font-size:12px; color:var(--ink-soft); min-width:140px; text-align:right; }
+    .feat-bar-track { flex:1; height:20px; background:rgba(0,0,0,0.05); border-radius:3px; overflow:hidden; }
+    .feat-bar-fill { height:100%; background:var(--primary); border-radius:3px; }
+    .feat-bar-val { font-family:'DM Mono',monospace; font-size:11px; color:var(--ink-soft); min-width:36px; }
+
+    /* ── Business impact compare ── */
+    .impact-compare { display:grid; grid-template-columns:1fr 1fr; gap:2px; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:40px 0; }
+    .ic-col { padding:28px 24px; }
+    .ic-col.bad { background:rgba(196,73,12,0.03); border-right:2px solid var(--line); }
+    .ic-col.good { background:rgba(45,106,79,0.03); }
+    .ic-header { font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; font-weight:500; margin-bottom:20px; padding:5px 10px; border-radius:3px; display:inline-block; }
+    .ic-col.bad .ic-header { background:rgba(196,73,12,0.1); color:var(--accent); }
+    .ic-col.good .ic-header { background:rgba(45,106,79,0.1); color:var(--green); }
+    .ic-flow { display:flex; flex-direction:column; }
+    .ic-box { font-family:'DM Mono',monospace; font-size:12px; padding:10px 14px; border-radius:6px; text-align:center; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
+    .ic-box.red { border-color:var(--accent); background:rgba(196,73,12,0.06); color:var(--accent); }
+    .ic-box.green { border-color:var(--green); background:rgba(45,106,79,0.06); color:var(--green); }
+    .ic-arrow { padding:6px 0; text-align:center; font-family:'DM Mono',monospace; color:var(--muted); font-size:13px; }
+    .impact-metric { margin-top:28px; padding-top:20px; border-top:1px solid var(--line); font-family:'Instrument Serif',serif; font-size:40px; color:var(--primary); line-height:1; }
+    .impact-metric-sub { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-top:6px; }
+
+    /* ── Prediction pipeline ── */
+    .pred-pipe { display:flex; align-items:center; gap:0; overflow-x:auto; padding:4px 0 12px; margin:36px 0; }
+    .pp-step { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
+    .pp-box { border:1px solid var(--line); border-radius:6px; padding:12px 14px; background:var(--bg); min-width:90px; text-align:center; }
+    .pp-box.source { border-color:var(--primary); background:var(--accent-soft); }
+    .pp-box.dest { border-color:var(--green); background:rgba(45,106,79,0.06); }
+    .pp-icon { font-size:18px; margin-bottom:4px; }
+    .pp-name { font-family:'DM Mono',monospace; font-size:11px; font-weight:500; color:var(--ink); }
+    .pp-sub { font-family:'DM Mono',monospace; font-size:9px; color:var(--muted); margin-top:2px; }
+    .pp-arrow { font-family:'DM Mono',monospace; color:var(--muted); padding:0 6px; font-size:14px; flex-shrink:0; align-self:center; margin-top:-8px; }
+
+    /* ── Dashboard grid ── */
+    .dash-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:36px 0; }
+    .dash-item { border-radius:8px; overflow:hidden; border:1px solid var(--line); }
+    .dash-item.full { grid-column:1/-1; }
+    .dash-item img { width:100%; display:block; }
+    .dash-caption { padding:10px 14px; background:var(--bg); border-top:1px solid var(--line); font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.03em; }
+    .dash-tab-num { font-weight:500; color:var(--primary); margin-right:6px; }
+
+    /* ── Tech stack ── */
+    .stack-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:40px 0; }
+    .stack-col { padding:24px 20px; border-right:1px solid var(--line); }
+    .stack-col:last-child { border-right:none; }
+    .stack-col-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--line); font-weight:500; }
+    .stack-item { font-size:13px; font-weight:500; color:var(--ink); padding:6px 0; border-bottom:1px solid var(--line); }
+    .stack-item:last-child { border-bottom:none; }
+    .stack-item sub { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); display:block; font-weight:400; }
+
+    /* ── Journey / Learning ── */
+    .journey-section { background:var(--bg-dark); color:var(--bg); padding:80px 0; }
+    .journey-section .section-num { color:var(--accent); }
+    .journey-section h2 { color:var(--bg); max-width:800px; }
+    .journey-section h2 em { color:var(--accent); }
+    .journey-section p { color:rgba(255,255,255,0.7); max-width:720px; }
+    .journey-section h3 { color:rgba(255,255,255,0.9); margin-top:40px; margin-bottom:12px; }
+    .feedback-block { border-left:3px solid var(--accent); padding:14px 0 14px 22px; margin:18px 0; }
+    .feedback-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:8px; }
+    .feedback-block p { font-size:15px; color:rgba(255,255,255,0.65); }
+    .feedback-block p strong { color:rgba(255,255,255,0.9); }
+    .lesson-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:24px 0; max-width:800px; }
+    .lesson-cell { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:20px; }
+    .lesson-cell-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:8px; }
+    .lesson-cell p { font-size:14px; color:rgba(255,255,255,0.65); margin:0; max-width:none; }
+    .lesson-cell p strong { color:rgba(255,255,255,0.9); }
+
+    /* ── Roadmap ── */
+    .roadmap { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:40px 0; }
+    .roadmap-col { padding:22px 18px; border-right:1px solid var(--line); }
+    .roadmap-col:last-child { border-right:none; }
+    .roadmap-col.current { background:var(--accent-soft); border-right-color:var(--primary); }
+    .roadmap-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px; font-weight:500; }
+    .roadmap-col.current .roadmap-label { color:var(--primary); }
+    .roadmap-col:not(.current) .roadmap-label { color:var(--muted); }
+    .roadmap-item-title { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:6px; }
+    .roadmap-desc { font-size:13px; color:var(--ink-soft); line-height:1.5; }
+
+    /* ── CTA ── */
+    .cta-section { background:var(--bg-alt); padding:80px 0; }
+    .cta-section .section-num { color:var(--primary); }
+    .cta-buttons { display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
+    .btn { display:inline-block; padding:14px 26px; background:var(--accent); color:var(--ink); text-decoration:none; font-family:'DM Mono',monospace; font-size:13px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; border:2px solid var(--accent); border-radius:4px; transition:all 0.2s ease; }
+    .btn:hover { background:transparent; color:var(--accent); }
+    .btn.ghost { background:transparent; color:var(--ink); border-color:var(--line-strong); }
+    .btn.ghost:hover { background:var(--ink); color:white; border-color:var(--ink); }
+    footer { background:var(--bg-dark); color:rgba(255,255,255,0.7); padding:28px 0; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.04em; border-top:1px solid rgba(255,255,255,0.1); }
+    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    footer a { color:var(--accent); text-decoration:none; }
+
+    /* ── Dark mode ── */
+    html[data-theme="dark"] { --bg:#1c1c1e; --bg-alt:#2c2c2e; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.6); --muted:rgba(235,235,245,0.3); --line:rgba(84,84,88,0.65); --line-strong:rgba(84,84,88,0.9); --primary:#5bb8e8; --accent:#ff7043; --accent-soft:rgba(91,184,232,0.12); --green:#30d158; }
+    html[data-theme="dark"] nav { background:rgba(28,28,30,0.92); }
+    html[data-theme="dark"] .stats-strip { background:#000000; }
+    html[data-theme="dark"] .lang-btn.active { background:#e5e5ea; color:#1c1c1e; }
+    html[data-theme="dark"] .model-card, html[data-theme="dark"] .risk-card, html[data-theme="dark"] .pf-box, html[data-theme="dark"] .fn-box, html[data-theme="dark"] .tag { background:var(--bg-alt); }
+    html[data-theme="dark"] .ic-col.bad, html[data-theme="dark"] .ic-col.good { background:var(--bg-alt) !important; }
+    html[data-theme="dark"] .stack-grid, html[data-theme="dark"] .roadmap { background:var(--bg-alt); }
+    html[data-theme="dark"] .insight-cell { background:var(--bg-alt); }
+    html[data-theme="dark"] .ap-step, html[data-theme="dark"] .pp-box { background:var(--bg-alt); }
+
+    /* ── Responsive ── */
+    @media (max-width:800px) {
+      .two-col, .model-compare, .impact-compare { grid-template-columns:1fr; }
+      .risk-ranking { grid-template-columns:1fr 1fr; }
+      .stack-grid { grid-template-columns:repeat(2,1fr); }
+      .stack-col:nth-child(2n) { border-right:none; }
+      .roadmap { grid-template-columns:1fr 1fr; }
+      .dash-grid { grid-template-columns:1fr; }
+      .dash-item.full { grid-column:auto; }
     }
-    html[data-theme="dark"] nav{background:rgba(28,28,30,0.92)}
-    html[data-theme="dark"] .nav-pills{background:rgba(28,28,30,0.96)}
-    html[data-theme="dark"] .stats-strip{background:#000000}
-    html[data-theme="dark"] pre.code{background:#000000}
-    html[data-theme="dark"] .lang-btn.active{background:#e5e5ea;color:#1c1c1e}
-    .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}
-    /* ── Reduced Motion — accessibility ── */
-    @media(prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
-      html{scroll-behavior:auto}
+    @media (max-width:600px) {
+      .stats-grid { grid-template-columns:repeat(2,1fr); gap:32px 0; }
+      .stat:nth-child(3) { border-left:none; }
+      .risk-ranking { grid-template-columns:1fr; }
+      .wrap { padding:0 20px; }
+      .nav-inner { padding:14px 20px; }
+      .hero { padding:56px 0 40px; }
+      .mobile-nav-toggle { display:block; }
+      .nav-pills { display:none; position:absolute; top:56px; left:0; width:100%; background:rgba(255,255,255,0.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); flex-direction:column; padding:1rem 1.5rem; gap:0.4rem; }
+      nav.nav-open .nav-pills { display:flex; }
+      .lesson-grid { grid-template-columns:1fr; }
+      .roadmap { grid-template-columns:1fr; }
+      .stack-grid { grid-template-columns:1fr; }
     }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } html { scroll-behavior:auto; } }
   </style>
+  <script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
 </head>
-
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
+  <a href="#problem" class="skip-link">Skip to main content</a>
 
   <nav id="mainNav">
     <div class="nav-inner">
-      <a href="/" class="logo">Ninditya Salma Nur Aini</a>
       <div class="nav-tools">
         <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
           onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
@@ -202,537 +292,893 @@
     </div>
   </nav>
 
-  <main id="main">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-kicker">
+        <span class="kicker-tag" data-i18n="kickerTag">Applied Data Science</span>
+        <span class="kicker-text" data-i18n="kickerText">IDCamp Expert · HR Analytics · XGBoost · Docker</span>
+      </div>
+      <h1 class="title" data-i18n="heroTitle">Prevent employee turnover<br><em>before it happens.</em></h1>
+      <p class="hero-lede" data-i18n="heroLede">
+        XGBoost early-warning system for a multinational with <strong>16.92% annual attrition</strong>.
+        86.11% recall, 81.93% ROC-AUC, 5-tab Metabase dashboard, Docker + PostgreSQL deployment.
+      </p>
+      <div class="hero-meta">
+        <span data-i18n="heroMetaModel"><strong>Model</strong> XGBoost · 86.11% Recall · AUC 81.93%</span>
+        <span data-i18n="heroMetaInfra"><strong>Infra</strong> Docker · PostgreSQL · Metabase · Streamlit</span>
+        <span data-i18n="heroMetaData"><strong>Dataset</strong> 1,470 employees · 72 features · IBM HR Analytics</span>
+        <span data-i18n="heroMetaLevel"><strong>Level</strong> IDCamp Expert 2025</span>
+      </div>
+    </div>
+  </section>
 
-    <!-- HERO -->
-    <div class="hero">
-      <div class="wrap">
-        <div class="hero-kicker">
-          <span class="kicker-tag">Section 02 · Applied Data Science</span>
-          <span class="kicker-text" data-i18n="kickerText">IDCamp Expert · HR Analytics · ML Classification</span>
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="num">86.11<small>%</small></div>
+          <div class="label" data-i18n="stat1">Recall<br>catches 86% of leavers</div>
         </div>
-        <h1 class="title" data-i18n="heroTitle">Employee Attrition<br><em>Prediction</em></h1>
-        <p class="hero-lede" data-i18n="heroLede">
-          Jaya Jaya Maju — a multinational company with 1,000+ employees — was losing staff at a <strong>16.92% annual attrition rate</strong>. I built an XGBoost early-warning system achieving <strong>86.11% recall</strong>, combined with a 5-tab Metabase dashboard and Docker-based infrastructure to turn prediction into operational HR intelligence.
-        </p>
-        <div class="hero-meta">
-          <span><strong>Model</strong> XGBoost · Logistic Regression</span>
-          <span><strong>Stack</strong> scikit-learn · SMOTE · Metabase · PostgreSQL · Docker</span>
-          <span><strong>Dataset</strong> 1,470 employees · 72 features · IBM HR Analytics</span>
-          <span data-i18n="metaLevel"><strong>Level</strong> IDCamp Expert</span>
+        <div class="stat">
+          <div class="num">81.93<small>%</small></div>
+          <div class="label" data-i18n="stat2">ROC-AUC<br>XGBoost selected</div>
+        </div>
+        <div class="stat">
+          <div class="num">3×</div>
+          <div class="label" data-i18n="stat3">Overtime risk<br>31.92% vs 10.79%</div>
+        </div>
+        <div class="stat">
+          <div class="num">5</div>
+          <div class="label" data-i18n="stat4">Dashboard tabs<br>Docker deployed</div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- STATS STRIP -->
-    <div class="stats-strip">
-      <div class="wrap">
-        <div class="stats-grid">
-          <div class="stat">
-            <div class="num">86.11<small>%</small></div>
-            <div class="label">Recall on test set<br>catches 86% of attritors</div>
+  <!-- SECTION 01: BUSINESS PROBLEM -->
+  <section class="content" id="problem">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s1Num">01 · Business Problem</div>
+      <h2 data-i18n="s1Title">Attrition above 10% is <em>a management warning sign.</em> Theirs was 16.92%.</h2>
+
+      <div class="two-col" style="align-items:start;">
+        <div class="problem-flow" role="img" aria-label="Attrition problem funnel">
+          <div class="pf-box">
+            <div class="pf-label" data-i18n="companyLabel">Company</div>
+            <div class="pf-num">1,058</div>
+            <div class="pf-label" data-i18n="employeesLabel">Employees</div>
           </div>
-          <div class="stat">
-            <div class="num">81.93<small>%</small></div>
-            <div class="label">ROC-AUC score<br>XGBoost selected</div>
+          <div class="pf-arrow">↓</div>
+          <div class="pf-box danger">
+            <div class="pf-num">16.92<small style="font-size:0.5em;">%</small></div>
+            <div class="pf-label" data-i18n="attritionLabel">Annual Attrition</div>
           </div>
-          <div class="stat">
-            <div class="num">3×</div>
-            <div class="label">Overtime risk multiplier<br>31.92% vs 10.79%</div>
+          <div class="pf-arrow">↓</div>
+          <div class="pf-box danger">
+            <div class="pf-num">≈179</div>
+            <div class="pf-label" data-i18n="leaversLabel">Employees / Year</div>
           </div>
-          <div class="stat">
-            <div class="num">5</div>
-            <div class="label">Metabase dashboard tabs<br>Docker deployed</div>
+          <div class="pf-arrow">↓</div>
+          <div class="pf-box">
+            <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--ink-soft);line-height:1.8;" data-i18n="costsList">
+              Recruitment Cost<br>Productivity Loss<br>Knowledge Loss
+            </div>
+          </div>
+          <div class="pf-arrow">↓</div>
+          <div class="pf-box action">
+            <div class="pf-action-label" data-i18n="solutionLabel">Solution Needed</div>
+            <div class="pf-action-title" data-i18n="solutionTitle">Early Warning System</div>
+          </div>
+        </div>
+        <div>
+          <p class="lede" data-i18n="s1Lede">No structured early-warning existed. Attrition was discovered only after an employee resigned.</p>
+          <p data-i18n="s1P1">Replacing one employee costs 50–200% of their annual salary. At 179 per year, the financial exposure is substantial — and most of it is preventable with early identification.</p>
+          <p data-i18n="s1P2">The dataset covers 72 features across four domains that predict departure:</p>
+          <ul class="checklist">
+            <li data-i18n="s1C1"><strong>Work conditions</strong> — Overtime, business travel, distance from home</li>
+            <li data-i18n="s1C2"><strong>Compensation</strong> — Monthly income, salary hike, stock options</li>
+            <li data-i18n="s1C3"><strong>Satisfaction</strong> — Job satisfaction, environment score, work-life balance</li>
+            <li data-i18n="s1C4"><strong>Career trajectory</strong> — Tenure, years since promotion, training frequency</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">XGBoost</span><span class="tag">SMOTE</span><span class="tag">HR Analytics</span>
+            <span class="tag">Metabase</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- SECTION 1: PROBLEM -->
-    <section class="content" id="problem">
-      <div class="wrap">
-        <div class="section-num" data-i18n="s1Num">01 — Problem</div>
-        <h2 data-i18n="s1H2">Attrition above 10% is <em>a management warning sign</em>. Theirs was 16.92%.</h2>
-        <p class="lede" data-i18n="s1Lede">
-          Jaya Jaya Maju operates across multiple countries, employing 1,000+ staff. Their attrition rate — 16.92%, or roughly 179 employees per year — was significantly above the acceptable threshold. No structured early-warning system existed.
-        </p>
-        <p>
-          Attrition is expensive. Replacing an employee costs an estimated 50–200% of their annual salary when recruitment, onboarding, and lost productivity are accounted for. At 179 employees per year, the financial exposure is substantial — and most of it is preventable with early identification.
-        </p>
-        <p>
-          The dataset contains 72 features covering four domains:
-        </p>
-        <ul class="checklist">
-          <li><strong>Work conditions</strong> — Overtime requirement, business travel frequency, distance from home. These are the strongest controllable risk factors.</li>
-          <li><strong>Compensation</strong> — Monthly income, daily rate, hourly rate, salary hike percentage, stock option level. Underpayment relative to peers is a key retention lever.</li>
-          <li><strong>Satisfaction scores</strong> — Job satisfaction, environment satisfaction, work-life balance score, job involvement. Self-reported scores that predict behavior.</li>
-          <li><strong>Career trajectory</strong> — Total working years, years at company, years in current role, years since last promotion, training frequency. Stagnation is a warning sign.</li>
-        </ul>
-        <div class="tags">
-          <span class="tag">XGBoost</span>
-          <span class="tag">SMOTE</span>
-          <span class="tag">HR Analytics</span>
-          <span class="tag">Metabase</span>
-          <span class="tag">PostgreSQL</span>
-          <span class="tag">Docker</span>
-        </div>
-      </div>
-    </section>
+  <!-- SECTION 02: SOLUTION ARCHITECTURE -->
+  <section class="content alt" id="architecture">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s2Num">02 · Solution Architecture</div>
+      <h2 data-i18n="s2Title">From raw HR data <em>to operational HR intelligence.</em></h2>
+      <p class="lede" data-i18n="s2Lede">The pipeline goes end-to-end: data cleaning, feature engineering, SMOTE class balancing, XGBoost training, batch prediction, PostgreSQL storage, and Metabase visualisation — all containerised with Docker.</p>
 
-    <!-- SECTION 2: MODEL SELECTION -->
-    <section class="content alt" id="modeling">
-      <div class="wrap">
-        <div class="section-num" data-i18n="s2Num">02 — Why XGBoost Won</div>
-        <h2 data-i18n="s2H2">Recall beats accuracy when <em>missing a leaver costs more</em> than a false alarm</h2>
-        <p class="lede" data-i18n="s2Lede">
-          Two models were compared: Logistic Regression (interpretable baseline) and XGBoost (non-linear ensemble). The right choice depended on what kind of error was more expensive.
-        </p>
-
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Metric</th>
-              <th>Logistic Regression</th>
-              <th>XGBoost (Selected)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Test Accuracy</td>
-              <td class="num">74.53%</td>
-              <td class="num">59.91%</td>
-            </tr>
-            <tr class="highlight">
-              <td>Test Recall (Attrition)</td>
-              <td class="num">72.22%</td>
-              <td class="num">86.11% ✓</td>
-            </tr>
-            <tr class="highlight">
-              <td>ROC-AUC</td>
-              <td class="num">79.92%</td>
-              <td class="num">81.93% ✓</td>
-            </tr>
-            <tr>
-              <td>False Negatives</td>
-              <td class="num">More</td>
-              <td class="num">Only 5</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <p>
-          XGBoost has lower raw accuracy but dramatically higher recall. In an HR context, a false negative (missing a leaver) means losing an employee without any chance to intervene. A false positive (flagging someone who stays) costs a counseling conversation. The asymmetry clearly favors recall — XGBoost was chosen.
-        </p>
-        <p>
-          SMOTE was applied to training data only. Class imbalance (roughly 83% stay / 17% leave) would have biased any model toward always predicting "no attrition." SMOTE synthesizes minority-class examples during training to force the model to learn both distributions.
-        </p>
-
-        <div class="stack-row">
-          <div class="stack-item"><div class="stack-item-label">Primary model</div><div class="stack-item-val">XGBoost</div></div>
-          <div class="stack-item"><div class="stack-item-label">Imbalance</div><div class="stack-item-val">SMOTE</div></div>
-          <div class="stack-item"><div class="stack-item-label">Tuning</div><div class="stack-item-val">GridSearchCV (4-fold)</div></div>
-          <div class="stack-item"><div class="stack-item-label">Eval</div><div class="stack-item-val">5-fold StratifiedKFold</div></div>
-          <div class="stack-item"><div class="stack-item-label">Batch predict</div><div class="stack-item-val">Python + SQLAlchemy</div></div>
-          <div class="stack-item"><div class="stack-item-label">Infra</div><div class="stack-item-val">Docker + PostgreSQL</div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 3: RISK FACTORS -->
-    <section class="content" id="risks">
-      <div class="wrap">
-        <div class="section-num" data-i18n="s3Num">03 — Risk Factors</div>
-        <h2 data-i18n="s3H2">Overtime is a <em>3× risk multiplier</em>. First year is the most dangerous.</h2>
-
-        <table class="risk-table">
-          <thead>
-            <tr>
-              <th>Risk Factor</th>
-              <th>High-Risk Rate</th>
-              <th>Low-Risk Rate</th>
-              <th>Multiplier</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Overtime (Yes)</strong></td>
-              <td class="danger">31.92%</td>
-              <td class="safe">10.79%</td>
-              <td>~3×</td>
-            </tr>
-            <tr>
-              <td><strong>Salary (Lowest quartile)</strong></td>
-              <td class="danger">29.06%</td>
-              <td class="safe">9.81% (highest)</td>
-              <td>~3×</td>
-            </tr>
-            <tr>
-              <td><strong>Tenure ≤ 1 year</strong></td>
-              <td class="danger">34.59%</td>
-              <td class="safe">~8% (5+ years)</td>
-              <td>~4×</td>
-            </tr>
-            <tr>
-              <td><strong>Sales Representative role</strong></td>
-              <td class="danger">43.10%</td>
-              <td class="safe">—</td>
-              <td>Highest role</td>
-            </tr>
-            <tr>
-              <td><strong>Age 18–25</strong></td>
-              <td class="danger">38.04%</td>
-              <td class="safe">~9% (46+)</td>
-              <td>~4×</td>
-            </tr>
-            <tr>
-              <td><strong>Business Travel (Frequent)</strong></td>
-              <td class="danger">24.88%</td>
-              <td class="safe">~8% (no travel)</td>
-              <td>~3×</td>
-            </tr>
-            <tr>
-              <td><strong>Work-Life Balance score 1</strong></td>
-              <td class="danger">32.14%</td>
-              <td class="safe">&lt;10% (score 4)</td>
-              <td>~3×</td>
-            </tr>
-            <tr>
-              <td><strong>Single (marital status)</strong></td>
-              <td class="danger">26.70%</td>
-              <td class="safe">—</td>
-              <td>vs 12% married</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="pullquote">
-          "The first year is the most vulnerable — 34.59% of employees with ≤1 year tenure leave. Pair that with overtime or low salary, and you've identified employees who almost certainly won't see year 2."
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 4: KEY FINDINGS -->
-    <section class="content alt" id="findings">
-      <div class="wrap">
-        <div class="section-num" data-i18n="s4Num">04 — Key Findings</div>
-        <h2 data-i18n="s4H2">The pattern: <em>workload + underpayment + stagnation</em> = attrition</h2>
-
-        <div class="insight-grid">
-          <div class="insight-cell">
-            <div class="insight-label">Overall attrition</div>
-            <div class="insight-num">16.92%</div>
-            <div class="insight-desc">179 out of 1,058 labeled employees left. This is the baseline the model aims to reduce through early identification.</div>
+      <div class="two-col" style="align-items:start; margin-top:40px;">
+        <div class="arch-pipe" role="img" aria-label="Solution architecture pipeline">
+          <div class="ap-group">
+            <div class="ap-group-label" data-i18n="archDataLabel">Data</div>
+            <div class="ap-step">
+              <div class="ap-step-icon">📄</div>
+              <div><div class="ap-step-name">IBM HR Dataset</div><div class="ap-step-sub">1,470 employees · 72 features</div></div>
+            </div>
+            <div class="ap-step">
+              <div class="ap-step-icon">🧹</div>
+              <div><div class="ap-step-name" data-i18n="archClean">Data Cleaning</div><div class="ap-step-sub" data-i18n="archCleanSub">drop constants, encode binary</div></div>
+            </div>
+            <div class="ap-step">
+              <div class="ap-step-icon">⚙️</div>
+              <div><div class="ap-step-name" data-i18n="archFeat">Feature Engineering</div><div class="ap-step-sub">HRFeatureEngineer pipeline</div></div>
+            </div>
           </div>
-          <div class="insight-cell">
-            <div class="insight-label">Overtime risk</div>
-            <div class="insight-num">31.92%</div>
-            <div class="insight-desc">The single strongest controllable factor. Employees required to work overtime are nearly 3× more likely to leave. Policy change here has the highest leverage.</div>
+          <div class="ap-arrow">↓</div>
+          <div class="ap-group">
+            <div class="ap-group-label" data-i18n="archModelLabel">Model Training</div>
+            <div class="ap-step">
+              <div class="ap-step-icon">⚖️</div>
+              <div><div class="ap-step-name">SMOTE</div><div class="ap-step-sub" data-i18n="archSmoteSub">train data only · balance classes</div></div>
+            </div>
+            <div class="ap-step">
+              <div class="ap-step-icon">🔍</div>
+              <div><div class="ap-step-name">GridSearchCV</div><div class="ap-step-sub" data-i18n="archGridSub">4-fold · tune XGBoost</div></div>
+            </div>
+            <div class="ap-step">
+              <div class="ap-step-icon">🌲</div>
+              <div><div class="ap-step-name">XGBoost</div><div class="ap-step-sub">86.11% recall · AUC 81.93%</div></div>
+            </div>
           </div>
-          <div class="insight-cell">
-            <div class="insight-label">Salary quartile gap</div>
-            <div class="insight-num">29% vs 9%</div>
-            <div class="insight-desc">Bottom salary quartile loses 29% annually. Top quartile loses 9.81%. The retention premium of competitive pay is clearly visible in the data.</div>
-          </div>
-          <div class="insight-cell">
-            <div class="insight-label">New employee risk</div>
-            <div class="insight-num">34.59%</div>
-            <div class="insight-desc">First-year attrition is the highest of any tenure band. Onboarding quality and early job fit are more critical than later retention programs.</div>
-          </div>
-          <div class="insight-cell">
-            <div class="insight-label">Work-life balance</div>
-            <div class="insight-num">32% vs 10%</div>
-            <div class="insight-desc">Score 1 (poor) leads to 32.14% attrition. Score 4 (good) drops below 10%. Self-reported satisfaction scores are genuine predictors, not just HR survey noise.</div>
-          </div>
-          <div class="insight-cell">
-            <div class="insight-label">Model false negatives</div>
-            <div class="insight-num">5</div>
-            <div class="insight-desc">XGBoost missed only 5 actual attritors on the test set. In an HR intervention context, this means the model's flags are reliable enough to act on.</div>
+          <div class="ap-arrow">↓</div>
+          <div class="ap-group output">
+            <div class="ap-group-label" data-i18n="archInfraLabel">Infrastructure</div>
+            <div class="ap-step">
+              <div class="ap-step-icon">💾</div>
+              <div><div class="ap-step-name">PostgreSQL</div><div class="ap-step-sub">Docker container</div></div>
+            </div>
+            <div class="ap-step">
+              <div class="ap-step-icon">📊</div>
+              <div><div class="ap-step-name">Metabase</div><div class="ap-step-sub" data-i18n="archMetaSub">5-tab HR dashboard</div></div>
+            </div>
+            <div class="ap-step">
+              <div class="ap-step-icon">👥</div>
+              <div><div class="ap-step-name" data-i18n="archHrLabel">HR Team</div><div class="ap-step-sub" data-i18n="archHrSub">browser-based access</div></div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- SECTION 5: DELIVERABLES -->
-    <section class="content" id="deliverables">
-      <div class="wrap">
-        <div class="section-num" data-i18n="s5Num">05 — Deliverables</div>
-        <h2 data-i18n="s5H2">From model to <em>operational HR infrastructure</em></h2>
-
-        <div class="two-col">
-          <div>
-            <h3>Metabase Dashboard (5 Tabs)</h3>
-            <p>Built on Docker + PostgreSQL, accessible to HR teams through the browser:</p>
-            <ul class="checklist">
-              <li><strong>Executive Summary</strong> — KPIs (attrition rate, department breakdown, role breakdown), filterable by department and role</li>
-              <li><strong>Compensation &amp; Workload</strong> — Overtime distribution, business travel impact, salary band attrition rates</li>
-              <li><strong>Satisfaction &amp; Engagement</strong> — Job satisfaction scores, environment satisfaction, work-life balance, job involvement correlations</li>
-              <li><strong>Demographics &amp; Career</strong> — Age distribution, marital status, tenure bands, promotion recency, training times</li>
-              <li><strong>Early Warning System</strong> — Model predictions per employee with interactive filters for HR to prioritize outreach</li>
-            </ul>
-          </div>
-          <div>
-            <h3>Batch Prediction Script</h3>
-            <p>Production-ready Python script for recurring HR use:</p>
-            <ul class="checklist">
-              <li><strong>Input</strong> — Accepts CSV of employee records with the 72 feature columns</li>
-              <li><strong>Processing</strong> — Custom <code>HRFeatureEngineer</code> transformer handles age grouping, binary encoding, ordinal encoding, one-hot encoding in a scikit-learn pipeline</li>
-              <li><strong>Output</strong> — Returns attrition probability (0–100%) and binary prediction per employee</li>
-              <li><strong>Database integration</strong> — SQLAlchemy connector to write results directly to PostgreSQL, populating the Metabase Early Warning tab</li>
-            </ul>
-            <p><strong>Infrastructure:</strong> Docker Compose orchestrates PostgreSQL + Metabase containers. The entire analytics environment spins up with a single <code>docker compose up</code>.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 6: DASHBOARD PREVIEW -->
-    <section class="content alt" id="dashboard">
-      <div class="wrap">
-        <div class="section-num" data-i18n="s6Num">06 — Dashboard Preview</div>
-        <h2 data-i18n="s6H2">5-tab Metabase dashboard — <em>from KPIs to Early Warning</em></h2>
-        <p class="lede" data-i18n="s6Lede">Built on Docker + PostgreSQL, the Metabase dashboard gives HR teams a browser-based view across 5 tabs — from executive KPIs to ML-powered individual risk scores.</p>
-
-        <div class="screenshot-frame">
-          <img src="ninditya_sna_dicoding-dashboard.png" alt="Metabase Executive Summary — 1,058 total employees, 16.92% attrition rate, department breakdown and top job roles by attrition rate" loading="lazy">
-          <div class="img-caption">Executive Summary · 1,058 employees · 16.92% attrition rate · department &amp; role breakdown</div>
-        </div>
-
-        <div class="screenshot-grid">
-          <div class="screenshot-frame">
-            <img src="ninditya_sna_dicoding-dashboard_2.png" alt="Compensation and Workload tab — overtime vs attrition, business travel impact, monthly income group, salary benchmarking table" loading="lazy">
-            <div class="img-caption">Compensation &amp; Workload · Overtime impact · salary quartile analysis</div>
-          </div>
-          <div class="screenshot-frame">
-            <img src="ninditya_sna_dicoding-dashboard_5.png" alt="Satisfaction and Engagement tab — job satisfaction scores, work-life balance, environment and relationship satisfaction vs attrition" loading="lazy">
-            <div class="img-caption">Satisfaction &amp; Engagement · Self-reported scores vs attrition rate</div>
-          </div>
-          <div class="screenshot-frame">
-            <img src="ninditya_sna_dicoding-dashboard_4.png" alt="Demographics and Career tab — attrition by age group, gender, education field, tenure cohort, years since last promotion" loading="lazy">
-            <div class="img-caption">Demographics &amp; Career · Age groups, tenure bands, promotion recency</div>
-          </div>
-          <div class="screenshot-frame">
-            <img src="ninditya_sna_dicoding-dashboard_3.png" alt="Early Warning System tab — ML model predictions per employee, risk tier distribution, top 50 high-risk employees table with department filter" loading="lazy">
-            <div class="img-caption">Early Warning System · Risk tiers · top 50 high-risk employees · department filter</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- LEARNING CONTEXT + FUTURE DEVELOPMENT -->
-    <div class="journey-section">
-      <div class="wrap">
-
-        <!-- Part 1: Context -->
-        <div class="section-num" data-i18n="lcNum">Learning Context</div>
-        <h2 data-i18n="lcTitle">Expert level, first submission. <em>Rejected once, then ★4.</em></h2>
-        <p data-i18n="lcDesc">
-          This project was the first submission for <strong>Belajar Penerapan Data Science</strong>, the IDCamp 2025 Expert level course (110 hours, rated 4.89 by learners). It was the capstone of a full learning path — from Python and SQL basics at Beginner, to data analysis at Intermediate, to full-scale data science projects at Expert.
-        </p>
-        <div class="journey-path">
-          <span class="journey-tag">Beginner (4 courses)</span>
-          <span class="journey-tag">Belajar Matematika untuk Data Science</span>
-          <span class="journey-tag active" data-i18n="lcPathActive">→ Belajar Penerapan Data Science — Submission 1 (this project)</span>
-          <span class="journey-tag">Submission 2 (Student Dropout)</span>
-        </div>
-
-        <!-- Part 2: Reviewer Feedback -->
-        <h3 data-i18n="lcFeedbackTitle">Reviewer feedback — two rounds of rejection.</h3>
-        <p data-i18n="lcFeedbackDesc">First rejected for missing infrastructure, second rated ★4 for generic recommendations:</p>
-
-        <div class="feedback-block">
-          <div class="feedback-label" data-i18n="fb1label">Feedback #1 — Missing Infrastructure File</div>
-          <p data-i18n="fb1body"><strong>The command <code>python setup_database.py</code> failed because the file was not attached.</strong> Reviewer could not verify the dashboard at all. No matter how good the model or the Metabase setup is — if someone can't reproduce it, it doesn't exist from the evaluator's perspective.</p>
-        </div>
-
-        <div class="feedback-block">
-          <div class="feedback-label" data-i18n="fb2label">Feedback #2 — README Completeness</div>
-          <p data-i18n="fb2body">The README needed: <strong>dataset source link</strong> (so the reviewer can verify the data), <strong>Python version</strong> (so the environment can be reproduced), and <strong>step-by-step virtual environment setup</strong> (create → activate → install from requirements.txt).</p>
-        </div>
-
-        <div class="feedback-block">
-          <div class="feedback-label" data-i18n="fb3label">Why Not ★5 — Action Items Were Too Generic</div>
-          <p data-i18n="fb3body">Recommendations like <em>"evaluate compensation"</em> or <em>"improve work-life balance"</em> are valid in principle but <strong>not grounded in the specific data from this analysis</strong>. A ★5 action item looks like: <em>"Employees in Sales Representative roles earning below [X] with overtime have a &gt;70% attrition probability."</em> Each recommendation needs a segment, a number, and an implementation step — not a category.</p>
-        </div>
-
-        <!-- Part 3: Future Development -->
-        <h3 data-i18n="fdTitle" style="margin-top:56px;">Future Development</h3>
-        <p data-i18n="fdDesc">Based on reviewer feedback and the direction this analysis points toward, here's what the next iteration of this project will include:</p>
-
-        <div class="lesson-grid">
-          <div class="lesson-cell">
-            <div class="lesson-cell-label" data-i18n="fd1label">Data-Backed Recommendations</div>
-            <p data-i18n="fd1body">Add a segment × metric table to every action item — e.g., <strong>"Sales Representatives earning below Q1 with overtime have &gt;70% predicted attrition risk."</strong> Each recommendation includes a specific employee segment, measured risk level, and estimated retention impact.</p>
-          </div>
-          <div class="lesson-cell">
-            <div class="lesson-cell-label" data-i18n="fd2label">What-If Simulation</div>
-            <p data-i18n="fd2body">Add a Streamlit interface where HR can simulate: <strong>"if overtime is eliminated for this department, how does predicted attrition change?"</strong> Turns the passive dashboard into an active decision tool.</p>
-          </div>
-          <div class="lesson-cell">
-            <div class="lesson-cell-label" data-i18n="fd3label">Explainability (SHAP)</div>
-            <p data-i18n="fd3body">Integrate SHAP values to show per-employee <em>why</em> the model flagged them — not just "high risk" but <strong>"high risk because: overtime=Yes, tenure=0.8yr, salary=low quartile."</strong> Makes predictions actionable at the individual level.</p>
-          </div>
-          <div class="lesson-cell">
-            <div class="lesson-cell-label" data-i18n="fd4label">Employee ID in Output</div>
-            <p data-i18n="fd4body">The batch prediction output needs an <strong>employee ID column</strong> so HR can map predictions back to individuals in their HR system. Simple to add — critical for operationalization.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- CTA -->
-    <div class="cta-section">
-      <div class="wrap">
-        <div class="section-num" data-i18n="ctaNum">Try it · See the code</div>
-        <h2 data-i18n="ctaH2">Prediction app + full source <em>on GitHub.</em></h2>
-        <p data-i18n="ctaP">Try the Streamlit prediction interface or explore the XGBoost pipeline, Metabase dashboard setup, and Docker infrastructure on GitHub.</p>
-        <div class="cta-buttons">
-          <a href="https://idcamp2025-menyelesaikan-permasalahan-perusahaan-edutech-lh9vp.streamlit.app/" class="btn" target="_blank" rel="noopener">Live demo →</a>
-          <a href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-human-resources" class="btn ghost" target="_blank" rel="noopener">View source →</a>
-          <a href="/#projects" class="btn ghost">← Back to all projects</a>
+        <div>
+          <h3 data-i18n="archKeyTitle">Key engineering decisions</h3>
+          <ul class="checklist">
+            <li data-i18n="archK1"><strong>SMOTE on train only</strong> — Synthetic minority samples are created before train/test split to prevent data leakage into evaluation metrics</li>
+            <li data-i18n="archK2"><strong>Custom sklearn transformer</strong> — <code>HRFeatureEngineer</code> bundles age-grouping, binary encoding, ordinal encoding, and one-hot encoding into a single reusable pipeline step</li>
+            <li data-i18n="archK3"><strong>Stratified K-Fold</strong> — 5-fold evaluation preserves class ratio across folds; GridSearchCV uses 4-fold for hyperparameter tuning</li>
+            <li data-i18n="archK4"><strong>Docker Compose</strong> — single <code>docker compose up</code> starts both PostgreSQL and Metabase containers; no manual database setup</li>
+            <li data-i18n="archK5"><strong>SQLAlchemy batch write</strong> — prediction results written directly to PostgreSQL, automatically populating the Metabase Early Warning tab</li>
+          </ul>
         </div>
       </div>
     </div>
+  </section>
 
-  </main>
+  <!-- SECTION 03: MODEL COMPARISON -->
+  <section class="content" id="modeling">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s3Num">03 · Model Selection</div>
+      <h2 data-i18n="s3Title">Recall beats accuracy when <em>missing a leaver costs more than a false alarm.</em></h2>
+
+      <div class="model-compare">
+        <div class="model-card">
+          <div class="model-card-label" data-i18n="baselineLabel">Baseline</div>
+          <h3>Logistic Regression</h3>
+          <div class="model-metrics">
+            <div class="model-metric">
+              <div class="model-metric-val">74%</div>
+              <div class="model-metric-lbl" data-i18n="accuracyLbl">Accuracy</div>
+            </div>
+            <div class="model-metric">
+              <div class="model-metric-val">72%</div>
+              <div class="model-metric-lbl" data-i18n="recallLbl">Recall</div>
+            </div>
+            <div class="model-metric">
+              <div class="model-metric-val">80%</div>
+              <div class="model-metric-lbl">AUC</div>
+            </div>
+          </div>
+          <div class="model-verdict" data-i18n="baselineVerdict">✗ Misses too many leavers</div>
+        </div>
+        <div class="model-card winner">
+          <div class="model-card-label" data-i18n="selectedLabel">Selected</div>
+          <h3>XGBoost</h3>
+          <div class="model-metrics">
+            <div class="model-metric">
+              <div class="model-metric-val">60%</div>
+              <div class="model-metric-lbl" data-i18n="accuracyLbl">Accuracy</div>
+            </div>
+            <div class="model-metric">
+              <div class="model-metric-val">86%</div>
+              <div class="model-metric-lbl" data-i18n="recallLbl">Recall</div>
+            </div>
+            <div class="model-metric">
+              <div class="model-metric-val">82%</div>
+              <div class="model-metric-lbl">AUC</div>
+            </div>
+          </div>
+          <div class="model-verdict" data-i18n="winnerVerdict">✓ Best business choice</div>
+        </div>
+      </div>
+
+      <div class="fn-box">
+        <div class="fn-box-label" data-i18n="fnLabel">Why False Negatives Are Expensive</div>
+        <div class="fn-flow">
+          <div class="fn-step">
+            <div class="fn-step-box bad" data-i18n="fnS1">False Negative</div>
+          </div>
+          <div class="fn-arrow-h">→</div>
+          <div class="fn-step">
+            <div class="fn-step-box bad" data-i18n="fnS2">Employee resigns</div>
+          </div>
+          <div class="fn-arrow-h">→</div>
+          <div class="fn-step">
+            <div class="fn-step-box bad" data-i18n="fnS3">No intervention</div>
+          </div>
+          <div class="fn-arrow-h">→</div>
+          <div class="fn-step">
+            <div class="fn-step-box bad" data-i18n="fnS4">Replacement cost</div>
+          </div>
+        </div>
+      </div>
+
+      <p data-i18n="s3P">XGBoost has lower raw accuracy because it aggressively catches attritors, flagging some who stay. But in HR, a false positive costs a counselling conversation. A false negative costs an employee. The asymmetry clearly favors recall.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 04: RISK FACTORS -->
+  <section class="content alt" id="risks">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s4Num">04 · Key Risk Factors</div>
+      <h2 data-i18n="s4Title">Overtime, first-year tenure, young age. <em>Three compounding multipliers.</em></h2>
+
+      <div class="risk-ranking">
+        <div class="risk-card reveal">
+          <div class="risk-rank" data-i18n="rankLabel1">🥇 Top Risk Factor</div>
+          <div class="risk-factor" data-i18n="risk1Factor">Tenure ≤ 1 year</div>
+          <div class="risk-rate">34.59<small style="font-size:0.5em;font-family:'DM Mono',monospace;">%</small></div>
+          <div class="risk-rate-lbl" data-i18n="riskRateLbl">Attrition rate</div>
+          <div class="risk-multi" data-i18n="risk1Multi">~4× vs 5+ year peers</div>
+        </div>
+        <div class="risk-card reveal">
+          <div class="risk-rank" data-i18n="rankLabel2">🥈 Risk Factor</div>
+          <div class="risk-factor" data-i18n="risk2Factor">Age 18–25</div>
+          <div class="risk-rate">38.04<small style="font-size:0.5em;font-family:'DM Mono',monospace;">%</small></div>
+          <div class="risk-rate-lbl" data-i18n="riskRateLbl">Attrition rate</div>
+          <div class="risk-multi" data-i18n="risk2Multi">~4× vs 46+ cohort</div>
+        </div>
+        <div class="risk-card reveal">
+          <div class="risk-rank" data-i18n="rankLabel3">🥉 Risk Factor</div>
+          <div class="risk-factor" data-i18n="risk3Factor">Sales Representative</div>
+          <div class="risk-rate">43.10<small style="font-size:0.5em;font-family:'DM Mono',monospace;">%</small></div>
+          <div class="risk-rate-lbl" data-i18n="riskRateLbl">Attrition rate</div>
+          <div class="risk-multi" data-i18n="risk3Multi">Highest attrition role</div>
+        </div>
+        <div class="risk-card reveal">
+          <div class="risk-rank" data-i18n="rankLabel4">4 Risk Factor</div>
+          <div class="risk-factor" data-i18n="risk4Factor">Overtime Required</div>
+          <div class="risk-rate">31.92<small style="font-size:0.5em;font-family:'DM Mono',monospace;">%</small></div>
+          <div class="risk-rate-lbl" data-i18n="riskRateLbl">Attrition rate</div>
+          <div class="risk-multi" data-i18n="risk4Multi">~3× vs no overtime</div>
+        </div>
+        <div class="risk-card reveal">
+          <div class="risk-rank" data-i18n="rankLabel5">5 Risk Factor</div>
+          <div class="risk-factor" data-i18n="risk5Factor">Low Salary (Q1)</div>
+          <div class="risk-rate">29.06<small style="font-size:0.5em;font-family:'DM Mono',monospace;">%</small></div>
+          <div class="risk-rate-lbl" data-i18n="riskRateLbl">Attrition rate</div>
+          <div class="risk-multi" data-i18n="risk5Multi">~3× vs top quartile</div>
+        </div>
+        <div class="risk-card reveal">
+          <div class="risk-rank" data-i18n="rankLabel6">6 Risk Factor</div>
+          <div class="risk-factor" data-i18n="risk6Factor">Poor Work-Life Balance</div>
+          <div class="risk-rate">32.14<small style="font-size:0.5em;font-family:'DM Mono',monospace;">%</small></div>
+          <div class="risk-rate-lbl" data-i18n="riskRateLbl">Attrition rate</div>
+          <div class="risk-multi" data-i18n="risk6Multi">~3× vs score 4</div>
+        </div>
+      </div>
+
+      <h3 data-i18n="featImportTitle">Feature Importance</h3>
+      <div class="feat-bars" role="img" aria-label="Feature importance chart">
+        <div class="feat-bar-row">
+          <div class="feat-bar-lbl">Overtime</div>
+          <div class="feat-bar-track"><div class="feat-bar-fill" style="width:100%"></div></div>
+          <div class="feat-bar-val">1.00</div>
+        </div>
+        <div class="feat-bar-row">
+          <div class="feat-bar-lbl">Monthly Income</div>
+          <div class="feat-bar-track"><div class="feat-bar-fill" style="width:72%"></div></div>
+          <div class="feat-bar-val">0.72</div>
+        </div>
+        <div class="feat-bar-row">
+          <div class="feat-bar-lbl">Years at Company</div>
+          <div class="feat-bar-track"><div class="feat-bar-fill" style="width:61%"></div></div>
+          <div class="feat-bar-val">0.61</div>
+        </div>
+        <div class="feat-bar-row">
+          <div class="feat-bar-lbl">Age</div>
+          <div class="feat-bar-track"><div class="feat-bar-fill" style="width:54%"></div></div>
+          <div class="feat-bar-val">0.54</div>
+        </div>
+        <div class="feat-bar-row">
+          <div class="feat-bar-lbl">Business Travel</div>
+          <div class="feat-bar-track"><div class="feat-bar-fill" style="width:43%"></div></div>
+          <div class="feat-bar-val">0.43</div>
+        </div>
+        <div class="feat-bar-row">
+          <div class="feat-bar-lbl">Work-Life Balance</div>
+          <div class="feat-bar-track"><div class="feat-bar-fill" style="width:37%"></div></div>
+          <div class="feat-bar-val">0.37</div>
+        </div>
+      </div>
+
+      <div class="pullquote" data-i18n="riskPullquote">"The first year is the most vulnerable — 34.59% of employees with ≤1 year tenure leave. Pair that with overtime or low salary, and you've identified employees who almost certainly won't see year 2."</div>
+    </div>
+  </section>
+
+  <!-- SECTION 05: BUSINESS IMPACT -->
+  <section class="content" id="impact">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s5Num">05 · Business Impact</div>
+      <h2 data-i18n="s5Title">From reactive to proactive. <em>86% of leavers identified before they resign.</em></h2>
+
+      <div class="impact-compare">
+        <div class="ic-col bad">
+          <span class="ic-header" data-i18n="withoutModelLabel">Without Model</span>
+          <div class="ic-flow">
+            <div class="ic-box" data-i18n="icW1">Employee considers leaving</div>
+            <div class="ic-arrow">↓</div>
+            <div class="ic-box red" data-i18n="icW2">No signal</div>
+            <div class="ic-arrow">↓</div>
+            <div class="ic-box red" data-i18n="icW3">Manager surprised</div>
+            <div class="ic-arrow">↓</div>
+            <div class="ic-box red" data-i18n="icW4">Employee resigns</div>
+            <div class="ic-arrow">↓</div>
+            <div class="ic-box red" data-i18n="icW5">Replacement costs begin</div>
+          </div>
+        </div>
+        <div class="ic-col good">
+          <span class="ic-header" data-i18n="withModelLabel">With Model</span>
+          <div class="ic-flow">
+            <div class="ic-box" data-i18n="icM1">Employee shows risk signals</div>
+            <div class="ic-arrow">↓</div>
+            <div class="ic-box green" data-i18n="icM2">Model flags high risk</div>
+            <div class="ic-arrow">↓</div>
+            <div class="ic-box green" data-i18n="icM3">HR interview</div>
+            <div class="ic-arrow">↓</div>
+            <div class="ic-box green" data-i18n="icM4">Retention program</div>
+            <div class="ic-arrow">↓</div>
+            <div class="ic-box green" data-i18n="icM5">Employee stays</div>
+          </div>
+          <div class="impact-metric">86<small style="font-family:'DM Mono',monospace;font-size:0.4em;color:var(--muted);font-weight:400;">%</small></div>
+          <div class="impact-metric-sub" data-i18n="impactMetricSub">Attritors detected before resignation</div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:0;">
+        <div>
+          <h3 data-i18n="impactTitle1">Only 5 false negatives</h3>
+          <p data-i18n="impactP1">On the test set, XGBoost missed only 5 actual attritors. In HR intervention terms, this means 5 employees who would have left without any outreach — out of 36 total test-set attritors. That's a 86% catch rate at deployment scale.</p>
+        </div>
+        <div>
+          <h3 data-i18n="impactTitle2">Controllable factor: Overtime</h3>
+          <p data-i18n="impactP2">Overtime is the strongest single driver and the most actionable one. Eliminating mandatory overtime for high-risk employees is a direct policy lever. A what-if simulation (planned) will quantify this impact per department.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 06: PREDICTION PIPELINE -->
+  <section class="content alt" id="pipeline">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s6Num">06 · Prediction Pipeline</div>
+      <h2 data-i18n="s6Title">Batch prediction → PostgreSQL → Dashboard. <em>HR sees results in the browser.</em></h2>
+
+      <div class="pred-pipe" role="img" aria-label="Prediction pipeline flow">
+        <div class="pp-step">
+          <div class="pp-box source">
+            <div class="pp-icon">📄</div>
+            <div class="pp-name" data-i18n="ppS1">CSV Input</div>
+            <div class="pp-sub" data-i18n="ppS1Sub">72 features</div>
+          </div>
+        </div>
+        <div class="pp-arrow">→</div>
+        <div class="pp-step">
+          <div class="pp-box">
+            <div class="pp-icon">⚙️</div>
+            <div class="pp-name" data-i18n="ppS2">Encoding</div>
+            <div class="pp-sub">HRFeatureEngineer</div>
+          </div>
+        </div>
+        <div class="pp-arrow">→</div>
+        <div class="pp-step">
+          <div class="pp-box">
+            <div class="pp-icon">📏</div>
+            <div class="pp-name" data-i18n="ppS3">Scaling</div>
+            <div class="pp-sub">StandardScaler</div>
+          </div>
+        </div>
+        <div class="pp-arrow">→</div>
+        <div class="pp-step">
+          <div class="pp-box">
+            <div class="pp-icon">🌲</div>
+            <div class="pp-name">XGBoost</div>
+            <div class="pp-sub">trained model</div>
+          </div>
+        </div>
+        <div class="pp-arrow">→</div>
+        <div class="pp-step">
+          <div class="pp-box">
+            <div class="pp-icon">🎯</div>
+            <div class="pp-name" data-i18n="ppS5">Probability</div>
+            <div class="pp-sub">0–100% risk</div>
+          </div>
+        </div>
+        <div class="pp-arrow">→</div>
+        <div class="pp-step">
+          <div class="pp-box dest">
+            <div class="pp-icon">💾</div>
+            <div class="pp-name">PostgreSQL</div>
+            <div class="pp-sub">SQLAlchemy</div>
+          </div>
+        </div>
+        <div class="pp-arrow">→</div>
+        <div class="pp-step">
+          <div class="pp-box dest">
+            <div class="pp-icon">📊</div>
+            <div class="pp-name">Metabase</div>
+            <div class="pp-sub" data-i18n="ppS7">Early Warning</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="pipeInputTitle">Input</h3>
+          <ul class="checklist">
+            <li data-i18n="pipeI1">CSV of employee records with all 72 feature columns</li>
+            <li data-i18n="pipeI2"><code>HRFeatureEngineer</code> transformer: age grouping, binary/ordinal/one-hot encoding in one pipeline step</li>
+            <li data-i18n="pipeI3">Same feature engineering as training — no manual preprocessing per-run</li>
+          </ul>
+        </div>
+        <div>
+          <h3 data-i18n="pipeOutputTitle">Output</h3>
+          <ul class="checklist">
+            <li data-i18n="pipeO1">Attrition probability score (0–100%) per employee</li>
+            <li data-i18n="pipeO2">Binary prediction: high-risk or not</li>
+            <li data-i18n="pipeO3">Written to PostgreSQL via SQLAlchemy — Metabase Early Warning tab auto-updates</li>
+          </ul>
+          <p style="margin-top:8px;" data-i18n="pipeDockerNote"><strong>Infrastructure:</strong> <code>docker compose up</code> starts PostgreSQL + Metabase. The entire analytics environment spins up in one command.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 07: DASHBOARD -->
+  <section class="content" id="dashboard">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s7Num">07 · Dashboard Showcase</div>
+      <h2 data-i18n="s7Title">5-tab Metabase dashboard — <em>from executive KPIs to individual risk scores.</em></h2>
+      <p class="lede" data-i18n="s7Lede">Built on Docker + PostgreSQL. HR teams access everything through the browser — no Jupyter notebooks, no Python scripts.</p>
+
+      <div class="dash-grid">
+        <div class="dash-item full">
+          <img src="ninditya_sna_dicoding-dashboard.png" alt="Executive Summary dashboard — total employees, attrition rate, department and role breakdown" loading="lazy">
+          <div class="dash-caption"><span class="dash-tab-num">① Executive Summary</span> KPIs · Attrition rate · Department &amp; role breakdown</div>
+        </div>
+        <div class="dash-item">
+          <img src="ninditya_sna_dicoding-dashboard_2.png" alt="Compensation and Workload tab — overtime vs attrition, business travel impact, salary quartile analysis" loading="lazy">
+          <div class="dash-caption"><span class="dash-tab-num">② Compensation &amp; Workload</span> Overtime · salary quartiles · travel impact</div>
+        </div>
+        <div class="dash-item">
+          <img src="ninditya_sna_dicoding-dashboard_5.png" alt="Satisfaction and Engagement tab — job satisfaction scores, work-life balance vs attrition" loading="lazy">
+          <div class="dash-caption"><span class="dash-tab-num">③ Satisfaction &amp; Engagement</span> Self-reported scores vs attrition</div>
+        </div>
+        <div class="dash-item">
+          <img src="ninditya_sna_dicoding-dashboard_4.png" alt="Demographics and Career tab — attrition by age group, tenure cohort, years since last promotion" loading="lazy">
+          <div class="dash-caption"><span class="dash-tab-num">④ Demographics &amp; Career</span> Age groups · tenure bands · promotion recency</div>
+        </div>
+        <div class="dash-item">
+          <img src="ninditya_sna_dicoding-dashboard_3.png" alt="Early Warning System tab — ML predictions per employee, risk tier distribution, top 50 high-risk employees" loading="lazy">
+          <div class="dash-caption"><span class="dash-tab-num">⑤ Early Warning System</span> Risk tiers · top high-risk employees · department filter</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 08: TECHNICAL STACK -->
+  <section class="content alt" id="stack">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s8Num">08 · Technical Stack</div>
+      <h2 data-i18n="s8Title">From model to <em>production infrastructure.</em></h2>
+
+      <div class="stack-grid">
+        <div class="stack-col">
+          <div class="stack-col-label" data-i18n="stackML">ML</div>
+          <div class="stack-item">XGBoost<sub>ensemble model</sub></div>
+          <div class="stack-item">scikit-learn<sub>pipeline + eval</sub></div>
+          <div class="stack-item">SMOTE<sub>imbalancedlearn</sub></div>
+          <div class="stack-item">GridSearchCV<sub>tuning</sub></div>
+        </div>
+        <div class="stack-col">
+          <div class="stack-col-label" data-i18n="stackData">Data</div>
+          <div class="stack-item">pandas<sub>EDA + transform</sub></div>
+          <div class="stack-item">numpy<sub>numerical ops</sub></div>
+          <div class="stack-item">matplotlib<sub>visualisation</sub></div>
+          <div class="stack-item">seaborn<sub>EDA plots</sub></div>
+        </div>
+        <div class="stack-col">
+          <div class="stack-col-label" data-i18n="stackBackend">Backend</div>
+          <div class="stack-item">Python 3.10<sub>batch predict</sub></div>
+          <div class="stack-item">SQLAlchemy<sub>DB connector</sub></div>
+          <div class="stack-item">Streamlit<sub>live demo UI</sub></div>
+        </div>
+        <div class="stack-col">
+          <div class="stack-col-label" data-i18n="stackDB">Database</div>
+          <div class="stack-item">PostgreSQL<sub>prediction storage</sub></div>
+          <div class="stack-item">Metabase<sub>HR dashboard</sub></div>
+        </div>
+        <div class="stack-col">
+          <div class="stack-col-label" data-i18n="stackInfra">Infra</div>
+          <div class="stack-item">Docker<sub>containers</sub></div>
+          <div class="stack-item">Docker Compose<sub>orchestration</sub></div>
+          <div class="stack-item">GitHub<sub>source control</sub></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 09: LESSONS LEARNED -->
+  <div class="journey-section" id="lessons">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s9Num">09 · Learning Journey</div>
+      <h2 data-i18n="s9Title">Expert level, first submission. <em>Rejected once, then ★4.</em></h2>
+      <p data-i18n="s9Desc">This was the capstone of IDCamp 2025 Expert — Belajar Penerapan Data Science (110 hours, rated 4.89). It went through two rounds of reviewer feedback before reaching ★4.</p>
+
+      <h3 data-i18n="s9FeedbackTitle">Reviewer feedback</h3>
+
+      <div class="feedback-block">
+        <div class="feedback-label" data-i18n="fb1label">Feedback #1 — Missing Infrastructure File</div>
+        <p data-i18n="fb1body"><strong>The command <code>python setup_database.py</code> failed because the file was not attached.</strong> Reviewer could not verify the dashboard. If someone can't reproduce it, it doesn't exist from the evaluator's perspective.</p>
+      </div>
+      <div class="feedback-block">
+        <div class="feedback-label" data-i18n="fb2label">Feedback #2 — README Completeness</div>
+        <p data-i18n="fb2body">The README needed: <strong>dataset source link</strong>, <strong>Python version</strong>, and <strong>step-by-step virtual environment setup</strong> (create → activate → install from requirements.txt).</p>
+      </div>
+      <div class="feedback-block">
+        <div class="feedback-label" data-i18n="fb3label">Why Not ★5 — Generic Recommendations</div>
+        <p data-i18n="fb3body">Recommendations like <em>"evaluate compensation"</em> are valid but <strong>not grounded in the specific data</strong>. A ★5 action item: <em>"Sales Representatives earning below Q1 with overtime have &gt;70% attrition probability."</em> Each needs a segment, a number, and an implementation step.</p>
+      </div>
+
+      <h3 data-i18n="s9LessonsTitle" style="margin-top:48px;">What I carry from this</h3>
+      <div class="lesson-grid">
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l1Label">Reproducibility = feature</div>
+          <p data-i18n="l1Body">A model that can't be reproduced by the reviewer doesn't exist. <strong>Infrastructure completeness — setup scripts, requirements, README steps — is as important as model performance</strong>.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l2Label">Business metric over accuracy</div>
+          <p data-i18n="l2Body">Choosing XGBoost despite lower accuracy taught me that <strong>the right metric depends on the cost of each error type</strong>, not the most intuitive number on the leaderboard.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l3Label">Specific recommendations</div>
+          <p data-i18n="l3Body">General recommendations feel safe but land flat. <strong>Every recommendation needs a segment (who), a number (how much), and a step (what to do)</strong> to be actionable.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l4Label">Deploy first, optimise later</div>
+          <p data-i18n="l4Body">Getting the Metabase dashboard running inside Docker and accessible to HR was <strong>the moment this became a product, not just a notebook</strong>. The engineering matters.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 10: FUTURE ROADMAP -->
+  <section class="content" id="roadmap">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s10Num">10 · Future Roadmap</div>
+      <h2 data-i18n="s10Title">From prediction <em>to explanation and simulation.</em></h2>
+
+      <div class="roadmap">
+        <div class="roadmap-col current">
+          <div class="roadmap-label" data-i18n="roadCurrent">Current</div>
+          <div class="roadmap-item-title" data-i18n="road1Title">Batch Prediction</div>
+          <div class="roadmap-desc" data-i18n="road1Desc">CSV → XGBoost → PostgreSQL → Metabase. 86.11% recall. 5-tab dashboard. Docker deployed.</div>
+        </div>
+        <div class="roadmap-col">
+          <div class="roadmap-label" data-i18n="roadNext">Next</div>
+          <div class="roadmap-item-title" data-i18n="road2Title">SHAP Explainability</div>
+          <div class="roadmap-desc" data-i18n="road2Desc">Per-employee explanation: "high risk because overtime=Yes, tenure=0.8yr, salary=Q1." Makes predictions actionable at individual level.</div>
+        </div>
+        <div class="roadmap-col">
+          <div class="roadmap-label" data-i18n="roadFuture">Future</div>
+          <div class="roadmap-item-title" data-i18n="road3Title">What-If Simulation</div>
+          <div class="roadmap-desc" data-i18n="road3Desc">Streamlit: "If overtime is removed for this department, how does attrition change?" Turns dashboard from passive report to decision tool.</div>
+        </div>
+        <div class="roadmap-col">
+          <div class="roadmap-label" data-i18n="roadVision">Vision</div>
+          <div class="roadmap-item-title" data-i18n="road4Title">Production API</div>
+          <div class="roadmap-desc" data-i18n="road4Desc">REST endpoint for HR system integration. Real-time prediction on new hires. Segment-based intervention recommendations with measured ROI.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ctaNum">Try it · See the code</div>
+      <h2 data-i18n="ctaTitle">Live Streamlit demo + full source <em>on GitHub.</em></h2>
+      <p data-i18n="ctaP">Try the prediction interface or explore the XGBoost pipeline, Metabase dashboard setup, and Docker infrastructure. Full source including setup_database.py and requirements.txt.</p>
+      <div class="cta-buttons">
+        <a href="https://idcamp2025-menyelesaikan-permasalahan-perusahaan-edutech-lh9vp.streamlit.app/" class="btn" target="_blank" rel="noopener" data-i18n="ctaDemo">Live demo →</a>
+        <a href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-human-resources" class="btn ghost" target="_blank" rel="noopener" data-i18n="ctaSource">View source →</a>
+        <a href="/#projects" class="btn ghost" data-i18n="ctaBack">← All projects</a>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <div class="wrap">
-      <span>© 2026 Ninditya Salma Nur Aini · AI Engineer &amp; Data Scientist</span>
-      <span><a href="/">Portfolio</a> · <a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a> · <a href="https://linkedin.com/in/ninditya-salma-nur-aini" target="_blank" rel="noopener">LinkedIn</a></span>
+      <span>© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a></span>
+      <span><a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a> · <a href="https://linkedin.com/in/ninditya-salma-nur-aini" target="_blank" rel="noopener">LinkedIn</a></span>
     </div>
   </footer>
 
   <script>
     const translations = {
       en: {
-        navBack: '← Back to portfolio',
-        navProjects: 'Projects',
-        navContact: 'Contact',
-        kickerText: 'IDCamp Expert · HR Analytics · ML Classification',
-        heroTitle: 'Employee Attrition<br><em>Prediction</em>',
-        heroLede: 'Jaya Jaya Maju — a multinational company with 1,000+ employees — was losing staff at a <strong>16.92% annual attrition rate</strong>. I built an XGBoost early-warning system achieving <strong>86.11% recall</strong>, combined with a 5-tab Metabase dashboard and Docker-based infrastructure to turn prediction into operational HR intelligence.',
-        metaLevel: '<strong>Level</strong> IDCamp Expert',
-        s1Num: '01 — Problem',
-        s1H2: 'Attrition above 10% is <em>a management warning sign</em>. Theirs was 16.92%.',
-        s1Lede: 'Jaya Jaya Maju operates across multiple countries, employing 1,000+ staff. Their attrition rate — 16.92%, or roughly 179 employees per year — was significantly above the acceptable threshold. No structured early-warning system existed.',
-        s2Num: '02 — Why XGBoost Won',
-        s2H2: 'Recall beats accuracy when <em>missing a leaver costs more</em> than a false alarm',
-        s2Lede: 'Two models were compared: Logistic Regression (interpretable baseline) and XGBoost (non-linear ensemble). The right choice depended on what kind of error was more expensive.',
-        s3Num: '03 — Risk Factors',
-        s3H2: 'Overtime is a <em>3× risk multiplier</em>. First year is the most dangerous.',
-        s4Num: '04 — Key Findings',
-        s4H2: 'The pattern: <em>workload + underpayment + stagnation</em> = attrition',
-        s5Num: '05 — Deliverables',
-        s5H2: 'From model to <em>operational HR infrastructure</em>',
-        s6Num: '06 — Dashboard Preview',
-        s6H2: '5-tab Metabase dashboard — <em>from KPIs to Early Warning</em>',
-        s6Lede: 'Built on Docker + PostgreSQL, the Metabase dashboard gives HR teams a browser-based view across 5 tabs — from executive KPIs to ML-powered individual risk scores.',
-        ctaNum: 'Try it · See the code',
-        ctaH2: 'Prediction app + full source <em>on GitHub.</em>',
-        ctaP: 'Try the Streamlit prediction interface or explore the XGBoost pipeline, Metabase dashboard setup, and Docker infrastructure on GitHub.',
-        lcNum: 'Learning Context',
-        lcTitle: 'Expert level, first submission. <em>Rejected once, then ★4.</em>',
-        lcDesc: 'This project was the first submission for <strong>Belajar Penerapan Data Science</strong>, the IDCamp 2025 Expert level course (110 hours, rated 4.89 by learners). It was the capstone of a full learning path — from Python and SQL basics at Beginner, to data analysis at Intermediate, to full-scale data science projects at Expert.',
-        lcPathActive: '→ Belajar Penerapan Data Science — Submission 1 (this project)',
-        lcFeedbackTitle: 'Reviewer feedback — two rounds of rejection.',
-        lcFeedbackDesc: 'First rejected for missing infrastructure, second rated ★4 for generic recommendations:',
-        fb1label: 'Feedback #1 — Missing Infrastructure File',
-        fb1body: '<strong>The command <code>python setup_database.py</code> failed because the file was not attached.</strong> Reviewer could not verify the dashboard at all. No matter how good the model or the Metabase setup is — if someone can\'t reproduce it, it doesn\'t exist from the evaluator\'s perspective.',
-        fb2label: 'Feedback #2 — README Completeness',
-        fb2body: 'The README needed: <strong>dataset source link</strong> (so the reviewer can verify the data), <strong>Python version</strong> (so the environment can be reproduced), and <strong>step-by-step virtual environment setup</strong> (create → activate → install from requirements.txt).',
-        fb3label: 'Why Not ★5 — Action Items Were Too Generic',
-        fb3body: 'Recommendations like <em>"evaluate compensation"</em> or <em>"improve work-life balance"</em> are valid in principle but <strong>not grounded in the specific data from this analysis</strong>. A ★5 action item looks like: <em>"Employees in Sales Representative roles earning below [X] with overtime have a &gt;70% attrition probability."</em> Each recommendation needs a segment, a number, and an implementation step — not a category.',
-        fdTitle: 'Future Development',
-        fdDesc: 'Based on reviewer feedback and the direction this analysis points toward, here\'s what the next iteration of this project will include:',
-        fd1label: 'Data-Backed Recommendations',
-        fd1body: 'Add a segment × metric table to every action item — e.g., <strong>"Sales Representatives earning below Q1 with overtime have &gt;70% predicted attrition risk."</strong> Each recommendation includes a specific employee segment, measured risk level, and estimated retention impact.',
-        fd2label: 'What-If Simulation',
-        fd2body: 'Add a Streamlit interface where HR can simulate: <strong>"if overtime is eliminated for this department, how does predicted attrition change?"</strong> Turns the passive dashboard into an active decision tool.',
-        fd3label: 'Explainability (SHAP)',
-        fd3body: 'Integrate SHAP values to show per-employee <em>why</em> the model flagged them — not just "high risk" but <strong>"high risk because: overtime=Yes, tenure=0.8yr, salary=low quartile."</strong> Makes predictions actionable at the individual level.',
-        fd4label: 'Employee ID in Output',
-        fd4body: 'The batch prediction output needs an <strong>employee ID column</strong> so HR can map predictions back to individuals in their HR system. Simple to add — critical for operationalization.'
+        navBack:'← Back to portfolio', navProjects:'Projects', navContact:'Contact',
+        kickerTag:'Applied Data Science',
+        kickerText:'IDCamp Expert · HR Analytics · XGBoost · Docker',
+        heroTitle:'Prevent employee turnover<br><em>before it happens.</em>',
+        heroLede:'XGBoost early-warning system for a multinational with <strong>16.92% annual attrition</strong>. 86.11% recall, 81.93% ROC-AUC, 5-tab Metabase dashboard, Docker + PostgreSQL deployment.',
+        heroMetaModel:'<strong>Model</strong> XGBoost · 86.11% Recall · AUC 81.93%',
+        heroMetaInfra:'<strong>Infra</strong> Docker · PostgreSQL · Metabase · Streamlit',
+        heroMetaData:'<strong>Dataset</strong> 1,470 employees · 72 features · IBM HR Analytics',
+        heroMetaLevel:'<strong>Level</strong> IDCamp Expert 2025',
+        stat1:'Recall<br>catches 86% of leavers', stat2:'ROC-AUC<br>XGBoost selected', stat3:'Overtime risk<br>31.92% vs 10.79%', stat4:'Dashboard tabs<br>Docker deployed',
+        s1Num:'01 · Business Problem',
+        s1Title:'Attrition above 10% is <em>a management warning sign.</em> Theirs was 16.92%.',
+        companyLabel:'Company', employeesLabel:'Employees', attritionLabel:'Annual Attrition', leaversLabel:'Employees / Year',
+        costsList:'Recruitment Cost<br>Productivity Loss<br>Knowledge Loss',
+        solutionLabel:'Solution Needed', solutionTitle:'Early Warning System',
+        s1Lede:'No structured early-warning existed. Attrition was discovered only after an employee resigned.',
+        s1P1:'Replacing one employee costs 50–200% of their annual salary. At 179 per year, the financial exposure is substantial — and most of it is preventable with early identification.',
+        s1P2:'The dataset covers 72 features across four domains that predict departure:',
+        s1C1:'<strong>Work conditions</strong> — Overtime, business travel, distance from home',
+        s1C2:'<strong>Compensation</strong> — Monthly income, salary hike, stock options',
+        s1C3:'<strong>Satisfaction</strong> — Job satisfaction, environment score, work-life balance',
+        s1C4:'<strong>Career trajectory</strong> — Tenure, years since promotion, training frequency',
+        s2Num:'02 · Solution Architecture',
+        s2Title:'From raw HR data <em>to operational HR intelligence.</em>',
+        s2Lede:'The pipeline goes end-to-end: data cleaning, feature engineering, SMOTE class balancing, XGBoost training, batch prediction, PostgreSQL storage, and Metabase visualisation — all containerised with Docker.',
+        archDataLabel:'Data', archClean:'Data Cleaning', archCleanSub:'drop constants, encode binary',
+        archFeat:'Feature Engineering',
+        archModelLabel:'Model Training', archSmoteSub:'train data only · balance classes', archGridSub:'4-fold · tune XGBoost',
+        archInfraLabel:'Infrastructure', archMetaSub:'5-tab HR dashboard', archHrLabel:'HR Team', archHrSub:'browser-based access',
+        archKeyTitle:'Key engineering decisions',
+        archK1:'<strong>SMOTE on train only</strong> — Synthetic minority samples are created before train/test split to prevent data leakage into evaluation metrics',
+        archK2:'<strong>Custom sklearn transformer</strong> — <code>HRFeatureEngineer</code> bundles age-grouping, binary encoding, ordinal encoding, and one-hot encoding into a single reusable pipeline step',
+        archK3:'<strong>Stratified K-Fold</strong> — 5-fold evaluation preserves class ratio across folds; GridSearchCV uses 4-fold for hyperparameter tuning',
+        archK4:'<strong>Docker Compose</strong> — single <code>docker compose up</code> starts both PostgreSQL and Metabase containers; no manual database setup',
+        archK5:'<strong>SQLAlchemy batch write</strong> — prediction results written directly to PostgreSQL, automatically populating the Metabase Early Warning tab',
+        s3Num:'03 · Model Selection',
+        s3Title:'Recall beats accuracy when <em>missing a leaver costs more than a false alarm.</em>',
+        baselineLabel:'Baseline', selectedLabel:'Selected',
+        accuracyLbl:'Accuracy', recallLbl:'Recall',
+        baselineVerdict:'✗ Misses too many leavers', winnerVerdict:'✓ Best business choice',
+        fnLabel:'Why False Negatives Are Expensive',
+        fnS1:'False Negative', fnS2:'Employee resigns', fnS3:'No intervention', fnS4:'Replacement cost',
+        s3P:'XGBoost has lower raw accuracy because it aggressively catches attritors, flagging some who stay. But in HR, a false positive costs a counselling conversation. A false negative costs an employee. The asymmetry clearly favors recall.',
+        s4Num:'04 · Key Risk Factors',
+        s4Title:'Overtime, first-year tenure, young age. <em>Three compounding multipliers.</em>',
+        rankLabel1:'🥇 Top Risk Factor', rankLabel2:'🥈 Risk Factor', rankLabel3:'🥉 Risk Factor',
+        rankLabel4:'4 Risk Factor', rankLabel5:'5 Risk Factor', rankLabel6:'6 Risk Factor',
+        riskRateLbl:'Attrition rate',
+        risk1Factor:'Tenure ≤ 1 year', risk1Multi:'~4× vs 5+ year peers',
+        risk2Factor:'Age 18–25', risk2Multi:'~4× vs 46+ cohort',
+        risk3Factor:'Sales Representative', risk3Multi:'Highest attrition role',
+        risk4Factor:'Overtime Required', risk4Multi:'~3× vs no overtime',
+        risk5Factor:'Low Salary (Q1)', risk5Multi:'~3× vs top quartile',
+        risk6Factor:'Poor Work-Life Balance', risk6Multi:'~3× vs score 4',
+        featImportTitle:'Feature Importance',
+        riskPullquote:'"The first year is the most vulnerable — 34.59% of employees with ≤1 year tenure leave. Pair that with overtime or low salary, and you\'ve identified employees who almost certainly won\'t see year 2."',
+        s5Num:'05 · Business Impact',
+        s5Title:'From reactive to proactive. <em>86% of leavers identified before they resign.</em>',
+        withoutModelLabel:'Without Model', withModelLabel:'With Model',
+        icW1:'Employee considers leaving', icW2:'No signal', icW3:'Manager surprised', icW4:'Employee resigns', icW5:'Replacement costs begin',
+        icM1:'Employee shows risk signals', icM2:'Model flags high risk', icM3:'HR interview', icM4:'Retention program', icM5:'Employee stays',
+        impactMetricSub:'Attritors detected before resignation',
+        impactTitle1:'Only 5 false negatives', impactP1:'On the test set, XGBoost missed only 5 actual attritors. In HR intervention terms, this means 5 employees who would have left without any outreach — out of 36 total test-set attritors. That\'s an 86% catch rate at deployment scale.',
+        impactTitle2:'Controllable factor: Overtime', impactP2:'Overtime is the strongest single driver and the most actionable one. Eliminating mandatory overtime for high-risk employees is a direct policy lever. A what-if simulation (planned) will quantify this impact per department.',
+        s6Num:'06 · Prediction Pipeline',
+        s6Title:'Batch prediction → PostgreSQL → Dashboard. <em>HR sees results in the browser.</em>',
+        ppS1:'CSV Input', ppS1Sub:'72 features', ppS2:'Encoding', ppS3:'Scaling', ppS5:'Probability', ppS7:'Early Warning',
+        pipeInputTitle:'Input', pipeOutputTitle:'Output',
+        pipeI1:'CSV of employee records with all 72 feature columns',
+        pipeI2:'<code>HRFeatureEngineer</code> transformer: age grouping, binary/ordinal/one-hot encoding in one pipeline step',
+        pipeI3:'Same feature engineering as training — no manual preprocessing per-run',
+        pipeO1:'Attrition probability score (0–100%) per employee',
+        pipeO2:'Binary prediction: high-risk or not',
+        pipeO3:'Written to PostgreSQL via SQLAlchemy — Metabase Early Warning tab auto-updates',
+        pipeDockerNote:'<strong>Infrastructure:</strong> <code>docker compose up</code> starts PostgreSQL + Metabase. The entire analytics environment spins up in one command.',
+        s7Num:'07 · Dashboard Showcase',
+        s7Title:'5-tab Metabase dashboard — <em>from executive KPIs to individual risk scores.</em>',
+        s7Lede:'Built on Docker + PostgreSQL. HR teams access everything through the browser — no Jupyter notebooks, no Python scripts.',
+        s8Num:'08 · Technical Stack',
+        s8Title:'From model to <em>production infrastructure.</em>',
+        stackML:'ML', stackData:'Data', stackBackend:'Backend', stackDB:'Database', stackInfra:'Infra',
+        s9Num:'09 · Learning Journey',
+        s9Title:'Expert level, first submission. <em>Rejected once, then ★4.</em>',
+        s9Desc:'This was the capstone of IDCamp 2025 Expert — Belajar Penerapan Data Science (110 hours, rated 4.89). It went through two rounds of reviewer feedback before reaching ★4.',
+        s9FeedbackTitle:'Reviewer feedback',
+        fb1label:'Feedback #1 — Missing Infrastructure File',
+        fb1body:'<strong>The command <code>python setup_database.py</code> failed because the file was not attached.</strong> Reviewer could not verify the dashboard. If someone can\'t reproduce it, it doesn\'t exist from the evaluator\'s perspective.',
+        fb2label:'Feedback #2 — README Completeness',
+        fb2body:'The README needed: <strong>dataset source link</strong>, <strong>Python version</strong>, and <strong>step-by-step virtual environment setup</strong> (create → activate → install from requirements.txt).',
+        fb3label:'Why Not ★5 — Generic Recommendations',
+        fb3body:'Recommendations like <em>"evaluate compensation"</em> are valid but <strong>not grounded in the specific data</strong>. A ★5 action item: <em>"Sales Representatives earning below Q1 with overtime have &gt;70% attrition probability."</em> Each needs a segment, a number, and an implementation step.',
+        s9LessonsTitle:'What I carry from this',
+        l1Label:'Reproducibility = feature', l1Body:'A model that can\'t be reproduced by the reviewer doesn\'t exist. <strong>Infrastructure completeness — setup scripts, requirements, README steps — is as important as model performance</strong>.',
+        l2Label:'Business metric over accuracy', l2Body:'Choosing XGBoost despite lower accuracy taught me that <strong>the right metric depends on the cost of each error type</strong>, not the most intuitive number on the leaderboard.',
+        l3Label:'Specific recommendations', l3Body:'General recommendations feel safe but land flat. <strong>Every recommendation needs a segment (who), a number (how much), and a step (what to do)</strong> to be actionable.',
+        l4Label:'Deploy first, optimise later', l4Body:'Getting Metabase running inside Docker and accessible to HR was <strong>the moment this became a product, not just a notebook</strong>. The engineering matters.',
+        s10Num:'10 · Future Roadmap',
+        s10Title:'From prediction <em>to explanation and simulation.</em>',
+        roadCurrent:'Current', roadNext:'Next', roadFuture:'Future', roadVision:'Vision',
+        road1Title:'Batch Prediction', road1Desc:'CSV → XGBoost → PostgreSQL → Metabase. 86.11% recall. 5-tab dashboard. Docker deployed.',
+        road2Title:'SHAP Explainability', road2Desc:'Per-employee explanation: "high risk because overtime=Yes, tenure=0.8yr, salary=Q1." Makes predictions actionable at individual level.',
+        road3Title:'What-If Simulation', road3Desc:'Streamlit: "If overtime is removed for this department, how does attrition change?" Turns dashboard from passive report to decision tool.',
+        road4Title:'Production API', road4Desc:'REST endpoint for HR system integration. Real-time prediction on new hires. Segment-based intervention recommendations with measured ROI.',
+        ctaNum:'Try it · See the code',
+        ctaTitle:'Live Streamlit demo + full source <em>on GitHub.</em>',
+        ctaP:'Try the prediction interface or explore the XGBoost pipeline, Metabase dashboard setup, and Docker infrastructure. Full source including setup_database.py and requirements.txt.',
+        ctaDemo:'Live demo →', ctaSource:'View source →', ctaBack:'← All projects',
       },
       id: {
-        navBack: '← Kembali ke portfolio',
-        navProjects: 'Proyek',
-        navContact: 'Kontak',
-        kickerText: 'IDCamp Expert · Analitik SDM · Klasifikasi ML',
-        heroTitle: 'Prediksi Attrisi<br><em>Karyawan</em>',
-        heroLede: 'Jaya Jaya Maju — perusahaan multinasional dengan 1.000+ karyawan — kehilangan staf pada tingkat <strong>attrisi tahunan 16,92%</strong>. Saya membangun sistem peringatan dini berbasis XGBoost dengan <strong>recall 86,11%</strong>, dikombinasikan dengan dashboard Metabase 5 tab dan infrastruktur berbasis Docker untuk mengubah prediksi menjadi kecerdasan HR operasional.',
-        metaLevel: '<strong>Level</strong> IDCamp Expert',
-        s1Num: '01 — Problem',
-        s1H2: 'Attrisi di atas 10% adalah <em>sinyal peringatan manajemen</em>. Mereka di angka 16,92%.',
-        s1Lede: 'Jaya Jaya Maju beroperasi di berbagai negara, mempekerjakan lebih dari 1.000 karyawan. Tingkat attrisi mereka — 16,92%, atau sekitar 179 karyawan per tahun — jauh di atas ambang batas wajar. Tidak ada sistem early-warning yang terstruktur.',
-        s2Num: '02 — Mengapa XGBoost Menang',
-        s2H2: 'Recall mengalahkan akurasi ketika <em>melewatkan satu karyawan yang akan resign lebih mahal</em> dari false alarm',
-        s2Lede: 'Dua model dibandingkan: Logistic Regression (baseline interpretatif) dan XGBoost (ensemble non-linear). Pilihan yang tepat bergantung pada jenis kesalahan mana yang lebih mahal.',
-        s3Num: '03 — Faktor Risiko',
-        s3H2: 'Overtime adalah <em>pengganda risiko 3×</em>. Tahun pertama yang paling berbahaya.',
-        s4Num: '04 — Temuan Utama',
-        s4H2: 'Polanya: <em>beban kerja + gaji rendah + stagnasi</em> = attrisi',
-        s5Num: '05 — Deliverables',
-        s5H2: 'Dari model ke <em>infrastruktur HR operasional</em>',
-        s6Num: '06 — Preview Dashboard',
-        s6H2: 'Dashboard Metabase 5 tab — <em>dari KPI hingga Early Warning</em>',
-        s6Lede: 'Dibangun di atas Docker + PostgreSQL, dashboard Metabase memberikan visibilitas kepada tim HR di 5 tab — dari KPI eksekutif hingga prediksi risiko individual berbasis ML.',
-        ctaNum: 'Coba · Lihat kodenya',
-        ctaH2: 'App prediksi + source lengkap <em>di GitHub.</em>',
-        ctaP: 'Coba antarmuka prediksi Streamlit atau jelajahi pipeline XGBoost, setup dashboard Metabase, dan infrastruktur Docker di GitHub.',
-        lcNum: 'Konteks Pembelajaran',
-        lcTitle: 'Level Expert, submission pertama. <em>Ditolak sekali, lalu dapat ★4.</em>',
-        lcDesc: 'Proyek ini adalah submission pertama untuk <strong>Belajar Penerapan Data Science</strong>, kursus level Expert IDCamp 2025 (110 jam, dinilai 4,89 oleh peserta). Ini adalah puncak dari jalur belajar penuh — dari dasar Python dan SQL di level Beginner, analisis data di Intermediate, hingga proyek data science skala penuh di Expert.',
-        lcPathActive: '→ Belajar Penerapan Data Science — Submission 1 (proyek ini)',
-        lcFeedbackTitle: 'Feedback reviewer — dua putaran penolakan.',
-        lcFeedbackDesc: 'Pertama ditolak karena infrastruktur hilang, kedua dinilai ★4 karena rekomendasi terlalu generik:',
-        fb1label: 'Feedback #1 — File Infrastruktur Hilang',
-        fb1body: '<strong>Perintah <code>python setup_database.py</code> gagal karena file tidak dilampirkan.</strong> Reviewer tidak dapat memverifikasi dashboard sama sekali. Tidak peduli seberapa bagus model atau setup Metabase — jika seseorang tidak dapat mereproduksinya, itu tidak ada dari perspektif evaluator.',
-        fb2label: 'Feedback #2 — Kelengkapan README',
-        fb2body: 'README membutuhkan: <strong>link sumber dataset</strong> (agar reviewer dapat memverifikasi data), <strong>versi Python</strong> (agar lingkungan dapat direproduksi), dan <strong>instruksi setup virtual environment langkah demi langkah</strong> (buat → aktifkan → install dari requirements.txt).',
-        fb3label: 'Kenapa Tidak ★5 — Action Items Terlalu Generik',
-        fb3body: 'Rekomendasi seperti <em>"evaluasi kompensasi"</em> atau <em>"tingkatkan work-life balance"</em> valid secara prinsip tapi <strong>tidak berdasarkan data spesifik dari analisis ini</strong>. Action item ★5 terlihat seperti: <em>"Karyawan di peran Sales Representative dengan penghasilan di bawah [X] dan overtime memiliki probabilitas attrisi &gt;70%."</em> Setiap rekomendasi membutuhkan segmen, angka, dan langkah implementasi — bukan kategori.',
-        fdTitle: 'Pengembangan ke Depan',
-        fdDesc: 'Berdasarkan feedback reviewer dan arah yang ditunjukkan analisis ini, berikut yang akan disertakan dalam iterasi berikutnya:',
-        fd1label: 'Rekomendasi Berbasis Data',
-        fd1body: 'Tambahkan tabel segmen × metrik pada setiap action item — mis., <strong>"Sales Representative dengan penghasilan di bawah Q1 dan overtime memiliki risiko attrisi yang diprediksi &gt;70%."</strong> Setiap rekomendasi mencakup segmen karyawan spesifik, tingkat risiko terukur, dan estimasi dampak retensi.',
-        fd2label: 'Simulasi What-If',
-        fd2body: 'Tambahkan antarmuka Streamlit di mana HR dapat mensimulasikan: <strong>"jika overtime dihapus untuk departemen ini, bagaimana prediksi attrisi berubah?"</strong> Mengubah dashboard pasif menjadi alat keputusan aktif.',
-        fd3label: 'Explainability (SHAP)',
-        fd3body: 'Integrasikan SHAP values untuk menunjukkan per karyawan <em>mengapa</em> model menandai mereka — bukan hanya "risiko tinggi" tapi <strong>"risiko tinggi karena: overtime=Ya, masa kerja=0,8 tahun, gaji=kuartil rendah."</strong> Membuat prediksi dapat ditindaklanjuti di tingkat individu.',
-        fd4label: 'ID Karyawan dalam Output',
-        fd4body: 'Output prediksi batch membutuhkan <strong>kolom ID karyawan</strong> agar HR dapat memetakan prediksi kembali ke individu dalam sistem HR mereka. Sederhana untuk ditambahkan — kritis untuk operasionalisasi.'
+        navBack:'← Kembali ke portfolio', navProjects:'Proyek', navContact:'Kontak',
+        kickerTag:'Applied Data Science',
+        kickerText:'IDCamp Expert · HR Analytics · XGBoost · Docker',
+        heroTitle:'Cegah turnover karyawan <em>sebelum terjadi.</em>',
+        heroLede:'Sistem early-warning XGBoost untuk perusahaan multinasional dengan <strong>attrisi tahunan 16,92%</strong>. Recall 86,11%, ROC-AUC 81,93%, dashboard Metabase 5 tab, deployment Docker + PostgreSQL.',
+        heroMetaModel:'<strong>Model</strong> XGBoost · Recall 86,11% · AUC 81,93%',
+        heroMetaInfra:'<strong>Infra</strong> Docker · PostgreSQL · Metabase · Streamlit',
+        heroMetaData:'<strong>Dataset</strong> 1.470 karyawan · 72 fitur · IBM HR Analytics',
+        heroMetaLevel:'<strong>Level</strong> IDCamp Expert 2025',
+        stat1:'Recall<br>menangkap 86% yang keluar', stat2:'ROC-AUC<br>XGBoost terpilih', stat3:'Risiko overtime<br>31,92% vs 10,79%', stat4:'Tab dashboard<br>Deploy Docker',
+        s1Num:'01 · Business Problem',
+        s1Title:'Attrisi di atas 10% adalah <em>sinyal peringatan manajemen.</em> Mereka di angka 16,92%.',
+        companyLabel:'Perusahaan', employeesLabel:'Karyawan', attritionLabel:'Attrisi Tahunan', leaversLabel:'Karyawan / Tahun',
+        costsList:'Biaya Rekrutmen<br>Kehilangan Produktivitas<br>Kehilangan Pengetahuan',
+        solutionLabel:'Solusi Dibutuhkan', solutionTitle:'Sistem Early Warning',
+        s1Lede:'Tidak ada early-warning terstruktur. Attrisi baru diketahui setelah karyawan resign.',
+        s1P1:'Mengganti satu karyawan membutuhkan biaya 50–200% gaji tahunan mereka. Dengan 179 karyawan per tahun, eksposur finansial sangat besar — dan sebagian besar bisa dicegah dengan identifikasi dini.',
+        s1P2:'Dataset mencakup 72 fitur di empat domain yang memprediksi keluarnya karyawan:',
+        s1C1:'<strong>Kondisi kerja</strong> — Overtime, perjalanan bisnis, jarak dari rumah',
+        s1C2:'<strong>Kompensasi</strong> — Gaji bulanan, kenaikan gaji, opsi saham',
+        s1C3:'<strong>Kepuasan</strong> — Kepuasan kerja, skor lingkungan, work-life balance',
+        s1C4:'<strong>Trajektori karir</strong> — Masa kerja, tahun sejak promosi, frekuensi pelatihan',
+        s2Num:'02 · Arsitektur Solusi',
+        s2Title:'Dari data HR mentah <em>ke kecerdasan HR operasional.</em>',
+        s2Lede:'Pipeline berjalan end-to-end: pembersihan data, feature engineering, SMOTE class balancing, training XGBoost, prediksi batch, penyimpanan PostgreSQL, dan visualisasi Metabase — semuanya dikontainerisasi dengan Docker.',
+        archDataLabel:'Data', archClean:'Pembersihan Data', archCleanSub:'hapus konstanta, encode biner',
+        archFeat:'Feature Engineering',
+        archModelLabel:'Training Model', archSmoteSub:'hanya train data · seimbangkan kelas', archGridSub:'4-fold · tune XGBoost',
+        archInfraLabel:'Infrastruktur', archMetaSub:'Dashboard HR 5 tab', archHrLabel:'Tim HR', archHrSub:'akses via browser',
+        archKeyTitle:'Keputusan engineering utama',
+        archK1:'<strong>SMOTE hanya pada train</strong> — Sampel sintetis dibuat sebelum split train/test untuk mencegah kebocoran data ke metrik evaluasi',
+        archK2:'<strong>Transformer sklearn kustom</strong> — <code>HRFeatureEngineer</code> menggabungkan pengelompokan usia, encoding biner, ordinal, dan one-hot dalam satu langkah pipeline yang bisa digunakan ulang',
+        archK3:'<strong>Stratified K-Fold</strong> — Evaluasi 5-fold mempertahankan rasio kelas di setiap fold; GridSearchCV menggunakan 4-fold untuk tuning hyperparameter',
+        archK4:'<strong>Docker Compose</strong> — satu perintah <code>docker compose up</code> menjalankan container PostgreSQL dan Metabase; tanpa setup database manual',
+        archK5:'<strong>Batch write SQLAlchemy</strong> — Hasil prediksi langsung ditulis ke PostgreSQL, otomatis memperbarui tab Early Warning Metabase',
+        s3Num:'03 · Pemilihan Model',
+        s3Title:'Recall mengalahkan akurasi ketika <em>melewatkan satu karyawan yang resign lebih mahal dari false alarm.</em>',
+        baselineLabel:'Baseline', selectedLabel:'Terpilih',
+        accuracyLbl:'Akurasi', recallLbl:'Recall',
+        baselineVerdict:'✗ Melewatkan terlalu banyak karyawan', winnerVerdict:'✓ Pilihan bisnis terbaik',
+        fnLabel:'Kenapa False Negative Mahal',
+        fnS1:'False Negative', fnS2:'Karyawan resign', fnS3:'Tanpa intervensi', fnS4:'Biaya penggantian',
+        s3P:'XGBoost memiliki akurasi mentah lebih rendah karena agresif menangkap attritor, termasuk yang akan bertahan. Tapi dalam HR, false positive membutuhkan satu sesi konseling. False negative membutuhkan satu karyawan baru. Asimetri ini jelas mendukung recall.',
+        s4Num:'04 · Faktor Risiko Utama',
+        s4Title:'Overtime, masa kerja tahun pertama, usia muda. <em>Tiga pengganda yang saling memperburuk.</em>',
+        rankLabel1:'🥇 Faktor Risiko Teratas', rankLabel2:'🥈 Faktor Risiko', rankLabel3:'🥉 Faktor Risiko',
+        rankLabel4:'4 Faktor Risiko', rankLabel5:'5 Faktor Risiko', rankLabel6:'6 Faktor Risiko',
+        riskRateLbl:'Tingkat attrisi',
+        risk1Factor:'Masa kerja ≤ 1 tahun', risk1Multi:'~4× vs rekan 5+ tahun',
+        risk2Factor:'Usia 18–25', risk2Multi:'~4× vs kelompok 46+',
+        risk3Factor:'Sales Representative', risk3Multi:'Peran dengan attrisi tertinggi',
+        risk4Factor:'Overtime Wajib', risk4Multi:'~3× vs tanpa overtime',
+        risk5Factor:'Gaji Rendah (Q1)', risk5Multi:'~3× vs kuartil teratas',
+        risk6Factor:'Work-Life Balance Buruk', risk6Multi:'~3× vs skor 4',
+        featImportTitle:'Feature Importance',
+        riskPullquote:'"Tahun pertama adalah yang paling rentan — 34,59% karyawan dengan masa kerja ≤1 tahun keluar. Kombinasikan dengan overtime atau gaji rendah, dan Anda telah mengidentifikasi karyawan yang hampir pasti tidak akan bertahan di tahun ke-2."',
+        s5Num:'05 · Business Impact',
+        s5Title:'Dari reaktif ke proaktif. <em>86% yang akan keluar teridentifikasi sebelum resign.</em>',
+        withoutModelLabel:'Tanpa Model', withModelLabel:'Dengan Model',
+        icW1:'Karyawan mempertimbangkan keluar', icW2:'Tidak ada sinyal', icW3:'Manager terkejut', icW4:'Karyawan resign', icW5:'Biaya penggantian dimulai',
+        icM1:'Karyawan menunjukkan sinyal risiko', icM2:'Model menandai risiko tinggi', icM3:'Wawancara HR', icM4:'Program retensi', icM5:'Karyawan bertahan',
+        impactMetricSub:'Attritor terdeteksi sebelum resign',
+        impactTitle1:'Hanya 5 false negative', impactP1:'Pada test set, XGBoost hanya melewatkan 5 attritor nyata. Dalam konteks intervensi HR, ini berarti 5 karyawan yang akan keluar tanpa outreach — dari 36 total attritor di test set. Tingkat tangkap 86% pada skala deployment.',
+        impactTitle2:'Faktor yang bisa dikontrol: Overtime', impactP2:'Overtime adalah driver tunggal terkuat dan yang paling bisa ditindaklanjuti. Menghapus overtime wajib untuk karyawan berisiko tinggi adalah kebijakan langsung. Simulasi what-if (direncanakan) akan mengkuantifikasi dampak ini per departemen.',
+        s6Num:'06 · Pipeline Prediksi',
+        s6Title:'Prediksi batch → PostgreSQL → Dashboard. <em>HR melihat hasilnya di browser.</em>',
+        ppS1:'Input CSV', ppS1Sub:'72 fitur', ppS2:'Encoding', ppS3:'Scaling', ppS5:'Probabilitas', ppS7:'Early Warning',
+        pipeInputTitle:'Input', pipeOutputTitle:'Output',
+        pipeI1:'CSV data karyawan dengan semua 72 kolom fitur',
+        pipeI2:'Transformer <code>HRFeatureEngineer</code>: pengelompokan usia, encoding biner/ordinal/one-hot dalam satu langkah pipeline',
+        pipeI3:'Feature engineering sama seperti saat training — tanpa preprocessing manual per-run',
+        pipeO1:'Skor probabilitas attrisi (0–100%) per karyawan',
+        pipeO2:'Prediksi biner: berisiko tinggi atau tidak',
+        pipeO3:'Ditulis ke PostgreSQL via SQLAlchemy — tab Early Warning Metabase otomatis diperbarui',
+        pipeDockerNote:'<strong>Infrastruktur:</strong> <code>docker compose up</code> menjalankan PostgreSQL + Metabase. Seluruh lingkungan analitik berjalan dalam satu perintah.',
+        s7Num:'07 · Dashboard Showcase',
+        s7Title:'Dashboard Metabase 5 tab — <em>dari KPI eksekutif hingga skor risiko individual.</em>',
+        s7Lede:'Dibangun di atas Docker + PostgreSQL. Tim HR mengakses semuanya lewat browser — tanpa notebook Jupyter, tanpa skrip Python.',
+        s8Num:'08 · Technical Stack',
+        s8Title:'Dari model ke <em>infrastruktur production.</em>',
+        stackML:'ML', stackData:'Data', stackBackend:'Backend', stackDB:'Database', stackInfra:'Infra',
+        s9Num:'09 · Perjalanan Belajar',
+        s9Title:'Level Expert, submission pertama. <em>Ditolak sekali, lalu ★4.</em>',
+        s9Desc:'Ini adalah capstone IDCamp 2025 Expert — Belajar Penerapan Data Science (110 jam, dinilai 4,89). Melewati dua putaran feedback reviewer sebelum mencapai ★4.',
+        s9FeedbackTitle:'Feedback reviewer',
+        fb1label:'Feedback #1 — File Infrastruktur Hilang',
+        fb1body:'<strong>Perintah <code>python setup_database.py</code> gagal karena file tidak dilampirkan.</strong> Reviewer tidak dapat memverifikasi dashboard. Jika seseorang tidak bisa mereproduksinya, itu tidak ada dari perspektif evaluator.',
+        fb2label:'Feedback #2 — Kelengkapan README',
+        fb2body:'README membutuhkan: <strong>link sumber dataset</strong>, <strong>versi Python</strong>, dan <strong>instruksi setup virtual environment langkah demi langkah</strong> (buat → aktifkan → install dari requirements.txt).',
+        fb3label:'Kenapa Tidak ★5 — Rekomendasi Generik',
+        fb3body:'Rekomendasi seperti <em>"evaluasi kompensasi"</em> valid tapi <strong>tidak berdasarkan data spesifik</strong>. Action item ★5: <em>"Sales Representative dengan penghasilan di bawah Q1 dan overtime memiliki probabilitas attrisi &gt;70%."</em> Setiap rekomendasi membutuhkan segmen, angka, dan langkah implementasi.',
+        s9LessonsTitle:'Yang saya bawa dari proyek ini',
+        l1Label:'Reproducibility = fitur', l1Body:'Model yang tidak bisa direproduksi reviewer tidak ada. <strong>Kelengkapan infrastruktur — setup script, requirements, langkah README — sama pentingnya dengan performa model</strong>.',
+        l2Label:'Metrik bisnis di atas akurasi', l2Body:'Memilih XGBoost meski akurasi lebih rendah mengajarkan bahwa <strong>metrik yang tepat bergantung pada biaya setiap jenis kesalahan</strong>, bukan angka paling intuitif di leaderboard.',
+        l3Label:'Rekomendasi spesifik', l3Body:'Rekomendasi umum terasa aman tapi tidak berkesan. <strong>Setiap rekomendasi membutuhkan segmen (siapa), angka (berapa), dan langkah (apa yang dilakukan)</strong> agar bisa ditindaklanjuti.',
+        l4Label:'Deploy dulu, optimasi kemudian', l4Body:'Menjalankan Metabase di dalam Docker dan bisa diakses HR adalah <strong>momen proyek ini menjadi produk, bukan sekadar notebook</strong>. Engineering itu penting.',
+        s10Num:'10 · Future Roadmap',
+        s10Title:'Dari prediksi <em>ke penjelasan dan simulasi.</em>',
+        roadCurrent:'Saat ini', roadNext:'Berikutnya', roadFuture:'Ke depan', roadVision:'Visi',
+        road1Title:'Prediksi Batch', road1Desc:'CSV → XGBoost → PostgreSQL → Metabase. Recall 86,11%. Dashboard 5 tab. Deploy Docker.',
+        road2Title:'Explainability SHAP', road2Desc:'Penjelasan per karyawan: "risiko tinggi karena overtime=Ya, masa kerja=0,8 tahun, gaji=Q1." Membuat prediksi bisa ditindaklanjuti di level individu.',
+        road3Title:'Simulasi What-If', road3Desc:'Streamlit: "Jika overtime dihapus untuk departemen ini, bagaimana attrisi berubah?" Mengubah dashboard dari laporan pasif menjadi alat keputusan.',
+        road4Title:'Production API', road4Desc:'REST endpoint untuk integrasi sistem HR. Prediksi real-time untuk karyawan baru. Rekomendasi intervensi berbasis segmen dengan ROI terukur.',
+        ctaNum:'Coba · Lihat kodenya',
+        ctaTitle:'Demo Streamlit langsung + source lengkap <em>di GitHub.</em>',
+        ctaP:'Coba antarmuka prediksi atau jelajahi pipeline XGBoost, setup dashboard Metabase, dan infrastruktur Docker. Source lengkap termasuk setup_database.py dan requirements.txt.',
+        ctaDemo:'Live demo →', ctaSource:'Lihat source →', ctaBack:'← Semua proyek',
       }
     };
 
     function applyLanguage(lang) {
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.dataset.i18n;
-        if (translations[lang] && translations[lang][key]) {
-          el.innerHTML = translations[lang][key];
-        }
+        if (translations[lang]?.[key] !== undefined) el.innerHTML = translations[lang][key];
       });
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.langTarget === lang);
-      });
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.langTarget === lang));
       document.documentElement.lang = lang;
       localStorage.setItem('lang', lang);
     }
 
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => applyLanguage(btn.dataset.langTarget));
-    });
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLanguage(btn.dataset.langTarget)));
+    applyLanguage(localStorage.getItem('lang') || 'en');
 
-    const savedLang = localStorage.getItem('lang') || 'en';
-    applyLanguage(savedLang);
-  </script>
-  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Theme toggle
     (function(){
-      var btn=document.getElementById('themeToggle');
-      var html=document.documentElement;
-      function updateBtn(t){btn.textContent=t==='dark'?'☀':'🌙';btn.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode');}
-      updateBtn(html.getAttribute('data-theme')||'light');
-      btn.addEventListener('click',function(){var next=html.getAttribute('data-theme')==='dark'?'light':'dark';html.setAttribute('data-theme',next);localStorage.setItem('theme',next);updateBtn(next);});
+      const btn = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      function update(t){ btn.textContent = t==='dark'?'☀':'🌙'; btn.setAttribute('aria-label', t==='dark'?'Switch to light mode':'Switch to dark mode'); }
+      update(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click', function(){ const next = html.getAttribute('data-theme')==='dark'?'light':'dark'; html.setAttribute('data-theme',next); localStorage.setItem('theme',next); update(next); });
     })();
   </script>
 </body>
