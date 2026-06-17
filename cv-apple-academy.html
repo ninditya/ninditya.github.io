@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV — Ninditya Salma Nur Aini</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #111;
+      --dark:  #333;
+      --mid:   #555;
+      --light: #888;
+      --line:  #ddd;
+      --soft:  #f7f7f7;
+      --accent: #c4490c;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      line-height: 1.6;
+      color: var(--dark);
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      padding: 11mm 13mm 10mm;
+    }
+
+    /* ── Header ── */
+    .cv-header {
+      border-bottom: 2px solid var(--black);
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .cv-header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--black);
+      line-height: 1;
+    }
+    .cv-header h1 span { font-weight: 300; }
+    .cv-header .title-line {
+      font-size: 10px;
+      color: var(--mid);
+      margin-top: 4px;
+      margin-bottom: 6px;
+    }
+    .cv-header .contact-line {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      color: var(--mid);
+    }
+    .cv-header .contact-line a { color: var(--accent); text-decoration: none; }
+
+    /* ── Section ── */
+    .section {
+      margin-bottom: 13px;
+    }
+    .section-title {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--light);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 4px;
+      margin-bottom: 9px;
+    }
+
+    /* ── Personal Statement ── */
+    .statement {
+      font-size: 10px;
+      color: var(--dark);
+      line-height: 1.65;
+    }
+    .statement strong { color: var(--black); font-weight: 600; }
+
+    /* ── Experience ── */
+    .exp-item {
+      margin-bottom: 11px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .exp-item:last-child { margin-bottom: 0; }
+
+    .exp-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 1px;
+    }
+    .exp-role {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--black);
+      letter-spacing: -0.01em;
+    }
+    .exp-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      color: var(--light);
+      white-space: nowrap;
+    }
+    .exp-company {
+      font-size: 9.5px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    ul.bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    ul.bullets li {
+      font-size: 10px;
+      color: var(--dark);
+      padding-left: 12px;
+      position: relative;
+      line-height: 1.6;
+      margin-bottom: 2px;
+    }
+    ul.bullets li::before {
+      content: '·';
+      position: absolute;
+      left: 2px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    ul.bullets li strong { color: var(--black); font-weight: 600; }
+
+    /* ── Education ── */
+    .edu-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 8px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .edu-item:last-child { margin-bottom: 0; }
+    .edu-name {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--black);
+    }
+    .edu-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      color: var(--light);
+      white-space: nowrap;
+    }
+    .edu-sub {
+      font-size: 9.5px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+    .edu-detail {
+      font-size: 9.5px;
+      color: var(--mid);
+      line-height: 1.55;
+    }
+    .edu-detail strong { color: var(--dark); font-weight: 600; }
+
+    /* ── Projects ── */
+    .proj-item {
+      margin-bottom: 9px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .proj-item:last-child { margin-bottom: 0; }
+    .proj-header-line {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 2px;
+      flex-wrap: wrap;
+    }
+    .proj-name {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--black);
+    }
+    .proj-stack {
+      font-size: 9px;
+      color: var(--light);
+    }
+    .proj-desc {
+      font-size: 10px;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    .proj-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      margin-top: 2px;
+      display: inline-block;
+    }
+
+    /* ── Competencies ── */
+    .comp-grid {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 4px 10px;
+    }
+    .comp-label {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1.55;
+      padding-top: 1px;
+    }
+    .comp-value {
+      font-size: 9px;
+      color: var(--mid);
+      line-height: 1.55;
+    }
+
+    /* ── Awards ── */
+    .award-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-bottom: 5px;
+      page-break-inside: avoid;
+    }
+    .award-name { font-size: 10px; font-weight: 600; color: var(--black); }
+    .award-date { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--light); white-space: nowrap; }
+    .award-desc { font-size: 9.5px; color: var(--mid); }
+
+    /* ── Org ── */
+    .org-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-bottom: 5px;
+      page-break-inside: avoid;
+    }
+    .org-role { font-size: 10px; font-weight: 600; color: var(--black); }
+    .org-date { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--light); white-space: nowrap; }
+    .org-desc { font-size: 9.5px; color: var(--mid); }
+
+    /* ── Print ── */
+    @media print {
+      @page { size: A4; margin: 11mm 13mm; }
+      body { background: #fff; }
+      .page { width: 100%; padding: 0; }
+      .exp-item, .edu-item, .proj-item, .org-item { page-break-inside: avoid; break-inside: avoid; }
+      .doc-toolbar { display: none; }
+    }
+    @media screen {
+      body { background: #e8e8e8; padding-top: 52px; }
+      .page { margin: 24px auto; max-width: 210mm; box-shadow: 0 4px 32px rgba(0,0,0,0.15); }
+    }
+    .doc-toolbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      background: #111; color: #fff;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px; height: 48px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.04em;
+    }
+    .doc-toolbar .doc-title { color: rgba(255,255,255,0.55); }
+    .doc-toolbar .doc-title strong { color: #fff; margin-right: 8px; }
+    .doc-toolbar .toolbar-actions { display: flex; gap: 8px; }
+    .doc-toolbar a, .doc-toolbar button {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.04em;
+      padding: 6px 14px; border-radius: 3px; cursor: pointer; text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.2); background: transparent; color: rgba(255,255,255,0.7);
+      transition: all 0.15s;
+    }
+    .doc-toolbar a:hover, .doc-toolbar button:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .doc-toolbar button.primary { background: #c4490c; color: #fff; border-color: #c4490c; }
+    .doc-toolbar button.primary:hover { background: #a33a09; border-color: #a33a09; }
+  </style>
+</head>
+<body>
+<div class="doc-toolbar">
+  <div class="doc-title"><strong>CV</strong> Ninditya Salma Nur Aini</div>
+  <div class="toolbar-actions">
+    <a href="/">← Portfolio</a>
+    <button class="primary" onclick="window.print()">⬇ Download as PDF</button>
+  </div>
+</div>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="cv-header">
+    <h1>Ninditya <span>Salma</span> Nur Aini</h1>
+    <div class="title-line">Full-Stack Developer &nbsp;·&nbsp; AI Engineer &nbsp;·&nbsp; Product Builder</div>
+    <div class="contact-line">
+      ninditya.sna025@gmail.com &nbsp;|&nbsp; +62 895-3712-90495 &nbsp;|&nbsp;
+      <a href="https://linkedin.com/in/ninditya-salma-nur-aini">linkedin.com/in/ninditya-salma-nur-aini</a> &nbsp;|&nbsp;
+      <a href="https://ninditya.github.io">ninditya.github.io</a> &nbsp;|&nbsp;
+      <a href="https://github.com/ninditya">github.com/ninditya</a>
+    </div>
+  </div>
+
+  <!-- PERSONAL STATEMENT -->
+  <div class="section">
+    <div class="section-title">Personal Statement</div>
+    <p class="statement">
+      Informatics graduate transitioning into <strong>software engineering and AI/ML development</strong>, with nearly 4 years of hands-on experience across chatbot systems, LLM quality evaluation, and data operations. Currently building independent projects spanning RAG pipelines, intent classification, and NLP benchmarking — applying machine learning and full-stack engineering to problems I find genuinely worth solving.
+      My background bridges technical depth and product thinking: I understand how AI systems behave in production, how quality breaks down, and how to close that gap through engineering. I am actively growing toward roles in <strong>Data Science, AI Engineering, and product-driven software development</strong>, and I am eager to contribute and accelerate that growth within Apple's innovation ecosystem.
+    </p>
+  </div>
+
+  <!-- WORK EXPERIENCE -->
+  <div class="section">
+    <div class="section-title">Work Experience</div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div class="exp-role">Full-Stack Developer Trainee</div>
+        <div class="exp-date">Feb 2026 – Apr 2026</div>
+      </div>
+      <div class="exp-company">Korea-ASEAN Digital Academy (KADA) — AKCF · NIPA · Komdigi · Elice Inc.</div>
+      <ul class="bullets">
+        <li>Selected as one of <strong>60 participants from over 900 applicants</strong> for a fully-funded program covering Full-Stack Development, AI/ML, Cloud Services, DevOps, and AI Ethics.</li>
+        <li>Took the Backend Developer role for <strong>CineTrack</strong> (cinema analytics platform) and <strong>Yorindo</strong> (event ticketing system) within cross-functional capstone teams; built REST APIs and backend services using Fastify on Node.js with PostgreSQL and Redis caching. <a class="proj-link" href="https://github.com/dellips/capstone-project-api-cinetrack">CineTrack API</a> &nbsp;·&nbsp; <a class="proj-link" href="https://github.com/ninditya/cinetrack-frontend">CineTrack Frontend</a> &nbsp;·&nbsp; <a class="proj-link" href="https://github.com/dhanifudin/yorindo">Yorindo</a></li>
+        <li>Designed SQL analytics pipelines for revenue, occupancy, and demand-pattern insights, and integrated LLM-powered features to surface business insights from operational data.</li>
+        <li>Applied Agile and AI-augmented SDLC practices: defined epics, wrote user stories, broke down sprint tasks, and delivered through architecture, implementation, testing, and demo within a 2-month timeline.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div class="exp-role">Chatbot Quality Assurance Analyst</div>
+        <div class="exp-date">May 2024 – Oct 2025</div>
+      </div>
+      <div class="exp-company">PT Fliptech Lentera Inspirasi Pertiwi (Flip)</div>
+      <ul class="bullets">
+        <li>Evaluated production LLM/RAG chatbot systems through structured sampling (prompt accuracy, response grounding, hallucination detection, retrieval effectiveness) and analyzed weekly and monthly interaction data to identify user behavior patterns, knowledge gaps, and system failure modes.</li>
+        <li>Conducted quality reviews of ML-powered features including intent classification, sentiment analysis, and OCR, through accuracy analysis, confidence threshold evaluation, and failure-case investigation.</li>
+        <li>Collaborated with AI Development and Product teams to translate root-cause findings into prompt restructuring, fallback handling, and knowledge base improvements.</li>
+        <li>Built and maintained KPI dashboards (CSAT, fallback rate, hallucination rate, intent accuracy) that guided iteration priorities across release cycles; contributed to outcomes of <strong>65% CSAT</strong>, <strong>3% fallback rate</strong>, and unidentified utterances below <strong>12%</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div class="exp-role">IT Operational — Chatbot &amp; Omnichannel Development</div>
+        <div class="exp-date">Dec 2021 – Apr 2024</div>
+      </div>
+      <div class="exp-company">PT Infomedia Nusantara (Telkom Group)</div>
+      <ul class="bullets">
+        <li>Supported chatbot and omnichannel platforms serving approximately <strong>1,000 daily customer interactions</strong> across CRM and customer-service channels.</li>
+        <li>Designed and developed intent classification systems and rule-based chatbots, including intent architecture, training data preparation, conversation flow design, NLP platform configuration, and post-deployment optimization.</li>
+        <li>Coordinated SIT/UAT activities and system integration assurance across third-party APIs (Meta/WhatsApp, omnichannel CRM), reducing post-deployment defects.</li>
+        <li>Analyzed interaction data to identify usage trends and automation opportunities; conducted root-cause analysis that informed chatbot rule updates and service improvements.</li>
+        <li>Conducted root-cause analysis of operational and performance issues, translating findings into chatbot enhancements, intent refinements, and conversation flow optimizations to improve service effectiveness and customer experience.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section">
+    <div class="section-title">Education</div>
+
+    <div class="edu-item">
+      <div>
+        <div class="edu-name">Bachelor of Computer Science (Informatics)</div>
+        <div class="edu-sub">UPN "Veteran" Yogyakarta &nbsp;·&nbsp; GPA 3.66 / 4.00</div>
+        <div class="edu-detail">Thesis: Question Classification for Chatbot Information Services using LSA + KNN &nbsp;·&nbsp; <a class="proj-link" href="https://ninditya.github.io/chatbot-lsa/">ninditya.github.io/chatbot-lsa</a></div>
+      </div>
+      <div class="edu-date">October 2021</div>
+    </div>
+  </div>
+
+  <!-- TRAINING & APPRENTICESHIP -->
+  <div class="section">
+    <div class="section-title">Training &amp; Independent Projects</div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div class="exp-role">Data Science Bootcamp</div>
+        <div class="exp-date">November 2023</div>
+      </div>
+      <div class="exp-company">Binar Academy &nbsp;·&nbsp; Hard Skill 4.80 / Soft Skill 4.50</div>
+      <ul class="bullets">
+        <li>Curriculum: Query Writing, Python, Machine Learning, Deep Learning, NLP, Data Visualization, Data Modeling, Data Analysis.</li>
+        <li><strong>Capstone:</strong> Identifikasi Ujaran Kebencian dan Bahasa Kasar pada Tweet Indonesia. <a class="proj-link" href="https://github.com/ninditya/9900987-12-NSA-Analisis-Tweet-Bahasa-Indonesia-Identifikasi-Ujaran-Kebencian-dan-Bahasa-Kasar-GOLD">github.com/ninditya — Hate Speech Detection</a></li>
+        <li><strong>Capstone:</strong> Analisis Sentimen. <a class="proj-link" href="https://github.com/DSC12-Platinum-Challenge/23001033-12-KEN-NIN-SentimentAnalysis-Platinum">github.com/DSC12-Platinum-Challenge — Sentiment Analysis</a></li>
+      </ul>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <div class="exp-role">IDCamp Data Scientist Track — Scholarship Awardee</div>
+        <div class="exp-date">Sep 2025 – Apr 2026</div>
+      </div>
+      <div class="exp-company">Indosat Ooredoo Hutchison</div>
+      <ul class="bullets">
+        <li>Completed Beginner → Intermediate → Expert track: Python, SQL, statistical methods, and applied data science with industry case studies.</li>
+        <li><strong>Transaction Fraud ML Pipeline</strong> (Beginner): end-to-end fraud detection covering preprocessing, feature engineering, and model evaluation. <a class="proj-link" href="https://github.com/ninditya/idcamp2025-transaction-fraud-ml-pipeline">github.com/ninditya/IDCamp2025-Fraud-Pipeline</a></li>
+        <li><strong>EDA Kualitas Udara Beijing</strong> (Intermediate): analyzed pollution trends, seasonality, and contributing factors from a real-world dataset. <a class="proj-link" href="https://github.com/ninditya/IDCamp2025-Air-Qualiity-Beijing">github.com/ninditya/IDCamp2025-Air-Quality-Beijing</a></li>
+        <li><strong>HR Attrition Analysis</strong> (Expert Capstone): identified attrition drivers and built predictive models to support retention strategy. <a class="proj-link" href="https://github.com/ninditya/IDCamp2025-Menyelesaikan-Permasalahan-Human-Resources">github.com/ninditya/IDCamp2025-HR-Resources</a></li>
+        <li><strong>Edutech Business Case</strong> (Expert Capstone): applied data analysis and ML to generate decision-support insights for a business problem. <a class="proj-link" href="https://github.com/ninditya/IDCamp2025-Menyelesaikan-Permasalahan-Perusahaan-Edutech">github.com/ninditya/IDCamp2025-Edutech</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TECHNICAL SKILLS -->
+  <div class="section">
+    <div class="section-title">Technical Skills</div>
+    <div class="comp-grid">
+      <div class="comp-label">Programming</div>
+      <div class="comp-value">Python, JavaScript, SQL, HTML, CSS</div>
+
+      <div class="comp-label">Backend</div>
+      <div class="comp-value">Node.js, Fastify, Flask, FastAPI, REST APIs, PostgreSQL, MySQL, MongoDB, Redis</div>
+
+      <div class="comp-label">AI &amp; ML</div>
+      <div class="comp-value">LLM integration, RAG, Prompt Engineering, SBERT, scikit-learn, XGBoost, TensorFlow/Keras, PyTorch, LangGraph, Qdrant</div>
+
+      <div class="comp-label">Data &amp; Analytics</div>
+      <div class="comp-value">pandas, numpy, EDA, ETL pipelines, Looker Studio, Metabase, Grafana, Streamlit, Matplotlib, Seaborn</div>
+
+      <div class="comp-label">Tools &amp; Practices</div>
+      <div class="comp-value">Git, Docker, GCP, Postman, Swagger UI, GitHub Actions, MLflow, Agile / Scrum, SDLC</div>
+
+      <div class="comp-label">Testing &amp; QA</div>
+      <div class="comp-value">Pytest, Playwright, Selenium, Postman, SIT/UAT</div>
+    </div>
+  </div>
+
+  <!-- AWARDS & SCHOLARSHIPS -->
+  <div class="section">
+    <div class="section-title">Awards &amp; Scholarships</div>
+
+    <div class="award-item">
+      <div>
+        <div class="award-name">Korea–ASEAN Digital Academy (KADA) — Fully-Funded Scholarship</div>
+        <div class="award-desc">Competitive government-funded program by NIPA (Korea) / Komdigi (Indonesia) covering full-stack development, cloud, AI/ML, and AI ethics.</div>
+      </div>
+      <div class="award-date">Feb – Apr 2026</div>
+    </div>
+
+    <div class="award-item">
+      <div>
+        <div class="award-name">IDCamp Data Scientist Track — Scholarship Awardee</div>
+        <div class="award-desc">Indosat Ooredoo Hutchison merit-based scholarship; completed Beginner → Intermediate → Expert track with applied data science capstone projects.</div>
+      </div>
+      <div class="award-date">Sep 2025 – May 2026</div>
+    </div>
+
+
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <div class="section">
+    <div class="section-title">Certifications</div>
+    <div class="comp-grid">
+      <div class="comp-label">System Analyst</div>
+      <div class="comp-value">BNSP (National Professional Certification) — Software Requirement, Analysis &amp; Design · November 2020</div>
+    </div>
+  </div>
+
+  <!-- ORGANIZATIONS -->
+  <div class="section">
+    <div class="section-title">Organizations &amp; Volunteer Work</div>
+
+    <div class="org-item">
+      <div>
+        <div class="org-role">Head of Finance — KSR PMI Unit III, UPN "Veteran" Yogyakarta</div>
+        <div class="org-desc">Planned and managed the unit's annual budget with transparent financial reporting.</div>
+      </div>
+      <div class="org-date">Feb 2018 – Feb 2019</div>
+    </div>
+
+    <div class="org-item">
+      <div>
+        <div class="org-role">Member — KSR PMI Kota Yogyakarta (Indonesian Red Cross Volunteer Corps)</div>
+        <div class="org-desc">Participated in training, exercises, and humanitarian operations.</div>
+      </div>
+      <div class="org-date">Jan 2018 – Oct 2021</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
