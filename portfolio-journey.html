@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Journey Portfolio — Ninditya Salma Nur Aini</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:     #1a1a1a;
+      --ink2:    #4a4a4a;
+      --ink3:    #7a7a7a;
+      --primary: #1a4a7a;
+      --accent:  #c94b0c;
+      --green:   #2d6a4f;
+      --yellow:  #926d0a;
+      --line:    #e0e0e0;
+      --surface: #f7f7f7;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #bebebe;
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    /* ── Page shell ── */
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      background: white;
+      margin: 16px auto;
+      padding: 13mm 15mm 11mm;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+    @media print {
+      body { background: white; }
+      .page { margin: 0; box-shadow: none; width: 100%; min-height: auto; page-break-after: always; }
+      .page:last-child { page-break-after: auto; }
+      @page { size: A4; margin: 0; }
+    }
+
+    /* ── Repeat header ── */
+    .header { border-bottom: 2px solid var(--primary); padding-bottom: 9px; margin-bottom: 13px; }
+    .header-name { font-size: 21px; font-weight: 700; color: var(--ink); letter-spacing: -0.5px; line-height: 1; }
+    .header-role { font-size: 10.5px; color: var(--primary); font-weight: 600; margin-top: 2px; }
+    .header-contacts { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+    .header-contacts span { font-family: 'DM Mono', monospace; font-size: 8px; color: var(--ink3); }
+    .header-contacts span strong { color: var(--ink); font-weight: 500; }
+
+    /* ── Section label ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 7.5px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-weight: 500;
+      margin-bottom: 8px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    /* ── Level block ── */
+    .level-block { margin-bottom: 16px; }
+    .level-header { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 6px; }
+
+    .level-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .lv1  { background:#e8f4fd; color:#1a4a7a; border:1px solid #b8d4ee; }
+    .lv2  { background:#edf8ef; color:#2d6a4f; border:1px solid #b3d9bc; }
+    .lv3  { background:#fef9e7; color:#926d0a; border:1px solid #e8cc80; }
+    .lv4  { background:#fdeaea; color:#7a2020; border:1px solid #f0b8b8; }
+    .lv5  { background:#f3eefa; color:#5b3a8c; border:1px solid #d0b8f0; }
+    .lv6  { background:#fef0ea; color:#c94b0c; border:1px solid #f4c0a0; }
+    .lv7  { background:#eaf0ff; color:#1a3a7a; border:1px solid #a8c0f0; }
+    .lv8a { background:#fff0f5; color:#7a1a4a; border:1px solid #f0b0c8; }
+    .lv8b { background:#f0faf5; color:#1a5a3a; border:1px solid #a0d8b8; }
+    .lv8c { background:#f8f5ff; color:#4a2a7a; border:1px solid #c8b8f0; }
+
+    .level-title-group { flex: 1; min-width: 0; }
+    .level-title    { font-size: 12.5px; font-weight: 700; color: var(--ink); line-height: 1.2; }
+    .level-subtitle { font-size: 9px; color: var(--ink3); margin-top: 2px; font-style: italic; line-height: 1.4; }
+
+    .level-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 7.5px;
+      color: var(--ink3);
+      text-align: right;
+      flex-shrink: 0;
+      line-height: 1.7;
+    }
+    .level-meta .year { color: var(--primary); font-weight: 600; font-size: 8.5px; }
+
+    /* ── Context box ── */
+    .ctx-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 4px 4px 0;
+      padding: 6px 10px;
+      margin: 6px 0;
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 3px 10px;
+    }
+    .ctx-key {
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      white-space: nowrap;
+      padding-top: 1px;
+    }
+    .ctx-val { font-size: 9px; color: var(--ink2); line-height: 1.5; }
+    .ctx-val code { background:#eeeeee; border:1px solid var(--line); padding:0 3px; border-radius:2px; font-family:'DM Mono',monospace; font-size:8px; color:var(--ink); }
+
+    /* ── Body text ── */
+    .level-desc { font-size: 9.5px; color: var(--ink2); line-height: 1.7; margin: 6px 0; }
+    .level-desc strong { color: var(--ink); font-weight: 600; }
+    .level-desc code { background: var(--surface); border: 1px solid var(--line); padding: 0 3px; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 8px; color: var(--ink); }
+
+    /* ── Mini stat row ── */
+    .stat-row { display: flex; gap: 8px; margin: 6px 0; flex-wrap: wrap; }
+    .stat-box { background: var(--surface); border: 1px solid var(--line); border-top: 2px solid var(--primary); padding: 5px 9px; border-radius: 0 0 4px 4px; text-align: center; min-width: 60px; }
+    .stat-box .sn { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 600; color: var(--primary); line-height: 1; }
+    .stat-box .sl { font-family: 'DM Mono', monospace; font-size: 7px; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.4; margin-top: 3px; }
+
+    /* ── C/S/L Table ── */
+    .csl-table { width: 100%; border-collapse: collapse; margin: 7px 0; font-size: 8.5px; }
+    .csl-table th {
+      background: var(--primary);
+      color: white;
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 7px;
+      text-align: left;
+      font-weight: 500;
+    }
+    .csl-table td {
+      border: 1px solid var(--line);
+      padding: 5px 7px;
+      color: var(--ink2);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    .csl-table td:first-child  { border-left: 3px solid var(--accent); }
+    .csl-table td:nth-child(2) { border-left: 3px solid var(--green); }
+    .csl-table td:nth-child(3) { border-left: 3px solid var(--yellow); }
+    .csl-table td strong { color: var(--ink); font-weight: 600; }
+    .csl-table td code { background:var(--surface); border:1px solid var(--line); padding:0 3px; border-radius:2px; font-family:'DM Mono',monospace; font-size:7.5px; color:var(--ink); }
+
+    /* ── Result pills ── */
+    .results { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0; }
+    .result-pill {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 3px 7px;
+      font-family: 'DM Mono', monospace;
+      font-size: 7.5px;
+      color: var(--ink2);
+    }
+    .result-pill strong { color: var(--primary); font-weight: 600; }
+
+    /* ── Tier table ── */
+    .tier-table { width: 100%; border-collapse: collapse; margin: 7px 0; font-size: 8.5px; }
+    .tier-table th { background: var(--primary); color: white; font-family:'DM Mono',monospace; font-size:7px; letter-spacing:0.1em; text-transform:uppercase; padding:4px 7px; text-align:left; font-weight:500; }
+    .tier-table td { border: 1px solid var(--line); padding: 5px 7px; color: var(--ink2); vertical-align: top; line-height: 1.5; }
+    .tier-table td:first-child { font-family:'DM Mono',monospace; font-size:8px; color:var(--primary); font-weight:600; }
+    .tier-table td strong { color: var(--ink); font-weight: 600; }
+
+    /* ── Takeaway ── */
+    .takeaway {
+      background: #fef9f6;
+      border: 1px solid #f4c0a0;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 4px 4px 0;
+      padding: 6px 10px;
+      margin-top: 7px;
+    }
+    .takeaway-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .takeaway p { font-size: 9px; color: var(--ink2); line-height: 1.55; margin: 0; }
+    .takeaway p strong { color: var(--ink); font-weight: 600; }
+
+    /* ── Tags ── */
+    .tag-row { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 5px; }
+    .tag { font-family: 'DM Mono', monospace; font-size: 7px; padding: 2px 5px; border: 1px solid var(--line); border-radius: 3px; color: var(--ink3); }
+    .tag.pri { border-color: var(--primary); color: var(--primary); background: #edf3fa; }
+
+    /* ── Narrative context (why this project) ── */
+    .narrative {
+      font-size: 9.5px;
+      color: var(--ink2);
+      line-height: 1.65;
+      margin: 5px 0 8px;
+      padding: 6px 10px;
+      background: #fff8f5;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 3px 3px 0;
+    }
+    .narrative strong { color: var(--ink); font-weight: 600; }
+
+    /* ── Findings grid ── */
+    .findings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 7px 0; }
+    .finding-card { border: 1px solid var(--line); padding: 6px 8px; border-radius: 2px; }
+    .finding-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 3px;
+      font-weight: 600;
+    }
+    .finding-text { font-size: 9px; color: var(--ink2); line-height: 1.5; }
+    .finding-text strong { color: var(--ink); font-weight: 600; }
+    .finding-text code { background:var(--surface); border:1px solid var(--line); padding:0 3px; border-radius:2px; font-family:'DM Mono',monospace; font-size:7.5px; color:var(--ink); }
+
+    /* ── Arch table (Decision / Approach / Why) ── */
+    .arch-table { width: 100%; border-collapse: collapse; margin: 7px 0; font-size: 8.5px; }
+    .arch-table th { background: var(--surface); border-bottom: 2px solid var(--primary); font-family:'DM Mono',monospace; font-size:7px; letter-spacing:0.1em; text-transform:uppercase; padding:4px 7px; text-align:left; font-weight:600; color:var(--primary); }
+    .arch-table td { border: 1px solid var(--line); padding: 5px 7px; color: var(--ink2); vertical-align: top; line-height: 1.55; }
+    .arch-table td:first-child { font-weight: 600; color: var(--ink); background: #fafafa; }
+    .arch-table td strong { color: var(--ink); font-weight: 600; }
+    .arch-table td code { background:var(--surface); border:1px solid var(--line); padding:0 3px; border-radius:2px; font-family:'DM Mono',monospace; font-size:7.5px; color:var(--ink); }
+
+    /* ── Project links ── */
+    .proj-links { display: flex; flex-wrap: wrap; gap: 5px; margin: 5px 0 4px; align-items: center; }
+    .proj-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      text-decoration: none;
+      white-space: nowrap;
+      border: 1px solid;
+    }
+    .proj-link.gh   { border-color: var(--ink3); color: var(--ink); background: var(--surface); }
+    .proj-link.live { border-color: var(--green); color: var(--green); background: #edf8ef; }
+    .proj-link.case { border-color: var(--primary); color: var(--primary); background: #edf3fa; }
+    @media print { .proj-link { color: var(--ink2) !important; border-color: var(--line) !important; background: none !important; } }
+
+    /* ── Image blocks ── */
+    .img-inline { margin: 7px 0 10px; }
+    .img-inline img { width: 100%; display: block; border: 1px solid var(--line); border-radius: 2px; max-height: 70mm; object-fit: contain; object-position: top; }
+    .img-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 7px 0 10px; }
+    .img-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin: 7px 0 10px; }
+    .img-2col > div img, .img-3col > div img { width: 100%; display: block; border: 1px solid var(--line); border-radius: 2px; max-height: 50mm; object-fit: contain; object-position: top; }
+    .img-block-label { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); margin-bottom: 4px; font-weight: 600; }
+    .img-cap { font-family: 'DM Mono', monospace; font-size: 7.5px; color: var(--ink3); margin-top: 4px; line-height: 1.4; }
+
+    /* ── Divider ── */
+    .proj-divider { border: none; border-top: 1px dashed var(--line); margin: 11px 0; }
+
+    /* ── Work experience ── */
+    .exp-item { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+    .exp-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .exp-top { display: flex; justify-content: space-between; align-items: baseline; }
+    .exp-role    { font-size: 10.5px; font-weight: 700; color: var(--ink); }
+    .exp-date    { font-family: 'DM Mono', monospace; font-size: 7.5px; color: var(--ink3); }
+    .exp-company { font-size: 9px; font-weight: 500; color: var(--primary); margin: 2px 0 4px; }
+    .exp-bullets { list-style: none; padding: 0; }
+    .exp-bullets li { font-size: 9px; color: var(--ink2); line-height: 1.65; padding-left: 11px; position: relative; margin-bottom: 2px; }
+    .exp-bullets li::before { content: '·'; position: absolute; left: 2px; color: var(--primary); font-weight: 700; }
+    .exp-bullets li strong { color: var(--ink); font-weight: 600; }
+
+    /* ── Skills ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .skill-label { font-family: 'DM Mono', monospace; font-size: 7.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); font-weight: 600; margin-bottom: 3px; }
+    .skill-items { font-size: 9px; color: var(--ink2); line-height: 1.95; }
+
+    /* ── Achieve grid ── */
+    .achieve-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 12px; }
+    .achieve-card { background: var(--surface); border-left: 3px solid var(--primary); padding: 6px 9px; border-radius: 0 4px 4px 0; }
+    .achieve-year { font-family: 'DM Mono', monospace; font-size: 7px; color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+    .achieve-name { font-size: 9.5px; font-weight: 600; color: var(--ink); margin: 2px 0 1px; line-height: 1.3; }
+    .achieve-org  { font-family: 'DM Mono', monospace; font-size: 7px; color: var(--ink3); }
+
+    /* ── Cover ── */
+    .cover-hero { padding: 22mm 0 16mm; border-bottom: 3px solid var(--primary); margin-bottom: 16px; }
+    .cover-name { font-size: 32px; font-weight: 700; color: var(--ink); letter-spacing: -1px; line-height: 1; }
+    .cover-role { font-size: 13px; color: var(--primary); font-weight: 600; margin-top: 4px; }
+    .cover-doc-title { font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--ink3); margin-top: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .cover-bio { font-size: 10.5px; color: var(--ink2); line-height: 1.85; margin: 16px 0; max-width: 148mm; }
+    .cover-bio strong { color: var(--ink); font-weight: 600; }
+
+    /* ── Journey map ── */
+    .journey-map { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 18px; }
+    .jm-item { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 7px 8px; }
+    .jm-badge { font-family: 'DM Mono', monospace; font-size: 7px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 3px; }
+    .jm-title { font-size: 9px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+    .jm-sub   { font-size: 8px; color: var(--ink3); margin-top: 2px; line-height: 1.4; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════ COVER ════════════ -->
+<div class="page">
+
+  <div class="cover-hero">
+    <div class="cover-name">Ninditya Salma Nur Aini</div>
+    <div class="cover-role">Data Scientist &nbsp;·&nbsp; AI Engineer &nbsp;·&nbsp; NLP Specialist</div>
+    <div class="cover-doc-title">Learning Journey Portfolio &nbsp;·&nbsp; 2021 → 2026</div>
+    <div class="header-contacts" style="margin-top:10px;">
+      <span><strong>Email</strong> nindityaadrian@gmail.com</span>
+      <span><strong>LinkedIn</strong> linkedin.com/in/ninditya-salma-nur-aini</span>
+      <span><strong>GitHub</strong> github.com/ninditya</span>
+      <span><strong>Portfolio</strong> ninditya.github.io</span>
+      <span><strong>Location</strong> Yogyakarta / Remote</span>
+    </div>
+  </div>
+
+  <p class="cover-bio">
+    I started with an NLP thesis in 2021 — implementing <strong>KNN and LSA from scratch</strong> to build a working chatbot (GPA 3.66). That project gave me a first-principles understanding of vector semantics that made every subsequent representation learning model immediately intuitive. Since then I spent 2.4 years at <strong>Telkom Group</strong> designing chatbot flows and 1.5 years at <strong>Flip</strong> evaluating LLM quality in production — while building a portfolio that traces the full AI engineering stack: ETL pipelines, classical NLP, deep learning, production RAG, full-stack AI products, and team backend engineering.
+  </p>
+
+  <div class="section-label">10-Level Learning Journey</div>
+  <div class="journey-map">
+    <div class="jm-item">
+      <div class="jm-badge">Level 1</div>
+      <div class="jm-title">ETL Pipeline</div>
+      <div class="jm-sub">3 load destinations · 100% branch coverage · 0 live deps in tests</div>
+    </div>
+    <div class="jm-item">
+      <div class="jm-badge">Level 2</div>
+      <div class="jm-title">Text Analytics &amp; Statistics</div>
+      <div class="jm-sub">Hate speech NLP (r=0.96) · Plankton Bland-Altman</div>
+    </div>
+    <div class="jm-item">
+      <div class="jm-badge">Level 3</div>
+      <div class="jm-title">Classical NLP (Thesis)</div>
+      <div class="jm-sub">KNN+LSA · 1,410 Qs · 27.49s→17.97s · GPA 3.66</div>
+    </div>
+    <div class="jm-item">
+      <div class="jm-badge">Level 4</div>
+      <div class="jm-title">Deep Learning NLP</div>
+      <div class="jm-sub">BiLSTM 93% vs Gemini 85.3% · $0 vs $62/yr · 288 configs</div>
+    </div>
+    <div class="jm-item">
+      <div class="jm-badge">Level 5</div>
+      <div class="jm-title">RAG: v0 → v1</div>
+      <div class="jm-sub">FAISS→Qdrant · LangGraph · 3 prod challenges</div>
+    </div>
+    <div class="jm-item">
+      <div class="jm-badge">Level 6</div>
+      <div class="jm-title">Production AI System</div>
+      <div class="jm-sub">$0.050→$0.0056/query · 88% cost cut · F1 0.9305</div>
+    </div>
+    <div class="jm-item">
+      <div class="jm-badge">Level 7</div>
+      <div class="jm-title">Applied Data Science</div>
+      <div class="jm-sub">Dropout 92.42%/AUC 97.27% · Attrition 86.11% recall</div>
+    </div>
+    <div class="jm-item">
+      <div class="jm-badge">Level 8</div>
+      <div class="jm-title">Full-Stack AI Products</div>
+      <div class="jm-sub">NutriPal · StudioAI · CineTrack 20+ endpoints</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════ PAGE 2: LEVEL 1 ════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-name">Ninditya Salma Nur Aini</div>
+    <div class="header-role">Learning Journey Portfolio · 2021 → 2026</div>
+  </div>
+
+  <div class="section-label">Data Engineering Foundation</div>
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv1">Level 1</div>
+      <div class="level-title-group">
+        <div class="level-title">ETL Fashion E-Commerce Pipeline</div>
+        <div class="level-subtitle">Modular scrape → validate → load pipeline · 3 destinations · 100% branch coverage · 0 live deps</div>
+      </div>
+      <div class="level-meta"><span class="year">2024</span><br>Solo project<br>Data Engineer</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://github.com/ninditya/etl-fashion-pipeline" class="proj-link gh" target="_blank" rel="noopener">⌥ GitHub</a>
+      <a href="https://ninditya.github.io/etl-fashion-pipeline/" class="proj-link case" target="_blank" rel="noopener">↗ Case Study</a>
+    </div>
+
+    <div class="narrative">
+      <strong>Why this project:</strong> Before building ML models, I needed to understand how data moves reliably from source to storage. This project forced a first-principles answer to a production engineering question: what happens when one card out of 50 pages is broken HTML? I built the pipeline so the answer is always "that one card is skipped, everything else loads fine." That failure-isolation principle applies to every data system I've built since.
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Goal</span>
+      <span class="ctx-val">Build a production-grade ETL pipeline that scrapes fashion product data and loads it to three independent destinations — with 100% branch coverage and zero live dependencies during testing.</span>
+      <span class="ctx-key">Dataset</span>
+      <span class="ctx-val">Fashion e-commerce catalog · 50 pages scraped per run · records cleaned and loaded to CSV · PostgreSQL · Google Sheets</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">Python · Pandas · BeautifulSoup · PostgreSQL · Google Sheets API · pytest + MagicMock · Currency conversion via env var</span>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box"><div class="sn">50</div><div class="sl">Pages per run</div></div>
+      <div class="stat-box"><div class="sn">3</div><div class="sl">Load destinations<br>CSV · PG · Sheets</div></div>
+      <div class="stat-box"><div class="sn">3</div><div class="sl">Independent modules<br>extract · transform · load</div></div>
+      <div class="stat-box"><div class="sn">100%</div><div class="sl">Branch coverage<br>per module</div></div>
+      <div class="stat-box"><div class="sn">0</div><div class="sl">Live deps<br>during tests</div></div>
+    </div>
+
+    <p class="level-desc">
+      Architecture: three independently testable layers. <strong>Extractor</strong> — <code>extract_product()</code> wraps all field access in <code>try/except</code> and returns <code>None</code> on any error; <code>extract_data()</code> skips <code>None</code> results with <code>continue</code>, so a single broken card never crashes the run. <strong>Transformer</strong> — validation chain ordered to fail fast: null titles → null prices → digit check (rejects <code>"Price Unavailable"</code>) → type normalization. Currency conversion uses an <em>environment variable with a safe default</em>, not a hardcoded constant — changing the rate requires no code change. <strong>Loader</strong> — <code>save_csv()</code>, <code>save_postgres()</code>, <code>save_gsheet()</code> each follow the same interface contract: check empty → write → catch exceptions. One failing destination never blocks the others.
+    </p>
+
+    <table class="arch-table">
+      <tr><th>Decision</th><th>Implementation</th><th>Why</th></tr>
+      <tr>
+        <td>Per-card failure isolation</td>
+        <td><code>try/except</code> inside <code>extract_product()</code> returns <code>None</code>; outer loop skips with <code>continue</code></td>
+        <td>A broken card costs one row, not one run. Scraping 50 pages × ~30 products means any single malformed card must not abort 1,500 other records.</td>
+      </tr>
+      <tr>
+        <td>Null-first validation order in Transformer</td>
+        <td>Check null title → null price → digit validation (rejects "Price Unavailable") → type coercion</td>
+        <td>Fail-fast on the cheapest check prevents expensive downstream type errors. Validating digit format before type conversion avoids silent NaN propagation into PostgreSQL.</td>
+      </tr>
+      <tr>
+        <td>Currency via environment variable</td>
+        <td><code>os.getenv("CURRENCY_RATE", default=1.0)</code> in Transformer</td>
+        <td>Hardcoded constants require a code change and redeploy for every rate update. An env var makes it an operations concern, not a development concern.</td>
+      </tr>
+      <tr>
+        <td>MagicMock at every I/O boundary</td>
+        <td>DB connections, HTTP requests, and file handles all patched; integration tests use isolated test schema</td>
+        <td>Mocking at the boundary forced injectable dependencies. The architecture improved because tests demanded clean interfaces — 0 live deps in CI means no flaky tests.</td>
+      </tr>
+    </table>
+
+    <table class="csl-table">
+      <tr><th>Challenge</th><th>Solution</th><th>Key Learning</th></tr>
+      <tr>
+        <td>Single broken product card (null price, malformed HTML) crashed the entire scrape loop</td>
+        <td>Per-card <code>try/except</code> in <code>extract_product()</code> returning <code>None</code>; main loop skips None with <code>continue</code>. A broken card costs one row, not the whole run.</td>
+        <td><strong>Fail-safe per unit, not per run.</strong> Graceful degradation means the pipeline keeps going rather than stopping and leaving operators with no data.</td>
+      </tr>
+      <tr>
+        <td>Testing required live DB connections and real HTTP calls — slow CI, flaky tests</td>
+        <td>MagicMock patches DB and HTTP at the boundary; integration tests use a dedicated test schema cleaned between runs. 0 live dependencies in the unit test suite.</td>
+        <td>Mocking boundaries <em>forces</em> clean interfaces — the architecture improved because the tests demanded injectable dependencies at every I/O boundary.</td>
+      </tr>
+    </table>
+
+    <div class="takeaway">
+      <div class="takeaway-label">Key Takeaway</div>
+      <p>When the source HTML structure changed mid-project, only the Extractor needed updating — Transformer and Loader were unaffected. <strong>Separation of concerns is maintenance cost, measured in lines changed during the next schema break.</strong></p>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">Fail Isolation Pattern</div>
+        <div class="finding-text">The per-card <code>try/except</code> pattern is idiomatic production ETL: isolate failure to the smallest meaningful unit. One broken product costs one row, not one run. <strong>Defining failure domains before success paths is the correct order of thinking.</strong></div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Tests as Architecture Driver</div>
+        <div class="finding-text">MagicMock at every I/O boundary didn't just enable testing — it forced injectable dependencies. The architecture improved because the test suite demanded clean interfaces. <strong>100% branch coverage is a design constraint, not just a quality metric.</strong></div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Thread Forward</div>
+        <div class="finding-text">The failure-isolation mental model from this ETL pipeline reappears in Banking Router's tier isolation: if Tier 2 (RAG) fails, the system falls back to Tier 3 (LLM) rather than crashing. <strong>Same pattern — define what failure looks like before you define success.</strong></div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">Python</span><span class="tag pri">ETL</span><span class="tag pri">BeautifulSoup</span>
+      <span class="tag">PostgreSQL</span><span class="tag">Google Sheets API</span><span class="tag">pytest</span><span class="tag">MagicMock</span><span class="tag">Modular Architecture</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 3: LEVEL 2A + 2B ════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-name">Ninditya Salma Nur Aini</div>
+    <div class="header-role">Learning Journey Portfolio · 2021 → 2026</div>
+  </div>
+
+  <div class="section-label">Text Analytics &amp; Statistical Analysis</div>
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv2">Level 2A</div>
+      <div class="level-title-group">
+        <div class="level-title">Analisis Tweet X — Hate Speech &amp; Abusive Content Indonesia</div>
+        <div class="level-subtitle">EDA + classification · 13,169 rows · r = 0.96 label correlation · Flask REST API</div>
+      </div>
+      <div class="level-meta"><span class="year">2024</span><br>Solo project<br>NLP / Data Analyst</div>
+    </div>
+
+    <div class="narrative">
+      <strong>Why this project:</strong> After the LSA thesis, I wanted to apply NLP to a real social problem — hate speech detection on Indonesian Twitter. What I discovered in EDA changed the modeling approach entirely: HS and Abusive labels correlate at r=0.96, meaning they almost always co-occur. High correlation isn't a complexity signal — it's a simplification signal. That insight drove the label strategy and cut the classification problem in half.
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Goal</span>
+      <span class="ctx-val">Classify Indonesian tweets into hate speech, abusive language, and combinations; surface EDA insights on label co-occurrence; deploy real-time inference via Flask REST API.</span>
+      <span class="ctx-key">Dataset</span>
+      <span class="ctx-val">13,169 rows · 11,969 train · 1,075 test · Labels: HS · Abusive · HS+Abusive · Weak HS · Clean · 55.7% negative content</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">Python · Pandas · scikit-learn · TF-IDF · LinearSVC · Flask · joblib pipeline serialization</span>
+    </div>
+
+    <p class="level-desc">
+      <strong>Key EDA finding:</strong> 55.7% of tweets carry negative content. Pearson correlation between HS and Abusive labels: <strong>r = 0.96</strong> — hate speech almost always co-occurs with abusive language, sharing a latent signal a single classifier can exploit. This reduced the multi-label problem to a simpler compound-class boundary without losing discriminative power. The Flask API serializes the <em>full preprocessing pipeline</em> via joblib — tokenization, TF-IDF vectorizer, and classifier — so identical transforms apply at training and inference with no divergence risk.
+    </p>
+
+    <table class="arch-table">
+      <tr><th>Decision</th><th>Approach</th><th>Why</th></tr>
+      <tr>
+        <td>Label strategy: compound class</td>
+        <td>Collapsed HS+Abusive into one compound label instead of two independent heads</td>
+        <td>r=0.96 co-occurrence means separate heads are redundant — they'd learn the same signal twice. Compound class is simpler and doesn't lose discriminative power.</td>
+      </tr>
+      <tr>
+        <td>Vectorizer: TF-IDF</td>
+        <td>Unigram + bigram TF-IDF with Bahasa preprocessing (stopword removal, normalization)</td>
+        <td>Indonesian informal Twitter text has high surface variation (slang, abbreviations). TF-IDF on n-grams captures partial forms ("gbl" for "goblog") without requiring full stemming.</td>
+      </tr>
+      <tr>
+        <td>Classifier: LinearSVC</td>
+        <td>LinearSVC with class_weight='balanced' for imbalanced HS class</td>
+        <td>LinearSVC performs well on high-dimensional sparse vectors from TF-IDF. class_weight='balanced' compensates for the minority HS class without SMOTE (preserves text distribution).</td>
+      </tr>
+      <tr>
+        <td>Deployment: joblib pipeline</td>
+        <td>Full scikit-learn Pipeline (preprocessor + vectorizer + classifier) serialized and loaded at inference</td>
+        <td>Serializing the full pipeline — not just the model — guarantees identical preprocessing at inference. Prevents train/serve skew from different tokenization at call time.</td>
+      </tr>
+    </table>
+
+    <table class="csl-table">
+      <tr><th>Challenge</th><th>Solution</th><th>Key Learning</th></tr>
+      <tr>
+        <td>Multi-label setup with r=0.96 inter-label correlation created redundant classification heads</td>
+        <td>Collapsed correlated label pairs into compound class; simplified head without losing signal</td>
+        <td><strong>High label correlation is a simplification signal, not a complexity signal.</strong> When two labels are 96% correlated, they share a latent feature — one classifier covers both.</td>
+      </tr>
+      <tr>
+        <td>Indonesian slang ("gw", "lo", "bgt", "yg") not in standard vocab — standard tokenizers missed ~30% of signal-bearing tokens</td>
+        <td>Custom slang normalization dictionary before vectorization; bigram features capture partial forms not normalized</td>
+        <td><strong>Indonesian informal text requires language-specific preprocessing.</strong> Generic English pipelines miss the feature layer entirely. Every Bahasa NLP project since has started with a slang normalization pass.</td>
+      </tr>
+    </table>
+
+    <div class="results">
+      <span class="result-pill"><strong>Dataset</strong> 13,169 rows</span>
+      <span class="result-pill"><strong>Negative content</strong> 55.7%</span>
+      <span class="result-pill"><strong>HS ↔ Abusive</strong> Pearson r = 0.96</span>
+      <span class="result-pill"><strong>Deployment</strong> Flask REST API · joblib pipeline</span>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">EDA Drove Architecture</div>
+        <div class="finding-text">r=0.96 co-occurrence between HS and Abusive labels was the key EDA result — and it changed the modeling strategy entirely. <strong>EDA isn't just descriptive; it determines the correct problem formulation.</strong> I learned to always look at label correlation before choosing the model architecture.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Indonesian NLP Patterns</div>
+        <div class="finding-text">Informal Indonesian Twitter text has high morphological and slang variation. Slang normalization before vectorization is mandatory — generic English pipelines miss the signal layer. <strong>Language-specific preprocessing is not optional; it's the feature engineering step.</strong></div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Thread from Thesis</div>
+        <div class="finding-text">The LSA thesis taught that feature representation determines classifier performance. TF-IDF here reconfirmed: <strong>the representation layer is the critical lever, not the model choice.</strong> The same principle drove the SBERT decision in Banking Router four years later.</div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">NLP</span><span class="tag pri">Bahasa Indonesia</span><span class="tag pri">TF-IDF</span>
+      <span class="tag">LinearSVC</span><span class="tag">Flask API</span><span class="tag">EDA</span><span class="tag">joblib Pipeline</span>
+    </div>
+  </div>
+
+  <hr class="proj-divider">
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv2">Level 2B</div>
+      <div class="level-title-group">
+        <div class="level-title">AquaSense — Plankton Density Sensor Reliability &amp; YOLOv8 IAA Analysis</div>
+        <div class="level-subtitle">Bland-Altman agreement analysis · ICC(A,1)=0.889 · M2 vs M3 CCC=0.984 · zero-inflation diagnosis</div>
+      </div>
+      <div class="level-meta"><span class="year">2024</span><br>Solo project<br>Data Analyst</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://huggingface.co/ninditya/aquasense-waste-detection-model" class="proj-link live" target="_blank" rel="noopener">↗ HuggingFace Model</a>
+      <a href="https://huggingface.co/datasets/ninditya/aquasense-waste-detection-dataset" class="proj-link gh" target="_blank" rel="noopener">⌥ HuggingFace Dataset</a>
+    </div>
+
+    <div class="narrative">
+      <strong>Why this project:</strong> The stakeholder asked for Pearson r as the reliability metric. I built this project to demonstrate why that's the wrong question — and to deliver the right answer instead. Two counting methods can correlate at r=0.99 while differing by 30,000 cells/mL on every individual measurement. Pearson tells you about the relationship; Bland-Altman tells you about the disagreement. Only one of those answers the operational question.
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Goal</span>
+      <span class="ctx-val">Assess whether three plankton counting methods are interchangeable — using Bland-Altman limits of agreement, ICC, and CCC rather than Pearson correlation alone.</span>
+      <span class="ctx-key">Data context</span>
+      <span class="ctx-val">3 counting methods (M1 manual microscopy · M2 automated cell counter · M3 image processing) · Green Algae · heavy zero-inflation in M1 rows</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">R · Python · Bland-Altman analysis (mean vs. difference, ±1.96 SD LoA) · ICC(A,1) via pingouin · CCC · Tidy data restructuring from wide-format sensor logs</span>
+    </div>
+
+    <p class="level-desc">
+      Three pairwise Bland-Altman comparisons revealed a critical finding: <strong>M1 vs M2 and M1 vs M3 both showed large negative bias (~−49,000 cells/mL) with proportional error</strong> — the disagreement grows as concentration increases, a pattern that cannot be corrected by a scalar offset. By contrast, <strong>M2 vs M3: near-zero bias (+694 cells/mL), CCC=0.984 — effectively interchangeable.</strong> Recommendation: use M2 or M3 as the reference for model training; exclude or recalibrate M1 Green Algae counts before any downstream use.
+    </p>
+
+    <div class="img-inline">
+      <div class="img-block-label">Bland-Altman Analysis Panel — Inter-Annotator Agreement (CS2)</div>
+      <img src="_portfolio-assets/aquasense-bland-altman.png" alt="Bland-Altman IAA panel showing M1 vs M2 vs M3 agreement">
+      <div class="img-cap">Three pairwise Bland-Altman plots. M1 vs M2 dan M1 vs M3: large negative bias (~−49k cells/mL), wide limits of agreement — proportional bias yang tidak dapat dikoreksi dengan scalar offset. <strong>M2 vs M3: near-zero bias (+694), CCC=0.984.</strong> Spearman=0.630 misleadingly low due to zero-inflation.</div>
+    </div>
+
+    <p class="level-desc">
+      Spearman for M2 vs M3 returned 0.630 — misleadingly low. Root cause: <strong>zero-inflation</strong>. Many rows have M1 reporting exactly 0, creating large tie-groups that collapse Spearman's rank signal. CCC=0.984 was the correct metric for this data structure — not Pearson (assumes normality), not Spearman (sensitive to tied ranks from zeros), not ICC alone (ignores systematic bias).
+    </p>
+
+    <table class="arch-table">
+      <tr><th>Statistical Choice</th><th>Method Used</th><th>Why Not the Obvious Alternative</th></tr>
+      <tr>
+        <td>Method agreement metric</td>
+        <td>Bland-Altman LoA (mean vs. difference plot)</td>
+        <td>Pearson r=0.99 can coexist with a systematic 49k cells/mL bias. Bland-Altman is the only metric that directly answers "how much do these methods disagree on any given sample?"</td>
+      </tr>
+      <tr>
+        <td>Reliability coefficient</td>
+        <td>CCC (concordance correlation coefficient)</td>
+        <td>Spearman=0.630 was misleading due to zero-inflation (many tied zeros collapse Spearman's rank signal). CCC=0.984 for M2 vs M3 correctly captures both precision and accuracy jointly.</td>
+      </tr>
+      <tr>
+        <td>Distributional reporting</td>
+        <td>Skewness + kurtosis alongside mean/median</td>
+        <td>Mean alone hides the heavy right tail from outlier samples. Skewness evidence justifies the non-parametric method choice before reviewers question it.</td>
+      </tr>
+    </table>
+
+    <table class="csl-table">
+      <tr><th>Challenge</th><th>Solution</th><th>Key Learning</th></tr>
+      <tr>
+        <td>Stakeholder requested Pearson r as reliability metric — but r=0.99 can coexist with a systematic 30% bias</td>
+        <td>Demonstrated the limitation empirically; replaced Pearson with Bland-Altman ±1.96 SD limits of agreement as the primary metric</td>
+        <td><strong>Correlation = linear relationship. Bland-Altman = agreement.</strong> For method comparison studies, only agreement analysis answers the operational question.</td>
+      </tr>
+      <tr>
+        <td>M2 vs M3 Spearman=0.630 seemed to indicate low agreement — but CCC=0.984</td>
+        <td>Diagnosed zero-inflation as root cause: many rows had M1 reporting exactly 0, creating large tie-groups that collapse Spearman's rank sensitivity</td>
+        <td><strong>Always diagnose why a metric gives an unexpected result before reporting it.</strong> Zero-inflation is a structural data issue — not a methods disagreement issue.</td>
+      </tr>
+    </table>
+
+    <div class="takeaway">
+      <div class="takeaway-label">Key Takeaway</div>
+      <p>Choosing the right statistical test is an architectural decision. A method with r=0.99 and a +20% systematic bias will still fail operationally. <strong>The test must match the question being asked — "are these methods interchangeable?" requires agreement analysis, not correlation.</strong></p>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">Metric Matches the Question</div>
+        <div class="finding-text">The stakeholder's question was "can we replace M1 with M2?" — an agreement question, not a correlation question. Pearson r can be 0.99 while the methods differ by 49k cells/mL on every measurement. <strong>Framing the analysis correctly is the analyst's first deliverable.</strong></div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Zero-Inflation Diagnosis</div>
+        <div class="finding-text">Spearman=0.630 vs CCC=0.984 for M2 vs M3. Root cause: zero-inflation collapsed Spearman's rank signal. <strong>When two metrics disagree, diagnose the data structure before choosing which to report.</strong> The diagnosis (zero-inflation) is the finding, not the number.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Thread Forward</div>
+        <div class="finding-text">This project built my statistical method-selection instinct — applied directly to the AquaSense YOLOv8 evaluation (IAA analysis, Bland-Altman panel), the Beijing Air Quality statistical tests (Spearman for non-normal, chi-square for categorical), and the Talent Match Intelligence (PERCENTILE_CONT for robust medians).</div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">Statistics</span><span class="tag pri">Bland-Altman</span><span class="tag pri">CCC / ICC</span>
+      <span class="tag">Tidy Data</span><span class="tag">Zero-Inflation</span><span class="tag">Method Comparison</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 4: LEVEL 3 ════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-name">Ninditya Salma Nur Aini</div>
+    <div class="header-role">Learning Journey Portfolio · 2021 → 2026</div>
+  </div>
+
+  <div class="section-label">Classical NLP — S.Kom Thesis · UPN "Veteran" Yogyakarta · Oct 2021</div>
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv3">Level 3</div>
+      <div class="level-title-group">
+        <div class="level-title">Chatbot FAQ — KNN + LSA &nbsp;·&nbsp; S.Kom Thesis</div>
+        <div class="level-subtitle">1,410 student questions · Nazief-Andriani stemmer · SVD → KNN → web + Telegram · GPA 3.66</div>
+      </div>
+      <div class="level-meta"><span class="year">Oct 2021</span><br>Thesis · Solo<br>NLP Developer</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://github.com/ninditya/chatbot-lsa" class="proj-link gh" target="_blank" rel="noopener">⌥ GitHub</a>
+      <a href="https://chatbot-skripsi-lsa-knn.streamlit.app/" class="proj-link live" target="_blank" rel="noopener">▶ Live Demo</a>
+      <a href="https://ninditya.github.io/chatbot-lsa/" class="proj-link case" target="_blank" rel="noopener">↗ Case Study</a>
+    </div>
+
+    <div class="narrative">
+      <strong>Why this project started everything:</strong> Informatics department staff were manually answering the same 20 student questions, limited to office hours. I built a chatbot that answers 24/7. But the more important discovery was this: switching from raw TF-IDF to LSA-projected features improved both accuracy (+1.1pp) and compute speed (−35%) using the <em>exact same KNN classifier</em>. The classifier didn't change — only the feature space did. This is the founding insight that made every NLP model I studied after 2021 immediately intuitive: representation quality determines what models can learn.
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Goal</span>
+      <span class="ctx-val">Build an FAQ chatbot for UPN "Veteran" Yogyakarta — implement KNN and LSA entirely from scratch to classify student queries into topics and return automated FAQ responses via web and Telegram.</span>
+      <span class="ctx-key">Dataset</span>
+      <span class="ctx-val">1,410 labelled student questions collected via structured form · K-Fold CV · 90% train / 10% test</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">PHP · MySQL · JavaScript · Telegram Bot API · JAMA Libraries (SVD/matrix ops) · Nazief-Andriani Indonesian stemmer</span>
+      <span class="ctx-key">NLP</span>
+      <span class="ctx-val">TF-IDF term-document matrix → SVD (k=50 latent dimensions) → cosine similarity in reduced space → KNN classification</span>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box"><div class="sn">93.2<small style="font-size:10px">%</small></div><div class="sl">LSA+KNN accuracy<br>↑ from 92.1% baseline</div></div>
+      <div class="stat-box"><div class="sn">−35<small style="font-size:10px">%</small></div><div class="sl">Compute time<br>27.49s → 17.97s</div></div>
+      <div class="stat-box"><div class="sn">+3pp</div><div class="sl">Recall improvement<br>vs KNN baseline</div></div>
+      <div class="stat-box"><div class="sn">1,410</div><div class="sl">Student questions<br>via form collection</div></div>
+    </div>
+
+    <div class="img-2col">
+      <div>
+        <div class="img-block-label">Web App — NLP Pipeline Visualization</div>
+        <img src="chatbot-lsa/chatbot web.png" alt="Chatbot LSA web interface showing TF-IDF → SVD → LSA → KNN pipeline">
+        <div class="img-cap">Web interface menampilkan pipeline NLP step-by-step: input → preprocessing → TF-IDF → SVD decomposition → LSA projection → KNN → answer. Built to make the model interpretable, not just usable.</div>
+      </div>
+      <div>
+        <div class="img-block-label">Telegram Bot — Production Deployment</div>
+        <img src="chatbot-lsa/chatbot telegram.png" alt="Telegram chatbot for UPN Veteran Yogyakarta FAQ">
+        <div class="img-cap">Deployed sebagai Telegram bot accessible ke seluruh mahasiswa informatika 24/7. Menjawab FAQ tentang administrasi akademik tanpa keterlibatan staf.</div>
+      </div>
+    </div>
+
+    <p class="level-desc">
+      The system builds a <strong>TF-IDF term-document matrix</strong> from all FAQ entries, applies <strong>SVD decomposition</strong> to reduce to k=50 latent semantic dimensions, then classifies new queries via <strong>KNN with cosine similarity</strong> in that reduced space. Key preprocessing: <strong>Nazief-Andriani stemmer</strong> for Indonesian morphology — English stemmers fail on Bahasa affixation patterns ("mempertimbangkan" → "timbang"). The trained SVD matrix and KNN index are serialized and loaded at PHP inference time via JAMA libraries — no Python needed at serve time.
+    </p>
+
+    <table class="arch-table">
+      <tr><th>Decision</th><th>Configuration</th><th>Why</th></tr>
+      <tr>
+        <td>Stemmer: Nazief-Andriani</td>
+        <td>Indonesian morphology via Sastrawi/Nazief-Andriani library</td>
+        <td>Indonesian affixation is complex: "mendaftarkan", "pendaftaran", "daftar" must reduce to the same root. Porter Stemmer (English) would corrupt these entirely. No language-agnostic stemmer was available for PHP.</td>
+      </tr>
+      <tr>
+        <td>Dimensionality: k=50 SVD</td>
+        <td>TF-IDF matrix → SVD → 50 latent dimensions</td>
+        <td>k=50 balances semantic generalization vs. corpus specificity. At k=5, too much compression loses topic boundaries; at k=200, noise from rare terms re-enters. k=50 was tuned on held-out accuracy.</td>
+      </tr>
+      <tr>
+        <td>Distance: Manhattan over Euclidean</td>
+        <td>KNN with Manhattan distance metric</td>
+        <td>Compared both empirically on validation set. Manhattan outperformed Euclidean on LSA-projected sparse vectors in this domain — LSA coordinates are not isotropic, making taxicab distance more appropriate than Euclidean.</td>
+      </tr>
+      <tr>
+        <td>Inference: PHP JAMA matrix load</td>
+        <td>Precomputed SVD matrix serialized as JSON; PHP loads + applies transform at query time</td>
+        <td>No Python runtime in PHP production environment. Inference = one matrix multiply (query vector × precomputed projection matrix). Training runtime irrelevant to serving — only serialized parameters matter.</td>
+      </tr>
+    </table>
+
+    <table class="csl-table">
+      <tr><th>Challenge</th><th>Solution</th><th>Key Learning</th></tr>
+      <tr>
+        <td>KNN on raw TF-IDF sparse vectors failed on synonym variation — "biaya" vs "bayar" (both "payment") share no surface tokens but mean the same thing</td>
+        <td>LSA projects both terms to nearby positions in the k=50 latent semantic space — geometric proximity reflects semantic proximity regardless of surface word choice</td>
+        <td>SVD creates a continuous meaning space from a discrete co-occurrence matrix. This is the same operation transformers do at scale (learned rather than counted). <strong>Understanding SVD from scratch made SBERT immediately intuitive.</strong></td>
+      </tr>
+      <tr>
+        <td>PHP production runtime had no Python — couldn't call the training environment for inference</td>
+        <td>Serialized trained SVD matrix + KNN index; PHP loads and applies the matrix transform via JAMA. Inference = one matrix multiply.</td>
+        <td>Inference is just a matrix transform on new input. <strong>The training runtime is irrelevant to production serving</strong> — only the serialized parameters matter.</td>
+      </tr>
+    </table>
+
+    <div class="takeaway">
+      <div class="takeaway-label">Key Takeaway — Foundation That Unlocked Everything</div>
+      <p>LSA → Word2Vec → SBERT → Transformer attention all solve the same problem: map meaning into a continuous vector space where geometric proximity = semantic proximity. The thesis gave me this foundation from first principles. <strong>Every NLP model I built after 2021 was a re-encounter with the same idea, at a larger scale.</strong></p>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">Representation &gt; Classifier</div>
+        <div class="finding-text">The classifier didn't change — only the feature space did. LSA improved accuracy <em>and</em> speed using identical KNN. <strong>The feature representation layer is the highest-leverage decision in any NLP pipeline.</strong> This is the insight I've applied to every NLP problem since 2021.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Indonesian NLP From Scratch</div>
+        <div class="finding-text">Building for Bahasa in PHP with no NLP library forced first-principles understanding: Nazief-Andriani stemmer, TF-IDF by hand, SVD via JAMA. <strong>No abstraction to hide behind.</strong> Every framework decision became legible because I had built the underlying operation manually first.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Thread Forward to SBERT</div>
+        <div class="finding-text">LSA (2021): TF-IDF → SVD → latent semantic space → KNN. SBERT (2025): token embeddings → transformer → dense semantic space → LinearSVC. <strong>Same pipeline, better learned representation.</strong> The 2021 thesis made the 2025 Banking Router architecture immediately intuitive — LSA at a different scale.</div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">NLP</span><span class="tag pri">LSA / SVD</span><span class="tag pri">KNN</span>
+      <span class="tag">Nazief-Andriani</span><span class="tag">Cosine Similarity</span><span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Telegram API</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 5: LEVEL 4 ════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-name">Ninditya Salma Nur Aini</div>
+    <div class="header-role">Learning Journey Portfolio · 2021 → 2026</div>
+  </div>
+
+  <div class="section-label">Deep Learning NLP — Systematic ML vs GenAI Benchmark</div>
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv4">Level 4</div>
+      <div class="level-title-group">
+        <div class="level-title">Sentiment Analysis — BiLSTM · TF-IDF+MLP · Gemini Flash</div>
+        <div class="level-subtitle">11,000 Indonesian tweets · 288 GridSearch configs · ML won accuracy, speed, AND cost simultaneously</div>
+      </div>
+      <div class="level-meta"><span class="year">2025</span><br>Solo project<br>NLP / ML Researcher</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://github.com/ninditya/sentiment-analysis-ml-vs-genai" class="proj-link gh" target="_blank" rel="noopener">⌥ GitHub</a>
+      <a href="https://ninditya.github.io/sentiment-analysis/" class="proj-link case" target="_blank" rel="noopener">↗ Case Study</a>
+    </div>
+
+    <div class="narrative">
+      <strong>Real motivation — from Flip:</strong> At Flip I managed prompts for a GenAI-based sentiment system — but had no way to measure whether my prompt changes actually improved accuracy. There was no controlled baseline. This project answers the empirical question I couldn't answer there: for Indonesian tweet sentiment, does a domain-tuned ML model outperform zero-shot GenAI? The result: yes — on accuracy, speed, and cost simultaneously. <strong>GenAI is not universally better. Context and domain determine the right tool.</strong>
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Goal</span>
+      <span class="ctx-val">Determine whether zero-shot GenAI can replace fine-tuned ML for Indonesian tweet sentiment — measured on all 4 dimensions that matter for production: accuracy, F1, inference speed, and annual cost.</span>
+      <span class="ctx-key">Dataset</span>
+      <span class="ctx-val">11,000 Indonesian tweets · Positive / Negative / Neutral · 5-fold cross-validation · started as Binar Academy 2023 project (TF-IDF+MLP 89.67%), revisited 2025 with BiLSTM + GenAI comparison</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">Python · TensorFlow/Keras (BiLSTM) · scikit-learn (TF-IDF+MLP) · Gemini Flash 2.0 API via OpenRouter · Flask + Swagger API</span>
+      <span class="ctx-key">Search</span>
+      <span class="ctx-val">288 hyperparameter combinations for BiLSTM — layers, hidden units, dropout, learning rate, batch size · canary run on 10% data to detect gradient explosions before full sweep</span>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box"><div class="sn">93<small style="font-size:10px">%</small></div><div class="sl">BiLSTM accuracy<br>F1 0.9328</div></div>
+      <div class="stat-box"><div class="sn">85.3<small style="font-size:10px">%</small></div><div class="sl">Gemini zero-shot<br>F1 0.8404</div></div>
+      <div class="stat-box"><div class="sn">0.25ms</div><div class="sl">BiLSTM inference<br>vs ~800ms Gemini</div></div>
+      <div class="stat-box"><div class="sn">$0</div><div class="sl">BiLSTM annual cost<br>vs $62+ Gemini</div></div>
+      <div class="stat-box"><div class="sn">288</div><div class="sl">GridSearch configs<br>tested</div></div>
+    </div>
+
+    <div class="img-2col">
+      <div>
+        <div class="img-block-label">BiLSTM Training History — Convergence at Epoch 8</div>
+        <img src="sentiment-analysis/lstm_training_history.png" alt="BiLSTM training history showing convergence">
+        <div class="img-cap">EarlyStopping(patience=5) + restore_best_weights. Converged di epoch 8 tanpa overfitting — efek SpatialDropout1D(0.4) + L2 regularization pada input tweet yang pendek dan noisy.</div>
+      </div>
+      <div>
+        <div class="img-block-label">Accuracy Comparison — All Models & Configurations</div>
+        <img src="sentiment-analysis/comparison_accuracy.png" alt="Accuracy comparison BiLSTM vs TF-IDF vs Gemini">
+        <div class="img-cap">BiLSTM (93%) outperforms all baselines. GenAI zero-shot (85.3%) di bawah ML classical. Few-shot examples dari domain yang salah (e-commerce) secara aktif menurunkan akurasi GenAI.</div>
+      </div>
+    </div>
+
+    <table class="csl-table">
+      <tr><th>Challenge</th><th>Solution</th><th>Key Learning</th></tr>
+      <tr>
+        <td>288 configs × 5 folds = 1,440 training runs; some configs triggered gradient explosion mid-training</td>
+        <td>Gradient clipping (max norm 1.0) on all runs; a <em>canary run</em> on 10% data exposed unstable configs cheaply before committing to full training</td>
+        <td><strong>Canary runs before GridSearch</strong> — 2 epochs on 10% data find gradient explosions at 5% of the compute cost. Don't discover them 40 hours into a full sweep.</td>
+      </tr>
+      <tr>
+        <td>Gemini API returned malformed JSON for ~3% of batch requests (rate-limit partial responses)</td>
+        <td>Retry with exponential backoff; JSON schema validation on every response; fallback to "Neutral" after 3 consecutive failures per sample</td>
+        <td>GenAI APIs are non-deterministic at the infrastructure level — <strong>robustness handling is mandatory even for benchmarking</strong>, not just production. Flaky eval = invalid conclusions.</td>
+      </tr>
+    </table>
+
+    <table class="arch-table">
+      <tr><th>Architecture Decision</th><th>Configuration</th><th>Why</th></tr>
+      <tr>
+        <td>Embedding layer</td>
+        <td>Vocab 100,000 · dim 128 · trainable</td>
+        <td>Captures Bahasa Indonesia slang: "gue", "gapapa", "tdk", "udh", "bgt" — fixed pretrained embeddings (Word2Vec) trained on English or formal Indonesian miss these completely. Domain-specific vocab required trainable embeddings.</td>
+      </tr>
+      <tr>
+        <td>Regularization</td>
+        <td>SpatialDropout1D(0.4) + L2(0.001) + recurrent_dropout=0.4</td>
+        <td>Tweets are 5–30 tokens — high overfitting risk without explicit regularization on short, noisy inputs. SpatialDropout1D drops entire embedding dimensions (vs. individual values), which is more effective for sequence data.</td>
+      </tr>
+      <tr>
+        <td>Bidirectional LSTM</td>
+        <td>BiLSTM 64 units — processes sequence forward and backward</td>
+        <td>Bidirectional context detects irony and implicit negative sentiment. "Bagus banget ya" (sarcasm) requires both directions — left-to-right misses the sarcastic modifier at the end; right-to-left alone misses the setup.</td>
+      </tr>
+      <tr>
+        <td>Neutral class handling</td>
+        <td>Oversampled before training (10% of dataset)</td>
+        <td>Without oversampling, neutral recall collapsed below 30%. Neutral class is only 10% of the dataset (positive 58%, negative 31%). The model defaulted to positive/negative predictions and ignored neutral entirely.</td>
+      </tr>
+      <tr>
+        <td>Data leakage fix</td>
+        <td>KFold strictly on training set only — test set never used in fold generation</td>
+        <td>Found a bug from 2023 submission: KFold was applied across the full dataset including the test set. Corrected — honest accuracy is 91.09%, not the inflated 92%. Reported the lower number.</td>
+      </tr>
+    </table>
+
+    <div class="takeaway">
+      <div class="takeaway-label">Key Takeaway</div>
+      <p>For well-defined classification tasks with domain-specific training data, a fine-tuned model outperforms zero-shot GenAI on <em>all three production dimensions simultaneously</em>: accuracy (+7.7pp), speed (3,200×), cost ($0 vs $62/yr). <strong>GenAI's advantage is generalization to new task types. Classical ML wins on known tasks with labeled data.</strong> This directly shaped the Banking Intent Router: use an LLM only where a classifier genuinely can't cover the query.</p>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">GenAI Insight — Zero-Shot Best</div>
+        <div class="finding-text">Zero-shot (85.3%) outperformed 3-shot, 5-shot, 10-shot, and Chain-of-Thought. Few-shot examples from e-commerce domain actively hurt accuracy — wrong-domain examples are noise, not signal. <strong>Domain adaptation matters more than example count when prompting LLMs.</strong></div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Cost Reality at Scale</div>
+        <div class="finding-text">GenAI at 10K requests/day: <strong>$62/year (zero-shot) to $304/year (CoT)</strong>. BiLSTM: $0/year after training, 0.25ms inference vs ~800ms for Gemini API. For a known, bounded domain with labeled data, the trained model wins on every production dimension simultaneously.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Thread to Banking Router</div>
+        <div class="finding-text">The empirical finding here — <em>classifiers beat GenAI on known domains</em> — directly motivated the Banking Router's 4-tier design. <strong>Use a classifier (SBERT+LinearSVC) for the 95% of queries with predictable patterns; escalate to LLM only when the classifier genuinely can't cover it.</strong></div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">BiLSTM</span><span class="tag pri">Bahasa Indonesia</span><span class="tag pri">GridSearch (288)</span>
+      <span class="tag">TF-IDF + MLP</span><span class="tag">Gemini Flash</span><span class="tag">Flask + Swagger</span><span class="tag">5-fold CV</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 6: LEVEL 5A + 5B ════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-name">Ninditya Salma Nur Aini</div>
+    <div class="header-role">Learning Journey Portfolio · 2021 → 2026</div>
+  </div>
+
+  <div class="section-label">RAG Systems — Prototype → Production</div>
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv5">Level 5A</div>
+      <div class="level-title-group">
+        <div class="level-title">HealthTruth-AI v0 — First RAG Prototype</div>
+        <div class="level-subtitle">FAISS + Gemini · chunking experiments (300/500/1,000 tokens) · Streamlit · hardcoded similarity gate</div>
+      </div>
+      <div class="level-meta"><span class="year">2024</span><br>Solo project<br>AI Engineer</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://github.com/ninditya/rag-chatbot-service" class="proj-link gh" target="_blank" rel="noopener">⌥ GitHub</a>
+      <a href="https://ninditya.github.io/rag-chatbot-service/" class="proj-link case" target="_blank" rel="noopener">↗ Case Study</a>
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Goal</span>
+      <span class="ctx-val">Health misinformation debunker: user submits a health claim → system retrieves evidence → Gemini generates a grounded response. First end-to-end RAG implementation.</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">Python · FAISS · Gemini API · LangChain (simple chain) · Streamlit · text-embedding (768-dim)</span>
+      <span class="ctx-key">Experiments</span>
+      <span class="ctx-val">Chunking: 300 tokens · 500 tokens · 1,000 tokens — evaluated by retrieval precision@k=3 on held-out queries. 500 tokens balanced retrieval precision vs. answer completeness.</span>
+    </div>
+
+    <div class="img-inline">
+      <div class="img-block-label">HealthTruth-AI v0 — Hackathon Submission</div>
+      <img src="rag-chatbot-service/HealthTruth-AI_pages-to-jpg-0001.jpg" alt="HealthTruth-AI v0 RAG chatbot interface">
+      <div class="img-cap">Tampilan awal v0: linear RAG chain dengan FAISS in-memory. Hardcoded cosine threshold gate — jika top-1 cosine similarity &lt;0.6, mengembalikan fallback message. Gate binary (block/pass) tanpa kemampuan routing berdasarkan confidence level.</div>
+    </div>
+
+    <p class="level-desc">
+      Linear chain: <code>query → embed → FAISS kNN → top-k docs → Gemini prompt → response</code>. Added a similarity threshold gate: if top-1 cosine similarity &lt;0.6, return a fallback message instead of generating — preventing the worst hallucinations. But the gate was binary (block/pass) with no ability to route differently based on confidence level.
+    </p>
+
+    <table class="csl-table">
+      <tr><th>Challenge</th><th>Solution</th><th>Key Learning</th></tr>
+      <tr>
+        <td>Linear chain generated confidently even when FAISS returned low-relevance documents — cited real documents for wrong answers</td>
+        <td>Hardcoded cosine similarity threshold (&lt;0.6 → return fallback instead of generating)</td>
+        <td>A RAG pipeline without a retrieval quality gate is a <strong>hallucination machine with citations.</strong> But a hardcoded threshold can't distinguish "zero docs" from "tangential docs" — it just blocks both equally.</td>
+      </tr>
+    </table>
+
+    <div class="takeaway">
+      <div class="takeaway-label">What This Unlocked → Level 5B</div>
+      <p>The binary gate didn't allow graded responses: both "no docs found" and "low-confidence docs found" returned the same unhelpful fallback. The fix required conditional flow — a graph, not a chain. <strong>This gap motivated the full v1 rewrite with LangGraph.</strong></p>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">RAG Without Routing = Risk</div>
+        <div class="finding-text">A linear chain generates confidently even when retrieval returns low-relevance documents — <strong>cited real documents for wrong answers.</strong> A similarity gate is necessary but a binary block/pass has no ability to route differently based on confidence level. Conditional flow was the missing piece.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Chunking Trade-off Measured</div>
+        <div class="finding-text">300 tokens: better retrieval precision@3 but truncated answers. 1,000 tokens: complete answers but noisy retrieval (too much irrelevant context in the chunk). <strong>500 tokens empirically balanced precision and completeness</strong> — measured, not assumed.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Thread Forward to v1</div>
+        <div class="finding-text">The binary gate's inability to distinguish "no docs" from "tangential docs" precisely defined the v1 requirements: conditional routing per confidence regime, not binary block/pass. <strong>The limitation of v0 was the specification for v1.</strong></div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">RAG</span><span class="tag pri">FAISS</span><span class="tag">Gemini</span><span class="tag">Streamlit</span><span class="tag">Chunking Experiments</span>
+    </div>
+  </div>
+
+  <hr class="proj-divider">
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv5">Level 5B</div>
+      <div class="level-title-group">
+        <div class="level-title">HealthTruth-AI v1 — Production RAG + LangGraph</div>
+        <div class="level-subtitle">FAISS→Qdrant · LangGraph 3-node graph · 3 production challenges solved · Docker + Railway · live</div>
+      </div>
+      <div class="level-meta"><span class="year">2025</span><br>Solo project<br>AI Engineer</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://github.com/ninditya/rag-chatbot-service" class="proj-link gh" target="_blank" rel="noopener">⌥ GitHub</a>
+      <a href="https://health-truth-chatbot.up.railway.app" class="proj-link live" target="_blank" rel="noopener">▶ Live Demo</a>
+      <a href="https://ninditya.github.io/rag-chatbot-service/" class="proj-link case" target="_blank" rel="noopener">↗ Case Study</a>
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Architecture</span>
+      <span class="ctx-val">5 classes: EmbeddingService · DocumentStore · RagWorkflow · HealthRouter (Routes.py) · chatbot.py (Streamlit) · LangGraph 3-node: retrieve → route → answer · score_threshold=0.4 · top_k=3</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">FastAPI · Qdrant · LangGraph · Gemini 2.5 Flash · Streamlit · Docker (2 containers) · Railway</span>
+      <span class="ctx-key">Live</span>
+      <span class="ctx-val">health-truth-chatbot.up.railway.app &nbsp;·&nbsp; 35+ health topics covered</span>
+    </div>
+
+    <div class="img-inline">
+      <div class="img-block-label">System Architecture — LangGraph + Qdrant + Personalization Layer</div>
+      <img src="rag-chatbot-service/architecture-overview.png" alt="HealthTruth-AI v1 LangGraph RAG architecture">
+      <div class="img-cap">v0 → v1 refactor: FAISS in-memory → Qdrant persistent; monolith → 5 single-responsibility classes; flat prompt → profile context injection; crash on quota → layered graceful degradation. Zero hard crashes in production.</div>
+    </div>
+
+    <p class="level-desc">Three production engineering challenges solved:</p>
+    <p class="level-desc">
+      <strong>① Layered fallback chain</strong> — <code>RagWorkflow._answer()</code> catches Gemini 429/503 errors and falls back to returning the raw retrieved context instead of an LLM response. System degrades gracefully; users still get the source documents even when Gemini is down.<br>
+      <strong>② Quota isolation</strong> — retrieval (embedding-001) and generation (Gemini 2.5 Flash) hit different models with separate quota budgets. Separate API keys wired at <code>main.py</code> startup; one key exhausting doesn't kill both services.<br>
+      <strong>③ Prompt injection defense</strong> — <code>prompts.py</code> uses XML delimiters to make the boundary between trusted knowledge and user-supplied content structurally explicit. <code>RagWorkflow._sanitize()</code> strips control characters from user input before it reaches the prompt template.
+    </p>
+
+    <table class="csl-table">
+      <tr><th>Challenge</th><th>Solution</th><th>Key Learning</th></tr>
+      <tr>
+        <td>FAISS re-embeds the entire corpus on every restart — cold start takes minutes in production</td>
+        <td>Migrated to Qdrant: persistent named collection; startup health check detects existing collection and skips re-indexing. Cold start now takes seconds.</td>
+        <td>Vector DB choice = operational properties, not accuracy. FAISS/Qdrant/Pinecone perform similarly at &lt;100K vectors. <strong>Choose on: persistence, filter support, and deployment model.</strong></td>
+      </tr>
+    </table>
+
+    <div class="takeaway">
+      <div class="takeaway-label">Key Takeaway</div>
+      <p>LangGraph's conditional routing separates a RAG demo from a production system — the pipeline knows when it doesn't know and behaves differently in each confidence regime. OOP class separation made FAISS→Qdrant a one-file swap. <strong>Architecture decisions in v0 determined how easy v1 was.</strong></p>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">Conditional Routing via Graph</div>
+        <div class="finding-text"><code>_route()</code> after retrieval: context found → answer node (LLM generates). No context → no_context node (raw context shown, no LLM call). <strong>Zero wasted LLM calls</strong> — the expensive generation path is only taken when retrieval genuinely succeeded. A chain can't express this logic; a graph can.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Defense in Depth</div>
+        <div class="finding-text">Three independent injection defenses: XML delimiters (structural boundary between trusted context and user input) + <code>_sanitize()</code> (strips control characters) + <code>response_mime_type="application/json"</code> (schema-constrained output). <strong>Security is layered, not single-point.</strong></div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Vector DB = Operational Choice</div>
+        <div class="finding-text">FAISS → Qdrant was a one-file swap because of OOP class separation (EmbeddingService, DocumentStore, RagWorkflow). At &lt;100K vectors, FAISS/Qdrant/Pinecone perform similarly. <strong>Choose on: persistence, filter support, deployment model — not accuracy benchmarks.</strong></div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">LangGraph</span><span class="tag pri">Qdrant</span><span class="tag pri">FastAPI</span>
+      <span class="tag">Gemini 2.5 Flash</span><span class="tag">Docker</span><span class="tag">Railway</span><span class="tag">Prompt Injection Defense</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 7: LEVEL 6 ════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-name">Ninditya Salma Nur Aini</div>
+    <div class="header-role">Learning Journey Portfolio · 2021 → 2026</div>
+  </div>
+
+  <div class="section-label">Production AI System — LLM Cost Optimization</div>
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv6">Level 6</div>
+      <div class="level-title-group">
+        <div class="level-title">Banking Intent Router — 4-Tier LLM Cost Optimization</div>
+        <div class="level-subtitle">$0.050 → $0.0056 per query · 88% cost cut · F1 0.9305 · Prometheus + Grafana · HuggingFace Spaces</div>
+      </div>
+      <div class="level-meta"><span class="year">2025</span><br>Solo project<br>NLP / AI Engineer</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://github.com/ninditya/mlops-banking-rag-query-router-intent-classifier" class="proj-link gh" target="_blank" rel="noopener">⌥ GitHub</a>
+      <a href="https://huggingface.co/spaces/ninditya/banking-intent-router" class="proj-link live" target="_blank" rel="noopener">▶ Live Demo</a>
+      <a href="https://ninditya.github.io/banking-intent-router/" class="proj-link case" target="_blank" rel="noopener">↗ Case Study</a>
+    </div>
+
+    <div class="narrative">
+      <strong>The insight that made this project:</strong> From the BiLSTM benchmark (Level 4) — GenAI is not universally better than ML; domain fit and cost determine the right tool. From the LSA thesis (Level 3) — dense semantic representation changes outcomes more than model choice. Banking Intent Router applies both: route 80% of queries through cheap classifiers (SBERT+LinearSVC), reserve the expensive LLM for the ~5% the classifier genuinely can't handle. <strong>Cost engineering is not a compromise — it's an architecture decision.</strong>
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Goal</span>
+      <span class="ctx-val">Route banking chatbot queries to the cheapest tier that can handle them correctly — reducing LLM cost from $0.050 to $0.0056 per query without sacrificing answer quality on complex queries.</span>
+      <span class="ctx-key">Dataset</span>
+      <span class="ctx-val">Banking77 · 13,083 samples · 77 intents · SBERT model: all-MiniLM-L6-v2 · FAISS-indexed 59-entry knowledge base for RAG tier</span>
+      <span class="ctx-key">Traffic</span>
+      <span class="ctx-val">70–80% routine FAQs ("lost card", "check balance") · 15–25% knowledge queries ("international wire limit?") · ~5% complex edge cases needing LLM</span>
+      <span class="ctx-key">MLOps</span>
+      <span class="ctx-val">FastAPI backend · MLflow experiment tracking · Docker · HuggingFace Spaces · 12 Prometheus metrics via Grafana Cloud (protobuf + snappy compression)</span>
+    </div>
+
+    <table class="tier-table">
+      <tr><th>Tier</th><th>Trigger</th><th>Mechanism</th><th>Cost</th><th>Latency</th></tr>
+      <tr>
+        <td>0 · Conversational</td>
+        <td>Bilingual regex (EN + ID)</td>
+        <td>Greetings/farewells matched before model runs</td>
+        <td>$0.000</td>
+        <td>&lt;1ms</td>
+      </tr>
+      <tr>
+        <td>1 · Template</td>
+        <td>confidence ≥ 0.55</td>
+        <td>High-confidence intent → pre-written FAQ answer</td>
+        <td>$0.001</td>
+        <td>~8ms</td>
+      </tr>
+      <tr>
+        <td>2 · RAG</td>
+        <td>0.30 ≤ conf &lt; 0.55</td>
+        <td>Top-3 from FAISS 59-entry KB → Gemini prompt</td>
+        <td>$0.010</td>
+        <td>~300ms</td>
+      </tr>
+      <tr>
+        <td>3 · LLM Escalation</td>
+        <td>conf &lt; 0.30</td>
+        <td>Full LLM call — only ~5% of traffic reaches here</td>
+        <td>$0.050</td>
+        <td>~800ms</td>
+      </tr>
+    </table>
+
+    <div class="img-2col">
+      <div>
+        <div class="img-block-label">System Architecture — 4-Tier Routing Pipeline</div>
+        <img src="banking-intent-router/architecture-overview.png" alt="Banking Intent Router 4-tier architecture overview">
+        <div class="img-cap">Query → SBERT embedding (384-dim) → LinearSVC confidence scoring → routing decision → tier handler. 12 Prometheus metrics dimonitor via Grafana Cloud. Tier 0+1 handles ~80% queries at $0.</div>
+      </div>
+      <div>
+        <div class="img-block-label">Grafana Monitoring Dashboard — Live Production Metrics</div>
+        <img src="banking-intent-router/dashboard-grafana.png" alt="Grafana monitoring dashboard with Prometheus metrics">
+        <div class="img-cap">12 custom Prometheus metrics via remote_write (protobuf + snappy compression): request volume per tier, latency distribution, cost tracker, routing ratio. Every request logged, no aggregation loss.</div>
+      </div>
+    </div>
+
+    <table class="csl-table">
+      <tr><th>Challenge</th><th>Solution</th><th>Key Learning</th></tr>
+      <tr>
+        <td>SBERT inference at ~45ms per query (encoding against full embedding space) was too slow for production</td>
+        <td>Precomputed per-class SBERT centroids at training time; inference encodes only the query, then cosine-distances against precomputed centroids — O(1) per class</td>
+        <td>Embedding precomputation turns O(N×D) online cost into O(1×D). <strong>Pattern generalizes to any dense-retrieval system where the candidate corpus is static.</strong></td>
+      </tr>
+      <tr>
+        <td>Confidence threshold calibration: too tight → over-escalates to LLM; too loose → wrong answers returned as "confident"</td>
+        <td>Plotted confidence score distributions per tier; calibrated boundaries using precision-recall curves; validated on held-out test mix of known traffic proportions</td>
+        <td>Threshold calibration is a business decision. The right boundary depends on the relative cost of a wrong answer vs. the cost of one LLM call — not on a default like 0.5.</td>
+      </tr>
+    </table>
+
+    <div class="results">
+      <span class="result-pill"><strong>F1 Macro</strong> 0.9305</span>
+      <span class="result-pill"><strong>Cost per query</strong> $0.050 → $0.0056 (88% reduction)</span>
+      <span class="result-pill"><strong>Monitoring</strong> Prometheus + Grafana (per-tier hit rate)</span>
+      <span class="result-pill"><strong>Deployed</strong> HuggingFace Spaces</span>
+    </div>
+
+    <div class="takeaway">
+      <div class="takeaway-label">Key Takeaway</div>
+      <p>80% of banking queries are repetitive FAQs that don't need an LLM. <strong>The best AI architecture uses AI exactly where it's needed — not everywhere by default.</strong> Prometheus monitoring made tier hit-rates visible in real time; without observability, you can't know which tier is doing the work or when a threshold needs recalibration.</p>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">NLP Model: Calibrated Confidence</div>
+        <div class="finding-text">SBERT (all-MiniLM-L6-v2) → LinearSVC with calibrated probabilities. Not a raw transformer classifier — LinearSVC on SBERT embeddings gives <strong>calibrated confidence scores</strong>, which is what the routing tier decision actually needs. Raw transformer logits are not probability-calibrated.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Threshold = Business Decision</div>
+        <div class="finding-text">The confidence boundaries (≥0.55 / 0.30–0.55 / &lt;0.30) aren't ML defaults — they're <strong>cost trade-off decisions</strong>. Plotted confidence distributions per intent cluster; set thresholds empirically based on the relative cost of a wrong answer vs. one LLM call. There is no universally correct threshold.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Thread from Thesis (2021)</div>
+        <div class="finding-text">LSA (2021): TF-IDF → SVD → cosine similarity → KNN. Banking Router (2025): SBERT → LinearSVC → calibrated confidence → tier routing. <strong>Same insight at a different scale.</strong> Dense semantic representation for routing was intuitive because I built the underlying SVD operation from scratch in PHP four years earlier.</div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">SBERT</span><span class="tag pri">LinearSVC</span><span class="tag pri">4-Tier Routing</span>
+      <span class="tag">Banking77</span><span class="tag">FAISS RAG</span><span class="tag">FastAPI</span><span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">MLflow</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 8: LEVEL 7A + 7B ════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-name">Ninditya Salma Nur Aini</div>
+    <div class="header-role">Learning Journey Portfolio · 2021 → 2026</div>
+  </div>
+
+  <div class="section-label">Applied Data Science — IDCamp Expert 2025</div>
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv7">Level 7A</div>
+      <div class="level-title-group">
+        <div class="level-title">Student Dropout Early Warning System</div>
+        <div class="level-subtitle">XGBoost · SMOTE · SHAP · 92.42% acc · AUC 97.27% · 20-field Streamlit form · Looker Studio</div>
+      </div>
+      <div class="level-meta"><span class="year">2025</span><br>Solo · IDCamp Expert<br>Data Scientist</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-perusahaan-edutech" class="proj-link gh" target="_blank" rel="noopener">⌥ GitHub</a>
+      <a href="https://idcamp2025-menyelesaikan-permasalahan-perusahaan-edutech-lh9vp.streamlit.app/" class="proj-link live" target="_blank" rel="noopener">▶ Live Demo</a>
+      <a href="https://ninditya.github.io/student-dropout/" class="proj-link case" target="_blank" rel="noopener">↗ Case Study</a>
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Dataset</span>
+      <span class="ctx-val">4,424 student records · Portuguese university · 3 classes: Dropout / Enrolled / Graduate · 32.12% dropout rate · SMOTE applied to training split only</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">Python · XGBoost (selected over RF via GridSearchCV) · SMOTE · SHAP · Streamlit (20-field form + intervention page) · Looker Studio dashboard</span>
+      <span class="ctx-key">Key metric</span>
+      <span class="ctx-val">Primary: F1 + Recall on dropout class — accuracy is misleading (predicting "Graduate" for all = 68% accuracy but 0% recall)</span>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box"><div class="sn">92.42<small style="font-size:9px">%</small></div><div class="sl">Accuracy</div></div>
+      <div class="stat-box"><div class="sn">90.37<small style="font-size:9px">%</small></div><div class="sl">Recall<br>(dropout class)</div></div>
+      <div class="stat-box"><div class="sn">97.27<small style="font-size:9px">%</small></div><div class="sl">ROC-AUC</div></div>
+      <div class="stat-box"><div class="sn">13.8<small style="font-size:9px">%</small></div><div class="sl">Dropout rate<br>scholarship holders</div></div>
+      <div class="stat-box"><div class="sn">48.4<small style="font-size:9px">%</small></div><div class="sl">Dropout rate<br>non-scholarship</div></div>
+    </div>
+
+    <div class="img-2col">
+      <div>
+        <div class="img-block-label">SHAP Feature Importance — Top Risk Drivers</div>
+        <img src="student-dropout/shap_feature_importance.png" alt="SHAP feature importance for student dropout prediction">
+        <div class="img-cap">SHAP values menunjukkan top features: Curricular Units 2nd Sem Approved (2.14) sebagai predictor terkuat. Tuition Fees Up-To-Date (0.46) — mahasiswa yang menunggak pembayaran memiliki probabilitas dropout >90%.</div>
+      </div>
+      <div>
+        <div class="img-block-label">Streamlit Prediction App — Counsellor Interface</div>
+        <img src="student-dropout/streamlit_form_input.png" alt="Streamlit 20-field prediction form for student counsellors">
+        <div class="img-cap">Form 20-field untuk konselor mahasiswa: input data semester 1-2 → prediksi risiko dropout → halaman intervensi dengan simulasi dampak sebelum/sesudah. Designed untuk audiens non-data-scientist.</div>
+      </div>
+    </div>
+
+    <p class="level-desc">
+      <strong>Top SHAP features:</strong> Curricular Units 2nd Sem Approved (SHAP 2.14) · 1st Sem Approved (0.74) · Tuition Fees Up To Date (0.46). Students behind on tuition <em>and</em> passing fewer than 4 courses in semester 1 have a &gt;90% dropout probability. Scholarship holders show 13.8% vs 48.4% dropout — financial support dramatically changes outcomes. Streamlit app: 20-field form + intervention page with before/after impact simulation. Looker Studio covers institutional trends, academic/financial risk factors, and prioritized intervention targets (estimated ~1,325 students reachable with 4 targeted interventions).
+    </p>
+
+    <table class="arch-table">
+      <tr><th>Decision</th><th>Approach</th><th>Why</th></tr>
+      <tr>
+        <td>Primary metric: F1 + Recall on dropout class</td>
+        <td>Not overall accuracy — specifically the dropout class recall</td>
+        <td>A model predicting "Graduate" for everyone scores 67.9% accuracy but catches zero at-risk students. The business need is to catch dropouts early — false negatives (missed students) are costlier than false alarms. Accuracy is the wrong optimization target.</td>
+      </tr>
+      <tr>
+        <td>SMOTE: training split only</td>
+        <td>SMOTE applied after train/test split — test set never oversampled</td>
+        <td>Oversampling the test set inflates recall artificially. SMOTE on training only gives honest generalization metrics. This is a common error — test set must reflect real-world class distribution.</td>
+      </tr>
+      <tr>
+        <td>Model choice: XGBoost over RF</td>
+        <td>GridSearchCV on both; XGBoost selected on higher dropout recall at comparable AUC</td>
+        <td>RF had slightly higher overall accuracy; XGBoost had higher recall on the minority dropout class. The asymmetric cost matrix made recall the deciding criterion. Accuracy was the wrong metric for the model selection decision.</td>
+      </tr>
+      <tr>
+        <td>Threshold: 0.38 (not default 0.5)</td>
+        <td>Lowered classification threshold from 0.5 to 0.38</td>
+        <td>At 0.5, the model was too conservative about flagging dropouts (high precision, low recall). Lowering the threshold accepts more false alarms in exchange for catching more true at-risk students — the right trade-off given the cost matrix.</td>
+      </tr>
+    </table>
+
+    <table class="csl-table">
+      <tr><th>Challenge</th><th>Solution</th><th>Key Learning</th></tr>
+      <tr>
+        <td>Class imbalance caused base model to predict "Graduate" for nearly all records — 68% accuracy, ~0% dropout recall</td>
+        <td>SMOTE on training set only (never test); threshold lowered from 0.5 to 0.38 to prioritize recall; XGBoost chosen over RF via GridSearchCV (higher recall at same AUC)</td>
+        <td><strong>In intervention systems, the cost matrix is asymmetric.</strong> Optimizing accuracy is wrong — a false negative (missed at-risk student) costs far more than a false alarm. Define costs first, then set the threshold.</td>
+      </tr>
+    </table>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">Metric Defines the Goal</div>
+        <div class="finding-text">F1 + Recall on the dropout class — not overall accuracy — is the only metric that measures whether the system can do its job. <strong>The business question "will this student drop out?" requires a metric that penalizes missing at-risk students.</strong> Choosing the metric IS defining the problem.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">SHAP as Action Layer</div>
+        <div class="finding-text">SHAP feature importance connects model to intervention. Scholarship holders drop out at 13.8% vs 48.4% — SHAP confirms the causal channel: financial stability changes academic behavior. <strong>Feature importance is the bridge from model output to stakeholder action.</strong></div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Dashboard Design</div>
+        <div class="finding-text">Looker Studio 4-page dashboard + 20-field Streamlit prediction form. Looker: institutional view for administrators. Streamlit: student counsellor tool with intervention simulation. <strong>One model, two audiences, two interfaces — designed for the actual user, not the data.</strong></div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">XGBoost</span><span class="tag pri">SHAP</span><span class="tag pri">SMOTE</span>
+      <span class="tag">Streamlit</span><span class="tag">Looker Studio</span><span class="tag">Threshold Tuning</span><span class="tag">GridSearchCV</span>
+    </div>
+  </div>
+
+  <hr class="proj-divider">
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv7">Level 7B</div>
+      <div class="level-title-group">
+        <div class="level-title">Employee Attrition Prediction — HR Early Warning</div>
+        <div class="level-subtitle">XGBoost 86% recall vs RF 72% recall · overtime 3× multiplier · Metabase on Docker+PostgreSQL</div>
+      </div>
+      <div class="level-meta"><span class="year">2025</span><br>Solo · IDCamp Expert<br>Data Scientist</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-human-resources" class="proj-link gh" target="_blank" rel="noopener">⌥ GitHub</a>
+      <a href="https://ninditya.github.io/employee-attrition/" class="proj-link case" target="_blank" rel="noopener">↗ Case Study</a>
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Dataset</span>
+      <span class="ctx-val">1,058 employees · ~179 attritors (~16.9% rate) · SMOTE on train split only · batch prediction → PostgreSQL → Metabase dashboard</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">Python · XGBoost · SQLAlchemy batch write → PostgreSQL · Docker · Metabase (4 tabs: Executive Summary · Compensation &amp; Workload · Satisfaction &amp; Engagement · Demographics &amp; Career)</span>
+    </div>
+
+    <p class="level-desc">
+      Model comparison: <strong>Random Forest</strong> — 74% accuracy, 72% recall, 80% AUC. <strong>XGBoost (threshold tuned)</strong> — 60% accuracy, <em>86% recall</em>, 82% AUC. XGBoost was chosen despite lower accuracy because the intervention goal prioritizes recall — false negatives (missed attritors) cost 50–200% of annual salary to replace. Feature importance: <strong>overtime is the single strongest attrition predictor</strong> — a 3× risk multiplier at 31.9% attrition rate vs 16.9% average. SQLAlchemy batch-writes prediction results directly to PostgreSQL, auto-populating the Metabase Early Warning tab. HR teams access everything through a browser — no notebooks, no Python.
+    </p>
+
+    <table class="arch-table">
+      <tr><th>Risk Factor</th><th>Attrition Rate</th><th>vs Average (16.9%)</th><th>Recommended Action</th></tr>
+      <tr><td>Overtime: Yes</td><td>31.9%</td><td>~2× multiplier</td><td>Monitor overtime hours per department; trigger HR check-in after 3+ consecutive months</td></tr>
+      <tr><td>Bottom salary quartile</td><td>29.1%</td><td>~2×</td><td>Benchmark compensation vs market; flag below-market roles quarterly</td></tr>
+      <tr><td>Tenure ≤ 1 year</td><td>34.6%</td><td>~3×</td><td>Structured 90-day onboarding programme with milestone check-ins</td></tr>
+      <tr><td>Age 18–25</td><td>38.0%</td><td>~3×</td><td>Career pathing + mentorship for early-career employees</td></tr>
+      <tr><td>Sales Representative role</td><td>43.1%</td><td>Highest role</td><td>Role-specific retention programme; pipeline review quarterly</td></tr>
+    </table>
+
+    <div class="img-2col">
+      <div>
+        <div class="img-block-label">Metabase Dashboard — Executive Summary Tab</div>
+        <img src="employee-attrition/ninditya_sna_dicoding-dashboard.png" alt="Metabase HR dashboard executive summary">
+        <div class="img-cap">5-tab Metabase dashboard (Docker Compose + PostgreSQL): Executive Summary menampilkan overall attrition rate, high-risk segments, dan tren per department. Designed untuk HR manager tanpa SQL atau Python knowledge.</div>
+      </div>
+      <div>
+        <div class="img-block-label">Compensation & Workload Analysis Tab</div>
+        <img src="employee-attrition/ninditya_sna_dicoding-dashboard_2.png" alt="Metabase HR dashboard compensation analysis">
+        <div class="img-cap">Tab analisis kompensasi: breakdown attrition rate per salary quartile dan overtime status. Karyawan di bottom salary quartile dengan overtime memiliki attrition 3-4× rata-rata perusahaan.</div>
+      </div>
+    </div>
+
+    <div class="results">
+      <span class="result-pill"><strong>XGBoost recall</strong> 86.11%</span>
+      <span class="result-pill"><strong>RF recall (baseline)</strong> 72%</span>
+      <span class="result-pill"><strong>Top driver</strong> Overtime (3× attrition multiplier)</span>
+      <span class="result-pill"><strong>Dashboard</strong> Metabase · 4 tabs · Docker + PostgreSQL</span>
+    </div>
+
+    <div class="takeaway">
+      <div class="takeaway-label">Business Recommendation</div>
+      <p>Employees working overtime consecutively for &gt;3 months should trigger an automatic HR check-in. The model surfaces the risk; the workflow turns signal into action. <strong>Predictive analytics without defined action pathways is just expensive reporting.</strong></p>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">Custom Transformer Pipeline</div>
+        <div class="finding-text"><strong>HRFeatureEngineer</strong> — custom scikit-learn transformer encoding domain-specific features: overtime×salary interaction, tenure brackets, role-level risk flags. Pipelines the full feature engineering step so the same transforms apply at training and inference with no divergence.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Model Selection Logic</div>
+        <div class="finding-text">XGBoost had <em>lower accuracy</em> than RF (60% vs 74%) but was selected because it had <strong>higher recall on the minority attrition class</strong> (86% vs 72%). The cost matrix — missing an attritor costs 50–200% of salary — made recall the only metric that mattered for the decision.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">End-to-End Delivery</div>
+        <div class="finding-text">SQLAlchemy batch writes to PostgreSQL → Metabase reads automatically → Early Warning tab populated. <strong>4-tab dashboard for HR without any SQL or Python knowledge required.</strong> The final mile (turning signal into visible action) is as important as the model.</div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">XGBoost</span><span class="tag pri">Custom sklearn Transformer</span>
+      <span class="tag">HR Analytics</span><span class="tag">Metabase</span><span class="tag">Docker</span><span class="tag">PostgreSQL</span><span class="tag">SQLAlchemy</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 9: LEVEL 8A + 8B ════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-name">Ninditya Salma Nur Aini</div>
+    <div class="header-role">Learning Journey Portfolio · 2021 → 2026</div>
+  </div>
+
+  <div class="section-label">Full-Stack AI Products &amp; Generative AI Research</div>
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv8a">Level 8A</div>
+      <div class="level-title-group">
+        <div class="level-title">NutriPal AI — Full-Stack Nutrition Application</div>
+        <div class="level-subtitle">Next.js 15 · Genkit · Gemini 2.5 Flash Vision · Supabase Realtime hooks · 4-key rotation · live</div>
+      </div>
+      <div class="level-meta"><span class="year">2025</span><br>Solo project<br>Full-Stack AI Dev</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://github.com/ninditya/nutripal-ai" class="proj-link gh" target="_blank" rel="noopener">⌥ GitHub</a>
+      <a href="https://nutripal-rho.vercel.app/" class="proj-link live" target="_blank" rel="noopener">▶ Live Demo</a>
+      <a href="https://ninditya.github.io/nutripal-ai/" class="proj-link case" target="_blank" rel="noopener">↗ Case Study</a>
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Goal</span>
+      <span class="ctx-val">Snap a food photo → AI identifies dish, estimates portions, calculates macros, flags allergens against user biometric + dietary profile. 5 distinct Genkit AI flows.</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">Next.js 15 · React 19 · TypeScript · Genkit framework · Gemini 2.5 Flash Vision · Supabase Realtime · Vercel</span>
+      <span class="ctx-key">AI Flows</span>
+      <span class="ctx-val">① Photo meal analysis · ② Text meal analysis · ③ Full-day meal plan generation · ④ Food delivery curation · ⑤ Personalized diet recommendations</span>
+      <span class="ctx-key">Realtime</span>
+      <span class="ctx-val">No Redux/Zustand. Custom hooks (<code>useDailyLog</code> · <code>useMeals</code> · <code>useProfile</code>) each subscribe directly to Supabase Realtime channels scoped to the current user.</span>
+    </div>
+
+    <div class="img-3col">
+      <div>
+        <div class="img-block-label">Snap Meal — Food Photo Analysis</div>
+        <img src="nutripal-ai/Snap-Meal.png" alt="NutriPal AI snap meal feature with Gemini Vision">
+        <div class="img-cap">Foto makanan → Gemini 2.5 Flash Vision mengidentifikasi hidangan, estimasi porsi, kalkulasi makro, flag alergen. Satu API call untuk full analysis dengan profil user.</div>
+      </div>
+      <div>
+        <div class="img-block-label">Today's Dashboard — Realtime Tracking</div>
+        <img src="nutripal-ai/NutriPal-Today.png" alt="NutriPal AI daily nutrition dashboard with Supabase Realtime">
+        <div class="img-cap">Dashboard harian dengan Supabase Realtime hooks — meal baru langsung muncul tanpa polling. Custom hooks (useDailyLog, useMeals, useProfile) subscribe langsung ke per-user Realtime channels.</div>
+      </div>
+      <div>
+        <div class="img-block-label">Meal Plan Generation — AI Flows</div>
+        <img src="nutripal-ai/Plan-Meal.png" alt="NutriPal AI personalized meal plan generation with Genkit">
+        <div class="img-cap">5 Genkit AI flows: photo analysis, text analysis, full-day meal plan, delivery curation, personalized diet plans. 4-key rotation via executeWithRotation() — zero quota downtime untuk end users.</div>
+      </div>
+    </div>
+
+    <table class="csl-table">
+      <tr><th>Challenge</th><th>Solution</th><th>Key Learning</th></tr>
+      <tr>
+        <td>Free-tier Gemini keys hit ~15 RPM rate limits under concurrent users — 429 quota errors visible to users as hard failures</td>
+        <td>Built <code>executeWithRotation</code>: 4-key pool that catches 429/quota errors and retries transparently with the next key. Users never see a failure.</td>
+        <td><strong>Rate limits must be invisible to users.</strong> Key rotation at the infrastructure layer keeps UX seamless even when individual keys are exhausted. The AI model was the easiest part; infrastructure reliability was the hardest.</td>
+      </tr>
+      <tr>
+        <td>Global state (Redux/Zustand) introduced cross-component coupling — any profile change required manual re-sync across AI flow contexts</td>
+        <td>Custom Supabase Realtime hooks: each subscribes directly to its channel and pushes updates automatically. Profile changes propagate to all AI calls without manual synchronization.</td>
+        <td><strong>Event-driven state from the DB is simpler than synchronizing client state.</strong> When the database is the source of truth, hooks can subscribe to changes rather than managing local copies.</td>
+      </tr>
+    </table>
+
+    <div class="results">
+      <span class="result-pill"><strong>Live</strong> nutripal-rho.vercel.app</span>
+      <span class="result-pill"><strong>AI flows</strong> 5 Genkit flows</span>
+      <span class="result-pill"><strong>Key rotation</strong> 4 keys · transparent 429 failover</span>
+      <span class="result-pill"><strong>Realtime hooks</strong> 3 custom hooks per user channel</span>
+      <span class="result-pill"><strong>Ship time</strong> 3 weeks concept to live</span>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">Allergen Prompt Engineering</div>
+        <div class="finding-text">Reliable allergen detection required a two-step prompt: <em>identify actual ingredients first, then check against user's allergen list</em>. Single-step "flag allergens" produced unreliable results. <strong>Framing the reasoning order in the prompt mattered more than the prompt phrasing itself.</strong></div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Rate Limits as Architecture</div>
+        <div class="finding-text">4 API keys in rotation via <code>executeWithRotation()</code> = production-grade pool at $0. Same insight as Banking Router tier design: <strong>intelligent routing at the infrastructure layer prevents the user from ever seeing a quota error.</strong> Rate limits are invisible when the architecture handles them.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Full-Stack AI Solo</div>
+        <div class="finding-text">First time building a complete AI product alone end-to-end: Next.js frontend + Genkit AI layer + Supabase auth + Realtime DB + Vercel deploy. Three weeks concept to live. <strong>Proved I can ship production-quality AI across the full stack independently, under time pressure.</strong></div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">Next.js 15</span><span class="tag pri">Gemini 2.5 Flash Vision</span><span class="tag pri">Genkit</span>
+      <span class="tag">Supabase Realtime</span><span class="tag">TypeScript</span><span class="tag">API Key Rotation</span><span class="tag">Vercel</span>
+    </div>
+  </div>
+
+  <hr class="proj-divider">
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv8b">Level 8B</div>
+      <div class="level-title-group">
+        <div class="level-title">StudioAI — Stable Diffusion Research Pipeline</div>
+        <div class="level-subtitle">CFG scale · scheduler · steps grid · CLIPSeg text-conditioned masking · outpainting · Bangkit BFGAI 2024</div>
+      </div>
+      <div class="level-meta"><span class="year">2024</span><br>Bangkit BFGAI<br>AI / ML Engineer</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://ninditya.github.io/generative-ai-pipeline/" class="proj-link case" target="_blank" rel="noopener">↗ Case Study</a>
+    </div>
+
+    <div class="narrative">
+      <strong>Goal — not just to generate images:</strong> To understand what each hyperparameter actually does by measuring it. Built from scratch using HuggingFace Diffusers (PyTorch), not a high-level wrapper — so every decision is observable. Same epistemological question from the LSA thesis: <em>what is the right representation?</em> For images: pixels → latent space → guided denoising trajectory.
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">Architecture</span>
+      <span class="ctx-val">Two Streamlit tabs: Generate (base + refiner pipeline) · Edit (inpainting/outpainting). Base model: runwayml/stable-diffusion-v1-5 (3.44 GB). Two-stage: base denoising_end=0.8 → refiner img2img strength=0.2, output_type="latent" (latent-space passthrough avoids encode/decode artifacts).</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">Python · PyTorch · HuggingFace Diffusers · CLIPSeg (CIDAS/clipseg-rd64-refined) · Streamlit · @st.cache_resource (model cached by scheduler name)</span>
+      <span class="ctx-key">Experiments</span>
+      <span class="ctx-val">CFG scale 2.0→15.0 · inference steps 5→50 · schedulers: Euler A · DPM++ 2M · DDIM · PNDM — controlled: same prompt, same seed, different parameter</span>
+    </div>
+
+    <div class="img-3col">
+      <div>
+        <div class="img-block-label">CFG Scale Comparison — 2.0 vs 7.5 vs 15.0</div>
+        <img src="generative-ai-pipeline/guidance_scale.png" alt="Guidance scale CFG comparison 2.0 vs 7.5 vs 15.0">
+        <div class="img-cap"><strong>CFG Scale:</strong> 2.0 (too loose) · 7.5 (optimal) · 15.0 (over-constrained, saturated). High CFG doesn't make the model "understand better" — it just weights text conditioning more heavily until visual coherence breaks down.</div>
+      </div>
+      <div>
+        <div class="img-block-label">Inference Steps — Diminishing Returns</div>
+        <img src="generative-ai-pipeline/Inference Steps Comparison.png" alt="Inference steps comparison 5 vs 15 vs 30 vs 50">
+        <div class="img-cap"><strong>Inference Steps:</strong> 5 (incoherent) · 15 · 30 (optimal) · 50 (diminishing returns). 50 steps costs 66% more compute dari 30 dengan no significant quality gain — denoising sudah converge di step 30.</div>
+      </div>
+      <div>
+        <div class="img-block-label">CLIPSeg Masking + Inpainting Result</div>
+        <img src="generative-ai-pipeline/inpainting.png" alt="CLIPSeg auto-masking and inpainting result">
+        <div class="img-cap"><strong>CLIPSeg auto-mask:</strong> user mendeskripsikan apa yang ingin diganti dalam natural language → model generate mask otomatis via sigmoid thresholding. No manual painting required. Vision model driving vision model.</div>
+      </div>
+    </div>
+
+    <p class="level-desc">
+      Three modules: <strong>Hyperparameter Explorer</strong> (systematic CFG/steps/scheduler grid with controlled comparisons — same prompt, same seed, one variable); <strong>Inpainting</strong> — 3 masking approaches compared: (1) CLIPSeg text-conditioned heatmap → sigmoid &gt;0.5 threshold → dilation → binary mask; (2) hardcoded NumPy mask; (3) Streamlit canvas drawing. CLIPSeg eliminates manual mask painting — user types what to replace in natural language; <strong>Outpainting</strong> — iterative canvas expansion (128px per pass) with style-locked prompts, chained 3+ iterations.
+    </p>
+
+    <table class="arch-table">
+      <tr><th>Experiment</th><th>Finding</th><th>Insight</th></tr>
+      <tr>
+        <td>CFG Scale: 2.0 vs 7.5 vs 15.0</td>
+        <td>Optimal: <strong>7.5</strong>. At 2.0: too loose (ignores prompt). At 15.0: over-constrained, saturated colors, damaged coherence.</td>
+        <td>High CFG doesn't make the model "understand better" — it just weights text conditioning more heavily until it damages visual quality. CFG is a text-vs-image balance parameter, not a comprehension dial.</td>
+      </tr>
+      <tr>
+        <td>Inference Steps: 5 vs 15 vs 30 vs 50</td>
+        <td>Optimal: <strong>30 steps</strong>. Steps 31–50 add 66% more compute with no significant quality improvement.</td>
+        <td>Diffusion denoising has already converged by step 30 for this model and scheduler. More steps = more compute budget, not more quality. The model isn't iteratively improving — it's completing a precomputed denoising trajectory.</td>
+      </tr>
+      <tr>
+        <td>Scheduler: Euler A vs DPM++ 2M vs DDIM</td>
+        <td>DPM++ 2M: best for flat illustration. Euler A: best for photorealistic scenes.</td>
+        <td>Schedulers are not interchangeable. The right choice is domain-dependent — measured empirically (same prompt, same seed, different scheduler), not from documentation.</td>
+      </tr>
+      <tr>
+        <td>Masking: CLIPSeg vs manual vs canvas</td>
+        <td>CLIPSeg auto-mask: user types text description → model generates binary mask. No manual painting.</td>
+        <td>CLIPSeg soft heatmaps require post-processing (sigmoid threshold → dilation pass) before they're usable for inpainting. The model-to-model handoff requires explicit engineering — not just plumbing.</td>
+      </tr>
+    </table>
+
+    <div class="takeaway">
+      <div class="takeaway-label">Key Finding</div>
+      <p>CLIPSeg soft probability heatmaps require explicit post-processing (threshold → dilation) before they're usable for inpainting. <strong>The interface between two AI models requires engineering decisions at every handoff</strong> — not just plumbing. Any multi-model pipeline has engineering work between the models, not just within them.</p>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">Diffusion = Guided Denoising</div>
+        <div class="finding-text">30 vs 50 steps is a compute budget decision, not a quality decision — the model converges by step 30. CFG scale is a text-vs-image weighting parameter, not a comprehension dial. <strong>Understanding the mechanism makes every hyperparameter decision principled rather than trial-and-error.</strong></div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">CLIPSeg: Multimodal Pipeline</div>
+        <div class="finding-text">Text description → CLIPSeg heatmap → threshold → dilation → Stable Diffusion inpainting. A vision model driving another vision model. <strong>Auto-masking reduces the skill floor for inpainting</strong> — user describes what to replace in natural language rather than painting a pixel mask.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Thread from NLP</div>
+        <div class="finding-text">Same question as the LSA thesis: <em>what is the right representation?</em> For language: TF-IDF → LSA → SBERT. For images: pixels → latent space → guided denoising trajectory. <strong>Different domain, same epistemological curiosity about representation learning.</strong></div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">Stable Diffusion v1.5</span><span class="tag pri">CLIPSeg</span><span class="tag pri">HuggingFace Diffusers</span>
+      <span class="tag">PyTorch</span><span class="tag">Inpainting</span><span class="tag">Outpainting</span><span class="tag">Streamlit</span><span class="tag">Base + Refiner Pipeline</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 10: LEVEL 8C + WORK EXP ════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-name">Ninditya Salma Nur Aini</div>
+    <div class="header-role">Learning Journey Portfolio · 2021 → 2026</div>
+  </div>
+
+  <div class="section-label">Team Backend Project — Korea-ASEAN Digital Academy (KADA) Capstone · 2026</div>
+
+  <div class="level-block">
+    <div class="level-header">
+      <div class="level-badge lv8c">Level 8C</div>
+      <div class="level-title-group">
+        <div class="level-title">CineTrack — Cinema Chain Analytics Backend</div>
+        <div class="level-subtitle">20+ endpoints · two-layer CTE occupancy · Redis sorted-JSON cache keys · LLM business summaries</div>
+      </div>
+      <div class="level-meta"><span class="year">2026</span><br>Team · KADA<br>Backend Developer</div>
+    </div>
+
+    <div class="proj-links">
+      <a href="https://github.com/ninditya/cinetrack-frontend" class="proj-link gh" target="_blank" rel="noopener">⌥ GitHub (Frontend)</a>
+      <a href="https://ninditya.github.io/cinetrack-backend/" class="proj-link case" target="_blank" rel="noopener">↗ Case Study</a>
+    </div>
+
+    <div class="ctx-box">
+      <span class="ctx-key">My Role</span>
+      <span class="ctx-val">Backend Developer — REST API (Fastify/Node.js ESM) · 20+ analytics endpoints across 4 groups (9+6+5+4) · PostgreSQL CTE analytics · Redis caching · LLM business insight summaries · query optimization via EXPLAIN ANALYZE</span>
+      <span class="ctx-key">Stack</span>
+      <span class="ctx-val">Node.js · Fastify · PostgreSQL · Redis · Elice AI LLM · Docker · Dynamic filter builder (parameterized WHERE to prevent SQL injection)</span>
+      <span class="ctx-key">Cache</span>
+      <span class="ctx-val">Redis: sorted JSON serialization of filter params → deterministic cache key. Same params always produce the same key regardless of object property order.</span>
+    </div>
+
+    <p class="level-desc">
+      Every analytics endpoint follows the same flow: <code>parse params → build parameterized WHERE → Redis lookup → PostgreSQL on miss → cache → return JSON</code>. Trickiest query: <strong>occupancy by city</strong> — a naive JOIN averages at the wrong granularity. The correct design uses a <strong>two-layer CTE</strong>: first CTE aggregates seat counts per screening, second CTE averages per city. The LLM component receives aggregated analytics (revenue gaps, occupancy trends, time-slot performance) and returns structured JSON recommendations — managers get actionable insight without reading raw dashboards.
+    </p>
+
+    <table class="csl-table">
+      <tr><th>Challenge</th><th>Solution</th><th>Key Learning</th></tr>
+      <tr>
+        <td>Naive occupancy query averaged at wrong granularity — averaging per city directly without first aggregating per screening gave systematically wrong results</td>
+        <td>Two-layer CTE: Layer 1 materializes seat counts per screening; Layer 2 averages per city. PostgreSQL optimizer materializes Layer 1 once and reuses across the final SELECT.</td>
+        <td><strong>SQL aggregation order is a correctness issue, not a performance issue.</strong> Averaging averages is almost always wrong. CTEs make the intended aggregation grain explicit and readable.</td>
+      </tr>
+      <tr>
+        <td>Dynamic WHERE clause built from user-supplied filters created SQL injection risk</td>
+        <td>Filter builder always uses parameterized queries — whitelist of valid column names, values passed as bind parameters, never string interpolation</td>
+        <td>Dynamic filters are a classic injection surface. <strong>Whitelist column names, parameterize values — never let user strings touch query structure.</strong></td>
+      </tr>
+    </table>
+
+    <div class="takeaway">
+      <div class="takeaway-label">Key Takeaway — Team Backend at Production Scale</div>
+      <p>API contract design before any implementation let frontend and backend teams develop in parallel without blocking. <strong>One hour designing the interface spec saves ten hours of integration debugging.</strong> EXPLAIN ANALYZE before Redis caching identified the slow queries worth optimizing — measure before you cache.</p>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-label">Aggregation Order = Correctness</div>
+        <div class="finding-text">The occupancy calculation error isn't a performance issue — it's a correctness issue. Averaging at the wrong granularity produces systematically wrong numbers silently. <strong>CTEs make the intended aggregation grain explicit and readable. SQL correctness requires understanding join granularity before writing aggregations.</strong></div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">LLM in the Right Layer</div>
+        <div class="finding-text">LLM receives aggregated, typed JSON from the backend — never queries the database. LLM only handles the interpretation step: turn numbers into plain-language recommendations. <strong>LLM in the interpretation layer: auditable, cheaper, reliable. LLM in the data layer: unauditable, expensive, hallucination-prone.</strong></div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Team Accountability</div>
+        <div class="finding-text">First project where another team's frontend depended on my API contract. Getting the response shape right, keeping it documented, and not breaking it on refactor taught more about <strong>professional engineering accountability than any solo project.</strong> API contracts before implementation enable parallel development.</div>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag pri">Fastify (Node.js)</span><span class="tag pri">PostgreSQL CTE</span><span class="tag pri">Redis</span>
+      <span class="tag">LLM Integration</span><span class="tag">EXPLAIN ANALYZE</span><span class="tag">SQL Injection Defense</span><span class="tag">Team Project</span>
+    </div>
+  </div>
+
+  <hr class="proj-divider">
+
+  <div class="section-label">Work Experience</div>
+
+  <div class="exp-item">
+    <div class="exp-top">
+      <div class="exp-role">Full-Stack Developer Trainee</div>
+      <div class="exp-date">Feb 2026 – Apr 2026</div>
+    </div>
+    <div class="exp-company">Korea-ASEAN Digital Academy (KADA) · NIPA · Komdigi · Elice · Bekasi, On-site</div>
+    <ul class="exp-bullets">
+      <li>Selected from <strong>900+ applicants</strong> (60 accepted) for a fully-funded ASEAN-Korea digital program.</li>
+      <li>Co-built CineTrack: 20+ analytics endpoints (Fastify), two-layer CTE occupancy, Redis caching, LLM summaries, SQL injection defense.</li>
+    </ul>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-top">
+      <div class="exp-role">Chatbot Quality Assurance Analyst</div>
+      <div class="exp-date">May 2024 – Oct 2025 · 1.5 yrs</div>
+    </div>
+    <div class="exp-company">PT Fliptech Lentera Inspirasi Pertiwi (Flip) · Fintech</div>
+    <ul class="exp-bullets">
+      <li>Evaluated production <strong>LLM chatbot with RAG</strong> — prompt optimization, grounding validation, hallucination detection, root-cause analysis on low-CSAT interactions.</li>
+      <li>Built KPI dashboards: CSAT · fallback rate · hallucination rate · intent accuracy.</li>
+      <li><strong>Results:</strong> Unidentified utterances &lt;12% · CSAT 65% (H1) · Fallback rate 3% (H2).</li>
+    </ul>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-top">
+      <div class="exp-role">IT Operational — Chatbot &amp; Omnichannel Development</div>
+      <div class="exp-date">Dec 2021 – Apr 2024 · 2.4 yrs</div>
+    </div>
+    <div class="exp-company">PT Infomedia Nusantara (Telkom Group)</div>
+    <ul class="exp-bullets">
+      <li>Designed end-to-end e-commerce chatbot flows (requirements → post-release tuning) · ~1,000 daily interactions.</li>
+      <li>Led SIT/UAT for chatbot and omnichannel platform; caught integration failures pre-release.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 11: SKILLS + EDUCATION + LINKS ════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-name">Ninditya Salma Nur Aini</div>
+    <div class="header-role">Learning Journey Portfolio · 2021 → 2026</div>
+  </div>
+
+  <div class="section-label">Technical Skills</div>
+  <div class="skills-grid">
+    <div>
+      <div class="skill-label">NLP &amp; ML</div>
+      <div class="skill-items">
+        SBERT (all-MiniLM-L6-v2) · LSA/SVD · KNN<br>
+        BiLSTM · XGBoost · LinearSVC<br>
+        LangGraph · RAG · Qdrant · FAISS<br>
+        SHAP · GridSearchCV · SMOTE<br>
+        Nazief-Andriani (Indonesian NLP)
+      </div>
+    </div>
+    <div>
+      <div class="skill-label">AI &amp; GenAI</div>
+      <div class="skill-items">
+        Gemini 2.5 Flash · Genkit framework<br>
+        Stable Diffusion · Diffusers<br>
+        CLIPSeg · Prompt Engineering<br>
+        LLM Evaluation · RAG QA<br>
+        Prompt Injection Defense
+      </div>
+    </div>
+    <div>
+      <div class="skill-label">Engineering &amp; Data</div>
+      <div class="skill-items">
+        Python · TypeScript · SQL (CTE, EXPLAIN)<br>
+        Next.js 15 · FastAPI · Fastify<br>
+        Supabase Realtime · PostgreSQL · Redis<br>
+        Docker · Streamlit · Flask · Metabase<br>
+        pytest · MagicMock · SQLAlchemy
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:14px;">Education</div>
+  <div class="exp-item">
+    <div class="exp-top">
+      <div class="exp-role">S.Kom — Teknik Informatika</div>
+      <div class="exp-date">2017 – Oct 2021 · GPA 3.66</div>
+    </div>
+    <div class="exp-company">UPN "Veteran" Yogyakarta</div>
+    <ul class="exp-bullets">
+      <li>Thesis: <strong>"Implementasi Metode KNN dan LSA untuk Chatbot FAQ"</strong> — implemented SVD from scratch using JAMA libraries; deployed to web + Telegram; 1,410 student questions; 93.2% accuracy, −35% compute.</li>
+    </ul>
+  </div>
+
+  <div class="section-label" style="margin-top:12px;">Achievements &amp; Programs</div>
+  <div class="achieve-grid">
+    <div class="achieve-card">
+      <div class="achieve-year">2026</div>
+      <div class="achieve-name">Korea-ASEAN Digital Academy (KADA)</div>
+      <div class="achieve-org">NIPA · Komdigi · Elice — 60 selected from 900+ applicants</div>
+    </div>
+    <div class="achieve-card">
+      <div class="achieve-year">2025</div>
+      <div class="achieve-name">IDCamp Expert — Belajar Penerapan Data Science</div>
+      <div class="achieve-org">Dicoding · Indosat Ooredoo Hutchison — Highest tier</div>
+    </div>
+    <div class="achieve-card">
+      <div class="achieve-year">2024</div>
+      <div class="achieve-name">Bangkit Academy — BFGAI Generative AI Challenge</div>
+      <div class="achieve-org">Google · GoTo · Traveloka — Generative AI capstone</div>
+    </div>
+    <div class="achieve-card">
+      <div class="achieve-year">Oct 2021</div>
+      <div class="achieve-name">S.Kom Graduation · GPA 3.66</div>
+      <div class="achieve-org">UPN "Veteran" Yogyakarta — Thesis: KNN+LSA Chatbot</div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:12px;">Portfolio &amp; Links</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
+    <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink2);line-height:1.9;">
+      <strong style="color:var(--ink);display:block;margin-bottom:1px;">Main Portfolio</strong>ninditya.github.io
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink2);line-height:1.9;">
+      <strong style="color:var(--ink);display:block;margin-bottom:1px;">NutriPal AI (Live)</strong>nutripal-rho.vercel.app
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink2);line-height:1.9;">
+      <strong style="color:var(--ink);display:block;margin-bottom:1px;">HealthTruth RAG (Live)</strong>health-truth-chatbot.up.railway.app
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink2);line-height:1.9;">
+      <strong style="color:var(--ink);display:block;margin-bottom:1px;">GitHub</strong>github.com/ninditya
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink2);line-height:1.9;">
+      <strong style="color:var(--ink);display:block;margin-bottom:1px;">LinkedIn</strong>linkedin.com/in/ninditya-salma-nur-aini
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink2);line-height:1.9;">
+      <strong style="color:var(--ink);display:block;margin-bottom:1px;">Email</strong>nindityaadrian@gmail.com
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

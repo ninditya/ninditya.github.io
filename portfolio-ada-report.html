@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Journey Portfolio — Ninditya Salma Nur Aini — Apple Developer Academy Indonesia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #111111;
+      --dark:  #333333;
+      --mid:   #666666;
+      --light: #999999;
+      --line:  #e0e0e0;
+      --soft:  #f7f7f7;
+      --accent: #c4490c;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5px;
+      line-height: 1.6;
+      color: var(--dark);
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page { width: 100%; max-width: 210mm; margin: 0 auto; background: #fff; }
+    .cover-page  { page-break-after: always; }
+    .project-page { page-break-before: always; }
+
+    /* ════════ COVER ════════ */
+    .cover-inner { min-height: 245mm; display: flex; flex-direction: column; }
+    .cover-top {
+      border-bottom: 1.5px solid var(--black);
+      padding-bottom: 12px; margin-bottom: 20px;
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .cover-top .doc-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--light);
+    }
+    .cover-top .doc-label span { color: var(--accent); }
+
+    .cover-hero { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 12mm 0; }
+    .cover-hero h1 { font-size: 44px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: var(--black); margin-bottom: 6px; }
+    .cover-hero h1 em { font-style: italic; font-weight: 300; color: var(--mid); }
+    .cover-hero .cover-tagline { font-size: 13px; color: var(--mid); margin-bottom: 22px; font-weight: 400; }
+    .cover-hero .cover-desc { font-size: 11px; color: var(--dark); line-height: 1.65; max-width: 430px; margin-bottom: 28px; }
+    .cover-hero .cover-desc strong { color: var(--black); font-weight: 600; }
+
+    .cover-phases { margin-bottom: 20px; }
+    .cover-phase-row {
+      display: grid; grid-template-columns: 24px 110px 1fr;
+      gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line);
+      align-items: baseline;
+    }
+    .cover-phase-row:first-child { border-top: 1px solid var(--line); }
+    .cover-phase-num { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--accent); font-weight: 500; }
+    .cover-phase-label { font-size: 9.5px; font-weight: 600; color: var(--black); }
+    .cover-phase-items { font-size: 9px; color: var(--light); }
+
+    .cover-footer {
+      margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .cover-footer .name-block .name { font-size: 14px; font-weight: 700; color: var(--black); }
+    .cover-footer .name-block .role { font-size: 9.5px; color: var(--mid); margin-top: 3px; }
+    .cover-footer .contact-block { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; color: var(--mid); text-align: right; line-height: 1.85; }
+    .cover-footer .contact-block a { color: var(--accent); text-decoration: none; }
+
+    /* ════════ PHASE BANNER ════════ */
+    .phase-banner {
+      margin-bottom: 14px;
+      padding: 8px 12px;
+      background: var(--black);
+      display: flex; align-items: baseline; gap: 14px;
+    }
+    .phase-banner .ph-num { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; color: var(--accent); font-weight: 500; flex-shrink: 0; }
+    .phase-banner .ph-title { font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .phase-banner .ph-desc { font-size: 8.5px; color: #888; margin-left: auto; text-align: right; font-family: 'JetBrains Mono', monospace; }
+
+    /* ════════ PROJECT PAGES ════════ */
+    .page-header {
+      padding-bottom: 11px; border-bottom: 1.5px solid var(--black);
+      margin-bottom: 14px; display: grid; grid-template-columns: 1fr auto;
+      align-items: end; gap: 16px;
+    }
+    .page-header .proj-num { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; font-weight: 500; }
+    .page-header h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.025em; color: var(--black); line-height: 1.1; }
+    .page-header h2 em { font-weight: 300; font-style: italic; color: var(--mid); }
+    .page-header .page-meta { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--light); line-height: 1.9; }
+
+    .links-bar {
+      display: flex; align-items: center; gap: 0; margin-bottom: 13px;
+      border: 1px solid var(--line); border-radius: 3px; overflow: hidden;
+    }
+    .links-bar a {
+      display: flex; align-items: center; gap: 5px; padding: 6px 12px;
+      font-family: 'JetBrains Mono', monospace; font-size: 8.5px;
+      text-decoration: none; color: var(--mid); border-right: 1px solid var(--line);
+    }
+    .links-bar a:last-child { border-right: none; }
+    .links-bar a.demo { background: var(--black); color: #fff; font-weight: 500; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); margin-bottom: 10px; }
+    .stat-cell { padding: 7px 10px; border-right: 1px solid var(--line); }
+    .stat-cell:last-child { border-right: none; }
+    .stat-num { font-size: 18px; font-weight: 700; color: var(--black); letter-spacing: -0.03em; line-height: 1; }
+    .stat-num.accent { color: var(--accent); }
+    .stat-label { font-size: 8.5px; color: var(--light); margin-top: 3px; line-height: 1.4; }
+
+    .context { font-size: 10px; color: var(--dark); line-height: 1.55; padding: 7px 11px; background: var(--soft); border-left: 2px solid var(--accent); margin-bottom: 10px; }
+    .context strong { color: var(--black); font-weight: 600; }
+
+    .slabel { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); margin-bottom: 7px; font-weight: 500; }
+
+    .img-1 { margin-bottom: 14px; }
+    .img-1 img { width: 100%; max-height: 110mm; object-fit: contain; object-position: top; display: block; border: 1px solid var(--line); }
+    .img-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    .img-2 img { width: 100%; max-height: 65mm; object-fit: contain; object-position: top; display: block; border: 1px solid var(--line); }
+    .img-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+    .img-3 img { width: 100%; max-height: 50mm; object-fit: contain; object-position: top; display: block; border: 1px solid var(--line); }
+    .img-caption { font-size: 8.5px; color: var(--light); margin-top: 5px; line-height: 1.4; }
+    .img-caption strong { color: var(--mid); }
+    .img-group { margin-bottom: 14px; }
+
+    .findings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-bottom: 10px; }
+    .finding { border: 1px solid var(--line); padding: 7px 9px; }
+    .finding-label { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--light); margin-bottom: 4px; }
+    .finding-text { font-size: 10px; color: var(--dark); line-height: 1.5; }
+    .finding-text strong { color: var(--black); font-weight: 600; }
+
+    table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 9.5px; }
+    thead th { font-family: 'JetBrains Mono', monospace; font-size: 7px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--light); background: var(--soft); padding: 5px 9px; text-align: left; border-bottom: 1px solid var(--line); font-weight: 500; }
+    tbody td { padding: 5px 9px; border-bottom: 1px solid var(--line); color: var(--dark); }
+    tbody td strong { color: var(--black); font-weight: 600; }
+    tbody td.good  { color: #1e5c3c; font-weight: 600; }
+    tbody td.accent { color: var(--accent); font-weight: 700; }
+    tbody tr.hl td { background: rgba(196,73,12,0.04); }
+
+    .tech-line { font-size: 9px; color: var(--light); margin-bottom: 8px; }
+    .tech-line strong { color: var(--mid); font-weight: 500; }
+
+    .page-footer { margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--light); }
+
+    /* compact two-col split for smaller projects */
+    .split-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+    .split-box { border: 1px solid var(--line); padding: 9px 11px; }
+    .split-box .split-title { font-size: 11px; font-weight: 700; color: var(--black); margin-bottom: 2px; letter-spacing: -0.01em; }
+    .split-box .split-meta { font-family: 'JetBrains Mono', monospace; font-size: 7.5px; color: var(--light); margin-bottom: 7px; letter-spacing: 0.04em; }
+    .split-box .split-stat { display: flex; gap: 10px; margin-bottom: 7px; }
+    .split-box .split-stat-num { font-size: 16px; font-weight: 700; color: var(--accent); letter-spacing: -0.03em; line-height: 1; }
+    .split-box .split-stat-label { font-size: 8px; color: var(--light); line-height: 1.4; }
+    .split-box p { font-size: 9.5px; color: var(--dark); line-height: 1.55; }
+    .split-box p strong { color: var(--black); }
+
+    @media print {
+      @page { size: A4; margin: 10mm 12mm; }
+      body { background: #fff; }
+      .cover-page   { page-break-after: always; }
+      .project-page { page-break-before: always; }
+      .img-1, .img-2, .img-3, .findings, table,
+      .links-bar, .stats-row, .page-header, .phase-banner,
+      .img-group, .split-2 { page-break-inside: avoid; break-inside: avoid; }
+    }
+    @media screen {
+      body { background: #c8c8c8; }
+      .page { box-shadow: 0 6px 40px rgba(0,0,0,0.18); margin: 24px auto; }
+      .cover-page, .project-page { padding: 10mm 13mm; margin: 24px auto; max-width: 210mm; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     COVER
+════════════════════════════════════════ -->
+<div class="page cover-page">
+  <div class="cover-inner">
+    <div class="cover-top">
+      <div class="doc-label">Data Scientist · AI Engineer · NLP &nbsp;— &nbsp;<span>Learning Journey Portfolio</span></div>
+      <div class="doc-label">Ninditya Salma Nur Aini · 2026</div>
+    </div>
+
+    <div class="cover-hero">
+      <h1>Learning<br><em>Journey</em><br>Portfolio</h1>
+      <div class="cover-tagline">Apple Developer Academy Indonesia — 2026 Application</div>
+      <p class="cover-desc">
+        From a Bahasa Indonesia NLP thesis in 2021 to building production AI systems in 2026 — this portfolio traces a continuous learning trajectory across five phases. Each phase represents a new capability: understanding language, analyzing data, engineering LLM systems, collaborating in real teams, and working with vision models. Every project here was built, evaluated, and shipped. <strong>Nothing is hypothetical.</strong>
+      </p>
+      <div class="cover-phases">
+        <div class="cover-phase-row">
+          <span class="cover-phase-num">01</span>
+          <span class="cover-phase-label">NLP Foundation</span>
+          <span class="cover-phase-items">LSA Chatbot Thesis (2021) · Sentiment Analysis ML vs GenAI (2023–2026)</span>
+        </div>
+        <div class="cover-phase-row">
+          <span class="cover-phase-num">02</span>
+          <span class="cover-phase-label">Computer Vision</span>
+          <span class="cover-phase-items">StudioAI Stable Diffusion (2024) · GeoAI U-Net · AquaSense YOLOv8 (2025)</span>
+        </div>
+        <div class="cover-phase-row">
+          <span class="cover-phase-num">03</span>
+          <span class="cover-phase-label">Data Science</span>
+          <span class="cover-phase-items">Student Dropout · Employee Attrition · Air Quality · Talent Match Intelligence (2025)</span>
+        </div>
+        <div class="cover-phase-row">
+          <span class="cover-phase-num">04</span>
+          <span class="cover-phase-label">AI / LLM Systems</span>
+          <span class="cover-phase-items">Banking Intent Router · RAG Chatbot · NutriPal AI (2025)</span>
+        </div>
+        <div class="cover-phase-row">
+          <span class="cover-phase-num">05</span>
+          <span class="cover-phase-label">KADA — Team Projects</span>
+          <span class="cover-phase-items">Yorindo EM·U (event platform) · CineTrack (cinema analytics) · 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <div class="name-block">
+        <div class="name">Ninditya Salma Nur Aini</div>
+        <div class="role">Data Scientist · AI Engineer · NLP · LLM Systems</div>
+      </div>
+      <div class="contact-block">
+        nindityaadrian@gmail.com &nbsp;·&nbsp; +62 895-3712-90495<br>
+        <a href="https://linkedin.com/in/ninditya-salma-nur-aini">linkedin.com/in/ninditya-salma-nur-aini</a>
+        &nbsp;·&nbsp;
+        <a href="https://ninditya.github.io">ninditya.github.io</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 1 · PAGE 1 — CHATBOT LSA THESIS
+════════════════════════════════════════ -->
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">Overview · 5 domains · 13 projects · 2021–2026 · Solo &amp; Team</div>
+      <h2>Capability <em>at a Glance</em></h2>
+    </div>
+    <div class="page-meta">
+      Ninditya Salma Nur Aini<br>
+      Learning Journey Portfolio
+    </div>
+  </div>
+
+  <div class="context">
+    Not a collection of scattered experiments — a consistent learning arc. Started with classical NLP in 2021, expanded into Computer Vision and Data Science, then production-grade AI/LLM systems, and finally team-based software engineering. Each phase built on the one before it. The unifying thread: <strong>the question of how to represent meaning numerically</strong> — LSA (2021) → SBERT (2025) → diffusion latent space (2025) — same problem, different domains.
+  </div>
+
+  <div class="slabel">What's in This Portfolio</div>
+  <table>
+    <thead><tr><th>Domain</th><th>Projects</th><th>What It Proves</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>NLP &amp; Language</strong><div style="font-size:8px;color:var(--light);margin-top:2px">2021–2026</div></td><td>LSA Chatbot · Sentiment Analysis</td><td>Model from scratch, Bahasa Indonesia, 4-year longitudinal benchmark of ML vs GenAI</td></tr>
+      <tr><td><strong>Computer Vision</strong><div style="font-size:8px;color:var(--light);margin-top:2px">2024–2025</div></td><td>StudioAI · GeoAI · AquaSense</td><td>Generative diffusion pipeline · Satellite segmentation GIS end-to-end · YOLOv8 evaluation + IAA</td></tr>
+      <tr><td><strong>Data Science</strong><div style="font-size:8px;color:var(--light);margin-top:2px">2025</div></td><td>Dropout · Attrition · Air Quality · Talent Match</td><td>Full pipeline: EDA → model → dashboard → stakeholder deliverable. All IDCamp Expert level.</td></tr>
+      <tr class="hl"><td><strong>AI / LLM Systems</strong><div style="font-size:8px;color:var(--light);margin-top:2px">2025–2026</div></td><td>Banking Router · RAG Chatbot · NutriPal</td><td>Production: cost engineering (−96% LLM cost), personalization, full-stack AI app solo in 3 weeks</td></tr>
+      <tr><td><strong>Team &amp; Software Eng.</strong><div style="font-size:8px;color:var(--light);margin-top:2px">2026 · KADA</div></td><td>Yorindo (Backend) · CineTrack</td><td>Agile SDLC · AI-assisted dev (Claude + Codex) · REST API · Epic → User Story · real team delivery</td></tr>
+    </tbody>
+  </table>
+
+  <div class="slabel">What's Consistent Across All Phases</div>
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Engineering Decisions, Not Just Results</div>
+      <div class="finding-text">Every project explains why specific choices were made — metric selection, model choice, data strategy, architecture trade-offs. The goal is to show a <strong>pattern of thinking</strong>, not a portfolio of accuracy numbers.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Failures Are Documented</div>
+      <div class="finding-text">GeoAI F1 35% (data bottleneck, honestly diagnosed). Sentiment analysis data leakage — caught, fixed, re-reported. Air Quality first submission rejected, revised. The failures are here because that's where the learning happened.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Real Deliverables, Real Constraints</div>
+      <div class="finding-text">Not just model notebooks — production deployments, stakeholder dashboards, client PowerPoints, live apps. Every project had a real audience beyond the author.</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Overview / Capability at a Glance</span>
+  </div>
+</div>
+
+<div class="page project-page">
+  <div class="phase-banner">
+    <span class="ph-num">PHASE 01</span>
+    <span class="ph-title">NLP Foundation</span>
+    <span class="ph-desc">2021–2026 · where it started</span>
+  </div>
+
+  <div class="page-header">
+    <div>
+      <div class="proj-num">1.1 · NLP · KNN · LSA · Bahasa Indonesia · Telegram Bot</div>
+      <h2>LSA Chatbot — <em>NLP Undergraduate Thesis</em></h2>
+    </div>
+    <div class="page-meta">
+      UPN "Veteran" Yogyakarta · 2021<br>
+      Solo · S.Kom thesis · PHP + Telegram
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a href="https://ninditya.github.io/chatbot-lsa/" target="_blank">≡ Case study — ninditya.github.io/chatbot-lsa</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">93.2%</div><div class="stat-label">Accuracy<br>LSA + KNN (vs 92.1% baseline)</div></div>
+    <div class="stat-cell"><div class="stat-num accent">−35%</div><div class="stat-label">Compute time<br>17.97s vs 27.49s</div></div>
+    <div class="stat-cell"><div class="stat-num">87%</div><div class="stat-label">AUC score<br>LSA + KNN</div></div>
+    <div class="stat-cell"><div class="stat-num">10-fold</div><div class="stat-label">Cross-validation<br>90% train / 10% test</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Why this project started everything:</strong> Informatics department staff were manually answering the same student questions, limited to office hours. I built a chatbot that answers 24/7. But more importantly — I learned that <strong>feature representation matters more than model choice</strong>. Switching from raw TF-IDF to LSA-projected features improved both accuracy and speed, using the exact same KNN classifier. This insight — that the <em>representation</em> of language determines what models can learn — became the thread I followed into everything that came after.
+  </div>
+
+  <div class="img-2">
+    <div class="img-group">
+      <div class="slabel">Web App — Pipeline Visualization</div>
+      <img src="chatbot-lsa/chatbot web.png" alt="Chatbot LSA web interface">
+      <div class="img-caption">Web interface showing the full NLP pipeline step-by-step: input → preprocessing → TF-IDF → SVD decomposition → LSA projection → KNN → answer. Built to make the model interpretable, not just usable.</div>
+    </div>
+    <div class="img-group">
+      <div class="slabel">Telegram Bot — Production Deployment</div>
+      <img src="chatbot-lsa/chatbot telegram.png" alt="Telegram chatbot">
+      <div class="img-caption">Deployed as a Telegram bot accessible to all informatics students 24/7. Answering FAQ queries about academic administration without staff involvement.</div>
+    </div>
+  </div>
+
+  <div class="slabel">Architecture & Engineering Decisions</div>
+  <table>
+    <thead><tr><th>Component</th><th>Approach</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr class="hl">
+        <td><strong>Vectorization</strong></td>
+        <td>TF-IDF → SVD (k=661) → LSA projection</td>
+        <td>LSA captures semantic similarity — "biaya" and "pembayaran" map to same latent dimension. KNN baseline couldn't resolve synonyms.</td>
+      </tr>
+      <tr>
+        <td><strong>Stemming</strong></td>
+        <td>Nazief-Andriani (Sastrawi library)</td>
+        <td>Indonesian morphology has complex affixation — English stemmers fail completely. "mendaftarkan", "pendaftaran", "daftar" must reduce to same root.</td>
+      </tr>
+      <tr>
+        <td><strong>Distance metric</strong></td>
+        <td>Manhattan distance (vs Euclidean)</td>
+        <td>Compared both empirically; Manhattan performed better on LSA-projected sparse vectors in this domain.</td>
+      </tr>
+      <tr>
+        <td><strong>SVD from scratch</strong></td>
+        <td>Implemented in PHP using NumPHP + Math-PHP</td>
+        <td>No off-the-shelf NLP library for PHP that handled SVD. Precomputed 59 MB JSON matrix stored for fast inference at query time.</td>
+      </tr>
+      <tr class="hl">
+        <td><strong>Deployment</strong></td>
+        <td>Web app + Telegram Bot API (dual interface)</td>
+        <td>Staff wanted web admin; students wanted Telegram. Same backend, two UIs — the model didn't change, only the interface layer.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Key Insight</div>
+      <div class="finding-text">The feature space, not the classifier, drove the improvement. This is the core lesson I've applied to every NLP problem since: <strong>get the representation right first</strong>, then worry about the model.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Indonesian NLP</div>
+      <div class="finding-text">Built my first mental model of low-resource language challenges: slang, abbreviations, affixation, lack of word boundaries. Standard English pipelines were unusable — every step required language-specific adaptation.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Continuity</div>
+      <div class="finding-text">The SBERT + LinearSVC system in Banking Intent Router (2025) is conceptually the same pipeline at a different scale: <strong>dense semantic embedding → classifier → confidence thresholding</strong>. Four years later, same idea, better tools.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> PHP, MySQL, Bootstrap 3, jQuery, Telegram Bot API, Rubix ML, Sastrawi (Indonesian stemmer), NumPHP, Math-PHP</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 1.1 / LSA Chatbot — NLP Thesis 2021</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 1 · PAGE 2 — SENTIMENT ANALYSIS
+════════════════════════════════════════ -->
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">1.2 · BiLSTM · TF-IDF · GenAI Benchmark · Bahasa Indonesia NLP</div>
+      <h2>Sentiment Analysis — <em>ML vs Deep Learning vs GenAI</em></h2>
+    </div>
+    <div class="page-meta">
+      Binar Academy 2023 · Extended 2026<br>
+      Solo · 11,000 rows · Twitter Indonesia
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a href="https://github.com/ninditya/sentiment-analysis-ml-vs-genai" target="_blank">⌥ github.com/ninditya/sentiment-analysis-ml-vs-genai</a>
+    <a href="https://ninditya.github.io/sentiment-analysis/" target="_blank">≡ Case study</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">93%</div><div class="stat-label">BiLSTM accuracy<br>best performer</div></div>
+    <div class="stat-cell"><div class="stat-num">85.3%</div><div class="stat-label">GenAI zero-shot<br>7.7% below BiLSTM</div></div>
+    <div class="stat-cell"><div class="stat-num accent">772×</div><div class="stat-label">LSTM faster<br>0.25ms vs 195ms</div></div>
+    <div class="stat-cell"><div class="stat-num accent">$0</div><div class="stat-label">ML annual cost<br>vs $62+ GenAI at scale</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Real motivation:</strong> At my previous job at Flip I managed prompts for a GenAI-based sentiment system — but had no way to measure whether my changes actually improved accuracy. This extended project answers that empirically: three approaches on the same 11,000-row Bahasa Indonesia Twitter dataset, measured identically. The result surprised me: a BiLSTM I trained in-house <strong>outperforms GenAI API calls on accuracy, speed, and cost simultaneously</strong>. GenAI is not universally better — context determines the right tool.
+  </div>
+
+  <div class="img-2">
+    <div class="img-group">
+      <div class="slabel">BiLSTM Training History — Convergence at Epoch 8</div>
+      <img src="sentiment-analysis/lstm_training_history.png" alt="BiLSTM training history">
+      <div class="img-caption">EarlyStopping(patience=5) + restore_best_weights. Converged at epoch 8 without overfitting — effect of SpatialDropout1D(0.4) + L2 regularization on short, noisy tweet inputs.</div>
+    </div>
+    <div class="img-group">
+      <div class="slabel">Accuracy Comparison — All Models & Configurations</div>
+      <img src="sentiment-analysis/comparison_accuracy.png" alt="Accuracy comparison all models">
+      <div class="img-caption">BiLSTM (93%) outperforms all baselines. GenAI zero-shot (85.3%) is below ML classical. Few-shot examples from wrong domain (e-commerce) actively hurt GenAI accuracy — domain mismatch makes examples noise, not signal.</div>
+    </div>
+  </div>
+
+  <div class="slabel">Key Engineering Decisions — BiLSTM Architecture</div>
+  <table>
+    <thead><tr><th>Decision</th><th>Configuration</th><th>Rationale</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Embedding</strong></td><td>Vocab 100,000 · dim 128</td><td>Captures Bahasa Indonesia slang: "gue", "gapapa", "tdk", "udh", "bgt" — standard tokenizers miss these</td></tr>
+      <tr><td><strong>Regularization</strong></td><td>SpatialDropout1D(0.4) + L2(0.001)</td><td>Tweets are 5–30 tokens — high overfitting risk without explicit regularization on short, noisy inputs</td></tr>
+      <tr><td><strong>BiLSTM</strong></td><td>64 units · recurrent_dropout=0.4</td><td>Bidirectional context detects irony and implicit negative sentiment — "bagus banget ya" (sarcasm) requires both directions</td></tr>
+      <tr class="hl"><td><strong>Class Handling</strong></td><td>Neutral class oversampled before training</td><td>Without this, neutral recall collapsed below 30% — it's only 10% of the dataset (positive 58%, negative 31%)</td></tr>
+      <tr><td><strong>Data Leakage Fix</strong></td><td>KFold strictly on training set only</td><td>Found a bug from 2023 submission: KFold was applied across full dataset including test. Corrected — honest accuracy is 91.09%, not the inflated 92%.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">GenAI Insight</div>
+      <div class="finding-text">Zero-shot was <strong>the best GenAI strategy</strong> — outperforming 3-shot, 5-shot, 10-shot, and CoT. Few-shot examples from the wrong domain added confusion, not signal. Domain adaptation matters more than example count.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Cost Reality</div>
+      <div class="finding-text">GenAI at 10K requests/day: $62/year (zero-shot) to $304/year (CoT). BiLSTM: <strong>$0/year</strong> after training. For a known, bounded domain, the trained model wins on every dimension.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Thread to 2021</div>
+      <div class="finding-text">Same insight as the thesis: <strong>representation quality and domain fit matter more than model sophistication</strong>. A well-designed LSTM on the right domain beats a general-purpose LLM that has no domain anchoring.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> TensorFlow/Keras (BiLSTM), scikit-learn (TF-IDF + MLP + GridSearchCV), Flask API, OpenRouter (Gemini 2.0 Flash Lite), SQLite (slang normalization), Python</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 1.2 / Sentiment Analysis — ML vs GenAI Benchmark</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 2 · PAGE 1 — STUDENT DROPOUT
+════════════════════════════════════════ -->
+<div class="page project-page">
+  <div class="phase-banner">
+    <span class="ph-num">PHASE 02</span>
+    <span class="ph-title">Computer Vision</span>
+    <span class="ph-desc">2024–2025 · Stable Diffusion · U-Net · YOLOv8 · Gemini Vision</span>
+  </div>
+
+  <div class="page-header">
+    <div>
+      <div class="proj-num">2.1 · Stable Diffusion · CLIPSeg · PyTorch · Diffusers · Inpainting · Outpainting</div>
+      <h2>StudioAI — <em>Generative Image Pipeline</em></h2>
+    </div>
+    <div class="page-meta">
+      Bangkit BFGAI Challenge · 2025<br>
+      Solo · Stable Diffusion v1.5
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a href="https://ninditya.github.io/generative-ai-pipeline/" target="_blank">≡ Full case study — ninditya.github.io/generative-ai-pipeline</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num">4</div><div class="stat-label">Schedulers compared<br>Euler A · DPM++ · DDIM · others</div></div>
+    <div class="stat-cell"><div class="stat-num accent">7.5</div><div class="stat-label">Optimal CFG scale<br>measured empirically (not assumed)</div></div>
+    <div class="stat-cell"><div class="stat-num">30</div><div class="stat-label">Optimal steps<br>diminishing returns past this</div></div>
+    <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">Masking approaches<br>manual · CLIPSeg · canvas</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Goal:</strong> Not just to generate images — but to <strong>understand what each hyperparameter actually does</strong>. Built from scratch using HuggingFace Diffusers (PyTorch), not a high-level wrapper, so every decision is observable and measurable. Two-stage pipeline: base model at denoising_end=0.8, refiner at strength=0.2 (latent-space passthrough). Two Streamlit tabs: Generate + Edit (inpainting/outpainting).
+  </div>
+
+  <div class="slabel">Systematic Hyperparameter Experiments — Controlled Comparisons</div>
+  <div class="img-2">
+    <div class="img-group">
+      <img src="generative-ai-pipeline/guidenace Scale.png" alt="Guidance Scale comparison CFG 2.0 vs 7.5 vs 15.0">
+      <div class="img-caption"><strong>CFG Scale:</strong> 2.0 (too loose) · 7.5 (optimal) · 15.0 (over-constrained, saturated). Finding: high CFG doesn't make the model "understand better" — it just weights text conditioning more heavily until it damages visual coherence.</div>
+    </div>
+    <div class="img-group">
+      <img src="generative-ai-pipeline/Inference Steps Comparison.png" alt="Inference steps comparison">
+      <div class="img-caption"><strong>Inference Steps:</strong> 5 (incoherent) · 15 · 30 (optimal) · 50 (diminishing returns). Finding: 50 steps costs 66% more compute than 30 with no significant quality gain — denoising has already converged by step 30.</div>
+    </div>
+  </div>
+
+  <div class="slabel">Inpainting — CLIPSeg Auto-Masking + 3 Approaches</div>
+  <div class="img-2">
+    <div class="img-group">
+      <img src="generative-ai-pipeline/masking segmentation.png" alt="CLIPSeg segmentation auto-masking">
+      <div class="img-caption"><strong>CLIPSeg auto-mask</strong> (CIDAS/clipseg-rd64-refined): user types a text description → model generates mask automatically via sigmoid thresholding (&gt;0.5). No manual painting required. Compared against hardcoded NumPy masks and Streamlit canvas drawing.</div>
+    </div>
+    <div class="img-group">
+      <img src="generative-ai-pipeline/outpainting.png" alt="Outpainting zoom out">
+      <div class="img-caption"><strong>Outpainting (zoom-out effect):</strong> pad image with zeros → generate mask for expanded area → inpaint. Chained 3+ iterations with 128px expansion per pass to build larger scenes from a starting image.</div>
+    </div>
+  </div>
+
+  <div class="slabel">Architecture Decisions</div>
+  <table>
+    <thead><tr><th>Decision</th><th>Implementation</th><th>Insight</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Code structure</strong></td><td>logic.py (pure functions) + app.py (Streamlit UI)</td><td>Separating logic from UI made functions individually testable and reusable across both generation and editing tabs</td></tr>
+      <tr><td><strong>Model caching</strong></td><td>@st.cache_resource keyed by scheduler name</td><td>Reloading 3.44 GB model on every rerun was impractical — cache persists across sessions, scheduler hot-swaps without re-download</td></tr>
+      <tr><td><strong>Base + refiner pipeline</strong></td><td>base denoising_end=0.8 → refiner img2img strength=0.2, output_type="latent"</td><td>Latent-space passthrough between base and refiner avoids decoding/re-encoding artifacts — sharper fine details on faces and textures</td></tr>
+      <tr class="hl"><td><strong>Scheduler choice</strong></td><td>DPM++ for flat illustration, Euler A for photorealistic</td><td>Schedulers are not interchangeable — domain of the target image matters. Measured empirically across same prompt, same seed, different schedulers.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Core Insight</div>
+      <div class="finding-text">Diffusion is <strong>guided denoising, not iterative improvement</strong>. 30 steps vs 50 steps is a compute budget question, not a quality question — the model has already converged. CFG is a text-vs-image weighting parameter, not a "comprehension" dial.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">CLIPSeg</div>
+      <div class="finding-text">Auto-masking via text description (CIDAS/clipseg-rd64-refined) reduces the skill floor for inpainting. User describes what to replace in natural language → model generates binary mask → Stable Diffusion inpaints. <strong>Multimodal: vision model driving vision model.</strong></div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Thread to Phase 1</div>
+      <div class="finding-text">This is the same underlying question from the LSA thesis: <strong>what is the right representation?</strong> For language: TF-IDF → LSA → SBERT. For images: pixels → latent space → guided denoising trajectory. Different domain, same epistemological curiosity.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> Stable Diffusion v1.5 (runwayml/stable-diffusion-v1-5 · 3.44 GB), HuggingFace Diffusers, CLIPSeg (CIDAS/clipseg-rd64-refined), Streamlit, PyTorch, streamlit-drawable-canvas, pyngrok (Colab deployment)</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 2.1 / StudioAI — Generative Image Pipeline</span>
+  </div>
+</div>
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">2.2 · U-Net · Semantic Segmentation · GeoTIFF · Albumentations · TensorFlow</div>
+      <h2>GeoAI — <em>Satellite Image Segmentation</em></h2>
+    </div>
+    <div class="page-meta">
+      Solo · 2025<br>
+      Geospatial pipeline · Binary segmentation
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num">35.3%</div><div class="stat-label">F1-Score (Dice)<br>U-Net baseline · binary seg</div></div>
+    <div class="stat-cell"><div class="stat-num accent">87.9%</div><div class="stat-label">Overall accuracy<br>threshold 0.90</div></div>
+    <div class="stat-cell"><div class="stat-num accent">6×</div><div class="stat-label">Data augmentation<br>190 → 1,140 tiles</div></div>
+    <div class="stat-cell"><div class="stat-num">8</div><div class="stat-label">Grid search combos<br>LR × Filters × Dropout</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Problem:</strong> Detect and segment geospatial objects from satellite/aerial imagery (GeoTIFF) end-to-end — from raw raster data with coordinate references to a georeferenced mosaic prediction output ready for GIS analysis. <strong>Challenge:</strong> Only 190 labelled tiles available. Augmentation strategy (6× via Albumentations: flip, rotation, affine, brightness/contrast) was the primary lever, not architecture changes. The full GIS pipeline — tiling, training, and stitching predictions back into a georeferenced GeoTIFF — was built from scratch.
+  </div>
+
+  <div class="img-2">
+    <div class="img-group">
+      <div class="slabel">Prediction vs Ground Truth — Binary Segmentation Output</div>
+      <img src="_portfolio-assets/geoai-prediction.png" alt="U-Net prediction comparison">
+      <div class="img-caption"><strong>Left:</strong> Input satellite tile. <strong>Centre:</strong> Ground truth mask. <strong>Right:</strong> U-Net prediction at threshold 0.90. The model learns edge structure but struggles with small disconnected objects — a data volume problem more than an architecture problem.</div>
+    </div>
+    <div class="img-group">
+      <div class="slabel">Training Curve — Loss and Dice Coefficient per Epoch</div>
+      <img src="_portfolio-assets/geoai-training-curve.png" alt="U-Net training curve">
+      <div class="img-caption">Training and validation Dice coefficient per epoch. The model converges but validation gap indicates limited generalisation from 190 original tiles — confirmed by grid search: architecture changes (filters, dropout) mattered less than expected.</div>
+    </div>
+  </div>
+
+  <div class="slabel">Full GIS Pipeline Architecture</div>
+  <table>
+    <thead><tr><th>Stage</th><th>Approach</th><th>Output</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Input</strong></td><td>Raw GeoTIFF + Shapefile (vector masks)</td><td>Georeferenced raster with coordinate system preserved</td></tr>
+      <tr><td><strong>Tiling</strong></td><td>Sliding window → fixed-size tiles (overlap)</td><td>190 image-mask tile pairs for training</td></tr>
+      <tr><td><strong>Augmentation</strong></td><td>Albumentations: horizontal/vertical flip, rotation, affine transforms, brightness/contrast</td><td>1,140 tiles (6× expansion) — critical given data scarcity</td></tr>
+      <tr class="hl"><td><strong>Architecture</strong></td><td>U-Net (encoder-decoder with skip connections), binary output, threshold 0.90</td><td>Per-pixel segmentation mask</td></tr>
+      <tr><td><strong>Mosaic Export</strong></td><td>Stitch tile predictions back → georeferenced GeoTIFF</td><td>Full-resolution output importable into QGIS/ArcGIS</td></tr>
+    </tbody>
+  </table>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Honest Diagnosis</div>
+      <div class="finding-text">F1-Score 35.3%, IoU 21.5% — but <strong>Recall 77.7%</strong>. The model detects most objects (high recall) but generates false positives (low precision, 17.6%). Root cause: 190 training tiles is insufficient for this task. More data &gt; better architecture.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">GIS Pipeline</div>
+      <div class="finding-text">Output is a <strong>georeferenced GeoTIFF</strong> — coordinate system intact, importable into QGIS/ArcGIS for downstream spatial analysis. Not just a visual output; an actionable input to geospatial workflows.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Architecture Choice</div>
+      <div class="finding-text">U-Net's skip connections carry edge information from encoder to decoder — preserving the spatial detail that pooling discards. That's why U-Net is the standard for segmentation tasks where boundary accuracy matters.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> TensorFlow/Keras, U-Net, Albumentations, GDAL (GeoTIFF I/O), Rasterio, NumPy, Python</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 2.2 / GeoAI — U-Net Satellite Segmentation</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 5 · PAGE 2 — AQUASENSE + IMAGE LABELING
+════════════════════════════════════════ -->
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">2.3 · YOLOv8 · Model Evaluation · IAA · Annotation · Data Quality</div>
+      <h2>AquaSense — <em>YOLOv8 Waste Detection & IAA Analysis</em></h2>
+    </div>
+    <div class="page-meta">
+      Data Science Assessment · 2025<br>
+      378 test images · HuggingFace model
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a class="demo" href="https://huggingface.co/ninditya/aquasense-waste-detection-model" target="_blank">↗ HuggingFace — Model weights</a>
+    <a href="https://huggingface.co/datasets/ninditya/aquasense-waste-detection-dataset" target="_blank">⌥ HuggingFace — Test dataset</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num">67.4%</div><div class="stat-label">Precision<br>plastic waste detection</div></div>
+    <div class="stat-cell"><div class="stat-num">52.0%</div><div class="stat-label">Recall<br>378 test images</div></div>
+    <div class="stat-cell"><div class="stat-num accent">83.2%</div><div class="stat-label">Mean IoU<br>on true positives</div></div>
+    <div class="stat-cell"><div class="stat-num accent">0.889</div><div class="stat-label">ICC(A,1) annotator<br>agreement (non-zero rows)</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Two connected problems:</strong> (1) Evaluate a pretrained YOLOv8 model against a client test set where the labelling scheme differs — model has 5 classes, client uses 1 merged "plastic bottle" class. Required label alignment before any metric is valid. (2) Assess inter-annotator agreement (IAA) on plankton counts across 3 counting methods — determining which method is reliable enough to use as a training label source. Both tasks required deciding what to measure before measuring it.
+  </div>
+
+  <div class="slabel">YOLOv8 Evaluation — Label Alignment Challenge</div>
+  <table>
+    <thead><tr><th>Model Class</th><th>Plastic?</th><th>Approach</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td>plastic_soda_bottles (class 3)</td><td class="good">Yes</td><td>Merged into single "plastic" class before evaluation</td><td>62 predictions</td></tr>
+      <tr class="hl"><td>plastic_water_bottles (class 4)</td><td class="good">Yes</td><td>Merged into single "plastic" class before evaluation</td><td>414 predictions</td></tr>
+      <tr><td>aluminum_soda_cans (class 0)</td><td>No</td><td>Excluded from evaluation — not in client's GT scheme</td><td>14 predictions (not scored)</td></tr>
+      <tr><td>glass_beverage_bottles (class 1)</td><td>No</td><td>Excluded</td><td>51 predictions (not scored)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="img-group">
+    <div class="slabel">Inter-Annotator Agreement — Bland-Altman Analysis (CS2)</div>
+    <img src="_portfolio-assets/aquasense-bland-altman.png" alt="Bland-Altman IAA panel" style="width:100%;display:block;border:1px solid var(--line);max-height:55mm;object-fit:contain;object-position:top;">
+    <div class="img-caption">Three pairwise Bland-Altman plots. M1 vs M2 and M1 vs M3: large negative bias (~−49k cells/mL), wide limits of agreement — proportional bias that cannot be corrected by a scalar. <strong>M2 vs M3: near-zero bias (+694), CCC=0.984 — effectively interchangeable.</strong> Recommendation: use Method 2 or 3 as reference for model training; exclude or recalibrate Method 1 Green Algae counts.</div>
+  </div>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">YOLOv8 Verdict</div>
+      <div class="finding-text">Not ready for deployment at conf=0.25. When it fires, it fires well (IoU 83.2% on true positives). But it misses <strong>1 in 2 bottles</strong> (Recall 52%). Recommendation: raise conf threshold to 0.40–0.50, then fine-tune on hard-negative images. Delivered as 10-slide PowerPoint for client.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">IAA Insight</div>
+      <div class="finding-text">Spearman = 0.630 but CCC = 0.984 for M2 vs M3. Root cause: <strong>zero-inflation</strong>. Many rows have one method reporting exactly 0, creating large tie-groups that collapse Spearman's rank signal. CCC is the correct metric for this data structure — not Pearson, not Spearman.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Annotation Background</div>
+      <div class="finding-text">Freelance annotation experience (487 bounding boxes, 312 polygon segmentations, 300-image classification datasets) across LabelImg, CVAT, and Roboflow — which is what makes CV evaluation decisions legible: I know what labelling errors look like from the annotator side.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> YOLOv8 (Ultralytics), Python, ICC (pingouin), Bland-Altman, Pandas, scipy — HuggingFace Hub (model + dataset hosting) — LabelImg · CVAT · Roboflow (annotation tools)</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 2.3 / AquaSense YOLOv8 Evaluation · IAA Analysis</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 5 · PAGE 3 — STUDIOAI
+════════════════════════════════════════ -->
+<div class="page project-page">
+  <div class="phase-banner">
+    <span class="ph-num">PHASE 03</span>
+    <span class="ph-title">Data Science</span>
+    <span class="ph-desc">2025 · IDCamp Expert · end-to-end pipelines · analytics</span>
+  </div>
+
+  <div class="page-header">
+    <div>
+      <div class="proj-num">3.1 · XGBoost · SMOTE · Looker Studio · Streamlit · IDCamp Expert</div>
+      <h2>Student Dropout <em>Prediction</em></h2>
+    </div>
+    <div class="page-meta">
+      IDCamp Expert 2025 · Solo<br>
+      4,424 students · end-to-end
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a class="demo" href="https://idcamp2025-menyelesaikan-permasalahan-perusahaan-edutech-lh9vp.streamlit.app/" target="_blank">↗ Live App — Streamlit</a>
+    <a href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-perusahaan-edutech" target="_blank">⌥ GitHub</a>
+    <a href="https://ninditya.github.io/student-dropout/" target="_blank">≡ Case study</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">32.1%</div><div class="stat-label">Dropout rate<br>1,421 of 4,424 students</div></div>
+    <div class="stat-cell"><div class="stat-num accent">~1,325</div><div class="stat-label">Students potentially saved<br>with early intervention</div></div>
+    <div class="stat-cell"><div class="stat-num">97.27%</div><div class="stat-label">ROC-AUC<br>XGBoost final model</div></div>
+    <div class="stat-cell"><div class="stat-num">90.37%</div><div class="stat-label">F1-Score<br>dropout class · 5-fold CV</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Business problem:</strong> Jaya Jaya Institut's 32.12% dropout rate (2008–2015) had no early warning system — the institution was reacting after students had already left. <strong>Solution:</strong> detect at-risk students in semesters 1–2 (the only window where intervention is still possible), then route them to the right support: academic tutoring, financial aid, or scholarship referral.
+  </div>
+
+  <div class="img-group">
+    <div class="slabel">Solution Architecture</div>
+    <img src="student-dropout/Visualisasi%20Arsitektur%20Project.png" alt="Project architecture: Business Problem → EDA → Model → Dashboard → Streamlit App" style="width:100%;display:block;border:1px solid var(--line);max-height:55mm;object-fit:contain;object-position:top;">
+    <div class="img-caption">End-to-end flow: business problem → EDA (academic + financial + demographic factors) → XGBoost model → Looker Studio dashboard (administrators) + Streamlit app (student counsellors).</div>
+  </div>
+
+  <div class="slabel">Top Risk Signals — Feature Importance + Observed Dropout Rate</div>
+  <table>
+    <thead><tr><th>Signal</th><th>Importance</th><th>Observed Dropout Rate</th><th>Intervention</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Curricular units sem 2 approved</strong></td><td class="accent">28.6%</td><td class="accent">74–88% if &lt;4 units</td><td>Academic alert · tutoring from sem 1</td></tr>
+      <tr><td><strong>Tuition fees overdue</strong></td><td>10.7%</td><td class="accent">94.0%</td><td>Financial aid referral</td></tr>
+      <tr><td><strong>Enrolled units sem 1</strong></td><td>4.9%</td><td>High if enrolled &gt; capacity</td><td>Course load advisory</td></tr>
+      <tr class="hl"><td><strong>Scholarship holder</strong></td><td>2.7%</td><td class="good">13.8% (−58% vs avg)</td><td>Expand scholarship access</td></tr>
+    </tbody>
+  </table>
+
+  <div class="img-group">
+    <div class="slabel">Business Impact — Intervention Estimates</div>
+    <img src="student-dropout/Visualisasi%20Business%20Impact.png" alt="Business impact: 1,325 students saveable with early intervention" style="width:100%;display:block;border:1px solid var(--line);max-height:52mm;object-fit:contain;object-position:top;">
+    <div class="img-caption">~1,325 of 1,421 at-risk students reachable with four targeted interventions: academic tutoring · financial aid referral · scholarship expansion · course load advisory.</div>
+  </div>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Business Impact</div>
+      <div class="finding-text">The dashboard's Page 4 estimates ~1,325 of 1,421 dropout students could be reached with timely intervention — if the early warning system flags them by end of semester 1. The four action items (academic alert, financial aid, scholarship expansion, course load advisory) each map to a specific student segment.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Why F1 + Recall, Not Accuracy</div>
+      <div class="finding-text">A model predicting "graduate" for everyone scores 67.9% accuracy but catches zero at-risk students. Missing a dropout is costlier than a false alarm — F1 and Recall on the dropout class are the metrics that actually measure usefulness in this problem.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> XGBoost, scikit-learn, SMOTE (imbalanced-learn), Streamlit (prediction app), Looker Studio (executive dashboard), Python</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 3.1 / Student Dropout Prediction — IDCamp Expert 2025</span>
+  </div>
+</div>
+
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">3.2 · XGBoost · SMOTE · Metabase · Docker · PostgreSQL · IDCamp Expert</div>
+      <h2>Employee Attrition <em>Prediction</em></h2>
+    </div>
+    <div class="page-meta">
+      IDCamp Expert 2025 · Solo<br>
+      1,470 employees · Jaya Jaya Maju
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a href="https://github.com/ninditya/idcamp2025-menyelesaikan-permasalahan-human-resources" target="_blank">⌥ GitHub</a>
+    <a href="https://ninditya.github.io/employee-attrition/" target="_blank">≡ Case study</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">86%</div><div class="stat-label">Recall<br>attrition class (XGBoost)</div></div>
+    <div class="stat-cell"><div class="stat-num">16.9%</div><div class="stat-label">Annual attrition rate<br>baseline Jaya Jaya Maju</div></div>
+    <div class="stat-cell"><div class="stat-num accent">5</div><div class="stat-label">Metabase dashboard tabs<br>Docker Compose deploy</div></div>
+    <div class="stat-cell"><div class="stat-num">50–200%</div><div class="stat-label">Cost of missing<br>one attritor (salary %)</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Problem:</strong> Jaya Jaya Maju's 16.9% annual attrition had no systematic predictor — HR was reacting, not preventing. <strong>Constraint:</strong> False negatives are expensive (50–200% of annual salary per missed attritor). Primary metric is Recall on the attrition class, not overall accuracy — a model that predicts "stay" for everyone would score 83% accuracy but be completely useless.
+  </div>
+
+  <div class="slabel">Risk Factor Analysis</div>
+  <table>
+    <thead><tr><th>Risk Factor</th><th>Attrition Rate</th><th>vs Average 16.9%</th><th>Recommended Action</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Overtime (Yes)</strong></td><td class="accent">31.9%</td><td class="accent">~3×</td><td>Monitor overtime hours per department</td></tr>
+      <tr><td><strong>Salary bottom quartile</strong></td><td class="accent">29.1%</td><td class="accent">~3×</td><td>Benchmark compensation vs market</td></tr>
+      <tr><td><strong>Tenure ≤ 1 year</strong></td><td class="accent">34.6%</td><td class="accent">~4×</td><td>Structured 90-day onboarding programme</td></tr>
+      <tr><td><strong>Age 18–25</strong></td><td class="accent">38.0%</td><td class="accent">~4×</td><td>Career pathing + mentorship for early career</td></tr>
+      <tr class="hl"><td><strong>Sales Representative role</strong></td><td class="accent">43.1%</td><td class="accent">highest role</td><td>Role-specific retention programme</td></tr>
+    </tbody>
+  </table>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Model Choice</div>
+      <div class="finding-text">XGBoost over Logistic Regression (74% accuracy baseline) — XGBoost achieved <strong>86% Recall on the attrition class</strong>. LR's accuracy was misleading: it predicted "stay" for ambiguous cases, hiding the most at-risk employees.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Custom Transformer</div>
+      <div class="finding-text">Built <strong>HRFeatureEngineer</strong> — a custom scikit-learn transformer encoding domain-specific features: overtime×salary interaction, tenure brackets, role-level risk flags. Batch predictions write to PostgreSQL via SQLAlchemy for Metabase consumption.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Metabase Dashboard</div>
+      <div class="finding-text"><strong>5-tab Docker Compose dashboard:</strong> Executive Summary · Compensation Analysis · Satisfaction Scores · Demographics · Early Warning list (employees above risk threshold, filterable by department). Designed for HR managers — no SQL, no Python required.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> XGBoost, scikit-learn (custom transformer pipeline), SMOTE (imbalanced-learn), SQLAlchemy, PostgreSQL, Metabase, Docker Compose, Python</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 3.2 / Employee Attrition Prediction — IDCamp Expert 2025</span>
+  </div>
+</div>
+
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">3.3 · Streamlit · Plotly · Folium · Scipy · Statistical Analysis · IDCamp</div>
+      <h2>Beijing Air Quality <em>Dashboard</em></h2>
+    </div>
+    <div class="page-meta">
+      IDCamp Intermediate 2025 · Solo<br>
+      12 stations · 2013–2017 · 6 pollutants
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a class="demo" href="https://air-qualiity-x4kfpuhq2hftjtf4rtxfnq.streamlit.app/" target="_blank">↗ Live App — Streamlit</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">12</div><div class="stat-label">Monitoring stations<br>2013–2017 hourly</div></div>
+    <div class="stat-cell"><div class="stat-num">46MB</div><div class="stat-label">Raw dataset<br>6 pollutants</div></div>
+    <div class="stat-cell"><div class="stat-num accent">χ²=11,819</div><div class="stat-label">Season × PM2.5<br>p&lt;0.001</div></div>
+    <div class="stat-cell"><div class="stat-num">2×</div><div class="stat-label">Submitted before passing<br>rigour iteration lesson</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Task:</strong> Analyse 5 years of hourly air quality data across 12 Beijing monitoring stations — identify worst stations, temporal patterns, and PM2.5 meteorological relationships. <strong>First submission rejected</strong> by reviewer: questions not Time-bound, EDA missing statistical tests, dashboard not interactive. Revised with chi-square, skewness/kurtosis, Folium choropleth — and passed. The rejection directly shaped my analytical rigour standard.
+  </div>
+
+  <div class="slabel">Statistical Method Decisions</div>
+  <table>
+    <thead><tr><th>Analysis Question</th><th>Method Chosen</th><th>Why Not the Obvious Choice</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>PM2.5 vs wind speed</strong></td><td>Spearman rank correlation</td><td>Meteorological data is right-skewed non-normal. Pearson assumes normality — violated here.</td></tr>
+      <tr><td><strong>Season × PM2.5 association</strong></td><td>Chi-square χ²=11,819, p&lt;0.001</td><td>Season is a nominal (categorical) variable — correlation coefficients don't apply to it.</td></tr>
+      <tr class="hl"><td><strong>Station priority ranking</strong></td><td>Composite z-score: 0.5·PM2.5_z + 0.35·AQI_z + 0.15·gas_z</td><td>Single PM2.5 ranking misses multi-pollutant burden — composite is more actionable for policy targeting.</td></tr>
+      <tr><td><strong>Distribution reporting</strong></td><td>Skewness + kurtosis (added on revision)</td><td>First submission only showed mean/median. Reviewer required distributional evidence before accepting non-parametric method choice.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Key Finding</div>
+      <div class="finding-text">Wind speed (WSPM) is the strongest negative correlator with PM2.5. Winter (Dec–Feb) is consistently the worst period — chi-square confirms the association is not by chance. Gucheng and Wanliu stations score highest on the composite priority index.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Dashboard Design</div>
+      <div class="finding-text">Interactive Folium choropleth map (by composite score) + Plotly time series drill-down (hourly/daily/monthly) + pollutant correlation heatmap. AQI computed via EPA piecewise linear breakpoints, not raw PM2.5 — the distinction matters for policy interpretation.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">What I Changed After Rejection</div>
+      <div class="finding-text">Added chi-square test with explicit H₀/H₁ framing, skewness/kurtosis justification for Spearman choice, Time-bound question framing (2013–2017 window), and replaced static Matplotlib charts with interactive Plotly + Folium. <strong>Passed on second submission.</strong></div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> Streamlit, Plotly, Folium, Pandas, NumPy, Scipy (Spearman, chi-square), Python · Deployed on Streamlit Cloud</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 3.3 / Beijing Air Quality Dashboard — IDCamp Intermediate 2025</span>
+  </div>
+</div>
+
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">3.4 · PostgreSQL · 17-CTE SQL · Weighted Scoring · LLM · Streamlit</div>
+      <h2>Talent Match <em>Intelligence</em></h2>
+    </div>
+    <div class="page-meta">
+      Data Analyst Case Study · 2025<br>
+      Paragon Corp · 2,010 employees
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a class="demo" href="https://ninditya-talent-match-intelligence.streamlit.app/" target="_blank">↗ Live App — Streamlit</a>
+    <a href="https://github.com/ninditya/talent-match-intelligence" target="_blank">⌥ github.com/ninditya/talent-match-intelligence</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">17</div><div class="stat-label">Cascading CTEs<br>single parameterized query</div></div>
+    <div class="stat-cell"><div class="stat-num">2,010</div><div class="stat-label">Employees ranked<br>by job_vacancy_id</div></div>
+    <div class="stat-cell"><div class="stat-num accent">92.52%</div><div class="stat-label">Top match score<br>TGV weighted formula</div></div>
+    <div class="stat-cell"><div class="stat-num">9.5%</div><div class="stat-label">R5 (top performer)<br>187 of 1,975 employees</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Problem:</strong> Succession planning at Company X was done by gut judgment — no systematic way to find which of 2,010 employees most closely matches proven top performers (R5, Rating=5). <strong>Solution:</strong> A 17-CTE PostgreSQL query ranks every employee against the R5 benchmark profile using a weighted TGV formula. AI job profile generation via OpenRouter (MiniMax M2.5) produces structured JSON requirements per vacancy. Served via Streamlit on Supabase (PostgREST backend).
+  </div>
+
+  <div class="slabel">TGV Weighted Scoring Formula</div>
+  <table>
+    <thead><tr><th>Dimension</th><th>Weight</th><th>Scoring Method</th><th>Key Differentiator in R5</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Cognitive Ability</strong></td><td>0.30</td><td>user/baseline × 100, capped 100</td><td>Pauli stamina distinguishes R5 — endurance over raw IQ</td></tr>
+      <tr><td><strong>Competency Execution</strong></td><td>0.25</td><td>Competency scores vs R5 median (PERCENTILE_CONT)</td><td>SEA +2.10, VCU +1.83, CSI +1.82 — execution competencies, not leadership</td></tr>
+      <tr><td><strong>Work Preferences</strong></td><td>0.20</td><td>Inverse PAPI scales where applicable: (2×baseline−user)/baseline×100</td><td>Lower Leadership G (−0.35) but higher Planning (+0.35) — drives via collaboration</td></tr>
+      <tr><td><strong>Behavioral Strengths</strong></td><td>0.15</td><td>CliftonStrengths top-5 overlap count / 5 × 100</td><td>Futuristic (19.8%), Restorative (19.8%), Intellection (18.7%)</td></tr>
+      <tr class="hl"><td><strong>Contextual Fit</strong></td><td>0.10</td><td>Categorical: exact match 100/0 (MODE() for R5 reference)</td><td>DISC type shows no dominant R5 pattern — high performance is execution-dependent</td></tr>
+    </tbody>
+  </table>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">CTE Architecture</div>
+      <div class="finding-text">17 cascading CTEs: benchmarks → PERCENTILE_CONT(0.5) medians → MODE() for categorical references → per-dimension overlap counting → weighted TGV score. All 2,010 employees ranked in <strong>one parameterized query</strong> by job_vacancy_id.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Counterintuitive Finding</div>
+      <div class="finding-text">R5 employees score <strong>lower on PAPI Leadership G</strong> than R3/R4 — but higher on Planning. Strongest cognitive differentiator: Pauli stamina (+3.05), not IQ (−0.59). High performance correlates with sustained output, not raw reasoning speed.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Schema Debugging</div>
+      <div class="finding-text">Supabase PostgREST caps at 1,000 rows/request — built custom paginated <code>fetch_table()</code>. Docs said GTQ1–GTQ5 as separate columns; actual DB stores single composite value. <strong>Always verify live schema against documentation.</strong></div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> PostgreSQL (17 CTEs, PERCENTILE_CONT, MODE, CUID2 PKs, 6 composite indexes), Supabase (PostgREST + star schema, 11 tables, 180K+ rows), Streamlit 1.40, Plotly 5.24, OpenRouter (MiniMax M2.5), Python 3.11</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 3.4 / Talent Match Intelligence — Paragon Case Study</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 3 · PAGE 1 — BANKING INTENT ROUTER
+════════════════════════════════════════ -->
+<div class="page project-page">
+  <div class="phase-banner">
+    <span class="ph-num">PHASE 04</span>
+    <span class="ph-title">AI / LLM Systems</span>
+    <span class="ph-desc">2025–2026 · production systems · cost engineering · full-stack</span>
+  </div>
+
+  <div class="page-header">
+    <div>
+      <div class="proj-num">4.1 · NLP · LLM Cost Engineering · MLOps · SBERT + LinearSVC</div>
+      <h2>Banking <em>Intent Router</em></h2>
+    </div>
+    <div class="page-meta">
+      Personal AI Engineering project<br>
+      2025–2026 · Solo · HuggingFace Spaces
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a class="demo" href="https://huggingface.co/spaces/ninditya/banking-intent-router" target="_blank">↗ Live Demo — HuggingFace Spaces</a>
+    <a href="https://github.com/ninditya/mlops-banking-rag-query-router-intent-classifier" target="_blank">⌥ GitHub</a>
+    <a href="https://ninditya.github.io/banking-intent-router/" target="_blank">≡ Case study</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">0.9305</div><div class="stat-label">F1 Macro<br>Banking77 benchmark</div></div>
+    <div class="stat-cell"><div class="stat-num accent">−96%</div><div class="stat-label">LLM cost reduction<br>vs all-LLM baseline</div></div>
+    <div class="stat-cell"><div class="stat-num">~50ms</div><div class="stat-label">Avg latency<br>weighted across tiers</div></div>
+    <div class="stat-cell"><div class="stat-num">4</div><div class="stat-label">Routing tiers<br>regex→template→RAG→LLM</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Insight from the LSA thesis, applied at scale:</strong> Four years later — same core idea. Dense semantic representation (now SBERT instead of LSA) + confidence-based routing instead of hard classification. The 2021 thesis showed that representation quality changes outcomes more than model choice. This project shows that <strong>routing decisions based on confidence scores change economics</strong> — 96% cost reduction by never calling an LLM unless the confidence of cheaper tiers genuinely fails.
+  </div>
+
+  <div class="img-group">
+    <div class="slabel">System Architecture — 4-Tier Routing Pipeline</div>
+    <img src="banking-intent-router/architecture-overview.png" alt="Banking Intent Router architecture" style="width:100%;display:block;border:1px solid var(--line);max-height:80mm;object-fit:contain;object-position:top;">
+    <div class="img-caption">Query → SBERT embedding (384-dim) → LinearSVC confidence scoring → routing decision → tier handler. Tier 0: regex (&lt;1ms, $0). Tier 1: template (≥0.55 conf, ~8ms). Tier 2: RAG+FAISS (0.30–0.55, ~300ms). Tier 3: LLM fallback (&lt;0.30, ~2s). 12 Prometheus metrics monitored via Grafana Cloud.</div>
+  </div>
+
+
+  <div class="slabel">4-Tier Routing Economics</div>
+  <table>
+    <thead><tr><th>Tier</th><th>Trigger</th><th>Handler</th><th>Latency</th><th>Cost/Query</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>0 — Regex</strong></td><td>Exact pattern match</td><td>Rule-based regex</td><td class="good">&lt;1ms</td><td class="good">$0</td></tr>
+      <tr><td><strong>1 — Template</strong></td><td>LinearSVC conf ≥ 0.55</td><td>Template lookup</td><td class="good">~8ms</td><td class="good">$0</td></tr>
+      <tr><td><strong>2 — RAG</strong></td><td>LinearSVC conf 0.30–0.55</td><td>FAISS + doc retrieval</td><td>~300ms</td><td>~$0.0001</td></tr>
+      <tr class="hl"><td><strong>3 — LLM</strong></td><td>LinearSVC conf &lt; 0.30</td><td>GPT-4o mini / Groq</td><td>~2s</td><td class="accent">~$0.001</td></tr>
+    </tbody>
+  </table>
+  <div style="font-size:8.5px;color:var(--light);margin-bottom:10px;">Tiers 0+1 handle ~80% of queries at $0. LLM tier handles only the ~4% the model is genuinely uncertain about — hence −96% cost vs all-LLM baseline.</div>
+
+  <div class="img-group">
+    <div class="slabel">Grafana Monitoring Dashboard — Live Production Metrics</div>
+    <img src="banking-intent-router/dashboard-grafana.png" alt="Grafana monitoring dashboard" style="width:100%;display:block;border:1px solid var(--line);max-height:70mm;object-fit:contain;object-position:top;">
+    <div class="img-caption">12 custom Prometheus metrics via remote_write (protobuf + snappy compression): request volume per tier, latency distribution, cost tracker, routing ratio. Every request logged, no aggregation loss.</div>
+  </div>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">NLP Model</div>
+      <div class="finding-text"><strong>SBERT</strong> (all-MiniLM-L6-v2) → <strong>LinearSVC</strong> with calibrated probabilities. FAISS-indexed 59-doc knowledge base for Tier 2 RAG (top-3 retrieval). LLM only activated when LinearSVC confidence &lt;0.30.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">MLOps Stack</div>
+      <div class="finding-text">FastAPI backend, MLflow experiment tracking, Docker containerized, deployed HuggingFace Spaces. LLM tier supports OpenAI, Groq, Ollama, or Mock — auto-fallback if primary provider unreachable. <strong>No hard crashes.</strong></div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Thread to Thesis</div>
+      <div class="finding-text">Case study explicitly traces the intellectual lineage: <strong>LSA (2021) → SBERT (2025)</strong>. Same insight — dense latent representation beats sparse word counts — now powering a routing system that processes real banking queries in production.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> Python, Sentence-BERT, LinearSVC, FAISS, FastAPI, Prometheus, Grafana Cloud, MLflow, Docker, HuggingFace Spaces</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 4.1 / Banking Intent Router</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 3 · PAGE 2 — RAG CHATBOT + NUTRIPAL
+════════════════════════════════════════ -->
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">4.2 · LangGraph · Qdrant · Gemini · Personalization · Production RAG</div>
+      <h2>HealthTruth-AI — <em>Production RAG Chatbot</em></h2>
+    </div>
+    <div class="page-meta">
+      Hacktiv8 Maju Bareng AI · Dec 2025<br>
+      Solo · v0 → v1 Production Refactor · Railway
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a class="demo" href="https://health-truth-chatbot.up.railway.app" target="_blank">↗ Live Demo — Railway</a>
+    <a href="https://ninditya.github.io/rag-chatbot-service/" target="_blank">≡ Case study</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num">3,072</div><div class="stat-label">Embedding dims<br>Gemini embedding-001</div></div>
+    <div class="stat-cell"><div class="stat-num accent">0</div><div class="stat-label">Hard crashes<br>on quota exhaustion</div></div>
+    <div class="stat-cell"><div class="stat-num">2</div><div class="stat-label">Interaction modes<br>Tanya · Cek Fakta</div></div>
+    <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">Refactor iterations<br>v0 submission → v1 prod</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Problem:</strong> Viral health misinformation in family groups — generic advice ignores individual conditions, allergies, medications. <strong>Architecture:</strong> LangGraph 3-node graph (retrieve → _route() → answer/no_context). Qdrant Cloud vector store (cosine, 3072-dim embeddings, top-3 retrieval). User profile prepended to every query before embedding — same API call, personalized grounding. Two modes: Tanya (Q&amp;A, 3 depth levels) and Cek Fakta (structured verdict: FAKTA / MITOS / PERLU BUKTI LEBIH LANJUT).
+  </div>
+
+  <div class="img-group">
+    <div class="slabel">System Architecture — LangGraph + Qdrant + Personalization Layer</div>
+    <img src="rag-chatbot-service/architecture-overview.png" alt="HealthTruth RAG System Architecture" style="width:100%;display:block;border:1px solid var(--line);max-height:85mm;object-fit:contain;object-position:top;">
+    <div class="img-caption">v0 → v1 refactor: FAISS in-memory → Qdrant persistent; monolith → 5 single-responsibility classes (EmbeddingService, DocumentStore, RagWorkflow, HealthRouter, app); flat prompt → profile context injection; crash on quota → layered graceful degradation. Zero hard crashes in production.</div>
+  </div>
+
+  <div class="slabel">v0 → v1 Evolution — Key Architecture Changes</div>
+  <table>
+    <thead><tr><th>Layer</th><th>v0 Submission</th><th>v1 Production</th><th>Impact</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Vector Store</strong></td><td>FAISS in-memory</td><td class="good">Qdrant Cloud persistent</td><td>35+ docs survive restart</td></tr>
+      <tr><td><strong>Pipeline</strong></td><td>Raw chain, single file</td><td class="good">LangGraph 3-node graph</td><td>Error location per-node</td></tr>
+      <tr><td><strong>Personalization</strong></td><td>Flat prompt, generik</td><td class="good">Profile context injection</td><td>"Is ginger safe?" differs per medical condition</td></tr>
+      <tr class="hl"><td><strong>Error Handling</strong></td><td>Crash on quota exhaustion</td><td class="good">Graceful degradation</td><td>0 hard crashes in production</td></tr>
+    </tbody>
+  </table>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Routing Logic</div>
+      <div class="finding-text"><strong>_route()</strong> after retrieval: context found → answer node (LLM generates). No context → no_context node (raw context shown, no LLM call). Zero wasted LLM calls — the expensive path is only taken when retrieval genuinely succeeded.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Prompt Defense</div>
+      <div class="finding-text">XML delimiters (<code>&lt;user_claim&gt;</code>, <code>&lt;trusted_context&gt;</code>) over markdown for injection defense. <code>_sanitize()</code> strips null bytes. <code>response_mime_type="application/json"</code> forces schema-constrained Cek Fakta output with JSON fallback on parse failure.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Quota Isolation</div>
+      <div class="finding-text">Separate <code>GEMINI_API_KEY</code> (generation) from <code>EMBEDDING_API_KEY</code> (retrieval) — one exhausted doesn't kill the other. 2 Docker services on Railway. Embedding quota and generation quota are independent failure domains.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> LangGraph, Qdrant Cloud, Gemini 2.5 Flash, Gemini embedding-001, FastAPI, Streamlit, Docker, Railway (2 services)</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 4.2 / HealthTruth-AI — Production RAG Chatbot</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 3 · PAGE 3 — NUTRIPAL AI
+════════════════════════════════════════ -->
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">4.3 · Genkit · Gemini 2.5 Flash Vision · Next.js 15 · Supabase · TypeScript</div>
+      <h2>NutriPal AI — <em>Full-Stack Nutrition App</em></h2>
+    </div>
+    <div class="page-meta">
+      Solo project · 2025<br>
+      Live on Vercel · 3 weeks concept → ship
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a class="demo" href="https://nutripal-rho.vercel.app" target="_blank">↗ Live — nutripal-rho.vercel.app</a>
+    <a href="https://github.com/ninditya/nutripal-ai" target="_blank">⌥ github.com/ninditya/nutripal-ai</a>
+    <a href="https://ninditya.github.io/nutripal-ai/" target="_blank">≡ Case study</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">5</div><div class="stat-label">Genkit AI flows<br>Gemini 2.5 Flash</div></div>
+    <div class="stat-cell"><div class="stat-num accent">4</div><div class="stat-label">API keys rotated<br>zero quota downtime</div></div>
+    <div class="stat-cell"><div class="stat-num">99%</div><div class="stat-label">TypeScript<br>Zod-validated AI I/O</div></div>
+    <div class="stat-cell"><div class="stat-num accent">3 wks</div><div class="stat-label">Concept to live<br>product, solo</div></div>
+  </div>
+
+  <div class="context">
+    <strong>What I proved:</strong> I can ship a complete, production-quality AI product end-to-end, solo, in three weeks. Photo → Gemini Vision identifies food, calculates macros, flags allergens in one API call. 4-key rotation via <strong>executeWithRotation()</strong> catches HTTP 429 and retries transparently — free-tier keys become a production-grade pool. Zod schemas validate both input and output of every AI flow — malformed Gemini JSON surfaces at the schema layer, not the UI. Supabase Realtime pushes new meals to the dashboard without polling. State managed with 4 custom hooks, no Redux/Zustand.
+  </div>
+
+  <div class="slabel">The 5 Genkit AI Flows</div>
+  <table>
+    <thead><tr><th>Flow</th><th>Input</th><th>Output</th><th>Key Technical Detail</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>analyze-meal</strong></td><td>Photo (base64 URI)</td><td>Name, calories, macros, health score (0–100), allergen warning</td><td>Vision mode — Gemini processes image directly</td></tr>
+      <tr><td><strong>analyze-text-meal</strong></td><td>Food description</td><td>Same schema as photo flow</td><td>Text-only path, same Zod contract</td></tr>
+      <tr><td><strong>generate-daily-plan</strong></td><td>Goals, allergies, restrictions</td><td>Full day meal plan with recipes</td><td>Structured output — Zod validates every nested field</td></tr>
+      <tr><td><strong>curate-meal-suggestions</strong></td><td>Profile + recent history</td><td>5 personalized meal cards</td><td>Context-aware: avoids recently eaten foods</td></tr>
+      <tr class="hl"><td><strong>personalized-diet-plans</strong></td><td>Health goals + body metrics</td><td>Multi-week structured diet plan</td><td>Longest context flow — streamed response</td></tr>
+    </tbody>
+  </table>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Allergen Engineering</div>
+      <div class="finding-text">Allergen warning required two-part prompt instruction: <strong>identify actual ingredients first, then check against user list</strong>. Single-step "flag allergens" produced unreliable results. Framing the reasoning order in the prompt mattered more than prompt phrasing.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Supabase Realtime</div>
+      <div class="finding-text">4 custom hooks (useProfile, useDailyLog, useMeals, useDailyLogs) subscribe to per-user Realtime channels. Database is source of truth — no global state library needed. New meal entries appear on dashboard the moment they're saved, without polling.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Rate Limits = Architecture</div>
+      <div class="finding-text">Free-tier Gemini API has per-key quota limits. 4 keys in rotation = a production-grade pool at $0. The same insight as Banking Intent Router: <strong>intelligent routing at the infrastructure layer prevents the user from ever seeing a quota error</strong>.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> Next.js 15, React 19, TypeScript, Google Genkit, Gemini 2.5 Flash (Vision + Text), Supabase (PostgreSQL · Auth · Realtime), Zod, Vercel</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 4.3 / NutriPal AI — Full-Stack Nutrition App</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 4 · PAGE 1 — YORINDO EM·U
+════════════════════════════════════════ -->
+<div class="page project-page">
+  <div class="phase-banner">
+    <span class="ph-num">PHASE 05</span>
+    <span class="ph-title">KADA — Team Projects</span>
+    <span class="ph-desc">2026 · Korea-ASEAN Digital Academy · 60 selected from 900+</span>
+  </div>
+
+  <div class="page-header">
+    <div>
+      <div class="proj-num">5.1 · Backend Dev · Fastify TypeScript · Claude + Codex · Agile SDLC</div>
+      <h2>Yorindo EM·U — <em>AI-Augmented Backend Development</em></h2>
+    </div>
+    <div class="page-meta">
+      Korea-ASEAN Digital Academy (KADA)<br>
+      2026 · Team project · Backend role
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">2</div><div class="stat-label">AI coding tools<br>Claude · GitHub Codex</div></div>
+    <div class="stat-cell"><div class="stat-num">17</div><div class="stat-label">API route modules<br>Fastify TypeScript</div></div>
+    <div class="stat-cell"><div class="stat-num accent">1st</div><div class="stat-label">time in structured<br>Epic → User Story SDLC</div></div>
+    <div class="stat-cell"><div class="stat-num">→</div><div class="stat-label">Moved to CineTrack<br>by mentor mid-project</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Context:</strong> Assigned to backend division on Yorindo EM·U — a B2B event management platform (Fastify TypeScript API, PostgreSQL, Redis, Docker). My role was backend development using <strong>Claude and GitHub Codex as primary AI coding assistants</strong>. Partway through, mentor reassigned me to CineTrack. The Yorindo phase was brief, but it was my first time working inside a real Agile team — and where I first understood how Epics, User Stories, and tasks actually connect in practice.
+  </div>
+
+  <div class="slabel">How I Used AI as a Development Tool</div>
+  <table>
+    <thead><tr><th>Tool</th><th>How I Used It</th><th>What I Learned</th></tr></thead>
+    <tbody>
+      <tr class="hl">
+        <td><strong>Claude</strong></td>
+        <td>Understanding unfamiliar codebase patterns — Fastify plugin architecture, TypeScript generics in route handlers, repository pattern implementation</td>
+        <td>AI as a <em>codebase interpreter</em>: asking "what does this pattern do and why" is faster than reading docs cold. Changed how I read new repos.</td>
+      </tr>
+      <tr>
+        <td><strong>GitHub Codex</strong></td>
+        <td>Boilerplate generation for route handlers, test stubs, TypeScript type declarations. Autocomplete across the Fastify + Prisma stack</td>
+        <td>AI suggestion quality is directly tied to how well I framed the context. Vague prompts → generic code. Precise prompts → usable scaffolding.</td>
+      </tr>
+      <tr class="hl">
+        <td><strong>AI + Code Review</strong></td>
+        <td>Used Claude to pre-review my own PRs before submitting — catching type errors, missing edge cases, and naming inconsistencies</td>
+        <td>Self-review with AI before peer review reduced back-and-forth significantly. Treating AI as a first-pass reviewer became a habit I carried to CineTrack.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="slabel">SDLC Insight — First Structured Team Experience</div>
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Epic → Story → Task</div>
+      <div class="finding-text">First time working from a backlog with formal Epic decomposition. Seeing how a feature like "QR Check-in" breaks into stories (offline PWA, OTS registration, sync-on-reconnect) and then into tasks helped me understand that most of my previous solo projects had implicit epics — I just didn't know the vocabulary.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Working on Others' Code</div>
+      <div class="finding-text">Backend codebase was partially built before I joined. Had to read, understand, and extend existing patterns without breaking them — a different skill from greenfield development. Claude was essential here for decoding unfamiliar decisions quickly.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">What I Carried Forward</div>
+      <div class="finding-text">The AI-as-first-reviewer habit and Epic decomposition thinking directly shaped how I approached CineTrack. I proposed the user story structure for the cinema analytics features and used the same Claude + Codex workflow, now with more confidence and precision.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> Fastify (TypeScript, ESM), PostgreSQL, Redis, Docker Compose · <strong>AI Tools:</strong> Claude (Anthropic), GitHub Codex · <strong>Process:</strong> Git feature branches, PR reviews, Agile standups, Epic/User Story backlog</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 5.1 / Yorindo EM·U — AI-Augmented Backend Development · KADA</span>
+  </div>
+</div>
+
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">5.2 · Fastify · PostgreSQL CTEs · Redis · LLM Integration · Team Backend</div>
+      <h2>CineTrack — <em>Cinema Analytics Backend</em></h2>
+    </div>
+    <div class="page-meta">
+      Korea-ASEAN Digital Academy (KADA)<br>
+      2026 · Team capstone · Backend role
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a href="https://github.com/dellips/capstone-project-api-cinetrack" target="_blank">⌥ github.com/dellips/capstone-project-api-cinetrack</a>
+    <a href="https://ninditya.github.io/cinetrack-backend/" target="_blank">≡ Case study (in progress)</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">20+</div><div class="stat-label">Analytics endpoints<br>revenue · occupancy · time-slot</div></div>
+    <div class="stat-cell"><div class="stat-num accent">&lt;200ms</div><div class="stat-label">Query time after<br>composite index (was &gt;2s)</div></div>
+    <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">Composite indexes added<br>via EXPLAIN ANALYZE</div></div>
+    <div class="stat-cell"><div class="stat-num">LLM</div><div class="stat-label">Business insights<br>from aggregated SQL data</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Problem:</strong> A cinema chain dashboard needs real-time answers to business questions: which studio is underperforming, which time slots are undermonetized, what's the weekend vs weekday ROI — filterable by city, cinema, studio, movie, and date range. <strong>My role:</strong> Backend developer. Built the SQL analytics layer, Redis caching, query optimization, and LLM integration that surfaces plain-language business recommendations from raw operational data.
+  </div>
+
+  <div class="slabel">SQL Analytics — The Hard Problems</div>
+  <table>
+    <thead><tr><th>Problem</th><th>Wrong Approach</th><th>Correct Approach</th><th>Why It Matters</th></tr></thead>
+    <tbody>
+      <tr class="hl">
+        <td><strong>Occupancy Calculation</strong></td>
+        <td>AVG(tickets_sold / capacity) across all rows</td>
+        <td>Nested CTE: compute per-schedule ratio first, then aggregate</td>
+        <td>Averaging at wrong granularity produces incorrect occupancy — a scheduling with 1 ticket skews the average down incorrectly</td>
+      </tr>
+      <tr>
+        <td><strong>Time-slot Classification</strong></td>
+        <td>Manual WHERE clauses per time range</td>
+        <td>EXTRACT(HOUR) + EXTRACT(DOW) in CTE layer</td>
+        <td>Weekend morning vs weekday morning have different demand curves — both need separate analytics without duplicating query logic</td>
+      </tr>
+      <tr>
+        <td><strong>Filter Injection Risk</strong></td>
+        <td>String concatenation for WHERE clause</td>
+        <td>buildScopeFilters() with parameterized bindings</td>
+        <td>20+ filter combinations across city, cinema, studio, movie — parameterized prevents SQL injection, handles NULL filters cleanly</td>
+      </tr>
+      <tr class="hl">
+        <td><strong>Query Performance</strong></td>
+        <td>Sequential scans on 3 large join tables</td>
+        <td>EXPLAIN ANALYZE → composite indexes on (schedule_id), (show_date, studio_id), (show_date, movie_id)</td>
+        <td>Analytics queries went from &gt;2s to &lt;200ms — the dashboard became usable for real-time filtering</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="slabel">LLM Integration — The Right Layer</div>
+  <div class="context">
+    The LLM <strong>does not</strong> query the database. Instead: backend aggregates all relevant metrics → structures them as typed JSON → passes to LLM with a structured prompt. The LLM only handles the final interpretation step: turning "Studio B had 23% lower occupancy on weekday mornings, −Rp 4.2M vs target" into a plain-language recommendation that a non-technical cinema manager can act on. This keeps the LLM in the <strong>interpretation layer</strong>, not the data layer — auditable, cheaper, and more reliable.
+  </div>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Undermonetization Signal</div>
+      <div class="finding-text">Normalization score: <code>(demand_score + revenue_score) / 2</code> identifies time slots with <strong>high attendance but low ticket price</strong> — actionable pricing opportunity. Built as a direct business insight, not just a data table.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Redis Caching</div>
+      <div class="finding-text">Cache-aside pattern with <strong>filter-aware cache keys</strong> — city+cinema+studio+date range all included in key hash. Same filter combination served from cache; different filters hit PostgreSQL. TTL via config, invalidated on data update.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">What KADA Taught</div>
+      <div class="finding-text">First time building software where someone else's frontend depended on my API contract. Getting the response shape right, keeping it documented, and not breaking it on refactor taught me more about <strong>professional engineering accountability</strong> than any solo project.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> Node.js (Fastify, ESM), PostgreSQL (CTEs, EXPLAIN ANALYZE, composite indexes), Redis (cache-aside, filter-aware keys), LLM API (business insights layer), Git (feature branches + PR reviews)</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Phase 5.2 / CineTrack — Cinema Analytics Backend — KADA</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 5 · PAGE 1 — GEOAI U-NET
+════════════════════════════════════════ -->
+
+
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">Reflection · Why Apple Developer Academy · What's Next</div>
+      <h2>Why ADA — <em>The Next Chapter</em></h2>
+    </div>
+    <div class="page-meta">
+      Ninditya Salma Nur Aini<br>
+      2026
+    </div>
+  </div>
+
+  <div class="context">
+    Every project in this portfolio started from a technical question: how to represent text densely, how to reduce LLM cost, how to evaluate a model with mismatched labels. I'm good at finding technical solutions. What I haven't systematically practised is finding the <strong>right problem</strong> — starting from the user, not from the data.
+  </div>
+
+  <div class="slabel">What I've Built vs What I Want to Build Next</div>
+  <table>
+    <thead><tr><th>Technical Foundation (Built)</th><th>Product Layer (What ADA Offers)</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td>ML pipeline: data → model → production deployment</td><td>Product pipeline: user insight → problem definition → shipped app</td></tr>
+      <tr><td>Cost engineering: architecture trade-offs, LLM routing</td><td>Design thinking: feature prioritisation by user value, not technical elegance</td></tr>
+      <tr><td>Technical collaboration: Git, API contracts, Agile SDLC</td><td>Cross-functional collaboration: designer, PM, user research, non-technical stakeholders</td></tr>
+      <tr class="hl"><td>AI solutions that are technically correct</td><td>AI solutions that are used, understood, and valued by real users</td></tr>
+    </tbody>
+  </table>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Why ADA Specifically</div>
+      <div class="finding-text">I learn best by building real things under real constraints — not from courses. Every phase in this portfolio started from doing, not reading. ADA operates the same way, but with the focus on user and product that I haven't had access to in a structured environment.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">What KADA Showed Me</div>
+      <div class="finding-text">KADA was the first time I worked in a real cross-functional team with delivery pressure. The technical skills held up. What I noticed was that the highest-value conversations were the ones about <em>who this is for</em> and <em>what they actually need</em> — and I had less vocabulary for those than for the code.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">What I'm Building Toward</div>
+      <div class="finding-text">Not a data scientist who can also code. Not a developer who knows some ML. A builder who can go from <em>"users struggle with X"</em> to <em>"shipped AI product that solves X"</em> — and explain every decision in between. ADA is the missing piece between where I am and where I want to be.</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — Learning Journey Portfolio</span>
+    <span>Why ADA / The Next Chapter · 2026</span>
+  </div>
+</div>
+
+
+</body>
+</html>
