@@ -55,9 +55,6 @@
           onclick="const nav=document.getElementById('mainNav');nav.classList.toggle('nav-open');this.setAttribute('aria-expanded',nav.classList.contains('nav-open'))">☰</button>
         <div class="nav-pills">
           <a class="nav-pill" href="#projects" data-i18n="navProjects">Projects</a>
-          <a class="nav-pill" href="#achievements" data-i18n="navAchievements">Achievements</a>
-          <a class="nav-pill" href="#experience" data-i18n="navExperience">Experience</a>
-          <a class="nav-pill" href="#education" data-i18n="navEducation">Education</a>
           <a class="nav-pill" href="#about" data-i18n="navAbout">About</a>
           <a class="nav-pill" href="#contact" data-i18n="navContact">Contact</a>
         </div>
@@ -569,149 +566,6 @@
   </div>
 
 
-  <!-- ACHIEVEMENTS -->
-  <div class="section" id="achievements">
-    <p class="section-eyebrow" data-i18n="achieveEyebrow">recognition</p>
-    <h2 class="section-title" data-i18n="achieveTitle">Achievements &amp; Participation</h2>
-    <p class="section-subtitle" data-i18n="achieveSubtitle">Programs, certifications, and milestones that shaped the path.</p>
-    <div class="achieve-list" data-i18n="achieveList">
-      <div class="achieve-item">
-        <div class="achieve-year">2026</div>
-        <div class="achieve-body">
-          <div class="achieve-title">Korea-ASEAN Digital Academy (KADA)</div>
-          <div class="achieve-org">NIPA · Komdigi · Elice</div>
-          <div class="achieve-desc">Selected from 900+ applicants (60 accepted) for a fully-funded ASEAN-Korea program covering Full-Stack Development, AI/ML, Cloud Services, Data Analysis, and AI Ethics. Built CineTrack as team capstone project.</div>
-        </div>
-      </div>
-      <div class="achieve-item">
-        <div class="achieve-year">2025</div>
-        <div class="achieve-body">
-          <div class="achieve-title">IDCamp Expert — Belajar Penerapan Data Science</div>
-          <div class="achieve-org">Dicoding · Indosat Ooredoo Hutchison</div>
-          <div class="achieve-desc">Completed the Expert-level track — the highest tier of IDCamp. Final projects: Student Dropout Prediction (92.42% accuracy) and Employee Attrition Prediction (86.11% recall), both with deployed dashboards.</div>
-        </div>
-      </div>
-      <div class="achieve-item">
-        <div class="achieve-year">2021</div>
-        <div class="achieve-body">
-          <div class="achieve-title">S.Kom — Teknik Informatika</div>
-          <div class="achieve-org">UPN "Veteran" Yogyakarta</div>
-          <div class="achieve-desc">Thesis: "Implementasi Metode KNN dan LSA untuk Chatbot FAQ" — built a full end-to-end NLP system from model training to a working chatbot product integrated with a custom database.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EXPERIENCE -->
-  <div class="section" id="experience">
-    <p class="section-eyebrow" data-i18n="experienceEyebrow">work experience</p>
-    <h2 class="section-title" data-i18n="experienceTitle">Where I've built &amp; shipped</h2>
-    <p class="section-subtitle" data-i18n="experienceSubtitle">These roles shaped how I build AI systems: understanding production flow, evaluation discipline, and what actually breaks after real users touch the system.</p>
-
-    <div class="exp-list">
-
-      <div class="exp-item">
-        <div class="exp-meta">
-          <span class="exp-meta-date">Feb 2026 – Apr 2026</span>
-          <span class="exp-meta-loc" data-i18n="exp1Meta">Bekasi · On-site<br>Selected from 900 applicants (60
-            accepted)</span>
-        </div>
-        <div class="exp-body" data-i18n="exp1Body">
-          <div class="exp-role">Full-Stack Developer Trainee</div>
-          <div class="exp-company">Korea-ASEAN Digital Academy (KADA) · NIPA · Komdigi · Elice</div>
-          <ul class="exp-bullets">
-            <li>Fully-funded ASEAN-Korea program covering <strong>Full-Stack Development, AI/ML, Cloud Services, Data
-                Analysis, and AI Ethics</strong>.</li>
-            <li>Co-developed <strong>CineTrack</strong>, a cinema analytics dashboard — contributed backend with Fastify
-              (Node.js ESM), PostgreSQL, and Redis caching.</li>
-            <li>Integrated <strong>LLM components</strong> to surface business insights from raw operational data —
-              hands-on with modern generative chatbot architectures.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-meta">
-          <span class="exp-meta-date">May 2024 – Oct 2025</span>
-          <span class="exp-meta-loc">1.5 years</span>
-        </div>
-        <div class="exp-body" data-i18n="exp2Body">
-          <div class="exp-role">Chatbot Quality Assurance Analyst</div>
-          <div class="exp-company">PT Fliptech Lentera Inspirasi Pertiwi (Flip)</div>
-          <ul class="exp-bullets">
-            <li>Evaluated and refined an <strong>LLM-based chatbot with RAG framework</strong> — focused on prompt
-              optimization and response grounding for accurate, policy-aligned outputs.</li>
-            <li>Conducted scheduled audits via sampling: prompt review, response relevance scoring, <strong>grounding
-                validation, hallucination detection</strong>, and language consistency checks.</li>
-            <li>Performed root-cause analysis on low-CSAT interactions; translated findings into prompt restructuring,
-              fallback logic, and knowledge-base coverage recommendations.</li>
-            <li>Designed and maintained <strong>KPI dashboards</strong> (CSAT, fallback rate, hallucination rate, intent
-              accuracy) to drive prompt iteration priorities.</li>
-          </ul>
-          <span class="exp-impact">Unidentified utterances &lt;12% · CSAT 65% (H1) · Fallback rate 3% (H2)</span>
-        </div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-meta">
-          <span class="exp-meta-date">Dec 2021 – Apr 2024</span>
-          <span class="exp-meta-loc">2.4 years</span>
-        </div>
-        <div class="exp-body" data-i18n="exp3Body">
-          <div class="exp-role">IT Operational · Chatbot &amp; Omnichannel Development</div>
-          <div class="exp-company">PT Infomedia Nusantara (Telkom Group)</div>
-          <ul class="exp-bullets">
-            <li>Designed and developed <strong>end-to-end e-commerce chatbot flows</strong> from requirement gathering
-              to post-release tuning — supporting <strong>~1,000 daily user interactions</strong>.</li>
-            <li>Built and maintained Omnichannel platform components, integrating chatbot, CRM, and customer-service
-              channels into a unified service flow.</li>
-            <li>Led QA across Chatbot and Omnichannel systems through SIT and UAT, catching integration issues
-              pre-release and reducing post-deployment defects.</li>
-            <li>Drove root-cause analysis to convert recurring user issues into chatbot rule updates — reducing repeated
-              support tickets.</li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- EDUCATION -->
-  <div class="section" id="education">
-    <p class="section-eyebrow" data-i18n="educationEyebrow">credentials</p>
-    <h2 class="section-title" data-i18n="educationTitle">Education &amp; certifications</h2>
-
-    <div class="edu-grid">
-      <div class="edu-block" data-i18n="educationBlock1">
-        <div class="edu-block-title">Formal Education</div>
-        <div class="edu-item">
-          <div class="edu-title">Bachelor of Informatics</div>
-          <div class="edu-sub">Universitas Pembangunan Nasional "Veteran" Yogyakarta</div>
-          <div class="edu-meta"><strong>GPA 3.66 / 4.00</strong> · Graduated Oct 2021<br>Thesis: Question Classification
-            for Chatbot Information Services using LSA + KNN</div>
-        </div>
-      </div>
-      <div class="edu-block" data-i18n="educationBlock2">
-        <div class="edu-block-title">Training &amp; Scholarships</div>
-        <div class="edu-item">
-          <div class="edu-title">IDCamp Data Scientist Track — Expert</div>
-          <div class="edu-sub">Indosat Ooredoo Hutchison · Scholarship Awardee</div>
-          <div class="edu-meta">Sep 2025 – Apr 2026 · Beginner → Intermediate → Expert</div>
-        </div>
-        <div class="edu-item">
-          <div class="edu-title">Data Science Bootcamp</div>
-          <div class="edu-sub">Binar Academy</div>
-          <div class="edu-meta">Nov 2023 · <strong>Hard Skill 4.80 / Soft Skill 4.50</strong></div>
-        </div>
-        <div class="edu-item">
-          <div class="edu-title">System Analyst Certification (BNSP)</div>
-          <div class="edu-sub">Software Requirement, Analysis &amp; Design</div>
-          <div class="edu-meta">Nov 2020 · National professional certification</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- ABOUT -->
   <div class="section" id="about">
     <p class="section-eyebrow" data-i18n="aboutEyebrow">about</p>
@@ -780,6 +634,21 @@
 
         </div>
       </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;">
+      <a href="cv-apple-academy.html" target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border:1.5px solid #111;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.04em;color:#111;text-decoration:none;transition:all 0.15s;"
+         onmouseover="this.style.background='#111';this.style.color='#fff'"
+         onmouseout="this.style.background='transparent';this.style.color='#111'">
+        ↗ View CV
+      </a>
+      <a href="portfolio-journey-standalone.html" target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border:1.5px solid #111;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.04em;color:#111;text-decoration:none;transition:all 0.15s;"
+         onmouseover="this.style.background='#111';this.style.color='#fff'"
+         onmouseout="this.style.background='transparent';this.style.color='#111'">
+        ↗ Learning Journey Portfolio
+      </a>
     </div>
   </div>
 
