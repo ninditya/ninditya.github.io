@@ -55,7 +55,7 @@ nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .cta-primary:hover{background:#4d4d4d;border-color:#4d4d4d}
 .cta-secondary{background:transparent;border-color:var(--border);color:var(--ink2)}
 .cta-secondary:hover,.cta-secondary:focus-visible{border-color:var(--ink);color:var(--ink);outline:none}
-.hero-strengths{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.hero-strengths{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}@media (max-width:768px){.hero-strengths{grid-template-columns:repeat(2,1fr)}}@media (max-width:480px){.hero-strengths{grid-template-columns:1fr}}
 .strength{padding:1.25rem 1.4rem;background:var(--surface)}
 .strength-label{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.4rem;font-weight:500;color:var(--primary)}
 .strength-desc{font-size:0.82rem;color:var(--ink2);line-height:1.55}

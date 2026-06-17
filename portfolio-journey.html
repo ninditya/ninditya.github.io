@@ -148,12 +148,12 @@
         <div class="cover-phase-row">
           <span class="cover-phase-num">1</span>
           <span class="cover-phase-label">NLP Foundation</span>
-          <span class="cover-phase-items">Hate Speech (r=0.96) &middot; AquaSense IAA &middot; LSA Chatbot Thesis &middot; BiLSTM Sentiment (2021&ndash;2025)</span>
+          <span class="cover-phase-items">Hate Speech Text Preprocessing API &middot; LSA Chatbot Thesis &middot; BiLSTM Sentiment (2021&ndash;2025)</span>
         </div>
         <div class="cover-phase-row">
           <span class="cover-phase-num">2</span>
           <span class="cover-phase-label">Computer Vision</span>
-          <span class="cover-phase-items">StudioAI Stable Diffusion &middot; CLIPSeg &middot; Inpainting &middot; Outpainting (2024)</span>
+          <span class="cover-phase-items">AquaSense YOLOv8 Evaluation &middot; AquaSense IAA Sensor Reliability &middot; StudioAI Stable Diffusion &middot; GeoAI U-Net (2024&ndash;2025)</span>
         </div>
         <div class="cover-phase-row">
           <span class="cover-phase-num">3</span>
@@ -168,7 +168,7 @@
         <div class="cover-phase-row">
           <span class="cover-phase-num">5</span>
           <span class="cover-phase-label">Team Backend</span>
-          <span class="cover-phase-items">CineTrack 20+ analytics endpoints &middot; Redis &middot; LLM integration (2026 &middot; KADA)</span>
+          <span class="cover-phase-items">Yorindo EM&middot;U AI-augmented backend (2026) &middot; CineTrack 20+ analytics endpoints &middot; Redis &middot; LLM integration (2026 &middot; KADA)</span>
         </div>
       </div>
     </div>
@@ -261,79 +261,45 @@
   </div>
   <div class="page-header">
     <div>
-      <div class="proj-num">Phase 1.1 &middot; NLP</div>
-      <h2>Hate Speech Analysis &mdash; <em>Analisis Tweet X Indonesia</em></h2>
+      <div class="proj-num">Phase 1.1 &middot; NLP &middot; Text Preprocessing &middot; Flask API</div>
+      <h2>Hate Speech Analysis &mdash; <em>Text Preprocessing Pipeline &amp; REST API</em></h2>
     </div>
-    <div class="page-meta">2024 &middot; Solo project<br>NLP / Data Analyst</div>
+    <div class="page-meta">2024 &middot; Binar Academy Gold Challenge<br>NLP Developer</div>
+  </div>
+  <div class="links-bar">
+    <a href="https://github.com/ninditya/9900987-12-nsa-analisis-tweet-bahasa-indonesia-identifikasi-ujaran-kebencian-dan-bahasa-kasar-gold" target="_blank">&#x2325; GitHub</a>
   </div>
   <div class="stats-row cols4">
-    <div class="stat-cell"><div class="stat-num accent">13,169</div><div class="stat-label">Rows &middot; 11,969 train &middot; 1,075 test</div></div>
-    <div class="stat-cell"><div class="stat-num accent">r=0.96</div><div class="stat-label">HS &harr; Abusive Pearson<br>label co-occurrence</div></div>
-    <div class="stat-cell"><div class="stat-num">55.7%</div><div class="stat-label">Negative content<br>in dataset</div></div>
-    <div class="stat-cell"><div class="stat-num">Flask</div><div class="stat-label">REST API &middot; joblib<br>pipeline serialization</div></div>
+    <div class="stat-cell"><div class="stat-num accent">13k+</div><div class="stat-label">Tweets multi-label<br>Ibrohim &amp; Budi (2019)</div></div>
+    <div class="stat-cell"><div class="stat-num">12</div><div class="stat-label">Label categories<br>HS subcategory + intensity</div></div>
+    <div class="stat-cell"><div class="stat-num accent">2</div><div class="stat-label">Flask API variants<br>with / without stopword</div></div>
+    <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">SQLite databases<br>kamusalay &middot; stopword &middot; abusive</div></div>
   </div>
   <div class="context">
-    <strong>Why this project:</strong> After the LSA thesis, I wanted to apply NLP to a real social problem &mdash; hate speech detection on Indonesian Twitter. What I discovered in EDA changed the modeling approach entirely: HS and Abusive labels correlate at r=0.96, meaning they almost always co-occur. High correlation isn&rsquo;t a complexity signal &mdash; it&rsquo;s a simplification signal. That insight drove the label strategy and cut the classification problem in half.
+    <strong>Context:</strong> Binar Academy Data Science Gold Challenge &mdash; building an Indonesian tweet text preprocessing pipeline for hate speech detection. The core challenge: Indonesian informal Twitter text (kata alay, slang, mixed scripts) is highly variant. Standard English NLP pipelines miss the majority of signal-bearing tokens. The project delivers a Flask REST API with Swagger documentation for cleaning and normalizing raw tweet text before any downstream classification.
   </div>
   <p style="font-size:10px;color:var(--dark);line-height:1.7;margin-bottom:10px;">
-    <strong>Key EDA finding:</strong> 55.7% of tweets carry negative content. Pearson correlation between HS and Abusive labels: <strong>r = 0.96</strong> &mdash; hate speech almost always co-occurs with abusive language, sharing a latent signal a single classifier can exploit. This reduced the multi-label problem to a simpler compound-class boundary without losing discriminative power. The Flask API serializes the <em>full preprocessing pipeline</em> via joblib &mdash; tokenization, TF-IDF vectorizer, and classifier &mdash; so identical transforms apply at training and inference with no divergence risk.
+    Pipeline: <strong>case folding</strong> &rarr; <strong>cleansing</strong> (remove URLs, mentions, hashtags, symbols, numbers) &rarr; <strong>alay normalization</strong> via <code>kamusalay.db</code> (<em>bgt</em> &rarr; <em>banget</em>, <em>gw</em> &rarr; <em>saya</em>) &rarr; <strong>stopword removal</strong> (optional). Two API variants exist intentionally: stopwords like <em>tidak</em> and <em>bukan</em> are negation carriers in hate speech context &mdash; removing them destroys the very signal the classifier needs.
   </p>
-  <div class="slabel">Architecture Decisions</div>
+  <div class="slabel">Pipeline &amp; Architecture Decisions</div>
   <table>
     <thead><tr><th>Decision</th><th>Approach</th><th>Why</th></tr></thead>
     <tbody>
-      <tr class="hl"><td><strong>Label strategy: compound class</strong></td><td>Collapsed HS+Abusive into one compound label instead of two independent heads</td><td>r=0.96 co-occurrence means separate heads are redundant &mdash; they&rsquo;d learn the same signal twice. Compound class is simpler and doesn&rsquo;t lose discriminative power.</td></tr>
-      <tr><td><strong>Vectorizer: TF-IDF</strong></td><td>Unigram + bigram TF-IDF with Bahasa preprocessing (stopword removal, normalization)</td><td>Indonesian informal Twitter text has high surface variation (slang, abbreviations). TF-IDF on n-grams captures partial forms without requiring full stemming.</td></tr>
-      <tr class="hl"><td><strong>Classifier: LinearSVC</strong></td><td>LinearSVC with class_weight=&lsquo;balanced&rsquo; for imbalanced HS class</td><td>LinearSVC performs well on high-dimensional sparse vectors from TF-IDF. class_weight=&lsquo;balanced&rsquo; compensates for the minority HS class without SMOTE.</td></tr>
-      <tr><td><strong>Deployment: joblib pipeline</strong></td><td>Full scikit-learn Pipeline (preprocessor + vectorizer + classifier) serialized and loaded at inference</td><td>Serializing the full pipeline guarantees identical preprocessing at inference. Prevents train/serve skew from different tokenization at call time.</td></tr>
+      <tr class="hl"><td><strong>Two API variants</strong></td><td><code>API_Text_Preprocessing.py</code> (no stopword) and <code>API_Text_Preprocessing_with_stopword.py</code></td><td>Stopword removal is context-dependent. For hate speech, negation words (<em>tidak</em>, <em>bukan</em>, <em>jangan</em>) are semantic signal &mdash; removing them inverts meaning.</td></tr>
+      <tr><td><strong>SQLite for normalization</strong></td><td><code>kamusalay.db</code>, <code>stopword.db</code>, <code>abusive.db</code> &mdash; indexed lookup at inference</td><td>Normalizing 13k+ tweets against a CSV on every request is slow. SQLite with indexed queries is orders of magnitude faster and supports batch file uploads.</td></tr>
+      <tr class="hl"><td><strong>Flasgger / Swagger UI</strong></td><td>Auto-generated interactive API docs at <code>/docs/</code></td><td>API consumers can test single-text and batch CSV endpoints without building a client. Reduces integration friction for non-technical users.</td></tr>
+      <tr><td><strong>Batch + single endpoints</strong></td><td><code>/text-processing</code> (single input) + <code>/text-processing-file</code> (CSV upload)</td><td>Supports both real-time interactive use and bulk preprocessing of the full 13k dataset.</td></tr>
     </tbody>
   </table>
   <div class="findings">
-    <div class="finding"><div class="finding-label">EDA Drove Architecture</div><div class="finding-text">r=0.96 co-occurrence between HS and Abusive labels changed the modeling strategy entirely. <strong>EDA isn&rsquo;t just descriptive; it determines the correct problem formulation.</strong></div></div>
-    <div class="finding"><div class="finding-label">Indonesian NLP Patterns</div><div class="finding-text">Informal Indonesian Twitter text has high morphological and slang variation. Slang normalization before vectorization is mandatory &mdash; generic English pipelines miss the signal layer. <strong>Language-specific preprocessing is not optional; it&rsquo;s the feature engineering step.</strong></div></div>
-    <div class="finding"><div class="finding-label">Thread from Thesis</div><div class="finding-text">The LSA thesis taught that feature representation determines classifier performance. TF-IDF here reconfirmed: <strong>the representation layer is the critical lever, not the model choice.</strong> The same principle drove the SBERT decision in Banking Router.</div></div>
+    <div class="finding"><div class="finding-label">Alay Normalization is Critical</div><div class="finding-text"><em>bgt</em>, <em>gw</em>, <em>tdk</em>, <em>org</em>, <em>gapapa</em> are high-frequency signal words that standard tokenizers treat as out-of-vocabulary. <strong>Without kamusalay normalization, the majority of meaningful tokens in Indonesian Twitter text are invisible to any downstream model.</strong></div></div>
+    <div class="finding"><div class="finding-label">Stopword Dilemma</div><div class="finding-text"><em>tidak</em>, <em>bukan</em>, <em>jangan</em> are Indonesian stopwords but negation carriers. Removing them from hate speech text can flip the polarity of a sentence. <strong>The &ldquo;right&rdquo; preprocessing depends on the downstream task &mdash; which is why both API variants exist.</strong></div></div>
+    <div class="finding"><div class="finding-label">Thread to LSA Thesis</div><div class="finding-text">Same lesson as 2021: <strong>what you put into the model determines what the model can learn.</strong> LSA needed correct stemming; this project needs correct alay normalization. The preprocessing layer is always the critical lever in Indonesian NLP.</div></div>
   </div>
-  <div class="tech-line"><strong>Stack:</strong> Python &middot; Pandas &middot; scikit-learn &middot; TF-IDF &middot; LinearSVC &middot; Flask &middot; joblib pipeline serialization</div>
-
-  <hr class="proj-divider">
-
-  <div class="page-header">
-    <div>
-      <div class="proj-num">Phase 1.2 &middot; Statistics &middot; IAA</div>
-      <h2>AquaSense IAA &mdash; <em>Plankton Sensor Reliability Analysis</em></h2>
-    </div>
-    <div class="page-meta">2024 &middot; Solo project<br>Data Analyst</div>
-  </div>
-  <div class="links-bar">
-    <a class="demo" href="https://huggingface.co/ninditya/aquasense-waste-detection-model" target="_blank">&#x2197; HuggingFace Model</a>
-    <a href="https://huggingface.co/datasets/ninditya/aquasense-waste-detection-dataset" target="_blank">&#x2325; HuggingFace Dataset</a>
-  </div>
-  <div class="stats-row cols4">
-    <div class="stat-cell"><div class="stat-num accent">CCC=0.984</div><div class="stat-label">M2 vs M3 concordance<br>effectively interchangeable</div></div>
-    <div class="stat-cell"><div class="stat-num">ICC(A,1)=0.889</div><div class="stat-label">Overall annotator<br>agreement (non-zero rows)</div></div>
-    <div class="stat-cell"><div class="stat-num accent">&minus;49k</div><div class="stat-label">M1 bias cells/mL<br>vs M2 and M3</div></div>
-    <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">Counting methods<br>compared pairwise</div></div>
-  </div>
-  <div class="context">
-    <strong>Why this project:</strong> The stakeholder asked for Pearson r as the reliability metric. I built this project to demonstrate why that&rsquo;s the wrong question &mdash; and to deliver the right answer instead. Two counting methods can correlate at r=0.99 while differing by 30,000 cells/mL on every individual measurement. Pearson tells you about the relationship; Bland-Altman tells you about the disagreement. Only one of those answers the operational question.
-  </div>
-  <p style="font-size:10px;color:var(--dark);line-height:1.7;margin-bottom:10px;">
-    Three pairwise Bland-Altman comparisons revealed a critical finding: <strong>M1 vs M2 and M1 vs M3 both showed large negative bias (&sim;&minus;49,000 cells/mL) with proportional error</strong> &mdash; the disagreement grows as concentration increases, a pattern that cannot be corrected by a scalar offset. By contrast, <strong>M2 vs M3: near-zero bias (+694 cells/mL), CCC=0.984 &mdash; effectively interchangeable.</strong> Spearman for M2 vs M3 returned 0.630 &mdash; misleadingly low due to zero-inflation. CCC=0.984 was the correct metric for this data structure.
-  </p>
-  <div class="img-group">
-    <div class="slabel">Bland-Altman Analysis Panel &mdash; Inter-Annotator Agreement</div>
-    <img src="_portfolio-assets/aquasense-bland-altman.png" alt="Bland-Altman IAA panel showing M1 vs M2 vs M3 agreement" style="width:100%;display:block;border:1px solid var(--line);max-height:52mm;object-fit:contain;object-position:top;">
-    <div class="img-caption">Three pairwise Bland-Altman plots. M1 vs M2 and M1 vs M3: large negative bias (&sim;&minus;49k cells/mL), wide limits of agreement &mdash; proportional bias that cannot be corrected by scalar offset. <strong>M2 vs M3: near-zero bias (+694), CCC=0.984.</strong> Spearman=0.630 misleadingly low due to zero-inflation.</div>
-  </div>
-  <div class="findings">
-    <div class="finding"><div class="finding-label">Metric Matches the Question</div><div class="finding-text">The stakeholder&rsquo;s question was &ldquo;can we replace M1 with M2?&rdquo; &mdash; an agreement question, not a correlation question. Pearson r can be 0.99 while the methods differ by 49k cells/mL on every measurement. <strong>Framing the analysis correctly is the analyst&rsquo;s first deliverable.</strong></div></div>
-    <div class="finding"><div class="finding-label">Zero-Inflation Diagnosis</div><div class="finding-text">Spearman=0.630 vs CCC=0.984 for M2 vs M3. Root cause: zero-inflation collapsed Spearman&rsquo;s rank signal. <strong>When two metrics disagree, diagnose the data structure before choosing which to report.</strong> The diagnosis is the finding, not the number.</div></div>
-    <div class="finding"><div class="finding-label">Thread Forward</div><div class="finding-text">This project built my statistical method-selection instinct &mdash; applied directly to Beijing Air Quality (Spearman for non-normal, chi-square for categorical) and Talent Match Intelligence (PERCENTILE_CONT for robust medians).</div></div>
-  </div>
-  <div class="tech-line"><strong>Stack:</strong> R &middot; Python &middot; Bland-Altman analysis (&plusmn;1.96 SD LoA) &middot; ICC(A,1) via pingouin &middot; CCC &middot; Tidy data restructuring from wide-format sensor logs</div>
+  <div class="tech-line"><strong>Stack:</strong> Python &middot; Flask &middot; Flasgger (Swagger UI) &middot; Pandas &middot; NLTK &middot; regex &middot; SQLite &middot; SQLAlchemy &middot; Jupyter Notebook</div>
   <div class="page-footer">
     <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
-    <span>Phase 1.1&ndash;1.2 / Hate Speech NLP &middot; AquaSense IAA</span>
+    <span>Phase 1.1 / Hate Speech NLP</span>
   </div>
 </div>
 
@@ -495,7 +461,7 @@
   </div>
   <div class="img-group">
     <div class="slabel">HealthTruth-AI v0 &mdash; Hackathon Submission</div>
-    <img src="rag-chatbot-service/HealthTruth-AI_pages-to-jpg-0001.jpg" alt="HealthTruth-AI v0 RAG chatbot interface" style="width:100%;display:block;border:1px solid var(--line);max-height:52mm;object-fit:contain;object-position:top;">
+    <img src="rag-chatbot-service/HealthTruth-AI_pages-to-jpg-0001.jpg" alt="HealthTruth-AI v0 RAG chatbot interface" style="width:100%;display:block;border:1px solid var(--line);max-height:100mm;object-fit:contain;object-position:top;">
     <div class="img-caption">Tampilan awal v0: linear RAG chain dengan FAISS in-memory. Hardcoded cosine threshold gate &mdash; jika top-1 cosine similarity &lt;0.6, mengembalikan fallback message. Gate binary (block/pass) tanpa kemampuan routing berdasarkan confidence level.</div>
   </div>
   <p style="font-size:10px;color:var(--dark);line-height:1.7;margin-bottom:10px;">
@@ -507,9 +473,14 @@
     <div class="finding"><div class="finding-label">Thread Forward to v1</div><div class="finding-text">The binary gate&rsquo;s inability to distinguish &ldquo;no docs&rdquo; from &ldquo;tangential docs&rdquo; precisely defined the v1 requirements: conditional routing per confidence regime, not binary block/pass. <strong>The limitation of v0 was the specification for v1.</strong></div></div>
   </div>
   <div class="tech-line"><strong>Stack:</strong> Python &middot; FAISS &middot; Gemini API &middot; LangChain (simple chain) &middot; Streamlit &middot; text-embedding (768-dim)</div>
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
+    <span>Phase 4.1 / HealthTruth-AI v0 &mdash; First RAG Prototype</span>
+  </div>
+</div>
 
-  <hr class="proj-divider">
-
+<!-- ════════════ PAGE: HealthTruth-AI v1 ════════════ -->
+<div class="page project-page">
   <div class="page-header">
     <div>
       <div class="proj-num">Phase 4.2 &middot; RAG &middot; LangGraph &middot; Production</div>
@@ -544,7 +515,7 @@
   <div class="tech-line"><strong>Stack:</strong> FastAPI &middot; Qdrant &middot; LangGraph &middot; Gemini 2.5 Flash &middot; Streamlit &middot; Docker (2 containers) &middot; Railway</div>
   <div class="page-footer">
     <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
-    <span>Phase 4.1&ndash;4.2 / RAG v0 &rarr; v1 &middot; HealthTruth-AI</span>
+    <span>Phase 4.2 / HealthTruth-AI v1 &mdash; Production RAG + LangGraph</span>
   </div>
 </div>
 
@@ -717,6 +688,50 @@
   </div>
 </div>
 
+<!-- ════════════ PAGE: Talent Match Intelligence ════════════ -->
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">Phase 3.3 &middot; Data Science &middot; SQL Analytics &middot; LLM</div>
+      <h2>Talent Match Intelligence &mdash; <em>AI-Powered Succession &amp; Candidate Matching</em></h2>
+    </div>
+    <div class="page-meta">2025 &middot; Solo &middot; Case Study<br>SQL &middot; Streamlit &middot; LLM</div>
+  </div>
+  <div class="links-bar">
+    <a href="https://github.com/ninditya/talent-match-intelligence" target="_blank">&#x2325; github.com/ninditya/talent-match-intelligence</a>
+    <a class="demo" href="https://ninditya-talent-match-intelligence.streamlit.app/" target="_blank">&#x2197; Live App &mdash; Streamlit</a>
+  </div>
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">3</div><div class="stat-label">Analysis stages<br>EDA &rarr; SQL match &rarr; AI app</div></div>
+    <div class="stat-cell"><div class="stat-num">TV&rarr;TGV&rarr;Final</div><div class="stat-label">Weighted CTE pipeline<br>match rate computation</div></div>
+    <div class="stat-cell"><div class="stat-num accent">5</div><div class="stat-label">Data sources fused<br>competencies &middot; psychometrics &middot; PAPI &middot; CliftonStrengths &middot; context</div></div>
+    <div class="stat-cell"><div class="stat-num">LLM</div><div class="stat-label">AI job profile generation<br>OpenRouter MiniMax M2.5</div></div>
+  </div>
+  <div class="context">
+    <strong>Problem:</strong> Given a dataset of employees rated 1&ndash;5 across competencies, psychometrics, PAPI work preferences, CliftonStrengths, and contextual factors &mdash; identify what differentiates Rating-5 performers (the success pattern) and compute how closely any employee matches a vacancy&rsquo;s benchmark profile. <strong>Deliverable:</strong> A live Streamlit app where recruiters input a job profile (or generate one via LLM) and see ranked candidate match scores from a CTE-based SQL algorithm.
+  </div>
+  <div class="slabel">SQL Matching Algorithm &mdash; TV &rarr; TGV &rarr; Final Match Rate</div>
+  <table>
+    <thead><tr><th>Stage</th><th>What It Computes</th><th>Output</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Talent Variable (TV)</strong></td><td>Per-dimension score for each employee across all data sources</td><td>TV score per dimension</td></tr>
+      <tr><td><strong>Talent Group Variable (TGV)</strong></td><td>Weighted aggregate of related TVs into meaningful competency clusters</td><td>TGV score per cluster</td></tr>
+      <tr class="hl"><td><strong>Final Match Rate</strong></td><td>Weighted sum of TGV scores against vacancy benchmark via <code>PERCENTILE_CONT</code></td><td>0&ndash;100% match score per candidate</td></tr>
+      <tr><td><strong>Ranking</strong></td><td><code>RANK() OVER (ORDER BY final_match_rate DESC)</code></td><td>Ranked candidate shortlist</td></tr>
+    </tbody>
+  </table>
+  <div class="findings">
+    <div class="finding"><div class="finding-label">Success Pattern First</div><div class="finding-text">Before writing any matching logic, the analysis identifies what a Rating-5 employee actually looks like across all five data sources. <strong>You can&rsquo;t match against a benchmark you haven&rsquo;t defined.</strong> EDA is not a step before the work &mdash; it is the work.</div></div>
+    <div class="finding"><div class="finding-label">PERCENTILE_CONT as Robust Benchmark</div><div class="finding-text">Using <code>PERCENTILE_CONT(0.5)</code> (median) over <code>AVG</code> for benchmark computation &mdash; robust to outlier performers who would pull the average above a reachable threshold. <strong>Statistical method choice is a business decision: do you want a benchmark most employees can meet, or one only outliers can?</strong></div></div>
+    <div class="finding"><div class="finding-label">LLM as Input Layer</div><div class="finding-text">Recruiters who don&rsquo;t know how to fill a structured benchmark form can describe the role in natural language &rarr; LLM generates the competency profile &rarr; SQL algorithm scores candidates against it. <strong>LLM solves the cold-start problem for the matching algorithm.</strong></div></div>
+  </div>
+  <div class="tech-line"><strong>Stack:</strong> Python &middot; SQL (CTE-based matching, <code>PERCENTILE_CONT</code>, <code>RANK()</code>) &middot; Supabase (Postgres) &middot; Pandas &middot; Plotly &middot; Streamlit &middot; OpenRouter (MiniMax M2.5) &middot; Jupyter Notebook</div>
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
+    <span>Phase 3.3 / Talent Match Intelligence &mdash; AI-Powered Candidate Matching</span>
+  </div>
+</div>
+
 <!-- ════════════ PAGE 9: L8A NutriPal + L8B StudioAI ════════════ -->
 <div class="page project-page">
   <div class="phase-banner">
@@ -768,12 +783,118 @@
     <div class="finding"><div class="finding-label">Full-Stack AI Solo</div><div class="finding-text">First time building a complete AI product alone end-to-end: Next.js frontend + Genkit AI layer + Supabase auth + Realtime DB + Vercel deploy. Three weeks concept to live. <strong>Proved I can ship production-quality AI across the full stack independently, under time pressure.</strong></div></div>
   </div>
   <div class="tech-line"><strong>Stack:</strong> Next.js 15 &middot; React 19 &middot; TypeScript &middot; Genkit framework &middot; Gemini 2.5 Flash Vision &middot; Supabase Realtime &middot; Vercel &middot; 4-key API rotation via executeWithRotation()</div>
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
+    <span>Phase 4.4 / NutriPal AI</span>
+  </div>
+</div>
 
-  <hr class="proj-divider">
-
+<!-- ════════════ PAGE: AquaSense YOLOv8 ════════════ -->
+<div class="page project-page">
+  <div class="phase-banner">
+    <span class="ph-num">PHASE 02</span>
+    <span class="ph-title">Computer Vision</span>
+    <span class="ph-desc">2025 &middot; YOLOv8 evaluation &middot; label alignment &middot; client deliverable</span>
+  </div>
   <div class="page-header">
     <div>
-      <div class="proj-num">Phase 2.1 &middot; Computer Vision &middot; Generative</div>
+      <div class="proj-num">2.1 &middot; YOLOv8 &middot; Model Evaluation &middot; IAA &middot; Annotation &middot; Data Quality</div>
+      <h2>AquaSense &mdash; <em>YOLOv8 Waste Detection &amp; Evaluation</em></h2>
+    </div>
+    <div class="page-meta">Data Science Assessment &middot; 2025<br>378 test images &middot; HuggingFace model</div>
+  </div>
+  <div class="links-bar">
+    <a class="demo" href="https://huggingface.co/ninditya/aquasense-waste-detection-model" target="_blank">&#x2197; HuggingFace &mdash; Model weights</a>
+    <a href="https://huggingface.co/datasets/ninditya/aquasense-waste-detection-dataset" target="_blank">&#x2325; HuggingFace &mdash; Test dataset</a>
+    <a href="https://github.com/ninditya/aquasense-ds-assessment" target="_blank">&#x2261; GitHub</a>
+  </div>
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num">67.4%</div><div class="stat-label">Precision<br>plastic waste detection</div></div>
+    <div class="stat-cell"><div class="stat-num">52.0%</div><div class="stat-label">Recall<br>378 test images</div></div>
+    <div class="stat-cell"><div class="stat-num accent">83.2%</div><div class="stat-label">Mean IoU<br>on true positives</div></div>
+    <div class="stat-cell"><div class="stat-num accent">0.410</div><div class="stat-label">AP @ IoU 0.50<br>best achievable F1: 0.594</div></div>
+  </div>
+  <div class="context">
+    <strong>Two connected problems:</strong> (1) Evaluate a pretrained YOLOv8 model against a client test set where the labelling scheme differs &mdash; model has 5 classes, client uses 1 merged &ldquo;plastic bottle&rdquo; class. Label alignment required before any metric is valid. (2) Produce a 10-slide client presentation with a clear verdict and deployment recommendation. Both tasks required deciding <em>what to measure</em> before measuring it.
+  </div>
+  <div class="slabel">Label Alignment Challenge &mdash; Model vs Client Schema</div>
+  <table>
+    <thead><tr><th>Model Class</th><th>Plastic?</th><th>Approach</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>plastic_water_bottles (class 4)</strong></td><td style="color:#1e5c3c;font-weight:600">Yes</td><td>Merged &rarr; single &ldquo;plastic&rdquo; class</td><td>414 predictions</td></tr>
+      <tr class="hl"><td><strong>plastic_soda_bottles (class 3)</strong></td><td style="color:#1e5c3c;font-weight:600">Yes</td><td>Merged &rarr; single &ldquo;plastic&rdquo; class</td><td>62 predictions</td></tr>
+      <tr><td>aluminum_soda_cans (class 0)</td><td>No</td><td>Excluded from evaluation</td><td>14 predictions (not scored)</td></tr>
+      <tr><td>glass_beverage_bottles (class 1)</td><td>No</td><td>Excluded from evaluation</td><td>51 predictions (not scored)</td></tr>
+    </tbody>
+  </table>
+  <div class="slabel">Evaluation Results &amp; Verdict</div>
+  <table>
+    <thead><tr><th>Metric</th><th>Value</th><th>Interpretation</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Precision</strong></td><td><strong>67.4%</strong></td><td>When model fires, it&rsquo;s usually correct &mdash; matches client priority (false positives more costly)</td></tr>
+      <tr><td><strong>Recall</strong></td><td>52.0%</td><td>Misses 1 in 2 bottles &mdash; 296 of 617 GT bottles undetected</td></tr>
+      <tr><td><strong>Mean IoU (TP)</strong></td><td>83.2%</td><td>Excellent localisation when the model fires</td></tr>
+      <tr class="hl"><td><strong>Verdict</strong></td><td colspan="2"><strong>Not ready for deployment at conf=0.25. Raise threshold to 0.40&ndash;0.50, then fine-tune on hard-negative images to recover recall.</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="findings">
+    <div class="finding"><div class="finding-label">Label Alignment First</div><div class="finding-text">Model classes 3+4 must be merged before evaluation. Running metrics on the raw 5-class output vs a 1-class GT scheme produces meaningless numbers. <strong>Schema alignment is a prerequisite, not a post-processing step.</strong></div></div>
+    <div class="finding"><div class="finding-label">Precision vs Recall Trade-off</div><div class="finding-text">Client prioritised false positives as more costly. At conf=0.25: Precision 67.4%, Recall 52%. Raising conf to 0.40&ndash;0.50 will improve precision at some recall cost &mdash; the right trade-off for this client. <strong>Threshold choice is a business decision, not just a technical one.</strong></div></div>
+    <div class="finding"><div class="finding-label">Deliverable: 10-Slide PowerPoint</div><div class="finding-text">Built a client presentation auto-generated from <code>metrics.json</code> via <code>build_presentation.py</code>. Slides rebuild automatically after any conf threshold change. <strong>The pipeline produces not just metrics but a reproducible client-ready artefact.</strong></div></div>
+  </div>
+  <div class="tech-line"><strong>Stack:</strong> Python &middot; YOLOv8 (Ultralytics) &middot; HuggingFace Hub &middot; python-pptx (auto-generated presentation) &middot; pandas &middot; numpy &middot; scipy &middot; matplotlib</div>
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
+    <span>Phase 2.1 / AquaSense &mdash; YOLOv8 Waste Detection Evaluation</span>
+  </div>
+</div>
+
+<!-- ════════════ PAGE: AquaSense IAA ════════════ -->
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">2.2 &middot; Statistics &middot; IAA &middot; Bland-Altman &middot; Sensor Reliability</div>
+      <h2>AquaSense IAA &mdash; <em>Plankton Sensor Reliability Analysis</em></h2>
+    </div>
+    <div class="page-meta">Data Science Assessment &middot; 2025<br>Solo &middot; Data Analyst</div>
+  </div>
+  <div class="links-bar">
+    <a href="https://github.com/ninditya/aquasense-ds-assessment" target="_blank">&#x2325; github.com/ninditya/aquasense-ds-assessment</a>
+  </div>
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">0.984</div><div class="stat-label">CCC — M2 vs M3<br>effectively interchangeable</div></div>
+    <div class="stat-cell"><div class="stat-num">0.889</div><div class="stat-label">ICC(A,1)<br>overall agreement (non-zero)</div></div>
+    <div class="stat-cell"><div class="stat-num accent">&minus;49k</div><div class="stat-label">M1 systematic bias<br>cells/mL vs M2 &amp; M3</div></div>
+    <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">Counting methods<br>compared pairwise</div></div>
+  </div>
+  <div class="context">
+    <strong>Why this project:</strong> The stakeholder asked for Pearson r as the reliability metric. I built this analysis to demonstrate why that&rsquo;s the wrong question &mdash; and to deliver the right answer instead. Two counting methods can correlate at r=0.99 while differing by 30,000 cells/mL on every individual measurement. Pearson tells you about the relationship; Bland-Altman tells you about the disagreement. Only one of those answers the operational question: <em>&ldquo;can we replace M1 with M2?&rdquo;</em>
+  </div>
+  <p style="font-size:10px;color:var(--dark);line-height:1.7;margin-bottom:10px;">
+    Three pairwise Bland-Altman comparisons: <strong>M1 vs M2 and M1 vs M3 both showed large negative bias (&sim;&minus;49,000 cells/mL) with proportional error</strong> &mdash; the disagreement grows as concentration increases, a pattern that cannot be corrected by a scalar offset. By contrast, <strong>M2 vs M3: near-zero bias (+694 cells/mL), CCC=0.984 &mdash; effectively interchangeable.</strong> Spearman for M2 vs M3 returned 0.630 &mdash; misleadingly low due to zero-inflation. CCC was the correct metric for this data structure.
+  </p>
+  <div class="img-group">
+    <div class="slabel">Bland-Altman Analysis Panel &mdash; Inter-Annotator Agreement</div>
+    <img src="_portfolio-assets/aquasense-bland-altman.png" alt="Bland-Altman IAA panel showing M1 vs M2 vs M3 agreement" style="width:100%;display:block;border:1px solid var(--line);max-height:52mm;object-fit:contain;object-position:top;">
+    <div class="img-caption">M1 vs M2 and M1 vs M3: large negative bias (&sim;&minus;49k cells/mL), proportional error &mdash; cannot be corrected by scalar offset. <strong>M2 vs M3: near-zero bias (+694), CCC=0.984.</strong> Spearman=0.630 misleadingly low due to zero-inflation in the dataset.</div>
+  </div>
+  <div class="findings">
+    <div class="finding"><div class="finding-label">Metric Matches the Question</div><div class="finding-text">An agreement question needs an agreement metric. Pearson r can be 0.99 while both methods differ by 49k cells/mL on every measurement. <strong>Framing the analysis correctly is the analyst&rsquo;s first deliverable.</strong></div></div>
+    <div class="finding"><div class="finding-label">Zero-Inflation Diagnosis</div><div class="finding-text">Spearman=0.630 vs CCC=0.984 for M2 vs M3. Root cause: zero-inflation collapsed Spearman&rsquo;s rank signal. <strong>When two metrics disagree sharply, diagnose the data structure before choosing which to report.</strong></div></div>
+    <div class="finding"><div class="finding-label">Verdict</div><div class="finding-text">M2 and M3 are interchangeable (CCC=0.984). M1 has proportional systematic bias &mdash; <strong>cannot be corrected by a simple constant and should not be used as a reference standard for model training.</strong></div></div>
+  </div>
+  <div class="tech-line"><strong>Stack:</strong> Python &middot; R &middot; Bland-Altman analysis (&plusmn;1.96 SD LoA) &middot; ICC(A,1) via pingouin &middot; CCC (Lin&rsquo;s) &middot; pandas &middot; scipy &middot; matplotlib</div>
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
+    <span>Phase 2.2 / AquaSense IAA &mdash; Plankton Sensor Reliability</span>
+  </div>
+</div>
+
+<!-- ════════════ PAGE: StudioAI ════════════ -->
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">Phase 2.3 &middot; Computer Vision &middot; Generative</div>
       <h2>StudioAI &mdash; <em>Stable Diffusion Research Pipeline</em></h2>
     </div>
     <div class="page-meta">2024 &middot; Bangkit BFGAI Challenge<br>AI / ML Engineer &middot; Solo</div>
@@ -815,20 +936,125 @@
   <div class="tech-line"><strong>Stack:</strong> Stable Diffusion v1.5 (runwayml/stable-diffusion-v1-5 &middot; 3.44 GB) &middot; HuggingFace Diffusers &middot; CLIPSeg (CIDAS/clipseg-rd64-refined) &middot; PyTorch &middot; Streamlit &middot; @st.cache_resource (model cached by scheduler name) &middot; pyngrok (Colab deployment)</div>
   <div class="page-footer">
     <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
-    <span>Phase 4.4 &middot; Phase 2.1 / NutriPal AI &middot; StudioAI</span>
+    <span>Phase 2.3 / StudioAI &mdash; Stable Diffusion Research Pipeline</span>
   </div>
 </div>
 
-<!-- ════════════ PAGE 10: L8C CineTrack + Work Exp ════════════ -->
+<!-- ════════════ PAGE: GeoAI ════════════ -->
 <div class="page project-page">
   <div class="phase-banner">
-    <span class="ph-num">PHASE 5</span>
-    <span class="ph-title">Team Backend</span>
+    <span class="ph-num">PHASE 02</span>
+    <span class="ph-title">Computer Vision</span>
+    <span class="ph-desc">2025 &middot; Semantic segmentation &middot; GIS pipeline end-to-end</span>
+  </div>
+  <div class="page-header">
+    <div>
+      <div class="proj-num">2.4 &middot; U-Net &middot; Semantic Segmentation &middot; GeoTIFF &middot; Albumentations &middot; TensorFlow</div>
+      <h2>GeoAI &mdash; <em>Satellite Image Segmentation</em></h2>
+    </div>
+    <div class="page-meta">Solo &middot; 2025<br>Geospatial pipeline &middot; Binary segmentation</div>
+  </div>
+  <div class="links-bar">
+    <a href="https://github.com/ninditya/segmentasi-objek-otomatis-deep-learning" target="_blank">&#x2325; github.com/ninditya/segmentasi-objek-otomatis-deep-learning</a>
+  </div>
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num">35.3%</div><div class="stat-label">F1-Score (Dice)<br>U-Net baseline &middot; binary seg</div></div>
+    <div class="stat-cell"><div class="stat-num accent">87.9%</div><div class="stat-label">Overall accuracy<br>threshold 0.90</div></div>
+    <div class="stat-cell"><div class="stat-num accent">6&times;</div><div class="stat-label">Data augmentation<br>190 &rarr; 1,140 tiles</div></div>
+    <div class="stat-cell"><div class="stat-num">8</div><div class="stat-label">Grid search combos<br>LR &times; Filters &times; Dropout</div></div>
+  </div>
+  <div class="context">
+    <strong>Problem:</strong> Detect and segment geospatial objects from satellite/aerial imagery (GeoTIFF) end-to-end &mdash; from raw raster data with coordinate references to a georeferenced mosaic prediction output ready for GIS analysis. <strong>Challenge:</strong> Only 190 labelled tiles available. Augmentation strategy (6&times; via Albumentations: flip, rotation, affine, brightness/contrast) was the primary lever, not architecture changes. The full GIS pipeline &mdash; tiling, training, and stitching predictions back into a georeferenced GeoTIFF &mdash; was built from scratch.
+  </div>
+
+  <div class="img-2">
+    <div class="img-group">
+      <div class="slabel">Prediction vs Ground Truth &mdash; Binary Segmentation Output</div>
+      <img src="_portfolio-assets/geoai-prediction.png" alt="U-Net prediction comparison vs ground truth">
+      <div class="img-caption"><strong>Left:</strong> Input satellite tile. <strong>Centre:</strong> Ground truth mask. <strong>Right:</strong> U-Net prediction at threshold 0.90. The model learns edge structure but struggles with small disconnected objects &mdash; a data volume problem more than an architecture problem.</div>
+    </div>
+    <div class="img-group">
+      <div class="slabel">Training Curve &mdash; Loss and Dice Coefficient per Epoch</div>
+      <img src="_portfolio-assets/geoai-training-curve.png" alt="U-Net training curve Dice coefficient per epoch">
+      <div class="img-caption">Training and validation Dice coefficient per epoch. The model converges but validation gap indicates limited generalisation from 190 original tiles &mdash; confirmed by grid search: architecture changes (filters, dropout) mattered less than expected.</div>
+    </div>
+  </div>
+
+  <div class="slabel">Full GIS Pipeline Architecture</div>
+  <table>
+    <thead><tr><th>Stage</th><th>Approach</th><th>Output</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Input</strong></td><td>Raw GeoTIFF + Shapefile (vector masks)</td><td>Georeferenced raster with coordinate system preserved</td></tr>
+      <tr><td><strong>Tiling</strong></td><td>Sliding window &rarr; fixed-size tiles (overlap)</td><td>190 image-mask tile pairs for training</td></tr>
+      <tr class="hl"><td><strong>Augmentation</strong></td><td>Albumentations: horizontal/vertical flip, rotation, affine transforms, brightness/contrast</td><td>1,140 tiles (6&times; expansion) &mdash; critical given data scarcity</td></tr>
+      <tr><td><strong>Architecture</strong></td><td>U-Net (encoder-decoder with skip connections), binary output, threshold 0.90</td><td>Per-pixel segmentation mask</td></tr>
+      <tr class="hl"><td><strong>Mosaic Export</strong></td><td>Stitch tile predictions back &rarr; georeferenced GeoTIFF</td><td>Full-resolution output importable into QGIS/ArcGIS</td></tr>
+    </tbody>
+  </table>
+  <div class="findings">
+    <div class="finding"><div class="finding-label">Honest Diagnosis</div><div class="finding-text">F1-Score 35.3%, IoU 21.5% &mdash; but <strong>Recall 77.7%</strong>. The model detects most objects (high recall) but generates false positives (low precision, 17.6%). Root cause: 190 training tiles is insufficient for this task. <strong>More data &gt; better architecture.</strong></div></div>
+    <div class="finding"><div class="finding-label">GIS Pipeline</div><div class="finding-text">Output is a <strong>georeferenced GeoTIFF</strong> &mdash; coordinate system intact, importable into QGIS/ArcGIS for downstream spatial analysis. Not just a visual output; an actionable input to geospatial workflows.</div></div>
+    <div class="finding"><div class="finding-label">Architecture Choice</div><div class="finding-text">U-Net&rsquo;s skip connections carry edge information from encoder to decoder &mdash; preserving the spatial detail that pooling discards. That&rsquo;s why U-Net is the standard for segmentation tasks where <strong>boundary accuracy matters.</strong></div></div>
+  </div>
+  <div class="tech-line"><strong>Stack:</strong> TensorFlow/Keras &middot; U-Net &middot; Albumentations &middot; GDAL (GeoTIFF I/O) &middot; Rasterio &middot; NumPy &middot; Python</div>
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
+    <span>Phase 2.4 / GeoAI &mdash; U-Net Satellite Segmentation</span>
+  </div>
+</div>
+
+<!-- ════════════ PAGE: Yorindo EM·U ════════════ -->
+<div class="page project-page">
+  <div class="phase-banner">
+    <span class="ph-num">PHASE 05</span>
+    <span class="ph-title">KADA &mdash; Team Projects</span>
     <span class="ph-desc">2026 &middot; Korea-ASEAN Digital Academy &middot; 60 selected from 900+ applicants</span>
   </div>
   <div class="page-header">
     <div>
-      <div class="proj-num">Phase 5.1 &middot; Team Backend &middot; API</div>
+      <div class="proj-num">5.1 &middot; Backend Dev &middot; Fastify TypeScript &middot; Claude + Codex &middot; Agile SDLC</div>
+      <h2>Yorindo EM&middot;U &mdash; <em>AI-Augmented Backend Development</em></h2>
+    </div>
+    <div class="page-meta">Korea-ASEAN Digital Academy (KADA)<br>2026 &middot; Team project &middot; Backend role<br>&rarr; Moved by mentor to CineTrack mid-project</div>
+  </div>
+  <div class="links-bar">
+    <a href="https://github.com/dhanifudin/yorindo" target="_blank">&#x2325; github.com/dhanifudin/yorindo</a>
+  </div>
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num">2</div><div class="stat-label">AI coding tools<br>Claude &middot; GitHub Codex</div></div>
+    <div class="stat-cell"><div class="stat-num accent">17</div><div class="stat-label">API route modules<br>Fastify TypeScript</div></div>
+    <div class="stat-cell"><div class="stat-num">1st</div><div class="stat-label">Structured team SDLC<br>Epic &rarr; User Story</div></div>
+    <div class="stat-cell"><div class="stat-num">B2B</div><div class="stat-label">Event management platform<br>Fastify &middot; PostgreSQL &middot; Redis</div></div>
+  </div>
+  <div class="context">
+    <strong>Context:</strong> Assigned to backend division on Yorindo EM&middot;U &mdash; a B2B event management platform (Fastify TypeScript API, PostgreSQL, Redis, Docker). My role was backend development using Claude and GitHub Codex as primary AI coding assistants. Partway through, mentor reassigned me to CineTrack. The Yorindo phase was brief, but it was my first time working inside a real Agile team &mdash; and where I first understood how Epics, User Stories, and tasks actually connect in practice.
+  </div>
+  <div class="slabel">How I Used AI as a Development Tool</div>
+  <table>
+    <thead><tr><th>Tool</th><th>How I Used It</th><th>What I Learned</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Claude</strong></td><td>Understanding unfamiliar codebase patterns &mdash; Fastify plugin architecture, TypeScript generics in route handlers, repository pattern implementation</td><td><strong>AI as codebase interpreter:</strong> asking &ldquo;what does this pattern do and why&rdquo; is faster than reading cold docs. Changed how I read new repos.</td></tr>
+      <tr><td><strong>GitHub Codex</strong></td><td>Boilerplate generation for route handlers, test stubs, TypeScript type declarations. Autocomplete across the Fastify + Prisma stack</td><td>AI suggestion quality is directly tied to how well I framed the context. Vague prompts &rarr; generic code. Precise prompts &rarr; usable scaffolding.</td></tr>
+      <tr class="hl"><td><strong>AI + Code Review</strong></td><td>Used Claude to pre-review my own PRs before submitting &mdash; catching type errors, missing edge cases, and naming inconsistencies</td><td>Self-review with AI before peer review reduced back-and-forth significantly. <strong>Treating AI as a first-pass reviewer became a habit I carried to CineTrack.</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="findings">
+    <div class="finding"><div class="finding-label">Epic &rarr; Story &rarr; Task</div><div class="finding-text">First time working from a backlog with formal Epic decomposition. Seeing how a feature like &ldquo;QR Check-in&rdquo; breaks into stories (offline PWA, OTS registration, sync-on-reconnect) and then into tasks helped me understand that most of my previous solo projects had implicit epics &mdash; <strong>I just didn&rsquo;t know the vocabulary.</strong></div></div>
+    <div class="finding"><div class="finding-label">Working on Others&rsquo; Code</div><div class="finding-text">Backend codebase was partially built before I joined. Had to read, understand, and extend existing patterns without breaking them &mdash; a different skill from greenfield development. <strong>Claude was essential for decoding unfamiliar decisions quickly.</strong></div></div>
+    <div class="finding"><div class="finding-label">What I Carried Forward</div><div class="finding-text">The AI-as-first-reviewer habit and Epic decomposition thinking directly shaped how I approached CineTrack. I proposed the user story structure for cinema analytics features and used the same Claude + Codex workflow, <strong>now with more confidence and precision.</strong></div></div>
+  </div>
+  <div class="tech-line"><strong>Stack:</strong> Fastify (TypeScript, ESM) &middot; PostgreSQL &middot; Redis &middot; Docker Compose &middot; Claude (Anthropic) &middot; GitHub Codex &middot; Agile standups &middot; Epic/User Story backlog &middot; Git feature branches &middot; PR reviews</div>
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
+    <span>Phase 5.1 / Yorindo EM&middot;U &mdash; AI-Augmented Backend Development &middot; KADA</span>
+  </div>
+</div>
+
+<!-- ════════════ PAGE 10: L8C CineTrack ════════════ -->
+<div class="page project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">Phase 5.2 &middot; Team Backend &middot; API</div>
       <h2>CineTrack &mdash; <em>Cinema Chain Analytics Backend</em></h2>
     </div>
     <div class="page-meta">2026 &middot; Team &middot; KADA<br>Backend Developer</div>
@@ -865,158 +1091,9 @@
   <div class="context"><strong>Key Takeaway &mdash; Team Backend at Production Scale:</strong> API contract design before any implementation let frontend and backend teams develop in parallel without blocking. <strong>One hour designing the interface spec saves ten hours of integration debugging.</strong> EXPLAIN ANALYZE before Redis caching identified the slow queries worth optimizing &mdash; measure before you cache.</div>
   <div class="tech-line"><strong>Stack:</strong> Node.js &middot; Fastify &middot; PostgreSQL (CTEs &middot; EXPLAIN ANALYZE &middot; composite indexes) &middot; Redis (cache-aside &middot; filter-aware keys) &middot; Elice AI LLM &middot; Docker</div>
 
-  <hr class="proj-divider">
-
-  <div class="slabel">Work Experience</div>
-
-  <div class="exp-item">
-    <div class="exp-top">
-      <div class="exp-role">Full-Stack Developer Trainee</div>
-      <div class="exp-date">Feb 2026 &ndash; Apr 2026</div>
-    </div>
-    <div class="exp-company">Korea-ASEAN Digital Academy (KADA) &middot; NIPA &middot; Komdigi &middot; Elice &middot; Bekasi, On-site</div>
-    <ul class="exp-bullets">
-      <li>Selected from <strong>900+ applicants</strong> (60 accepted) for a fully-funded ASEAN-Korea digital program.</li>
-      <li>Co-built CineTrack: 20+ analytics endpoints (Fastify), two-layer CTE occupancy, Redis caching, LLM summaries, SQL injection defense.</li>
-    </ul>
-  </div>
-
-  <div class="exp-item">
-    <div class="exp-top">
-      <div class="exp-role">Chatbot Quality Assurance Analyst</div>
-      <div class="exp-date">May 2024 &ndash; Oct 2025 &middot; 1.5 yrs</div>
-    </div>
-    <div class="exp-company">PT Fliptech Lentera Inspirasi Pertiwi (Flip) &middot; Fintech</div>
-    <ul class="exp-bullets">
-      <li>Evaluated production <strong>LLM chatbot with RAG</strong> &mdash; prompt optimization, grounding validation, hallucination detection, root-cause analysis on low-CSAT interactions.</li>
-      <li>Built KPI dashboards: CSAT &middot; fallback rate &middot; hallucination rate &middot; intent accuracy.</li>
-      <li><strong>Results:</strong> Unidentified utterances &lt;12% &middot; CSAT 65% (H1) &middot; Fallback rate 3% (H2).</li>
-    </ul>
-  </div>
-
-  <div class="exp-item">
-    <div class="exp-top">
-      <div class="exp-role">IT Operational &mdash; Chatbot &amp; Omnichannel Development</div>
-      <div class="exp-date">Dec 2021 &ndash; Apr 2024 &middot; 2.4 yrs</div>
-    </div>
-    <div class="exp-company">PT Infomedia Nusantara (Telkom Group)</div>
-    <ul class="exp-bullets">
-      <li>Designed end-to-end e-commerce chatbot flows (requirements &rarr; post-release tuning) &middot; &sim;1,000 daily interactions.</li>
-      <li>Led SIT/UAT for chatbot and omnichannel platform; caught integration failures pre-release.</li>
-    </ul>
-  </div>
-
   <div class="page-footer">
     <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
-    <span>Phase 5.1 / CineTrack &middot; Work Experience</span>
-  </div>
-</div>
-
-<!-- ════════════ PAGE 11: SKILLS + EDUCATION + LINKS ════════════ -->
-<div class="page project-page">
-  <div class="page-header">
-    <div>
-      <div class="proj-num">Skills &middot; Education &middot; Achievements &middot; Links</div>
-      <h2>Technical Profile &mdash; <em>Full Stack AI Engineering</em></h2>
-    </div>
-    <div class="page-meta">Ninditya Salma Nur Aini<br>2021 &rarr; 2026</div>
-  </div>
-
-  <div class="slabel">Technical Skills</div>
-  <div class="skills-grid">
-    <div>
-      <div class="skill-label">NLP &amp; ML</div>
-      <div class="skill-items">
-        SBERT (all-MiniLM-L6-v2) &middot; LSA/SVD &middot; KNN<br>
-        BiLSTM &middot; XGBoost &middot; LinearSVC<br>
-        LangGraph &middot; RAG &middot; Qdrant &middot; FAISS<br>
-        SHAP &middot; GridSearchCV &middot; SMOTE<br>
-        Nazief-Andriani (Indonesian NLP)
-      </div>
-    </div>
-    <div>
-      <div class="skill-label">AI &amp; GenAI</div>
-      <div class="skill-items">
-        Gemini 2.5 Flash &middot; Genkit framework<br>
-        Stable Diffusion &middot; Diffusers<br>
-        CLIPSeg &middot; Prompt Engineering<br>
-        LLM Evaluation &middot; RAG QA<br>
-        Prompt Injection Defense
-      </div>
-    </div>
-    <div>
-      <div class="skill-label">Engineering &amp; Data</div>
-      <div class="skill-items">
-        Python &middot; TypeScript &middot; SQL (CTE, EXPLAIN)<br>
-        Next.js 15 &middot; FastAPI &middot; Fastify<br>
-        Supabase Realtime &middot; PostgreSQL &middot; Redis<br>
-        Docker &middot; Streamlit &middot; Flask &middot; Metabase<br>
-        pytest &middot; MagicMock &middot; SQLAlchemy
-      </div>
-    </div>
-  </div>
-
-  <div class="slabel" style="margin-top:14px;">Education</div>
-  <div class="exp-item">
-    <div class="exp-top">
-      <div class="exp-role">S.Kom &mdash; Teknik Informatika</div>
-      <div class="exp-date">2017 &ndash; Oct 2021 &middot; GPA 3.66</div>
-    </div>
-    <div class="exp-company">UPN &ldquo;Veteran&rdquo; Yogyakarta</div>
-    <ul class="exp-bullets">
-      <li>Thesis: <strong>&ldquo;Implementasi Metode KNN dan LSA untuk Chatbot FAQ&rdquo;</strong> &mdash; implemented SVD from scratch using JAMA libraries; deployed to web + Telegram; 1,410 student questions; 93.2% accuracy, &minus;35% compute.</li>
-    </ul>
-  </div>
-
-  <div class="slabel" style="margin-top:12px;">Achievements &amp; Programs</div>
-  <div class="achieve-grid">
-    <div class="achieve-card">
-      <div class="achieve-year">2026</div>
-      <div class="achieve-name">Korea-ASEAN Digital Academy (KADA)</div>
-      <div class="achieve-org">NIPA &middot; Komdigi &middot; Elice &mdash; 60 selected from 900+ applicants</div>
-    </div>
-    <div class="achieve-card">
-      <div class="achieve-year">2025</div>
-      <div class="achieve-name">IDCamp Expert &mdash; Belajar Penerapan Data Science</div>
-      <div class="achieve-org">Dicoding &middot; Indosat Ooredoo Hutchison &mdash; Highest tier</div>
-    </div>
-    <div class="achieve-card">
-      <div class="achieve-year">2024</div>
-      <div class="achieve-name">Bangkit Academy &mdash; BFGAI Generative AI Challenge</div>
-      <div class="achieve-org">Google &middot; GoTo &middot; Traveloka &mdash; Generative AI capstone</div>
-    </div>
-    <div class="achieve-card">
-      <div class="achieve-year">Oct 2021</div>
-      <div class="achieve-name">S.Kom Graduation &middot; GPA 3.66</div>
-      <div class="achieve-org">UPN &ldquo;Veteran&rdquo; Yogyakarta &mdash; Thesis: KNN+LSA Chatbot</div>
-    </div>
-  </div>
-
-  <div class="slabel" style="margin-top:12px;">Portfolio &amp; Links</div>
-  <div class="links-grid">
-    <div class="links-grid-item">
-      <strong>Main Portfolio</strong>ninditya.github.io
-    </div>
-    <div class="links-grid-item">
-      <strong>NutriPal AI (Live)</strong>nutripal-rho.vercel.app
-    </div>
-    <div class="links-grid-item">
-      <strong>HealthTruth RAG (Live)</strong>health-truth-chatbot.up.railway.app
-    </div>
-    <div class="links-grid-item">
-      <strong>GitHub</strong>github.com/ninditya
-    </div>
-    <div class="links-grid-item">
-      <strong>LinkedIn</strong>linkedin.com/in/ninditya-salma-nur-aini
-    </div>
-    <div class="links-grid-item">
-      <strong>Email</strong>nindityaadrian@gmail.com
-    </div>
-  </div>
-
-  <div class="page-footer">
-    <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
-    <span>Skills &middot; Education &middot; Achievements &middot; 2021 &rarr; 2026</span>
+    <span>Phase 5.2 / CineTrack &middot; KADA Team Project</span>
   </div>
 </div>
 
