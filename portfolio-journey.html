@@ -64,10 +64,10 @@
     .slabel { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); margin-bottom: 7px; font-weight: 500; }
     .img-1 { margin-bottom: 14px; }
     .img-1 img { width: 100%; max-height: 110mm; object-fit: contain; object-position: top; display: block; border: 1px solid var(--line); }
-    .img-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-    .img-2 img { width: 100%; max-height: 65mm; object-fit: contain; object-position: top; display: block; border: 1px solid var(--line); }
-    .img-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 10px; }
-    .img-3 img { width: 100%; max-height: 50mm; object-fit: contain; object-position: top; display: block; border: 1px solid var(--line); }
+    .img-2 { margin-bottom: 10px; }
+    .img-2 img { width: 100%; max-height: 110mm; object-fit: contain; object-position: top; display: block; border: 1px solid var(--line); }
+    .img-3 { margin-bottom: 10px; }
+    .img-3 img { width: 100%; max-height: 110mm; object-fit: contain; object-position: top; display: block; border: 1px solid var(--line); }
     .img-caption { font-size: 8.5px; color: var(--light); margin-top: 5px; line-height: 1.4; }
     .img-caption strong { color: var(--mid); }
     .img-group { margin-bottom: 14px; }
@@ -158,7 +158,7 @@
         <div class="cover-phase-row">
           <span class="cover-phase-num">3</span>
           <span class="cover-phase-label">Data Science</span>
-          <span class="cover-phase-items">Student Dropout 97.27% AUC &middot; Employee Attrition 86% recall (2025)</span>
+          <span class="cover-phase-items">Student Dropout 97.27% AUC &middot; Employee Attrition 86% recall &middot; Talent Match Intelligence (2025)</span>
         </div>
         <div class="cover-phase-row">
           <span class="cover-phase-num">4</span>
@@ -307,7 +307,7 @@
 <div class="page project-page">
   <div class="page-header">
     <div>
-      <div class="proj-num">Phase 1.3 &middot; Classical NLP &middot; Thesis</div>
+      <div class="proj-num">Phase 1.2 &middot; Classical NLP &middot; Thesis</div>
       <h2>Chatbot FAQ &mdash; KNN + LSA &mdash; <em>S.Kom Thesis</em></h2>
     </div>
     <div class="page-meta">Oct 2021 &middot; Thesis &middot; Solo<br>UPN &ldquo;Veteran&rdquo; Yogyakarta &middot; GPA 3.66</div>
@@ -327,15 +327,15 @@
   <div class="context">
     <strong>Why this project started everything:</strong> Informatics department staff were manually answering the same 20 student questions, limited to office hours. I built a chatbot that answers 24/7. But the more important discovery was this: switching from raw TF-IDF to LSA-projected features improved both accuracy (+1.1pp) and compute speed (&minus;35%) using the <em>exact same KNN classifier</em>. The classifier didn&rsquo;t change &mdash; only the feature space did. This is the founding insight that made every NLP model I studied after 2021 immediately intuitive: representation quality determines what models can learn.
   </div>
-  <div class="img-2">
+  <div class="img-2" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
     <div class="img-group">
       <div class="slabel">Web App &mdash; NLP Pipeline Visualization</div>
-      <img src="chatbot-lsa/chatbot web.png" alt="Chatbot LSA web interface showing TF-IDF to SVD to KNN pipeline">
+      <img src="chatbot-lsa/chatbot web.png" alt="Chatbot LSA web interface showing TF-IDF to SVD to KNN pipeline" style="max-height:65mm;">
       <div class="img-caption">Web interface showing the full NLP pipeline step-by-step: input &rarr; preprocessing &rarr; TF-IDF &rarr; SVD decomposition &rarr; LSA projection &rarr; KNN &rarr; answer. Built to make the model interpretable, not just usable.</div>
     </div>
     <div class="img-group">
       <div class="slabel">Telegram Bot &mdash; Production Deployment</div>
-      <img src="chatbot-lsa/chatbot telegram.png" alt="Telegram chatbot for UPN Veteran Yogyakarta FAQ">
+      <img src="chatbot-lsa/chatbot telegram.png" alt="Telegram chatbot for UPN Veteran Yogyakarta FAQ" style="max-height:65mm;">
       <div class="img-caption">Deployed as a Telegram bot accessible to all informatics students 24/7. Answering FAQ queries about academic administration without staff involvement.</div>
     </div>
   </div>
@@ -368,7 +368,7 @@
   <div class="tech-line"><strong>Stack:</strong> PHP &middot; MySQL &middot; JavaScript &middot; Telegram Bot API &middot; JAMA Libraries (SVD/matrix ops) &middot; Nazief-Andriani Indonesian stemmer &middot; TF-IDF term-document matrix &middot; KNN (Manhattan distance)</div>
   <div class="page-footer">
     <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
-    <span>Phase 1.3 / LSA Chatbot &mdash; Classical NLP Thesis 2021</span>
+    <span>Phase 1.2 / LSA Chatbot &mdash; Classical NLP Thesis 2021</span>
   </div>
 </div>
 
@@ -376,7 +376,7 @@
 <div class="page project-page">
   <div class="page-header">
     <div>
-      <div class="proj-num">Phase 1.4 &middot; Deep Learning NLP</div>
+      <div class="proj-num">Phase 1.3 &middot; Deep Learning NLP</div>
       <h2>Sentiment Analysis &mdash; <em>BiLSTM &middot; TF-IDF+MLP &middot; Gemini Flash</em></h2>
     </div>
     <div class="page-meta">2025 &middot; Solo project<br>NLP / ML Researcher &middot; 11,000 Indonesian tweets</div>
@@ -403,7 +403,7 @@
     </div>
     <div class="img-group">
       <div class="slabel">Accuracy Comparison &mdash; All Models &amp; Configurations</div>
-      <img src="sentiment-analysis/comparison_accuracy.png" alt="Accuracy comparison BiLSTM vs TF-IDF vs Gemini">
+      <img src="sentiment-analysis/comparison_accuracy.png" alt="Accuracy comparison BiLSTM vs TF-IDF vs Gemini" style="max-height:65mm;">
       <div class="img-caption">BiLSTM (93%) outperforms all baselines. GenAI zero-shot (85.3%) is below ML classical. Few-shot examples from wrong domain actively hurt GenAI accuracy &mdash; domain mismatch makes examples noise, not signal.</div>
     </div>
   </div>
@@ -434,7 +434,7 @@
   <div class="tech-line"><strong>Stack:</strong> Python &middot; TensorFlow/Keras (BiLSTM) &middot; scikit-learn (TF-IDF+MLP) &middot; Gemini Flash 2.0 API via OpenRouter &middot; Flask + Swagger API &middot; 5-fold CV &middot; 288 GridSearch configs</div>
   <div class="page-footer">
     <span>Ninditya Salma Nur Aini &mdash; Learning Journey Portfolio</span>
-    <span>Phase 1.4 / Sentiment Analysis &mdash; Deep Learning NLP Benchmark</span>
+    <span>Phase 1.3 / Sentiment Analysis &mdash; Deep Learning NLP Benchmark</span>
   </div>
 </div>
 
@@ -461,7 +461,7 @@
   </div>
   <div class="img-group">
     <div class="slabel">HealthTruth-AI v0 &mdash; Hackathon Submission</div>
-    <img src="rag-chatbot-service/HealthTruth-AI_pages-to-jpg-0001.jpg" alt="HealthTruth-AI v0 RAG chatbot interface" style="width:100%;display:block;border:1px solid var(--line);max-height:100mm;object-fit:contain;object-position:top;">
+    <img src="rag-chatbot-service/HealthTruth-AI_pages-to-jpg-0001.jpg" alt="HealthTruth-AI v0 RAG chatbot interface" style="width:100%;display:block;border:1px solid var(--line);max-height:110mm;object-fit:contain;object-position:top;">
     <div class="img-caption">Tampilan awal v0: linear RAG chain dengan FAISS in-memory. Hardcoded cosine threshold gate &mdash; jika top-1 cosine similarity &lt;0.6, mengembalikan fallback message. Gate binary (block/pass) tanpa kemampuan routing berdasarkan confidence level.</div>
   </div>
   <p style="font-size:10px;color:var(--dark);line-height:1.7;margin-bottom:10px;">
@@ -498,7 +498,7 @@
   </div>
   <div class="img-group">
     <div class="slabel">System Architecture &mdash; LangGraph + Qdrant + Personalization Layer</div>
-    <img src="rag-chatbot-service/architecture-overview.png" alt="HealthTruth-AI v1 LangGraph RAG architecture" style="width:100%;display:block;border:1px solid var(--line);max-height:55mm;object-fit:contain;object-position:top;">
+    <img src="rag-chatbot-service/architecture-overview.png" alt="HealthTruth-AI v1 LangGraph RAG architecture" style="width:100%;display:block;border:1px solid var(--line);max-height:110mm;object-fit:contain;object-position:top;">
     <div class="img-caption">v0 &rarr; v1 refactor: FAISS in-memory &rarr; Qdrant persistent; monolith &rarr; 5 single-responsibility classes; flat prompt &rarr; profile context injection; crash on quota &rarr; layered graceful degradation. Zero hard crashes in production.</div>
   </div>
   <p style="font-size:10px;color:var(--dark);line-height:1.7;margin-bottom:10px;">
@@ -555,12 +555,12 @@
   <div class="img-2">
     <div class="img-group">
       <div class="slabel">System Architecture &mdash; 4-Tier Routing Pipeline</div>
-      <img src="banking-intent-router/architecture-overview.png" alt="Banking Intent Router 4-tier architecture overview">
+      <img src="banking-intent-router/architecture-overview.png" alt="Banking Intent Router 4-tier architecture overview" style="max-height:65mm;">
       <div class="img-caption">Query &rarr; SBERT embedding (384-dim) &rarr; LinearSVC confidence scoring &rarr; routing decision &rarr; tier handler. 12 Prometheus metrics monitored via Grafana Cloud. Tier 0+1 handles &sim;80% queries at $0.</div>
     </div>
     <div class="img-group">
       <div class="slabel">Grafana Monitoring Dashboard &mdash; Live Production Metrics</div>
-      <img src="banking-intent-router/dashboard-grafana.png" alt="Grafana monitoring dashboard with Prometheus metrics">
+      <img src="banking-intent-router/dashboard-grafana.png" alt="Grafana monitoring dashboard with Prometheus metrics" style="max-height:65mm;">
       <div class="img-caption">12 custom Prometheus metrics via remote_write (protobuf + snappy compression): request volume per tier, latency distribution, cost tracker, routing ratio. Every request logged, no aggregation loss.</div>
     </div>
   </div>
@@ -614,12 +614,14 @@
   <div class="context">
     <strong>Business problem:</strong> Jaya Jaya Institut&rsquo;s 32.12% dropout rate (2008&ndash;2015) had no early warning system &mdash; the institution was reacting after students had already left. <strong>Solution:</strong> detect at-risk students in semesters 1&ndash;2 (the only window where intervention is still possible), then route them to the right support: academic tutoring, financial aid, or scholarship referral.
   </div>
-  <div class="img-2">
+  <div class="img-1">
     <div class="img-group">
       <div class="slabel">SHAP Feature Importance &mdash; Top Risk Drivers</div>
       <img src="student-dropout/shap_feature_importance.png" alt="SHAP feature importance for student dropout prediction">
       <div class="img-caption">SHAP values showing top features: Curricular Units 2nd Sem Approved (2.14) as strongest predictor. Tuition Fees Up-To-Date (0.46) &mdash; students with overdue payments have dropout probability &gt;90%.</div>
     </div>
+  </div>
+  <div class="img-1">
     <div class="img-group">
       <div class="slabel">Streamlit Prediction App &mdash; Counsellor Interface</div>
       <img src="student-dropout/streamlit_form_input.png" alt="Streamlit 20-field prediction form for student counsellors">
@@ -735,9 +737,9 @@
 <!-- ════════════ PAGE 9: L8A NutriPal + L8B StudioAI ════════════ -->
 <div class="page project-page">
   <div class="phase-banner">
-    <span class="ph-num">PHASE 4 (cont.) &middot; PHASE 2</span>
-    <span class="ph-title">Full-Stack AI &middot; Computer Vision</span>
-    <span class="ph-desc">2024&ndash;2025 &middot; production AI products &middot; solo concept-to-ship &middot; generative research</span>
+    <span class="ph-num">PHASE 4</span>
+    <span class="ph-title">AI / LLM Systems</span>
+    <span class="ph-desc">2025 &middot; full-stack AI &middot; production AI products &middot; solo concept-to-ship</span>
   </div>
   <div class="page-header">
     <div>
@@ -760,20 +762,20 @@
   <div class="context">
     <strong>Goal:</strong> Snap a food photo &rarr; AI identifies dish, estimates portions, calculates macros, flags allergens against user biometric + dietary profile. 5 distinct Genkit AI flows. No Redux/Zustand. Custom hooks (<code>useDailyLog</code> &middot; <code>useMeals</code> &middot; <code>useProfile</code>) each subscribe directly to Supabase Realtime channels scoped to the current user. 4-key rotation via <code>executeWithRotation()</code> &mdash; zero quota downtime for end users.
   </div>
-  <div class="img-3">
+  <div class="img-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
     <div class="img-group">
       <div class="slabel">Snap Meal &mdash; Food Photo Analysis</div>
-      <img src="nutripal-ai/Snap-Meal.png" alt="NutriPal AI snap meal feature with Gemini Vision">
+      <img src="nutripal-ai/Snap-Meal.png" alt="NutriPal AI snap meal feature with Gemini Vision" style="max-height:65mm;">
       <div class="img-caption">Food photo &rarr; Gemini 2.5 Flash Vision identifies dish, estimates portions, calculates macros, flags allergens. One API call for full analysis with user profile context.</div>
     </div>
     <div class="img-group">
       <div class="slabel">Today&rsquo;s Dashboard &mdash; Realtime Tracking</div>
-      <img src="nutripal-ai/NutriPal-Today.png" alt="NutriPal AI daily nutrition dashboard with Supabase Realtime">
+      <img src="nutripal-ai/NutriPal-Today.png" alt="NutriPal AI daily nutrition dashboard with Supabase Realtime" style="max-height:65mm;">
       <div class="img-caption">Daily dashboard with Supabase Realtime hooks &mdash; new meals appear instantly without polling. Custom hooks subscribe directly to per-user Realtime channels.</div>
     </div>
     <div class="img-group">
       <div class="slabel">Meal Plan Generation &mdash; AI Flows</div>
-      <img src="nutripal-ai/Plan-Meal.png" alt="NutriPal AI personalized meal plan generation with Genkit">
+      <img src="nutripal-ai/Plan-Meal.png" alt="NutriPal AI personalized meal plan generation with Genkit" style="max-height:65mm;">
       <div class="img-caption">5 Genkit AI flows: photo analysis, text analysis, full-day meal plan, delivery curation, personalized diet plans. 4-key rotation via executeWithRotation() &mdash; zero quota downtime.</div>
     </div>
   </div>
@@ -792,13 +794,13 @@
 <!-- ════════════ PAGE: AquaSense YOLOv8 ════════════ -->
 <div class="page project-page">
   <div class="phase-banner">
-    <span class="ph-num">PHASE 02</span>
+    <span class="ph-num">PHASE 2</span>
     <span class="ph-title">Computer Vision</span>
     <span class="ph-desc">2025 &middot; YOLOv8 evaluation &middot; label alignment &middot; client deliverable</span>
   </div>
   <div class="page-header">
     <div>
-      <div class="proj-num">2.1 &middot; YOLOv8 &middot; Model Evaluation &middot; IAA &middot; Annotation &middot; Data Quality</div>
+      <div class="proj-num">Phase 2.1 &middot; YOLOv8 &middot; Model Evaluation &middot; IAA &middot; Annotation &middot; Data Quality</div>
       <h2>AquaSense &mdash; <em>YOLOv8 Waste Detection &amp; Evaluation</em></h2>
     </div>
     <div class="page-meta">Data Science Assessment &middot; 2025<br>378 test images &middot; HuggingFace model</div>
@@ -853,7 +855,7 @@
 <div class="page project-page">
   <div class="page-header">
     <div>
-      <div class="proj-num">2.2 &middot; Statistics &middot; IAA &middot; Bland-Altman &middot; Sensor Reliability</div>
+      <div class="proj-num">Phase 2.2 &middot; Statistics &middot; IAA &middot; Bland-Altman &middot; Sensor Reliability</div>
       <h2>AquaSense IAA &mdash; <em>Plankton Sensor Reliability Analysis</em></h2>
     </div>
     <div class="page-meta">Data Science Assessment &middot; 2025<br>Solo &middot; Data Analyst</div>
@@ -875,7 +877,7 @@
   </p>
   <div class="img-group">
     <div class="slabel">Bland-Altman Analysis Panel &mdash; Inter-Annotator Agreement</div>
-    <img src="_portfolio-assets/aquasense-bland-altman.png" alt="Bland-Altman IAA panel showing M1 vs M2 vs M3 agreement" style="width:100%;display:block;border:1px solid var(--line);max-height:52mm;object-fit:contain;object-position:top;">
+    <img src="_portfolio-assets/aquasense-bland-altman.png" alt="Bland-Altman IAA panel showing M1 vs M2 vs M3 agreement" style="width:100%;display:block;border:1px solid var(--line);max-height:110mm;object-fit:contain;object-position:top;">
     <div class="img-caption">M1 vs M2 and M1 vs M3: large negative bias (&sim;&minus;49k cells/mL), proportional error &mdash; cannot be corrected by scalar offset. <strong>M2 vs M3: near-zero bias (+694), CCC=0.984.</strong> Spearman=0.630 misleadingly low due to zero-inflation in the dataset.</div>
   </div>
   <div class="findings">
@@ -911,7 +913,7 @@
   <div class="context">
     <strong>Goal &mdash; not just to generate images:</strong> To understand what each hyperparameter actually does by measuring it. Built from scratch using HuggingFace Diffusers (PyTorch), not a high-level wrapper &mdash; so every decision is observable and measurable. Two-stage pipeline: base model at denoising_end=0.8, refiner at strength=0.2 (latent-space passthrough). Two Streamlit tabs: Generate + Edit (inpainting/outpainting). Same epistemological question from the LSA thesis: <em>what is the right representation?</em>
   </div>
-  <div class="img-3">
+  <div class="img-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
     <div class="img-group">
       <div class="slabel">CFG Scale Comparison &mdash; 2.0 vs 7.5 vs 15.0</div>
       <img src="generative-ai-pipeline/guidance_scale.png" alt="Guidance Scale comparison CFG 2.0 vs 7.5 vs 15.0">
@@ -943,13 +945,13 @@
 <!-- ════════════ PAGE: GeoAI ════════════ -->
 <div class="page project-page">
   <div class="phase-banner">
-    <span class="ph-num">PHASE 02</span>
+    <span class="ph-num">PHASE 2</span>
     <span class="ph-title">Computer Vision</span>
     <span class="ph-desc">2025 &middot; Semantic segmentation &middot; GIS pipeline end-to-end</span>
   </div>
   <div class="page-header">
     <div>
-      <div class="proj-num">2.4 &middot; U-Net &middot; Semantic Segmentation &middot; GeoTIFF &middot; Albumentations &middot; TensorFlow</div>
+      <div class="proj-num">Phase 2.4 &middot; U-Net &middot; Semantic Segmentation &middot; GeoTIFF &middot; Albumentations &middot; TensorFlow</div>
       <h2>GeoAI &mdash; <em>Satellite Image Segmentation</em></h2>
     </div>
     <div class="page-meta">Solo &middot; 2025<br>Geospatial pipeline &middot; Binary segmentation</div>
@@ -959,9 +961,10 @@
   </div>
   <div class="stats-row">
     <div class="stat-cell"><div class="stat-num">35.3%</div><div class="stat-label">F1-Score (Dice)<br>U-Net baseline &middot; binary seg</div></div>
+    <div class="stat-cell"><div class="stat-num accent">77.7%</div><div class="stat-label">Recall<br>detects most objects</div></div>
+    <div class="stat-cell"><div class="stat-num">17.6%</div><div class="stat-label">Precision<br>false positives high</div></div>
     <div class="stat-cell"><div class="stat-num accent">87.9%</div><div class="stat-label">Overall accuracy<br>threshold 0.90</div></div>
     <div class="stat-cell"><div class="stat-num accent">6&times;</div><div class="stat-label">Data augmentation<br>190 &rarr; 1,140 tiles</div></div>
-    <div class="stat-cell"><div class="stat-num">8</div><div class="stat-label">Grid search combos<br>LR &times; Filters &times; Dropout</div></div>
   </div>
   <div class="context">
     <strong>Problem:</strong> Detect and segment geospatial objects from satellite/aerial imagery (GeoTIFF) end-to-end &mdash; from raw raster data with coordinate references to a georeferenced mosaic prediction output ready for GIS analysis. <strong>Challenge:</strong> Only 190 labelled tiles available. Augmentation strategy (6&times; via Albumentations: flip, rotation, affine, brightness/contrast) was the primary lever, not architecture changes. The full GIS pipeline &mdash; tiling, training, and stitching predictions back into a georeferenced GeoTIFF &mdash; was built from scratch.
@@ -975,7 +978,7 @@
     </div>
     <div class="img-group">
       <div class="slabel">Training Curve &mdash; Loss and Dice Coefficient per Epoch</div>
-      <img src="_portfolio-assets/geoai-training-curve.png" alt="U-Net training curve Dice coefficient per epoch">
+      <img src="_portfolio-assets/geoai-training-curve.png" alt="U-Net training curve Dice coefficient per epoch" style="max-height:65mm;">
       <div class="img-caption">Training and validation Dice coefficient per epoch. The model converges but validation gap indicates limited generalisation from 190 original tiles &mdash; confirmed by grid search: architecture changes (filters, dropout) mattered less than expected.</div>
     </div>
   </div>
@@ -1006,13 +1009,13 @@
 <!-- ════════════ PAGE: Yorindo EM·U ════════════ -->
 <div class="page project-page">
   <div class="phase-banner">
-    <span class="ph-num">PHASE 05</span>
+    <span class="ph-num">PHASE 5</span>
     <span class="ph-title">KADA &mdash; Team Projects</span>
     <span class="ph-desc">2026 &middot; Korea-ASEAN Digital Academy &middot; 60 selected from 900+ applicants</span>
   </div>
   <div class="page-header">
     <div>
-      <div class="proj-num">5.1 &middot; Backend Dev &middot; Fastify TypeScript &middot; Claude + Codex &middot; Agile SDLC</div>
+      <div class="proj-num">Phase 5.1 &middot; Backend Dev &middot; Fastify TypeScript &middot; Claude + Codex &middot; Agile SDLC</div>
       <h2>Yorindo EM&middot;U &mdash; <em>AI-Augmented Backend Development</em></h2>
     </div>
     <div class="page-meta">Korea-ASEAN Digital Academy (KADA)<br>2026 &middot; Team project &middot; Backend role<br>&rarr; Moved by mentor to CineTrack mid-project</div>
@@ -1089,6 +1092,10 @@
     <div class="finding"><div class="finding-label">Team Accountability</div><div class="finding-text">First project where another team&rsquo;s frontend depended on my API contract. Getting the response shape right, keeping it documented, and not breaking it on refactor taught more about <strong>professional engineering accountability than any solo project.</strong> API contracts before implementation enable parallel development.</div></div>
   </div>
   <div class="context"><strong>Key Takeaway &mdash; Team Backend at Production Scale:</strong> API contract design before any implementation let frontend and backend teams develop in parallel without blocking. <strong>One hour designing the interface spec saves ten hours of integration debugging.</strong> EXPLAIN ANALYZE before Redis caching identified the slow queries worth optimizing &mdash; measure before you cache.</div>
+  <div class="img-group">
+    <div class="slabel">CineTrack &mdash; KADA Team Project</div>
+    <img src="_portfolio-assets/cinetrack-Kada.png" alt="CineTrack cinema analytics backend KADA team project" style="width:100%;display:block;border:1px solid var(--line);max-height:110mm;object-fit:contain;object-position:top;">
+  </div>
   <div class="tech-line"><strong>Stack:</strong> Node.js &middot; Fastify &middot; PostgreSQL (CTEs &middot; EXPLAIN ANALYZE &middot; composite indexes) &middot; Redis (cache-aside &middot; filter-aware keys) &middot; Elice AI LLM &middot; Docker</div>
 
   <div class="page-footer">
