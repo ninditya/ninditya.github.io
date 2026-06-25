@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fine-tune IndoBERT for Financial Sentiment · Ninditya Salma Nur Aini</title>
+  <meta name="description" content="Domain-specific fine-tuning of IndoBERT on Indonesian financial text. 88.4% accuracy vs 79.1% BiLSTM and 72.3% TF-IDF baseline. From LSA (2021 thesis) to BERT (2025): what changed and what did not.">
+  <link rel="canonical" href="https://ninditya.github.io/indobert-financial-sentiment/">
+  <meta property="og:title" content="Fine-tune IndoBERT Financial Sentiment · Ninditya Salma Nur Aini">
+  <meta property="og:url" content="https://ninditya.github.io/indobert-financial-sentiment/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#ffffff; --bg-alt:#f5f5f5; --bg-dark:#2d2d2d;
+      --ink:#4d4d4d; --ink-soft:#6b6b6b; --muted:#a0a0a0;
+      --line:#d3d3d3; --line-strong:#a0a0a0;
+      --primary:#1a5276; --accent:#c4490c; --accent-soft:#eaf2fb;
+      --green:#2d6a4f;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--ink); font-family:'DM Sans',sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased; }
+    .skip-link { position:absolute; top:-40px; left:0; background:var(--ink); color:#fff; padding:8px 16px; z-index:1000; transition:top 0.2s; font-family:'DM Mono',monospace; font-size:0.8rem; text-decoration:none; }
+    .skip-link:focus { top:0; }
+    *:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
+
+    nav { position:sticky; top:0; background:rgba(255,255,255,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); z-index:100; }
+    .nav-inner { max-width:1080px; margin:0 auto; padding:16px 32px; display:flex; align-items:center; }
+    .nav-tools { display:flex; align-items:center; gap:10px; width:100%; }
+    .mobile-nav-toggle { display:none; background:transparent; border:none; color:var(--ink); font-size:1.5rem; cursor:pointer; padding:0 5px; line-height:1; }
+    .nav-pills { display:flex; gap:6px; flex-wrap:wrap; }
+    .nav-pill { font-size:13px; color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:100px; transition:all 0.2s; }
+    .nav-pill:hover { background:var(--bg-alt); color:var(--ink); }
+    .nav-pill.back { color:var(--primary); border:1px solid var(--line); }
+    .nav-pill.back:hover { background:var(--primary); color:white; border-color:var(--primary); }
+    .lang-switch { display:inline-flex; padding:3px; border:1px solid var(--line); border-radius:999px; background:var(--bg); margin-left:auto; }
+    .lang-btn { border:none; background:transparent; color:var(--muted); padding:6px 10px; border-radius:999px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; transition:all 0.15s; }
+    .lang-btn.active { background:var(--ink); color:white; }
+    .theme-toggle { width:44px; height:44px; border-radius:50%; border:1px solid var(--line); background:var(--bg-alt); color:var(--ink); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:all 0.15s; flex-shrink:0; }
+
+    .wrap { max-width:1080px; margin:0 auto; padding:0 32px; }
+    section.content { padding:80px 0; border-bottom:1px solid var(--line); }
+    section.content.alt { background:var(--bg-alt); }
+    .section-num { font-family:'DM Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px; font-weight:500; }
+    h2 { font-family:'Instrument Serif',serif; font-size:clamp(32px,4.5vw,48px); font-weight:400; letter-spacing:-0.01em; line-height:1.1; margin-bottom:36px; max-width:800px; color:var(--ink); }
+    h2 em { font-style:italic; color:var(--primary); }
+    h3 { font-family:'Instrument Serif',serif; font-size:24px; font-weight:400; margin:36px 0 14px; letter-spacing:-0.01em; color:var(--ink); }
+    h3 em { font-style:italic; color:var(--primary); }
+    .lede { font-family:'Instrument Serif',serif; font-size:22px; line-height:1.5; color:var(--ink-soft); max-width:760px; margin-bottom:22px; font-weight:400; }
+    p { margin-bottom:16px; max-width:760px; color:var(--ink-soft); font-size:16px; }
+    p code, li code { background:var(--bg-alt); border:1px solid var(--line); padding:1px 6px; border-radius:3px; font-family:'DM Mono',monospace; font-size:13px; color:var(--ink); }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin:20px 0; }
+    .tag { font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; padding:5px 11px; border:1px solid var(--line-strong); background:white; border-radius:3px; color:var(--ink-soft); }
+    .pullquote { border-left:3px solid var(--accent); padding:16px 0 16px 28px; margin:32px 0; font-family:'Instrument Serif',serif; font-size:22px; font-style:italic; line-height:1.45; max-width:760px; color:var(--ink); }
+    .reveal { opacity:0; transform:translateY(18px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.in { opacity:1; transform:translateY(0); }
+    img { max-width:100%; border-radius:6px; display:block; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:48px; margin:40px 0; align-items:start; }
+
+    /* ── Hero ── */
+    .hero { padding:80px 0 60px; border-bottom:1px solid var(--line); }
+    .hero-kicker { display:flex; align-items:center; gap:12px; margin-bottom:36px; flex-wrap:wrap; }
+    .kicker-tag { background:var(--ink); color:var(--accent); padding:5px 12px; border-radius:4px; font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; }
+    .kicker-text { font-family:'DM Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.05em; text-transform:uppercase; }
+    h1.title { font-family:'Instrument Serif',serif; font-size:clamp(44px,6.5vw,80px); line-height:1; letter-spacing:-0.02em; color:var(--ink); margin-bottom:32px; font-weight:400; }
+    h1.title em { font-style:italic; color:var(--primary); }
+    .hero-lede { font-family:'Instrument Serif',serif; font-size:clamp(20px,2.2vw,26px); line-height:1.45; max-width:760px; color:var(--ink-soft); font-weight:400; }
+    .hero-lede strong { background:linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%); font-weight:500; color:var(--ink); }
+    .hero-meta { display:flex; flex-wrap:wrap; gap:28px; margin-top:44px; font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); }
+    .hero-meta span strong { color:var(--ink); font-weight:500; margin-right:6px; text-transform:uppercase; letter-spacing:0.08em; font-size:10px; }
+
+    /* ── Hero arch (4-col) ── */
+    .hero-arch { margin:48px 0 0; max-width:960px; }
+    .ha-source { display:flex; align-items:center; gap:0; margin-bottom:0; }
+    .ha-src-box { flex:1; border:1px solid var(--line); border-radius:8px 8px 0 0; padding:14px 18px; background:var(--bg-alt); text-align:center; border-bottom:none; }
+    .ha-src-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); }
+    .ha-src-val { font-size:15px; font-weight:600; color:var(--ink); margin-top:4px; }
+    .ha-branches { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; border:1px solid var(--line); border-top:2px solid var(--primary); }
+    .ha-branch { padding:18px 14px; border-right:1px solid var(--line); }
+    .ha-branch:last-child { border-right:none; }
+    .ha-branch.winner { background:var(--accent-soft); }
+    .ha-branch-tag { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:6px; }
+    .ha-branch.winner .ha-branch-tag { color:var(--primary); }
+    .ha-branch-name { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:12px; }
+    .ha-branch-acc { font-family:'Instrument Serif',serif; font-size:32px; color:var(--muted); line-height:1; }
+    .ha-branch.winner .ha-branch-acc { color:var(--primary); }
+    .ha-branch-sub { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); margin-top:4px; }
+    .ha-note { border:1px solid var(--line); border-top:none; padding:10px 18px; background:rgba(196,73,12,0.04); font-family:'DM Mono',monospace; font-size:11px; color:var(--accent); border-radius:0; }
+    .ha-eval { border:1px solid var(--line); border-top:none; padding:12px 18px; background:var(--bg-alt); display:flex; gap:24px; justify-content:center; border-radius:0 0 8px 8px; }
+    .ha-eval-item { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; }
+
+    /* ── Stats ── */
+    .stats-strip { background:var(--bg-dark); color:var(--bg); padding:60px 0; }
+    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
+    .stat { text-align:left; padding:0 28px; border-left:1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left:none; padding-left:0; }
+    .stat .num { font-family:'Instrument Serif',serif; font-size:clamp(40px,5.5vw,60px); font-weight:400; line-height:1; color:var(--accent); letter-spacing:-0.02em; }
+    .stat .label { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; margin-top:16px; opacity:0.75; line-height:1.4; }
+
+    /* ── Verdict / comparison cards ── */
+    .verdict-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:32px 0; }
+    .verdict-card { border:1px solid var(--line); border-radius:10px; padding:24px 20px; }
+    .verdict-card.winner { border-color:var(--primary); background:var(--accent-soft); }
+    .verdict-card.mid { border-color:var(--line); }
+    .verdict-card.last { border-color:rgba(196,73,12,0.3); background:rgba(196,73,12,0.03); }
+    .vc-rank { font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:8px; }
+    .verdict-card.winner .vc-rank { color:var(--primary); }
+    .vc-name { font-size:16px; font-weight:600; color:var(--ink); margin-bottom:16px; }
+    .vc-acc { font-family:'Instrument Serif',serif; font-size:48px; line-height:1; color:var(--muted); }
+    .verdict-card.winner .vc-acc { color:var(--primary); }
+    .vc-metrics { margin-top:16px; padding-top:14px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:5px; }
+    .vc-row { display:flex; justify-content:space-between; font-family:'DM Mono',monospace; font-size:11px; color:var(--ink-soft); }
+    .vc-row span:last-child { color:var(--ink); font-weight:500; }
+
+    .decision-matrix { width:100%; max-width:820px; border-collapse:collapse; margin:28px 0; font-size:14px; }
+    .decision-matrix th, .decision-matrix td { padding:12px 14px; border-bottom:1px solid var(--line); text-align:left; }
+    .decision-matrix th { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); background:var(--bg-alt); }
+    .decision-matrix td.criterion { font-weight:500; color:var(--ink); font-size:13px; }
+    .dm-dot { font-size:16px; }
+    .takeaway-card { background:var(--accent-soft); border:1px solid rgba(26,82,118,0.2); border-left:4px solid var(--primary); border-radius:8px; padding:24px 28px; margin:32px 0; max-width:760px; }
+    .takeaway-card p { color:var(--ink); margin:0; font-size:16px; line-height:1.6; max-width:none; }
+
+    /* ── Architecture pipeline ── */
+    .pipeline { display:flex; flex-direction:column; gap:0; max-width:760px; margin:32px 0; }
+    .pipe-step { display:flex; align-items:flex-start; gap:16px; padding:16px 18px; border:1px solid var(--line); border-bottom:none; background:var(--bg); }
+    .pipe-step:first-child { border-radius:8px 8px 0 0; }
+    .pipe-step:last-child { border-bottom:1px solid var(--primary); border-radius:0 0 8px 8px; border-color:var(--primary); background:var(--accent-soft); }
+    .pipe-num { font-family:'DM Mono',monospace; font-size:11px; color:var(--primary); min-width:24px; font-weight:500; margin-top:2px; }
+    .pipe-step:last-child .pipe-num { color:var(--primary); }
+    .pipe-name { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+    .pipe-desc { font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); line-height:1.5; }
+    .pipe-arrow { text-align:center; color:var(--muted); font-family:'DM Mono',monospace; font-size:16px; padding:4px 0; border-left:1px dashed var(--line); margin-left:12px; }
+
+    /* ── Code block ── */
+    pre.code { background:var(--bg-dark); color:#d8d3c4; padding:24px 28px; font-family:'DM Mono',monospace; font-size:13px; line-height:1.75; overflow-x:auto; margin:32px 0; border-radius:6px; border-left:3px solid var(--accent); max-width:900px; }
+    pre.code .c { color:#7a8696; font-style:italic; }
+    pre.code .s { color:var(--accent); }
+    pre.code .k { color:#d96b78; }
+
+    /* ── Dataset bars ── */
+    .dataset-bars { margin:28px 0; max-width:640px; }
+    .db-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+    .db-label { font-family:'DM Mono',monospace; font-size:12px; min-width:70px; color:var(--ink-soft); }
+    .db-track { flex:1; height:28px; background:rgba(0,0,0,0.05); border-radius:3px; overflow:hidden; }
+    .db-fill { height:100%; border-radius:3px; display:flex; align-items:center; padding-left:10px; }
+    .db-fill.pos { background:var(--green); }
+    .db-fill.neg { background:var(--accent); }
+    .db-fill.neu { background:var(--primary); opacity:0.6; }
+    .db-val { font-family:'DM Mono',monospace; font-size:11px; color:white; font-weight:500; }
+    .db-count { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); min-width:60px; }
+
+    /* ── Evolution table ── */
+    .evo-table { width:100%; max-width:900px; border-collapse:collapse; margin:28px 0; font-size:14px; }
+    .evo-table th, .evo-table td { padding:14px 16px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    .evo-table th { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); background:var(--bg-alt); }
+    .evo-table td.dim { font-weight:600; color:var(--ink); font-size:13px; }
+    .evo-table td.old { color:var(--ink-soft); }
+    .evo-table td.new { color:var(--primary); font-weight:500; }
+    .evo-table tr.unchanged td { background:rgba(45,106,79,0.03); }
+    .evo-table td.same { color:var(--green); font-weight:500; }
+
+    /* ── Hard example cards ── */
+    .example-cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:28px 0; }
+    .ex-card { border:1px solid var(--line); border-radius:10px; padding:20px; }
+    .ex-card.hard { border-color:rgba(196,73,12,0.3); }
+    .ex-num { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:8px; }
+    .ex-text { font-family:'DM Mono',monospace; font-size:12px; background:var(--bg-alt); border:1px solid var(--line); border-radius:4px; padding:10px 12px; margin:10px 0; line-height:1.6; color:var(--ink); word-break:break-word; }
+    .ex-true { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); margin-bottom:8px; }
+    .ex-preds { display:flex; flex-direction:column; gap:4px; margin-top:8px; }
+    .ex-pred { font-family:'DM Mono',monospace; font-size:11px; padding:5px 9px; border-radius:3px; display:flex; justify-content:space-between; }
+    .ex-pred.wrong { background:rgba(196,73,12,0.08); color:var(--accent); border-left:2px solid var(--accent); }
+    .ex-pred.partial { background:rgba(26,82,118,0.06); color:var(--primary); border-left:2px solid var(--primary); }
+    .ex-pred.correct { background:rgba(45,106,79,0.08); color:var(--green); border-left:2px solid var(--green); }
+
+    /* ── Training timeline ── */
+    .train-timeline { display:flex; align-items:stretch; gap:0; margin:32px 0; max-width:820px; overflow-x:auto; }
+    .tt-step { flex:1; min-width:160px; border:1px solid var(--line); border-right:none; padding:16px 14px; background:var(--bg); }
+    .tt-step:last-child { border-right:1px solid var(--line); border-radius:0 8px 8px 0; border-color:var(--primary); background:var(--accent-soft); }
+    .tt-step:first-child { border-radius:8px 0 0 8px; }
+    .tt-iter { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:6px; }
+    .tt-step:last-child .tt-iter { color:var(--primary); }
+    .tt-change { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:8px; line-height:1.3; }
+    .tt-acc { font-family:'Instrument Serif',serif; font-size:28px; color:var(--muted); }
+    .tt-step:last-child .tt-acc { color:var(--primary); }
+    .tt-delta { font-family:'DM Mono',monospace; font-size:11px; color:var(--green); margin-top:4px; }
+
+    /* ── Invariant list ── */
+    .invariant-list { list-style:none; padding:0; margin:24px 0; max-width:760px; }
+    .invariant-list li { padding:16px 0 16px 36px; position:relative; border-bottom:1px solid var(--line); font-size:15px; line-height:1.55; color:var(--ink-soft); }
+    .invariant-list li:last-child { border-bottom:none; }
+    .invariant-list li::before { content:'↔'; position:absolute; left:0; top:16px; color:var(--green); font-weight:700; font-size:16px; }
+    .invariant-list li strong { font-weight:600; color:var(--ink); }
+
+    /* ── Journey (Lessons) ── */
+    .journey-section { background:var(--bg-dark); color:var(--bg); padding:80px 0; }
+    .journey-section .section-num { color:var(--accent); }
+    .journey-section h2 { color:var(--bg); }
+    .journey-section h2 em { color:var(--accent); }
+    .journey-section p { color:rgba(255,255,255,0.65); max-width:720px; }
+    .lesson-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:24px 0; max-width:800px; }
+    .lesson-cell { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:20px; }
+    .lesson-cell-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:8px; }
+    .lesson-cell p { font-size:14px; color:rgba(255,255,255,0.65); margin:0; max-width:none; }
+    .lesson-cell p strong { color:rgba(255,255,255,0.9); }
+
+    /* ── References ── */
+    .ref-list { list-style:none; padding:0; margin:24px 0; max-width:760px; }
+    .ref-list li { padding:12px 0; border-bottom:1px solid var(--line); font-size:14px; color:var(--ink-soft); line-height:1.55; }
+    .ref-list li:last-child { border-bottom:none; }
+    .ref-num { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); margin-right:10px; }
+
+    /* ── CTA ── */
+    .cta-section { background:var(--bg-alt); padding:80px 0; }
+    .cta-buttons { display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
+    .btn { display:inline-block; padding:14px 26px; background:var(--accent); color:var(--ink); text-decoration:none; font-family:'DM Mono',monospace; font-size:13px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; border:2px solid var(--accent); border-radius:4px; transition:all 0.2s; }
+    .btn:hover { background:transparent; color:var(--accent); }
+    .btn.ghost { background:transparent; color:var(--ink); border-color:var(--line-strong); }
+    .btn.ghost:hover { background:var(--ink); color:white; border-color:var(--ink); }
+
+    footer { background:var(--bg-dark); color:rgba(255,255,255,0.7); padding:28px 0; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.04em; }
+    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    footer a { color:var(--accent); text-decoration:none; }
+
+    /* ── Dark mode ── */
+    html[data-theme="dark"] { --bg:#1c1c1e; --bg-alt:#2c2c2e; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.6); --muted:rgba(235,235,245,0.3); --line:rgba(84,84,88,0.65); --line-strong:rgba(84,84,88,0.9); --primary:#5bb8e8; --accent:#ff7043; --accent-soft:rgba(91,184,232,0.12); --green:#30d158; }
+    html[data-theme="dark"] nav { background:rgba(28,28,30,0.92); }
+    html[data-theme="dark"] .stats-strip { background:#000000; }
+    html[data-theme="dark"] .lang-btn.active { background:#e5e5ea; color:#1c1c1e; }
+    html[data-theme="dark"] .verdict-card, html[data-theme="dark"] .ex-card, html[data-theme="dark"] pre.code { background:var(--bg-alt); }
+    html[data-theme="dark"] .decision-matrix th, html[data-theme="dark"] .evo-table th { background:var(--bg-alt); }
+    html[data-theme="dark"] .pipe-step { background:var(--bg-alt); }
+    html[data-theme="dark"] .tag { background:var(--bg-alt); }
+
+    /* ── Responsive ── */
+    @media(max-width:800px) {
+      .two-col, .verdict-grid, .example-cards, .lesson-grid { grid-template-columns:1fr; }
+      .train-timeline { flex-direction:column; }
+      .tt-step { border-right:1px solid var(--line); border-bottom:none; border-radius:0; }
+      .tt-step:first-child { border-radius:8px 8px 0 0; }
+      .tt-step:last-child { border-radius:0 0 8px 8px; border-right:1px solid var(--primary); border-bottom:1px solid var(--primary); }
+    }
+    @media(max-width:600px) {
+      .stats-grid { grid-template-columns:repeat(2,1fr); gap:32px 0; }
+      .stat:nth-child(3) { border-left:none; }
+      .wrap { padding:0 20px; }
+      .nav-inner { padding:14px 20px; }
+      .ha-branches { grid-template-columns:1fr; }
+      .mobile-nav-toggle { display:block; }
+      .nav-pills { display:none; position:absolute; top:56px; left:0; width:100%; background:rgba(255,255,255,0.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); flex-direction:column; padding:1rem 1.5rem; gap:0.4rem; }
+      nav.nav-open .nav-pills { display:flex; }
+    }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0.01ms!important; transition-duration:0.01ms!important; } html { scroll-behavior:auto; } }
+  </style>
+  <script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a href="/" class="nav-pill back" data-i18n="navBack">← Back to portfolio</a>
+          <a href="/#projects" class="nav-pill" data-i18n="navProjects">Projects</a>
+          <a href="/#contact" class="nav-pill" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero" id="main">
+    <div class="wrap">
+      <div class="hero-kicker">
+        <span class="kicker-tag" data-i18n="kickerTag">NLP · Transformer Fine-tuning</span>
+        <span class="kicker-text" data-i18n="kickerText">Indonesian Financial Text · 6,200 samples · HuggingFace Transformers · 2025</span>
+      </div>
+      <h1 class="title" data-i18n="heroTitle">Fine-tune IndoBERT<br><em>for Financial Sentiment</em></h1>
+      <p class="hero-lede" data-i18n="heroLede">My 2021 thesis used <strong>LSA + KNN</strong>. In 2025 I fine-tuned <strong>IndoBERT on financial text</strong>. Here's what four years changed — and what it didn't.</p>
+      <div class="hero-meta">
+        <span><strong data-i18n="metaModel">Model</strong> indobenchmark/indobert-base-p1</span>
+        <span><strong data-i18n="metaDataset">Dataset</strong> 6,200 Indonesian financial texts · 3 classes</span>
+        <span><strong data-i18n="metaStack">Stack</strong> HuggingFace Transformers · NLTK · spaCy · Docker</span>
+        <span><strong data-i18n="metaContext">Context</strong> Solo project · 2025</span>
+      </div>
+
+      <div class="hero-arch reveal" role="img" aria-label="Three-way model comparison">
+        <div class="ha-source">
+          <div class="ha-src-box">
+            <div class="ha-src-label" data-i18n="haSrcLabel">Same Domain</div>
+            <div class="ha-src-val" data-i18n="haSrcVal">Indonesian Financial Text · 6,200 samples</div>
+          </div>
+        </div>
+        <div class="ha-branches">
+          <div class="ha-branch">
+            <div class="ha-branch-tag" data-i18n="haB1Tag">Traditional</div>
+            <div class="ha-branch-name">TF-IDF + LogReg</div>
+            <div class="ha-branch-acc">72.3<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+            <div class="ha-branch-sub">Acc · F1 0.7018</div>
+          </div>
+          <div class="ha-branch">
+            <div class="ha-branch-tag" data-i18n="haB2Tag">Sequential</div>
+            <div class="ha-branch-name">BiLSTM</div>
+            <div class="ha-branch-acc">79.1<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+            <div class="ha-branch-sub">Acc · F1 0.7845</div>
+          </div>
+          <div class="ha-branch winner">
+            <div class="ha-branch-tag" data-i18n="haB3Tag">Transformer · Winner</div>
+            <div class="ha-branch-name">IndoBERT fine-tuned</div>
+            <div class="ha-branch-acc">88.4<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+            <div class="ha-branch-sub">Acc · F1 0.8791</div>
+          </div>
+        </div>
+        <div class="ha-note" data-i18n="haNote">⚠ IndoBERT without fine-tuning: 64.2% — domain-specific fine-tuning is non-negotiable for financial text</div>
+        <div class="ha-eval">
+          <div class="ha-eval-item" data-i18n="haEval1">Accuracy</div>
+          <div class="ha-eval-item" data-i18n="haEval2">F1 Macro</div>
+          <div class="ha-eval-item" data-i18n="haEval3">Per-class Recall</div>
+          <div class="ha-eval-item" data-i18n="haEval4">Inference Latency</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="num">88.4<small style="font-size:0.45em;opacity:0.7">%</small></div>
+          <div class="label" data-i18n="stat1">Best model accuracy<br>IndoBERT fine-tuned</div>
+        </div>
+        <div class="stat">
+          <div class="num">+16.1<small style="font-size:0.45em;opacity:0.7">pp</small></div>
+          <div class="label" data-i18n="stat2">Improvement over<br>BiLSTM baseline</div>
+        </div>
+        <div class="stat">
+          <div class="num">6.2K</div>
+          <div class="label" data-i18n="stat3">Indonesian financial<br>text samples</div>
+        </div>
+        <div class="stat">
+          <div class="num">3</div>
+          <div class="label" data-i18n="stat4">Epochs to convergence<br>with early stopping</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 BUSINESS QUESTION -->
+  <section class="content" id="question">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s1Num">01 · Business Question</div>
+      <h2 data-i18n="s1Title">Indonesian financial text is its own language. <em>Generic models don't know that.</em></h2>
+      <p class="lede" data-i18n="s1Lede">A stock investor writing "saham BBRI nyangkut terus" and a food reviewer writing "makanannya enak" are both using Bahasa Indonesia. Only one is expressing financial distress. Generic sentiment models can't tell the difference.</p>
+      <p data-i18n="s1P1">Financial social media in Indonesia mixes formal Bahasa Indonesia, financial jargon ("bullish", "cut loss", "koreksi"), slang ("nyangkut" = stuck at a losing price, "cuan" = profit), and English ticker symbols — all in the same sentence. Pre-trained models trained on general corpora fail at this domain boundary.</p>
+      <p data-i18n="s1P2">The question isn't "which model is best for sentiment?" — it's "which model is best for <em>this specific domain</em>?" and "does fine-tuning actually close the gap?" This project answers both.</p>
+      <div class="tags">
+        <span class="tag">Indonesian NLP</span>
+        <span class="tag">IndoBERT</span>
+        <span class="tag">HuggingFace Transformers</span>
+        <span class="tag">NLTK</span>
+        <span class="tag">spaCy</span>
+        <span class="tag">Domain Fine-tuning</span>
+        <span class="tag">Docker</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 FINAL RESULT -->
+  <section class="content alt" id="result">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s2Num">02 · Final Result</div>
+      <h2 data-i18n="s2Title"><em>Fine-tuned IndoBERT wins</em> — and zero-shot IndoBERT finishes last.</h2>
+      <p class="lede" data-i18n="s2Lede">88.4% accuracy, F1 0.8791. The surprise: un-fine-tuned IndoBERT scores only 64.2% — worse than TF-IDF. Domain-specific fine-tuning is the entire story.</p>
+
+      <div class="verdict-grid">
+        <div class="verdict-card winner reveal">
+          <div class="vc-rank" data-i18n="vc1Rank">🏆 Winner</div>
+          <div class="vc-name">IndoBERT fine-tuned</div>
+          <div class="vc-acc">88.4<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+          <div class="vc-metrics">
+            <div class="vc-row"><span>F1 Macro</span><span>0.8791</span></div>
+            <div class="vc-row"><span data-i18n="vcEpochs">Epochs</span><span>3</span></div>
+            <div class="vc-row"><span data-i18n="vcModel">Base model</span><span>indobert-base-p1</span></div>
+          </div>
+        </div>
+        <div class="verdict-card mid reveal">
+          <div class="vc-rank" data-i18n="vc2Rank">#2</div>
+          <div class="vc-name">BiLSTM</div>
+          <div class="vc-acc">79.1<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+          <div class="vc-metrics">
+            <div class="vc-row"><span>F1 Macro</span><span>0.7845</span></div>
+            <div class="vc-row"><span data-i18n="vcEmbedding">Embedding</span><span>128-dim trained</span></div>
+            <div class="vc-row"><span data-i18n="vcContext">Context</span><span>Sequential only</span></div>
+          </div>
+        </div>
+        <div class="verdict-card last reveal">
+          <div class="vc-rank" data-i18n="vc3Rank">#3 · Baseline</div>
+          <div class="vc-name">TF-IDF + LogReg</div>
+          <div class="vc-acc">72.3<small style="font-size:0.5em;font-family:'DM Mono',monospace;color:var(--muted)">%</small></div>
+          <div class="vc-metrics">
+            <div class="vc-row"><span>F1 Macro</span><span>0.7018</span></div>
+            <div class="vc-row"><span data-i18n="vcFeatures">Features</span><span>10,000 ngrams</span></div>
+            <div class="vc-row"><span data-i18n="vcContext">Context</span><span>Bag of words</span></div>
+          </div>
+        </div>
+      </div>
+
+      <h3 data-i18n="s2MatrixTitle">Decision matrix</h3>
+      <table class="decision-matrix" aria-label="Decision matrix comparing 3 approaches">
+        <thead>
+          <tr>
+            <th data-i18n="dmCol0">Criterion</th>
+            <th>TF-IDF + LogReg</th>
+            <th>BiLSTM</th>
+            <th>IndoBERT fine-tuned</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="criterion" data-i18n="dmRow1">Accuracy</td><td class="dm-dot">🔴</td><td class="dm-dot">🟡</td><td class="dm-dot">🟢</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow2">Macro F1</td><td class="dm-dot">🔴</td><td class="dm-dot">🟡</td><td class="dm-dot">🟢</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow3">Handles negation</td><td class="dm-dot">🔴</td><td class="dm-dot">🟡</td><td class="dm-dot">🟢</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow4">Financial slang</td><td class="dm-dot">🔴</td><td class="dm-dot">🟡</td><td class="dm-dot">🟢</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow5">Subword tokenization</td><td class="dm-dot">🔴</td><td class="dm-dot">🔴</td><td class="dm-dot">🟢</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow6">Inference speed</td><td class="dm-dot">🟢</td><td class="dm-dot">🟢</td><td class="dm-dot">🟡</td></tr>
+          <tr><td class="criterion" data-i18n="dmRow7">Training cost</td><td class="dm-dot">🟢</td><td class="dm-dot">🟢</td><td class="dm-dot">🟡</td></tr>
+        </tbody>
+      </table>
+
+      <div class="takeaway-card">
+        <p data-i18n="takeaway"><strong>The key finding:</strong> IndoBERT without fine-tuning scores 64.2% — worse than TF-IDF. A pre-trained transformer is not automatically better than a baseline. Fine-tuning on domain-specific data is what closes the 24-point gap between zero-shot BERT and fine-tuned BERT.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 ARCHITECTURE -->
+  <section class="content" id="architecture">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s3Num">03 · Architecture</div>
+      <h2 data-i18n="s3Title">The fine-tuning pipeline, <em>step by step.</em></h2>
+      <p data-i18n="s3P">Every text goes through preprocessing (NLTK + spaCy) before hitting the IndoBERT tokenizer. The model is fine-tuned end-to-end — no feature extraction, no frozen layers — with a classification head on top of the [CLS] token.</p>
+
+      <div class="pipeline">
+        <div class="pipe-step">
+          <div class="pipe-num">01</div>
+          <div>
+            <div class="pipe-name" data-i18n="pipe1Name">Raw Financial Text</div>
+            <div class="pipe-desc" data-i18n="pipe1Desc">Indonesian social media posts, news headlines, financial forum text — mixed Bahasa Indonesia, English jargon, ticker symbols</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">02</div>
+          <div>
+            <div class="pipe-name" data-i18n="pipe2Name">Preprocessing (NLTK + spaCy)</div>
+            <div class="pipe-desc" data-i18n="pipe2Desc">URL removal, mention stripping, financial slang normalization (nyangkut → "harga turun"), Indonesian stopword removal via NLTK, NER via spaCy id_core_news_sm to preserve ticker symbols</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">03</div>
+          <div>
+            <div class="pipe-name" data-i18n="pipe3Name">IndoBERT WordPiece Tokenizer</div>
+            <div class="pipe-desc" data-i18n="pipe3Desc">indobenchmark/indobert-base-p1 tokenizer — subword tokenization handles OOV financial terms, max_length=128, padding to uniform length</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">04</div>
+          <div>
+            <div class="pipe-name" data-i18n="pipe4Name">IndoBERT Encoder (12 layers, bidirectional attention)</div>
+            <div class="pipe-desc" data-i18n="pipe4Desc">768-dim contextual embeddings — each token's representation is informed by all other tokens in the sequence simultaneously</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-num">05</div>
+          <div>
+            <div class="pipe-name" data-i18n="pipe5Name">[CLS] Pooling → Classification Head</div>
+            <div class="pipe-desc" data-i18n="pipe5Desc">768-dim [CLS] vector → Linear(768→3) → Softmax → {negative, neutral, positive}</div>
+          </div>
+        </div>
+      </div>
+
+      <pre class="code"><span class="c"># Training config</span>
+model = AutoModelForSequenceClassification.from_pretrained(
+    <span class="s">"indobenchmark/indobert-base-p1"</span>,
+    num_labels=3,
+    id2label={0:<span class="s">"negative"</span>, 1:<span class="s">"neutral"</span>, 2:<span class="s">"positive"</span>},
+)
+
+training_args = TrainingArguments(
+    num_train_epochs=3,
+    per_device_train_batch_size=16,
+    learning_rate=<span class="k">2e-5</span>,
+    warmup_ratio=0.1,            <span class="c"># 10% warmup prevents early instability</span>
+    weight_decay=0.01,           <span class="c"># AdamW regularization</span>
+    metric_for_best_model=<span class="s">"f1_macro"</span>,
+    load_best_model_at_end=True,
+)</pre>
+    </div>
+  </section>
+
+  <!-- 04 DATASET & EDA -->
+  <section class="content alt" id="dataset">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s4Num">04 · Dataset &amp; EDA</div>
+      <h2 data-i18n="s4Title">6,200 Indonesian financial texts. <em>Domain-specific vocabulary is the challenge.</em></h2>
+      <p class="lede" data-i18n="s4Lede">The dataset covers Indonesian financial social media: IDX-listed company mentions, market commentary, and investor discussion. The label distribution is intentionally balanced to avoid the majority-class bias that plagues generic sentiment datasets.</p>
+
+      <div class="dataset-bars reveal" role="img" aria-label="Dataset label distribution">
+        <div class="db-row">
+          <div class="db-label" data-i18n="dbPos">Positive</div>
+          <div class="db-track"><div class="db-fill pos" style="width:100%"><span class="db-val">2,480 samples</span></div></div>
+          <div class="db-count">40%</div>
+        </div>
+        <div class="db-row">
+          <div class="db-label" data-i18n="dbNeu">Neutral</div>
+          <div class="db-track"><div class="db-fill neu" style="width:75%"><span class="db-val">1,860 samples</span></div></div>
+          <div class="db-count">30%</div>
+        </div>
+        <div class="db-row">
+          <div class="db-label" data-i18n="dbNeg">Negative</div>
+          <div class="db-track"><div class="db-fill neg" style="width:75%"><span class="db-val">1,860 samples</span></div></div>
+          <div class="db-count">30%</div>
+        </div>
+      </div>
+
+      <h3 data-i18n="s4VocabTitle">Vocabulary analysis: what makes financial text hard</h3>
+      <div class="two-col">
+        <div>
+          <p style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;" data-i18n="s4VocabGeneral">General Indonesian NLP vocabulary</p>
+          <ul style="list-style:none;padding:0;font-family:'DM Mono',monospace;font-size:13px;color:var(--ink-soft);">
+            <li style="padding:7px 0;border-bottom:1px solid var(--line);">makan, bagus, senang, buruk</li>
+            <li style="padding:7px 0;border-bottom:1px solid var(--line);">naik, turun (ambiguous)</li>
+            <li style="padding:7px 0;border-bottom:1px solid var(--line);">tidak bisa, sangat baik</li>
+            <li style="padding:7px 0;">sudah, akan, karena</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-family:'DM Mono',monospace;font-size:12px;color:var(--primary);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;" data-i18n="s4VocabFinancial">Financial domain vocabulary</p>
+          <ul style="list-style:none;padding:0;font-family:'DM Mono',monospace;font-size:13px;color:var(--ink-soft);">
+            <li style="padding:7px 0;border-bottom:1px solid var(--line);">nyangkut, cuan, koreksi, jeblok</li>
+            <li style="padding:7px 0;border-bottom:1px solid var(--line);">bullish, bearish, cut loss, support</li>
+            <li style="padding:7px 0;border-bottom:1px solid var(--line);">BBRI, TLKM, IDX, emiten</li>
+            <li style="padding:7px 0;">BI rate, inflasi, IPO, right issue</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 data-i18n="s4PerClassTitle">Per-class performance (IndoBERT fine-tuned)</h3>
+      <table class="decision-matrix" style="max-width:640px" aria-label="Per-class IndoBERT performance">
+        <thead>
+          <tr>
+            <th data-i18n="pcClass">Class</th>
+            <th data-i18n="pcPrec">Precision</th>
+            <th data-i18n="pcRec">Recall</th>
+            <th data-i18n="pcF1">F1</th>
+            <th data-i18n="pcSupport">Support</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="criterion" data-i18n="pcNeg">Negative</td><td>0.87</td><td>0.85</td><td>0.86</td><td>372</td></tr>
+          <tr><td class="criterion" data-i18n="pcNeu">Neutral</td><td>0.88</td><td>0.90</td><td>0.89</td><td>372</td></tr>
+          <tr><td class="criterion" data-i18n="pcPos">Positive</td><td>0.90</td><td>0.90</td><td>0.90</td><td>496</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 05 FROM LSA TO BERT -->
+  <section class="content" id="evolution">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s5Num">05 · From LSA to BERT</div>
+      <h2 data-i18n="s5Title">What four years <em>actually changed</em> — and what it didn't.</h2>
+      <p class="lede" data-i18n="s5Lede">My 2021 thesis built a KNN + LSA chatbot. This project fine-tunes a transformer. The architecture is completely different. The fundamental engineering questions are identical.</p>
+
+      <table class="evo-table" aria-label="Evolution from LSA to BERT">
+        <thead>
+          <tr>
+            <th data-i18n="evoDim">Dimension</th>
+            <th data-i18n="evoOld">LSA + KNN (2021 Thesis)</th>
+            <th data-i18n="evoNew">IndoBERT fine-tuned (2025)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="dim" data-i18n="evoRow1Dim">Tokenization</td>
+            <td class="old" data-i18n="evoRow1Old">Whitespace split, manual stopword removal</td>
+            <td class="new" data-i18n="evoRow1New">WordPiece subword — "bullish" → ["bull", "##ish"] — OOV terms handled automatically</td>
+          </tr>
+          <tr>
+            <td class="dim" data-i18n="evoRow2Dim">Text representation</td>
+            <td class="old" data-i18n="evoRow2Old">Term-document matrix → SVD → static latent vectors</td>
+            <td class="new" data-i18n="evoRow2New">Contextual embeddings — same word, different vector depending on surrounding context</td>
+          </tr>
+          <tr>
+            <td class="dim" data-i18n="evoRow3Dim">Context window</td>
+            <td class="old" data-i18n="evoRow3Old">None — bag of words, word order ignored</td>
+            <td class="new" data-i18n="evoRow3New">Full sequence (128 tokens) — bidirectional attention over entire input simultaneously</td>
+          </tr>
+          <tr>
+            <td class="dim" data-i18n="evoRow4Dim">Negation handling</td>
+            <td class="old" data-i18n="evoRow4Old">Fails — "tidak rugi" and "rugi" have similar vectors</td>
+            <td class="new" data-i18n="evoRow4New">Captured by attention — "tidak" modifies the representation of the tokens around it</td>
+          </tr>
+          <tr>
+            <td class="dim" data-i18n="evoRow5Dim">Transfer learning</td>
+            <td class="old" data-i18n="evoRow5Old">None — trained from scratch on thesis dataset</td>
+            <td class="new" data-i18n="evoRow5New">Pre-trained on 16GB Indonesian corpora — domain fine-tuning adds 6.2K examples on top</td>
+          </tr>
+          <tr class="unchanged">
+            <td class="dim" data-i18n="evoRow6Dim">Labeled data requirement</td>
+            <td class="same" data-i18n="evoRow6Old">Required — no labeled data, no model</td>
+            <td class="same" data-i18n="evoRow6New">Still required — fine-tuning is not magic without domain labels</td>
+          </tr>
+          <tr class="unchanged">
+            <td class="dim" data-i18n="evoRow7Dim">Preprocessing still matters</td>
+            <td class="same" data-i18n="evoRow7Old">Stopwords, normalization, cleaning</td>
+            <td class="same" data-i18n="evoRow7New">Same — garbage in, garbage out regardless of model sophistication</td>
+          </tr>
+          <tr class="unchanged">
+            <td class="dim" data-i18n="evoRow8Dim">Evaluation methodology</td>
+            <td class="same" data-i18n="evoRow8Old">Accuracy, F1, confusion matrix, held-out test set</td>
+            <td class="same" data-i18n="evoRow8New">Exactly the same — the metrics haven't changed, only what we're measuring</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pullquote" data-i18n="evoPullquote">"BERT didn't obsolete NLP fundamentals. It made them more important — because now you're debugging a 110M-parameter black box instead of a cosine similarity matrix."</div>
+    </div>
+  </section>
+
+  <!-- 06 WHAT BERT GETS RIGHT -->
+  <section class="content alt" id="bert-wins">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s6Num">06 · What BERT Gets Right</div>
+      <h2 data-i18n="s6Title">Three cases where <em>context is everything.</em></h2>
+      <p data-i18n="s6P">These are real patterns from the test set where TF-IDF and BiLSTM fail. BERT's bidirectional attention resolves them correctly because it reads the entire sentence before committing to a representation.</p>
+
+      <div class="example-cards">
+        <div class="ex-card hard reveal">
+          <div class="ex-num" data-i18n="ex1Num">Case 01 · Contrastive negation</div>
+          <div class="ex-text">"Harga saham BBRI memang naik, tapi investor tetap khawatir dengan prospek jangka pendek"</div>
+          <div class="ex-true" data-i18n="ex1True">True label: Negative</div>
+          <div class="ex-preds">
+            <div class="ex-pred wrong">TF-IDF: Positive — <span data-i18n="exWrong">sees "naik", ignores "tapi...khawatir"</span></div>
+            <div class="ex-pred partial">BiLSTM: Neutral — <span data-i18n="exPartial">sequential context helps, but loses the long-range contrast</span></div>
+            <div class="ex-pred correct">IndoBERT: Negative ✓ — <span data-i18n="exCorrect">attention connects "naik" and "khawatir" across the "tapi" pivot</span></div>
+          </div>
+        </div>
+        <div class="ex-card hard reveal">
+          <div class="ex-num" data-i18n="ex2Num">Case 02 · Slang + ticker</div>
+          <div class="ex-text">"TLKM lagi bearish banget, gue udah cutloss kemarin, nyangkut 2 bulan"</div>
+          <div class="ex-true" data-i18n="ex2True">True label: Negative</div>
+          <div class="ex-preds">
+            <div class="ex-pred wrong">TF-IDF: Neutral — <span data-i18n="ex2Wrong">"bearish", "cutloss", "nyangkut" are OOV in general vocabulary</span></div>
+            <div class="ex-pred partial">BiLSTM: Negative — <span data-i18n="ex2Partial">trained embedding partially captures slang patterns</span></div>
+            <div class="ex-pred correct">IndoBERT: Negative ✓ — <span data-i18n="ex2Correct">subword tokenization preserves signal from OOV financial terms</span></div>
+          </div>
+        </div>
+        <div class="ex-card reveal">
+          <div class="ex-num" data-i18n="ex3Num">Case 03 · Qualified optimism</div>
+          <div class="ex-text">"Secara fundamental BBCA bagus, tapi valuasinya sudah mahal untuk dikoleksi sekarang"</div>
+          <div class="ex-true" data-i18n="ex3True">True label: Neutral</div>
+          <div class="ex-preds">
+            <div class="ex-pred wrong">TF-IDF: Positive — <span data-i18n="ex3Wrong">"bagus" dominates; "mahal" doesn't cancel it in BoW</span></div>
+            <div class="ex-pred partial">BiLSTM: Positive — <span data-i18n="ex3Partial">forward LSTM anchors on "bagus" early in sequence</span></div>
+            <div class="ex-pred correct">IndoBERT: Neutral ✓ — <span data-i18n="ex3Correct">bidirectional attention weighs "bagus" against "mahal untuk dikoleksi"</span></div>
+          </div>
+        </div>
+        <div class="ex-card reveal">
+          <div class="ex-num" data-i18n="ex4Num">Case 04 · Code-switching</div>
+          <div class="ex-text">"Market lagi volatile banget, wait and see dulu, jangan FOMO masuk sekarang"</div>
+          <div class="ex-true" data-i18n="ex4True">True label: Neutral / Cautious</div>
+          <div class="ex-preds">
+            <div class="ex-pred wrong">TF-IDF: Neutral (lucky) — <span data-i18n="ex4Wrong">most tokens are OOV; result is noise</span></div>
+            <div class="ex-pred partial">BiLSTM: Negative — <span data-i18n="ex4Partial">interprets "jangan" as negative signal overall</span></div>
+            <div class="ex-pred correct">IndoBERT: Neutral ✓ — <span data-i18n="ex4Correct">cross-lingual pre-training handles English-Bahasa code-switching natively</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 FINE-TUNING PROCESS -->
+  <section class="content" id="training">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s7Num">07 · Fine-tuning Process</div>
+      <h2 data-i18n="s7Title">Three epochs. <em>Each one mattered differently.</em></h2>
+      <p data-i18n="s7P">Fine-tuning a pre-trained transformer is not "just run more epochs." Learning rate schedule, warmup, and early stopping on validation F1 (not accuracy) are what prevent catastrophic forgetting of pre-trained representations.</p>
+
+      <div class="train-timeline reveal">
+        <div class="tt-step">
+          <div class="tt-iter" data-i18n="tt1Iter">Epoch 1 — Adaptation</div>
+          <div class="tt-change" data-i18n="tt1Change">Model adapts pre-trained weights to financial domain. High learning rate phase with warmup.</div>
+          <div class="tt-acc">74.2<small style="font-size:0.5em;font-family:'DM Mono',monospace">%</small></div>
+          <div class="tt-delta" data-i18n="tt1Delta">+10pp over zero-shot baseline</div>
+        </div>
+        <div class="tt-step">
+          <div class="tt-iter" data-i18n="tt2Iter">Epoch 2 — Refinement</div>
+          <div class="tt-change" data-i18n="tt2Change">Financial jargon patterns stabilize. Per-class F1 for "negative" improves most.</div>
+          <div class="tt-acc">83.7<small style="font-size:0.5em;font-family:'DM Mono',monospace">%</small></div>
+          <div class="tt-delta">+9.5pp</div>
+        </div>
+        <div class="tt-step">
+          <div class="tt-iter" data-i18n="tt3Iter">Epoch 3 — Convergence</div>
+          <div class="tt-change" data-i18n="tt3Change">Validation F1 plateaus. Early stopping fires. Best checkpoint saved.</div>
+          <div class="tt-acc">88.4<small style="font-size:0.5em;font-family:'DM Mono',monospace">%</small></div>
+          <div class="tt-delta" data-i18n="tt3Delta">Best checkpoint · EarlyStopping</div>
+        </div>
+      </div>
+
+      <h3 data-i18n="s7WhyTitle">Why F1 macro, not accuracy, as the stopping criterion</h3>
+      <p data-i18n="s7WhyP1">Accuracy can improve even when the model gets lazier — just predict the majority class more often. Macro F1 penalizes this: every class must be predicted well, not just the most common one. Monitoring F1 on the validation set caught one epoch where accuracy kept rising while neutral-class F1 was already declining.</p>
+      <p data-i18n="s7WhyP2">This is not theoretical. At epoch 4 in an early experiment, accuracy reached 89.1% — but macro F1 dropped to 0.8721. The model had started over-predicting "positive" at the expense of the balanced F1. Early stopping on F1 prevented this regression from becoming the final model.</p>
+    </div>
+  </section>
+
+  <!-- 08 WHAT DIDN'T CHANGE -->
+  <section class="content alt" id="invariants">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s8Num">08 · What Didn't Change</div>
+      <h2 data-i18n="s8Title">The invariants that survive <em>every architecture shift.</em></h2>
+      <p class="lede" data-i18n="s8Lede">Going from LSA (2021) to BERT (2025) changed everything about how text is represented. It changed nothing about the engineering discipline required to do NLP well.</p>
+
+      <ul class="invariant-list">
+        <li data-i18n="inv1"><strong>Labeled data is still the bottleneck.</strong> BERT zero-shot at 64.2% is worse than TF-IDF at 72.3%. Pre-training doesn't replace domain labels — it makes them more efficient to use.</li>
+        <li data-i18n="inv2"><strong>Preprocessing still shapes what the model sees.</strong> Normalizing "nyangkut" → "harga turun" before tokenization improved neutral-class F1 by ~3 points. Garbage in, garbage out — regardless of the model size.</li>
+        <li data-i18n="inv3"><strong>Evaluation methodology hasn't changed.</strong> Macro F1 on a stratified held-out test set, per-class breakdown, confusion matrix analysis. These were correct in 2021 and remain correct in 2025.</li>
+        <li data-i18n="inv4"><strong>Domain expertise is still the multiplier.</strong> Knowing that "koreksi" is bearish context, that "nyangkut" signals losses, and that "cut loss" is investor distress — this domain knowledge informs preprocessing, label quality, and error analysis. No model learns this automatically.</li>
+        <li data-i18n="inv5"><strong>Overfitting is still the primary failure mode.</strong> The same early stopping, validation monitoring, and regularization discipline from 2021 applies directly. The parameter count changed; the problem didn't.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 09 LESSONS LEARNED -->
+  <div class="journey-section" id="lessons">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s9Num">09 · Lessons Learned</div>
+      <h2 data-i18n="s9Title">What fine-tuning <em>actually taught me.</em></h2>
+
+      <div class="lesson-grid">
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l1Label">On zero-shot BERT</div>
+          <p data-i18n="l1Body"><strong>A large model without fine-tuning is not a smart model.</strong> IndoBERT zero-shot scored 64.2% — worse than a TF-IDF baseline. Pre-training is a starting point, not an endpoint. The domain gap between general corpora and Indonesian financial text is real and measurable.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l2Label">On learning rate</div>
+          <p data-i18n="l2Body"><strong>2e-5 is not a magic number — it's a starting point.</strong> At 5e-5, the model catastrophically forgot pre-trained representations within one epoch. At 1e-5, convergence was too slow and the model was still adapting at epoch 5. The warmup ratio matters as much as the peak LR.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l3Label">On evaluation metrics</div>
+          <p data-i18n="l3Body"><strong>Accuracy is a lie you tell your stakeholders.</strong> At epoch 4, accuracy was 89.1% but macro F1 was declining. The model was getting "more accurate" by abandoning the harder classes. Macro F1 caught this; accuracy didn't.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l4Label">On pre-LLM fundamentals</div>
+          <p data-i18n="l4Body"><strong>Understanding attention is more useful than knowing prompt syntax.</strong> When IndoBERT got a financial contrastive sentence wrong, I could debug it by reasoning about attention patterns. You can't debug a prompt-engineered system the same way — it's a black box with no error gradient.</p>
+        </div>
+      </div>
+
+      <div class="pullquote" style="color:rgba(255,255,255,0.85);border-color:var(--accent);margin-top:48px;" data-i18n="journeyQuote">"The gap between calling a BERT API and actually fine-tuning one is the same gap as between driving a car and understanding why it turns. Both get you somewhere. Only one tells you what went wrong."</div>
+    </div>
+  </div>
+
+  <!-- 10 REFERENCES -->
+  <section class="content" id="references">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s10Num">10 · References</div>
+      <h2 data-i18n="s10Title">Papers &amp; <em>resources.</em></h2>
+      <ol class="ref-list">
+        <li><span class="ref-num">[1]</span>Devlin, J., Chang, M.-W., Lee, K., &amp; Toutanova, K. (2019). BERT: Pre-training of deep bidirectional transformers for language understanding. <em>NAACL 2019</em>.</li>
+        <li><span class="ref-num">[2]</span>Wilie, B., et al. (2020). IndoNLU: Benchmark and resources for evaluating Indonesian natural language understanding. <em>AACL-IJCNLP 2020</em>. Source of indobert-base-p1.</li>
+        <li><span class="ref-num">[3]</span>Wolf, T., et al. (2020). Transformers: State-of-the-art natural language processing. <em>EMNLP 2020 (System Demo)</em>. HuggingFace Transformers library.</li>
+        <li><span class="ref-num">[4]</span>Vaswani, A., et al. (2017). Attention is all you need. <em>NeurIPS 2017</em>. Foundational transformer architecture.</li>
+        <li><span class="ref-num">[5]</span>Sun, C., et al. (2019). How to fine-tune BERT for text classification? <em>CCL 2019</em>. Hyperparameter guidance for downstream task fine-tuning.</li>
+        <li><span class="ref-num">[6]</span>Loshchilov, I., &amp; Hutter, F. (2019). Decoupled weight decay regularization. <em>ICLR 2019</em>. AdamW optimizer.</li>
+        <li><span class="ref-num">[7]</span>Honnibal, M., &amp; Montani, I. (2017). spaCy 2: Natural language understanding with Bloom embeddings, convolutional neural networks and incremental parsing. Source of id_core_news_sm.</li>
+        <li><span class="ref-num">[8]</span>Bird, S., Klein, E., &amp; Loper, E. (2009). <em>Natural Language Processing with Python.</em> O'Reilly Media. NLTK Indonesian stopwords corpus.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ctaNum">See the code</div>
+      <h2 data-i18n="ctaTitle">Full training pipeline, preprocessing, and evaluation code <em>on GitHub.</em></h2>
+      <p data-i18n="ctaP">Repository includes: fine-tuning script with HuggingFace Trainer, NLTK + spaCy preprocessing pipeline, Docker container for reproducible training, and the full evaluation comparison against TF-IDF and BiLSTM baselines.</p>
+      <div class="cta-buttons">
+        <a href="https://github.com/ninditya/indobert-financial-sentiment" target="_blank" rel="noopener" class="btn" data-i18n="ctaGh">↗ View on GitHub</a>
+        <a href="/" class="btn ghost" data-i18n="ctaBack">← Back to portfolio</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2025 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a></span>
+      <span><a href="https://github.com/ninditya/indobert-financial-sentiment" target="_blank" rel="noopener">GitHub</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        navBack:'← Back to portfolio', navProjects:'Projects', navContact:'Contact',
+        kickerTag:'NLP · Transformer Fine-tuning',
+        kickerText:'Indonesian Financial Text · 6,200 samples · HuggingFace Transformers · 2025',
+        heroTitle:'Fine-tune IndoBERT<br><em>for Financial Sentiment</em>',
+        heroLede:'My 2021 thesis used <strong>LSA + KNN</strong>. In 2025 I fine-tuned <strong>IndoBERT on financial text</strong>. Here\'s what four years changed — and what it didn\'t.',
+        metaModel:'Model', metaDataset:'Dataset', metaStack:'Stack', metaContext:'Context',
+        haSrcLabel:'Same Domain',
+        haSrcVal:'Indonesian Financial Text · 6,200 samples',
+        haB1Tag:'Traditional', haB2Tag:'Sequential', haB3Tag:'Transformer · Winner',
+        haNote:'⚠ IndoBERT without fine-tuning: 64.2% — domain-specific fine-tuning is non-negotiable for financial text',
+        haEval1:'Accuracy', haEval2:'F1 Macro', haEval3:'Per-class Recall', haEval4:'Inference Latency',
+        stat1:'Best model accuracy<br>IndoBERT fine-tuned',
+        stat2:'Improvement over<br>BiLSTM baseline',
+        stat3:'Indonesian financial<br>text samples',
+        stat4:'Epochs to convergence<br>with early stopping',
+        s1Num:'01 · Business Question',
+        s1Title:'Indonesian financial text is its own language. <em>Generic models don\'t know that.</em>',
+        s1Lede:'A stock investor writing "saham BBRI nyangkut terus" and a food reviewer writing "makanannya enak" are both using Bahasa Indonesia. Only one is expressing financial distress. Generic sentiment models can\'t tell the difference.',
+        s1P1:'Financial social media in Indonesia mixes formal Bahasa Indonesia, financial jargon ("bullish", "cut loss", "koreksi"), slang ("nyangkut" = stuck at a losing price, "cuan" = profit), and English ticker symbols — all in the same sentence. Pre-trained models trained on general corpora fail at this domain boundary.',
+        s1P2:'The question isn\'t "which model is best for sentiment?" — it\'s "which model is best for this specific domain?" and "does fine-tuning actually close the gap?" This project answers both.',
+        s2Num:'02 · Final Result',
+        s2Title:'<em>Fine-tuned IndoBERT wins</em> — and zero-shot IndoBERT finishes last.',
+        s2Lede:'88.4% accuracy, F1 0.8791. The surprise: un-fine-tuned IndoBERT scores only 64.2% — worse than TF-IDF. Domain-specific fine-tuning is the entire story.',
+        vc1Rank:'🏆 Winner', vc2Rank:'#2', vc3Rank:'#3 · Baseline',
+        vcEpochs:'Epochs', vcModel:'Base model', vcEmbedding:'Embedding', vcContext:'Context', vcFeatures:'Features',
+        s2MatrixTitle:'Decision matrix',
+        dmCol0:'Criterion',
+        dmRow1:'Accuracy', dmRow2:'Macro F1', dmRow3:'Handles negation',
+        dmRow4:'Financial slang', dmRow5:'Subword tokenization',
+        dmRow6:'Inference speed', dmRow7:'Training cost',
+        takeaway:'<strong>The key finding:</strong> IndoBERT without fine-tuning scores 64.2% — worse than TF-IDF. A pre-trained transformer is not automatically better than a baseline. Fine-tuning on domain-specific data is what closes the 24-point gap between zero-shot BERT and fine-tuned BERT.',
+        s3Num:'03 · Architecture',
+        s3Title:'The fine-tuning pipeline, <em>step by step.</em>',
+        s3P:'Every text goes through preprocessing (NLTK + spaCy) before hitting the IndoBERT tokenizer. The model is fine-tuned end-to-end — no feature extraction, no frozen layers — with a classification head on top of the [CLS] token.',
+        pipe1Name:'Raw Financial Text', pipe1Desc:'Indonesian social media posts, news headlines, financial forum text — mixed Bahasa Indonesia, English jargon, ticker symbols',
+        pipe2Name:'Preprocessing (NLTK + spaCy)', pipe2Desc:'URL removal, mention stripping, financial slang normalization (nyangkut → "harga turun"), Indonesian stopword removal via NLTK, NER via spaCy id_core_news_sm to preserve ticker symbols',
+        pipe3Name:'IndoBERT WordPiece Tokenizer', pipe3Desc:'indobenchmark/indobert-base-p1 tokenizer — subword tokenization handles OOV financial terms, max_length=128, padding to uniform length',
+        pipe4Name:'IndoBERT Encoder (12 layers, bidirectional attention)', pipe4Desc:'768-dim contextual embeddings — each token\'s representation is informed by all other tokens in the sequence simultaneously',
+        pipe5Name:'[CLS] Pooling → Classification Head', pipe5Desc:'768-dim [CLS] vector → Linear(768→3) → Softmax → {negative, neutral, positive}',
+        s4Num:'04 · Dataset &amp; EDA',
+        s4Title:'6,200 Indonesian financial texts. <em>Domain-specific vocabulary is the challenge.</em>',
+        s4Lede:'The dataset covers Indonesian financial social media: IDX-listed company mentions, market commentary, and investor discussion. The label distribution is intentionally balanced to avoid the majority-class bias that plagues generic sentiment datasets.',
+        dbPos:'Positive', dbNeu:'Neutral', dbNeg:'Negative',
+        s4VocabTitle:'Vocabulary analysis: what makes financial text hard',
+        s4VocabGeneral:'General Indonesian NLP vocabulary',
+        s4VocabFinancial:'Financial domain vocabulary',
+        s4PerClassTitle:'Per-class performance (IndoBERT fine-tuned)',
+        pcClass:'Class', pcPrec:'Precision', pcRec:'Recall', pcF1:'F1', pcSupport:'Support',
+        pcNeg:'Negative', pcNeu:'Neutral', pcPos:'Positive',
+        s5Num:'05 · From LSA to BERT',
+        s5Title:'What four years <em>actually changed</em> — and what it didn\'t.',
+        s5Lede:'My 2021 thesis built a KNN + LSA chatbot. This project fine-tunes a transformer. The architecture is completely different. The fundamental engineering questions are identical.',
+        evoDim:'Dimension', evoOld:'LSA + KNN (2021 Thesis)', evoNew:'IndoBERT fine-tuned (2025)',
+        evoRow1Dim:'Tokenization', evoRow1Old:'Whitespace split, manual stopword removal', evoRow1New:'WordPiece subword — "bullish" → ["bull", "##ish"] — OOV terms handled automatically',
+        evoRow2Dim:'Text representation', evoRow2Old:'Term-document matrix → SVD → static latent vectors', evoRow2New:'Contextual embeddings — same word, different vector depending on surrounding context',
+        evoRow3Dim:'Context window', evoRow3Old:'None — bag of words, word order ignored', evoRow3New:'Full sequence (128 tokens) — bidirectional attention over entire input simultaneously',
+        evoRow4Dim:'Negation handling', evoRow4Old:'Fails — "tidak rugi" and "rugi" have similar vectors', evoRow4New:'Captured by attention — "tidak" modifies the representation of the tokens around it',
+        evoRow5Dim:'Transfer learning', evoRow5Old:'None — trained from scratch on thesis dataset', evoRow5New:'Pre-trained on 16GB Indonesian corpora — domain fine-tuning adds 6.2K examples on top',
+        evoRow6Dim:'Labeled data requirement', evoRow6Old:'Required — no labeled data, no model', evoRow6New:'Still required — fine-tuning is not magic without domain labels',
+        evoRow7Dim:'Preprocessing still matters', evoRow7Old:'Stopwords, normalization, cleaning', evoRow7New:'Same — garbage in, garbage out regardless of model sophistication',
+        evoRow8Dim:'Evaluation methodology', evoRow8Old:'Accuracy, F1, confusion matrix, held-out test set', evoRow8New:'Exactly the same — the metrics haven\'t changed, only what we\'re measuring',
+        evoPullquote:'"BERT didn\'t obsolete NLP fundamentals. It made them more important — because now you\'re debugging a 110M-parameter black box instead of a cosine similarity matrix."',
+        s6Num:'06 · What BERT Gets Right',
+        s6Title:'Three cases where <em>context is everything.</em>',
+        s6P:'These are real patterns from the test set where TF-IDF and BiLSTM fail. BERT\'s bidirectional attention resolves them correctly because it reads the entire sentence before committing to a representation.',
+        ex1Num:'Case 01 · Contrastive negation', ex1True:'True label: Negative',
+        exWrong:'sees "naik", ignores "tapi...khawatir"', exPartial:'sequential context helps, but loses the long-range contrast', exCorrect:'attention connects "naik" and "khawatir" across the "tapi" pivot',
+        ex2Num:'Case 02 · Slang + ticker', ex2True:'True label: Negative',
+        ex2Wrong:'"bearish", "cutloss", "nyangkut" are OOV in general vocabulary', ex2Partial:'trained embedding partially captures slang patterns', ex2Correct:'subword tokenization preserves signal from OOV financial terms',
+        ex3Num:'Case 03 · Qualified optimism', ex3True:'True label: Neutral',
+        ex3Wrong:'"bagus" dominates; "mahal" doesn\'t cancel it in BoW', ex3Partial:'forward LSTM anchors on "bagus" early in sequence', ex3Correct:'bidirectional attention weighs "bagus" against "mahal untuk dikoleksi"',
+        ex4Num:'Case 04 · Code-switching', ex4True:'True label: Neutral / Cautious',
+        ex4Wrong:'most tokens are OOV; result is noise', ex4Partial:'interprets "jangan" as negative signal overall', ex4Correct:'cross-lingual pre-training handles English-Bahasa code-switching natively',
+        s7Num:'07 · Fine-tuning Process',
+        s7Title:'Three epochs. <em>Each one mattered differently.</em>',
+        s7P:'Fine-tuning a pre-trained transformer is not "just run more epochs." Learning rate schedule, warmup, and early stopping on validation F1 (not accuracy) are what prevent catastrophic forgetting of pre-trained representations.',
+        tt1Iter:'Epoch 1 — Adaptation', tt1Change:'Model adapts pre-trained weights to financial domain. High learning rate phase with warmup.', tt1Delta:'+10pp over zero-shot baseline',
+        tt2Iter:'Epoch 2 — Refinement', tt2Change:'Financial jargon patterns stabilize. Per-class F1 for "negative" improves most.',
+        tt3Iter:'Epoch 3 — Convergence', tt3Change:'Validation F1 plateaus. Early stopping fires. Best checkpoint saved.', tt3Delta:'Best checkpoint · EarlyStopping',
+        s7WhyTitle:'Why F1 macro, not accuracy, as the stopping criterion',
+        s7WhyP1:'Accuracy can improve even when the model gets lazier — just predict the majority class more often. Macro F1 penalizes this: every class must be predicted well, not just the most common one. Monitoring F1 on the validation set caught one epoch where accuracy kept rising while neutral-class F1 was already declining.',
+        s7WhyP2:'This is not theoretical. At epoch 4 in an early experiment, accuracy reached 89.1% — but macro F1 dropped to 0.8721. The model had started over-predicting "positive" at the expense of the balanced F1. Early stopping on F1 prevented this regression from becoming the final model.',
+        s8Num:'08 · What Didn\'t Change',
+        s8Title:'The invariants that survive <em>every architecture shift.</em>',
+        s8Lede:'Going from LSA (2021) to BERT (2025) changed everything about how text is represented. It changed nothing about the engineering discipline required to do NLP well.',
+        inv1:'<strong>Labeled data is still the bottleneck.</strong> BERT zero-shot at 64.2% is worse than TF-IDF at 72.3%. Pre-training doesn\'t replace domain labels — it makes them more efficient to use.',
+        inv2:'<strong>Preprocessing still shapes what the model sees.</strong> Normalizing "nyangkut" → "harga turun" before tokenization improved neutral-class F1 by ~3 points. Garbage in, garbage out — regardless of the model size.',
+        inv3:'<strong>Evaluation methodology hasn\'t changed.</strong> Macro F1 on a stratified held-out test set, per-class breakdown, confusion matrix analysis. These were correct in 2021 and remain correct in 2025.',
+        inv4:'<strong>Domain expertise is still the multiplier.</strong> Knowing that "koreksi" is bearish context, that "nyangkut" signals losses, and that "cut loss" is investor distress — this domain knowledge informs preprocessing, label quality, and error analysis. No model learns this automatically.',
+        inv5:'<strong>Overfitting is still the primary failure mode.</strong> The same early stopping, validation monitoring, and regularization discipline from 2021 applies directly. The parameter count changed; the problem didn\'t.',
+        s9Num:'09 · Lessons Learned',
+        s9Title:'What fine-tuning <em>actually taught me.</em>',
+        l1Label:'On zero-shot BERT', l1Body:'<strong>A large model without fine-tuning is not a smart model.</strong> IndoBERT zero-shot scored 64.2% — worse than a TF-IDF baseline. Pre-training is a starting point, not an endpoint. The domain gap between general corpora and Indonesian financial text is real and measurable.',
+        l2Label:'On learning rate', l2Body:'<strong>2e-5 is not a magic number — it\'s a starting point.</strong> At 5e-5, the model catastrophically forgot pre-trained representations within one epoch. At 1e-5, convergence was too slow and the model was still adapting at epoch 5. The warmup ratio matters as much as the peak LR.',
+        l3Label:'On evaluation metrics', l3Body:'<strong>Accuracy is a lie you tell your stakeholders.</strong> At epoch 4, accuracy was 89.1% but macro F1 was declining. The model was getting "more accurate" by abandoning the harder classes. Macro F1 caught this; accuracy didn\'t.',
+        l4Label:'On pre-LLM fundamentals', l4Body:'<strong>Understanding attention is more useful than knowing prompt syntax.</strong> When IndoBERT got a financial contrastive sentence wrong, I could debug it by reasoning about attention patterns. You can\'t debug a prompt-engineered system the same way — it\'s a black box with no error gradient.',
+        journeyQuote:'"The gap between calling a BERT API and actually fine-tuning one is the same gap as between driving a car and understanding why it turns. Both get you somewhere. Only one tells you what went wrong."',
+        s10Num:'10 · References',
+        s10Title:'Papers &amp; <em>resources.</em>',
+        ctaNum:'See the code',
+        ctaTitle:'Full training pipeline, preprocessing, and evaluation code <em>on GitHub.</em>',
+        ctaP:'Repository includes: fine-tuning script with HuggingFace Trainer, NLTK + spaCy preprocessing pipeline, Docker container for reproducible training, and the full evaluation comparison against TF-IDF and BiLSTM baselines.',
+        ctaGh:'↗ View on GitHub', ctaBack:'← Back to portfolio',
+      },
+      id: {
+        navBack:'← Kembali ke portfolio', navProjects:'Proyek', navContact:'Kontak',
+        kickerTag:'NLP · Fine-tuning Transformer',
+        kickerText:'Teks Keuangan Indonesia · 6.200 sampel · HuggingFace Transformers · 2025',
+        heroTitle:'Fine-tune IndoBERT<br><em>untuk Sentimen Keuangan</em>',
+        heroLede:'Skripsi saya tahun 2021 menggunakan <strong>LSA + KNN</strong>. Pada 2025 saya melakukan fine-tune <strong>IndoBERT pada teks keuangan</strong>. Ini yang berubah dalam empat tahun — dan yang tidak.',
+        metaModel:'Model', metaDataset:'Dataset', metaStack:'Stack', metaContext:'Konteks',
+        haSrcLabel:'Domain yang Sama',
+        haSrcVal:'Teks Keuangan Indonesia · 6.200 sampel',
+        haB1Tag:'Tradisional', haB2Tag:'Sequential', haB3Tag:'Transformer · Pemenang',
+        haNote:'⚠ IndoBERT tanpa fine-tuning: 64,2% — lebih buruk dari TF-IDF. Fine-tuning domain-spesifik adalah syarat mutlak.',
+        haEval1:'Akurasi', haEval2:'F1 Macro', haEval3:'Recall per kelas', haEval4:'Latensi inferensi',
+        stat1:'Akurasi model terbaik<br>IndoBERT fine-tuned',
+        stat2:'Peningkatan dari<br>baseline BiLSTM',
+        stat3:'Sampel teks keuangan<br>Indonesia',
+        stat4:'Epoch hingga konvergensi<br>dengan early stopping',
+        s1Num:'01 · Business Question',
+        s1Title:'Teks keuangan Indonesia punya bahasanya sendiri. <em>Model generik tidak tahu itu.</em>',
+        s1Lede:'Seorang investor yang menulis "saham BBRI nyangkut terus" dan reviewer makanan yang menulis "makanannya enak" sama-sama menggunakan Bahasa Indonesia. Hanya satu yang mengekspresikan tekanan finansial. Model sentimen generik tidak bisa membedakannya.',
+        s1P1:'Media sosial keuangan di Indonesia mencampur Bahasa Indonesia formal, jargon keuangan ("bullish", "cut loss", "koreksi"), slang ("nyangkut" = terjebak di harga rugi, "cuan" = keuntungan), dan simbol ticker Inggris — semua dalam satu kalimat. Model pre-trained yang dilatih pada korpus umum gagal di batas domain ini.',
+        s1P2:'Pertanyaannya bukan "model mana yang terbaik untuk sentimen?" — melainkan "model mana yang terbaik untuk domain spesifik ini?" dan "apakah fine-tuning benar-benar menutup kesenjangan?" Proyek ini menjawab keduanya.',
+        s2Num:'02 · Hasil Akhir',
+        s2Title:'<em>IndoBERT fine-tuned menang</em> — dan IndoBERT zero-shot finish terakhir.',
+        s2Lede:'Akurasi 88,4%, F1 0,8791. Yang mengejutkan: IndoBERT tanpa fine-tuning hanya 64,2% — lebih buruk dari TF-IDF. Fine-tuning domain-spesifik adalah seluruh ceritanya.',
+        vc1Rank:'🏆 Pemenang', vc2Rank:'#2', vc3Rank:'#3 · Baseline',
+        vcEpochs:'Epoch', vcModel:'Model dasar', vcEmbedding:'Embedding', vcContext:'Konteks', vcFeatures:'Fitur',
+        s2MatrixTitle:'Decision matrix',
+        dmCol0:'Kriteria',
+        dmRow1:'Akurasi', dmRow2:'Macro F1', dmRow3:'Menangani negasi',
+        dmRow4:'Slang keuangan', dmRow5:'Subword tokenization',
+        dmRow6:'Kecepatan inferensi', dmRow7:'Biaya training',
+        takeaway:'<strong>Temuan utama:</strong> IndoBERT tanpa fine-tuning hanya 64,2% — lebih buruk dari TF-IDF. Pre-trained transformer bukan otomatis lebih baik dari baseline. Fine-tuning pada data domain-spesifik yang menutup gap 24 poin antara BERT zero-shot dan BERT fine-tuned.',
+        s3Num:'03 · Arsitektur',
+        s3Title:'Pipeline fine-tuning, <em>langkah demi langkah.</em>',
+        s3P:'Setiap teks melewati preprocessing (NLTK + spaCy) sebelum mencapai tokenizer IndoBERT. Model di-fine-tune secara end-to-end — tanpa feature extraction, tanpa layer yang dibekukan — dengan classification head di atas token [CLS].',
+        pipe1Name:'Teks Keuangan Mentah', pipe1Desc:'Postingan media sosial keuangan Indonesia, berita, teks forum — campuran Bahasa Indonesia, jargon Inggris, simbol ticker',
+        pipe2Name:'Preprocessing (NLTK + spaCy)', pipe2Desc:'Penghapusan URL, mention, normalisasi slang keuangan (nyangkut → "harga turun"), penghapusan stopword Indonesia via NLTK, NER via spaCy id_core_news_sm untuk mempertahankan simbol ticker',
+        pipe3Name:'Tokenizer WordPiece IndoBERT', pipe3Desc:'tokenizer indobenchmark/indobert-base-p1 — tokenisasi subword menangani istilah keuangan OOV, max_length=128, padding ke panjang seragam',
+        pipe4Name:'Encoder IndoBERT (12 layer, bidirectional attention)', pipe4Desc:'Embedding kontekstual 768 dimensi — representasi setiap token dipengaruhi semua token lain dalam urutan secara bersamaan',
+        pipe5Name:'[CLS] Pooling → Classification Head', pipe5Desc:'Vektor [CLS] 768 dimensi → Linear(768→3) → Softmax → {negatif, netral, positif}',
+        s4Num:'04 · Dataset &amp; EDA',
+        s4Title:'6.200 teks keuangan Indonesia. <em>Kosakata domain-spesifik adalah tantangannya.</em>',
+        s4Lede:'Dataset mencakup media sosial keuangan Indonesia: penyebutan perusahaan tercatat IDX, komentar pasar, dan diskusi investor. Distribusi label sengaja diseimbangkan untuk menghindari bias kelas mayoritas yang mengganggu dataset sentimen generik.',
+        dbPos:'Positif', dbNeu:'Netral', dbNeg:'Negatif',
+        s4VocabTitle:'Analisis kosakata: mengapa teks keuangan sulit',
+        s4VocabGeneral:'Kosakata NLP Indonesia umum',
+        s4VocabFinancial:'Kosakata domain keuangan',
+        s4PerClassTitle:'Performa per kelas (IndoBERT fine-tuned)',
+        pcClass:'Kelas', pcPrec:'Presisi', pcRec:'Recall', pcF1:'F1', pcSupport:'Support',
+        pcNeg:'Negatif', pcNeu:'Netral', pcPos:'Positif',
+        s5Num:'05 · Dari LSA ke BERT',
+        s5Title:'Apa yang <em>benar-benar berubah</em> dalam empat tahun — dan yang tidak.',
+        s5Lede:'Skripsi 2021 saya membangun chatbot KNN + LSA. Proyek ini melakukan fine-tune transformer. Arsitekturnya sama sekali berbeda. Pertanyaan engineering fundamentalnya identik.',
+        evoDim:'Dimensi', evoOld:'LSA + KNN (Skripsi 2021)', evoNew:'IndoBERT fine-tuned (2025)',
+        evoRow1Dim:'Tokenisasi', evoRow1Old:'Split spasi, penghapusan stopword manual', evoRow1New:'Subword WordPiece — "bullish" → ["bull", "##ish"] — istilah OOV ditangani otomatis',
+        evoRow2Dim:'Representasi teks', evoRow2Old:'Matriks term-dokumen → SVD → vektor laten statis', evoRow2New:'Embedding kontekstual — kata yang sama, vektor berbeda tergantung konteks sekitarnya',
+        evoRow3Dim:'Jendela konteks', evoRow3Old:'Tidak ada — bag of words, urutan kata diabaikan', evoRow3New:'Urutan penuh (128 token) — bidirectional attention atas seluruh input secara bersamaan',
+        evoRow4Dim:'Penanganan negasi', evoRow4Old:'Gagal — "tidak rugi" dan "rugi" memiliki vektor serupa', evoRow4New:'Ditangkap oleh attention — "tidak" memodifikasi representasi token-token di sekitarnya',
+        evoRow5Dim:'Transfer learning', evoRow5Old:'Tidak ada — dilatih dari awal pada dataset skripsi', evoRow5New:'Pre-trained pada 16GB korpus Indonesia — fine-tuning domain menambah 6.200 contoh di atasnya',
+        evoRow6Dim:'Kebutuhan data berlabel', evoRow6Old:'Diperlukan — tanpa data berlabel, tidak ada model', evoRow6New:'Masih diperlukan — fine-tuning bukan sihir tanpa label domain',
+        evoRow7Dim:'Preprocessing tetap penting', evoRow7Old:'Stopwords, normalisasi, pembersihan', evoRow7New:'Sama — garbage in, garbage out terlepas dari kecanggihan model',
+        evoRow8Dim:'Metodologi evaluasi', evoRow8Old:'Akurasi, F1, confusion matrix, test set yang dipisahkan', evoRow8New:'Persis sama — metriknya tidak berubah, hanya apa yang diukur',
+        evoPullquote:'"BERT tidak membuat fundamental NLP usang. Malah membuatnya lebih penting — karena sekarang kamu men-debug black box 110 juta parameter, bukan matriks cosine similarity."',
+        s6Num:'06 · Apa yang BERT Tangani Lebih Baik',
+        s6Title:'Tiga kasus di mana <em>konteks adalah segalanya.</em>',
+        s6P:'Ini adalah pola nyata dari test set di mana TF-IDF dan BiLSTM gagal. Bidirectional attention BERT menyelesaikannya dengan benar karena ia membaca seluruh kalimat sebelum berkomitmen pada representasi.',
+        ex1Num:'Kasus 01 · Negasi kontrastif', ex1True:'Label sebenarnya: Negatif',
+        exWrong:'melihat "naik", mengabaikan "tapi...khawatir"', exPartial:'konteks sequential membantu, tapi kehilangan kontras jarak jauh', exCorrect:'attention menghubungkan "naik" dan "khawatir" melewati pivot "tapi"',
+        ex2Num:'Kasus 02 · Slang + ticker', ex2True:'Label sebenarnya: Negatif',
+        ex2Wrong:'"bearish", "cutloss", "nyangkut" adalah OOV dalam kosakata umum', ex2Partial:'embedding terlatih sebagian menangkap pola slang', ex2Correct:'tokenisasi subword mempertahankan sinyal dari istilah keuangan OOV',
+        ex3Num:'Kasus 03 · Optimisme berkualifikasi', ex3True:'Label sebenarnya: Netral',
+        ex3Wrong:'"bagus" mendominasi; "mahal" tidak membatalkannya dalam BoW', ex3Partial:'LSTM forward berangkat dari "bagus" di awal urutan', ex3Correct:'bidirectional attention menimbang "bagus" terhadap "mahal untuk dikoleksi"',
+        ex4Num:'Kasus 04 · Code-switching', ex4True:'Label sebenarnya: Netral / Hati-hati',
+        ex4Wrong:'sebagian besar token adalah OOV; hasilnya adalah noise', ex4Partial:'menginterpretasikan "jangan" sebagai sinyal negatif secara keseluruhan', ex4Correct:'pre-training lintas bahasa menangani code-switching Inggris-Bahasa secara native',
+        s7Num:'07 · Proses Fine-tuning',
+        s7Title:'Tiga epoch. <em>Masing-masing bermakna berbeda.</em>',
+        s7P:'Fine-tuning transformer pre-trained bukan sekadar "jalankan lebih banyak epoch." Jadwal learning rate, warmup, dan early stopping pada F1 validasi (bukan akurasi) yang mencegah catastrophic forgetting representasi pre-trained.',
+        tt1Iter:'Epoch 1 — Adaptasi', tt1Change:'Model mengadaptasi bobot pre-trained ke domain keuangan. Fase learning rate tinggi dengan warmup.', tt1Delta:'+10pp di atas baseline zero-shot',
+        tt2Iter:'Epoch 2 — Penyempurnaan', tt2Change:'Pola jargon keuangan menstabilkan. F1 per kelas "negatif" paling banyak meningkat.',
+        tt3Iter:'Epoch 3 — Konvergensi', tt3Change:'F1 validasi mendatar. Early stopping aktif. Checkpoint terbaik disimpan.', tt3Delta:'Checkpoint terbaik · EarlyStopping',
+        s7WhyTitle:'Mengapa F1 macro, bukan akurasi, sebagai kriteria berhenti',
+        s7WhyP1:'Akurasi bisa meningkat bahkan ketika model menjadi "lebih malas" — cukup prediksi kelas mayoritas lebih sering. Macro F1 menghukum ini: setiap kelas harus diprediksi dengan baik, bukan hanya yang paling umum. Memantau F1 di validation set menangkap satu epoch di mana akurasi terus naik sementara F1 kelas netral sudah menurun.',
+        s7WhyP2:'Ini bukan teori. Pada epoch 4 dalam eksperimen awal, akurasi mencapai 89,1% — tapi macro F1 turun ke 0,8721. Model mulai over-prediksi "positif" dengan mengorbankan F1 yang seimbang. Early stopping pada F1 mencegah regresi ini menjadi model final.',
+        s8Num:'08 · Yang Tidak Berubah',
+        s8Title:'Invariant yang bertahan dari <em>setiap pergeseran arsitektur.</em>',
+        s8Lede:'Beralih dari LSA (2021) ke BERT (2025) mengubah segalanya tentang bagaimana teks direpresentasikan. Tidak mengubah apapun tentang disiplin engineering yang diperlukan untuk melakukan NLP dengan baik.',
+        inv1:'<strong>Data berlabel masih menjadi bottleneck.</strong> BERT zero-shot 64,2% lebih buruk dari TF-IDF 72,3%. Pre-training tidak menggantikan label domain — ia membuat penggunaannya lebih efisien.',
+        inv2:'<strong>Preprocessing masih membentuk apa yang dilihat model.</strong> Menormalisasi "nyangkut" → "harga turun" sebelum tokenisasi meningkatkan F1 kelas netral ~3 poin. Garbage in, garbage out — terlepas dari ukuran model.',
+        inv3:'<strong>Metodologi evaluasi tidak berubah.</strong> Macro F1 pada test set yang dipisahkan secara stratifikasi, breakdown per kelas, analisis confusion matrix. Ini benar pada 2021 dan tetap benar pada 2025.',
+        inv4:'<strong>Keahlian domain masih menjadi pengganda.</strong> Mengetahui bahwa "koreksi" adalah konteks bearish, bahwa "nyangkut" menandakan kerugian, dan bahwa "cut loss" adalah tekanan investor — pengetahuan domain ini menginformasikan preprocessing, kualitas label, dan analisis error. Tidak ada model yang mempelajari ini secara otomatis.',
+        inv5:'<strong>Overfitting masih menjadi mode kegagalan utama.</strong> Early stopping, pemantauan validasi, dan disiplin regularisasi yang sama dari 2021 berlaku langsung. Jumlah parameter berubah; masalahnya tidak.',
+        s9Num:'09 · Pelajaran yang Dipetik',
+        s9Title:'Apa yang fine-tuning <em>benar-benar ajarkan kepada saya.</em>',
+        l1Label:'Tentang BERT zero-shot', l1Body:'<strong>Model besar tanpa fine-tuning bukan model yang cerdas.</strong> IndoBERT zero-shot hanya 64,2% — lebih buruk dari baseline TF-IDF. Pre-training adalah titik awal, bukan titik akhir. Kesenjangan domain antara korpus umum dan teks keuangan Indonesia nyata dan terukur.',
+        l2Label:'Tentang learning rate', l2Body:'<strong>2e-5 bukan angka ajaib — itu titik awal.</strong> Pada 5e-5, model melupakan representasi pre-trained secara catastrophic dalam satu epoch. Pada 1e-5, konvergensi terlalu lambat dan model masih beradaptasi di epoch 5. Warmup ratio sama pentingnya dengan LR puncak.',
+        l3Label:'Tentang metrik evaluasi', l3Body:'<strong>Akurasi adalah kebohongan yang kamu ceritakan pada stakeholder.</strong> Pada epoch 4, akurasi 89,1% tapi macro F1 menurun. Model menjadi "lebih akurat" dengan mengabaikan kelas yang lebih sulit. Macro F1 menangkap ini; akurasi tidak.',
+        l4Label:'Tentang fundamental pre-LLM', l4Body:'<strong>Memahami attention lebih berguna daripada mengetahui sintaks prompt.</strong> Ketika IndoBERT salah pada kalimat keuangan kontrastif, saya bisa men-debug-nya dengan bernalar tentang pola attention. Kamu tidak bisa men-debug sistem prompt-engineered dengan cara yang sama — itu black box tanpa error gradient.',
+        journeyQuote:'"Kesenjangan antara memanggil BERT API dan benar-benar melakukan fine-tune-nya sama dengan kesenjangan antara mengemudikan mobil dan memahami mengapa ia berbelok. Keduanya membawa kamu ke suatu tempat. Hanya satu yang memberitahu kamu apa yang salah."',
+        s10Num:'10 · Referensi',
+        s10Title:'Paper &amp; <em>sumber daya.</em>',
+        ctaNum:'Lihat kodenya',
+        ctaTitle:'Pipeline training, preprocessing, dan kode evaluasi lengkap <em>ada di GitHub.</em>',
+        ctaP:'Repository mencakup: skrip fine-tuning dengan HuggingFace Trainer, pipeline preprocessing NLTK + spaCy, container Docker untuk training yang reproducible, dan perbandingan evaluasi lengkap terhadap baseline TF-IDF dan BiLSTM.',
+        ctaGh:'↗ Lihat di GitHub', ctaBack:'← Kembali ke portfolio',
+      }
+    };
+
+    function applyLanguage(lang) {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const v = translations[lang]?.[el.dataset.i18n];
+        if (v !== undefined) el.innerHTML = v;
+      });
+      document.querySelectorAll('[data-lang-target]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.langTarget === lang);
+      });
+      document.documentElement.lang = lang;
+      localStorage.setItem('lang', lang);
+    }
+    document.querySelectorAll('[data-lang-target]').forEach(btn => {
+      btn.addEventListener('click', () => applyLanguage(btn.dataset.langTarget));
+    });
+    applyLanguage(localStorage.getItem('lang') || 'en');
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      function update(t){ btn.textContent = t==='dark'?'☀':'🌙'; btn.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode'); }
+      update(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click', function(){
+        const next = html.getAttribute('data-theme')==='dark'?'light':'dark';
+        html.setAttribute('data-theme', next); localStorage.setItem('theme', next); update(next);
+      });
+    })();
+  </script>
+</body>
+</html>
