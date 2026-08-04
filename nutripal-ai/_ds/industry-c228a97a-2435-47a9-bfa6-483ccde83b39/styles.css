@@ -110,6 +110,52 @@ html[data-theme="dark"] {
   --shadow-lg: 0 12px 32px color-mix(in srgb, #000 55%, transparent);
 }
 
+/* doc-page renders its "paper" background inside a shadow root with a
+   hardcoded #fff — it never sees these tokens. If the dark overrides above
+   reach the slotted content anyway, text goes light-on-white and vanishes.
+   Pin the tokens back to their light values for anything inside doc-page,
+   so the document reads like a printed page regardless of site theme. */
+html[data-theme="dark"] doc-page {
+  --color-bg: #f2f2f3;
+  --color-surface: #e9e9ea;
+  --color-text: #1d1f20;
+  --color-accent: #5980a6;
+  --color-accent-2: #728fab;
+  --color-divider: color-mix(in srgb, #1d1f20 16%, transparent);
+  --color-neutral-100: #f5f5f8;
+  --color-neutral-200: #e7e7ea;
+  --color-neutral-300: #d4d4d7;
+  --color-neutral-400: #b7b7ba;
+  --color-neutral-500: #98989b;
+  --color-neutral-600: #7a7a7d;
+  --color-neutral-700: #5d5d60;
+  --color-neutral-800: #424244;
+  --color-neutral-900: #2b2b2d;
+  --color-accent-100: #eef6ff;
+  --color-accent-200: #d6ebff;
+  --color-accent-300: #b5d9fd;
+  --color-accent-400: #94bce3;
+  --color-accent-500: #749dc4;
+  --color-accent-600: #597ea3;
+  --color-accent-700: #416180;
+  --color-accent-800: #2c455d;
+  --color-accent-900: #1d2d3d;
+  --color-accent-2-100: #eef6ff;
+  --color-accent-2-200: #d6ebff;
+  --color-accent-2-300: #bdd8f2;
+  --color-accent-2-400: #9ebbd8;
+  --color-accent-2-500: #7e9cb8;
+  --color-accent-2-600: #627d98;
+  --color-accent-2-700: #486077;
+  --color-accent-2-800: #314457;
+  --color-accent-2-900: #1f2d3a;
+  /* `color` is an inherited property resolved once where it's declared —
+     body sets it from the (still-dark) global scope, and every descendant
+     just inherits that fixed value. Re-declaring it here, now that the
+     tokens above are reset, makes doc-page's own subtree re-resolve it. */
+  color: #1d1f20;
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-text);

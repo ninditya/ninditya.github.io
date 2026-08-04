@@ -3,9 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 <script src="./support.js"></script>
 </head>
 <body>
+<nav class="site-nav" id="siteNav">
+  <div class="site-nav-inner">
+    <div class="site-nav-tools">
+      <button class="site-nav-toggle" type="button" id="siteNavToggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <div class="site-nav-pills">
+        <a href="/" class="site-nav-pill back" data-nav="back">&larr; Back to portfolio</a>
+        <a href="/#projects" class="site-nav-pill" data-nav="projects">Projects</a>
+        <a href="/#contact" class="site-nav-pill" data-nav="contact">Contact</a>
+      </div>
+      <div class="site-lang-switch" aria-label="Language switch">
+        <button class="site-lang-btn active" type="button" data-lang="en">EN</button>
+        <button class="site-lang-btn" type="button" data-lang="id">ID</button>
+      </div>
+      <button class="site-theme-toggle" type="button" id="siteThemeToggle" aria-label="Switch to dark mode">&#127769;</button>
+    </div>
+  </div>
+</nav>
 <x-dc>
 <helmet>
 <link rel="stylesheet" href="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/styles.css">
@@ -28,10 +46,29 @@
         <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--color-accent-700);">Product Analyst case study</div>
         <h1 style="font-size: 40px; margin: 3px 0 0;">Office Lunch Catering — Interactive Prototype</h1>
       </div>
-      <div style="margin-left: auto; text-align: right; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent); line-height: 1.7;">
+      <div style="margin-left: auto; text-align: right; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 75%, transparent); line-height: 1.7;">
         <div>Fig. A — Employee &amp; Admin app</div>
         <div>Mobile · 390 × 844 · WIB</div>
       </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:-10px 0 30px;">
+      <a href="index.html" style="text-decoration:none;border:1px solid var(--color-divider);background:var(--color-surface);border-radius:8px;padding:14px 15px;min-height:92px;display:flex;flex-direction:column;justify-content:space-between;">
+        <span style="font:600 10px/1 var(--font-heading);letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);">Case study</span>
+        <strong style="font-size:17px;color:var(--color-text);">Problem → system</strong>
+      </a>
+      <a href="diagrams.html" style="text-decoration:none;border:1px solid var(--color-divider);background:var(--color-surface);border-radius:8px;padding:14px 15px;min-height:92px;display:flex;flex-direction:column;justify-content:space-between;">
+        <span style="font:600 10px/1 var(--font-heading);letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);">Diagrams</span>
+        <strong style="font-size:17px;color:var(--color-text);">BPMN · ERD · Use case</strong>
+      </a>
+      <a href="prototype.html" style="text-decoration:none;border:1px solid var(--color-accent-700);background:color-mix(in srgb,var(--color-accent-100) 65%,transparent);border-radius:8px;padding:14px 15px;min-height:92px;display:flex;flex-direction:column;justify-content:space-between;">
+        <span style="font:600 10px/1 var(--font-heading);letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);">Prototype</span>
+        <strong style="font-size:17px;color:var(--color-text);">Employee + admin app</strong>
+      </a>
+      <a href="deck/Case%20Study%20Deck.dc.html" style="text-decoration:none;border:1px solid var(--color-divider);background:var(--color-surface);border-radius:8px;padding:14px 15px;min-height:92px;display:flex;flex-direction:column;justify-content:space-between;">
+        <span style="font:600 10px/1 var(--font-heading);letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);">Deck</span>
+        <strong style="font-size:17px;color:var(--color-text);">Presentation view</strong>
+      </a>
     </div>
 
     <div style="display: grid; grid-template-columns: 390px minmax(300px, 1fr); gap: 60px; align-items: start;">
@@ -39,7 +76,7 @@
       <div class="blueprint" style="width: 390px; height: 844px; background: var(--color-bg); position: relative; box-shadow: var(--shadow-md);">
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
 
-        <div style="height: 30px; display: flex; align-items: center; gap: 8px; padding: 0 14px; font-size: 11px; letter-spacing: .06em; border-bottom: 1px solid var(--color-divider); color: color-mix(in srgb, var(--color-text) 60%, transparent);">
+        <div style="height: 30px; display: flex; align-items: center; gap: 8px; padding: 0 14px; font-size: 11px; letter-spacing: .06em; border-bottom: 1px solid var(--color-divider); color: color-mix(in srgb, var(--color-text) 80%, transparent);">
           <span style="font-family: var(--font-heading); font-size: 12px; color: var(--color-text);">{{ clockLabel }}</span>
           <span>WIB</span>
           <span style="margin-left: auto; display: flex; align-items: center; gap: 6px;">
@@ -55,7 +92,7 @@
               <div>
                 <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--color-accent-700);">PT Nusatek Adhikara</div>
                 <h2 style="font-size: 34px; margin: 6px 0 8px; line-height: 1.05;">Kantin<span style="color: var(--color-accent);">.</span></h2>
-                <p style="font-size: 13px; margin: 0; color: color-mix(in srgb, var(--color-text) 65%, transparent);">Office lunch ordering, attendance-aware. Sign in with your work email.</p>
+                <p style="font-size: 13px; margin: 0; color: color-mix(in srgb, var(--color-text) 85%, transparent);">Office lunch ordering, attendance-aware. Sign in with your work email.</p>
               </div>
               <div style="display: flex; flex-direction: column; gap: 12px;">
                 <div class="field">
@@ -76,7 +113,7 @@
                 </button>
               </div>
               <div style="margin-top: auto; border-top: 1px solid var(--color-divider); padding-top: 14px;">
-                <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); margin-bottom: 8px;">Demo — pick a role</div>
+                <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent); margin-bottom: 8px;">Demo — pick a role</div>
                 <div style="display: flex; gap: 8px;">
                   <button class="btn btn-secondary" onClick="{{ loginEmp }}" style="flex: 1; height: 40px;">Employee</button>
                   <button class="btn btn-secondary" onClick="{{ loginAdm }}" style="flex: 1; height: 40px;">Office Admin</button>
@@ -89,7 +126,7 @@
             <div style="padding: 16px 16px 30px;">
               <div style="display: flex; align-items: flex-start; gap: 10px;">
                 <div>
-                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Tuesday, 4 August 2026</div>
+                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Tuesday, 4 August 2026</div>
                   <h3 style="font-size: 24px; margin: 2px 0 0;">Today's lunch</h3>
                 </div>
                 <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
@@ -105,7 +142,7 @@
                 <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex: none; color: var(--color-accent-700);"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
                 <div style="flex: 1;">
-                  <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ cutLabel }}</div>
+                  <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ cutLabel }}</div>
                   <div style="font-family: var(--font-heading); font-size: 20px; line-height: 1.1; animation: tick 2s ease-in-out infinite;">{{ cutValue }}</div>
                 </div>
                 <span class="tag tag-outline">{{ lockLabel }}</span>
@@ -132,7 +169,7 @@
                     <span class="tag tag-neutral" style="margin-left: auto;">{{ orderSourceLabel }}</span>
                   </div>
                   <div style="font-family: var(--font-heading); font-size: 19px; margin-top: 4px;">{{ orderName }}</div>
-                  <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">{{ orderMeta }}</div>
+                  <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 80%, transparent);">{{ orderMeta }}</div>
                   <div style="display: flex; gap: 8px; margin-top: 12px;">
                     <button class="btn btn-secondary" onClick="{{ changeOrder }}" disabled="{{ locked }}" style="flex: 1; height: 40px;">Change</button>
                     <button class="btn btn-secondary" onClick="{{ cancelOrder }}" disabled="{{ locked }}" style="flex: 1; height: 40px;">Cancel</button>
@@ -142,7 +179,7 @@
 
               <div style="display: flex; align-items: baseline; gap: 8px; margin: 22px 0 10px;">
                 <h4 style="font-size: 15px; margin: 0; letter-spacing: .02em;">Recommended for you</h4>
-                <span style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; margin-left: auto; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Ranked · rule-based</span>
+                <span style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; margin-left: auto; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Ranked · rule-based</span>
               </div>
 
               <div style="display: flex; flex-direction: column; gap: 14px;">
@@ -157,7 +194,7 @@
                       </div>
                       <div style="text-align: right;">
                         <div style="font-family: var(--font-heading); font-size: 15px;">{{ m.priceLabel }}</div>
-                        <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ m.kcalLabel }}</div>
+                        <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ m.kcalLabel }}</div>
                       </div>
                     </div>
                     <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px;">
@@ -166,7 +203,7 @@
                       </sc-for>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-top: 6px;">
-                      <span style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ m.leftLabel }}</span>
+                      <span style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ m.leftLabel }}</span>
                       <button class="btn btn-primary" onClick="{{ m.onSelect }}" disabled="{{ m.disabled }}" style="margin-left: auto; height: 38px; min-width: 92px;">{{ m.cta }}</button>
                     </div>
                   </div>
@@ -175,7 +212,7 @@
 
               <div style="display: flex; align-items: baseline; gap: 8px; margin: 24px 0 6px;">
                 <h4 style="font-size: 15px; margin: 0;">All menus today</h4>
-                <span style="font-size: 11px; margin-left: auto; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ visibleCountLabel }}</span>
+                <span style="font-size: 11px; margin-left: auto; color: color-mix(in srgb, var(--color-text) 70%, transparent);">{{ visibleCountLabel }}</span>
               </div>
 
               <div>
@@ -183,7 +220,7 @@
                   <div style="display: flex; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
                     <div style="flex: 1; min-width: 0;">
                       <div style="font-family: var(--font-heading); font-size: 15px; line-height: 1.15;">{{ m.name }}</div>
-                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ m.rowMeta }}</div>
+                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ m.rowMeta }}</div>
                       <sc-if value="{{ m.full }}" hint-placeholder-val="{{ false }}">
                         <div style="font-size: 11px; color: var(--color-accent-700); margin-top: 3px;">Quota full — second choice: {{ m.fallbackName }}</div>
                       </sc-if>
@@ -209,7 +246,7 @@
                         </div>
                       </div>
                     </sc-for>
-                    <p style="font-size: 11px; margin: 8px 0 0; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Elimination happens before ranking, so a menu you can't eat is never offered — not even as a recommendation.</p>
+                    <p style="font-size: 11px; margin: 8px 0 0; color: color-mix(in srgb, var(--color-text) 75%, transparent);">Elimination happens before ranking, so a menu you can't eat is never offered — not even as a recommendation.</p>
                   </div>
                 </sc-if>
               </div>
@@ -218,12 +255,12 @@
 
           <sc-if value="{{ scPrefs }}" hint-placeholder-val="{{ false }}">
             <div style="padding: 16px 16px 30px;">
-              <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ empName }} · {{ empDept }}</div>
+              <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent);">{{ empName }} · {{ empDept }}</div>
               <h3 style="font-size: 24px; margin: 2px 0 16px;">Dietary profile</h3>
 
               <div style="display: flex; flex-direction: column; gap: 18px;">
                 <div>
-                  <div style="font-size: 12px; margin-bottom: 7px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Diet</div>
+                  <div style="font-size: 12px; margin-bottom: 7px; color: color-mix(in srgb, var(--color-text) 90%, transparent);">Diet</div>
                   <div style="display: flex; gap: 8px;">
                     <div class="seg"><label class="seg-opt"><input type="checkbox" checked="{{ isVeg }}" onChange="{{ toggleVeg }}">Vegetarian</label></div>
                     <div class="seg"><label class="seg-opt"><input type="checkbox" checked="{{ isHalal }}" onChange="{{ toggleHalal }}">Halal only</label></div>
@@ -231,7 +268,7 @@
                 </div>
 
                 <div>
-                  <div style="font-size: 12px; margin-bottom: 7px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Allergies — menus containing these are removed entirely</div>
+                  <div style="font-size: 12px; margin-bottom: 7px; color: color-mix(in srgb, var(--color-text) 90%, transparent);">Allergies — menus containing these are removed entirely</div>
                   <div style="display: flex; flex-wrap: wrap; gap: 7px;">
                     <sc-for list="{{ allergenChips }}" as="a" hint-placeholder-count="7">
                       <div class="seg"><label class="seg-opt" style="padding: 6px 11px;"><input type="checkbox" checked="{{ a.checked }}" onChange="{{ a.onToggle }}">{{ a.label }}</label></div>
@@ -241,11 +278,11 @@
 
                 <div>
                   <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 7px;">
-                    <span style="font-size: 12px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Calorie target per meal</span>
+                    <span style="font-size: 12px; color: color-mix(in srgb, var(--color-text) 90%, transparent);">Calorie target per meal</span>
                     <span style="font-family: var(--font-heading); font-size: 16px; margin-left: auto;">{{ targetLabel }}</span>
                   </div>
                   <input type="range" min="350" max="900" step="25" value="{{ target }}" onChange="{{ setTarget }}" style="width: 100%; accent-color: var(--color-accent);">
-                  <div style="display: flex; justify-content: space-between; font-size: 10px; color: color-mix(in srgb, var(--color-text) 45%, transparent);">
+                  <div style="display: flex; justify-content: space-between; font-size: 10px; color: color-mix(in srgb, var(--color-text) 65%, transparent);">
                     <span>350</span><span>900 kcal</span>
                   </div>
                 </div>
@@ -259,7 +296,7 @@
                   <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
                   <div style="flex: 1;">
                     <div style="font-family: var(--font-heading); font-size: 15px;">Auto-assign when I forget</div>
-                    <p style="font-size: 11px; margin: 2px 0 0; color: color-mix(in srgb, var(--color-text) 60%, transparent);">If you haven't chosen 15 minutes before cut-off, we order your top recommendation.</p>
+                    <p style="font-size: 11px; margin: 2px 0 0; color: color-mix(in srgb, var(--color-text) 80%, transparent);">If you haven't chosen 15 minutes before cut-off, we order your top recommendation.</p>
                   </div>
                   <div class="seg"><label class="seg-opt"><input type="checkbox" checked="{{ autoAssign }}" onChange="{{ toggleAuto }}">{{ autoLabel }}</label></div>
                 </div>
@@ -272,7 +309,7 @@
                   <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
                   Save profile
                 </button>
-                <p style="font-size: 10px; margin: 0; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Allergy data is specific personal data under UU PDP No. 27/2022 — encrypted, never written to application logs, and visible only to you and the filter service.</p>
+                <p style="font-size: 10px; margin: 0; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Allergy data is specific personal data under UU PDP No. 27/2022 — encrypted, never written to application logs, and visible only to you and the filter service.</p>
               </div>
             </div>
           </sc-if>
@@ -281,7 +318,7 @@
             <div style="padding: 16px 16px 30px;">
               <div style="display: flex; align-items: flex-end;">
                 <div>
-                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">July 2026</div>
+                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent);">July 2026</div>
                   <h3 style="font-size: 24px; margin: 2px 0 0;">Consumption</h3>
                 </div>
                 <button class="btn btn-secondary" onClick="{{ exportHistory }}" style="margin-left: auto; height: 36px;">
@@ -294,24 +331,24 @@
                 <sc-for list="{{ historyKpis }}" as="k" hint-placeholder-count="4">
                   <div class="blueprint" style="padding: 11px 12px;">
                     <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-                    <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ k.label }}</div>
+                    <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ k.label }}</div>
                     <div style="font-family: var(--font-heading); font-size: 22px; line-height: 1.15;">{{ k.value }}</div>
-                    <div style="font-size: 10px; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ k.note }}</div>
+                    <div style="font-size: 10px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">{{ k.note }}</div>
                   </div>
                 </sc-for>
               </div>
 
-              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 4px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Daily log</h4>
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 4px; color: color-mix(in srgb, var(--color-text) 80%, transparent);">Daily log</h4>
               <div>
                 <sc-for list="{{ history }}" as="h" hint-placeholder-count="6">
                   <div style="display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
                     <div style="width: 46px; flex: none;">
                       <div style="font-family: var(--font-heading); font-size: 17px; line-height: 1;">{{ h.day }}</div>
-                      <div style="font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ h.dow }}</div>
+                      <div style="font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent);">{{ h.dow }}</div>
                     </div>
                     <div style="flex: 1; min-width: 0;">
                       <div style="font-family: var(--font-heading); font-size: 15px; line-height: 1.2;">{{ h.menu }}</div>
-                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ h.meta }}</div>
+                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ h.meta }}</div>
                     </div>
                     <div style="text-align: right; flex: none;">
                       <div style="font-size: 12px;">{{ h.price }}</div>
@@ -322,7 +359,7 @@
                   </div>
                 </sc-for>
               </div>
-              <p style="font-size: 11px; margin-top: 14px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Company-paid — nothing is charged to you. Totals are what Finance reconciles against the vendor invoice.</p>
+              <p style="font-size: 11px; margin-top: 14px; color: color-mix(in srgb, var(--color-text) 75%, transparent);">Company-paid — nothing is charged to you. Totals are what Finance reconciles against the vendor invoice.</p>
             </div>
           </sc-if>
 
@@ -330,7 +367,7 @@
             <div style="padding: 16px 16px 30px;">
               <div style="display: flex; align-items: flex-end;">
                 <div>
-                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Tue 4 Aug 2026 · {{ clockLabel }} WIB</div>
+                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Tue 4 Aug 2026 · {{ clockLabel }} WIB</div>
                   <h3 style="font-size: 24px; margin: 2px 0 0;">Today</h3>
                 </div>
                 <span class="tag tag-accent" style="margin-left: auto;">{{ cutStateLabel }}</span>
@@ -340,9 +377,9 @@
                 <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
                   <div class="blueprint" style="padding: 11px 12px;">
                     <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-                    <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ k.label }}</div>
+                    <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ k.label }}</div>
                     <div style="font-family: var(--font-heading); font-size: 24px; line-height: 1.15; color: {{ k.color }};">{{ k.value }}</div>
-                    <div style="font-size: 10px; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ k.note }}</div>
+                    <div style="font-size: 10px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">{{ k.note }}</div>
                   </div>
                 </sc-for>
               </div>
@@ -351,20 +388,20 @@
                 <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
                 <div style="display: flex; align-items: center; gap: 10px;">
                   <div>
-                    <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ cutLabel }}</div>
+                    <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ cutLabel }}</div>
                     <div style="font-family: var(--font-heading); font-size: 22px; line-height: 1.1;">{{ cutValue }}</div>
                   </div>
                   <button class="btn btn-primary" onClick="{{ sendReminders }}" disabled="{{ reminderDisabled }}" style="margin-left: auto; height: 40px;">{{ reminderCta }}</button>
                 </div>
               </div>
 
-              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Orders per menu</h4>
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 80%, transparent);">Orders per menu</h4>
               <div>
                 <sc-for list="{{ breakdown }}" as="b" hint-placeholder-count="5">
                   <div style="padding: 8px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
                     <div style="display: flex; gap: 10px; font-size: 12px;">
                       <span style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ b.name }}</span>
-                      <span style="color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ b.vendor }}</span>
+                      <span style="color: color-mix(in srgb, var(--color-text) 70%, transparent);">{{ b.vendor }}</span>
                       <span style="font-family: var(--font-heading); width: 26px; text-align: right;">{{ b.qty }}</span>
                     </div>
                     <div style="height: 5px; margin-top: 5px; background: color-mix(in srgb, var(--color-text) 8%, transparent);">
@@ -374,26 +411,26 @@
                 </sc-for>
               </div>
 
-              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Volume, last 7 days</h4>
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 80%, transparent);">Volume, last 7 days</h4>
               <div class="blueprint" style="padding: 12px 12px 8px; display: flex; align-items: flex-end; gap: 8px; height: 96px;">
                 <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
                 <sc-for list="{{ trend }}" as="t" hint-placeholder-count="7">
                   <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end;">
-                    <span style="font-size: 9px; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ t.qty }}</span>
+                    <span style="font-size: 9px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">{{ t.qty }}</span>
                     <div style="width: 100%; height: {{ t.h }}; background: {{ t.fill }};"></div>
-                    <span style="font-size: 9px; letter-spacing: .04em; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ t.dow }}</span>
+                    <span style="font-size: 9px; letter-spacing: .04em; color: color-mix(in srgb, var(--color-text) 70%, transparent);">{{ t.dow }}</span>
                   </div>
                 </sc-for>
               </div>
-              <p style="font-size: 11px; margin: 6px 0 0; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Thu 30 Jul dipped to 118 — a company-wide WFH day. Attendance sync caught it; no over-order.</p>
+              <p style="font-size: 11px; margin: 6px 0 0; color: color-mix(in srgb, var(--color-text) 75%, transparent);">Thu 30 Jul dipped to 118 — a company-wide WFH day. Attendance sync caught it; no over-order.</p>
 
-              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Vendor communication</h4>
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 80%, transparent);">Vendor communication</h4>
               <div>
                 <sc-for list="{{ comms }}" as="c" hint-placeholder-count="4">
                   <div style="display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); font-size: 12px;">
                     <span style="width: 7px; height: 7px; flex: none; background: {{ c.dot }};"></span>
                     <span style="flex: 1;">{{ c.label }}</span>
-                    <span style="color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ c.value }}</span>
+                    <span style="color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ c.value }}</span>
                   </div>
                 </sc-for>
               </div>
@@ -404,7 +441,7 @@
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex: none; color: var(--color-accent-700);"><path d="M12 4l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
                   <div style="flex: 1;">
                     <div style="font-family: var(--font-heading); font-size: 15px;">2 delivery gaps waiting for reconciliation</div>
-                    <p style="font-size: 11px; margin: 2px 0 0; color: color-mix(in srgb, var(--color-text) 62%, transparent);">7 Jul and 15 Jul: vendor claim exceeds confirmed delivered quantity by 4 portions total.</p>
+                    <p style="font-size: 11px; margin: 2px 0 0; color: color-mix(in srgb, var(--color-text) 82%, transparent);">7 Jul and 15 Jul: vendor claim exceeds confirmed delivered quantity by 4 portions total.</p>
                     <button class="btn btn-ghost" onClick="{{ goRecon }}" style="padding: 0; margin-top: 7px; font-size: 12px;">Open reconciliation →</button>
                   </div>
                 </div>
@@ -414,22 +451,22 @@
 
           <sc-if value="{{ scOrders }}" hint-placeholder-val="{{ false }}">
             <div style="padding: 16px 16px 30px;">
-              <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Tue 4 Aug 2026</div>
+              <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Tue 4 Aug 2026</div>
               <h3 style="font-size: 24px; margin: 2px 0 14px;">Daily orders</h3>
 
               <div class="blueprint" style="padding: 13px;">
                 <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
                 <div style="display: flex; text-align: center;">
                   <div style="flex: 1;">
-                    <div style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Estimate H-1</div>
+                    <div style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 75%, transparent);">Estimate H-1</div>
                     <div style="font-family: var(--font-heading); font-size: 22px;">134</div>
                   </div>
                   <div style="flex: 1; border-left: 1px solid var(--color-divider); border-right: 1px solid var(--color-divider);">
-                    <div style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ finalLabel }}</div>
+                    <div style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ finalLabel }}</div>
                     <div style="font-family: var(--font-heading); font-size: 22px;">{{ ordersCount }}</div>
                   </div>
                   <div style="flex: 1;">
-                    <div style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Delta</div>
+                    <div style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 75%, transparent);">Delta</div>
                     <div style="font-family: var(--font-heading); font-size: 22px; color: var(--color-accent-700);">{{ deltaLabel }}</div>
                   </div>
                 </div>
@@ -437,7 +474,7 @@
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12l16-7-7 16-2-7z"/></svg>
                   {{ deltaCta }}
                 </button>
-                <p style="font-size: 11px; margin: 8px 0 0; color: color-mix(in srgb, var(--color-text) 58%, transparent);">{{ deltaNote }}</p>
+                <p style="font-size: 11px; margin: 8px 0 0; color: color-mix(in srgb, var(--color-text) 78%, transparent);">{{ deltaNote }}</p>
               </div>
 
               <div style="display: flex; gap: 8px; margin: 18px 0 4px; overflow-x: auto;">
@@ -453,14 +490,14 @@
                   <div style="display: flex; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
                     <div style="flex: 1; min-width: 0;">
                       <div style="font-family: var(--font-heading); font-size: 15px; line-height: 1.15;">{{ r.name }}</div>
-                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.meta }}</div>
+                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 75%, transparent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.meta }}</div>
                     </div>
                     <span class="tag {{ r.chipClass }}" style="flex: none; font-size: 10px;">{{ r.status }}</span>
                   </div>
                 </sc-for>
               </div>
 
-              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Change log</h4>
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 80%, transparent);">Change log</h4>
               <div>
                 <sc-for list="{{ log }}" as="l" hint-placeholder-count="4">
                   <div style="display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); font-size: 12px;">
@@ -476,33 +513,33 @@
             <div style="padding: 16px 16px 30px;">
               <div style="display: flex; align-items: flex-end;">
                 <div>
-                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Master data</div>
+                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Master data</div>
                   <h3 style="font-size: 24px; margin: 2px 0 0;">Menus &amp; vendors</h3>
                 </div>
                 <button class="btn btn-primary" onClick="{{ openAddMenu }}" style="margin-left: auto; height: 38px;">+ Menu</button>
               </div>
 
-              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 22px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Vendors</h4>
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 22px 0 8px; color: color-mix(in srgb, var(--color-text) 80%, transparent);">Vendors</h4>
               <div>
                 <sc-for list="{{ vendors }}" as="v" hint-placeholder-count="3">
                   <div style="display: flex; gap: 10px; align-items: center; padding: 11px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
                     <div style="flex: 1; min-width: 0;">
                       <div style="font-family: var(--font-heading); font-size: 15px; line-height: 1.15;">{{ v.name }}</div>
-                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ v.meta }}</div>
+                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ v.meta }}</div>
                     </div>
                     <div class="seg"><label class="seg-opt" style="padding: 5px 10px; font-size: 11px;"><input type="checkbox" checked="{{ v.active }}" onChange="{{ v.onToggle }}">{{ v.stateLabel }}</label></div>
                   </div>
                 </sc-for>
               </div>
 
-              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Today's offering &amp; quota</h4>
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 80%, transparent);">Today's offering &amp; quota</h4>
               <div>
                 <sc-for list="{{ masterMenus }}" as="m" hint-placeholder-count="8">
                   <div style="padding: 11px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
                     <div style="display: flex; gap: 10px; align-items: baseline;">
                       <div style="flex: 1; min-width: 0;">
                         <div style="font-family: var(--font-heading); font-size: 15px; line-height: 1.15;">{{ m.name }}</div>
-                        <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ m.vendor }} · {{ m.priceLabel }} · {{ m.kcalLabel }}</div>
+                        <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 75%, transparent);">{{ m.vendor }} · {{ m.priceLabel }} · {{ m.kcalLabel }}</div>
                       </div>
                       <div style="text-align: right; flex: none;">
                         <div style="font-family: var(--font-heading); font-size: 14px;">{{ m.quotaLabel }}</div>
@@ -517,13 +554,13 @@
                   </div>
                 </sc-for>
               </div>
-              <p style="font-size: 11px; margin-top: 12px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Allergen tags on the master menu are the only input the elimination filter reads. A missing tag is a safety defect, so tagging is required before a menu can be scheduled.</p>
+              <p style="font-size: 11px; margin-top: 12px; color: color-mix(in srgb, var(--color-text) 75%, transparent);">Allergen tags on the master menu are the only input the elimination filter reads. A missing tag is a safety defect, so tagging is required before a menu can be scheduled.</p>
             </div>
           </sc-if>
 
           <sc-if value="{{ scRecon }}" hint-placeholder-val="{{ false }}">
             <div style="padding: 16px 16px 30px;">
-              <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Period July 2026</div>
+              <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Period July 2026</div>
               <h3 style="font-size: 24px; margin: 2px 0 12px;">Reconciliation</h3>
 
               <div style="display: flex; gap: 8px; align-items: center;">
@@ -537,8 +574,8 @@
               <div class="blueprint" style="margin-top: 14px; padding: 12px;">
                 <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
                 <div style="display: flex; flex-direction: column; gap: 7px; font-size: 12px;">
-                  <div style="display: flex;"><span style="flex: 1; color: color-mix(in srgb, var(--color-text) 60%, transparent);">System (delivered × master price)</span><span style="font-family: var(--font-heading);">{{ systemTotal }}</span></div>
-                  <div style="display: flex;"><span style="flex: 1; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Vendor claim</span><span style="font-family: var(--font-heading);">{{ claimTotal }}</span></div>
+                  <div style="display: flex;"><span style="flex: 1; color: color-mix(in srgb, var(--color-text) 80%, transparent);">System (delivered × master price)</span><span style="font-family: var(--font-heading);">{{ systemTotal }}</span></div>
+                  <div style="display: flex;"><span style="flex: 1; color: color-mix(in srgb, var(--color-text) 80%, transparent);">Vendor claim</span><span style="font-family: var(--font-heading);">{{ claimTotal }}</span></div>
                   <div style="display: flex; border-top: 1px solid var(--color-divider); padding-top: 7px;"><span style="flex: 1; color: var(--color-accent-700);">Difference</span><span style="font-family: var(--font-heading); color: var(--color-accent-700);">{{ diffTotal }}</span></div>
                   <div style="display: flex;"><span style="flex: 1; font-family: var(--font-heading); font-size: 15px;">Payable after adjustment</span><span style="font-family: var(--font-heading); font-size: 15px;">{{ payableTotal }}</span></div>
                 </div>
@@ -559,7 +596,7 @@
                     <tr style="background: {{ r.bg }};">
                       <td style="padding: 6px 3px;">
                         <span style="font-family: var(--font-heading);">{{ r.date }}</span>
-                        <div style="font-size: 9px; color: color-mix(in srgb, var(--color-text) 50%, transparent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 92px;">{{ r.menu }}</div>
+                        <div style="font-size: 9px; color: color-mix(in srgb, var(--color-text) 70%, transparent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 92px;">{{ r.menu }}</div>
                       </td>
                       <td style="padding: 6px 3px; text-align: right;">{{ r.ord }}</td>
                       <td style="padding: 6px 3px; text-align: right;">{{ r.del }}</td>
@@ -569,9 +606,9 @@
                   </sc-for>
                 </tbody>
               </table>
-              <p style="font-size: 10px; margin: 6px 0 0; color: color-mix(in srgb, var(--color-text) 50%, transparent);">10 of 21 service days shown.</p>
+              <p style="font-size: 10px; margin: 6px 0 0; color: color-mix(in srgb, var(--color-text) 70%, transparent);">10 of 21 service days shown.</p>
 
-              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 22px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Flagged for verification</h4>
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 22px 0 8px; color: color-mix(in srgb, var(--color-text) 80%, transparent);">Flagged for verification</h4>
               <div style="display: flex; flex-direction: column; gap: 12px;">
                 <sc-for list="{{ flagged }}" as="f" hint-placeholder-count="2">
                   <div class="blueprint" style="padding: 12px; background: var(--color-accent-100);">
@@ -580,7 +617,7 @@
                       <span style="font-family: var(--font-heading); font-size: 15px;">{{ f.date }}</span>
                       <span style="font-size: 12px; color: var(--color-accent-800);">{{ f.summary }}</span>
                     </div>
-                    <p style="font-size: 11px; margin: 5px 0 0; color: color-mix(in srgb, var(--color-text) 65%, transparent);">{{ f.note }}</p>
+                    <p style="font-size: 11px; margin: 5px 0 0; color: color-mix(in srgb, var(--color-text) 85%, transparent);">{{ f.note }}</p>
                     <sc-if value="{{ f.unresolved }}" hint-placeholder-val="{{ true }}">
                       <div style="display: flex; gap: 8px; margin-top: 10px;">
                         <button class="btn btn-secondary" onClick="{{ f.onAccept }}" style="flex: 1; height: 38px; background: var(--color-bg);">Accept claim</button>
@@ -590,7 +627,7 @@
                     <sc-if value="{{ f.resolved }}" hint-placeholder-val="{{ false }}">
                       <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 11px;">
                         <span class="tag tag-accent">{{ f.resolutionLabel }}</span>
-                        <span style="color: color-mix(in srgb, var(--color-text) 60%, transparent);">{{ f.resolutionMeta }}</span>
+                        <span style="color: color-mix(in srgb, var(--color-text) 80%, transparent);">{{ f.resolutionMeta }}</span>
                         <button class="btn btn-ghost" onClick="{{ f.onUndo }}" style="margin-left: auto; padding: 0; font-size: 11px;">Undo</button>
                       </div>
                     </sc-if>
@@ -606,7 +643,7 @@
                   <button class="btn btn-secondary" onClick="{{ exportXlsx }}" disabled="{{ exportDisabled }}" style="flex: 1; height: 38px;">Excel</button>
                   <button class="btn btn-secondary" onClick="{{ sendFinance }}" disabled="{{ exportDisabled }}" style="flex: 1.4; height: 38px;">To Finance</button>
                 </div>
-                <p style="font-size: 10px; margin: 9px 0 0; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ approveNote }}</p>
+                <p style="font-size: 10px; margin: 9px 0 0; color: color-mix(in srgb, var(--color-text) 70%, transparent);">{{ approveNote }}</p>
               </div>
             </div>
           </sc-if>
@@ -622,7 +659,7 @@
                   <div class="field" style="flex: 1;"><label>Calories</label><input class="input" value="520" onChange="{{ noop }}"></div>
                 </div>
                 <div>
-                  <div style="font-size: 12px; margin-bottom: 6px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Allergen tags — required</div>
+                  <div style="font-size: 12px; margin-bottom: 6px; color: color-mix(in srgb, var(--color-text) 90%, transparent);">Allergen tags — required</div>
                   <div style="display: flex; flex-wrap: wrap; gap: 6px;">
                     <sc-for list="{{ newMenuAllergens }}" as="a" hint-placeholder-count="7">
                       <div class="seg"><label class="seg-opt" style="padding: 5px 10px; font-size: 11px;"><input type="checkbox" checked="{{ a.checked }}" onChange="{{ a.onToggle }}">{{ a.label }}</label></div>
@@ -692,35 +729,35 @@
               <h4 style="margin: 0; font-size: 16px;">{{ railTitle }}</h4>
               <span style="margin-left: auto; font-family: var(--font-heading); font-size: 12px; letter-spacing: .12em; color: var(--color-accent-700);">{{ railRef }}</span>
             </div>
-            <p style="font-size: 13px; margin: 10px 0 0; max-width: 46ch; color: color-mix(in srgb, var(--color-text) 72%, transparent);">{{ railDesc }}</p>
+            <p style="font-size: 13px; margin: 10px 0 0; max-width: 46ch; color: color-mix(in srgb, var(--color-text) 92%, transparent);">{{ railDesc }}</p>
           </div>
 
           <div>
-            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); margin-bottom: 9px;">Scenario clock</div>
+            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent); margin-bottom: 9px;">Scenario clock</div>
             <div class="seg">
               <label class="seg-opt"><input type="radio" name="scen" checked="{{ scenOpen }}" onChange="{{ setScenOpen }}">08:12 · open</label>
               <label class="seg-opt"><input type="radio" name="scen" checked="{{ scenAuto }}" onChange="{{ setScenAuto }}">08:46 · auto-assign</label>
               <label class="seg-opt"><input type="radio" name="scen" checked="{{ scenLocked }}" onChange="{{ setScenLocked }}">09:04 · locked</label>
             </div>
-            <p style="font-size: 12px; margin: 8px 0 0; color: color-mix(in srgb, var(--color-text) 60%, transparent);">The clock runs. Cut-off is {{ cutTimeLabel }} WIB and every screen reads from it — countdown, auto-assign, locking, vendor sends.</p>
+            <p style="font-size: 12px; margin: 8px 0 0; color: color-mix(in srgb, var(--color-text) 80%, transparent);">The clock runs. Cut-off is {{ cutTimeLabel }} WIB and every screen reads from it — countdown, auto-assign, locking, vendor sends.</p>
           </div>
 
           <div>
-            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); margin-bottom: 9px;">Screens</div>
+            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent); margin-bottom: 9px;">Screens</div>
             <div style="display: grid; gap: 1px;">
               <sc-for list="{{ screenIndex }}" as="s" hint-placeholder-count="8">
                 <button class="btn" onClick="{{ s.onGo }}" style="display: flex; justify-content: flex-start; gap: 12px; border: 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); padding: 8px 2px; font-family: var(--font-body); font-size: 13px; text-align: left; background: {{ s.bg }}; color: {{ s.color }};">
                   <span style="font-family: var(--font-heading); letter-spacing: .06em; color: var(--color-accent-700); width: 30px;">{{ s.no }}</span>
                   <span style="flex: 1;">{{ s.label }}</span>
-                  <span style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 45%, transparent);">{{ s.who }}</span>
+                  <span style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 65%, transparent);">{{ s.who }}</span>
                 </button>
               </sc-for>
             </div>
           </div>
 
           <div>
-            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); margin-bottom: 9px;">Try this</div>
-            <ul style="margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.65; color: color-mix(in srgb, var(--color-text) 75%, transparent);">
+            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent); margin-bottom: 9px;">Try this</div>
+            <ul style="margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.65; color: color-mix(in srgb, var(--color-text) 95%, transparent);">
               <sc-for list="{{ railTry }}" as="t" hint-placeholder-count="3">
                 <li>{{ t.t }}</li>
               </sc-for>
@@ -728,7 +765,7 @@
           </div>
 
           <div>
-            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); margin-bottom: 9px;">Requirements on this screen</div>
+            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 70%, transparent); margin-bottom: 9px;">Requirements on this screen</div>
             <div style="display: flex; flex-wrap: wrap; gap: 6px;">
               <sc-for list="{{ railFrs }}" as="f" hint-placeholder-count="5">
                 <span class="tag tag-outline">{{ f.id }}</span>
@@ -737,7 +774,7 @@
           </div>
 
           <div style="border-top: 1px solid var(--color-divider); padding-top: 14px; display: flex; align-items: center; gap: 12px;">
-            <div style="font-size: 12px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Signed in as <span style="color: var(--color-text);">{{ whoLabel }}</span></div>
+            <div style="font-size: 12px; color: color-mix(in srgb, var(--color-text) 80%, transparent);">Signed in as <span style="color: var(--color-text);">{{ whoLabel }}</span></div>
             <button class="btn btn-secondary" onClick="{{ doLogout }}" style="margin-left: auto; height: 34px;">Sign out</button>
           </div>
         </div>
@@ -979,7 +1016,7 @@ class Component extends DCLogic {
       recon: { t: 'Admin — reconciliation', d: 'Confirmed delivered quantity × master price, set against the vendor claim. Only the mismatched days need a human; the rest is already agreed.', try: ['Resolve 07 Jul and 15 Jul, then approve.', 'Export the invoice and send it to Finance.'], frs: ['FR-22', 'FR-26', 'FR-27', 'FR-28', 'FR-30'] }
     }[s.screen] || {};
 
-    const active = k => s.screen === k ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 55%, transparent)';
+    const active = k => s.screen === k ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 75%, transparent)';
     const allergenChips = Object.keys(this.allergenNames).map(k => ({
       label: this.allergenNames[k], checked: p.allergens.includes(k),
       onToggle: () => this.setState(st => {
@@ -1090,7 +1127,7 @@ class Component extends DCLogic {
         name: m.name, vendor: m.vendor, priceLabel: this.rp(m.price), kcalLabel: m.kcal + ' kcal',
         quotaLabel: m.ordered + '/' + m.quota,
         quotaState: m.ordered >= m.quota ? 'quota full' : 'ordered today',
-        quotaColor: m.ordered >= m.quota ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 50%, transparent)',
+        quotaColor: m.ordered >= m.quota ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 70%, transparent)',
         tags: [{ label: 'Halal', cls: 'tag-accent' }].concat(m.veg ? [{ label: 'Vegetarian', cls: 'tag-accent' }] : [])
           .concat(m.allergens.length ? m.allergens.map(a => ({ label: this.allergenNames[a], cls: 'tag-outline' })) : [{ label: 'No listed allergens', cls: 'tag-neutral' }])
       })),
@@ -1131,6 +1168,57 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script>
+(function(){
+  var toggle = document.getElementById('siteNavToggle');
+  var nav = document.getElementById('siteNav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function(){
+      var open = nav.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  }
+})();
+(function(){
+  var html = document.documentElement;
+  var btn = document.getElementById('siteThemeToggle');
+  if (!btn) return;
+  function updateBtn(mode){
+    btn.textContent = mode === 'dark' ? '☀' : '🌙';
+    btn.setAttribute('aria-label', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  updateBtn(html.getAttribute('data-theme') || 'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateBtn(next);
+  });
+})();
+(function(){
+  var labels = {
+    en: { back: '← Back to portfolio', projects: 'Projects', contact: 'Contact' },
+    id: { back: '← Kembali ke portofolio', projects: 'Proyek', contact: 'Kontak' }
+  };
+  function apply(lang){
+    document.querySelectorAll('.site-lang-btn').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+    document.querySelectorAll('.site-nav-pill').forEach(function(a){
+      var key = a.getAttribute('data-nav');
+      if (key && labels[lang][key]) a.textContent = labels[lang][key];
+    });
+  }
+  document.querySelectorAll('.site-lang-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      var lang = b.getAttribute('data-lang');
+      localStorage.setItem('lang', lang);
+      apply(lang);
+    });
+  });
+  apply(localStorage.getItem('lang') || 'en');
+})();
 </script>
 </body>
 </html>

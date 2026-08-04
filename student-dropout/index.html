@@ -175,11 +175,20 @@
     html[data-theme="dark"] pre.code{background:#000000}
     html[data-theme="dark"] .lang-btn.active{background:#e5e5ea;color:#1c1c1e}
     .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}
+    .hero-proof{margin-top:42px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg);box-shadow:0 12px 36px rgba(0,0,0,0.08)}
+    .hero-proof img{width:100%;display:block}
+    .hero-proof-caption{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:12px 16px;border-top:1px solid var(--line);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.04em;color:var(--muted)}
+    .proof-wall{display:grid;grid-template-columns:1.35fr .9fr;gap:18px;margin:34px 0}
+    .proof-stack{display:grid;grid-template-columns:1fr;gap:18px}
+    .proof-card{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 6px 20px rgba(0,0,0,0.05)}
+    .proof-card img{width:100%;display:block;object-fit:contain;background:#fff}
+    .proof-card-caption{padding:10px 14px;border-top:1px solid var(--line);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
     /* ── Reduced Motion — accessibility ── */
     @media(prefers-reduced-motion:reduce){
       *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
       html{scroll-behavior:auto}
     }
+    @media(max-width:760px){.proof-wall{grid-template-columns:1fr}.hero-proof{margin-top:30px}}
   </style>
 </head>
 
@@ -287,9 +296,21 @@
         <div class="section-num" data-i18n="s2Num">02 — Solution Architecture</div>
         <h2 data-i18n="s2H2">End-to-end pipeline: <em>business problem to production interface</em></h2>
 
-        <div class="screenshot-frame">
-          <img src="Visualisasi%20Arsitektur%20Project.png" alt="Project architecture: Business Problem → EDA → Model → Dashboard → Streamlit App" loading="lazy">
-          <div class="img-caption">Business problem → EDA (academic · financial · demographic) → XGBoost model → Looker Studio dashboard (administrators) + Streamlit prediction app (counsellors).</div>
+        <div class="proof-wall">
+          <div class="proof-card">
+            <img src="Visualisasi%20Arsitektur%20Project.png" alt="Project architecture from business problem to dashboard and Streamlit app" loading="lazy">
+            <div class="proof-card-caption">Architecture</div>
+          </div>
+          <div class="proof-stack">
+            <div class="proof-card">
+              <img src="streamlit_form_input.png" alt="Streamlit input form for student dropout prediction" loading="lazy">
+              <div class="proof-card-caption">Prediction input</div>
+            </div>
+            <div class="proof-card">
+              <img src="streamlit_hasil_prediksi.png" alt="Streamlit prediction result showing dropout risk output" loading="lazy">
+              <div class="proof-card-caption">Risk output</div>
+            </div>
+          </div>
         </div>
 
         <p style="margin-top:24px;" data-i18n="s2Tech">
@@ -356,20 +377,6 @@
         </div>
 
         <h3>Top 3 Feature Importance (SHAP)</h3>
-        <div class="risk-bar-wrap">
-          <div class="risk-bar">
-            <div class="risk-bar-label"><span>Curricular Units 2nd Sem (Approved)</span><span>SHAP 2.14</span></div>
-            <div class="risk-bar-track"><div class="risk-bar-fill high" style="width:100%"></div></div>
-          </div>
-          <div class="risk-bar">
-            <div class="risk-bar-label"><span>Curricular Units 1st Sem (Approved)</span><span>SHAP 0.74</span></div>
-            <div class="risk-bar-track"><div class="risk-bar-fill med" style="width:35%"></div></div>
-          </div>
-          <div class="risk-bar">
-            <div class="risk-bar-label"><span>Tuition Fees Up To Date</span><span>SHAP 0.46</span></div>
-            <div class="risk-bar-track"><div class="risk-bar-fill" style="width:22%"></div></div>
-          </div>
-        </div>
         <div class="screenshot-frame" style="max-width:760px;">
           <img src="shap_feature_importance.png" alt="SHAP feature importance chart — top 20 features, curricular_units_2nd_sem_approved dominates at 2.14, followed by 1st sem approved at 0.74 and tuition fees at 0.46" loading="lazy">
           <div class="img-caption">SHAP feature importance (mean |SHAP value|) · top 20 features · academic signals in semesters 1 and 2 are the two strongest predictors</div>
@@ -517,28 +524,6 @@
       </div>
     </section>
 
-    <!-- SECTION 8: STREAMLIT APP PREVIEW -->
-    <section class="content alt" id="streamlit">
-      <div class="wrap">
-        <div class="section-num" data-i18n="s8Num">08 — Streamlit App Preview</div>
-        <h2 data-i18n="s8H2">Counselor prediction interface — <em>form input to risk output</em></h2>
-        <p class="lede" data-i18n="s8Lede">Two-screen Streamlit app: a 20-field form collecting academic, financial, and demographic signals — and an output screen showing dropout probability with actionable intervention recommendations.</p>
-
-        <div class="screenshot-grid">
-          <div class="screenshot-frame">
-            <img src="streamlit_form_input.png" alt="Streamlit prediction form — 20 input fields for academic units, tuition status, and demographics" loading="lazy">
-            <div class="img-caption">Form input · 20 fields · academic + financial + demographic signals</div>
-          </div>
-          <div class="screenshot-frame">
-            <img src="streamlit_hasil_prediksi.png" alt="Streamlit prediction result — dropout probability score and targeted intervention recommendations" loading="lazy">
-            <div class="img-caption">Hasil prediksi · dropout probability · rekomendasi intervensi spesifik</div>
-          </div>
-        </div>
-
-        <p data-i18n="s8Body">The form is designed for school counselors — not data scientists. Input fields group logically: semester 1 academic performance, semester 2 performance, financial status, then demographics. The output screen shows a single risk percentage and targeted intervention recommendations keyed to the student's specific flagged risk factors. No ML jargon in the UI.</p>
-      </div>
-    </section>
-
     <!-- LEARNING CONTEXT + FUTURE DEVELOPMENT -->
     <div class="journey-section">
       <div class="wrap">
@@ -656,10 +641,6 @@
         ctaNum: 'Try it · See the code',
         ctaH2: 'Dropout prediction app + full source <em>on GitHub.</em>',
         ctaP: 'Try the Streamlit counselor interface or explore the XGBoost pipeline, Looker Studio dashboard, and full source on GitHub.',
-        s8Num: '08 — Streamlit App Preview',
-        s8H2: 'Counselor prediction interface — <em>form input to risk output</em>',
-        s8Lede: 'Two-screen Streamlit app: a 20-field form collecting academic, financial, and demographic signals — and an output screen showing dropout probability with actionable intervention recommendations.',
-        s8Body: 'The form is designed for school counselors — not data scientists. Input fields group logically: semester 1 academic performance, semester 2 performance, financial status, then demographics. The output screen shows a single risk percentage and targeted intervention recommendations keyed to the student\'s specific flagged risk factors. No ML jargon in the UI.',
         lcNum: 'Learning Context',
         lcTitle: 'Expert level, final submission. <em>Passed — with honest notes.</em>',
         lcDesc: 'This project was the <strong>final submission</strong> for <strong>Belajar Penerapan Data Science</strong>, the IDCamp 2025 Expert level. It came after the Employee Attrition project (first submission), where I had already absorbed lessons about reproducibility, specific recommendations, and the cost of missed details. This was the second chance to apply all of that.',
@@ -712,10 +693,6 @@
         ctaNum: 'Coba · Lihat kodenya',
         ctaH2: 'App prediksi dropout + source lengkap <em>di GitHub.</em>',
         ctaP: 'Coba antarmuka konselor Streamlit atau jelajahi pipeline XGBoost, dashboard Looker Studio, dan source lengkap di GitHub.',
-        s8Num: '08 — Preview Aplikasi Streamlit',
-        s8H2: 'Antarmuka prediksi konselor — <em>dari form input ke output risiko</em>',
-        s8Lede: 'Aplikasi Streamlit dua layar: form 20 field yang mengumpulkan sinyal akademik, finansial, dan demografis — dan layar output yang menampilkan probabilitas dropout dengan rekomendasi intervensi yang dapat ditindaklanjuti.',
-        s8Body: 'Form dirancang untuk konselor sekolah — bukan data scientist. Field input dikelompokkan secara logis: performa akademik semester 1, semester 2, status finansial, lalu demografis. Layar output menampilkan satu persentase risiko dan rekomendasi intervensi spesifik yang dikaitkan dengan faktor risiko yang ditandai. Tidak ada jargon ML di UI.',
         lcNum: 'Konteks Pembelajaran',
         lcTitle: 'Level Expert, submission final. <em>Lulus — dengan catatan jujur.</em>',
         lcDesc: 'Proyek ini adalah <strong>submission final</strong> untuk <strong>Belajar Penerapan Data Science</strong>, level Expert IDCamp 2025. Datang setelah proyek Employee Attrition (submission pertama), di mana saya sudah menyerap pelajaran tentang reproduksibilitas, rekomendasi spesifik, dan biaya detail yang terlewat. Ini adalah kesempatan kedua untuk menerapkan semuanya.',

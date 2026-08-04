@@ -48,9 +48,9 @@ nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .hero-name{font-family:var(--display);font-size:clamp(3rem,6vw,5.5rem);line-height:1;letter-spacing:-0.01em;font-weight:400;margin-bottom:1.25rem}
 .hero-name em{font-style:italic;color:var(--primary)}
 .hero-role{font-family:var(--mono);font-size:0.9rem;color:var(--primary);margin-bottom:1.5rem;letter-spacing:0.02em;font-weight:500}
-.hero-desc{font-size:0.9rem;color:var(--ink2);max-width:580px;line-height:1.7;margin-bottom:2.5rem}
+.hero-desc{font-size:0.9rem;color:var(--ink2);max-width:580px;line-height:1.7;margin-bottom:1.6rem}
 .hero-desc strong{color:var(--ink);font-weight:600}
-.hero-ctas{display:flex;gap:0.65rem;flex-wrap:wrap;margin-bottom:3.5rem}
+.hero-ctas{display:flex;gap:0.65rem;flex-wrap:wrap;margin-bottom:1.6rem}
 .cta{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;min-height:44px;border-radius:8px;font-family:var(--mono);font-size:0.78rem;text-decoration:none;transition:all 0.15s;letter-spacing:0.03em;cursor:pointer;border:1px solid transparent}
 .cta-primary{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
 .cta-primary:hover{background:var(--ink2);border-color:var(--ink2)}
@@ -70,7 +70,7 @@ nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .section{max-width:1080px;margin:0 auto;padding:4.5rem 2rem;border-bottom:1px solid var(--border)}
 .section-eyebrow{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink2);margin-bottom:0.6rem;font-weight:500}
 .section-title{font-family:var(--display);font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.1;font-weight:400;margin-bottom:0.5rem;color:var(--ink)}
-.section-subtitle{font-size:0.95rem;color:var(--ink2);margin-bottom:3rem;max-width:640px;line-height:1.65}
+.section-subtitle{font-size:0.95rem;color:var(--ink2);margin-bottom:2rem;max-width:640px;line-height:1.65}
 
 /* EXPERIENCE */
 .exp-list{display:flex;flex-direction:column}
@@ -132,14 +132,30 @@ nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .stage-desc{max-width:620px;font-size:0.9rem;color:var(--ink2);line-height:1.7}
 .stage-note{font-family:var(--mono);font-size:0.72rem;color:var(--ink3);background:var(--surface2);border-radius:999px;padding:0.45rem 0.8rem;white-space:nowrap}
 .roadmap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
-.roadmap-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.15rem;display:flex;flex-direction:column;gap:0.7rem;min-height:100%}
+.roadmap-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:0.85rem;display:flex;flex-direction:column;gap:0.62rem;min-height:100%;overflow:hidden}
+.roadmap-card::before{content:'';display:block;height:130px;border-radius:8px;border:1px solid var(--border);background:
+  linear-gradient(90deg,rgba(255,255,255,0.72),rgba(255,255,255,0.1)),
+  repeating-linear-gradient(90deg,transparent 0 24px,rgba(24,24,27,0.08) 24px 25px),
+  linear-gradient(135deg,#dbeafe,#f8fafc 46%,#dcfce7)}
+.project-stage:nth-of-type(1) .roadmap-card:nth-child(1)::before{background:linear-gradient(135deg,#dbeafe,#fff 42%,#fef3c7);box-shadow:inset 28px 34px 0 rgba(37,99,235,0.18),inset 86px 68px 0 rgba(45,106,79,0.15),inset 148px 92px 0 rgba(24,24,27,0.1)}
+.project-stage:nth-of-type(1) .roadmap-card:nth-child(2)::before{background:linear-gradient(135deg,#eff6ff,#fff);box-shadow:inset 22px 22px 0 rgba(37,99,235,0.18),inset 92px 52px 0 rgba(37,99,235,0.12),inset 156px 82px 0 rgba(45,106,79,0.18)}
+.project-stage:nth-of-type(1) .roadmap-card:nth-child(3)::before{background:url("generative-ai-pipeline/outpainting.png") center/cover}
+.project-stage:nth-of-type(2) .roadmap-card:nth-child(1)::before{background:url("student-dropout/ninditya_sna-dashboard.png") center/cover}
+.project-stage:nth-of-type(2) .roadmap-card:nth-child(2)::before{background:url("employee-attrition/ninditya_sna_dicoding-dashboard.png") center/cover}
+.project-stage:nth-of-type(2) .roadmap-card:nth-child(3)::before{background:url("air-quality-dashboard/dashboard-kpi-trends.png") center/cover}
+.project-stage:nth-of-type(2) .roadmap-card:nth-child(4)::before{background:url("_portfolio-assets/cinetrack-Kada.png") center/cover}
+.project-stage:nth-of-type(2) .roadmap-card:nth-child(5)::before{background:linear-gradient(135deg,#f8fafc,#ecfeff);box-shadow:inset 18px 24px 0 rgba(15,23,42,0.1),inset 78px 54px 0 rgba(37,99,235,0.14),inset 138px 88px 0 rgba(45,106,79,0.14)}
+.project-stage:nth-of-type(2) .roadmap-card:nth-child(6)::before{background:linear-gradient(135deg,#edf0f4,#fff);box-shadow:inset 18px 30px 0 rgba(24,24,27,0.1),inset 72px 54px 0 rgba(37,99,235,0.16),inset 126px 86px 0 rgba(45,106,79,0.16)}
+.project-stage:nth-of-type(3) .roadmap-card:nth-child(1)::before{background:url("office-lunch-catering/screenshots/erd.png") center/cover}
+.project-stage:nth-of-type(3) .roadmap-card:nth-child(2)::before{background:linear-gradient(135deg,#f8fafc,#e0f2fe);box-shadow:inset 18px 24px 0 rgba(15,23,42,0.1),inset 72px 58px 0 rgba(37,99,235,0.15),inset 132px 88px 0 rgba(45,106,79,0.14)}
+.project-stage:nth-of-type(4) .roadmap-card:nth-child(3)::before{background:linear-gradient(135deg,#f8fafc,#fef3c7);box-shadow:inset 18px 30px 0 rgba(24,24,27,0.1),inset 72px 54px 0 rgba(37,99,235,0.16),inset 126px 86px 0 rgba(45,106,79,0.16)}
 .roadmap-card.is-live{border-color:var(--primary-mid);box-shadow:0 10px 28px rgba(37,99,235,0.08)}
 .roadmap-top{display:flex;justify-content:space-between;align-items:center;gap:0.75rem;flex-wrap:wrap}
 .roadmap-day{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--primary)}
 .roadmap-status{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;border-radius:999px;padding:0.28rem 0.55rem;border:1px solid var(--border);color:var(--ink2);background:var(--surface2)}
 .roadmap-status.is-live{color:var(--success);background:var(--success-light);border-color:rgba(45,106,79,0.18)}
 .roadmap-name{font-size:1rem;line-height:1.35;color:var(--ink);font-weight:600}
-.roadmap-hook{font-size:0.86rem;line-height:1.65;color:var(--ink2)}
+.roadmap-hook{font-size:0.82rem;line-height:1.55;color:var(--ink2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .roadmap-hook strong{color:var(--ink);font-weight:600}
 .roadmap-tags{display:flex;flex-wrap:wrap;gap:0.35rem}
 .proj-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0.75rem}
@@ -166,12 +182,16 @@ nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .carousel-btn:disabled{opacity:0.28;cursor:default}
 .featured-track-wrap{overflow:hidden}
 .featured-grid{display:flex;flex-wrap:nowrap;gap:1rem;transition:transform 0.4s cubic-bezier(.25,.46,.45,.94)}
-.featured-card{flex:0 0 auto;min-width:0;background:var(--surface);border:1px solid var(--primary-mid);border-radius:12px;padding:1.4rem;display:flex;flex-direction:column;gap:0;box-shadow:0 8px 24px rgba(37,99,235,0.07)}
+.featured-card{flex:0 0 auto;min-width:0;background:var(--surface);border:1px solid var(--primary-mid);border-radius:12px;padding:0.85rem;display:flex;flex-direction:column;gap:0;box-shadow:0 8px 24px rgba(37,99,235,0.07);overflow:hidden}
+.featured-visual{display:block;height:210px;border-radius:9px;overflow:hidden;border:1px solid var(--border);margin-bottom:1rem;background:var(--surface2)}
+.featured-visual img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.35s ease}
+.featured-card:hover .featured-visual img{transform:scale(1.035)}
+.visual-rag img,.visual-banking img{object-fit:contain;background:#fff;padding:0.6rem}
 .featured-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
 .featured-label{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--primary)}
 .featured-live{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--success);background:var(--success-light);border:1px solid rgba(45,106,79,0.18);border-radius:999px;padding:0.22rem 0.55rem}
 .featured-name{font-family:var(--display);font-size:1.25rem;line-height:1.2;font-weight:400;color:var(--ink);margin-bottom:0.5rem}
-.featured-hook{font-size:0.86rem;color:var(--ink2);line-height:1.65;margin-bottom:1rem;flex-grow:1}
+.featured-hook{font-size:0.82rem;color:var(--ink2);line-height:1.55;margin-bottom:0.85rem;flex-grow:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .featured-hook strong{color:var(--ink);font-weight:600}
 .featured-stats{display:flex;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:1rem}
 .featured-stat{flex:1;padding:0.7rem 0.6rem;display:flex;flex-direction:column;gap:0.2rem;border-right:1px solid var(--border)}
@@ -232,6 +252,8 @@ footer a:hover{color:var(--ink)}
 @media(max-width:760px){
   .project-summary{grid-template-columns:1fr}
   .hero-strengths,.about-grid,.contact-wrap,.edu-grid{grid-template-columns:1fr}
+  .featured-visual{height:180px}
+  .roadmap-card::before{height:118px}
   .exp-item{grid-template-columns:1fr;gap:0.75rem}
   .nav-tools{width:100%;justify-content:space-between}
   .mobile-nav-toggle{display:block}
@@ -240,6 +262,9 @@ footer a:hover{color:var(--ink)}
   .hero{padding:3.5rem 1.5rem 3rem}
   .section{padding:3.5rem 1.5rem}
   body{font-size:15px}
+}
+@media(max-width:480px){
+  .featured-visual{height:170px}
 }
 
 /* ── Dark Mode — toggled via data-theme="dark" on <html> ── */
@@ -266,6 +291,7 @@ html[data-theme="dark"] .roadmap-card{background:var(--surface)}
 html[data-theme="dark"] .edu-block{background:var(--surface)}
 html[data-theme="dark"] .skills-block{background:var(--surface)}
 html[data-theme="dark"] .featured-card{background:var(--surface)}
+html[data-theme="dark"] .visual-rag img,html[data-theme="dark"] .visual-banking img{background:#f8fafc}
 
 /* ── Theme toggle button ── */
 .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}

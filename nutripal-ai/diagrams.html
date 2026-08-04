@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+<script src="./support.js"></script>
+</head>
+<body>
+<nav class="site-nav" id="siteNav">
+  <div class="site-nav-inner">
+    <div class="site-nav-tools">
+      <button class="site-nav-toggle" type="button" id="siteNavToggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <div class="site-nav-pills">
+        <a href="/" class="site-nav-pill back" data-nav="back">&larr; Back to portfolio</a>
+        <a href="/#projects" class="site-nav-pill" data-nav="projects">Projects</a>
+        <a href="/#contact" class="site-nav-pill" data-nav="contact">Contact</a>
+      </div>
+      <div class="site-lang-switch" aria-label="Language switch">
+        <button class="site-lang-btn active" type="button" data-lang="en">EN</button>
+        <button class="site-lang-btn" type="button" data-lang="id">ID</button>
+      </div>
+      <button class="site-theme-toggle" type="button" id="siteThemeToggle" aria-label="Switch to dark mode">&#127769;</button>
+    </div>
+  </div>
+</nav>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/styles.css">
+<script src="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body{background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)}
+  a{color:var(--color-accent-700)}
+  a:hover{color:var(--color-accent-800)}
+</style>
+</helmet>
+
+<div style="background:var(--color-bg);min-height:100vh;padding:56px 48px 96px;font-family:var(--font-body);color:var(--color-text)">
+<div style="max-width:1360px;margin:0 auto">
+
+  <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;border-bottom:1px solid var(--color-divider);padding-bottom:20px;margin-bottom:56px">
+    <div>
+      <p style="margin:0;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent)">System Analysis · Diagram Set</p>
+      <h1 style="margin:6px 0 0;font-size:46px;line-height:1;text-transform:uppercase">NutriPal — Technical Diagrams</h1>
+      <p style="margin:10px 0 0;font-size:15px;max-width:70ch;color:var(--color-neutral-700)">Seven diagrams derived from the NutriPal codebase: sitemap, use cases, system architecture, database schema, user journey, the Snap AI sequence, and the business model canvas.</p>
+    </div>
+    <div style="text-align:right;font-size:11px;line-height:1.7;text-transform:uppercase;letter-spacing:.12em;color:var(--color-neutral-600);white-space:nowrap">
+      <div>Next.js 15 · React 19</div>
+      <div>Supabase · Postgres</div>
+      <div>Genkit · Gemini 2.5 Flash</div>
+    </div>
+  </header>
+
+  <section style="margin-bottom:72px">
+    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+      <span style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent)">Diagram 01</span>
+      <h2 style="margin:0;font-size:30px;text-transform:uppercase">Sitemap</h2>
+    </div>
+    <p style="margin:0 0 22px;font-size:14px;color:var(--color-neutral-700);max-width:80ch">Routes as they exist in <code style="font-family:ui-monospace,monospace;font-size:13px">src/app</code>. The sidebar exposes five destinations; every AI surface is a dialog owned by its parent route, not a route of its own.</p>
+    <div class="blueprint" style="padding:40px 36px;background:transparent">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+        <div style="border:1px solid var(--color-divider);padding:10px 22px;text-align:center;min-width:230px">
+          <div style="font-family:var(--font-heading);font-size:16px;text-transform:uppercase">Login</div>
+          <div style="font-size:11px;color:var(--color-neutral-600);font-family:ui-monospace,monospace">/login</div>
+        </div>
+        <div style="width:1px;height:26px;background:var(--color-divider)"></div>
+        <div style="border:1px solid var(--color-divider);padding:10px 22px;text-align:center;min-width:230px">
+          <div style="font-family:var(--font-heading);font-size:16px;text-transform:uppercase">Onboarding</div>
+          <div style="font-size:11px;color:var(--color-neutral-600);font-family:ui-monospace,monospace">/onboarding</div>
+        </div>
+        <div style="width:1px;height:26px;background:var(--color-divider)"></div>
+        <div style="border:1px solid var(--color-accent);background:var(--color-accent-100);padding:10px 22px;text-align:center;min-width:300px">
+          <div style="font-family:var(--font-heading);font-size:16px;text-transform:uppercase;color:var(--color-accent-800)">App Shell — AppLayout + Navbar</div>
+          <div style="font-size:11px;color:var(--color-accent-700)">sidebar on desktop, tab bar on mobile</div>
+        </div>
+        <div style="width:1px;height:22px;background:var(--color-divider)"></div>
+        <div style="width:100%;height:1px;background:var(--color-divider)"></div>
+        <div style="width:100%;display:grid;grid-template-columns:repeat(5,1fr);gap:20px">
+          <div style="display:flex;flex-direction:column;align-items:center"><div style="width:1px;height:22px;background:var(--color-divider)"></div>
+            <div style="width:100%;border:1px solid var(--color-divider);padding:10px 12px;text-align:center">
+              <div style="font-family:var(--font-heading);font-size:15px;text-transform:uppercase">Home</div>
+              <div style="font-size:11px;color:var(--color-neutral-600);font-family:ui-monospace,monospace">/</div>
+            </div>
+            <div style="width:1px;height:16px;background:var(--color-divider)"></div>
+            <div style="width:100%;display:flex;flex-direction:column;gap:6px;font-size:12px">
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">Energy balance + macros</div>
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">Hydration / active burn</div>
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">Weekly macro trend</div>
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">Daily food record</div>
+              <div style="border:1px dashed var(--color-accent-400);padding:6px 10px;color:var(--color-accent-800)">Recovery plan dialog</div>
+              <div style="border:1px dashed var(--color-accent-400);padding:6px 10px;color:var(--color-accent-800)">Eat-now dialog</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center"><div style="width:1px;height:22px;background:var(--color-divider)"></div>
+            <div style="width:100%;border:1px solid var(--color-divider);padding:10px 12px;text-align:center">
+              <div style="font-family:var(--font-heading);font-size:15px;text-transform:uppercase">Plan</div>
+              <div style="font-size:11px;color:var(--color-neutral-600);font-family:ui-monospace,monospace">/meal-planner</div>
+            </div>
+            <div style="width:1px;height:16px;background:var(--color-divider)"></div>
+            <div style="width:100%;display:flex;flex-direction:column;gap:6px;font-size:12px">
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">Date stepper</div>
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">Schedule list</div>
+              <div style="border:1px dashed var(--color-accent-400);padding:6px 10px;color:var(--color-accent-800)">Add / edit meal dialog</div>
+              <div style="border:1px dashed var(--color-accent-400);padding:6px 10px;color:var(--color-accent-800)">Recipe dialog</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center"><div style="width:1px;height:22px;background:var(--color-divider)"></div>
+            <div style="width:100%;border:1px solid var(--color-divider);padding:10px 12px;text-align:center">
+              <div style="font-family:var(--font-heading);font-size:15px;text-transform:uppercase">Snap</div>
+              <div style="font-size:11px;color:var(--color-neutral-600);font-family:ui-monospace,monospace">/record</div>
+            </div>
+            <div style="width:1px;height:16px;background:var(--color-divider)"></div>
+            <div style="width:100%;display:flex;flex-direction:column;gap:6px;font-size:12px">
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">Camera / gallery choice</div>
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">Capture + preview</div>
+              <div style="border:1px dashed var(--color-accent-400);padding:6px 10px;color:var(--color-accent-800)">AI breakdown panel</div>
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">?updateId= re-shoot mode</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center"><div style="width:1px;height:22px;background:var(--color-divider)"></div>
+            <div style="width:100%;border:1px solid var(--color-divider);padding:10px 12px;text-align:center">
+              <div style="font-family:var(--font-heading);font-size:15px;text-transform:uppercase">Explore</div>
+              <div style="font-size:11px;color:var(--color-neutral-600);font-family:ui-monospace,monospace">/planner</div>
+            </div>
+            <div style="width:1px;height:16px;background:var(--color-divider)"></div>
+            <div style="width:100%;display:flex;flex-direction:column;gap:6px;font-size:12px">
+              <div style="border:1px dashed var(--color-accent-400);padding:6px 10px;color:var(--color-accent-800)">ML curation (delivery hub)</div>
+              <div style="border:1px dashed var(--color-accent-400);padding:6px 10px;color:var(--color-accent-800)">Recipe from pantry</div>
+              <div style="border:1px dashed var(--color-accent-400);padding:6px 10px;color:var(--color-accent-800)">Predictive path</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center"><div style="width:1px;height:22px;background:var(--color-divider)"></div>
+            <div style="width:100%;border:1px solid var(--color-divider);padding:10px 12px;text-align:center">
+              <div style="font-family:var(--font-heading);font-size:15px;text-transform:uppercase">Profile</div>
+              <div style="font-size:11px;color:var(--color-neutral-600);font-family:ui-monospace,monospace">/profile</div>
+            </div>
+            <div style="width:1px;height:16px;background:var(--color-divider)"></div>
+            <div style="width:100%;display:flex;flex-direction:column;gap:6px;font-size:12px">
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">Biometrics + BMI card</div>
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">Dietary markers / allergies</div>
+              <div style="border:1px dashed var(--color-accent-400);padding:6px 10px;color:var(--color-accent-800)">Edit health profile dialog</div>
+              <div style="border:1px dashed var(--color-accent-400);padding:6px 10px;color:var(--color-accent-800)">Fitness sync dialog</div>
+              <div style="border:1px dashed var(--color-divider);padding:6px 10px">Sign out</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:24px;margin-top:28px;padding-top:16px;border-top:1px solid var(--color-divider);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-neutral-600)">
+        <span style="display:flex;align-items:center;gap:8px"><span style="width:18px;height:0;border-top:1px solid var(--color-divider)"></span>Route</span>
+        <span style="display:flex;align-items:center;gap:8px"><span style="width:18px;height:0;border-top:1px dashed var(--color-divider)"></span>Section</span>
+        <span style="display:flex;align-items:center;gap:8px;color:var(--color-accent-800)"><span style="width:18px;height:0;border-top:1px dashed var(--color-accent-400)"></span>AI surface / dialog</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-bottom:72px">
+    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+      <span style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent)">Diagram 02</span>
+      <h2 style="margin:0;font-size:30px;text-transform:uppercase">Use Case Diagram</h2>
+    </div>
+    <p style="margin:0 0 22px;font-size:14px;color:var(--color-neutral-700);max-width:80ch">One human actor and four system actors. Everything inside the boundary is implemented today; the AI engine participates in five of the fourteen use cases.</p>
+    <div class="blueprint" style="padding:36px;background:transparent">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display:grid;grid-template-columns:150px 1fr 190px;gap:28px;align-items:center">
+
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <svg width="56" height="80" viewBox="0 0 56 80" fill="none" stroke="var(--color-text)" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="28" cy="14" r="10"/><path d="M28 24v28"/><path d="M10 34h36"/><path d="M28 52 14 76"/><path d="M28 52l14 24"/>
+          </svg>
+          <div style="text-align:center">
+            <div style="font-family:var(--font-heading);font-size:16px;text-transform:uppercase">Member</div>
+            <div style="font-size:11px;color:var(--color-neutral-600)">primary actor</div>
+          </div>
+        </div>
+
+        <div style="border:1px solid var(--color-text);padding:26px 22px 22px;position:relative">
+          <span style="position:absolute;top:-10px;left:20px;background:var(--color-bg);padding:0 8px;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.14em">NutriPal System</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="border:1px solid var(--color-divider);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center">Sign in (anonymous demo)</div>
+            <div style="border:1px solid var(--color-divider);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center">Complete biometric onboarding</div>
+            <div style="border:1px solid var(--color-divider);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center">Calculate BMI &amp; calorie target</div>
+            <div style="border:1px solid var(--color-divider);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center">View daily energy balance</div>
+            <div style="border:1px solid var(--color-divider);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center">Log hydration</div>
+            <div style="border:1px solid var(--color-divider);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center">Schedule a meal</div>
+            <div style="border:1px solid var(--color-divider);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center">Mark meal as consumed</div>
+            <div style="border:1px solid var(--color-divider);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center">Review weekly macro trend</div>
+            <div style="border:1px solid var(--color-accent);background:var(--color-accent-100);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center;color:var(--color-accent-800)">Analyse meal photo</div>
+            <div style="border:1px solid var(--color-accent);background:var(--color-accent-100);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center;color:var(--color-accent-800)">Estimate nutrition from text</div>
+            <div style="border:1px solid var(--color-accent);background:var(--color-accent-100);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center;color:var(--color-accent-800)">Score delivery options</div>
+            <div style="border:1px solid var(--color-accent);background:var(--color-accent-100);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center;color:var(--color-accent-800)">Generate recipe from pantry</div>
+            <div style="border:1px solid var(--color-accent);background:var(--color-accent-100);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center;color:var(--color-accent-800)">Synthesise daily meal plan</div>
+            <div style="border:1px solid var(--color-divider);border-radius:999px;padding:9px 16px;font-size:13px;text-align:center">Sync wearable metrics</div>
+          </div>
+          <div style="margin-top:18px;padding-top:14px;border-top:1px dashed var(--color-divider);font-size:12px;color:var(--color-neutral-600)">
+            &lt;&lt;include&gt;&gt; every AI use case includes <strong style="font-weight:600">allergy &amp; dietary audit</strong> against the member profile before returning a result.
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="border:1px solid var(--color-divider);padding:10px 12px">
+            <div style="font-family:var(--font-heading);font-size:14px;text-transform:uppercase;color:var(--color-accent-800)">AI Engine</div>
+            <div style="font-size:11px;color:var(--color-neutral-600)">Genkit · Gemini 2.5 Flash</div>
+          </div>
+          <div style="border:1px solid var(--color-divider);padding:10px 12px">
+            <div style="font-family:var(--font-heading);font-size:14px;text-transform:uppercase">Supabase</div>
+            <div style="font-size:11px;color:var(--color-neutral-600)">auth · postgres · realtime</div>
+          </div>
+          <div style="border:1px solid var(--color-divider);padding:10px 12px">
+            <div style="font-family:var(--font-heading);font-size:14px;text-transform:uppercase">Delivery Platform</div>
+            <div style="font-size:11px;color:var(--color-neutral-600)">GrabFood · GoFood deep link</div>
+          </div>
+          <div style="border:1px solid var(--color-divider);padding:10px 12px">
+            <div style="font-family:var(--font-heading);font-size:14px;text-transform:uppercase">Wearable</div>
+            <div style="font-size:11px;color:var(--color-neutral-600)">Apple Watch · Health Connect (mock)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-bottom:72px">
+    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+      <span style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent)">Diagram 03</span>
+      <h2 style="margin:0;font-size:30px;text-transform:uppercase">System Architecture</h2>
+    </div>
+    <p style="margin:0 0 22px;font-size:14px;color:var(--color-neutral-700);max-width:80ch">Three tiers. The browser talks to Postgres directly through the Supabase client under row-level security; AI work runs in server actions so the Gemini keys never reach the client.</p>
+    <div class="blueprint" style="padding:36px;background:transparent">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr;align-items:stretch;gap:0">
+
+        <div style="border:1px solid var(--color-divider);padding:18px">
+          <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent);margin-bottom:4px">Tier 1</div>
+          <h3 style="margin:0 0 14px;font-size:20px;text-transform:uppercase">Client</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+            <div style="border:1px solid var(--color-divider);padding:8px 10px">Next.js 15 App Router · Turbopack</div>
+            <div style="border:1px solid var(--color-divider);padding:8px 10px">React 19 client components</div>
+            <div style="border:1px solid var(--color-divider);padding:8px 10px">Tailwind CSS + ShadCN UI · Recharts</div>
+            <div style="border:1px solid var(--color-divider);padding:8px 10px">
+              <div style="font-family:var(--font-heading);text-transform:uppercase;font-size:13px;letter-spacing:.06em">Data hooks</div>
+              <div style="font-family:ui-monospace,monospace;font-size:11px;color:var(--color-neutral-600);line-height:1.7">useUser · useProfile<br>useDailyLog · useDailyLogs<br>useMeals</div>
+            </div>
+            <div style="border:1px solid var(--color-divider);padding:8px 10px">SupabaseProvider · AppLayout · Navbar</div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          <span style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-neutral-600);writing-mode:vertical-rl;text-orientation:mixed">server action</span>
+        </div>
+
+        <div style="border:1px solid var(--color-accent);padding:18px;background:var(--color-accent-100)">
+          <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:4px">Tier 2</div>
+          <h3 style="margin:0 0 14px;font-size:20px;text-transform:uppercase;color:var(--color-accent-900)">AI Layer — Genkit Flows</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--color-accent-900)">
+            <div style="border:1px solid var(--color-accent-400);padding:8px 10px"><strong style="font-weight:600">analyze-meal</strong> — vision → nutrition + allergen audit</div>
+            <div style="border:1px solid var(--color-accent-400);padding:8px 10px"><strong style="font-weight:600">analyze-text-meal</strong> — name + ingredients → macros</div>
+            <div style="border:1px solid var(--color-accent-400);padding:8px 10px"><strong style="font-weight:600">curate-meal-suggestions</strong> — score delivery catalogue</div>
+            <div style="border:1px solid var(--color-accent-400);padding:8px 10px"><strong style="font-weight:600">generate-daily-plan</strong> — breakfast / lunch / dinner + swaps</div>
+            <div style="border:1px solid var(--color-accent-400);padding:8px 10px"><strong style="font-weight:600">personalized-diet-plans</strong> — pantry → recipes</div>
+            <div style="border:1px solid var(--color-accent-600);padding:8px 10px;background:var(--color-accent-200)">
+              <div style="font-family:var(--font-heading);text-transform:uppercase;font-size:13px;letter-spacing:.06em">executeWithRotation()</div>
+              <div style="font-size:11px;line-height:1.6">Zod-typed I/O · 4-key rotation on HTTP 429 · rule-based fallback</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          <span style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-neutral-600);writing-mode:vertical-rl;text-orientation:mixed">https</span>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="border:1px solid var(--color-divider);padding:18px;flex:1">
+            <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent);margin-bottom:4px">Tier 3a</div>
+            <h3 style="margin:0 0 14px;font-size:20px;text-transform:uppercase">Google AI</h3>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+              <div style="border:1px solid var(--color-divider);padding:8px 10px">Gemini 2.5 Flash — text</div>
+              <div style="border:1px solid var(--color-divider);padding:8px 10px">Gemini 2.5 Flash — vision</div>
+              <div style="border:1px solid var(--color-divider);padding:8px 10px;font-family:ui-monospace,monospace;font-size:11px">GOOGLE_API_KEY_1…4</div>
+            </div>
+          </div>
+          <div style="border:1px solid var(--color-divider);padding:18px;flex:1">
+            <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent);margin-bottom:4px">Tier 3b</div>
+            <h3 style="margin:0 0 14px;font-size:20px;text-transform:uppercase">Supabase</h3>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+              <div style="border:1px solid var(--color-divider);padding:8px 10px">Postgres — users, user_profiles, daily_logs, meals</div>
+              <div style="border:1px solid var(--color-divider);padding:8px 10px">Auth — signInAnonymously()</div>
+              <div style="border:1px solid var(--color-divider);padding:8px 10px">Realtime channels — live macro sync</div>
+              <div style="border:1px solid var(--color-divider);padding:8px 10px">RLS per user_id · rpc increment_daily_log</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="border:1px dashed var(--color-divider);padding:12px 14px;font-size:13px">
+          <span style="font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:var(--color-accent)">Outbound</span> — curated delivery items open GrabFood / GoFood search URLs in a new tab; the item is written to <code style="font-family:ui-monospace,monospace;font-size:12px">meals</code> first so the log survives the hand-off.
+        </div>
+        <div style="border:1px dashed var(--color-divider);padding:12px 14px;font-size:13px">
+          <span style="font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:var(--color-accent)">Inbound</span> — wearable calories-burned is mocked in the client today (Apple Watch S9 / Health Connect); the write path already lands in <code style="font-family:ui-monospace,monospace;font-size:12px">daily_logs.calories_burned</code>.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-bottom:72px">
+    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+      <span style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent)">Diagram 04</span>
+      <h2 style="margin:0;font-size:30px;text-transform:uppercase">Entity Relationship Diagram</h2>
+    </div>
+    <p style="margin:0 0 22px;font-size:14px;color:var(--color-neutral-700);max-width:80ch">Four tables, all keyed on <code style="font-family:ui-monospace,monospace;font-size:13px">user_id</code> for row-level security. Column names are taken verbatim from <code style="font-family:ui-monospace,monospace;font-size:13px">src/supabase/mutations.ts</code>.</p>
+    <div class="blueprint" style="padding:36px;background:transparent">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;align-items:start">
+
+        <div style="display:flex;flex-direction:column;gap:22px">
+          <div style="border:1px solid var(--color-text)">
+            <div style="background:var(--color-accent-900);color:var(--color-bg);padding:8px 12px;font-family:var(--font-heading);font-size:16px;text-transform:uppercase;letter-spacing:.08em">users</div>
+            <div style="font-family:ui-monospace,monospace;font-size:12px;line-height:2">
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)"><span style="color:var(--color-accent-700)">PK</span> id · uuid</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">display_name · text</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">email · text null</div>
+              <div style="padding:0 12px">onboarded · bool</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-neutral-600)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+            1 : 1 &nbsp;·&nbsp; 1 : N &nbsp;·&nbsp; 1 : N
+          </div>
+        </div>
+
+        <div style="border:1px solid var(--color-text)">
+          <div style="background:var(--color-accent-900);color:var(--color-bg);padding:8px 12px;font-family:var(--font-heading);font-size:16px;text-transform:uppercase;letter-spacing:.08em">user_profiles</div>
+          <div style="font-family:ui-monospace,monospace;font-size:12px;line-height:2">
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)"><span style="color:var(--color-accent-700)">PK FK</span> user_id → users.id</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">gender · text</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">age · int</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">weight · numeric (kg)</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">height · numeric (cm)</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">bmi · numeric</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">bmi_category · text</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">dietary_restrictions · text[]</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">allergies · text</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">calorie_target · int</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">protein_target · int</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">carbs_target · int</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">fat_target · int</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">notifications_enabled · bool</div>
+            <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">onboarded_at · timestamptz</div>
+            <div style="padding:0 12px">updated_at · timestamptz</div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:22px">
+          <div style="border:1px solid var(--color-text)">
+            <div style="background:var(--color-accent-900);color:var(--color-bg);padding:8px 12px;font-family:var(--font-heading);font-size:16px;text-transform:uppercase;letter-spacing:.08em">daily_logs</div>
+            <div style="font-family:ui-monospace,monospace;font-size:12px;line-height:2">
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)"><span style="color:var(--color-accent-700)">UQ FK</span> user_id, date</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">water_intake · numeric (L)</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">calories_burned · int</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">calories_consumed · int</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">protein_total · numeric</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">carbs_total · numeric</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">fat_total · numeric</div>
+              <div style="padding:0 12px">ai_plan · jsonb null</div>
+            </div>
+          </div>
+          <div style="border:1px solid var(--color-text)">
+            <div style="background:var(--color-accent-900);color:var(--color-bg);padding:8px 12px;font-family:var(--font-heading);font-size:16px;text-transform:uppercase;letter-spacing:.08em">meals</div>
+            <div style="font-family:ui-monospace,monospace;font-size:12px;line-height:2">
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)"><span style="color:var(--color-accent-700)">PK</span> id · uuid</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)"><span style="color:var(--color-accent-700)">FK</span> user_id → users.id</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">date · date &nbsp; time · text</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">name · text &nbsp; timing · text</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">calories · int</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">macros · jsonb {protein,carbs,fat}</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">health_score · int 0-100</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">description · text</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">expert_insight · text</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">ingredients · text[]</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">instructions · text[]</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">allergen_warning · text</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">image_url · text null</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">source · enum planner|photo|gallery|<br>&nbsp;&nbsp;pantry-ai|CookBuddy|GrabFood|GoFood</div>
+              <div style="padding:0 12px;border-bottom:1px solid var(--color-divider)">status · enum planned|consumed</div>
+              <div style="padding:0 12px">reminder_enabled · bool</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:22px;border:1px dashed var(--color-divider);padding:12px 14px;font-size:13px">
+        <span style="font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:var(--color-accent)">Integrity notes</span> — <code style="font-family:ui-monospace,monospace;font-size:12px">daily_logs</code> is upserted on the composite key <code style="font-family:ui-monospace,monospace;font-size:12px">(user_id, date)</code>; macro totals are only ever changed through the <code style="font-family:ui-monospace,monospace;font-size:12px">increment_daily_log</code> RPC so concurrent writes from two devices cannot overwrite each other. Every table carries an RLS policy scoped to <code style="font-family:ui-monospace,monospace;font-size:12px">auth.uid()</code>.
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-bottom:72px">
+    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+      <span style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent)">Diagram 05</span>
+      <h2 style="margin:0;font-size:30px;text-transform:uppercase">User Flow &amp; Journey Map</h2>
+    </div>
+    <p style="margin:0 0 22px;font-size:14px;color:var(--color-neutral-700);max-width:80ch">Eight stages from first launch to retention, with what the member does, what the system does behind it, and where the experience is currently thin.</p>
+    <div class="blueprint" style="padding:0;background:transparent;overflow:hidden">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <table class="table" style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:12px 14px;font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.1em;font-size:12px;border-bottom:1px solid var(--color-text);width:60px">#</th>
+            <th style="text-align:left;padding:12px 14px;font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.1em;font-size:12px;border-bottom:1px solid var(--color-text)">Stage</th>
+            <th style="text-align:left;padding:12px 14px;font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.1em;font-size:12px;border-bottom:1px solid var(--color-text)">Member does</th>
+            <th style="text-align:left;padding:12px 14px;font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.1em;font-size:12px;border-bottom:1px solid var(--color-text)">System / AI does</th>
+            <th style="text-align:left;padding:12px 14px;font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.1em;font-size:12px;border-bottom:1px solid var(--color-text)">Friction today</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-accent);font-family:var(--font-heading);font-size:18px">01</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);font-family:var(--font-heading);text-transform:uppercase;font-size:15px">Sign in</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">One tap on “Sign in with Google (Demo Mode)”.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)"><code style="font-family:ui-monospace,monospace;font-size:12px">signInAnonymously()</code>, row created in <code style="font-family:ui-monospace,monospace;font-size:12px">users</code>, onboarding status checked.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-neutral-700)">Anonymous session cannot be recovered on another device.</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-accent);font-family:var(--font-heading);font-size:18px">02</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);font-family:var(--font-heading);text-transform:uppercase;font-size:15px">Onboarding</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">Enters sex, age, weight, height; ticks health markers and allergies.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">BMI computed live; Mifflin-St Jeor BMR × 1.2 gives the calorie target, ±500 kcal by BMI band.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-neutral-700)">Activity level is fixed at sedentary — no goal or timeline question.</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-accent);font-family:var(--font-heading);font-size:18px">03</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);font-family:var(--font-heading);text-transform:uppercase;font-size:15px">Daily check</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">Opens Today, reads energy balance, taps hydration.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">Totals recomputed from consumed meals; realtime channel keeps the figure live across devices.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-neutral-700)">Nothing to do when the day is empty — no next action offered.</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-accent);font-family:var(--font-heading);font-size:18px">04</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);font-family:var(--font-heading);text-transform:uppercase;font-size:15px">Plan</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">Adds a meal by name, or leaves macros at zero.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)"><code style="font-family:ui-monospace,monospace;font-size:12px">analyzeTextMeal</code> estimates calories, macros, health score, instructions and allergen conflicts.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-neutral-700)">No copy-yesterday or repeat-weekly shortcut.</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-accent);font-family:var(--font-heading);font-size:18px">05</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);font-family:var(--font-heading);text-transform:uppercase;font-size:15px">Log by photo</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">Shoots or uploads the plate, reviews the breakdown, syncs.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">Gemini Vision identifies the dish, estimates portions, audits allergens, writes the meal and increments the day.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-neutral-700)">No portion correction step; the estimate is accepted as-is.</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-accent);font-family:var(--font-heading);font-size:18px">06</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);font-family:var(--font-heading);text-transform:uppercase;font-size:15px">Discover</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">Runs ML curation, pantry recipes or a predictive day plan.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">Profile + remaining calories are scored against the catalogue; the winner is written to <code style="font-family:ui-monospace,monospace;font-size:12px">meals</code> before the deep link opens.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-neutral-700)">The delivery catalogue is a four-item fixture, not a live feed.</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-accent);font-family:var(--font-heading);font-size:18px">07</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);font-family:var(--font-heading);text-transform:uppercase;font-size:15px">Sync &amp; review</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">Checks the weekly trend, syncs the watch, edits the profile.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider)">Burn over 700 kcal unlocks the recovery-plan synthesis for tomorrow.</td>
+            <td style="padding:12px 14px;border-bottom:1px solid var(--color-divider);color:var(--color-neutral-700)">Wearable data is mocked, so the trigger is not yet trustworthy.</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;color:var(--color-accent);font-family:var(--font-heading);font-size:18px">08</td>
+            <td style="padding:12px 14px;font-family:var(--font-heading);text-transform:uppercase;font-size:15px">Retain</td>
+            <td style="padding:12px 14px">Comes back tomorrow — or does not.</td>
+            <td style="padding:12px 14px">Meal reminders are stored per meal (<code style="font-family:ui-monospace,monospace;font-size:12px">reminder_enabled</code>) but not yet delivered.</td>
+            <td style="padding:12px 14px;color:var(--color-neutral-700)">No streaks, no push, no weekly digest — the retention loop is unbuilt.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section style="margin-bottom:72px">
+    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+      <span style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent)">Diagram 06</span>
+      <h2 style="margin:0;font-size:30px;text-transform:uppercase">Sequence — Snap AI Pipeline</h2>
+    </div>
+    <p style="margin:0 0 22px;font-size:14px;color:var(--color-neutral-700);max-width:80ch">Photo to logged meal, including the key-rotation branch that keeps the free Gemini tier usable.</p>
+    <div class="blueprint" style="padding:32px 28px;background:transparent">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-bottom:14px">
+        <div style="border:1px solid var(--color-text);padding:8px 6px;text-align:center;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-right:8px">Member</div>
+        <div style="border:1px solid var(--color-text);padding:8px 6px;text-align:center;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-right:8px">Snap Screen<br><span style="font-family:ui-monospace,monospace;font-size:10px;text-transform:none;letter-spacing:0">/record</span></div>
+        <div style="border:1px solid var(--color-accent);background:var(--color-accent-100);color:var(--color-accent-900);padding:8px 6px;text-align:center;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-right:8px">analyzeMeal<br><span style="font-family:ui-monospace,monospace;font-size:10px;text-transform:none;letter-spacing:0">genkit flow</span></div>
+        <div style="border:1px solid var(--color-accent);background:var(--color-accent-100);color:var(--color-accent-900);padding:8px 6px;text-align:center;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-right:8px">Key Rotator</div>
+        <div style="border:1px solid var(--color-accent);background:var(--color-accent-100);color:var(--color-accent-900);padding:8px 6px;text-align:center;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-right:8px">Gemini 2.5<br><span style="font-family:ui-monospace,monospace;font-size:10px;text-transform:none;letter-spacing:0">flash vision</span></div>
+        <div style="border:1px solid var(--color-text);padding:8px 6px;text-align:center;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.06em">Supabase</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:auto;row-gap:4px;position:relative">
+        <sc-for list="{{ sequence }}" as="msg" hint-placeholder-count="12">
+          <div style="grid-column: {{ msg.span }};display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--color-divider);min-width:0">
+            <span style="flex:0 0 22px;font-family:var(--font-heading);font-size:13px;color:var(--color-accent);text-align:right">{{ msg.n }}</span>
+            <span style="flex:1;font-size:12.5px;line-height:1.4;min-width:0">{{ msg.label }}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 16px;transform: {{ msg.flip }}"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="border:1px dashed var(--color-accent-400);padding:12px 14px;font-size:13px;color:var(--color-accent-900);background:var(--color-accent-100)">
+          <span style="font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.1em;font-size:12px">alt — quota exceeded (429)</span><br>
+          The rotator advances to the next of four keys and replays step 6. After the fourth key fails the flow surfaces “AI Quota Limit Reached” and the screen falls back to manual macro entry.
+        </div>
+        <div style="border:1px dashed var(--color-divider);padding:12px 14px;font-size:13px">
+          <span style="font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:var(--color-accent)">Contract</span><br>
+          The prompt is bound to a Zod schema, so the flow either returns a fully typed <code style="font-family:ui-monospace,monospace;font-size:12px">AnalyzeMealOutput</code> or throws — the UI never has to parse free text. <code style="font-family:ui-monospace,monospace;font-size:12px">expertInsight</code> is capped at 200 characters and <code style="font-family:ui-monospace,monospace;font-size:12px">allergenWarning</code> stays empty unless a direct conflict is found.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:6px">
+      <span style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--color-accent)">Diagram 07</span>
+      <h2 style="margin:0;font-size:30px;text-transform:uppercase">Business Model Canvas</h2>
+    </div>
+    <p style="margin:0 0 22px;font-size:14px;color:var(--color-neutral-700);max-width:80ch">Indonesia-first, mobile-web, freemium. The delivery integration is what separates NutriPal from a generic tracker: it converts a logging habit into a transaction.</p>
+    <div class="blueprint" style="padding:0;background:transparent">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:auto auto;gap:0">
+        <div style="border-right:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:16px;grid-row:span 2">
+          <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px">Key Partners</div>
+          <ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.7">
+            <li>GrabFood &amp; GoFood merchants</li>
+            <li>Healthy-meal kitchens (CookBuddy model)</li>
+            <li>Google AI Studio / Gemini</li>
+            <li>Supabase</li>
+            <li>Clinical nutritionists for content review</li>
+            <li>Wearable platforms — Health Connect, Apple Health</li>
+          </ul>
+        </div>
+        <div style="border-right:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:16px">
+          <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px">Key Activities</div>
+          <ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.7">
+            <li>Prompt &amp; schema engineering for the five flows</li>
+            <li>Indonesian food-recognition accuracy work</li>
+            <li>Catalogue ingestion from delivery platforms</li>
+            <li>Retention loops: reminders, streaks, digests</li>
+          </ul>
+        </div>
+        <div style="border-right:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:16px;grid-row:span 2;background:var(--color-accent-100)">
+          <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:8px">Value Propositions</div>
+          <p style="margin:0 0 10px;font-family:var(--font-heading);font-size:19px;line-height:1.2;text-transform:uppercase;color:var(--color-accent-900)">Log a plate of Indonesian food in one photo — and get told what to eat next.</p>
+          <ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.7;color:var(--color-accent-900)">
+            <li>Photo → calories, macros, health score, allergen audit</li>
+            <li>Advice that respects diabetes, hypertension and allergies</li>
+            <li>Recommendations you can actually order, from apps you already use</li>
+            <li>Recipes from what is already in the kitchen</li>
+            <li>One number to look at: energy balance for today</li>
+          </ul>
+        </div>
+        <div style="border-right:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:16px">
+          <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px">Customer Relationships</div>
+          <ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.7">
+            <li>Self-serve, one-tap onboarding</li>
+            <li>Daily AI insight as the habit hook</li>
+            <li>Pro tier for unlimited analyses</li>
+            <li>In-app nutritionist review (roadmap)</li>
+          </ul>
+        </div>
+        <div style="border-bottom:1px solid var(--color-divider);padding:16px;grid-row:span 2">
+          <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px">Customer Segments</div>
+          <ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.7">
+            <li><strong style="font-weight:600">Urban office workers 24–40</strong> — order in most days, want control without cooking</li>
+            <li><strong style="font-weight:600">Members with a health marker</strong> — diabetes, hypertension, allergies</li>
+            <li><strong style="font-weight:600">Gym-going young adults</strong> — protein and recovery focused</li>
+            <li><em>B2B later:</em> corporate wellness, insurers, clinics</li>
+          </ul>
+        </div>
+        <div style="border-right:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:16px">
+          <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px">Key Resources</div>
+          <ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.7">
+            <li>Indonesian dish + portion reference data</li>
+            <li>Typed Genkit flow library</li>
+            <li>Longitudinal member logs (with consent)</li>
+            <li>Small product + AI team</li>
+          </ul>
+        </div>
+        <div style="border-right:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:16px">
+          <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px">Channels</div>
+          <ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.7">
+            <li>Mobile web (installable PWA)</li>
+            <li>TikTok / Instagram health creators</li>
+            <li>Gym and clinic partnerships</li>
+            <li>Placement inside delivery-app promos</li>
+          </ul>
+        </div>
+        <div style="border-right:1px solid var(--color-divider);padding:16px;grid-column:span 2">
+          <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px">Cost Structure</div>
+          <ul style="margin:0;padding-left:16px;font-size:13px;line-height:1.7">
+            <li>Gemini inference — the dominant variable cost, one call per photo</li>
+            <li>Supabase hosting, storage for meal images, egress</li>
+            <li>Engineering and prompt maintenance</li>
+            <li>Nutrition content review and localisation</li>
+            <li>Acquisition: creator fees and partnership rev-share</li>
+          </ul>
+        </div>
+        <div style="padding:16px;grid-column:span 3">
+          <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px">Revenue Streams — options to test</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
+            <div style="border:1px solid var(--color-divider);padding:10px 12px">
+              <div style="font-family:var(--font-heading);text-transform:uppercase;font-size:14px">1 · Pro subscription</div>
+              Free tier caps photo analyses per day; Pro unlocks unlimited scans, meal-plan synthesis and history. The “Pro Member” badge already ships in the UI.
+            </div>
+            <div style="border:1px solid var(--color-divider);padding:10px 12px">
+              <div style="font-family:var(--font-heading);text-transform:uppercase;font-size:14px">2 · Delivery commission</div>
+              Rev-share on orders placed through curated recommendations — the highest-intent moment in the product and the least intrusive to the member.
+            </div>
+            <div style="border:1px solid var(--color-divider);padding:10px 12px">
+              <div style="font-family:var(--font-heading);text-transform:uppercase;font-size:14px">3 · CookBuddy fulfilment</div>
+              Margin on prepared meals cooked to the synthesised plan; already modelled as a source value in the schema.
+            </div>
+            <div style="border:1px solid var(--color-divider);padding:10px 12px">
+              <div style="font-family:var(--font-heading);text-transform:uppercase;font-size:14px">4 · B2B seats</div>
+              Corporate wellness and insurer programmes buying aggregate, anonymised adherence reporting.
+            </div>
+          </div>
+          <p style="margin:12px 0 0;font-size:12.5px;color:var(--color-neutral-700)">Recommendation: launch on 1 + 2. Both are already reachable from today's build; 3 and 4 need operations and a data-governance story first.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
+const SEQ = [
+  ["1", "Capture or upload the meal photo", "1 / 3", false],
+  ["2", "Compress to canvas, encode as data URI", "2 / 3", false],
+  ["3", "analyzeMeal({ photoDataUri, userGoal, userAllergies, userRestrictions })", "2 / 4", false],
+  ["4", "executeWithRotation() — request an AI instance", "3 / 5", false],
+  ["5", "aiInstance bound to GOOGLE_API_KEY_n", "4 / 6", true],
+  ["6", "definePrompt + {{media url=photoDataUri}} — schema-bound request", "3 / 6", false],
+  ["7", "JSON: name, calories, macros, healthScore, ingredients, expertInsight, allergenWarning", "3 / 6", true],
+  ["8", "Typed AnalyzeMealOutput", "2 / 4", true],
+  ["9", "Render breakdown, health score and allergen warning", "1 / 3", true],
+  ["10", "Confirm — SYNC RECORD", "1 / 3", false],
+  ["11", "insert into meals + rpc increment_daily_log", "2 / 7", false],
+  ["12", "Realtime broadcast — Today's totals update on every open device", "2 / 7", true]
+];
+
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      sequence: SEQ.map(([n, label, span, back]) => ({
+        n, label, span,
+        flip: back ? "scaleX(-1)" : "none"
+      }))
+    };
+  }
+}
+
+</script>
+<script>
+(function(){
+  var toggle = document.getElementById('siteNavToggle');
+  var nav = document.getElementById('siteNav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function(){
+      var open = nav.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  }
+})();
+(function(){
+  var html = document.documentElement;
+  var btn = document.getElementById('siteThemeToggle');
+  if (!btn) return;
+  function updateBtn(mode){
+    btn.textContent = mode === 'dark' ? '☀' : '🌙';
+    btn.setAttribute('aria-label', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  updateBtn(html.getAttribute('data-theme') || 'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateBtn(next);
+  });
+})();
+(function(){
+  var labels = {
+    en: { back: '← Back to portfolio', projects: 'Projects', contact: 'Contact' },
+    id: { back: '← Kembali ke portofolio', projects: 'Proyek', contact: 'Kontak' }
+  };
+  function apply(lang){
+    document.querySelectorAll('.site-lang-btn').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+    document.querySelectorAll('.site-nav-pill').forEach(function(a){
+      var key = a.getAttribute('data-nav');
+      if (key && labels[lang][key]) a.textContent = labels[lang][key];
+    });
+  }
+  document.querySelectorAll('.site-lang-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      var lang = b.getAttribute('data-lang');
+      localStorage.setItem('lang', lang);
+      apply(lang);
+    });
+  });
+  apply(localStorage.getItem('lang') || 'en');
+})();
+</script>
+</body>
+</html>

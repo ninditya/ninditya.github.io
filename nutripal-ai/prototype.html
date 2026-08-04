@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+<script src="./support.js"></script>
+</head>
+<body>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
+  .site-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1px solid #e4e4e7;font-family:'DM Mono',ui-monospace,'SF Mono',monospace}
+  .site-nav-inner{max-width:1080px;margin:0 auto;padding:0 2rem}
+  .site-nav-tools{display:flex;align-items:center;gap:10px;height:56px;width:100%}
+  .site-nav-toggle{display:none;background:transparent;border:none;color:#18181b;font-size:1.5rem;cursor:pointer;padding:0 5px;line-height:1}
+  .site-nav-pills{display:flex;gap:4px}
+  .site-nav-pill{padding:6px 14px;min-height:44px;display:inline-flex;align-items:center;border-radius:100px;font-family:'DM Mono',ui-monospace,'SF Mono',monospace;font-size:0.78rem;color:#52525b;text-decoration:none;border-bottom:none;transition:background .15s;white-space:nowrap}
+  .site-nav-pill:hover{background:#f4f4f5}
+  .site-nav-pill.back{color:#2563eb}
+  .site-lang-switch{display:inline-flex;padding:3px;border:1px solid #e4e4e7;border-radius:999px;background:#ffffff;margin-left:auto}
+  .site-lang-btn{border:none;background:transparent;color:#a1a1aa;padding:8px 12px;min-height:36px;border-radius:999px;font-family:'DM Mono',ui-monospace,'SF Mono',monospace;font-size:0.68rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .15s}
+  .site-lang-btn.active{background:#18181b;color:#ffffff}
+  .site-theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid #e4e4e7;background:#f4f4f5;color:#18181b;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+  html[data-theme="dark"] .site-nav{background:rgba(24,24,27,0.92);border-bottom-color:rgba(255,255,255,0.12)}
+  html[data-theme="dark"] .site-nav-pill{color:#a1a1aa}
+  html[data-theme="dark"] .site-nav-pill:hover{background:#3f3f46}
+  html[data-theme="dark"] .site-nav-pill.back{color:#60a5fa}
+  html[data-theme="dark"] .site-lang-switch{border-color:rgba(255,255,255,0.12);background:#27272a}
+  html[data-theme="dark"] .site-lang-btn{color:#71717a}
+  html[data-theme="dark"] .site-lang-btn.active{background:#fafafa;color:#18181b}
+  html[data-theme="dark"] .site-theme-toggle{border-color:rgba(255,255,255,0.12);background:#3f3f46;color:#fafafa}
+  @media (max-width:768px){
+    .site-nav-toggle{display:block}
+    .site-nav-pills{display:none;position:absolute;top:56px;left:0;width:100%;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);border-bottom:1px solid #e4e4e7;flex-direction:column;padding:1rem 2rem;gap:0.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.05)}
+    html[data-theme="dark"] .site-nav-pills{background:rgba(24,24,27,0.96)}
+    .site-nav.nav-open .site-nav-pills{display:flex}
+  }
+</style>
+<nav class="site-nav" id="siteNav">
+  <div class="site-nav-inner">
+    <div class="site-nav-tools">
+      <button class="site-nav-toggle" type="button" id="siteNavToggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <div class="site-nav-pills">
+        <a href="/" class="site-nav-pill back" data-nav="back">&larr; Back to portfolio</a>
+        <a href="/#projects" class="site-nav-pill" data-nav="projects">Projects</a>
+        <a href="/#contact" class="site-nav-pill" data-nav="contact">Contact</a>
+      </div>
+      <div class="site-lang-switch" aria-label="Language switch">
+        <button class="site-lang-btn active" type="button" data-lang="en">EN</button>
+        <button class="site-lang-btn" type="button" data-lang="id">ID</button>
+      </div>
+      <button class="site-theme-toggle" type="button" id="siteThemeToggle" aria-label="Switch to dark mode">&#127769;</button>
+    </div>
+  </div>
+</nav>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#FAF8F2;color:#141F18;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::selection,::selection{background:rgba(191,220,203,.4)}
+  a{color:#41584B;text-decoration:none}
+  a:hover{color:#141F18}
+  input,button,textarea,select{font-family:inherit}
+  input[type=number]::-webkit-inner-spin-button{opacity:.25}
+  @keyframes np-spin{to{transform:rotate(360deg)}}
+  @keyframes np-pulse{0%,100%{opacity:1}50%{opacity:.45}}
+  @keyframes np-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="display:flex;min-height:100vh;background:#FAF8F2;font-family:Inter,sans-serif;color:#141F18">
+
+<sc-if value="{{ showSidebar }}" hint-placeholder-val="{{ true }}">
+<aside style="width:256px;flex:0 0 256px;background:#fff;border-right:1px solid #ECEFEA;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;z-index:100">
+  <div style="padding:40px;margin-bottom:24px;text-align:center">
+    <h1 style="margin:0;font-size:24px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase;color:#141F18">NutriPal</h1>
+  </div>
+  <nav style="flex:1;display:flex;flex-direction:column;gap:8px;padding:0 20px">
+    <button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:16px;border:none;cursor:pointer;text-align:left;transition:all .2s;background: {{ navHomeBg }};opacity: {{ navHomeOp }}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+      <span style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#141F18">Home</span>
+    </button>
+    <button onClick="{{ goPlan }}" style="display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:16px;border:none;cursor:pointer;text-align:left;transition:all .2s;background: {{ navPlanBg }};opacity: {{ navPlanOp }}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Z"/></svg>
+      <span style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#141F18">Plan</span>
+    </button>
+    <button onClick="{{ goSnap }}" style="display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:16px;border:none;cursor:pointer;text-align:left;transition:all .2s;background: {{ navSnapBg }};opacity: {{ navSnapOp }}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+      <span style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#141F18">Snap</span>
+    </button>
+    <button onClick="{{ goExplore }}" style="display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:16px;border:none;cursor:pointer;text-align:left;transition:all .2s;background: {{ navExploreBg }};opacity: {{ navExploreOp }}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.9 15.5A2 2 0 0 0 8.5 14.1l-6.1-1.6a.5.5 0 0 1 0-1L8.5 9.9A2 2 0 0 0 9.9 8.5l1.6-6.1a.5.5 0 0 1 1 0l1.5 6.1a2 2 0 0 0 1.5 1.4l6.1 1.6a.5.5 0 0 1 0 1l-6.1 1.5a2 2 0 0 0-1.5 1.5l-1.5 6.1a.5.5 0 0 1-1 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
+      <span style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#141F18">Explore</span>
+    </button>
+  </nav>
+  <div style="padding:32px;border-top:1px solid rgba(236,239,234,.5)">
+    <button onClick="{{ goProfile }}" style="width:100%;display:flex;align-items:center;gap:16px;padding:16px;border-radius:16px;border:none;cursor:pointer;text-align:left;background: {{ navProfileBg }}">
+      <span style="width:40px;height:40px;border-radius:9999px;background:#BFDCCB;border:2px solid #fff;box-shadow:0 2px 8px rgba(30,42,34,.04);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#141F18">D</span>
+      <span style="flex:1;overflow:hidden">
+        <span style="display:block;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;color:#141F18">Demo User</span>
+        <span style="display:block;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.2em;color:#141F18;opacity:.4">Pro Member</span>
+      </span>
+    </button>
+  </div>
+</aside>
+</sc-if>
+
+<main style="flex:1;min-width:0;display:flex;align-items: {{ mainAlign }};justify-content:center">
+
+<sc-if value="{{ isToday }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="Today" style="width:100%;max-width:1152px;margin:0 auto;padding:16px 32px 96px;animation:np-in .5s ease both">
+  <header style="text-align:center;padding-top:16px;margin-bottom:16px">
+    <h1 style="margin:0;font-size:36px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase">Today</h1>
+    <p style="margin:4px 0 0;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.4">Monday, June 15th</p>
+  </header>
+
+  <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:12px">
+    <div style="grid-column:span 7;background:#fff;border-radius:32px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:20px;align-self:start">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+        <div>
+          <span style="font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.4">Energy Balance</span>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-top:2px">
+            <h2 style="margin:0;font-size:30px;font-weight:900;letter-spacing:-.05em">{{ consumed }}</h2>
+            <span style="font-size:12px;font-weight:900;opacity:.2;letter-spacing:-.03em;white-space:nowrap">/ {{ calorieTarget }} kcal</span>
+          </div>
+        </div>
+        <button style="width:28px;height:28px;border-radius:9999px;border:1px solid rgba(236,239,234,.8);background:transparent;display:flex;align-items:center;justify-content:center;opacity:.3;cursor:pointer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        </button>
+      </div>
+      <div style="display:flex;height:16px;width:100%;border-radius:16px;overflow:hidden;background:#E6F3EC;border:1px solid rgba(236,239,234,.6);box-shadow:inset 0 2px 4px rgba(30,42,34,.06)">
+        <div style="height:100%;background:#BFDCCB;transition:all .7s;width: {{ pPct }}"></div>
+        <div style="height:100%;background:#2563EB;transition:all .7s;width: {{ cPct }}"></div>
+        <div style="height:100%;background:#DCE96A;transition:all .7s;width: {{ fPct }}"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em">
+        <div>
+          <div style="display:flex;align-items:center;gap:4px"><span style="width:6px;height:6px;border-radius:9999px;background:#BFDCCB"></span>Protein</div>
+          <p style="margin:2px 0 0;font-size:14px;font-weight:900;letter-spacing:-.03em">{{ proteinPercent }}%</p>
+        </div>
+        <div style="text-align:center">
+          <div style="display:flex;align-items:center;gap:4px;justify-content:center"><span style="width:6px;height:6px;border-radius:9999px;background:#2563EB"></span>Carbs</div>
+          <p style="margin:2px 0 0;font-size:14px;font-weight:900;letter-spacing:-.03em">{{ carbsPercent }}%</p>
+        </div>
+        <div style="text-align:right">
+          <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end"><span style="width:6px;height:6px;border-radius:9999px;background:#DCE96A"></span>Fat</div>
+          <p style="margin:2px 0 0;font-size:14px;font-weight:900;letter-spacing:-.03em">{{ fatPercent }}%</p>
+        </div>
+      </div>
+      <div style="padding-top:10px;margin-top:12px;border-top:1px solid rgba(236,239,234,.6)">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em">
+          <span style="opacity:.4">Goal Progress</span>
+          <span style="color:#8FBFA3">{{ goalPercent }}% Consumed</span>
+        </div>
+        <div style="height:6px;border-radius:9999px;background:#E6F3EC;margin-top:4px;overflow:hidden">
+          <div style="height:100%;background:#BFDCCB;border-radius:9999px;width: {{ goalBarWidth }}"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="grid-column:span 5;display:flex;flex-direction:column;gap:12px">
+      <div style="background:#fff;border-radius:32px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:12px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:90px">
+        <button onClick="{{ openRecovery }}" style="padding:6px;border-radius:8px;margin-bottom:4px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);cursor:pointer;animation:np-pulse 2s infinite">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+        </button>
+        <p style="margin:0;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.4">Active Burn</p>
+        <p style="margin:2px 0 0;font-size:18px;font-weight:900;letter-spacing:-.05em;white-space:nowrap">{{ activeBurn }} <span style="font-size:9px;font-weight:900;opacity:.2">kcal</span></p>
+      </div>
+      <div style="background:#fff;border-radius:32px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:12px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:90px">
+        <div style="padding:6px;background:rgba(220,233,106,.2);border:1px solid rgba(220,233,106,.4);border-radius:8px;margin-bottom:4px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A11 11 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/></svg>
+        </div>
+        <p style="margin:0;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.4">Hydration</p>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:2px">
+          <button onClick="{{ waterDown }}" style="width:28px;height:28px;border-radius:9999px;background:rgba(230,243,236,.8);border:1px solid rgba(236,239,234,.8);display:flex;align-items:center;justify-content:center;cursor:pointer">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="3" stroke-linecap="round"><path d="M5 12h14"/></svg>
+          </button>
+          <div style="display:flex;flex-direction:column;align-items:center">
+            <span style="font-size:18px;font-weight:900;letter-spacing:-.05em">{{ waterLabel }}</span>
+            <span style="font-size:7px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;color: {{ waterColor }}">{{ waterStatus }}</span>
+          </div>
+          <button onClick="{{ waterUp }}" style="width:28px;height:28px;border-radius:9999px;background:#BFDCCB;border:none;box-shadow:0 1px 2px rgba(30,42,34,.08);display:flex;align-items:center;justify-content:center;cursor:pointer">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="3" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section style="margin-top:24px">
+    <h2 style="margin:0 0 12px;padding:0 8px;font-size:18px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase;display:flex;align-items:center;gap:12px">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.8"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+      Weekly Macro Trend
+    </h2>
+    <div style="background:#fff;border-radius:32px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:40px 20px 20px">
+      <div style="display:flex;justify-content:flex-end;gap:16px;margin-bottom:8px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.05em">
+        <span style="display:flex;align-items:center;gap:5px;color:#BFDCCB"><span style="width:8px;height:8px;border-radius:9999px;background:#BFDCCB"></span>Protein</span>
+        <span style="display:flex;align-items:center;gap:5px;color:#2563EB"><span style="width:8px;height:8px;border-radius:9999px;background:#2563EB"></span>Carbs</span>
+        <span style="display:flex;align-items:center;gap:5px;color:#C3D142"><span style="width:8px;height:8px;border-radius:9999px;background:#DCE96A"></span>Fat</span>
+      </div>
+      <div style="display:flex;gap:8px;height:200px">
+        <div style="width:56px;position:relative;flex:0 0 56px">
+          <span style="position:absolute;top:-5px;right:0;font-size:8px;font-weight:900">2000kcal</span>
+          <span style="position:absolute;top:45px;right:0;font-size:8px;font-weight:900">1500kcal</span>
+          <span style="position:absolute;top:95px;right:0;font-size:8px;font-weight:900">1000kcal</span>
+          <span style="position:absolute;top:145px;right:0;font-size:8px;font-weight:900">500kcal</span>
+          <span style="position:absolute;top:195px;right:0;font-size:8px;font-weight:900">0kcal</span>
+        </div>
+        <div style="flex:1;position:relative">
+          <div style="position:absolute;left:0;right:0;top:0;border-top:1px dashed #ECEFEA"></div>
+          <div style="position:absolute;left:0;right:0;top:50px;border-top:1px dashed #ECEFEA"></div>
+          <div style="position:absolute;left:0;right:0;top:100px;border-top:1px dashed #ECEFEA"></div>
+          <div style="position:absolute;left:0;right:0;top:150px;border-top:1px dashed #ECEFEA"></div>
+          <div style="position:absolute;left:0;right:0;top:200px;border-top:1px dashed #ECEFEA"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:flex-end">
+            <sc-for list="{{ trend }}" as="day" hint-placeholder-count="7">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%">
+                <div style="width:68%;display:flex;flex-direction:column;justify-content:flex-end;height: {{ day.total }}">
+                  <div style="background:#DCE96A;height: {{ day.fat }}"></div>
+                  <div style="background:#2563EB;height: {{ day.carbs }}"></div>
+                  <div style="background:#BFDCCB;height: {{ day.protein }}"></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <div style="width:56px;flex:0 0 56px"></div>
+        <div style="flex:1;display:flex">
+          <sc-for list="{{ trend }}" as="day" hint-placeholder-count="7">
+            <div style="flex:1;text-align:center;font-size:9px;font-weight:900">{{ day.label }}</div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top:24px">
+    <h2 style="margin:0 0 12px;padding:0 8px;font-size:18px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase;display:flex;align-items:center;gap:12px">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.8"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Z"/></svg>
+      Daily Food Record
+    </h2>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ meals }}" as="meal" hint-placeholder-count="2">
+        <div onClick="{{ meal.toggle }}" style="background:#fff;border-radius:24px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);cursor:pointer;overflow:hidden;box-shadow: {{ meal.shadow }}">
+          <div style="padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <div style="display:flex;align-items:center;gap:16px;flex:1">
+              <div style="min-width:80px;border-right:1px solid rgba(236,239,234,.9);padding-right:16px;text-align:center">
+                <p style="margin:0;font-size:18px;font-weight:900;opacity:.4;letter-spacing:-.05em;text-transform:uppercase">{{ meal.time }}</p>
+              </div>
+              <div style="width:44px;height:44px;border-radius:8px;border:1px solid rgba(236,239,234,.9);background:rgba(230,243,236,.5);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.2"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Z"/></svg>
+              </div>
+              <div style="flex:1">
+                <h3 style="margin:0;font-size:18px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase;line-height:1">{{ meal.name }}</h3>
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:6px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.6">
+                  <span>+{{ meal.calories }} KCAL</span>
+                  <span style="display:flex;gap:8px">
+                    <span style="color:#8FBFA3">P {{ meal.protein }}g</span>
+                    <span style="color:#2563EB">C {{ meal.carbs }}g</span>
+                    <span style="color:#B4C22F">F {{ meal.fat }}g</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+              <sc-if value="{{ meal.consumed }}">
+                <span style="height:16px;padding:0 6px;font-size:7px;font-weight:900;text-transform:uppercase;background:rgba(34,197,94,.1);color:#16A34A;border-radius:6px;display:flex;align-items:center">Eaten</span>
+              </sc-if>
+              <sc-if value="{{ meal.planned }}">
+                <button onClick="{{ meal.eatNow }}" style="height:28px;padding:0 12px;border-radius:8px;background:#BFDCCB;border:none;font-size:7px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer;box-shadow:0 1px 2px rgba(30,42,34,.08)">Eat Now</button>
+              </sc-if>
+              <span style="opacity:.2;display:flex">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </span>
+            </div>
+          </div>
+          <sc-if value="{{ meal.expanded }}">
+            <div style="padding:0 16px 20px;animation:np-in .3s ease both">
+              <div style="height:1px;background:rgba(236,239,234,.6);margin-bottom:16px"></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div style="background:rgba(191,220,203,.15);padding:12px;border-radius:12px;border:1px solid rgba(191,220,203,.3)">
+                  <p style="margin:0;font-size:7px;font-weight:900;text-transform:uppercase;opacity:.4;display:flex;align-items:center;gap:4px">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Health Score
+                  </p>
+                  <span style="font-size:14px;font-weight:900">{{ meal.healthScore }}/100</span>
+                </div>
+                <div style="background:rgba(220,233,106,.12);padding:12px;border-radius:12px;border:1px solid rgba(220,233,106,.3)">
+                  <p style="margin:0;font-size:7px;font-weight:900;text-transform:uppercase;opacity:.4">Source</p>
+                  <span style="display:inline-block;margin-top:4px;font-size:7px;font-weight:900;text-transform:uppercase;padding:2px 6px;border:1px solid rgba(220,233,106,.6);border-radius:6px">{{ meal.source }}</span>
+                </div>
+              </div>
+              <div style="margin-top:16px">
+                <p style="margin:0 0 6px;font-size:7px;font-weight:900;text-transform:uppercase;opacity:.4;display:flex;align-items:center;gap:4px">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg> AI Expert Insight
+                </p>
+                <p style="margin:0;font-size:10px;font-weight:700;line-height:1.7;opacity:.8;font-style:italic">"{{ meal.insight }}"</p>
+              </div>
+              <div style="margin-top:16px">
+                <p style="margin:0 0 6px;font-size:7px;font-weight:900;text-transform:uppercase;opacity:.4;display:flex;align-items:center;gap:4px">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg> Ingredients
+                </p>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <sc-for list="{{ meal.ingredients }}" as="ing" hint-placeholder-count="4">
+                    <span style="font-size:8px;font-weight:900;text-transform:uppercase;background:rgba(230,243,236,.6);padding:2px 8px;border-radius:8px;opacity:.6">{{ ing }}</span>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
+    <button onClick="{{ goSnap }}" style="height:64px;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:#BFDCCB;border:none;box-shadow:0 20px 50px -12px rgba(30,42,34,.1);cursor:pointer;color:#141F18">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+      <span style="font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em">Snap Analysis</span>
+    </button>
+    <button onClick="{{ goPlan }}" style="height:64px;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:#fff;border:2px solid #ECEFEA;box-shadow:0 2px 8px rgba(30,42,34,.04);cursor:pointer;color:#141F18">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.6"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Z"/></svg>
+      <span style="font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em">Meal Planner</span>
+    </button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPlan }}">
+<div data-screen-label="Plan" style="width:100%;max-width:1024px;margin:0 auto;padding:24px 16px 128px;text-align:center;animation:np-in .5s ease both">
+  <header style="padding-top:16px;margin-bottom:24px">
+    <h1 style="margin:0;font-size:36px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase">Plan</h1>
+    <p style="margin:4px 0 0;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.4">Menu Management</p>
+  </header>
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:center">
+    <button onClick="{{ planToday }}" style="height:40px;padding:0 24px;border-radius:9999px;border:2px solid #ECEFEA;background:transparent;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">Today</button>
+    <div style="display:flex;align-items:center;background:#fff;border:2px solid #ECEFEA;border-radius:9999px;box-shadow:0 1px 2px rgba(30,42,34,.04);padding:4px">
+      <button onClick="{{ planPrev }}" style="width:32px;height:32px;border-radius:9999px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <div style="padding:0 16px;min-width:120px;text-align:center;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em">{{ planDate }}</div>
+      <button onClick="{{ planNext }}" style="width:32px;height:32px;border-radius:9999px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+    <button onClick="{{ openAddMeal }}" style="height:40px;padding:0 32px;border-radius:9999px;background:#BFDCCB;border:none;box-shadow:0 20px 25px -5px rgba(30,42,34,.1);display:flex;align-items:center;gap:8px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg> Add Meal
+    </button>
+  </div>
+
+  <section style="margin-top:32px">
+    <h2 style="margin:0 0 12px;font-size:18px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase;display:flex;align-items:center;gap:12px;text-align:left">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      Schedule
+    </h2>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ meals }}" as="meal" hint-placeholder-count="2">
+        <div style="background:#fff;border-radius:24px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+          <div style="display:flex;align-items:center;gap:16px;flex:1;text-align:left">
+            <div style="min-width:80px;border-right:1px solid rgba(236,239,234,.9);padding-right:16px;text-align:center">
+              <p style="margin:0;font-size:18px;font-weight:900;opacity:.4;letter-spacing:-.05em;text-transform:uppercase">{{ meal.time }}</p>
+            </div>
+            <div style="flex:1">
+              <div style="display:flex;align-items:center;gap:8px">
+                <h3 style="margin:0;font-size:18px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase;line-height:1">{{ meal.name }}</h3>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:6px">
+                <p style="margin:0;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.6">+{{ meal.calories }} KCAL</p>
+                <div style="display:flex;align-items:center;gap:12px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em">
+                  <span style="color:#8FBFA3">Protein {{ meal.protein }}g</span>
+                  <span style="color:#2563EB">Carbs {{ meal.carbs }}g</span>
+                  <span style="color:#B4C22F">Fat {{ meal.fat }}g</span>
+                </div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-top:6px">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round" style="opacity:.3"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
+                <sc-for list="{{ meal.chips }}" as="chip" hint-placeholder-count="3">
+                  <span style="font-size:7px;font-weight:900;text-transform:uppercase;background:#E6F3EC;padding:2px 6px;border-radius:8px;opacity:.5">{{ chip }}</span>
+                </sc-for>
+                <span style="font-size:7px;font-weight:900;opacity:.3">+{{ meal.more }}</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <sc-if value="{{ meal.consumed }}">
+              <span style="height:18px;padding:0 6px;font-size:7px;font-weight:900;text-transform:uppercase;background:rgba(34,197,94,.1);color:#16A34A;border-radius:6px;display:flex;align-items:center;gap:4px">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="3" stroke-linecap="round"><path d="M21.8 10A10 10 0 1 1 17 3.3"/><path d="m9 11 3 3L22 4"/></svg> Consumed
+              </span>
+            </sc-if>
+            <button onClick="{{ meal.recipe }}" style="width:32px;height:32px;border-radius:8px;border:1px solid #ECEFEA;background:rgba(230,243,236,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 2px rgba(30,42,34,.04)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.46.32-.85.73-1.04a4 4 0 0 0-2.61-7.61 5.5 5.5 0 0 0-10.24 0 4 4 0 0 0-2.61 7.61c.41.19.73.58.73 1.04V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></svg>
+            </button>
+            <button onClick="{{ openAddMeal }}" style="width:32px;height:32px;border-radius:8px;border:1px solid #ECEFEA;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.5;box-shadow:0 1px 2px rgba(30,42,34,.04)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 6.8a1 1 0 0 0-4-4L3.8 16.2a2 2 0 0 0-.5.83l-1.3 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z"/></svg>
+            </button>
+            <button onClick="{{ meal.remove }}" style="width:32px;height:32px;border-radius:8px;border:1px solid #ECEFEA;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.5;box-shadow:0 1px 2px rgba(30,42,34,.04)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+      </sc-for>
+      <sc-if value="{{ planEmpty }}">
+        <div style="text-align:center;padding:64px 0;background:rgba(255,255,255,.5);border-radius:32px;border:2px dashed rgba(236,239,234,.9);display:flex;flex-direction:column;align-items:center">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.1;margin-bottom:16px"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Z"/></svg>
+          <p style="margin:0;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.4">Empty Schedule</p>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <section style="margin-top:32px">
+    <div onClick="{{ goExplore }}" style="border-radius:24px;background:rgba(191,220,203,.2);border:2px solid rgba(191,220,203,.5);box-shadow:0 2px 8px rgba(30,42,34,.04);padding:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer">
+      <div style="display:flex;align-items:center;gap:16px;flex:1">
+        <div style="width:40px;height:40px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(191,220,203,.5);box-shadow:0 2px 8px rgba(30,42,34,.04);flex-shrink:0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg>
+        </div>
+        <div style="text-align:left">
+          <p style="margin:0;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.2em;opacity:.7">Decision Engine</p>
+          <h3 style="margin:2px 0 0;font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:-.05em;line-height:1">AI Discovery</h3>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;background:#BFDCCB;padding:0 16px;height:36px;border-radius:12px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;box-shadow:0 20px 25px -5px rgba(30,42,34,.1);flex-shrink:0">
+        Explore <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </div>
+    </div>
+  </section>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSnap }}">
+<div data-screen-label="Snap" style="width:100%;max-width:1024px;margin:0 auto;padding:24px 16px 128px;animation:np-in .5s ease both">
+  <header style="text-align:center;padding-top:16px;margin-bottom:24px">
+    <h1 style="margin:0;font-size:36px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase">Snap Meal</h1>
+    <p style="margin:4px 0 0;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.4">AI Health Scan</p>
+  </header>
+
+  <sc-if value="{{ snapChoice }}">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:576px;margin:40px auto 0">
+      <div onClick="{{ snapStartCamera }}" style="border-radius:32px;background:#fff;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);cursor:pointer;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;aspect-ratio:1/1">
+        <div style="width:64px;height:64px;background:rgba(191,220,203,.3);border:1px solid rgba(191,220,203,.4);border-radius:16px;display:flex;align-items:center;justify-content:center">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+        </div>
+        <h3 style="margin:0;font-size:14px;font-weight:900;text-transform:uppercase">Camera</h3>
+      </div>
+      <div onClick="{{ snapStartGallery }}" style="border-radius:32px;background:#fff;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);cursor:pointer;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;aspect-ratio:1/1">
+        <div style="width:64px;height:64px;background:rgba(220,233,106,.25);border:1px solid rgba(220,233,106,.4);border-radius:16px;display:flex;align-items:center;justify-content:center">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></svg>
+        </div>
+        <h3 style="margin:0;font-size:14px;font-weight:900;text-transform:uppercase">Gallery</h3>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ snapActive }}">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;max-width:1024px;margin:0 auto">
+      <div style="border-radius:24px;background:#fff;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:12px;display:flex;flex-direction:column">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <button onClick="{{ snapReset }}" style="height:32px;padding:0 12px;border:none;background:transparent;display:flex;align-items:center;gap:4px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;cursor:pointer;color:#141F18">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Back
+          </button>
+          <span style="background:rgba(191,220,203,.3);font-size:7px;font-weight:900;text-transform:uppercase;padding:4px 10px;border-radius:9999px">{{ snapModeLabel }}</span>
+        </div>
+        <div style="position:relative;aspect-ratio:1/1;width:100%;border:1px solid rgba(236,239,234,.9);border-radius:16px;background:rgba(230,243,236,.3);overflow:hidden;box-shadow:inset 0 2px 6px rgba(30,42,34,.05)">
+          <image-slot id="snap-meal-photo" shape="rounded" radius="16" placeholder="Drop a meal photo"></image-slot>
+        </div>
+        <div style="margin-top:12px">
+          <sc-if value="{{ snapCanAnalyze }}">
+            <button onClick="{{ snapAnalyze }}" style="width:100%;height:48px;border-radius:12px;background:#BFDCCB;border:none;box-shadow:0 20px 50px -12px rgba(30,42,34,.1);font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg> Analyze
+            </button>
+          </sc-if>
+          <sc-if value="{{ snapAnalyzing }}">
+            <button style="width:100%;height:48px;border-radius:12px;background:#BFDCCB;border:none;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;display:flex;align-items:center;justify-content:center;gap:8px;opacity:.8">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round" style="animation:np-spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.22-8.56"/></svg> Analyzing
+            </button>
+          </sc-if>
+          <sc-if value="{{ snapDone }}">
+            <button onClick="{{ snapReset }}" style="width:100%;height:48px;border-radius:12px;background:transparent;border:2px solid #ECEFEA;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg> Re-analyze
+            </button>
+          </sc-if>
+        </div>
+      </div>
+
+      <div style="width:100%">
+        <sc-if value="{{ snapDone }}">
+          <div style="border-radius:24px;background:#fff;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:16px;display:flex;flex-direction:column;gap:16px;animation:np-in .5s ease both">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid rgba(236,239,234,.9);padding-bottom:8px;gap:12px">
+              <h2 style="margin:0;font-size:18px;font-weight:900;text-transform:uppercase;line-height:1.15">Abbon Ayam Rojo Koyo (Chicken Floss)</h2>
+              <p style="margin:0;font-size:24px;font-weight:900;letter-spacing:-.05em;white-space:nowrap">+472<span style="font-size:8px;margin-left:2px;opacity:.2;text-transform:uppercase">kcal</span></p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+              <div style="padding:8px;background:rgba(191,220,203,.25);border-radius:8px;text-align:center">
+                <p style="margin:0;font-size:7px;font-weight:900;opacity:.4;text-transform:uppercase">Protein</p>
+                <p style="margin:2px 0 0;font-size:14px;font-weight:900">30g</p>
+              </div>
+              <div style="padding:8px;background:#EFF6FF;border-radius:8px;text-align:center">
+                <p style="margin:0;font-size:7px;font-weight:900;opacity:.4;text-transform:uppercase">Carbs</p>
+                <p style="margin:2px 0 0;font-size:14px;font-weight:900;color:#1D4ED8">25g</p>
+              </div>
+              <div style="padding:8px;background:rgba(220,233,106,.25);border-radius:8px;text-align:center">
+                <p style="margin:0;font-size:7px;font-weight:900;opacity:.4;text-transform:uppercase">Fat</p>
+                <p style="margin:2px 0 0;font-size:14px;font-weight:900">28g</p>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px;background:rgba(230,243,236,.3);border-radius:8px;border:1px solid rgba(236,239,234,.9)">
+              <div>
+                <label style="font-size:7px;font-weight:900;text-transform:uppercase;opacity:.4;display:flex;align-items:center;gap:4px">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg> Date
+                </label>
+                <input type="date" value="2026-06-15" style="width:100%;height:32px;margin-top:4px;font-size:9px;font-weight:900;background:#fff;border-radius:6px;border:none;padding:0 6px;color:#141F18">
+              </div>
+              <div>
+                <label style="font-size:7px;font-weight:900;text-transform:uppercase;opacity:.4;display:flex;align-items:center;gap:4px">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Time
+                </label>
+                <input type="time" value="22:57" style="width:100%;height:32px;margin-top:4px;font-size:9px;font-weight:900;background:#fff;border-radius:6px;border:none;padding:0 6px;color:#141F18">
+              </div>
+            </div>
+            <p style="margin:0;font-size:14px;font-weight:700;line-height:1.7;opacity:.9;background:rgba(191,220,203,.12);padding:12px;border-radius:8px;border:1px solid rgba(191,220,203,.3);font-style:italic">"Abon Ayam is a protein-rich topping. Enjoy in moderation, as it can be high in sodium, sugar, and fat. Pair with whole foods for balance in your diet."</p>
+            <div>
+              <p style="margin:0 0 8px;font-size:8px;font-weight:900;text-transform:uppercase;opacity:.4;display:flex;align-items:center;gap:6px">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg> Ingredients
+              </p>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <span style="font-size:9px;font-weight:900;text-transform:uppercase;background:rgba(230,243,236,.6);padding:4px 8px;border-radius:8px;opacity:.6">Chicken Meat</span>
+                <span style="font-size:9px;font-weight:900;text-transform:uppercase;background:rgba(230,243,236,.6);padding:4px 8px;border-radius:8px;opacity:.6">Sugar</span>
+                <span style="font-size:9px;font-weight:900;text-transform:uppercase;background:rgba(230,243,236,.6);padding:4px 8px;border-radius:8px;opacity:.6">Salt</span>
+                <span style="font-size:9px;font-weight:900;text-transform:uppercase;background:rgba(230,243,236,.6);padding:4px 8px;border-radius:8px;opacity:.6">Vegetable Oil</span>
+                <span style="font-size:9px;font-weight:900;text-transform:uppercase;background:rgba(230,243,236,.6);padding:4px 8px;border-radius:8px;opacity:.6">Seasoning</span>
+                <span style="font-size:9px;font-weight:900;text-transform:uppercase;background:rgba(230,243,236,.6);padding:4px 8px;border-radius:8px;opacity:.6">Spices</span>
+              </div>
+            </div>
+            <button onClick="{{ snapSync }}" style="width:100%;height:48px;border-radius:12px;background:#141F18;border:none;color:#fff;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 8px rgba(30,42,34,.12);margin-top:auto">
+              Sync Record <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ snapAwaiting }}">
+          <div style="height:100%;min-height:320px;border:2px dashed rgba(236,239,234,.9);border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center;background:rgba(255,255,255,.5)">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.1;margin-bottom:8px"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+            <p style="margin:0;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.2">Awaiting Analysis</p>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isExplore }}">
+<div data-screen-label="Explore" style="width:100%;max-width:1152px;margin:0 auto;padding:32px 32px 128px;animation:np-in .5s ease both">
+  <header style="text-align:center;padding-top:16px;margin-bottom:32px">
+    <h1 style="margin:0;font-size:36px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase">Explore</h1>
+    <p style="margin:4px 0 0;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.4">Discovery Hub</p>
+  </header>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-top:16px">
+    <div style="border-radius:32px;background:#fff;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;gap:16px">
+      <div style="width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:rgba(191,220,203,.18);border:2px solid rgba(191,220,203,.35);box-shadow:0 1px 2px rgba(30,42,34,.04)">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
+      </div>
+      <div>
+        <h3 style="margin:0;font-size:16px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase">ML Curation</h3>
+        <p style="margin:6px 0 0;font-size:10px;font-weight:700;line-height:1.4;text-transform:uppercase;letter-spacing:.05em;opacity:.6">Neural recommendation engine for platform ecosystem matching.</p>
+      </div>
+      <button onClick="{{ openCuration }}" style="width:100%;height:48px;border-radius:12px;background:#BFDCCB;border:none;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">Execute Scorer</button>
+    </div>
+    <div style="border-radius:32px;background:#fff;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;gap:16px">
+      <div style="width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:#DBEAFE;border:2px solid #BFDBFE;box-shadow:0 1px 2px rgba(30,42,34,.04)">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.46.32-.85.73-1.04a4 4 0 0 0-2.61-7.61 5.5 5.5 0 0 0-10.24 0 4 4 0 0 0-2.61 7.61c.41.19.73.58.73 1.04V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></svg>
+      </div>
+      <div>
+        <h3 style="margin:0;font-size:16px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase">Recipe From Pantry</h3>
+        <p style="margin:6px 0 0;font-size:10px;font-weight:700;line-height:1.4;text-transform:uppercase;letter-spacing:.05em;opacity:.6">Generate simple recipes using what you already have.</p>
+      </div>
+      <button onClick="{{ openPantry }}" style="width:100%;height:48px;border-radius:12px;background:#2563EB;border:none;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#fff;cursor:pointer">Create Recipe</button>
+    </div>
+    <div style="border-radius:32px;background:#fff;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;gap:16px">
+      <div style="width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:rgba(220,233,106,.18);border:2px solid rgba(220,233,106,.4);box-shadow:0 1px 2px rgba(30,42,34,.04)">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
+      </div>
+      <div>
+        <h3 style="margin:0;font-size:16px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase">Predictive Path</h3>
+        <p style="margin:6px 0 0;font-size:10px;font-weight:700;line-height:1.4;text-transform:uppercase;letter-spacing:.05em;opacity:.6">Synthesize daily nutritional path using predictive models.</p>
+      </div>
+      <button onClick="{{ openPredictive }}" style="width:100%;height:48px;border-radius:12px;background:#DCE96A;border:none;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">Synthesize Path</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isProfile }}">
+<div data-screen-label="Profile" style="width:100%;max-width:1280px;margin:0 auto;padding:48px 32px 128px;animation:np-in .5s ease both">
+  <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:32px">
+    <div style="grid-column:span 4;display:flex;flex-direction:column;gap:32px">
+      <div style="background:#fff;border-radius:32px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:32px;text-align:center;display:flex;flex-direction:column;align-items:center">
+        <div style="position:relative">
+          <div style="width:128px;height:128px;border-radius:9999px;background:#BFDCCB;border:4px solid #fff;box-shadow:0 2px 8px rgba(30,42,34,.04);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;text-transform:uppercase">D</div>
+          <button style="position:absolute;bottom:0;right:0;width:40px;height:40px;border-radius:9999px;background:#BFDCCB;border:2px solid #fff;box-shadow:0 2px 8px rgba(30,42,34,.04);display:flex;align-items:center;justify-content:center;cursor:pointer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 6.8a1 1 0 0 0-4-4L3.8 16.2a2 2 0 0 0-.5.83l-1.3 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z"/></svg>
+          </button>
+        </div>
+        <h2 style="margin:24px 0 0;font-size:30px;font-weight:900;letter-spacing:-.03em;text-transform:uppercase;line-height:1.1">Demo User</h2>
+        <span style="margin-top:8px;background:#F0FDF4;color:#166534;padding:6px 16px;border-radius:12px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em">Pro Member</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;width:100%">
+          <div style="background:rgba(191,220,203,.15);border-radius:16px;padding:16px;text-align:left">
+            <p style="margin:0;font-size:8px;font-weight:900;opacity:.4;text-transform:uppercase;letter-spacing:.15em">Weight</p>
+            <p style="margin:2px 0 0;font-size:24px;font-weight:900;letter-spacing:-.03em;text-transform:uppercase">62 <span style="font-size:12px;font-weight:900;opacity:.2">kg</span></p>
+          </div>
+          <div style="background:#EFF6FF;border-radius:16px;padding:16px;text-align:left">
+            <p style="margin:0;font-size:8px;font-weight:900;opacity:.4;text-transform:uppercase;letter-spacing:.15em">Status</p>
+            <p style="margin:2px 0 0;font-size:24px;font-weight:900;letter-spacing:-.03em;text-transform:uppercase">Ideal</p>
+          </div>
+        </div>
+      </div>
+      <button onClick="{{ signOut }}" style="width:100%;height:56px;border-radius:16px;background:#DC2626;border:none;color:#fff;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;box-shadow:0 2px 8px rgba(30,42,34,.04)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+        Sign Out
+      </button>
+    </div>
+    <div style="grid-column:span 8;display:flex;flex-direction:column;gap:32px">
+      <div style="background:#fff;border-radius:40px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:32px">
+        <p style="margin:0 0 12px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;display:flex;align-items:center;gap:8px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2.5" stroke-linecap="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> Dietary Markers
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="background:rgba(191,220,203,.25);padding:4px 16px;border-radius:8px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em">Hypertension</span>
+          <span style="background:rgba(191,220,203,.25);padding:4px 16px;border-radius:8px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em">Gluten-free</span>
+        </div>
+        <div style="margin-top:24px;padding-top:24px;border-top:1px solid rgba(236,239,234,.8)">
+          <p style="margin:0 0 12px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;display:flex;align-items:center;gap:8px">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Allergies Detected
+          </p>
+          <p style="margin:0;font-size:14px;font-weight:900;opacity:.7">Peanuts, Shellfish</p>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:32px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:24px;border-bottom:1px solid rgba(236,239,234,.8)">
+          <div style="display:flex;align-items:center;gap:16px">
+            <div style="background:rgba(230,243,236,.6);padding:12px;border-radius:12px;display:flex">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.27 21a1.94 1.94 0 0 0 3.46 0"/><path d="M18.63 13A17.9 17.9 0 0 1 18 8a6 6 0 0 0-12 0c0 2-.5 3.5-1.5 5"/><path d="M4 17h16"/></svg>
+            </div>
+            <div style="text-align:left">
+              <p style="margin:0;font-size:12px;font-weight:900;letter-spacing:-.02em;text-transform:uppercase">Smart Notifications</p>
+              <p style="margin:2px 0 0;font-size:8px;font-weight:900;opacity:.4;text-transform:uppercase">Meal reminders</p>
+            </div>
+          </div>
+          <button onClick="{{ toggleNotifs }}" style="width:44px;height:24px;border-radius:9999px;border:none;cursor:pointer;position:relative;transition:all .2s;background: {{ notifBg }}">
+            <span style="position:absolute;top:2px;width:20px;height:20px;border-radius:9999px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.15);transition:all .2s;left: {{ notifKnob }}"></span>
+          </button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:24px;border-bottom:1px solid rgba(236,239,234,.8)">
+          <div style="display:flex;align-items:center;gap:16px">
+            <div style="background:rgba(230,243,236,.6);padding:12px;border-radius:12px;display:flex">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <div style="text-align:left">
+              <p style="margin:0;font-size:12px;font-weight:900;letter-spacing:-.02em;text-transform:uppercase">Connected Platforms</p>
+              <p style="margin:2px 0 0;font-size:8px;font-weight:900;opacity:.4;text-transform:uppercase">Grab, Gojek integrated</p>
+            </div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.2"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+        <div onClick="{{ openFitness }}" style="display:flex;align-items:center;justify-content:space-between;padding:24px;cursor:pointer">
+          <div style="display:flex;align-items:center;gap:16px">
+            <div style="background:rgba(230,243,236,.6);padding:12px;border-radius:12px;display:flex">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+            </div>
+            <div style="text-align:left">
+              <p style="margin:0;font-size:12px;font-weight:900;letter-spacing:-.02em;text-transform:uppercase">Wearable Sync</p>
+              <p style="margin:2px 0 0;font-size:8px;font-weight:900;opacity:.4;text-transform:uppercase">Sync Health Apps</p>
+            </div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.2"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isLogin }}">
+<div data-screen-label="Login" style="width:100%;display:flex;align-items:center;justify-content:center;padding:16px;min-height:100vh">
+  <div style="width:100%;max-width:448px;border-radius:48px;overflow:hidden;background:rgba(255,255,255,.96);box-shadow:0 25px 50px -12px rgba(30,42,34,.25);animation:np-in .6s ease both">
+    <div style="background:#BFDCCB;padding:48px 16px 40px;text-align:center">
+      <div style="margin:0 auto;background:rgba(255,255,255,.9);width:64px;height:64px;border-radius:9999px;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 2px 4px rgba(0,0,0,.06)">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+      </div>
+      <h1 style="margin:24px 0 0;font-size:30px;font-weight:900;letter-spacing:-.03em;color:#141F18">NutriPal</h1>
+      <p style="margin:4px 0 0;font-size:12px;font-weight:700;color:#141F18;opacity:.9">AI Powered Nutrition Ecosystem</p>
+    </div>
+    <div style="padding:40px 32px">
+      <button onClick="{{ signIn }}" style="width:100%;height:56px;border-radius:16px;background:#BFDCCB;border:none;box-shadow:0 4px 6px -1px rgba(30,42,34,.1);display:flex;align-items:center;justify-content:center;gap:12px;font-size:14px;font-weight:900;color:#141F18;cursor:pointer">
+        <sc-if value="{{ loginIdle }}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M21.17 8H12"/><path d="M3.95 6.06 8.54 14"/><path d="M10.88 21.94 15.46 14"/></svg>
+        </sc-if>
+        <sc-if value="{{ loginBusy }}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round" style="animation:np-spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.22-8.56"/></svg>
+        </sc-if>
+        {{ loginLabel }}
+      </button>
+      <p style="margin:16px 24px 0;text-align:center;font-size:10px;font-weight:500;line-height:1.7;color:rgba(65,88,75,.7)">Demo mode simulates access to your delivery history and fitness metrics automatically.</p>
+      <div style="position:relative;margin:32px 0">
+        <div style="position:absolute;inset:0;display:flex;align-items:center"><span style="width:100%;border-top:1px solid #ECEFEA"></span></div>
+        <div style="position:relative;display:flex;justify-content:center;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.2em;color:rgba(65,88,75,.4)"><span style="background:#fff;padding:0 12px">Automated Ecosystem Sync</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:rgba(240,253,244,.6)">
+          <div style="background:#fff;padding:8px;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.05);display:flex">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+          </div>
+          <div>
+            <p style="margin:0;font-size:10px;font-weight:900">GrabFood</p>
+            <div style="display:flex;align-items:center;gap:4px;margin-top:1px">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="3" stroke-linecap="round"><path d="M21.8 10A10 10 0 1 1 17 3.3"/><path d="m9 11 3 3L22 4"/></svg>
+              <span style="font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:-.03em;color:#41584B">Connected</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:rgba(236,253,245,.6)">
+          <div style="background:#fff;padding:8px;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.05);display:flex">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+          </div>
+          <div>
+            <p style="margin:0;font-size:10px;font-weight:900">GoFood</p>
+            <div style="display:flex;align-items:center;gap:4px;margin-top:1px">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="3" stroke-linecap="round"><path d="M21.8 10A10 10 0 1 1 17 3.3"/><path d="m9 11 3 3L22 4"/></svg>
+              <span style="font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:-.03em;color:#41584B">Connected</span>
+            </div>
+          </div>
+        </div>
+        <div style="grid-column:span 2;display:flex;align-items:center;justify-content:center;gap:12px;padding:12px;border-radius:16px;background:rgba(254,242,242,.6)">
+          <div style="background:#fff;padding:8px;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.05);display:flex">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <div>
+            <p style="margin:0;font-size:10px;font-weight:900">Fitness Apps</p>
+            <div style="display:flex;align-items:center;gap:4px;margin-top:1px">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="3" stroke-linecap="round"><path d="M21.8 10A10 10 0 1 1 17 3.3"/><path d="m9 11 3 3L22 4"/></svg>
+              <span style="font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:-.03em;color:#41584B">Connected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isOnboarding }}">
+<div data-screen-label="Onboarding" style="width:100%;max-width:672px;margin:0 auto;padding:40px 16px 96px;animation:np-in .5s ease both">
+  <header style="text-align:center;margin-bottom:24px">
+    <h1 style="margin:0;font-size:36px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase">Setup Profile</h1>
+    <p style="margin:4px 0 0;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.4">Health Calibration</p>
+  </header>
+
+  <div style="background:#fff;border-radius:40px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:24px;margin-bottom:24px">
+    <p style="margin:0 0 20px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;display:flex;align-items:center;gap:8px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2.5" stroke-linecap="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Biological Sex
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <button onClick="{{ pickMale }}" style="display:flex;align-items:center;gap:12px;padding:16px;border-radius:16px;cursor:pointer;background:transparent;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;border: {{ maleBorder }}">Male</button>
+      <button onClick="{{ pickFemale }}" style="display:flex;align-items:center;gap:12px;padding:16px;border-radius:16px;cursor:pointer;background:transparent;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;border: {{ femaleBorder }}">Female</button>
+    </div>
+  </div>
+
+  <div style="background:#fff;border-radius:40px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:24px;margin-bottom:24px">
+    <p style="margin:0 0 20px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;display:flex;align-items:center;gap:8px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2.5" stroke-linecap="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg> Body Dimensions
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <div>
+        <label style="display:block;margin:0 0 6px 4px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#41584B">Age</label>
+        <input type="number" placeholder="--" value="{{ obAge }}" onChange="{{ setAge }}" style="width:100%;height:40px;border-radius:12px;border:1px solid #ECEFEA;background:rgba(230,243,236,.25);font-weight:900;font-size:12px;padding:0 10px 0 30px;color:#141F18;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="display:block;margin:0 0 6px 4px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#41584B">Weight (kg)</label>
+        <input type="number" placeholder="--" value="{{ obWeight }}" onChange="{{ setWeight }}" style="width:100%;height:40px;border-radius:12px;border:1px solid #ECEFEA;background:rgba(230,243,236,.25);font-weight:900;font-size:12px;padding:0 10px 0 30px;color:#141F18;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="display:block;margin:0 0 6px 4px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#41584B">Height (cm)</label>
+        <input type="number" placeholder="--" value="{{ obHeight }}" onChange="{{ setHeight }}" style="width:100%;height:40px;border-radius:12px;border:1px solid #ECEFEA;background:rgba(230,243,236,.25);font-weight:900;font-size:12px;padding:0 10px 0 30px;color:#141F18;box-sizing:border-box">
+      </div>
+    </div>
+    <sc-if value="{{ hasBmi }}">
+      <div style="margin-top:20px;padding:12px;background:rgba(191,220,203,.15);border-radius:12px;border:1px solid rgba(191,220,203,.3);text-align:center">
+        <p style="margin:0;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.4">BMI</p>
+        <p style="margin:2px 0 0;font-size:20px;font-weight:900">{{ bmiValue }} <span style="font-size:12px;opacity:.4">{{ bmiCategory }}</span></p>
+      </div>
+    </sc-if>
+  </div>
+
+  <div style="background:#fff;border-radius:40px;box-shadow:0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02);padding:24px;margin-bottom:24px">
+    <p style="margin:0 0 20px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;display:flex;align-items:center;gap:8px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2.5" stroke-linecap="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> Health Markers
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <sc-for list="{{ markers }}" as="mk" hint-placeholder-count="4">
+        <div onClick="{{ mk.toggle }}" style="display:flex;align-items:center;gap:10px;padding:12px;background:rgba(230,243,236,.25);border-radius:12px;border:1px solid transparent;cursor:pointer">
+          <span style="width:16px;height:16px;border-radius:6px;border:2px solid rgba(191,220,203,.6);display:flex;align-items:center;justify-content:center;background: {{ mk.boxBg }}">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="4" stroke-linecap="round" style="opacity: {{ mk.tick }}"><path d="M20 6 9 17l-5-5"/></svg>
+          </span>
+          <span style="font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;opacity:.7">{{ mk.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:20px">
+      <label style="display:block;margin:0 0 6px 4px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#41584B">Food Allergies</label>
+      <input placeholder="e.g. Peanuts, Shellfish..." value="{{ obAllergies }}" onChange="{{ setAllergies }}" style="width:100%;height:40px;border-radius:12px;border:1px solid #ECEFEA;background:rgba(230,243,236,.25);font-weight:900;font-size:12px;padding:0 12px;color:#141F18;box-sizing:border-box">
+    </div>
+  </div>
+
+  <button onClick="{{ finishOnboarding }}" style="width:100%;height:56px;border-radius:24px;background:#BFDCCB;border:none;box-shadow:0 2px 8px rgba(30,42,34,.04);font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer;opacity: {{ finishOpacity }}">Complete Profile</button>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ dlgEatNow }}">
+<div onClick="{{ closeDialog }}" style="position:fixed;inset:0;z-index:300;background:rgba(20,31,24,.45);display:flex;align-items:center;justify-content:center;padding:24px">
+  <div onClick="{{ stopProp }}" style="width:100%;max-width:448px;border-radius:40px;background:#fff;box-shadow:0 20px 50px -12px rgba(30,42,34,.3);overflow:hidden;animation:np-in .3s ease both">
+    <div style="padding:32px;text-align:center">
+      <h3 style="margin:0;font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:-.03em">Record Consumption</h3>
+    </div>
+    <div style="padding:0 32px 32px">
+      <p style="margin:0 0 16px;font-size:12px;font-weight:700;opacity:.7;text-align:center;line-height:1.7">How would you like to record your meal? Adding a photo provides a precise AI-powered nutritional update.</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <button onClick="{{ goSnapFromDialog }}" style="height:56px;border-radius:16px;background:#BFDCCB;border:none;box-shadow:0 2px 8px rgba(30,42,34,.04);display:flex;align-items:center;justify-content:center;gap:8px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Snap Live Photo
+        </button>
+        <button onClick="{{ markEaten }}" style="height:56px;border-radius:16px;background:transparent;border:2px solid #ECEFEA;display:flex;align-items:center;justify-content:center;gap:8px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.8 10A10 10 0 1 1 17 3.3"/><path d="m9 11 3 3L22 4"/></svg> Just Mark Eaten
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ dlgAddMeal }}">
+<div onClick="{{ closeDialog }}" style="position:fixed;inset:0;z-index:300;background:rgba(20,31,24,.45);display:flex;align-items:center;justify-content:center;padding:24px">
+  <div onClick="{{ stopProp }}" style="width:100%;max-width:512px;border-radius:40px;background:#fff;box-shadow:0 20px 50px -12px rgba(30,42,34,.3);overflow:hidden;max-height:90vh;display:flex;flex-direction:column;animation:np-in .3s ease both">
+    <div style="padding:24px;text-align:center;border-bottom:1px solid #ECEFEA">
+      <h3 style="margin:0;font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:-.05em">New Schedule</h3>
+    </div>
+    <div style="padding:24px;overflow-y:auto;text-align:left">
+      <div style="margin-bottom:16px">
+        <label style="display:block;margin:0 0 4px 4px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.6">Timing Category</label>
+        <select style="width:100%;height:48px;border-radius:16px;border:2px solid #ECEFEA;font-weight:900;font-size:12px;padding:0 12px;background:#fff;color:#141F18;box-sizing:border-box">
+          <option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option>
+        </select>
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="display:block;margin:0 0 4px 4px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.6">Meal Name</label>
+        <input placeholder="e.g. Avocado Toast" style="width:100%;height:48px;border-radius:16px;border:2px solid #ECEFEA;font-weight:900;font-size:12px;padding:0 12px;color:#141F18;box-sizing:border-box">
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="display:block;margin:0 0 4px 4px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.6">Ingredients (comma separated)</label>
+        <textarea placeholder="e.g. Avocado, Sourdough, Egg" style="width:100%;min-height:72px;border-radius:16px;border:2px solid #ECEFEA;font-weight:700;font-size:12px;padding:12px;color:#141F18;box-sizing:border-box;resize:vertical"></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
+        <div>
+          <label style="display:block;margin:0 0 4px 4px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#8FBFA3">Protein</label>
+          <input type="number" value="0" style="width:100%;height:44px;border-radius:12px;border:2px solid #ECEFEA;font-weight:900;font-size:12px;padding:0 10px;color:#141F18;box-sizing:border-box">
+        </div>
+        <div>
+          <label style="display:block;margin:0 0 4px 4px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#2563EB">Carbs</label>
+          <input type="number" value="0" style="width:100%;height:44px;border-radius:12px;border:2px solid #ECEFEA;font-weight:900;font-size:12px;padding:0 10px;color:#141F18;box-sizing:border-box">
+        </div>
+        <div>
+          <label style="display:block;margin:0 0 4px 4px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#B4C22F">Fat</label>
+          <input type="number" value="0" style="width:100%;height:44px;border-radius:12px;border:2px solid #ECEFEA;font-weight:900;font-size:12px;padding:0 10px;color:#141F18;box-sizing:border-box">
+        </div>
+      </div>
+      <div style="padding:16px;background:rgba(230,243,236,.4);border-radius:16px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <p style="margin:0;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.5">Auto-calculated</p>
+          <p style="margin:2px 0 0;font-size:20px;font-weight:900;letter-spacing:-.05em">0 <span style="font-size:10px;opacity:.3">KCAL</span></p>
+        </div>
+        <p style="margin:0;max-width:200px;font-size:9px;font-weight:700;line-height:1.5;opacity:.5;text-align:right">Leave macros at 0 and AI will estimate them from the meal name and ingredients.</p>
+      </div>
+    </div>
+    <div style="padding:24px;border-top:1px solid #ECEFEA">
+      <button onClick="{{ closeDialog }}" style="width:100%;height:56px;border-radius:16px;background:#BFDCCB;border:none;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">Save Schedule</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ dlgRecipe }}">
+<div onClick="{{ closeDialog }}" style="position:fixed;inset:0;z-index:300;background:rgba(20,31,24,.45);display:flex;align-items:center;justify-content:center;padding:24px">
+  <div onClick="{{ stopProp }}" style="width:100%;max-width:768px;border-radius:40px;background:#fff;box-shadow:0 20px 50px -12px rgba(30,42,34,.3);overflow:hidden;max-height:92vh;display:flex;flex-direction:column;animation:np-in .3s ease both">
+    <div style="padding:40px;text-align:center;border-bottom:1px solid #ECEFEA">
+      <h3 style="margin:0;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:-.05em;line-height:1.2">Roasted Salmon Poke</h3>
+    </div>
+    <div style="padding:32px;overflow-y:auto;text-align:left">
+      <div style="display:flex;align-items:center;gap:8px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;margin-bottom:16px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg> Insight
+      </div>
+      <p style="margin:0 0 40px;font-size:14px;font-weight:700;line-height:1.7;opacity:.9;background:rgba(191,220,203,.18);padding:24px;border-radius:24px;border:1px solid rgba(191,220,203,.35)">Omega-3 rich salmon with quinoa gives sustained energy and supports blood pressure control. Sodium stays moderate, which suits your hypertension marker.</p>
+      <div style="display:flex;align-items:center;gap:8px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;margin-bottom:24px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> Ingredients
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px">
+        <div style="display:flex;align-items:center;gap:12px;font-size:12px;font-weight:900;opacity:.9"><span style="width:8px;height:8px;border-radius:9999px;background:rgba(191,220,203,.8)"></span>Salmon fillet 120 g</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:12px;font-weight:900;opacity:.9"><span style="width:8px;height:8px;border-radius:9999px;background:rgba(191,220,203,.8)"></span>Cooked quinoa 150 g</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:12px;font-weight:900;opacity:.9"><span style="width:8px;height:8px;border-radius:9999px;background:rgba(191,220,203,.8)"></span>Avocado ½</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:12px;font-weight:900;opacity:.9"><span style="width:8px;height:8px;border-radius:9999px;background:rgba(191,220,203,.8)"></span>Edamame 50 g</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:12px;font-weight:900;opacity:.9"><span style="width:8px;height:8px;border-radius:9999px;background:rgba(191,220,203,.8)"></span>Cucumber 60 g</div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:12px;font-weight:900;opacity:.9"><span style="width:8px;height:8px;border-radius:9999px;background:rgba(191,220,203,.8)"></span>Sesame oil 1 tsp</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;margin-bottom:24px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12h11"/><path d="M10 18h11"/><path d="M10 6h11"/><path d="M4 10h2"/><path d="M4 6h1v4"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg> Instructions
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;gap:16px;align-items:flex-start">
+          <span style="width:32px;height:32px;border-radius:9999px;background:rgba(191,220,203,.35);border:1px solid rgba(191,220,203,.6);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">1</span>
+          <p style="margin:0;padding-top:6px;font-size:14px;font-weight:900;opacity:.9;line-height:1.6">Season the salmon lightly and roast at 200 °C for 12 minutes.</p>
+        </div>
+        <div style="display:flex;gap:16px;align-items:flex-start">
+          <span style="width:32px;height:32px;border-radius:9999px;background:rgba(191,220,203,.35);border:1px solid rgba(191,220,203,.6);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">2</span>
+          <p style="margin:0;padding-top:6px;font-size:14px;font-weight:900;opacity:.9;line-height:1.6">Cook the quinoa and let it cool to room temperature.</p>
+        </div>
+        <div style="display:flex;gap:16px;align-items:flex-start">
+          <span style="width:32px;height:32px;border-radius:9999px;background:rgba(191,220,203,.35);border:1px solid rgba(191,220,203,.6);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">3</span>
+          <p style="margin:0;padding-top:6px;font-size:14px;font-weight:900;opacity:.9;line-height:1.6">Assemble the bowl, flake the salmon over the top and finish with sesame oil.</p>
+        </div>
+      </div>
+    </div>
+    <div style="padding:32px">
+      <button onClick="{{ closeDialog }}" style="width:100%;height:56px;border-radius:12px;background:#BFDCCB;border:none;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer;box-shadow:0 2px 8px rgba(30,42,34,.04)">Cooked</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ dlgCuration }}">
+<div onClick="{{ closeDialog }}" style="position:fixed;inset:0;z-index:300;background:rgba(20,31,24,.45);display:flex;align-items:center;justify-content:center;padding:24px">
+  <div onClick="{{ stopProp }}" style="width:100%;max-width:896px;border-radius:40px;background:#fff;box-shadow:0 20px 50px -12px rgba(30,42,34,.3);overflow:hidden;max-height:90vh;display:flex;flex-direction:column;animation:np-in .3s ease both">
+    <div style="padding:32px;text-align:center;border-bottom:1px solid #ECEFEA">
+      <h3 style="margin:0;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:-.05em">NutriPal V1: ML Delivery Hub</h3>
+      <p style="margin:8px 0 0;font-size:12px;font-weight:700;color:#41584B">Top recommendations from GrabFood &amp; GoFood based on your profile.</p>
+    </div>
+    <div style="padding:32px;overflow-y:auto">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <sc-for list="{{ curated }}" as="item" hint-placeholder-count="2">
+          <div style="border-radius:32px;border:1px solid #ECEFEA;background:#fff;box-shadow:0 2px 8px rgba(30,42,34,.04);padding:24px;display:flex;flex-direction:column;gap:16px;text-align:left">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+              <span style="background:#BFDCCB;padding:4px 10px;border-radius:8px;font-size:9px;font-weight:900;text-transform:uppercase">{{ item.platform }}</span>
+              <span style="display:flex;align-items:center;gap:6px;color:#41584B;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.05em">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg> {{ item.score }}% Match
+              </span>
+            </div>
+            <div>
+              <h4 style="margin:0;font-size:18px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase;line-height:1.15">{{ item.name }}</h4>
+              <p style="margin:4px 0 0;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:#41584B">{{ item.restaurant }} · {{ item.price }}</p>
+            </div>
+            <div style="background:rgba(191,220,203,.15);padding:16px;border-radius:12px;border:1px solid rgba(191,220,203,.3)">
+              <p style="margin:0;font-size:12px;font-weight:700;line-height:1.5;font-style:italic;opacity:.8">"{{ item.reasoning }}"</p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:16px;border-top:1px solid #ECEFEA">
+              <div style="text-align:center">
+                <p style="margin:0;font-size:8px;font-weight:900;text-transform:uppercase;color:#41584B">Protein</p>
+                <p style="margin:2px 0 0;font-size:16px;font-weight:900;color:#8FBFA3">{{ item.protein }}g</p>
+              </div>
+              <div style="text-align:center">
+                <p style="margin:0;font-size:8px;font-weight:900;text-transform:uppercase;color:#41584B">Carbs</p>
+                <p style="margin:2px 0 0;font-size:16px;font-weight:900;color:#2563EB">{{ item.carbs }}g</p>
+              </div>
+              <div style="text-align:center">
+                <p style="margin:0;font-size:8px;font-weight:900;text-transform:uppercase;color:#41584B">Fat</p>
+                <p style="margin:2px 0 0;font-size:16px;font-weight:900;color:#B4C22F">{{ item.fat }}g</p>
+              </div>
+            </div>
+            <button onClick="{{ closeDialog }}" style="height:48px;border-radius:12px;background:#BFDCCB;border:none;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg> Order &amp; Sync
+            </button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ dlgPredictive }}">
+<div onClick="{{ closeDialog }}" style="position:fixed;inset:0;z-index:300;background:rgba(20,31,24,.45);display:flex;align-items:center;justify-content:center;padding:24px">
+  <div onClick="{{ stopProp }}" style="width:100%;max-width:1100px;border-radius:40px;background:#fff;box-shadow:0 20px 50px -12px rgba(30,42,34,.3);overflow:hidden;max-height:90vh;display:flex;flex-direction:column;animation:np-in .3s ease both">
+    <div style="padding:32px;text-align:center;border-bottom:1px solid #ECEFEA">
+      <h3 style="margin:0;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:-.05em">NutriPal V1: Predictive Synthesis</h3>
+      <div style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
+        <span style="font-size:14px;font-weight:700;color:#41584B">A full day's meal plan synthesized by AI based on your profile.</span>
+        <span style="display:flex;align-items:center;gap:8px;background:#E6F3EC;border:1px solid #ECEFEA;border-radius:9999px;padding:0 16px;height:40px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#41584B" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+          <input type="date" value="2026-06-16" style="background:transparent;border:none;font-size:14px;font-weight:600;color:#141F18;width:130px">
+        </span>
+      </div>
+    </div>
+    <div style="padding:32px;overflow-y:auto">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+        <sc-for list="{{ predictive }}" as="slot" hint-placeholder-count="3">
+          <div style="border-radius:32px;border:1px solid #ECEFEA;background:#fff;box-shadow:0 2px 8px rgba(30,42,34,.04);padding:20px;display:flex;flex-direction:column;gap:12px;text-align:left;position:relative">
+            <button onClick="{{ slot.swap }}" style="position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:9999px;background:rgba(250,248,242,.85);border:1px solid #ECEFEA;display:flex;align-items:center;justify-content:center;cursor:pointer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B4C22F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+            </button>
+            <span style="align-self:flex-start;background:rgba(220,233,106,.25);padding:4px 12px;border-radius:8px;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em">{{ slot.type }}</span>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;opacity:.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span style="font-size:9px;font-weight:900;text-transform:uppercase">{{ slot.time }}</span>
+              </div>
+              <h4 style="margin:4px 0 0;font-size:16px;font-weight:900;letter-spacing:-.05em;text-transform:uppercase">{{ slot.name }}</h4>
+              <p style="margin:4px 0 0;font-size:10px;font-weight:700;line-height:1.4;color:#41584B">{{ slot.description }}</p>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{ slot.ingredients }}" as="ing" hint-placeholder-count="4">
+                <span style="font-size:8px;font-weight:700;border:1px solid #ECEFEA;border-radius:6px;padding:2px 8px">{{ ing }}</span>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 0;border-top:1px solid #ECEFEA;border-bottom:1px solid #ECEFEA">
+              <div style="text-align:center">
+                <p style="margin:0;font-size:8px;font-weight:900;text-transform:uppercase;color:#41584B">Protein</p>
+                <p style="margin:2px 0 0;font-size:14px;font-weight:900;color:#8FBFA3">{{ slot.protein }}g</p>
+              </div>
+              <div style="text-align:center">
+                <p style="margin:0;font-size:8px;font-weight:900;text-transform:uppercase;color:#41584B">Carbs</p>
+                <p style="margin:2px 0 0;font-size:14px;font-weight:900;color:#2563EB">{{ slot.carbs }}g</p>
+              </div>
+              <div style="text-align:center">
+                <p style="margin:0;font-size:8px;font-weight:900;text-transform:uppercase;color:#41584B">Fat</p>
+                <p style="margin:2px 0 0;font-size:14px;font-weight:900;color:#B4C22F">{{ slot.fat }}g</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button onClick="{{ closeDialog }}" style="flex:1;height:40px;border-radius:12px;background:#E6F3EC;border:none;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#141F18;cursor:pointer">Self-Cook</button>
+              <button onClick="{{ closeDialog }}" style="flex:1;height:40px;border-radius:12px;background:#BFDCCB;border:none;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#141F18;cursor:pointer">CookBuddy</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="padding:24px;border-top:1px solid #ECEFEA;background:#FAF8F2">
+      <button onClick="{{ closeDialog }}" style="width:100%;height:48px;border-radius:12px;background:#BFDCCB;border:none;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg> Schedule All Meals
+      </button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ dlgPantry }}">
+<div onClick="{{ closeDialog }}" style="position:fixed;inset:0;z-index:300;background:rgba(20,31,24,.45);display:flex;align-items:center;justify-content:center;padding:24px">
+  <div onClick="{{ stopProp }}" style="width:100%;max-width:672px;border-radius:40px;background:#fff;box-shadow:0 20px 50px -12px rgba(30,42,34,.3);overflow:hidden;max-height:90vh;display:flex;flex-direction:column;animation:np-in .3s ease both">
+    <div style="padding:32px;text-align:center;border-bottom:1px solid #ECEFEA">
+      <h3 style="margin:0;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:-.05em">Recipe From Pantry</h3>
+      <p style="margin:8px 0 0;font-size:12px;font-weight:700;color:#41584B">Generate meal ideas and schedule for a specific day.</p>
+      <div style="margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px">
+        <span style="display:flex;align-items:center;gap:8px;background:#E6F3EC;border:1px solid #ECEFEA;border-radius:9999px;padding:0 16px;height:40px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#41584B" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+          <input type="date" value="2026-06-16" style="background:transparent;border:none;font-size:14px;font-weight:600;color:#141F18;width:130px">
+        </span>
+        <select style="height:40px;border-radius:9999px;border:2px solid #ECEFEA;background:#E6F3EC;font-weight:900;font-size:10px;text-transform:uppercase;letter-spacing:.15em;padding:0 16px;color:#141F18">
+          <option>Lunch</option><option>Breakfast</option><option>Dinner</option><option>Snack</option>
+        </select>
+      </div>
+    </div>
+    <div style="padding:32px;overflow-y:auto;text-align:left">
+      <sc-if value="{{ pantryIdle }}">
+        <label style="display:block;margin:0 0 8px 4px;font-size:14px;font-weight:600">What's in your pantry?</label>
+        <textarea placeholder="e.g. Avocado, Spinach, Quinoa, Chicken breast, eggs..." value="{{ pantryText }}" onChange="{{ setPantry }}" style="width:100%;min-height:120px;border-radius:16px;border:2px solid #ECEFEA;font-weight:600;font-size:14px;padding:16px;color:#141F18;box-sizing:border-box;resize:vertical"></textarea>
+        <button onClick="{{ runPantry }}" style="width:100%;height:56px;margin-top:24px;border-radius:16px;background:#BFDCCB;border:none;box-shadow:0 10px 15px -3px rgba(30,42,34,.1);font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">Generate Recipes</button>
+      </sc-if>
+      <sc-if value="{{ pantryLoading }}">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 0;gap:16px">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#BFDCCB" stroke-width="2.5" stroke-linecap="round" style="animation:np-spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.22-8.56"/></svg>
+          <p style="margin:0;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.4em;opacity:.4">Thinking of Recipes...</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{ pantryDone }}">
+        <div style="display:flex;flex-direction:column;gap:32px">
+          <section>
+            <h4 style="margin:0 0 16px;font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:-.05em;display:flex;align-items:center;gap:8px">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg> Meal Ideas
+            </h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div style="border:1px solid #ECEFEA;border-radius:16px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;box-shadow:0 1px 2px rgba(30,42,34,.04)">
+                <p style="margin:0;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em">Quinoa Chicken Power Bowl</p>
+                <button onClick="{{ closeDialog }}" style="height:36px;border-radius:8px;background:#BFDCCB;border:none;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">+ Add to Plan</button>
+              </div>
+              <div style="border:1px solid #ECEFEA;border-radius:16px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;box-shadow:0 1px 2px rgba(30,42,34,.04)">
+                <p style="margin:0;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em">Spinach &amp; Egg Scramble Wrap</p>
+                <button onClick="{{ closeDialog }}" style="height:36px;border-radius:8px;background:#BFDCCB;border:none;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">+ Add to Plan</button>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h4 style="margin:0 0 16px;font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:-.05em;display:flex;align-items:center;gap:8px">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg> Healthier Alternatives
+            </h4>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;gap:16px;align-items:flex-start;padding:16px;border-radius:12px;background:rgba(230,243,236,.4)">
+                <span style="width:8px;height:8px;border-radius:9999px;background:#22C55E;margin-top:6px;flex-shrink:0"></span>
+                <p style="margin:0;font-size:14px;font-weight:500;opacity:.8">Swap white rice for quinoa to raise fibre and lower the glycaemic load.</p>
+              </div>
+              <div style="display:flex;gap:16px;align-items:flex-start;padding:16px;border-radius:12px;background:rgba(230,243,236,.4)">
+                <span style="width:8px;height:8px;border-radius:9999px;background:#22C55E;margin-top:6px;flex-shrink:0"></span>
+                <p style="margin:0;font-size:14px;font-weight:500;opacity:.8">Use olive oil instead of butter to keep saturated fat within your target.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ dlgFitness }}">
+<div onClick="{{ closeDialog }}" style="position:fixed;inset:0;z-index:300;background:rgba(20,31,24,.45);display:flex;align-items:center;justify-content:center;padding:24px">
+  <div onClick="{{ stopProp }}" style="width:100%;max-width:896px;border-radius:40px;background:#FAF8F2;box-shadow:0 20px 50px -12px rgba(30,42,34,.3);padding:32px;max-height:92vh;overflow-y:auto;animation:np-in .3s ease both">
+    <div style="text-align:center;margin-bottom:24px">
+      <h3 style="margin:0;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:-.05em">Fitness Sync</h3>
+      <p style="margin:4px 0 0;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;opacity:.4">Wearable Sync</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+      <div style="border-radius:24px;background:#fff;box-shadow:0 2px 8px rgba(30,42,34,.04);padding:24px;display:flex;flex-direction:column">
+        <h4 style="margin:0 0 16px;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.15em">Connected Devices</h4>
+        <div style="display:flex;flex-direction:column;gap:16px;flex:1">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(230,243,236,.5);border-radius:12px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/><path d="M12 10v2l1 1"/><path d="m16.13 7.66-.81-4.05a2 2 0 0 0-2-1.61h-2.68a2 2 0 0 0-1.96 1.61l-.81 4.05"/><path d="m7.88 16.36.8 4a2 2 0 0 0 2 1.61h2.72a2 2 0 0 0 2-1.61l.81-4.05"/></svg>
+              <div>
+                <p style="margin:0;font-weight:700;font-size:14px">Apple Watch S9</p>
+                <p style="margin:0;font-size:12px;color:#41584B">Connected • Active</p>
+              </div>
+            </div>
+            <span style="width:8px;height:8px;border-radius:9999px;background:#22C55E"></span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:rgba(230,243,236,.5);border-radius:12px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#41584B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+              <div>
+                <p style="margin:0;font-weight:700;font-size:14px">Health Connect</p>
+                <p style="margin:0;font-size:12px;color:#41584B">Synced via iPhone</p>
+              </div>
+            </div>
+            <span style="width:8px;height:8px;border-radius:9999px;background:#22C55E"></span>
+          </div>
+        </div>
+        <button onClick="{{ doSync }}" style="width:100%;height:48px;border-radius:16px;margin-top:16px;border:2px solid #ECEFEA;background:transparent;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:#141F18">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: {{ syncAnim }}"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+          {{ syncLabel }}
+        </button>
+        <p style="margin:8px 0 0;text-align:center;font-size:12px;color:#41584B">Last synced: {{ lastSync }}</p>
+      </div>
+      <div style="border-radius:24px;background:#fff;box-shadow:0 2px 8px rgba(30,42,34,.04);padding:24px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <h4 style="margin:0;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.15em">Weekly Calories Burned</h4>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8FBFA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+        </div>
+        <p style="margin:0 0 16px;font-size:12px;color:#41584B">Based on active workout minutes and steps.</p>
+        <div style="height:250px">{{ burnChart }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ dlgRecovery }}">
+<div onClick="{{ closeDialog }}" style="position:fixed;inset:0;z-index:300;background:rgba(20,31,24,.45);display:flex;align-items:center;justify-content:center;padding:24px">
+  <div onClick="{{ stopProp }}" style="width:100%;max-width:640px;border-radius:40px;background:#fff;box-shadow:0 20px 50px -12px rgba(30,42,34,.3);padding:40px;animation:np-in .3s ease both;text-align:center">
+    <h3 style="margin:0;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:-.05em">Recovery Plan Synthesis</h3>
+    <p style="margin:12px auto 0;max-width:440px;font-size:14px;font-weight:600;color:#41584B;line-height:1.6">Today was a highly active day. NutriPal recommends raising protein and calories tomorrow to support muscle recovery.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:32px 0">
+      <div style="border:1px solid #ECEFEA;border-radius:20px;padding:16px;text-align:left">
+        <span style="font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;background:rgba(191,220,203,.3);padding:3px 8px;border-radius:6px">Breakfast</span>
+        <p style="margin:10px 0 0;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:-.03em">Greek Yogurt Protein Bowl</p>
+        <p style="margin:6px 0 0;font-size:11px;font-weight:900;color:#8FBFA3">42 g protein</p>
+      </div>
+      <div style="border:1px solid #ECEFEA;border-radius:20px;padding:16px;text-align:left">
+        <span style="font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;background:rgba(191,220,203,.3);padding:3px 8px;border-radius:6px">Lunch</span>
+        <p style="margin:10px 0 0;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:-.03em">Ayam Bakar &amp; Brown Rice</p>
+        <p style="margin:6px 0 0;font-size:11px;font-weight:900;color:#8FBFA3">48 g protein</p>
+      </div>
+      <div style="border:1px solid #ECEFEA;border-radius:20px;padding:16px;text-align:left">
+        <span style="font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;background:rgba(191,220,203,.3);padding:3px 8px;border-radius:6px">Dinner</span>
+        <p style="margin:10px 0 0;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:-.03em">Tempeh Stir-fry Bowl</p>
+        <p style="margin:6px 0 0;font-size:11px;font-weight:900;color:#8FBFA3">36 g protein</p>
+      </div>
+    </div>
+    <button onClick="{{ closeDialog }}" style="width:100%;height:48px;border-radius:12px;background:#BFDCCB;border:none;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.15em;color:#141F18;cursor:pointer">Schedule For Tomorrow</button>
+  </div>
+</div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;calorieTarget&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2000,&quot;min&quot;:1200,&quot;max&quot;:3500,&quot;step&quot;:50,&quot;unit&quot;:&quot;kcal&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Targets&quot;},&quot;activeBurn&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:800,&quot;min&quot;:0,&quot;max&quot;:1500,&quot;step&quot;:50,&quot;unit&quot;:&quot;kcal&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Targets&quot;}}">
+const MARKERS = ["Diabetes", "Hypertension", "Vegetarian", "Gluten-free"];
+
+const BASE_MEALS = [
+  { id: "m1", time: "10:54 PM", name: "Roasted Salmon Poke", calories: 420, protein: 30, carbs: 40, fat: 15,
+    healthScore: 95, source: "GrabFood", status: "consumed",
+    insight: "Omega-3 rich salmon with quinoa gives sustained energy and keeps sodium moderate for your hypertension marker.",
+    ingredients: ["Salmon", "Quinoa", "Avocado", "Edamame", "Cucumber"] },
+  { id: "m2", time: "10:57 PM", name: "Abbon Ayam Rojo Koyo (Chicken Floss)", calories: 472, protein: 30, carbs: 25, fat: 28,
+    healthScore: 62, source: "Photo", status: "consumed",
+    insight: "Abon Ayam is a protein-rich topping. Enjoy in moderation, as it can be high in sodium, sugar, and fat. Pair with whole foods for balance in your diet.",
+    ingredients: ["Chicken Meat", "Sugar", "Salt", "Vegetable Oil", "Seasoning", "Spices"] }
+];
+
+const CURATED = [
+  { id: "s1", name: "Roasted Salmon Poke", restaurant: "Honu Poke", price: "Rp 65.000", platform: "GrabFood",
+    score: 95, protein: 28, carbs: 45, fat: 12,
+    reasoning: "High protein and low sodium fits your hypertension marker while staying inside today's remaining calories." },
+  { id: "s2", name: "Tempeh Quinoa Bowl", restaurant: "Vegan Vibe", price: "Rp 42.000", platform: "GoFood",
+    score: 98, protein: 18, carbs: 55, fat: 10,
+    reasoning: "Plant protein and fibre, gluten-free by default, and the cheapest way to close your protein gap today." }
+];
+
+const PREDICTIVE = [
+  { type: "breakfast", time: "08:00 AM", name: "Bubur Ayam Protein Plus", protein: 28, carbs: 46, fat: 9,
+    description: "Rice porridge with shredded chicken and egg, lighter broth to keep sodium in range.",
+    ingredients: ["Rice", "Chicken breast", "Egg", "Spring onion"] },
+  { type: "lunch", time: "12:30 PM", name: "Grilled Chicken Caesar", protein: 32, carbs: 12, fat: 28,
+    description: "Romaine, parmesan and grilled breast with dressing on the side.",
+    ingredients: ["Chicken breast", "Romaine", "Parmesan", "Croutons"] },
+  { type: "dinner", time: "07:00 PM", name: "Tempeh Quinoa Bowl", protein: 18, carbs: 55, fat: 10,
+    description: "Tempeh, sweet potato and spinach over quinoa with a sesame dressing.",
+    ingredients: ["Tempeh", "Quinoa", "Spinach", "Sweet potato", "Sesame"] }
+];
+
+const BURN = [420, 510, 380, 470, 640, 800, 800];
+const BURN_LABELS = ["Jun 9", "Jun 10", "Jun 11", "Jun 12", "Jun 13", "Jun 14", "Jun 15"];
+
+class Component extends DCLogic {
+  state = {
+    screen: null,
+    dialog: null,
+    water: 0,
+    expanded: null,
+    loginBusy: false,
+    onboarded: true,
+    ob: { gender: "", age: "", weight: "", height: "", markers: ["Hypertension", "Gluten-free"], allergies: "Peanuts, Shellfish" },
+    planIndex: 0,
+    snapMode: "choice",
+    snapStage: "idle",
+    pantry: "idle",
+    pantryText: "",
+    notifs: true,
+    syncing: false,
+    lastSync: "10:57 PM",
+    meals: BASE_MEALS.map(m => ({ ...m })),
+    swapped: {}
+  };
+
+  screen() { return this.state.screen || "today"; }
+
+  set(patch) { this.setState(patch); }
+
+  go(screen) { this.setState({ screen, dialog: null }); }
+
+  planDateLabel() {
+    const base = new Date(2026, 5, 15);
+    base.setDate(base.getDate() + this.state.planIndex);
+    return base.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  }
+
+  bmi() {
+    const w = parseFloat(this.state.ob.weight);
+    const h = parseFloat(this.state.ob.height) / 100;
+    if (!(w > 0) || !(h > 0)) return null;
+    return w / (h * h);
+  }
+
+  bmiCategory(v) {
+    if (v < 18.5) return "Underweight";
+    if (v < 25) return "Ideal";
+    if (v < 30) return "Overweight";
+    return "Obese";
+  }
+
+  burnChart() {
+    const w = 420, h = 250, pad = 28;
+    const max = 900;
+    const pts = BURN.map((v, i) => {
+      const x = pad + (i * (w - pad * 2)) / (BURN.length - 1);
+      const y = h - 30 - (v / max) * (h - 60);
+      return [x, y, v];
+    });
+    const path = pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+    const el = React.createElement;
+    return el("svg", { viewBox: "0 0 " + w + " " + h, width: "100%", height: "100%", preserveAspectRatio: "none" }, [
+      el("path", { key: "l", d: path, fill: "none", stroke: "#BFDCCB", strokeWidth: 3, strokeLinejoin: "round" }),
+      ...pts.map((p, i) => el("circle", {
+        key: "d" + i, cx: p[0], cy: p[1], r: p[2] === 800 ? 6 : 4,
+        fill: "#fff", stroke: p[2] === 800 ? "#EF4444" : "#BFDCCB", strokeWidth: 2
+      })),
+      ...BURN_LABELS.map((lab, i) => el("text", {
+        key: "t" + i, x: pts[i][0], y: h - 8, textAnchor: "middle",
+        fontSize: 10, fontWeight: 700, fill: "#41584B", fontFamily: "Inter, sans-serif"
+      }, lab))
+    ]);
+  }
+
+  renderVals() {
+    const s = this.state;
+    const screen = this.screen();
+    const meals = s.meals;
+    const consumedMeals = meals.filter(m => m.status === "consumed");
+    const tot = consumedMeals.reduce((a, m) => ({
+      cal: a.cal + m.calories, p: a.p + m.protein, c: a.c + m.carbs, f: a.f + m.fat
+    }), { cal: 0, p: 0, c: 0, f: 0 });
+    const macroKcal = tot.p * 4 + tot.c * 4 + tot.f * 9;
+    const pPct = macroKcal ? Math.round((tot.p * 4 / macroKcal) * 100) : 0;
+    const cPct = macroKcal ? Math.round((tot.c * 4 / macroKcal) * 100) : 0;
+    const fPct = macroKcal ? Math.max(0, 100 - pPct - cPct) : 0;
+    const target = this.props.calorieTarget ?? 2000;
+    const burn = this.props.activeBurn ?? 800;
+    const goal = Math.round((tot.cal / target) * 100);
+    const bmiVal = this.bmi();
+    const active = key => (screen === key ? "#BFDCCB" : "transparent");
+    const opac = key => (screen === key ? "1" : "0.6");
+    const plotH = 200, maxKcal = 2000;
+    const px = v => Math.round((v / maxKcal) * plotH) + "px";
+
+    const trend = BURN_LABELS.map((label, i) => {
+      let p = 0, c = 0, f = 0;
+      if (i === 5) { p = 250; c = 1200; f = 250; }
+      if (i === 6) { p = tot.p * 4; c = tot.c * 4; f = tot.f * 9; }
+      return { label, protein: px(p), carbs: px(c), fat: px(f), total: px(p + c + f) };
+    });
+
+    return {
+      showSidebar: screen !== "login" && screen !== "onboarding",
+      mainAlign: screen === "login" ? "center" : "flex-start",
+      isToday: screen === "today", isPlan: screen === "plan", isSnap: screen === "snap",
+      isExplore: screen === "explore", isProfile: screen === "profile",
+      isLogin: screen === "login", isOnboarding: screen === "onboarding",
+
+      navHomeBg: active("today"), navHomeOp: opac("today"),
+      navPlanBg: active("plan"), navPlanOp: opac("plan"),
+      navSnapBg: active("snap"), navSnapOp: opac("snap"),
+      navExploreBg: active("explore"), navExploreOp: opac("explore"),
+      navProfileBg: screen === "profile" ? "#E6F3EC" : "transparent",
+
+      goHome: () => this.go("today"), goPlan: () => this.go("plan"),
+      goSnap: () => this.go("snap"), goExplore: () => this.go("explore"),
+      goProfile: () => this.go("profile"),
+
+      consumed: Math.round(tot.cal), calorieTarget: target, activeBurn: burn,
+      proteinPercent: pPct, carbsPercent: cPct, fatPercent: fPct,
+      pPct: pPct + "%", cPct: cPct + "%", fPct: fPct + "%",
+      goalPercent: goal, goalBarWidth: Math.min(100, goal) + "%",
+      waterLabel: s.water.toFixed(1) + "L",
+      waterStatus: s.water >= 2 ? "OPTIMAL" : "INADEQUATE",
+      waterColor: s.water >= 2 ? "#16A34A" : "#EA580C",
+      waterUp: () => this.set({ water: Math.round((s.water + 0.2) * 10) / 10 }),
+      waterDown: () => this.set({ water: Math.max(0, Math.round((s.water - 0.2) * 10) / 10) }),
+      trend,
+
+      meals: meals.map(m => ({
+        ...m,
+        consumed: m.status === "consumed",
+        planned: m.status !== "consumed",
+        expanded: s.expanded === m.id,
+        shadow: s.expanded === m.id
+          ? "0 20px 50px -12px rgba(30,42,34,.1)"
+          : "0 2px 8px rgba(30,42,34,.04),0 1px 2px rgba(30,42,34,.02)",
+        chips: m.ingredients.slice(0, 3),
+        more: Math.max(0, m.ingredients.length - 3),
+        toggle: () => this.set({ expanded: s.expanded === m.id ? null : m.id }),
+        eatNow: e => { if (e) e.stopPropagation(); this.set({ dialog: "eatNow", pendingMeal: m.id }); },
+        recipe: () => this.set({ dialog: "recipe" }),
+        remove: () => this.set({ meals: meals.filter(x => x.id !== m.id) })
+      })),
+      planEmpty: meals.length === 0,
+      planDate: this.planDateLabel(),
+      planPrev: () => this.set({ planIndex: s.planIndex - 1 }),
+      planNext: () => this.set({ planIndex: s.planIndex + 1 }),
+      planToday: () => this.set({ planIndex: 0 }),
+      openAddMeal: () => this.set({ dialog: "addMeal" }),
+
+      snapChoice: s.snapMode === "choice",
+      snapActive: s.snapMode !== "choice",
+      snapModeLabel: s.snapMode.toUpperCase(),
+      snapCanAnalyze: s.snapMode !== "choice" && s.snapStage === "idle",
+      snapAnalyzing: s.snapStage === "analyzing",
+      snapDone: s.snapStage === "done",
+      snapAwaiting: s.snapStage !== "done",
+      snapStartCamera: () => this.set({ snapMode: "camera", snapStage: "idle" }),
+      snapStartGallery: () => this.set({ snapMode: "gallery", snapStage: "idle" }),
+      snapReset: () => this.set({ snapMode: "choice", snapStage: "idle" }),
+      snapAnalyze: () => {
+        this.set({ snapStage: "analyzing" });
+        setTimeout(() => this.set({ snapStage: "done" }), 1400);
+      },
+      snapSync: () => this.go("today"),
+
+      openCuration: () => this.set({ dialog: "curation" }),
+      openPantry: () => this.set({ dialog: "pantry", pantry: "idle" }),
+      openPredictive: () => this.set({ dialog: "predictive" }),
+      openFitness: () => this.set({ dialog: "fitness" }),
+      openRecovery: () => this.set({ dialog: "recovery" }),
+      closeDialog: () => this.set({ dialog: null }),
+      stopProp: e => e.stopPropagation(),
+      dlgEatNow: s.dialog === "eatNow", dlgAddMeal: s.dialog === "addMeal",
+      dlgRecipe: s.dialog === "recipe", dlgCuration: s.dialog === "curation",
+      dlgPredictive: s.dialog === "predictive", dlgPantry: s.dialog === "pantry",
+      dlgFitness: s.dialog === "fitness", dlgRecovery: s.dialog === "recovery",
+      goSnapFromDialog: () => { this.set({ dialog: null, snapMode: "camera", snapStage: "idle" }); this.go("snap"); },
+      markEaten: () => this.set({
+        dialog: null,
+        meals: meals.map(m => (m.id === s.pendingMeal ? { ...m, status: "consumed" } : m))
+      }),
+
+      curated: CURATED,
+      predictive: PREDICTIVE.map(p => ({ ...p, swap: () => this.set({ swapped: { ...s.swapped, [p.type]: !s.swapped[p.type] } }) })),
+
+      pantryIdle: s.pantry === "idle", pantryLoading: s.pantry === "loading", pantryDone: s.pantry === "done",
+      pantryText: s.pantryText,
+      setPantry: e => this.set({ pantryText: e.target.value }),
+      runPantry: () => { this.set({ pantry: "loading" }); setTimeout(() => this.set({ pantry: "done" }), 1400); },
+
+      notifBg: s.notifs ? "#BFDCCB" : "#ECEFEA",
+      notifKnob: s.notifs ? "22px" : "2px",
+      toggleNotifs: () => this.set({ notifs: !s.notifs }),
+      syncLabel: s.syncing ? "Syncing..." : "Sync Now",
+      syncAnim: s.syncing ? "np-spin 1s linear infinite" : "none",
+      lastSync: s.lastSync,
+      doSync: () => {
+        this.set({ syncing: true });
+        setTimeout(() => this.set({ syncing: false, lastSync: "11:02 PM" }), 1600);
+      },
+      burnChart: this.burnChart(),
+
+      signOut: () => this.setState({ screen: "login", dialog: null, onboarded: false, loginBusy: false }),
+      loginIdle: !s.loginBusy, loginBusy: s.loginBusy,
+      loginLabel: s.loginBusy ? "Syncing ecosystem..." : "Sign in with Google (Demo Mode)",
+      signIn: () => {
+        this.set({ loginBusy: true });
+        setTimeout(() => this.setState({
+          loginBusy: false,
+          screen: s.onboarded ? "today" : "onboarding"
+        }), 1200);
+      },
+
+      obAge: s.ob.age, obWeight: s.ob.weight, obHeight: s.ob.height, obAllergies: s.ob.allergies,
+      setAge: e => this.set({ ob: { ...s.ob, age: e.target.value } }),
+      setWeight: e => this.set({ ob: { ...s.ob, weight: e.target.value } }),
+      setHeight: e => this.set({ ob: { ...s.ob, height: e.target.value } }),
+      setAllergies: e => this.set({ ob: { ...s.ob, allergies: e.target.value } }),
+      pickMale: () => this.set({ ob: { ...s.ob, gender: "male" } }),
+      pickFemale: () => this.set({ ob: { ...s.ob, gender: "female" } }),
+      maleBorder: s.ob.gender === "male" ? "2px solid #BFDCCB" : "2px solid #ECEFEA",
+      femaleBorder: s.ob.gender === "female" ? "2px solid #BFDCCB" : "2px solid #ECEFEA",
+      hasBmi: bmiVal !== null,
+      bmiValue: bmiVal ? bmiVal.toFixed(1) : "",
+      bmiCategory: bmiVal ? this.bmiCategory(bmiVal) : "",
+      markers: MARKERS.map(label => ({
+        label,
+        boxBg: s.ob.markers.includes(label) ? "#BFDCCB" : "transparent",
+        tick: s.ob.markers.includes(label) ? "1" : "0",
+        toggle: () => this.set({
+          ob: {
+            ...s.ob,
+            markers: s.ob.markers.includes(label)
+              ? s.ob.markers.filter(m => m !== label)
+              : [...s.ob.markers, label]
+          }
+        })
+      })),
+      finishOpacity: s.ob.gender && s.ob.age && s.ob.weight && s.ob.height ? "1" : "0.45",
+      finishOnboarding: () => this.setState({ screen: "today", onboarded: true })
+    };
+  }
+}
+
+</script>
+<script>
+(function(){
+  var toggle = document.getElementById('siteNavToggle');
+  var nav = document.getElementById('siteNav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function(){
+      var open = nav.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  }
+})();
+(function(){
+  var html = document.documentElement;
+  var btn = document.getElementById('siteThemeToggle');
+  if (!btn) return;
+  function updateBtn(mode){
+    btn.textContent = mode === 'dark' ? '☀' : '🌙';
+    btn.setAttribute('aria-label', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  updateBtn(html.getAttribute('data-theme') || 'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateBtn(next);
+  });
+})();
+(function(){
+  var labels = {
+    en: { back: '← Back to portfolio', projects: 'Projects', contact: 'Contact' },
+    id: { back: '← Kembali ke portofolio', projects: 'Proyek', contact: 'Kontak' }
+  };
+  function apply(lang){
+    document.querySelectorAll('.site-lang-btn').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+    document.querySelectorAll('.site-nav-pill').forEach(function(a){
+      var key = a.getAttribute('data-nav');
+      if (key && labels[lang][key]) a.textContent = labels[lang][key];
+    });
+  }
+  document.querySelectorAll('.site-lang-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      var lang = b.getAttribute('data-lang');
+      localStorage.setItem('lang', lang);
+      apply(lang);
+    });
+  });
+  apply(localStorage.getItem('lang') || 'en');
+})();
+</script>
+</body>
+</html>

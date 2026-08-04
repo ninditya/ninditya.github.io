@@ -762,22 +762,10 @@
   <div class="context">
     <strong>Goal:</strong> Snap a food photo &rarr; AI identifies dish, estimates portions, calculates macros, flags allergens against user biometric + dietary profile. 5 distinct Genkit AI flows. No Redux/Zustand. Custom hooks (<code>useDailyLog</code> &middot; <code>useMeals</code> &middot; <code>useProfile</code>) each subscribe directly to Supabase Realtime channels scoped to the current user. 4-key rotation via <code>executeWithRotation()</code> &mdash; zero quota downtime for end users.
   </div>
-  <div class="img-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
-    <div class="img-group">
-      <div class="slabel">Snap Meal &mdash; Food Photo Analysis</div>
-      <img src="nutripal-ai/Snap-Meal.png" alt="NutriPal AI snap meal feature with Gemini Vision" style="max-height:65mm;">
-      <div class="img-caption">Food photo &rarr; Gemini 2.5 Flash Vision identifies dish, estimates portions, calculates macros, flags allergens. One API call for full analysis with user profile context.</div>
-    </div>
-    <div class="img-group">
-      <div class="slabel">Today&rsquo;s Dashboard &mdash; Realtime Tracking</div>
-      <img src="nutripal-ai/NutriPal-Today.png" alt="NutriPal AI daily nutrition dashboard with Supabase Realtime" style="max-height:65mm;">
-      <div class="img-caption">Daily dashboard with Supabase Realtime hooks &mdash; new meals appear instantly without polling. Custom hooks subscribe directly to per-user Realtime channels.</div>
-    </div>
-    <div class="img-group">
-      <div class="slabel">Meal Plan Generation &mdash; AI Flows</div>
-      <img src="nutripal-ai/Plan-Meal.png" alt="NutriPal AI personalized meal plan generation with Genkit" style="max-height:65mm;">
-      <div class="img-caption">5 Genkit AI flows: photo analysis, text analysis, full-day meal plan, delivery curation, personalized diet plans. 4-key rotation via executeWithRotation() &mdash; zero quota downtime.</div>
-    </div>
+  <div class="findings">
+    <div class="finding"><div class="finding-label">Product Loop</div><div class="finding-text">The new case study reframes NutriPal around three loops: daily energy balance, photo-to-meal logging, and next-meal recommendation. The product risk is not feature count; it is whether each loop becomes real enough to change ordering behavior.</div></div>
+    <div class="finding"><div class="finding-label">System Analysis</div><div class="finding-text">The promoted case study documents target users, requirements, architecture, ERD-level data thinking, business model assumptions, and validation priorities for the Indonesian food-ordering context.</div></div>
+    <div class="finding"><div class="finding-label">Build Priority</div><div class="finding-text">The next build phase focuses on a live delivery catalogue, real wearable connection, and a reminder loop that actually brings users back after the initial logging moment.</div></div>
   </div>
   <div class="findings">
     <div class="finding"><div class="finding-label">Allergen Prompt Engineering</div><div class="finding-text">Reliable allergen detection required a two-step prompt: <em>identify actual ingredients first, then check against user&rsquo;s allergen list</em>. Single-step &ldquo;flag allergens&rdquo; produced unreliable results. <strong>Framing the reasoning order in the prompt mattered more than the prompt phrasing itself.</strong></div></div>
