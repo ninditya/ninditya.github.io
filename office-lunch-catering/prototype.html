@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/styles.css">
+<script src="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/_ds_bundle.js"></script>
+<style>
+  body { margin: 0; background: var(--color-bg); }
+  a { color: var(--color-accent-700); }
+  a:hover { color: var(--color-accent); }
+  @keyframes tick { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+  .scr::-webkit-scrollbar { width: 4px }
+  .scr::-webkit-scrollbar-thumb { background: var(--color-neutral-400) }
+  .scr { scrollbar-width: thin }
+</style>
+</helmet>
+<div style="min-height: 100vh; padding: 30px 26px 60px; font-family: var(--font-body); color: var(--color-text);">
+  <div style="max-width: 1200px; margin: 0 auto;">
+
+    <div style="display: flex; align-items: flex-end; gap: 20px; border-bottom: 1px solid var(--color-divider); padding-bottom: 14px; margin-bottom: 30px;">
+      <div>
+        <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--color-accent-700);">Product Analyst case study</div>
+        <h1 style="font-size: 40px; margin: 3px 0 0;">Office Lunch Catering — Interactive Prototype</h1>
+      </div>
+      <div style="margin-left: auto; text-align: right; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent); line-height: 1.7;">
+        <div>Fig. A — Employee &amp; Admin app</div>
+        <div>Mobile · 390 × 844 · WIB</div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 390px minmax(300px, 1fr); gap: 60px; align-items: start;">
+
+      <div class="blueprint" style="width: 390px; height: 844px; background: var(--color-bg); position: relative; box-shadow: var(--shadow-md);">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+
+        <div style="height: 30px; display: flex; align-items: center; gap: 8px; padding: 0 14px; font-size: 11px; letter-spacing: .06em; border-bottom: 1px solid var(--color-divider); color: color-mix(in srgb, var(--color-text) 60%, transparent);">
+          <span style="font-family: var(--font-heading); font-size: 12px; color: var(--color-text);">{{ clockLabel }}</span>
+          <span>WIB</span>
+          <span style="margin-left: auto; display: flex; align-items: center; gap: 6px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 13a10 10 0 0 1 14 0"/><path d="M8.5 16.5a5.5 5.5 0 0 1 7 0"/><circle cx="12" cy="20" r="1"/></svg>
+            <span style="display: inline-block; width: 20px; height: 10px; border: 1px solid currentColor; position: relative;"><span style="position: absolute; inset: 1.5px; right: 6px; background: currentColor;"></span></span>
+          </span>
+        </div>
+
+        <div class="scr" style="position: absolute; top: 30px; bottom: {{ scrBottom }}; left: 0; right: 0; overflow-y: auto; overflow-x: hidden;">
+
+          <sc-if value="{{ scLogin }}" hint-placeholder-val="{{ true }}">
+            <div style="padding: 84px 26px 26px; display: flex; flex-direction: column; gap: 26px; min-height: 100%;">
+              <div>
+                <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--color-accent-700);">PT Nusatek Adhikara</div>
+                <h2 style="font-size: 34px; margin: 6px 0 8px; line-height: 1.05;">Kantin<span style="color: var(--color-accent);">.</span></h2>
+                <p style="font-size: 13px; margin: 0; color: color-mix(in srgb, var(--color-text) 65%, transparent);">Office lunch ordering, attendance-aware. Sign in with your work email.</p>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div class="field">
+                  <label>Work email</label>
+                  <input class="input" type="email" value="{{ email }}" onChange="{{ setEmail }}">
+                </div>
+                <div class="field">
+                  <label>Password</label>
+                  <input class="input" type="password" value="{{ pwd }}" onChange="{{ setPwd }}">
+                </div>
+                <button class="btn btn-primary btn-block blueprint" onClick="{{ loginEmp }}" style="height: 44px;">
+                  <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                  Sign in
+                </button>
+                <button class="btn btn-secondary btn-block" onClick="{{ loginEmp }}" style="height: 44px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="16" height="10"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                  Continue with company SSO
+                </button>
+              </div>
+              <div style="margin-top: auto; border-top: 1px solid var(--color-divider); padding-top: 14px;">
+                <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); margin-bottom: 8px;">Demo — pick a role</div>
+                <div style="display: flex; gap: 8px;">
+                  <button class="btn btn-secondary" onClick="{{ loginEmp }}" style="flex: 1; height: 40px;">Employee</button>
+                  <button class="btn btn-secondary" onClick="{{ loginAdm }}" style="flex: 1; height: 40px;">Office Admin</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ scMenu }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 16px 16px 30px;">
+              <div style="display: flex; align-items: flex-start; gap: 10px;">
+                <div>
+                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Tuesday, 4 August 2026</div>
+                  <h3 style="font-size: 24px; margin: 2px 0 0;">Today's lunch</h3>
+                </div>
+                <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+                  <span class="tag tag-accent">WFO</span>
+                  <span style="position: relative; display: block;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 16H6l1.4-3.2V10a4.6 4.6 0 0 1 9.2 0v2.8z"/><path d="M10.4 19h3.2"/></svg>
+                    <span style="position: absolute; top: 1px; right: 1px; width: 6px; height: 6px; background: var(--color-accent);"></span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="blueprint" style="margin-top: 16px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; background: {{ cutBg }};">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex: none; color: var(--color-accent-700);"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+                <div style="flex: 1;">
+                  <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ cutLabel }}</div>
+                  <div style="font-family: var(--font-heading); font-size: 20px; line-height: 1.1; animation: tick 2s ease-in-out infinite;">{{ cutValue }}</div>
+                </div>
+                <span class="tag tag-outline">{{ lockLabel }}</span>
+              </div>
+
+              <sc-if value="{{ showLockedBanner }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top: 14px; padding: 11px 12px; border-left: 2px solid var(--color-accent); background: var(--color-accent-100); font-size: 12px;">
+                  Orders were locked at {{ cutTimeLabel }} and the final count went to the vendor. Changes now need Admin approval.
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ showAutoBanner }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top: 14px; padding: 11px 12px; border-left: 2px solid var(--color-accent-600); background: var(--color-accent-100); font-size: 12px;">
+                  You hadn't chosen by 08:45, so we assigned your top recommendation so you don't go without lunch.
+                  <button class="btn btn-ghost" onClick="{{ optOutAuto }}" style="padding: 0; margin-top: 6px; font-size: 12px;">Turn auto-assign off</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ hasOrder }}" hint-placeholder-val="{{ false }}">
+                <div class="blueprint" style="margin-top: 14px; padding: 13px;">
+                  <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--color-accent-700);">Your order</span>
+                    <span class="tag tag-neutral" style="margin-left: auto;">{{ orderSourceLabel }}</span>
+                  </div>
+                  <div style="font-family: var(--font-heading); font-size: 19px; margin-top: 4px;">{{ orderName }}</div>
+                  <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">{{ orderMeta }}</div>
+                  <div style="display: flex; gap: 8px; margin-top: 12px;">
+                    <button class="btn btn-secondary" onClick="{{ changeOrder }}" disabled="{{ locked }}" style="flex: 1; height: 40px;">Change</button>
+                    <button class="btn btn-secondary" onClick="{{ cancelOrder }}" disabled="{{ locked }}" style="flex: 1; height: 40px;">Cancel</button>
+                  </div>
+                </div>
+              </sc-if>
+
+              <div style="display: flex; align-items: baseline; gap: 8px; margin: 22px 0 10px;">
+                <h4 style="font-size: 15px; margin: 0; letter-spacing: .02em;">Recommended for you</h4>
+                <span style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; margin-left: auto; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Ranked · rule-based</span>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                <sc-for list="{{ recs }}" as="m" hint-placeholder-count="3">
+                  <div class="card blueprint" style="padding: 13px; background: {{ m.bg }};">
+                    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                    <div style="display: flex; gap: 10px; align-items: flex-start;">
+                      <span style="font-family: var(--font-heading); font-size: 12px; width: 20px; height: 20px; flex: none; display: grid; place-items: center; border: 1px solid var(--color-divider); color: var(--color-accent-700);">{{ m.rank }}</span>
+                      <div style="flex: 1;">
+                        <div class="card-title" style="font-size: 17px;">{{ m.name }}</div>
+                        <div class="card-meta" style="margin-top: 2px;">{{ m.vendor }}</div>
+                      </div>
+                      <div style="text-align: right;">
+                        <div style="font-family: var(--font-heading); font-size: 15px;">{{ m.priceLabel }}</div>
+                        <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ m.kcalLabel }}</div>
+                      </div>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px;">
+                      <sc-for list="{{ m.reasons }}" as="r" hint-placeholder-count="2">
+                        <span class="tag tag-accent" style="font-size: 10px;">{{ r.t }}</span>
+                      </sc-for>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 6px;">
+                      <span style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ m.leftLabel }}</span>
+                      <button class="btn btn-primary" onClick="{{ m.onSelect }}" disabled="{{ m.disabled }}" style="margin-left: auto; height: 38px; min-width: 92px;">{{ m.cta }}</button>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="display: flex; align-items: baseline; gap: 8px; margin: 24px 0 6px;">
+                <h4 style="font-size: 15px; margin: 0;">All menus today</h4>
+                <span style="font-size: 11px; margin-left: auto; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ visibleCountLabel }}</span>
+              </div>
+
+              <div>
+                <sc-for list="{{ others }}" as="m" hint-placeholder-count="3">
+                  <div style="display: flex; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
+                    <div style="flex: 1; min-width: 0;">
+                      <div style="font-family: var(--font-heading); font-size: 15px; line-height: 1.15;">{{ m.name }}</div>
+                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ m.rowMeta }}</div>
+                      <sc-if value="{{ m.full }}" hint-placeholder-val="{{ false }}">
+                        <div style="font-size: 11px; color: var(--color-accent-700); margin-top: 3px;">Quota full — second choice: {{ m.fallbackName }}</div>
+                      </sc-if>
+                    </div>
+                    <button class="btn btn-secondary" onClick="{{ m.onSelect }}" disabled="{{ m.disabled }}" style="height: 36px; min-width: 78px; flex: none;">{{ m.rowCta }}</button>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div class="blueprint" style="margin-top: 20px; padding: 12px;">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <button class="btn btn-ghost" onClick="{{ toggleHidden }}" style="padding: 0; font-size: 12px; width: 100%; justify-content: flex-start; gap: 8px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><path d="M4 4l16 16"/></svg>
+                  {{ hiddenHeading }}
+                </button>
+                <sc-if value="{{ expandHidden }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top: 10px; border-top: 1px solid var(--color-divider); padding-top: 8px;">
+                    <sc-for list="{{ hidden }}" as="h" hint-placeholder-count="2">
+                      <div style="display: flex; gap: 8px; padding: 6px 0; opacity: .6;">
+                        <div style="flex: 1;">
+                          <div style="font-family: var(--font-heading); font-size: 14px; text-decoration: line-through;">{{ h.name }}</div>
+                          <div style="font-size: 11px;">{{ h.why }}</div>
+                        </div>
+                      </div>
+                    </sc-for>
+                    <p style="font-size: 11px; margin: 8px 0 0; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Elimination happens before ranking, so a menu you can't eat is never offered — not even as a recommendation.</p>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ scPrefs }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 16px 16px 30px;">
+              <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ empName }} · {{ empDept }}</div>
+              <h3 style="font-size: 24px; margin: 2px 0 16px;">Dietary profile</h3>
+
+              <div style="display: flex; flex-direction: column; gap: 18px;">
+                <div>
+                  <div style="font-size: 12px; margin-bottom: 7px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Diet</div>
+                  <div style="display: flex; gap: 8px;">
+                    <div class="seg"><label class="seg-opt"><input type="checkbox" checked="{{ isVeg }}" onChange="{{ toggleVeg }}">Vegetarian</label></div>
+                    <div class="seg"><label class="seg-opt"><input type="checkbox" checked="{{ isHalal }}" onChange="{{ toggleHalal }}">Halal only</label></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div style="font-size: 12px; margin-bottom: 7px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Allergies — menus containing these are removed entirely</div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 7px;">
+                    <sc-for list="{{ allergenChips }}" as="a" hint-placeholder-count="7">
+                      <div class="seg"><label class="seg-opt" style="padding: 6px 11px;"><input type="checkbox" checked="{{ a.checked }}" onChange="{{ a.onToggle }}">{{ a.label }}</label></div>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div>
+                  <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 7px;">
+                    <span style="font-size: 12px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Calorie target per meal</span>
+                    <span style="font-family: var(--font-heading); font-size: 16px; margin-left: auto;">{{ targetLabel }}</span>
+                  </div>
+                  <input type="range" min="350" max="900" step="25" value="{{ target }}" onChange="{{ setTarget }}" style="width: 100%; accent-color: var(--color-accent);">
+                  <div style="display: flex; justify-content: space-between; font-size: 10px; color: color-mix(in srgb, var(--color-text) 45%, transparent);">
+                    <span>350</span><span>900 kcal</span>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label>Other restrictions (free text, reviewed by Admin)</label>
+                  <textarea class="input" value="{{ notes }}" onChange="{{ setNotes }}" style="min-height: 68px;"></textarea>
+                </div>
+
+                <div class="blueprint" style="padding: 12px; display: flex; gap: 12px; align-items: flex-start;">
+                  <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                  <div style="flex: 1;">
+                    <div style="font-family: var(--font-heading); font-size: 15px;">Auto-assign when I forget</div>
+                    <p style="font-size: 11px; margin: 2px 0 0; color: color-mix(in srgb, var(--color-text) 60%, transparent);">If you haven't chosen 15 minutes before cut-off, we order your top recommendation.</p>
+                  </div>
+                  <div class="seg"><label class="seg-opt"><input type="checkbox" checked="{{ autoAssign }}" onChange="{{ toggleAuto }}">{{ autoLabel }}</label></div>
+                </div>
+
+                <div style="padding: 11px 12px; background: var(--color-accent-100); font-size: 12px; border-left: 2px solid var(--color-accent);">
+                  {{ filterSummary }}
+                </div>
+
+                <button class="btn btn-primary btn-block blueprint" onClick="{{ savePrefs }}" style="height: 44px;">
+                  <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                  Save profile
+                </button>
+                <p style="font-size: 10px; margin: 0; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Allergy data is specific personal data under UU PDP No. 27/2022 — encrypted, never written to application logs, and visible only to you and the filter service.</p>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ scHistory }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 16px 16px 30px;">
+              <div style="display: flex; align-items: flex-end;">
+                <div>
+                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">July 2026</div>
+                  <h3 style="font-size: 24px; margin: 2px 0 0;">Consumption</h3>
+                </div>
+                <button class="btn btn-secondary" onClick="{{ exportHistory }}" style="margin-left: auto; height: 36px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4v11"/><path d="M8 11l4 4 4-4"/><path d="M5 19h14"/></svg>
+                  Export
+                </button>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;">
+                <sc-for list="{{ historyKpis }}" as="k" hint-placeholder-count="4">
+                  <div class="blueprint" style="padding: 11px 12px;">
+                    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                    <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ k.label }}</div>
+                    <div style="font-family: var(--font-heading); font-size: 22px; line-height: 1.15;">{{ k.value }}</div>
+                    <div style="font-size: 10px; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ k.note }}</div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 4px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Daily log</h4>
+              <div>
+                <sc-for list="{{ history }}" as="h" hint-placeholder-count="6">
+                  <div style="display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
+                    <div style="width: 46px; flex: none;">
+                      <div style="font-family: var(--font-heading); font-size: 17px; line-height: 1;">{{ h.day }}</div>
+                      <div style="font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ h.dow }}</div>
+                    </div>
+                    <div style="flex: 1; min-width: 0;">
+                      <div style="font-family: var(--font-heading); font-size: 15px; line-height: 1.2;">{{ h.menu }}</div>
+                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ h.meta }}</div>
+                    </div>
+                    <div style="text-align: right; flex: none;">
+                      <div style="font-size: 12px;">{{ h.price }}</div>
+                      <sc-if value="{{ h.tagged }}" hint-placeholder-val="{{ false }}">
+                        <span class="tag tag-outline" style="font-size: 9px; margin-top: 3px;">{{ h.tag }}</span>
+                      </sc-if>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <p style="font-size: 11px; margin-top: 14px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Company-paid — nothing is charged to you. Totals are what Finance reconciles against the vendor invoice.</p>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ scDash }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 16px 16px 30px;">
+              <div style="display: flex; align-items: flex-end;">
+                <div>
+                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Tue 4 Aug 2026 · {{ clockLabel }} WIB</div>
+                  <h3 style="font-size: 24px; margin: 2px 0 0;">Today</h3>
+                </div>
+                <span class="tag tag-accent" style="margin-left: auto;">{{ cutStateLabel }}</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;">
+                <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+                  <div class="blueprint" style="padding: 11px 12px;">
+                    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                    <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ k.label }}</div>
+                    <div style="font-family: var(--font-heading); font-size: 24px; line-height: 1.15; color: {{ k.color }};">{{ k.value }}</div>
+                    <div style="font-size: 10px; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ k.note }}</div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div class="blueprint" style="margin-top: 14px; padding: 13px;">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div>
+                    <div style="font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ cutLabel }}</div>
+                    <div style="font-family: var(--font-heading); font-size: 22px; line-height: 1.1;">{{ cutValue }}</div>
+                  </div>
+                  <button class="btn btn-primary" onClick="{{ sendReminders }}" disabled="{{ reminderDisabled }}" style="margin-left: auto; height: 40px;">{{ reminderCta }}</button>
+                </div>
+              </div>
+
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Orders per menu</h4>
+              <div>
+                <sc-for list="{{ breakdown }}" as="b" hint-placeholder-count="5">
+                  <div style="padding: 8px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
+                    <div style="display: flex; gap: 10px; font-size: 12px;">
+                      <span style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ b.name }}</span>
+                      <span style="color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ b.vendor }}</span>
+                      <span style="font-family: var(--font-heading); width: 26px; text-align: right;">{{ b.qty }}</span>
+                    </div>
+                    <div style="height: 5px; margin-top: 5px; background: color-mix(in srgb, var(--color-text) 8%, transparent);">
+                      <div style="height: 100%; width: {{ b.pct }}; background: var(--color-accent);"></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Volume, last 7 days</h4>
+              <div class="blueprint" style="padding: 12px 12px 8px; display: flex; align-items: flex-end; gap: 8px; height: 96px;">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <sc-for list="{{ trend }}" as="t" hint-placeholder-count="7">
+                  <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end;">
+                    <span style="font-size: 9px; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ t.qty }}</span>
+                    <div style="width: 100%; height: {{ t.h }}; background: {{ t.fill }};"></div>
+                    <span style="font-size: 9px; letter-spacing: .04em; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ t.dow }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <p style="font-size: 11px; margin: 6px 0 0; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Thu 30 Jul dipped to 118 — a company-wide WFH day. Attendance sync caught it; no over-order.</p>
+
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Vendor communication</h4>
+              <div>
+                <sc-for list="{{ comms }}" as="c" hint-placeholder-count="4">
+                  <div style="display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); font-size: 12px;">
+                    <span style="width: 7px; height: 7px; flex: none; background: {{ c.dot }};"></span>
+                    <span style="flex: 1;">{{ c.label }}</span>
+                    <span style="color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ c.value }}</span>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div class="blueprint" style="margin-top: 18px; padding: 13px; background: {{ alertBg }};">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <div style="display: flex; gap: 10px; align-items: flex-start;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex: none; color: var(--color-accent-700);"><path d="M12 4l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+                  <div style="flex: 1;">
+                    <div style="font-family: var(--font-heading); font-size: 15px;">2 delivery gaps waiting for reconciliation</div>
+                    <p style="font-size: 11px; margin: 2px 0 0; color: color-mix(in srgb, var(--color-text) 62%, transparent);">7 Jul and 15 Jul: vendor claim exceeds confirmed delivered quantity by 4 portions total.</p>
+                    <button class="btn btn-ghost" onClick="{{ goRecon }}" style="padding: 0; margin-top: 7px; font-size: 12px;">Open reconciliation →</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ scOrders }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 16px 16px 30px;">
+              <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Tue 4 Aug 2026</div>
+              <h3 style="font-size: 24px; margin: 2px 0 14px;">Daily orders</h3>
+
+              <div class="blueprint" style="padding: 13px;">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <div style="display: flex; text-align: center;">
+                  <div style="flex: 1;">
+                    <div style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Estimate H-1</div>
+                    <div style="font-family: var(--font-heading); font-size: 22px;">134</div>
+                  </div>
+                  <div style="flex: 1; border-left: 1px solid var(--color-divider); border-right: 1px solid var(--color-divider);">
+                    <div style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ finalLabel }}</div>
+                    <div style="font-family: var(--font-heading); font-size: 22px;">{{ ordersCount }}</div>
+                  </div>
+                  <div style="flex: 1;">
+                    <div style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Delta</div>
+                    <div style="font-family: var(--font-heading); font-size: 22px; color: var(--color-accent-700);">{{ deltaLabel }}</div>
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-block" onClick="{{ sendDelta }}" disabled="{{ deltaDisabled }}" style="height: 42px; margin-top: 12px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12l16-7-7 16-2-7z"/></svg>
+                  {{ deltaCta }}
+                </button>
+                <p style="font-size: 11px; margin: 8px 0 0; color: color-mix(in srgb, var(--color-text) 58%, transparent);">{{ deltaNote }}</p>
+              </div>
+
+              <div style="display: flex; gap: 8px; margin: 18px 0 4px; overflow-x: auto;">
+                <div class="seg">
+                  <label class="seg-opt"><input type="radio" name="ofil" checked="{{ filAll }}" onChange="{{ filterAll }}">All {{ rowsTotal }}</label>
+                  <label class="seg-opt"><input type="radio" name="ofil" checked="{{ filPending }}" onChange="{{ filterPending }}">Pending {{ pendingCount }}</label>
+                  <label class="seg-opt"><input type="radio" name="ofil" checked="{{ filSkipped }}" onChange="{{ filterSkipped }}">Skipped {{ skippedCount }}</label>
+                </div>
+              </div>
+
+              <div>
+                <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+                  <div style="display: flex; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
+                    <div style="flex: 1; min-width: 0;">
+                      <div style="font-family: var(--font-heading); font-size: 15px; line-height: 1.15;">{{ r.name }}</div>
+                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ r.meta }}</div>
+                    </div>
+                    <span class="tag {{ r.chipClass }}" style="flex: none; font-size: 10px;">{{ r.status }}</span>
+                  </div>
+                </sc-for>
+              </div>
+
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Change log</h4>
+              <div>
+                <sc-for list="{{ log }}" as="l" hint-placeholder-count="4">
+                  <div style="display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); font-size: 12px;">
+                    <span style="font-family: var(--font-heading); width: 42px; flex: none; color: var(--color-accent-700);">{{ l.time }}</span>
+                    <span style="flex: 1;">{{ l.text }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ scMenus }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 16px 16px 30px;">
+              <div style="display: flex; align-items: flex-end;">
+                <div>
+                  <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Master data</div>
+                  <h3 style="font-size: 24px; margin: 2px 0 0;">Menus &amp; vendors</h3>
+                </div>
+                <button class="btn btn-primary" onClick="{{ openAddMenu }}" style="margin-left: auto; height: 38px;">+ Menu</button>
+              </div>
+
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 22px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Vendors</h4>
+              <div>
+                <sc-for list="{{ vendors }}" as="v" hint-placeholder-count="3">
+                  <div style="display: flex; gap: 10px; align-items: center; padding: 11px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
+                    <div style="flex: 1; min-width: 0;">
+                      <div style="font-family: var(--font-heading); font-size: 15px; line-height: 1.15;">{{ v.name }}</div>
+                      <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ v.meta }}</div>
+                    </div>
+                    <div class="seg"><label class="seg-opt" style="padding: 5px 10px; font-size: 11px;"><input type="checkbox" checked="{{ v.active }}" onChange="{{ v.onToggle }}">{{ v.stateLabel }}</label></div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 24px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Today's offering &amp; quota</h4>
+              <div>
+                <sc-for list="{{ masterMenus }}" as="m" hint-placeholder-count="8">
+                  <div style="padding: 11px 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">
+                    <div style="display: flex; gap: 10px; align-items: baseline;">
+                      <div style="flex: 1; min-width: 0;">
+                        <div style="font-family: var(--font-heading); font-size: 15px; line-height: 1.15;">{{ m.name }}</div>
+                        <div style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ m.vendor }} · {{ m.priceLabel }} · {{ m.kcalLabel }}</div>
+                      </div>
+                      <div style="text-align: right; flex: none;">
+                        <div style="font-family: var(--font-heading); font-size: 14px;">{{ m.quotaLabel }}</div>
+                        <div style="font-size: 10px; color: {{ m.quotaColor }};">{{ m.quotaState }}</div>
+                      </div>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px;">
+                      <sc-for list="{{ m.tags }}" as="t" hint-placeholder-count="2">
+                        <span class="tag {{ t.cls }}" style="font-size: 10px;">{{ t.label }}</span>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <p style="font-size: 11px; margin-top: 12px; color: color-mix(in srgb, var(--color-text) 55%, transparent);">Allergen tags on the master menu are the only input the elimination filter reads. A missing tag is a safety defect, so tagging is required before a menu can be scheduled.</p>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ scRecon }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 16px 16px 30px;">
+              <div style="font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent);">Period July 2026</div>
+              <h3 style="font-size: 24px; margin: 2px 0 12px;">Reconciliation</h3>
+
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <div class="seg">
+                  <label class="seg-opt" style="font-size: 11px;"><input type="radio" name="ven" checked="{{ true }}" onChange="{{ noop }}">Dapur Bu Tini</label>
+                  <label class="seg-opt" style="font-size: 11px;"><input type="radio" name="ven" onChange="{{ noop }}">Sehat Nusantara</label>
+                </div>
+                <span class="tag {{ invoiceChip }}" style="margin-left: auto;">{{ invoiceStatusLabel }}</span>
+              </div>
+
+              <div class="blueprint" style="margin-top: 14px; padding: 12px;">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <div style="display: flex; flex-direction: column; gap: 7px; font-size: 12px;">
+                  <div style="display: flex;"><span style="flex: 1; color: color-mix(in srgb, var(--color-text) 60%, transparent);">System (delivered × master price)</span><span style="font-family: var(--font-heading);">{{ systemTotal }}</span></div>
+                  <div style="display: flex;"><span style="flex: 1; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Vendor claim</span><span style="font-family: var(--font-heading);">{{ claimTotal }}</span></div>
+                  <div style="display: flex; border-top: 1px solid var(--color-divider); padding-top: 7px;"><span style="flex: 1; color: var(--color-accent-700);">Difference</span><span style="font-family: var(--font-heading); color: var(--color-accent-700);">{{ diffTotal }}</span></div>
+                  <div style="display: flex;"><span style="flex: 1; font-family: var(--font-heading); font-size: 15px;">Payable after adjustment</span><span style="font-family: var(--font-heading); font-size: 15px;">{{ payableTotal }}</span></div>
+                </div>
+              </div>
+
+              <table class="table" style="margin-top: 16px; font-size: 11px;">
+                <thead>
+                  <tr>
+                    <th style="padding: 5px 3px;">Date</th>
+                    <th style="padding: 5px 3px; text-align: right;">Ord</th>
+                    <th style="padding: 5px 3px; text-align: right;">Del</th>
+                    <th style="padding: 5px 3px; text-align: right;">Claim</th>
+                    <th style="padding: 5px 3px; text-align: right;">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ reconRows }}" as="r" hint-placeholder-count="10">
+                    <tr style="background: {{ r.bg }};">
+                      <td style="padding: 6px 3px;">
+                        <span style="font-family: var(--font-heading);">{{ r.date }}</span>
+                        <div style="font-size: 9px; color: color-mix(in srgb, var(--color-text) 50%, transparent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 92px;">{{ r.menu }}</div>
+                      </td>
+                      <td style="padding: 6px 3px; text-align: right;">{{ r.ord }}</td>
+                      <td style="padding: 6px 3px; text-align: right;">{{ r.del }}</td>
+                      <td style="padding: 6px 3px; text-align: right; color: {{ r.claimColor }};">{{ r.claim }}</td>
+                      <td style="padding: 6px 3px; text-align: right; white-space: nowrap;">{{ r.amount }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+              <p style="font-size: 10px; margin: 6px 0 0; color: color-mix(in srgb, var(--color-text) 50%, transparent);">10 of 21 service days shown.</p>
+
+              <h4 style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 22px 0 8px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Flagged for verification</h4>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <sc-for list="{{ flagged }}" as="f" hint-placeholder-count="2">
+                  <div class="blueprint" style="padding: 12px; background: var(--color-accent-100);">
+                    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                    <div style="display: flex; gap: 8px; align-items: baseline;">
+                      <span style="font-family: var(--font-heading); font-size: 15px;">{{ f.date }}</span>
+                      <span style="font-size: 12px; color: var(--color-accent-800);">{{ f.summary }}</span>
+                    </div>
+                    <p style="font-size: 11px; margin: 5px 0 0; color: color-mix(in srgb, var(--color-text) 65%, transparent);">{{ f.note }}</p>
+                    <sc-if value="{{ f.unresolved }}" hint-placeholder-val="{{ true }}">
+                      <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <button class="btn btn-secondary" onClick="{{ f.onAccept }}" style="flex: 1; height: 38px; background: var(--color-bg);">Accept claim</button>
+                        <button class="btn btn-primary" onClick="{{ f.onReject }}" style="flex: 1; height: 38px;">Keep system qty</button>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ f.resolved }}" hint-placeholder-val="{{ false }}">
+                      <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 11px;">
+                        <span class="tag tag-accent">{{ f.resolutionLabel }}</span>
+                        <span style="color: color-mix(in srgb, var(--color-text) 60%, transparent);">{{ f.resolutionMeta }}</span>
+                        <button class="btn btn-ghost" onClick="{{ f.onUndo }}" style="margin-left: auto; padding: 0; font-size: 11px;">Undo</button>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div class="blueprint" style="margin-top: 20px; padding: 13px;">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <button class="btn btn-primary btn-block" onClick="{{ approveInvoice }}" disabled="{{ approveDisabled }}" style="height: 42px; margin-top: 0;">{{ approveCta }}</button>
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                  <button class="btn btn-secondary" onClick="{{ exportPdf }}" disabled="{{ exportDisabled }}" style="flex: 1; height: 38px;">PDF</button>
+                  <button class="btn btn-secondary" onClick="{{ exportXlsx }}" disabled="{{ exportDisabled }}" style="flex: 1; height: 38px;">Excel</button>
+                  <button class="btn btn-secondary" onClick="{{ sendFinance }}" disabled="{{ exportDisabled }}" style="flex: 1.4; height: 38px;">To Finance</button>
+                </div>
+                <p style="font-size: 10px; margin: 9px 0 0; color: color-mix(in srgb, var(--color-text) 50%, transparent);">{{ approveNote }}</p>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ dialogAddMenu }}" hint-placeholder-val="{{ false }}">
+            <div style="position: absolute; inset: 0; display: grid; place-items: end center; padding: 0; background: color-mix(in srgb, var(--color-neutral-900) 45%, transparent);">
+              <div class="dialog blueprint" style="width: 100%; background: var(--color-bg); box-shadow: var(--shadow-lg); padding: 16px; gap: 12px;">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <div class="dialog-title">New master menu</div>
+                <div class="field"><label>Name</label><input class="input" value="{{ newMenuName }}" onChange="{{ setNewMenuName }}"></div>
+                <div style="display: flex; gap: 8px;">
+                  <div class="field" style="flex: 1;"><label>Price (Rp)</label><input class="input" value="27000" onChange="{{ noop }}"></div>
+                  <div class="field" style="flex: 1;"><label>Calories</label><input class="input" value="520" onChange="{{ noop }}"></div>
+                </div>
+                <div>
+                  <div style="font-size: 12px; margin-bottom: 6px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">Allergen tags — required</div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    <sc-for list="{{ newMenuAllergens }}" as="a" hint-placeholder-count="7">
+                      <div class="seg"><label class="seg-opt" style="padding: 5px 10px; font-size: 11px;"><input type="checkbox" checked="{{ a.checked }}" onChange="{{ a.onToggle }}">{{ a.label }}</label></div>
+                    </sc-for>
+                  </div>
+                </div>
+                <div class="dialog-actions">
+                  <button class="btn btn-secondary" onClick="{{ closeDialog }}" style="height: 38px;">Cancel</button>
+                  <button class="btn btn-primary" onClick="{{ saveNewMenu }}" style="height: 38px;">Save menu</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+            <div style="position: absolute; left: 14px; right: 14px; bottom: 14px; padding: 11px 13px; background: var(--color-accent-900); color: var(--color-bg); font-size: 12px; box-shadow: var(--shadow-md); display: flex; gap: 9px; align-items: center;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex: none;"><path d="M5 13l4 4 10-10"/></svg>
+              {{ toast }}
+            </div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ isEmp }}" hint-placeholder-val="{{ false }}">
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 60px; display: flex; border-top: 1px solid var(--color-divider); background: var(--color-bg);">
+            <button class="btn" onClick="{{ goMenuScreen }}" style="flex: 1; flex-direction: column; gap: 3px; border: 0; height: 100%; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: {{ cMenu }};">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4v3"/></svg>
+              Menu
+            </button>
+            <button class="btn" onClick="{{ goPrefs }}" style="flex: 1; flex-direction: column; gap: 3px; border: 0; border-left: 1px solid var(--color-divider); height: 100%; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: {{ cPrefs }};">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+              Profile
+            </button>
+            <button class="btn" onClick="{{ goHistory }}" style="flex: 1; flex-direction: column; gap: 3px; border: 0; border-left: 1px solid var(--color-divider); height: 100%; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: {{ cHistory }};">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+              History
+            </button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isAdm }}" hint-placeholder-val="{{ false }}">
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 60px; display: flex; border-top: 1px solid var(--color-divider); background: var(--color-bg);">
+            <button class="btn" onClick="{{ goDash }}" style="flex: 1; flex-direction: column; gap: 3px; border: 0; height: 100%; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: {{ cDash }};">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>
+              Today
+            </button>
+            <button class="btn" onClick="{{ goOrders }}" style="flex: 1; flex-direction: column; gap: 3px; border: 0; border-left: 1px solid var(--color-divider); height: 100%; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: {{ cOrders }};">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+              Orders
+            </button>
+            <button class="btn" onClick="{{ goMenus }}" style="flex: 1; flex-direction: column; gap: 3px; border: 0; border-left: 1px solid var(--color-divider); height: 100%; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: {{ cMenus }};">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 9h16v11H4z"/><path d="M4 9l2-4h12l2 4"/></svg>
+              Master
+            </button>
+            <button class="btn" onClick="{{ goRecon }}" style="flex: 1; flex-direction: column; gap: 3px; border: 0; border-left: 1px solid var(--color-divider); height: 100%; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: {{ cRecon }};">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>
+              Billing
+            </button>
+          </div>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ showRail }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-direction: column; gap: 26px; padding-top: 4px;">
+
+          <div>
+            <div style="display: flex; align-items: baseline; gap: 10px; border-bottom: 1px solid var(--color-divider); padding-bottom: 6px;">
+              <h4 style="margin: 0; font-size: 16px;">{{ railTitle }}</h4>
+              <span style="margin-left: auto; font-family: var(--font-heading); font-size: 12px; letter-spacing: .12em; color: var(--color-accent-700);">{{ railRef }}</span>
+            </div>
+            <p style="font-size: 13px; margin: 10px 0 0; max-width: 46ch; color: color-mix(in srgb, var(--color-text) 72%, transparent);">{{ railDesc }}</p>
+          </div>
+
+          <div>
+            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); margin-bottom: 9px;">Scenario clock</div>
+            <div class="seg">
+              <label class="seg-opt"><input type="radio" name="scen" checked="{{ scenOpen }}" onChange="{{ setScenOpen }}">08:12 · open</label>
+              <label class="seg-opt"><input type="radio" name="scen" checked="{{ scenAuto }}" onChange="{{ setScenAuto }}">08:46 · auto-assign</label>
+              <label class="seg-opt"><input type="radio" name="scen" checked="{{ scenLocked }}" onChange="{{ setScenLocked }}">09:04 · locked</label>
+            </div>
+            <p style="font-size: 12px; margin: 8px 0 0; color: color-mix(in srgb, var(--color-text) 60%, transparent);">The clock runs. Cut-off is {{ cutTimeLabel }} WIB and every screen reads from it — countdown, auto-assign, locking, vendor sends.</p>
+          </div>
+
+          <div>
+            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); margin-bottom: 9px;">Screens</div>
+            <div style="display: grid; gap: 1px;">
+              <sc-for list="{{ screenIndex }}" as="s" hint-placeholder-count="8">
+                <button class="btn" onClick="{{ s.onGo }}" style="display: flex; justify-content: flex-start; gap: 12px; border: 0; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); padding: 8px 2px; font-family: var(--font-body); font-size: 13px; text-align: left; background: {{ s.bg }}; color: {{ s.color }};">
+                  <span style="font-family: var(--font-heading); letter-spacing: .06em; color: var(--color-accent-700); width: 30px;">{{ s.no }}</span>
+                  <span style="flex: 1;">{{ s.label }}</span>
+                  <span style="font-size: 11px; color: color-mix(in srgb, var(--color-text) 45%, transparent);">{{ s.who }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); margin-bottom: 9px;">Try this</div>
+            <ul style="margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.65; color: color-mix(in srgb, var(--color-text) 75%, transparent);">
+              <sc-for list="{{ railTry }}" as="t" hint-placeholder-count="3">
+                <li>{{ t.t }}</li>
+              </sc-for>
+            </ul>
+          </div>
+
+          <div>
+            <div style="font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); margin-bottom: 9px;">Requirements on this screen</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <sc-for list="{{ railFrs }}" as="f" hint-placeholder-count="5">
+                <span class="tag tag-outline">{{ f.id }}</span>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--color-divider); padding-top: 14px; display: flex; align-items: center; gap: 12px;">
+            <div style="font-size: 12px; color: color-mix(in srgb, var(--color-text) 60%, transparent);">Signed in as <span style="color: var(--color-text);">{{ whoLabel }}</span></div>
+            <button class="btn btn-secondary" onClick="{{ doLogout }}" style="margin-left: auto; height: 34px;">Sign out</button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startRole&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;employee&quot;,&quot;admin&quot;],&quot;default&quot;:&quot;login&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Demo&quot;},&quot;showSpecRail&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Demo&quot;},&quot;cutOffHour&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:9,&quot;min&quot;:7,&quot;max&quot;:12,&quot;unit&quot;:&quot;:00 WIB&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Behaviour&quot;},&quot;autoAssignDefault&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behaviour&quot;}}">
+class Component extends DCLogic {
+  menus = [
+    { id: 'm1', name: 'Nasi Ayam Bakar Kecap', vendor: 'Dapur Bu Tini', price: 28000, kcal: 620, veg: false, halal: true, allergens: ['soy'], quota: 60, ordered: 32, last: 5 },
+    { id: 'm2', name: 'Nasi Pecel Sayur & Tempe', vendor: 'Dapur Bu Tini', price: 22000, kcal: 480, veg: true, halal: true, allergens: ['peanut', 'soy'], quota: 40, ordered: 11, last: 9 },
+    { id: 'm3', name: 'Nasi Ikan Kembung Balado', vendor: 'Warung Padang Jaya', price: 26000, kcal: 540, veg: false, halal: true, allergens: ['fish'], quota: 45, ordered: 18, last: 14 },
+    { id: 'm4', name: 'Nasi Capcay Ayam', vendor: 'Katering Sehat Nusantara', price: 25000, kcal: 510, veg: false, halal: true, allergens: ['soy', 'shellfish'], quota: 50, ordered: 21, last: 11 },
+    { id: 'm5', name: 'Nasi Merah, Ayam Panggang & Sayur', vendor: 'Katering Sehat Nusantara', price: 30000, kcal: 470, veg: false, halal: true, allergens: [], quota: 40, ordered: 9, last: 22 },
+    { id: 'm6', name: 'Bihun Goreng Telur', vendor: 'Dapur Bu Tini', price: 21000, kcal: 560, veg: true, halal: true, allergens: ['egg', 'soy'], quota: 35, ordered: 6, last: 3 },
+    { id: 'm7', name: 'Nasi Rendang Daging', vendor: 'Warung Padang Jaya', price: 32000, kcal: 780, veg: false, halal: true, allergens: [], quota: 25, ordered: 25, last: 6 },
+    { id: 'm8', name: 'Gado-gado Lontong', vendor: 'Dapur Bu Tini', price: 23000, kcal: 500, veg: true, halal: true, allergens: ['peanut', 'egg'], quota: 30, ordered: 6, last: 8 }
+  ];
+  allergenNames = { peanut: 'Peanut', egg: 'Egg', fish: 'Fish', shellfish: 'Shellfish', soy: 'Soy', dairy: 'Dairy', gluten: 'Gluten' };
+  staff = [
+    { name: 'Rani Puspita', dept: 'Marketing', att: 'WFO', raw: 'self' },
+    { name: 'Bayu Prakoso', dept: 'Office Admin', att: 'WFO', raw: 'confirmed', menu: 'Nasi Ayam Bakar Kecap' },
+    { name: 'Dimas Ardiansyah', dept: 'Finance', att: 'WFH', raw: 'skipped' },
+    { name: 'Sekar Ayu Lestari', dept: 'Product', att: 'WFO', raw: 'pending' },
+    { name: 'Fajar Nugroho', dept: 'Engineering', att: 'WFO', raw: 'confirmed', menu: 'Nasi Capcay Ayam' },
+    { name: 'Intan Permatasari', dept: 'People', att: 'Leave', raw: 'skipped' },
+    { name: 'Yoga Saputra', dept: 'Engineering', att: 'Overtime', raw: 'confirmed', menu: 'Nasi Rendang Daging' },
+    { name: 'Nadia Rahmawati', dept: 'Sales', att: 'Business trip', raw: 'skipped' },
+    { name: 'Arif Setiawan', dept: 'Engineering', att: 'WFO', raw: 'pending' },
+    { name: 'Gilang Ramadhan', dept: 'Operations', att: 'WFO', raw: 'pending' },
+    { name: 'Putri Maharani', dept: 'Design', att: 'WFO', raw: 'confirmed', menu: 'Nasi Merah, Ayam Panggang & Sayur' }
+  ];
+  reconSrc = [
+    { id: 'r1', date: '01 Jul', menu: 'Ayam Bakar Kecap', price: 28000, ord: 126, del: 126, claim: 126 },
+    { id: 'r2', date: '02 Jul', menu: 'Bihun Goreng Telur', price: 21000, ord: 130, del: 130, claim: 130 },
+    { id: 'r3', date: '03 Jul', menu: 'Gado-gado Lontong', price: 23000, ord: 118, del: 118, claim: 118 },
+    { id: 'r4', date: '07 Jul', menu: 'Ayam Bakar Kecap', price: 28000, ord: 124, del: 122, claim: 124, note: 'Driver reported 2 portions short at handover 11:48; Admin logged the shortfall. Vendor still billed the ordered quantity.' },
+    { id: 'r5', date: '08 Jul', menu: 'Pecel Sayur & Tempe', price: 22000, ord: 129, del: 129, claim: 129 },
+    { id: 'r6', date: '09 Jul', menu: 'Ayam Bakar Kecap', price: 28000, ord: 131, del: 131, claim: 131 },
+    { id: 'r7', date: '10 Jul', menu: 'Bihun Goreng Telur', price: 21000, ord: 127, del: 127, claim: 127 },
+    { id: 'r8', date: '14 Jul', menu: 'Gado-gado Lontong', price: 23000, ord: 122, del: 122, claim: 122 },
+    { id: 'r9', date: '15 Jul', menu: 'Ayam Bakar Kecap', price: 28000, ord: 125, del: 125, claim: 127, note: 'Vendor claims 2 extra portions for a late overtime request that was never entered in the app. No delivery confirmation supports it.' },
+    { id: 'r10', date: '16 Jul', menu: 'Pecel Sayur & Tempe', price: 22000, ord: 128, del: 128, claim: 128 }
+  ];
+  history = [
+    { day: '03', dow: 'Mon', menu: 'Bihun Goreng Telur', kcal: 560, price: 21000 },
+    { day: '31', dow: 'Fri', menu: 'Nasi Ikan Kembung Balado', kcal: 540, price: 26000 },
+    { day: '30', dow: 'Thu', menu: 'Nasi Capcay Ayam', kcal: 510, price: 25000, tag: 'Auto-assigned' },
+    { day: '29', dow: 'Wed', menu: 'No order', kcal: 0, price: 0, tag: 'WFH — skipped' },
+    { day: '28', dow: 'Tue', menu: 'Nasi Merah, Ayam Panggang & Sayur', kcal: 470, price: 30000 },
+    { day: '27', dow: 'Mon', menu: 'Nasi Ayam Bakar Kecap', kcal: 620, price: 28000 }
+  ];
+  trendSrc = [{ dow: 'Wed', qty: 124 }, { dow: 'Thu', qty: 118 }, { dow: 'Fri', qty: 127 }, { dow: 'Mon', qty: 129 }, { dow: 'Tue', qty: 122 }, { dow: 'Wed', qty: 131 }, { dow: 'Thu', qty: 128 }];
+
+  state = {
+    role: (this.props.startRole === 'employee' || this.props.startRole === 'admin') ? this.props.startRole : null,
+    screen: this.props.startRole === 'admin' ? 'dash' : this.props.startRole === 'employee' ? 'menu' : 'login',
+    scenario: 'open',
+    elapsed: 0,
+    order: undefined,
+    prefs: { veg: false, halal: true, allergens: ['peanut'], target: 550, auto: this.props.autoAssignDefault !== false, notes: 'Tidak makan jeroan.' },
+    email: 'rani.puspita@nusatek.co.id',
+    pwd: '••••••••••',
+    toast: null,
+    remindersSent: false,
+    deltaSent: false,
+    filter: 'all',
+    expandHidden: false,
+    adjust: {},
+    invoice: 'draft',
+    dialog: null,
+    newMenu: { name: 'Soto Ayam Lamongan', allergens: ['egg'] },
+    vendorActive: { v1: true, v2: true, v3: false }
+  };
+
+  componentDidMount() { this.timer = setInterval(() => this.setState(s => ({ elapsed: s.elapsed + 1 })), 1000); }
+  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this.tt); }
+
+  rp(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+  say(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: null }), 2800); }
+  pad(n) { return String(n).padStart(2, '0'); }
+
+  clockInfo() {
+    const cutoff = (this.props.cutOffHour ?? 9) * 3600;
+    const bases = { open: cutoff - 48 * 60, auto: cutoff - 14 * 60, locked: cutoff + 4 * 60 };
+    const clock = bases[this.state.scenario] + this.state.elapsed;
+    return { cutoff, clock, locked: clock >= cutoff, autoRan: clock >= cutoff - 15 * 60, remain: Math.max(0, cutoff - clock) };
+  }
+
+  ranked() {
+    const p = this.state.prefs;
+    const blocked = m => m.allergens.some(a => p.allergens.includes(a)) || (p.veg && !m.veg) || (p.halal && !m.halal);
+    const visible = this.menus.filter(m => !blocked(m));
+    const score = m => Math.abs(m.kcal - p.target) + (m.last < 7 ? 150 : m.last < 14 ? 50 : 0);
+    return { visible, blocked, score, sorted: visible.slice().sort((a, b) => score(a) - score(b)) };
+  }
+
+  reasonsFor(m) {
+    const p = this.state.prefs, out = [];
+    const d = Math.abs(m.kcal - p.target);
+    out.push({ t: d <= 40 ? d + ' kcal from your ' + p.target + ' target' : m.kcal + ' kcal · ' + (m.kcal > p.target ? '+' : '−') + d + ' vs target' });
+    if (p.allergens.length) out.push({ t: 'No ' + p.allergens.map(a => this.allergenNames[a].toLowerCase()).join(', no ') });
+    out.push({ t: m.last >= 14 ? 'Not served to you in ' + m.last + ' days' : m.last < 7 ? 'You had this ' + m.last + ' days ago' : 'Last eaten ' + m.last + ' days ago' });
+    return out;
+  }
+
+  pick(id) {
+    const c = this.clockInfo();
+    if (c.locked) { this.say('Orders are locked. Ask Admin for an exception.'); return; }
+    const m = this.menus.find(x => x.id === id);
+    if (m.ordered >= m.quota) { this.say('Quota full for ' + m.name + '.'); return; }
+    this.setState({ order: { id: id, source: 'self' } });
+    this.say('Order confirmed — ' + m.name);
+  }
+
+  renderVals() {
+    const s = this.state, p = s.prefs, c = this.clockInfo();
+    const { visible, score, sorted } = this.ranked();
+    const cutTimeLabel = this.pad(Math.floor(c.cutoff / 3600)) + ':00';
+    const clockLabel = this.pad(Math.floor(c.clock / 3600) % 24) + ':' + this.pad(Math.floor(c.clock / 60) % 60);
+    const remainLabel = this.pad(Math.floor(c.remain / 3600)) + ':' + this.pad(Math.floor(c.remain / 60) % 60) + ':' + this.pad(c.remain % 60);
+
+    const top = sorted.filter(m => m.ordered < m.quota)[0];
+    const effOrder = (s.order && s.order !== 'cleared') ? s.order : (c.autoRan && p.auto && top ? { id: top.id, source: 'auto' } : null);
+    const orderMenu = effOrder ? this.menus.find(m => m.id === effOrder.id) : null;
+
+    const recIds = sorted.filter(m => m.ordered < m.quota).slice(0, 3).map(m => m.id);
+    const fallback = sorted.filter(m => m.ordered < m.quota)[0];
+
+    const mkItem = (m, i) => {
+      const full = m.ordered >= m.quota;
+      const sel = effOrder && effOrder.id === m.id;
+      return {
+        id: m.id, rank: i + 1, name: m.name, vendor: m.vendor,
+        priceLabel: this.rp(m.price), kcal: m.kcal, kcalLabel: m.kcal + ' kcal',
+        reasons: this.reasonsFor(m),
+        leftLabel: full ? 'Quota full' : (m.quota - m.ordered) + ' of ' + m.quota + ' portions left',
+        rowMeta: this.rp(m.price) + ' · ' + m.kcal + ' kcal · ' + m.vendor,
+        full: full, fallbackName: fallback ? fallback.name : '—',
+        bg: sel ? 'var(--color-accent-100)' : 'transparent',
+        disabled: c.locked || (full && !sel),
+        cta: sel ? 'Chosen' : full ? 'Full' : 'Choose',
+        rowCta: sel ? 'Chosen' : full ? 'Full' : 'Choose',
+        onSelect: () => (m.ordered >= m.quota && fallback ? this.pick(fallback.id) : this.pick(m.id))
+      };
+    };
+    const recs = recIds.map((id, i) => mkItem(this.menus.find(m => m.id === id), i));
+    const others = visible.filter(m => !recIds.includes(m.id)).map((m, i) => mkItem(m, i));
+    const hidden = this.menus.filter(m => !visible.includes(m)).map(m => ({
+      name: m.name,
+      why: 'Contains ' + m.allergens.filter(a => p.allergens.includes(a)).map(a => this.allergenNames[a].toLowerCase()).join(' and ') + ' — your allergy profile'
+    }));
+
+    const autoRows = c.autoRan;
+    const rowsAll = this.staff.map(st => {
+      let stat = st.raw, menu = st.menu;
+      if (st.raw === 'self') { stat = effOrder ? (effOrder.source === 'auto' ? 'auto' : 'confirmed') : 'pending'; menu = orderMenu ? orderMenu.name : null; }
+      else if (st.raw === 'pending' && autoRows) { stat = 'auto'; menu = top ? top.name : null; }
+      const label = { confirmed: 'Confirmed', auto: 'Auto-assigned', pending: 'Pending', skipped: 'Skipped' }[stat];
+      return {
+        name: st.name, status: label, stat: stat,
+        meta: st.dept + ' · ' + st.att + (menu ? ' · ' + menu : stat === 'skipped' ? ' · no allocation' : ' · not chosen yet'),
+        chipClass: stat === 'confirmed' ? 'tag-accent' : stat === 'auto' ? 'tag-outline' : stat === 'pending' ? 'tag-neutral' : 'tag-neutral'
+      };
+    });
+    const rows = rowsAll.filter(r => s.filter === 'all' || (s.filter === 'pending' && r.stat === 'pending') || (s.filter === 'skipped' && r.stat === 'skipped'));
+    const pendingCount = rowsAll.filter(r => r.stat === 'pending').length;
+    const skippedCount = rowsAll.filter(r => r.stat === 'skipped').length;
+
+    const pendingAll = autoRows || s.remindersSent ? 0 : 3;
+    const ordersCount = 128 + (autoRows ? 3 : 0);
+    const present = 131;
+    const estCost = this.menus.reduce((t, m) => t + m.ordered * m.price, 0) + (autoRows && top ? 3 * top.price : 0);
+    const diff = ordersCount - present;
+
+    const maxQty = Math.max.apply(null, this.menus.map(m => m.ordered));
+    const breakdown = this.menus.slice().sort((a, b) => b.ordered - a.ordered).map(m => ({
+      name: m.name, vendor: m.vendor.split(' ')[0], qty: m.ordered, pct: Math.round(m.ordered / maxQty * 100) + '%'
+    }));
+    const maxTrend = Math.max.apply(null, this.trendSrc.map(t => t.qty));
+    const trend = this.trendSrc.map(t => ({ dow: t.dow, qty: t.qty, h: Math.round(t.qty / maxTrend * 52) + 'px', fill: t.qty < 120 ? 'var(--color-accent-300)' : 'var(--color-accent)' }));
+
+    const comms = [
+      { label: 'Estimate (H-1, 15:02)', value: '134 sent · confirmed', dot: 'var(--color-accent)' },
+      { label: 'Final order', value: c.locked ? ordersCount + ' sent ' + cutTimeLabel : 'waiting for cut-off', dot: c.locked ? 'var(--color-accent)' : 'var(--color-neutral-400)' },
+      { label: 'Delta notice', value: s.deltaSent ? '−3 sent ' + clockLabel : 'not sent', dot: s.deltaSent ? 'var(--color-accent)' : 'var(--color-neutral-400)' },
+      { label: 'Delivery confirmation', value: 'due 11:30', dot: 'var(--color-neutral-400)' }
+    ];
+
+    const rowsRecon = this.reconSrc.map(r => {
+      const res = s.adjust[r.id];
+      const billQty = res === 'accept' ? r.claim : r.del;
+      const flag = r.claim !== r.del;
+      return Object.assign({}, r, {
+        flag: flag, res: res, billQty: billQty,
+        amount: this.rp(billQty * r.price),
+        bg: flag && !res ? 'var(--color-accent-100)' : 'transparent',
+        claimColor: flag ? 'var(--color-accent-800)' : 'inherit'
+      });
+    });
+    const systemTotal = rowsRecon.reduce((t, r) => t + r.del * r.price, 0);
+    const claimTotal = rowsRecon.reduce((t, r) => t + r.claim * r.price, 0);
+    const payable = rowsRecon.reduce((t, r) => t + r.billQty * r.price, 0);
+    const flagged = rowsRecon.filter(r => r.flag).map(r => ({
+      date: r.date + ' 2026', summary: 'claim ' + r.claim + ' vs delivered ' + r.del + ' (' + (r.claim - r.del) + ' portions, ' + this.rp((r.claim - r.del) * r.price) + ')',
+      note: r.note, unresolved: !r.res, resolved: !!r.res,
+      resolutionLabel: r.res === 'accept' ? 'Claim accepted' : 'System qty kept',
+      resolutionMeta: r.res === 'accept' ? 'adjustment ' + this.rp((r.claim - r.del) * r.price) + ' · logged to audit trail' : 'vendor notified · logged to audit trail',
+      onAccept: () => { this.setState(st => ({ adjust: Object.assign({}, st.adjust, { [r.id]: 'accept' }) })); this.say('Adjustment recorded with note.'); },
+      onReject: () => { this.setState(st => ({ adjust: Object.assign({}, st.adjust, { [r.id]: 'reject' }) })); this.say('Kept confirmed quantity.'); },
+      onUndo: () => this.setState(st => { const a = Object.assign({}, st.adjust); delete a[r.id]; return { adjust: a, invoice: 'draft' }; })
+    }));
+    const unresolved = flagged.filter(f => f.unresolved).length;
+
+    const screens = [
+      { no: '5.1', key: 'login', label: 'Login', who: 'All' },
+      { no: '5.2', key: 'menu', label: 'Pick menu', who: 'Employee' },
+      { no: '5.3', key: 'prefs', label: 'Dietary profile', who: 'Employee' },
+      { no: '5.4', key: 'history', label: 'Consumption history', who: 'Employee' },
+      { no: '5.5', key: 'dash', label: 'Daily dashboard', who: 'Admin' },
+      { no: '5.6', key: 'orders', label: 'Daily orders', who: 'Admin' },
+      { no: '5.7', key: 'menus', label: 'Menus & vendors', who: 'Admin' },
+      { no: '5.8', key: 'recon', label: 'Reconciliation & invoice', who: 'Admin' }
+    ];
+    const go = k => () => {
+      if (k === 'login') this.setState({ role: null, screen: 'login' });
+      else this.setState({ role: ['menu', 'prefs', 'history'].includes(k) ? 'employee' : 'admin', screen: k, dialog: null });
+    };
+    const rail = {
+      login: { t: 'Login', d: 'Office email or company SSO. Employees land on today\u2019s menu, Admin on the daily dashboard — the same app, two role scopes.', try: ['Sign in as Employee, then use the rail to switch to Admin.'], frs: ['FR-01', 'FR-02'] },
+      menu: { t: 'Employee — pick menu', d: 'Everything the employee needs in one screen: how long is left, what they can eat, and why it was suggested. Elimination runs before ranking, so an unsafe menu never appears.', try: ['Choose a menu, then change or cancel it.', 'Try Nasi Rendang Daging — quota is full, so it offers the second choice.', 'Open “2 menus hidden” to see the elimination reason.', 'Switch the clock to 09:04 — ordering locks.'], frs: ['FR-05', 'FR-10', 'FR-11', 'FR-12', 'FR-13', 'FR-15'] },
+      prefs: { t: 'Employee — dietary profile', d: 'The profile is the input to elimination, not a preference nicety. Allergy data is treated as specific personal data under UU PDP 27/2022.', try: ['Tick Fish — Ikan Kembung disappears from the menu screen.', 'Drag the calorie target and watch the ranking reorder.', 'Turn Vegetarian on to see the offering shrink.'], frs: ['FR-04', 'FR-05', 'FR-09'] },
+      history: { t: 'Employee — consumption', d: 'Per-day log with the monthly roll-up Finance reconciles against. Auto-assigned days are marked so the employee can see when the system chose for them.', try: ['Export the month as PDF or Excel.'], frs: ['FR-24', 'FR-28'] },
+      dash: { t: 'Admin — daily dashboard', d: 'An early-warning board, not a number display: order count against attendance, cut-off countdown with a reminder action, and the delivery gaps queued for reconciliation.', try: ['Send the reminder to the 3 employees who haven\u2019t chosen.', 'Switch to 08:46 — auto-assign closes the gap to zero.', 'Open the delivery-gap alert to jump to billing.'], frs: ['FR-14', 'FR-19', 'FR-23'] },
+      orders: { t: 'Admin — daily orders', d: 'Final versus H-1 estimate, with the delta the vendor needs before they cook. Attendance decides eligibility: WFH, leave and business trips are skipped automatically.', try: ['Send the −3 delta notice to the vendor.', 'Filter to Pending, then switch the clock to 08:46.'], frs: ['FR-16', 'FR-17', 'FR-18', 'FR-20', 'FR-21'] },
+      menus: { t: 'Admin — menus & vendors', d: 'Master data behind everything else. Allergen tags here are the single source the elimination filter reads, so tagging is mandatory before a menu can be scheduled.', try: ['Add a menu — allergen tags are required.', 'Deactivate a vendor.'], frs: ['FR-06', 'FR-07', 'FR-08'] },
+      recon: { t: 'Admin — reconciliation', d: 'Confirmed delivered quantity × master price, set against the vendor claim. Only the mismatched days need a human; the rest is already agreed.', try: ['Resolve 07 Jul and 15 Jul, then approve.', 'Export the invoice and send it to Finance.'], frs: ['FR-22', 'FR-26', 'FR-27', 'FR-28', 'FR-30'] }
+    }[s.screen] || {};
+
+    const active = k => s.screen === k ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 55%, transparent)';
+    const allergenChips = Object.keys(this.allergenNames).map(k => ({
+      label: this.allergenNames[k], checked: p.allergens.includes(k),
+      onToggle: () => this.setState(st => {
+        const has = st.prefs.allergens.includes(k);
+        return { prefs: Object.assign({}, st.prefs, { allergens: has ? st.prefs.allergens.filter(x => x !== k) : st.prefs.allergens.concat([k]) }) };
+      })
+    }));
+    const newMenuAllergens = Object.keys(this.allergenNames).map(k => ({
+      label: this.allergenNames[k], checked: s.newMenu.allergens.includes(k),
+      onToggle: () => this.setState(st => {
+        const has = st.newMenu.allergens.includes(k);
+        return { newMenu: Object.assign({}, st.newMenu, { allergens: has ? st.newMenu.allergens.filter(x => x !== k) : st.newMenu.allergens.concat([k]) }) };
+      })
+    }));
+
+    const vendorMeta = [
+      { id: 'v1', name: 'Dapur Bu Tini', meta: 'Bu Tini · 0812-8841-2093 · BCA 4501 xxx · 4 menus' },
+      { id: 'v2', name: 'Katering Sehat Nusantara', meta: 'Pak Herman · 0813-5510-7742 · Mandiri 1370 xxx · 2 menus' },
+      { id: 'v3', name: 'Warung Padang Jaya', meta: 'Uni Desi · 0811-9903-4415 · BNI 0288 xxx · 2 menus' }
+    ];
+
+    return {
+      clockLabel: clockLabel, cutTimeLabel: cutTimeLabel, lockLabel: 'Locks ' + cutTimeLabel, locked: c.locked, showRail: this.props.showSpecRail !== false,
+      cutLabel: c.locked ? 'Cut-off passed' : 'Ordering closes in',
+      cutValue: c.locked ? 'Locked ' + cutTimeLabel : remainLabel,
+      cutBg: c.locked ? 'var(--color-accent-100)' : 'transparent',
+      cutStateLabel: c.locked ? 'Locked' : 'Ordering open',
+      email: s.email, pwd: s.pwd,
+      setEmail: e => this.setState({ email: e.target.value }),
+      setPwd: e => this.setState({ pwd: e.target.value }),
+      loginEmp: () => this.setState({ role: 'employee', screen: 'menu' }),
+      loginAdm: () => this.setState({ role: 'admin', screen: 'dash' }),
+      doLogout: () => this.setState({ role: null, screen: 'login' }),
+      isEmp: s.role === 'employee', isAdm: s.role === 'admin',
+      scLogin: s.screen === 'login', scMenu: s.screen === 'menu', scPrefs: s.screen === 'prefs', scHistory: s.screen === 'history',
+      scDash: s.screen === 'dash', scOrders: s.screen === 'orders', scMenus: s.screen === 'menus', scRecon: s.screen === 'recon',
+      goMenuScreen: go('menu'), goPrefs: go('prefs'), goHistory: go('history'),
+      goDash: go('dash'), goOrders: go('orders'), goMenus: go('menus'), goRecon: go('recon'),
+      cMenu: active('menu'), cPrefs: active('prefs'), cHistory: active('history'),
+      cDash: active('dash'), cOrders: active('orders'), cMenus: active('menus'), cRecon: active('recon'),
+
+      recs: recs, others: others, hidden: hidden,
+      visibleCountLabel: visible.length + ' of ' + this.menus.length + ' available to you',
+      hiddenHeading: hidden.length ? hidden.length + ' menu' + (hidden.length > 1 ? 's' : '') + ' hidden by your profile' : 'Nothing hidden — all menus are safe for you',
+      expandHidden: s.expandHidden, toggleHidden: () => this.setState(st => ({ expandHidden: !st.expandHidden })),
+      hasOrder: !!effOrder, orderName: orderMenu ? orderMenu.name : '',
+      orderMeta: orderMenu ? this.rp(orderMenu.price) + ' · ' + orderMenu.kcal + ' kcal · ' + orderMenu.vendor : '',
+      orderSourceLabel: effOrder && effOrder.source === 'auto' ? 'Auto-assigned' : 'Confirmed',
+      changeOrder: () => { this.setState({ order: 'cleared' }); this.say('Pick a new menu below.'); },
+      cancelOrder: () => { this.setState({ order: 'cleared' }); this.say('Order cancelled.'); },
+      showLockedBanner: c.locked, showAutoBanner: !!effOrder && effOrder.source === 'auto' && !c.locked,
+      optOutAuto: () => { this.setState(st => ({ prefs: Object.assign({}, st.prefs, { auto: false }), order: 'cleared' })); this.say('Auto-assign off. You choose, or you get nothing.'); },
+
+      empName: 'Rani Puspita', empDept: 'Marketing',
+      isVeg: p.veg, isHalal: p.halal, autoAssign: p.auto, autoLabel: p.auto ? 'On' : 'Off',
+      toggleVeg: () => this.setState(st => ({ prefs: Object.assign({}, st.prefs, { veg: !st.prefs.veg }) })),
+      toggleHalal: () => this.setState(st => ({ prefs: Object.assign({}, st.prefs, { halal: !st.prefs.halal }) })),
+      toggleAuto: () => this.setState(st => ({ prefs: Object.assign({}, st.prefs, { auto: !st.prefs.auto }) })),
+      allergenChips: allergenChips, target: p.target, targetLabel: p.target + ' kcal',
+      setTarget: e => this.setState(st => ({ prefs: Object.assign({}, st.prefs, { target: Number(e.target.value) }) })),
+      notes: p.notes, setNotes: e => this.setState(st => ({ prefs: Object.assign({}, st.prefs, { notes: e.target.value }) })),
+      filterSummary: visible.length + ' of ' + this.menus.length + ' menus today pass your profile. Top match: ' + (top ? top.name : 'none') + '.',
+      savePrefs: () => { this.say('Profile saved — today\u2019s list re-filtered.'); this.setState({ screen: 'menu' }); },
+
+      history: this.history.map(h => ({ day: h.day, dow: h.dow, menu: h.menu, meta: h.kcal ? h.kcal + ' kcal' : 'Attendance: WFH', price: h.price ? this.rp(h.price) : '—', tagged: !!h.tag, tag: h.tag })),
+      historyKpis: [
+        { label: 'Meals', value: '21', note: 'of 22 working days' },
+        { label: 'Avg calories', value: '538', note: 'target 550' },
+        { label: 'Value', value: this.rp(546000), note: 'company-paid' },
+        { label: 'Allergy incidents', value: '0', note: 'since go-live' }
+      ],
+      exportHistory: () => this.say('July_Konsumsi_RaniPuspita.xlsx generated.'),
+
+      kpis: [
+        { label: 'Orders', value: String(ordersCount), note: c.locked ? 'locked ' + cutTimeLabel : 'still open', color: 'var(--color-text)' },
+        { label: 'Present', value: String(present), note: '124 WFO + 7 overtime', color: 'var(--color-text)' },
+        { label: 'Order vs attendance', value: (diff > 0 ? '+' : '') + diff, note: diff === 0 ? 'balanced' : Math.abs(diff) + ' not chosen yet', color: diff === 0 ? 'var(--color-accent-700)' : 'var(--color-text)' },
+        { label: 'Est. cost today', value: this.rp(estCost).replace('Rp ', ''), note: 'Rp · master price', color: 'var(--color-text)' }
+      ],
+      reminderCta: pendingAll === 0 ? 'All chosen' : 'Remind ' + pendingAll,
+      reminderDisabled: pendingAll === 0,
+      sendReminders: () => { this.setState({ remindersSent: true }); this.say('Reminder sent to 3 employees.'); },
+      breakdown: breakdown, trend: trend, comms: comms,
+      alertBg: 'var(--color-accent-100)',
+
+      finalLabel: c.locked ? 'Final (locked)' : 'Current',
+      ordersCount: String(ordersCount), deltaLabel: '−3',
+      deltaCta: s.deltaSent ? 'Delta sent ' + clockLabel : 'Send −3 delta to vendor',
+      deltaDisabled: s.deltaSent,
+      deltaNote: s.deltaSent ? 'Dapur Bu Tini notified. Email logged for audit; vendor confirmation pending.' : 'Two sick-leave entries and one business trip landed after the H-1 estimate. The vendor needs the difference before they cook.',
+      sendDelta: () => { this.setState({ deltaSent: true }); this.say('Delta −3 emailed to Dapur Bu Tini.'); },
+      rows: rows, rowsTotal: rowsAll.length, pendingCount: pendingCount, skippedCount: skippedCount,
+      filAll: s.filter === 'all', filPending: s.filter === 'pending', filSkipped: s.filter === 'skipped',
+      filterAll: () => this.setState({ filter: 'all' }), filterPending: () => this.setState({ filter: 'pending' }), filterSkipped: () => this.setState({ filter: 'skipped' }),
+      log: [
+        { time: '07:12', text: 'Attendance sync from HRIS — 3 changes (2 sick leave, 1 business trip)' },
+        { time: '07:40', text: 'Rani Puspita changed her order — Bihun Goreng Telur → Ikan Kembung Balado' },
+        { time: '08:00', text: 'Scheduler sent reminders to 11 employees who had not chosen' },
+        { time: '08:45', text: c.autoRan ? 'Auto-assign filled 3 orders with the top recommendation' : 'Auto-assign scheduled' },
+        { time: cutTimeLabel, text: c.locked ? 'Orders locked and final count sent to vendors' : 'Cut-off pending' }
+      ],
+
+      vendors: vendorMeta.map(v => ({
+        name: v.name, meta: v.meta, active: s.vendorActive[v.id], stateLabel: s.vendorActive[v.id] ? 'Active' : 'Paused',
+        onToggle: () => this.setState(st => ({ vendorActive: Object.assign({}, st.vendorActive, { [v.id]: !st.vendorActive[v.id] }) }))
+      })),
+      masterMenus: this.menus.map(m => ({
+        name: m.name, vendor: m.vendor, priceLabel: this.rp(m.price), kcalLabel: m.kcal + ' kcal',
+        quotaLabel: m.ordered + '/' + m.quota,
+        quotaState: m.ordered >= m.quota ? 'quota full' : 'ordered today',
+        quotaColor: m.ordered >= m.quota ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 50%, transparent)',
+        tags: [{ label: 'Halal', cls: 'tag-accent' }].concat(m.veg ? [{ label: 'Vegetarian', cls: 'tag-accent' }] : [])
+          .concat(m.allergens.length ? m.allergens.map(a => ({ label: this.allergenNames[a], cls: 'tag-outline' })) : [{ label: 'No listed allergens', cls: 'tag-neutral' }])
+      })),
+      openAddMenu: () => this.setState({ dialog: 'menu' }), closeDialog: () => this.setState({ dialog: null }),
+      dialogAddMenu: s.dialog === 'menu',
+      newMenuName: s.newMenu.name, setNewMenuName: e => this.setState(st => ({ newMenu: Object.assign({}, st.newMenu, { name: e.target.value }) })),
+      newMenuAllergens: newMenuAllergens,
+      saveNewMenu: () => { this.setState({ dialog: null }); this.say('Menu saved with ' + s.newMenu.allergens.length + ' allergen tag(s).'); },
+
+      reconRows: rowsRecon, flagged: flagged,
+      systemTotal: this.rp(systemTotal), claimTotal: this.rp(claimTotal),
+      diffTotal: this.rp(claimTotal - systemTotal) + ' (4 portions)', payableTotal: this.rp(payable),
+      invoiceStatusLabel: s.invoice === 'sent' ? 'Sent to Finance' : s.invoice === 'approved' ? 'Approved' : unresolved ? unresolved + ' to verify' : 'Ready to approve',
+      invoiceChip: s.invoice === 'draft' && unresolved ? 'tag-outline' : 'tag-accent',
+      approveCta: s.invoice === 'draft' ? (unresolved ? 'Resolve ' + unresolved + ' flagged day(s) first' : 'Approve invoice ' + this.rp(payable)) : 'Approved · ' + this.rp(payable),
+      approveDisabled: !!unresolved || s.invoice !== 'draft',
+      approveInvoice: () => { this.setState({ invoice: 'approved' }); this.say('Invoice approved. Audit trail updated.'); },
+      exportDisabled: s.invoice === 'draft',
+      exportPdf: () => this.say('Invoice_Juli2026_DapurBuTini.pdf generated.'),
+      exportXlsx: () => this.say('Rekonsiliasi_Juli2026.xlsx generated.'),
+      sendFinance: () => { this.setState({ invoice: 'sent' }); this.say('Sent to Finance — viewer access granted.'); },
+      approveNote: s.invoice === 'draft' ? 'Approval writes the actor, timestamp and old/new values to the audit trail — retained 2 years.' : 'Approved by Bayu Prakoso · ' + clockLabel + ' WIB · adjustments recorded with notes.',
+
+      scenOpen: s.scenario === 'open', scenAuto: s.scenario === 'auto', scenLocked: s.scenario === 'locked',
+      scrBottom: s.role ? '60px' : '0px',
+      setScenOpen: () => this.setState({ scenario: 'open', elapsed: 0, deltaSent: false }),
+      setScenAuto: () => this.setState({ scenario: 'auto', elapsed: 0, deltaSent: false }),
+      setScenLocked: () => this.setState({ scenario: 'locked', elapsed: 0, deltaSent: true }),
+      screenIndex: screens.map(sc => ({
+        no: sc.no, label: sc.label, who: sc.who, onGo: go(sc.key),
+        bg: s.screen === sc.key ? 'var(--color-accent-100)' : 'transparent',
+        color: s.screen === sc.key ? 'var(--color-accent-800)' : 'var(--color-text)'
+      })),
+      railTitle: rail.t, railRef: 'Fig. ' + (screens.find(x => x.key === s.screen) || {}).no,
+      railDesc: rail.d, railTry: (rail.try || []).map(t => ({ t: t })), railFrs: (rail.frs || []).map(f => ({ id: f })),
+      whoLabel: s.role === 'admin' ? 'Bayu Prakoso · Office Admin' : s.role === 'employee' ? 'Rani Puspita · Marketing' : 'nobody',
+      toast: s.toast, hasToast: !!s.toast, noop: () => {}
+    };
+  }
+}
+</script>
+</body>
+</html>
