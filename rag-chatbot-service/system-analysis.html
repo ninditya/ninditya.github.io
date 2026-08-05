@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HealthTruth-AI — System Analysis · Ninditya Salma Nur Aini</title>
+<meta name="description" content="System requirements, analysis and design document for HealthTruth-AI, a retrieval-grounded health fact-checking service.">
+<link rel="canonical" href="https://ninditya.github.io/rag-chatbot-service/system-analysis.html">
+<meta property="og:title" content="HealthTruth-AI — System Analysis">
+<meta property="og:description" content="Full SRS-style system analysis: requirements, architecture, retrieval design, reliability design and traceability matrix.">
+<meta property="og:url" content="https://ninditya.github.io/rag-chatbot-service/system-analysis.html">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff; --bg-alt: #f5f5f5; --bg-dark: #2d2d2d;
+    --ink: #4d4d4d; --ink-soft: #6b6b6b; --muted: #a0a0a0;
+    --line: #d3d3d3; --line-strong: #a0a0a0;
+    --primary: #1a5276; --accent: #c4490c; --accent-soft: #eaf2fb;
+    --green: #2d6a4f; --red: #c4490c;
+  }
+  html[data-theme="dark"]{
+    --bg:#1c1c1e;--bg-alt:#2c2c2e;--bg-dark:#000000;
+    --ink:#ffffff;--ink-soft:rgba(235,235,245,0.6);--muted:rgba(235,235,245,0.3);
+    --line:rgba(84,84,88,0.65);--line-strong:rgba(84,84,88,0.9);
+    --primary:#5bb8e8;--accent:#ff7043;--accent-soft:rgba(91,184,232,0.12);--green:#30d158;
+  }
+  #mainNav { position: sticky; top: 0; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
+  html[data-theme="dark"] #mainNav{background:rgba(28,28,30,0.92)}
+  .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .mobile-nav-toggle { display: none; background: transparent; border: none; color: var(--ink); font-size: 1.5rem; cursor: pointer; padding: 0 5px; line-height: 1; }
+  .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .nav-tools { display: flex; align-items: center; gap: 10px; width: 100%; }
+  .nav-pill { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 100px; transition: all 0.2s ease; }
+  .nav-pill:hover { background: var(--bg-alt); color: var(--ink); }
+  .nav-pill.back { color: var(--primary); border: 1px solid var(--line); }
+  .nav-pill.back:hover { background: var(--primary); color: white; border-color: var(--primary); }
+  .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); margin-left: auto; }
+  .lang-btn { border: none; background: transparent; color: var(--muted); padding: 6px 10px; border-radius: 999px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
+  .lang-btn.active { background: var(--ink); color: var(--bg); }
+  html[data-theme="dark"] .nav-pills{background:rgba(28,28,30,0.96)}
+  html[data-theme="dark"] .lang-btn.active{background:#e5e5ea;color:#1c1c1e}
+  .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}
+  @media (max-width: 720px) {
+    .nav-tools { width: 100%; justify-content: space-between; }
+    .mobile-nav-toggle { display: block; }
+    .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 2rem; gap: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    #mainNav.nav-open .nav-pills { display: flex; }
+  }
+</style>
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+<script src="./support.js"></script>
+</head>
+<body>
+<nav id="mainNav">
+  <div class="nav-inner">
+    <div class="nav-tools">
+      <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false" onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">&#9776;</button>
+      <div class="nav-pills">
+        <a class="nav-pill back" href="../#projects" data-i18n="navBack">&larr; All projects</a>
+        <a class="nav-pill" href="../#about" data-i18n="navAbout">About</a>
+        <a class="nav-pill" href="../#contact" data-i18n="navContact">Contact</a>
+      </div>
+      <div class="lang-switch" aria-label="Language switch">
+        <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+        <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+      </div>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">&#127769;</button>
+    </div>
+  </div>
+</nav>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/styles.css">
+  <script src="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; }
+    a { color: var(--color-accent-700); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 40%, transparent); }
+    a:hover { color: var(--color-accent-900); border-bottom-color: var(--color-accent-900); }
+    .table th { white-space: nowrap; }
+    .doc-mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12.5px; }
+  </style>
+</helmet>
+
+<div style="background:var(--color-bg);color:var(--color-text);min-height:100vh;padding-bottom:calc(var(--space-8) * 3)">
+
+  <div class="nav" style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-6);padding:var(--space-3) var(--space-8);border-bottom:1px solid var(--color-divider);position:sticky;top:0;background:var(--color-bg);z-index:20">
+    <div class="nav-brand" style="display:flex;align-items:baseline;gap:var(--space-3);font-family:var(--font-heading);font-weight:600;font-size:16px;letter-spacing:0.02em;text-transform:uppercase">
+      <span>HealthTruth-AI</span>
+      <span style="font-size:11px;letter-spacing:0.14em;color:color-mix(in srgb, var(--color-text) 50%, transparent)">System Analysis Document</span>
+    </div>
+    <div style="display:flex;gap:var(--space-4);font-family:var(--font-heading);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">
+      <span>Rev 1.0</span>
+      <span>SRS · Analysis · Design · Test</span>
+    </div>
+  </div>
+
+  <!-- ── COVER ───────────────────────────────────────────────────────── -->
+  <header style="max-width:1180px;margin:0 auto;padding:calc(var(--space-8) * 2.4) var(--space-8) calc(var(--space-8) * 1.6)">
+    <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-6)">Software Requirements · Analysis · Design</div>
+    <h1 style="font-size:clamp(44px,6vw,78px);line-height:0.95;margin:0 0 var(--space-6);max-width:20ch">HealthTruth-AI</h1>
+    <p style="font-size:21px;line-height:1.45;max-width:64ch;margin:0 0 calc(var(--space-8) * 1.4);color:color-mix(in srgb, var(--color-text) 72%, transparent);text-wrap:pretty">A retrieval-first health fact-checking service that will not let the language model speak without retrieved context, personalises its answer without storing a health profile, and keeps answering when its model provider runs out of quota.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0;border-top:1px solid var(--color-divider)">
+      <div style="padding:var(--space-6) var(--space-6) var(--space-6) 0;border-right:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 50%, transparent);margin-bottom:var(--space-2)">System of record</div>
+        <div style="font-size:14px;line-height:1.5">rag-chatbot-service<br>v1 production refactor</div>
+      </div>
+      <div style="padding:var(--space-6);border-right:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 50%, transparent);margin-bottom:var(--space-2)">Origin</div>
+        <div style="font-size:14px;line-height:1.5">Hacktiv8 · Maju Bareng AI<br>December 2025</div>
+      </div>
+      <div style="padding:var(--space-6);border-right:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 50%, transparent);margin-bottom:var(--space-2)">Author</div>
+        <div style="font-size:14px;line-height:1.5">Ninditya Salma Nur Aini<br>AI / ML Engineer</div>
+      </div>
+      <div style="padding:var(--space-6)">
+        <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 50%, transparent);margin-bottom:var(--space-2)">Measured outcome</div>
+        <div style="font-size:14px;line-height:1.5">≈ 1.5 s mean latency · zero hard<br>crashes under quota exhaustion</div>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:1180px;margin:0 auto;padding:0 var(--space-8)">
+    <div>
+
+      <sc-if value="{{ showToc }}" hint-placeholder-val="{{ true }}">
+        <nav style="border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:var(--space-6) 0;margin-bottom:calc(var(--space-8) * 1.5)">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-4)">Contents</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:var(--space-2) var(--space-8);font-size:13.5px">
+            <a href="#h01" style="border:0">01 · Introduction</a>
+            <a href="#h02" style="border:0">02 · Overall description</a>
+            <a href="#h03" style="border:0">03 · Functional requirements</a>
+            <a href="#h04" style="border:0">04 · Non-functional requirements</a>
+            <a href="#h05" style="border:0">05 · Problem case &amp; evolution</a>
+            <a href="#h06" style="border:0">06 · Use case model</a>
+            <a href="#h07" style="border:0">07 · Process flow</a>
+            <a href="#h08" style="border:0">08 · Data flow diagrams</a>
+            <a href="#h09" style="border:0">09 · Sequence diagrams</a>
+            <a href="#h10" style="border:0">10 · System architecture</a>
+            <a href="#h11" style="border:0">11 · Class design</a>
+            <a href="#h12" style="border:0">12 · Data design</a>
+            <a href="#h13" style="border:0">13 · API design</a>
+            <a href="#h14" style="border:0">14 · Retrieval design</a>
+            <a href="#h15" style="border:0">15 · Prompt &amp; security design</a>
+            <a href="#h16" style="border:0">16 · Reliability design</a>
+            <a href="#h17" style="border:0">17 · Interface design</a>
+            <a href="#h18" style="border:0">18 · Deployment design</a>
+            <a href="#h19" style="border:0">19 · Observability specification</a>
+            <a href="#h20" style="border:0">20 · Test plan</a>
+            <a href="#h21" style="border:0">21 · Traceability matrix</a>
+            <a href="#h22" style="border:0">22 · Risk register</a>
+            <a href="#h23" style="border:0">23 · Limitations &amp; roadmap</a>
+            <a href="#h24" style="border:0">24 · Glossary</a>
+          </div>
+        </nav>
+      </sc-if>
+
+      <sc-if value="{{ partDividers }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--color-accent-900);color:var(--color-bg);padding:calc(var(--space-8) * 1.2) var(--space-8);margin-bottom:calc(var(--space-8) * 1.2);display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-8);flex-wrap:wrap">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;letter-spacing:-0.01em">Part I — Requirements</div>
+          <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7">Sections 01–05</div>
+        </div>
+      </sc-if>
+
+      <!-- 01 -->
+      <section id="h01" data-screen-label="01 Introduction" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">01 · Introduction</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Purpose, scope and basis of this specification</h2>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">1.1 Purpose</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">This document specifies the requirements, the analysis model and the design of HealthTruth-AI as built in its v1 production refactor. It is an as-built specification: the requirements below describe behaviour that exists, and the gaps are recorded as gaps rather than restated as plans.</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">1.2 Scope</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The system answers health questions and adjudicates health claims against a curated corpus of documents from BPOM, IDI, WHO and Kemenkes. It embeds the query, searches a vector store, and generates only from what it retrieved. Answers are shaped by a health profile the user supplies per session, which the server never stores.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-6);margin:var(--space-6) 0">
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">In scope</div>
+            <ul style="margin:0;padding-left:1.1em;font-size:14px;line-height:1.7">
+              <li>Question answering at three answer depths</li>
+              <li>Claim adjudication returning a schema-constrained verdict</li>
+              <li>Dense retrieval over a persistent vector store with a quality gate</li>
+              <li>Grounding enforcement — no retrieved context, no generation</li>
+              <li>Stateless personalisation by profile context injection</li>
+              <li>Prompt-injection defence at the prompt boundary</li>
+              <li>Graceful degradation on provider quota exhaustion</li>
+              <li>Authenticated document ingestion</li>
+            </ul>
+          </div>
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Out of scope</div>
+            <ul style="margin:0;padding-left:1.1em;font-size:14px;line-height:1.7">
+              <li>Medical diagnosis, prescription or dosing advice</li>
+              <li>User accounts, authentication and stored health records</li>
+              <li>Conversation memory across requests</li>
+              <li>Clinical review or regulatory certification of answers</li>
+              <li>Retrieval quality benchmarking — not yet built (§19, §23)</li>
+              <li>Operational dashboards and alerting — not yet built</li>
+              <li>Document versioning and source-quality filtering</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">1.3 Basis</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:70px">Ref</th><th>Component</th><th>Responsibility recorded in the source</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">H-1</td><td class="doc-mono">main.py</td><td>Composition root — reads configuration, constructs each class, mounts the router</td></tr>
+              <tr><td class="doc-mono">H-2</td><td class="doc-mono">EmbeddingService.py</td><td>Text to vector, one model, one method, no state</td></tr>
+              <tr><td class="doc-mono">H-3</td><td class="doc-mono">DocumentStore.py</td><td>Vector storage and search, with an in-memory keyword fallback</td></tr>
+              <tr><td class="doc-mono">H-4</td><td class="doc-mono">RagWorkflow.py</td><td>The graph: retrieve, route, answer or no-context; quota fallback in the answer node</td></tr>
+              <tr><td class="doc-mono">H-5</td><td class="doc-mono">Routes.py</td><td>Transport layer — validation, latency measurement, HTTP mapping; no business logic</td></tr>
+              <tr><td class="doc-mono">H-6</td><td class="doc-mono">prompts.py</td><td>Mode-specific prompt templates with XML-delimited user content</td></tr>
+              <tr><td class="doc-mono">H-7</td><td class="doc-mono">chatbot.py</td><td>Client — profile collection, context string assembly, backend calls</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section id="h02" data-screen-label="02 Overall description" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">02 · Overall description</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">A retrieval gate in front of a language model</h2>
+        <p style="margin:0 0 var(--space-6);font-size:18px;line-height:1.5;max-width:70ch;color:color-mix(in srgb, var(--color-text) 72%, transparent);text-wrap:pretty">The system's defining property is negative: there is a path in which it declines to generate. If retrieval returns nothing above the score gate, the model is never called and the user is told the corpus has no coverage.</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">2.1 System context</h3>
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--space-4);align-items:stretch">
+            <div style="border:1px solid var(--color-divider);padding:var(--space-4);text-align:center">
+              <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700)">External entity</div>
+              <div style="font-family:var(--font-heading);font-size:19px;margin-top:var(--space-2)">Reader</div>
+              <div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">question or claim + health profile</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--color-accent)">→</div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-4);text-align:center;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">
+              <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700)">Process 0</div>
+              <div style="font-family:var(--font-heading);font-size:19px;margin-top:var(--space-2)">HealthTruth-AI</div>
+              <div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">embed · retrieve · route · answer</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--color-accent)">→</div>
+            <div style="display:grid;gap:var(--space-2)">
+              <div style="border:1px solid var(--color-divider);padding:var(--space-2) var(--space-3);font-size:12.5px">Qdrant Cloud — vector store</div>
+              <div style="border:1px solid var(--color-divider);padding:var(--space-2) var(--space-3);font-size:12.5px">Gemini embedding model</div>
+              <div style="border:1px solid var(--color-divider);padding:var(--space-2) var(--space-3);font-size:12.5px">Gemini 2.5 Flash — generation</div>
+              <div style="border:1px solid var(--color-divider);padding:var(--space-2) var(--space-3);font-size:12.5px">Curator — document ingestion</div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 2.1 — Context diagram. Two independently-credentialed model dependencies, one persistent store.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">2.2 User classes</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th>Class</th><th>Interaction</th><th>Needs from the system</th></tr></thead>
+            <tbody>
+              <tr><td>General reader</td><td>Streamlit client, ask mode</td><td>A plain answer at a chosen depth, adjusted to their own conditions and medications</td></tr>
+              <tr><td>Claim checker</td><td>Streamlit client, fact-check mode</td><td>A verdict on a forwarded claim, with the reasoning and the sources behind it</td></tr>
+              <tr><td>Content curator</td><td>Authenticated ingestion endpoint</td><td>To add a trusted document and have it searchable without redeploying</td></tr>
+              <tr><td>Operator</td><td>Status endpoint</td><td>Whether the store is reachable and the workflow is ready</td></tr>
+              <tr><td>API consumer</td><td>Two POST endpoints</td><td>A stable JSON contract with an explicit degradation flag</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">2.3 Constraints</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:76px">ID</th><th>Constraint</th><th>Consequence for the design</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">CO-01</td><td>The generation model runs on a free tier with a daily quota</td><td>Every generation call needs a defined behaviour for exhaustion (§16)</td></tr>
+              <tr><td class="doc-mono">CO-02</td><td>Health advice is unsafe to generate without evidence</td><td>Generation is gated on non-empty retrieval; there is a no-context exit</td></tr>
+              <tr><td class="doc-mono">CO-03</td><td>Health profiles are sensitive personal data</td><td>The API is stateless; the profile travels with the request and is discarded</td></tr>
+              <tr><td class="doc-mono">CO-04</td><td>User content is pasted from untrusted sources</td><td>User text must be delimited as data and sanitised before prompt assembly (§15)</td></tr>
+              <tr><td class="doc-mono">CO-05</td><td>The container filesystem does not survive redeploy</td><td>The vector store is external and managed; an in-memory index would be lost</td></tr>
+              <tr><td class="doc-mono">CO-06</td><td>Embedding and generation quotas are separate budgets</td><td>Two credentials, so a generation exhaustion cannot break search (§16.2)</td></tr>
+              <tr><td class="doc-mono">CO-07</td><td>Input is capped at 2,000 characters</td><td>Long forwards must be truncated by the client before submission</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">2.4 Assumptions</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:76px">ID</th><th>Assumption</th><th>If it fails</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">AS-01</td><td>The corpus covers the claims users actually bring</td><td>The no-context path fires often and the service reads as unhelpful</td></tr>
+              <tr><td class="doc-mono">AS-02</td><td>A similarity score of 0.4 separates relevant from irrelevant chunks</td><td>Either relevant documents are dropped or weak ones pollute the context. Unverified — see §14.2</td></tr>
+              <tr><td class="doc-mono">AS-03</td><td>Users answer the profile form honestly and completely</td><td>Personalisation silently degrades to generic advice</td></tr>
+              <tr><td class="doc-mono">AS-04</td><td>Three documents are enough context for a health claim</td><td>Nuanced claims are adjudicated on partial evidence</td></tr>
+              <tr><td class="doc-mono">AS-05</td><td>Readers treat the verdict as information, not as medical instruction</td><td>Product risk rather than software risk; mitigated by copy, not by code</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 03 -->
+      <section id="h03" data-screen-label="03 Functional requirements" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">03 · Functional requirements</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Eighteen requirements, each traced to a component</h2>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:70px">ID</th><th>Requirement</th><th style="width:170px">Implemented in</th><th style="width:52px">Pri</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">FR-01</td><td>Accept a question with a mode selector on <span class="doc-mono">POST /ask</span>, validated against a typed schema and capped at 2,000 characters.</td><td class="doc-mono">Routes.py</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-02</td><td>Accept a claim on <span class="doc-mono">POST /fact-check</span> and return a verdict, a summary, an explanation and a source list.</td><td class="doc-mono">Routes.py · RagWorkflow</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-03</td><td>Embed the incoming text with the configured embedding model at 3,072 dimensions using a semantic-similarity task type.</td><td class="doc-mono">EmbeddingService.embed()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-04</td><td>Search the vector store by cosine similarity, return at most three passages above a score threshold of 0.4, de-duplicated on payload text.</td><td class="doc-mono">DocumentStore.search()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-05</td><td>Route on retrieval result: non-empty context proceeds to the answer node; empty context proceeds to the no-context node and performs no generation call.</td><td class="doc-mono">RagWorkflow._route()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-06</td><td>Generate the answer from the retrieved context using a mode-specific prompt, with user content isolated inside XML delimiters.</td><td class="doc-mono">prompts.py · _answer node</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-07</td><td>Offer three answer depths in ask mode — brief, detailed, and answer-with-citations.</td><td class="doc-mono">chatbot.py · prompts.py</td><td>S</td></tr>
+              <tr><td class="doc-mono">FR-08</td><td>Constrain the fact-check response to a JSON schema by requesting a JSON response type; on invalid JSON return a structured fallback rather than raising.</td><td class="doc-mono">RagWorkflow.fact_check()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-09</td><td>Return one of three verdicts: supported, contradicted, or insufficient evidence.</td><td class="doc-mono">RagWorkflow.fact_check()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-10</td><td>Sanitise user text before prompt assembly: strip null bytes and collapse runs of three or more newlines.</td><td class="doc-mono">RagWorkflow._sanitize()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-11</td><td>Classify generation errors: quota and availability failures degrade gracefully; anything else is raised.</td><td class="doc-mono">RagWorkflow._answer()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-12</td><td>On a transient generation failure, return the raw retrieved context as the answer and set a degradation flag on the response.</td><td class="doc-mono">RagWorkflow._answer()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-13</td><td>Fall back to an in-memory keyword search when the vector store is unreachable.</td><td class="doc-mono">DocumentStore</td><td>S</td></tr>
+              <tr><td class="doc-mono">FR-14</td><td>Collect a health profile in the client — gender, age, conditions, allergies, current medications — and serialise it into a structured context block prepended to the query.</td><td class="doc-mono">build_profile_context()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-15</td><td>Store no profile server-side; each request is independent and nothing about the user persists after the response.</td><td class="doc-mono">Routes.py · RagWorkflow</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-16</td><td>Accept a new document on <span class="doc-mono">POST /add</span> under API-key protection, embed it and return its identifier.</td><td class="doc-mono">Routes.py · add_document()</td><td>S</td></tr>
+              <tr><td class="doc-mono">FR-17</td><td>Report store reachability and workflow readiness on <span class="doc-mono">GET /status</span>.</td><td class="doc-mono">Routes.py · get_status()</td><td>S</td></tr>
+              <tr><td class="doc-mono">FR-18</td><td>Measure and return elapsed time on every answered request, alongside the context that was used.</td><td class="doc-mono">Routes.py</td><td>S</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section id="h04" data-screen-label="04 Non-functional requirements" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">04 · Non-functional requirements</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Quality attributes and their measurement</h2>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:78px">ID</th><th style="width:120px">Attribute</th><th>Requirement</th><th style="width:180px">How it is verified</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">NFR-01</td><td>Performance</td><td>Mean end-to-end response time stays near 1.5 s; the cold-start 95th percentile stays within about 4 s.</td><td>Elapsed time returned on every response</td></tr>
+              <tr><td class="doc-mono">NFR-02</td><td>Performance</td><td>Context is capped at three passages so prompt size and response time stay bounded.</td><td>Retrieval parameter review (§14)</td></tr>
+              <tr><td class="doc-mono">NFR-03</td><td>Availability</td><td>Provider quota exhaustion produces zero hard crashes; the reader always receives usable output.</td><td>Fault injection TC-07, TC-08</td></tr>
+              <tr><td class="doc-mono">NFR-04</td><td>Availability</td><td>Loss of the vector store degrades search rather than failing the request.</td><td>Fault injection TC-09</td></tr>
+              <tr><td class="doc-mono">NFR-05</td><td>Correctness</td><td>No answer is generated without retrieved context; the model is not called on the no-context path.</td><td>TC-04 — assert no generation call</td></tr>
+              <tr><td class="doc-mono">NFR-06</td><td>Security</td><td>User content is structurally isolated from instructions and sanitised before it reaches the prompt.</td><td>Injection cases TC-10, TC-11</td></tr>
+              <tr><td class="doc-mono">NFR-07</td><td>Security</td><td>Ingestion is authenticated; the read endpoints are not.</td><td>TC-12</td></tr>
+              <tr><td class="doc-mono">NFR-08</td><td>Security</td><td>Generation and embedding credentials are separate, so exhausting one leaves the other working.</td><td>Configuration review (§16.2)</td></tr>
+              <tr><td class="doc-mono">NFR-09</td><td>Privacy</td><td>No health profile, question or claim is persisted server-side.</td><td>Code and storage review</td></tr>
+              <tr><td class="doc-mono">NFR-10</td><td>Maintainability</td><td>Each class holds one responsibility and receives its dependencies through its constructor; only the composition root knows the full graph.</td><td>Static review (§11)</td></tr>
+              <tr><td class="doc-mono">NFR-11</td><td>Maintainability</td><td>Pipeline stages are named nodes, so a failure localises to a node rather than to a single function.</td><td>Static review (§07)</td></tr>
+              <tr><td class="doc-mono">NFR-12</td><td>Transparency</td><td>Degradation is visible to both the client and the API consumer through an explicit flag, never silent.</td><td>TC-08</td></tr>
+              <tr><td class="doc-mono">NFR-13</td><td>Portability</td><td>Both services run from containers with configuration supplied entirely by environment.</td><td>Deployment review (§18)</td></tr>
+              <tr><td class="doc-mono">NFR-14</td><td>Observability</td><td><strong>Not met.</strong> No metrics or dashboards exist; §19 specifies the intended instrumentation.</td><td>Open gap — R-04</td></tr>
+              <tr><td class="doc-mono">NFR-15</td><td>Evaluability</td><td><strong>Not met.</strong> Retrieval quality is unmeasured; no labelled evaluation set exists.</td><td>Open gap — R-01</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin:var(--space-4) 0 0;font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Two attributes are recorded as unmet rather than omitted. A specification that lists only satisfied requirements hides the work that remains; both are carried through to the risk register and the roadmap.</p>
+      </section>
+
+      <!-- 05 -->
+      <section id="h05" data-screen-label="05 Problem case and evolution" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">05 · Problem case &amp; evolution</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Two problems the system solves together</h2>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The first problem is misinformation: health claims circulate through messaging apps and are believed. The second is subtler and is the reason a search engine is not a sufficient answer — even a claim with some scientific basis carries generic advice. A supplement that is harmless for a healthy adult can interact badly with a blood thinner; high-dose ginger has real contraindications; turmeric and gallbladder disease is a documented interaction. The question the system is designed to answer is therefore not "is this claim true" but "is this claim true for this person, given their conditions and medications".</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">5.1 Design responses</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--space-6);margin:var(--space-4) 0">
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Grounded generation</div>
+            <p style="margin:0;font-size:14px;line-height:1.65">Answers must trace back to a document in the corpus. When retrieval returns nothing, the model is not called and the system reports insufficient context instead of producing an opinion.</p>
+          </div>
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Stateless personalisation</div>
+            <p style="margin:0;font-size:14px;line-height:1.65">Age, conditions, allergies and medications shape the answer, but no profile is stored on the server. The context travels with the query and is discarded with the response.</p>
+          </div>
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Reliability first</div>
+            <p style="margin:0;font-size:14px;line-height:1.65">Generation quota exhaustion returns the retrieved passages themselves. An unreachable store falls back to keyword search. Every failure point has a defined degraded state.</p>
+          </div>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">5.2 What changed between v0 and v1</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:150px">Layer</th><th>v0 — course submission</th><th>v1 — production refactor</th></tr></thead>
+            <tbody>
+              <tr><td>Vector store</td><td>In-memory index, lost on every restart; documents re-added by hand after each redeploy</td><td>Managed vector store, persistent across redeploys and cold starts</td></tr>
+              <tr><td>Pipeline</td><td>A single raw chain — a failure was visible but not locatable</td><td>Named nodes with conditional routing; a failure localises to the node that produced it</td></tr>
+              <tr><td>Personalisation</td><td>One flat prompt template for every reader</td><td>Profile context injected per request, so the answer is shaped by the reader's own data</td></tr>
+              <tr><td>Architecture</td><td>One file, global state, tight coupling</td><td>Separate classes with constructor injection and a single composition root</td></tr>
+              <tr><td>Error handling</td><td>Crash on quota exhaustion</td><td>Layered fallback — retrieved context served in place of a generated answer</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The persistence change is the one that decided the rest. An index that dies on restart cannot hold a curated corpus, so every other property — the score gate, the no-context path, authenticated ingestion — depends on the store surviving a deploy.</p>
+      </section>
+
+      <sc-if value="{{ partDividers }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--color-accent-900);color:var(--color-bg);padding:calc(var(--space-8) * 1.2) var(--space-8);margin:calc(var(--space-8) * 1.6) 0 calc(var(--space-8) * 1.2);display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-8);flex-wrap:wrap">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;letter-spacing:-0.01em">Part II — Analysis</div>
+          <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7">Sections 06–09</div>
+        </div>
+      </sc-if>
+
+      <!-- 06 -->
+      <section id="h06" data-screen-label="06 Use case model" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">06 · Use case model</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Actors and system boundary</h2>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:130px minmax(0,1fr) 130px;gap:var(--space-6);align-items:center">
+            <div style="display:grid;gap:var(--space-4)">
+              <div style="text-align:center;font-family:var(--font-heading);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--color-text);padding:var(--space-3)">Reader</div>
+              <div style="text-align:center;font-family:var(--font-heading);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--color-text);padding:var(--space-3)">Curator</div>
+            </div>
+            <div style="border:1px dashed color-mix(in srgb, var(--color-text) 40%, transparent);padding:var(--space-6)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent);margin-bottom:var(--space-4);text-align:center">System boundary — HealthTruth-AI</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:var(--space-3)">
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-01</span> Ask a health question</div>
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-02</span> Fact-check a claim</div>
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-03</span> Set a health profile</div>
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-04</span> Choose an answer depth</div>
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-05</span> Add a trusted document</div>
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-06</span> Check service status</div>
+              </div>
+            </div>
+            <div style="display:grid;gap:var(--space-4)">
+              <div style="text-align:center;font-family:var(--font-heading);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--color-text);padding:var(--space-3)">Operator</div>
+              <div style="text-align:center;font-family:var(--font-heading);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;border:1px dashed var(--color-divider);padding:var(--space-3);color:color-mix(in srgb, var(--color-text) 60%, transparent)">Vector store<br>(secondary)</div>
+              <div style="text-align:center;font-family:var(--font-heading);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;border:1px dashed var(--color-divider);padding:var(--space-3);color:color-mix(in srgb, var(--color-text) 60%, transparent)">Model provider<br>(secondary)</div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 6.1 — Use case diagram. Three human actors; two secondary system actors, each independently credentialed.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">6.1 UC-02 specification — fact-check a claim</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <tbody>
+              <tr><th style="width:170px">Preconditions</th><td>The graph is compiled and the store is reachable, or the keyword fallback is available.</td></tr>
+              <tr><th>Main flow</th><td>1. The reader pastes a claim, at most 2,000 characters. 2. The client prepends the profile context if one is set. 3. The endpoint validates the payload and starts the timer. 4. The text is sanitised. 5. The text is embedded. 6. The store returns up to three passages above the score gate, de-duplicated. 7. Routing finds context present and proceeds to the answer node. 8. The prompt is assembled with the claim inside its own delimiter block and the passages inside a trusted block, and a JSON response type is requested. 9. The verdict, summary, explanation and sources are parsed. 10. The response returns with elapsed time and a degradation flag set false.</td></tr>
+              <tr><th>Alt. flow A — no context</th><td>At step 7 the context is empty: routing goes to the no-context node, no generation call is made, and the verdict returned is insufficient evidence.</td></tr>
+              <tr><th>Alt. flow B — quota exhausted</th><td>At step 8 the provider signals a quota or availability failure: the retrieved passages are returned as the answer, the degradation flag is set, and the client shows a banner explaining that the text is quoted directly from the corpus.</td></tr>
+              <tr><th>Alt. flow C — malformed output</th><td>At step 9 the response is not valid JSON: a structured fallback is returned instead of raising.</td></tr>
+              <tr><th>Exception — store unreachable</th><td>At step 6 the store cannot be reached: the in-memory keyword search answers instead, with reduced recall.</td></tr>
+              <tr><th>Postconditions</th><td>Nothing is written. No profile, claim or answer is persisted.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">6.2 Use case register</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:72px">ID</th><th>Use case</th><th style="width:120px">Actor</th><th style="width:110px">Requirements</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">UC-01</td><td>Ask a health question and receive a grounded answer</td><td>Reader</td><td class="doc-mono">FR-01, 03–07, 18</td></tr>
+              <tr><td class="doc-mono">UC-02</td><td>Submit a claim and receive a structured verdict</td><td>Reader</td><td class="doc-mono">FR-02, 08, 09</td></tr>
+              <tr><td class="doc-mono">UC-03</td><td>Enter conditions, allergies and medications so answers are contextualised</td><td>Reader</td><td class="doc-mono">FR-14, FR-15</td></tr>
+              <tr><td class="doc-mono">UC-04</td><td>Select brief, detailed, or answer-with-citations</td><td>Reader</td><td class="doc-mono">FR-07</td></tr>
+              <tr><td class="doc-mono">UC-05</td><td>Add a trusted document to the corpus</td><td>Curator</td><td class="doc-mono">FR-16</td></tr>
+              <tr><td class="doc-mono">UC-06</td><td>Confirm store reachability and workflow readiness</td><td>Operator</td><td class="doc-mono">FR-17</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 07 -->
+      <section id="h07" data-screen-label="07 Process flow" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">07 · Process flow</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">The graph, and the exit that skips the model</h2>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;gap:var(--space-2);max-width:780px;margin:0 auto">
+            <div style="border:1px solid var(--color-text);padding:var(--space-3) var(--space-4);text-align:center;font-family:var(--font-heading);font-size:14px;letter-spacing:0.08em;text-transform:uppercase">Client · profile context + question · ≤ 2,000 chars</div>
+            <div style="text-align:center;color:var(--color-accent);font-size:16px;line-height:1">↓</div>
+            <div style="border:1px solid var(--color-divider);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700)">Pre-step · sanitise</div>
+              <div style="font-size:14px">Strip null bytes; collapse three or more consecutive newlines to two</div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent);font-size:16px;line-height:1">↓</div>
+            <div style="border:1px solid var(--color-divider);padding:var(--space-4);display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap">
+              <div>
+                <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700)">Node 1 · retrieve</div>
+                <div style="font-size:14px">Embed at 3,072 dimensions, then cosine search — top 3 above 0.4, de-duplicated</div>
+              </div>
+              <div class="doc-mono" style="font-size:11.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent);white-space:nowrap">embedding credential</div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent);font-size:16px;line-height:1">↓</div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-4);background:color-mix(in srgb, var(--color-accent) 12%, transparent)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700)">Node 2 · route — conditional edge</div>
+              <div style="font-size:14px">Is the retrieved context non-empty?</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);align-items:stretch">
+              <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+                <div class="doc-mono" style="font-size:11.5px;color:var(--color-accent-700);margin-bottom:4px">yes →</div>
+                <div style="font-family:var(--font-heading);font-size:15px;letter-spacing:0.04em;text-transform:uppercase">Node 3 · answer</div>
+                <div style="font-size:13px;margin-top:4px">Mode-specific prompt with delimited blocks; generation credential; JSON response type in fact-check mode</div>
+              </div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+                <div class="doc-mono" style="font-size:11.5px;color:var(--color-accent-700);margin-bottom:4px">no →</div>
+                <div style="font-family:var(--font-heading);font-size:15px;letter-spacing:0.04em;text-transform:uppercase">Node 4 · no-context</div>
+                <div style="font-size:13px;margin-top:4px">Structured empty response. <strong>No generation call is made at all</strong> — this is the grounding guarantee</div>
+              </div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent);font-size:16px;line-height:1">↓</div>
+            <div style="border:1px solid var(--color-divider);border-style:dashed;padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700)">Inside node 3 · error classifier</div>
+              <div style="font-size:13px">Quota or availability failure → retrieved passages become the answer, degradation flag set. Any other failure → raised as a quota-exhausted error and mapped to 429.</div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent);font-size:16px;line-height:1">↓</div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-3) var(--space-4);text-align:center;font-family:var(--font-heading);font-size:14px;letter-spacing:0.08em;text-transform:uppercase">answer · context used · elapsed time · degradation flag</div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 7.1 — Activity diagram. State is a plain dictionary passed between nodes; the conditional edge is the only branch.</figcaption>
+        </figure>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Splitting the pipeline into named nodes buys one thing that a single function cannot: a failure has a location. A retrieval error is visible in the retrieve node's state and a generation error in the answer node's, so diagnosis does not begin with reading a stack trace. The same structure also leaves room for a reranking or query-rewriting node without rewiring the pipeline.</p>
+      </section>
+
+      <!-- 08 -->
+      <section id="h08" data-screen-label="08 Data flow" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">08 · Data flow</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Level 1 decomposition</h2>
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-3)">
+            <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">1.0</div><div style="font-family:var(--font-heading);font-size:15px">Assemble profile context</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">client-side · in: form state · out: context block</div></div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">2.0</div><div style="font-family:var(--font-heading);font-size:15px">Validate &amp; sanitise</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: raw payload · out: clean text</div></div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">3.0</div><div style="font-family:var(--font-heading);font-size:15px">Embed text</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: text · out: 3,072-float vector</div></div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">4.0</div><div style="font-family:var(--font-heading);font-size:15px">Search corpus</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: vector · out: ≤3 passages · reads D1, D2</div></div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">5.0</div><div style="font-family:var(--font-heading);font-size:15px">Route on context</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: passages · out: branch</div></div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">6.0</div><div style="font-family:var(--font-heading);font-size:15px">Assemble prompt</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: mode + text + passages · out: prompt · reads D3</div></div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">7.0</div><div style="font-family:var(--font-heading);font-size:15px">Generate answer</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: prompt · out: text or JSON verdict</div></div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">8.0</div><div style="font-family:var(--font-heading);font-size:15px">Classify error &amp; degrade</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: exception · out: fallback answer + flag</div></div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">9.0</div><div style="font-family:var(--font-heading);font-size:15px">Ingest document</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">curator path · in: text + key · writes D1, D2</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-3);margin-top:var(--space-3)">
+            <div style="border-top:1px solid var(--color-text);border-bottom:1px solid var(--color-text);padding:var(--space-3);background:color-mix(in srgb, var(--color-accent) 8%, transparent)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">D1</div><div style="font-size:13px">Document payloads — managed vector store collection</div></div>
+            <div style="border-top:1px solid var(--color-text);border-bottom:1px solid var(--color-text);padding:var(--space-3);background:color-mix(in srgb, var(--color-accent) 8%, transparent)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">D2</div><div style="font-size:13px">In-memory keyword mirror — fallback path only</div></div>
+            <div style="border-top:1px solid var(--color-text);border-bottom:1px solid var(--color-text);padding:var(--space-3);background:color-mix(in srgb, var(--color-accent) 8%, transparent)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">D3</div><div style="font-size:13px">Prompt templates — one per mode and depth</div></div>
+            <div style="border:1px dashed color-mix(in srgb, var(--color-text) 40%, transparent);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">—</div><div style="font-size:13px">No store holds the profile, the question or the answer</div></div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 8.1 — DFD level 1. Nine processes, three stores, and one deliberate absence.</figcaption>
+        </figure>
+      </section>
+
+      <!-- 09 -->
+      <section id="h09" data-screen-label="09 Sequence diagrams" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">09 · Sequence diagrams</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Three interaction scenarios</h2>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="font-family:var(--font-heading);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-4)">Scenario A — fact-check, context found</div>
+          <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;font-size:11.5px">
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Client</div>
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Router</div>
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Workflow</div>
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Embedder</div>
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Store</div>
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Model</div>
+
+            <div style="grid-column:1 / 3;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2);margin-top:var(--space-2)">1 · POST /fact-check {profile context + claim} →</div>
+            <div style="grid-column:3 / 7;border-left:1px solid var(--color-divider);margin-top:var(--space-2)"></div>
+
+            <div style="grid-column:1 / 2;border-left:1px solid var(--color-divider)"></div>
+            <div style="grid-column:2 / 4;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2)">2 · validate, start timer, fact_check(claim)</div>
+            <div style="grid-column:4 / 7;border-left:1px solid var(--color-divider)"></div>
+
+            <div style="grid-column:1 / 3;border-left:1px solid var(--color-divider)"></div>
+            <div style="grid-column:3 / 5;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2)">3 · sanitise → embed(text) → 3,072-float vector</div>
+            <div style="grid-column:5 / 7;border-left:1px solid var(--color-divider)"></div>
+
+            <div style="grid-column:1 / 3;border-left:1px solid var(--color-divider)"></div>
+            <div style="grid-column:3 / 6;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2)">4 · search(vector, limit 3) → 3 passages above 0.4</div>
+            <div style="grid-column:6 / 7;border-left:1px solid var(--color-divider)"></div>
+
+            <div style="grid-column:1 / 3;border-left:1px solid var(--color-divider)"></div>
+            <div style="grid-column:3 / 4;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2)">5 · route → answer</div>
+            <div style="grid-column:4 / 7;border-left:1px solid var(--color-divider)"></div>
+
+            <div style="grid-column:1 / 3;border-left:1px solid var(--color-divider)"></div>
+            <div style="grid-column:3 / 7;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2)">6 · generate(prompt, JSON response type) → verdict + summary + explanation + sources</div>
+
+            <div style="grid-column:1 / 3;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);border-bottom:1px solid var(--color-divider);padding:var(--space-2)">7 · ← 200 {answer, context_used, latency, flag false}</div>
+            <div style="grid-column:3 / 7;border-left:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider)"></div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 9.1 — Happy path. Two external calls: one embedding, one generation.</figcaption>
+        </figure>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--space-6);margin:var(--space-6) 0">
+          <figure class="blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Scenario B — no context</div>
+            <ol style="margin:0;padding-left:1.3em;font-size:13.5px;line-height:1.75">
+              <li>The claim concerns a substance absent from the corpus.</li>
+              <li>Search returns nothing above the score gate.</li>
+              <li>Routing selects the no-context node.</li>
+              <li><strong>No generation call is made.</strong></li>
+              <li>The response reports insufficient evidence with an empty context list.</li>
+            </ol>
+            <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 9.2 — The grounding guarantee, and one saved quota unit.</figcaption>
+          </figure>
+          <figure class="blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Scenario C — quota exhausted</div>
+            <ol style="margin:0;padding-left:1.3em;font-size:13.5px;line-height:1.75">
+              <li>Retrieval succeeds and returns three passages.</li>
+              <li>The generation call fails with a quota or availability signal.</li>
+              <li>The error classifier recognises it as transient.</li>
+              <li>The passages, joined by a rule, become the answer; the degradation flag is set.</li>
+              <li>The response is 200; the client shows a banner naming the corpus as the source.</li>
+            </ol>
+            <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 9.3 — Retrieval keeps working because it holds its own credential.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+
+      <sc-if value="{{ partDividers }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--color-accent-900);color:var(--color-bg);padding:calc(var(--space-8) * 1.2) var(--space-8);margin:calc(var(--space-8) * 1.6) 0 calc(var(--space-8) * 1.2);display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-8);flex-wrap:wrap">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;letter-spacing:-0.01em">Part III — Design</div>
+          <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7">Sections 10–19</div>
+        </div>
+      </sc-if>
+
+      <!-- 10 -->
+      <section id="h10" data-screen-label="10 System architecture" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">10 · System architecture</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Two services, five components, one composition root</h2>
+        <p style="margin:0 0 var(--space-6);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The refactor replaced a single-file monolith with focused components wired together at start-up. Dependencies are passed explicitly through constructors — there are no globals and no shared mutable state — and only the composition root knows the full dependency graph.</p>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;gap:var(--space-3)">
+            <div style="border:1px solid var(--color-divider);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">Service 1 — client</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--space-2);font-size:12.5px">
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">Profile form — conditions, allergies, medications</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">Mode and depth selection</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">Conversation view with degradation banner</div>
+              </div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent)">↓ HTTP / JSON — profile context prepended to the query</div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-4);background:color-mix(in srgb, var(--color-accent) 7%, transparent)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">Service 2 — API layer</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--space-2);font-size:12.5px">
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">POST /ask</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">POST /fact-check</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">POST /add — keyed</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">GET /status</div>
+              </div>
+              <div style="font-size:12px;margin-top:var(--space-2);color:color-mix(in srgb, var(--color-text) 60%, transparent)">Validation, latency measurement and HTTP mapping only — no business logic</div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent)">↓ constructor-injected calls</div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">Orchestration — the graph</div>
+              <div style="font-size:12.5px">Retrieve → route → answer, or route → no-context. State is a plain dictionary; the error classifier lives inside the answer node.</div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent)">↓</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-3)">
+              <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+                <div style="font-family:var(--font-heading);font-size:15px">EmbeddingService</div>
+                <div style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 65%, transparent)">One model, one method, no state. Holds the embedding credential.</div>
+              </div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+                <div style="font-family:var(--font-heading);font-size:15px">DocumentStore</div>
+                <div style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 65%, transparent)">Cosine search over the managed collection; keyword fallback when it is unreachable.</div>
+              </div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+                <div style="font-family:var(--font-heading);font-size:15px">Prompt templates</div>
+                <div style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 65%, transparent)">One per mode and depth, each with delimited user and trusted blocks.</div>
+              </div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent)">↓ outbound</div>
+            <div style="border:1px dashed color-mix(in srgb, var(--color-text) 40%, transparent);padding:var(--space-4);display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:var(--space-2);font-size:12.5px">
+              <div style="padding:var(--space-2)">Embedding model — embedding credential</div>
+              <div style="padding:var(--space-2)">Generation model — generation credential</div>
+              <div style="padding:var(--space-2)">Managed vector store</div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 10.1 — Layered component view. Solid frames are owned code; the dashed frame is outside the trust boundary.</figcaption>
+        </figure>
+
+        <figure class="blueprint duotone" style="margin:var(--space-8) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <img src="architecture-overview.png" alt="Full system architecture overview — retrieval-first pipeline, profile context injection, and fallback chain" style="width:100%;display:block">
+        </figure>
+        <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent);margin:calc(var(--space-8) * -0.6) 0 var(--space-8)">Fig. 10.2 — Architecture overview as recorded in the project's own documentation.</div>
+      </section>
+
+      <!-- 11 -->
+      <section id="h11" data-screen-label="11 Class design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">11 · Class design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">One responsibility each</h2>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--space-4)">
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:16px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">EmbeddingService</div>
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-divider);font-size:12px;line-height:1.7" class="doc-mono">− api_key: str<br>− model: "gemini-embedding-001"<br>− dimensions: 3072</div>
+              <div style="padding:var(--space-3);font-size:12px;line-height:1.7" class="doc-mono">+ embed(text): list[float]</div>
+            </div>
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:16px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">DocumentStore</div>
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-divider);font-size:12px;line-height:1.7" class="doc-mono">− embedding_service: EmbeddingService<br>− qdrant_url, qdrant_api_key: str<br>− memory: list[str] — fallback</div>
+              <div style="padding:var(--space-3);font-size:12px;line-height:1.7" class="doc-mono">+ add_document(text): str<br>+ search(query, limit=3): list[str]<br>+ get_status(): dict</div>
+            </div>
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:16px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">RagWorkflow</div>
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-divider);font-size:12px;line-height:1.7" class="doc-mono">− document_store: DocumentStore<br>− api_key: str — generation<br>− graph: compiled at start-up<br>+ is_ready: bool</div>
+              <div style="padding:var(--space-3);font-size:12px;line-height:1.7" class="doc-mono">+ ask(question, mode): dict<br>+ fact_check(question): dict<br>− _route(state): "answer" | "no_context"<br>− _answer(state): dict<br>− _sanitize(text): str</div>
+            </div>
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:16px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">HealthRouter</div>
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-divider);font-size:12px;line-height:1.7" class="doc-mono">− workflow: RagWorkflow<br>− document_store: DocumentStore<br>− ingest_api_key: str</div>
+              <div style="padding:var(--space-3);font-size:12px;line-height:1.7" class="doc-mono">+ POST /ask<br>+ POST /fact-check<br>+ POST /add — key required<br>+ GET /status</div>
+            </div>
+            <div style="border:1px solid var(--color-divider)">
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-divider);font-family:var(--font-heading);font-size:16px">Client — chatbot</div>
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-divider);font-size:12px;line-height:1.7" class="doc-mono">− session: profile + messages</div>
+              <div style="padding:var(--space-3);font-size:12px;line-height:1.7" class="doc-mono">+ build_profile_context(profile): str<br>+ call_api(input, mode, profile): dict</div>
+            </div>
+            <div style="border:1px dashed color-mix(in srgb, var(--color-text) 40%, transparent)">
+              <div style="padding:var(--space-3);border-bottom:1px dashed color-mix(in srgb, var(--color-text) 40%, transparent);font-family:var(--font-heading);font-size:16px">Composition root</div>
+              <div style="padding:var(--space-3);font-size:12px;line-height:1.7" class="doc-mono">EmbeddingService(embedding_key)<br>DocumentStore(embedder, url, key)<br>RagWorkflow(store, generation_key)<br>mount(HealthRouter)</div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 11.1 — Class diagram. Each arrow of dependency points downward through constructors; nothing reaches sideways.</figcaption>
+        </figure>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-6);margin:var(--space-6) 0">
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Personalisation lives in the client
+
+      <sc-if value="{{ partDividers }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--color-accent-900);color:var(--color-bg);padding:calc(var(--space-8) * 1.2) var(--space-8);margin:calc(var(--space-8) * 1.6) 0 calc(var(--space-8) * 1.2);display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-8);flex-wrap:wrap">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;letter-spacing:-0.01em">Part III — Design</div>
+          <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7">Sections 10–19</div>
+        </div>
+      </sc-if>
+
+      <!-- 10 -->
+      <section id="h10" data-screen-label="10 System architecture" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">10 · System architecture</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Three independent services, one graph</h2>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--space-4)">
+            <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">Service 1</div>
+              <div style="font-family:var(--font-heading);font-size:18px;line-height:1;margin-bottom:var(--space-3)">Backend API</div>
+              <div style="font-size:12.5px;line-height:1.6">FastAPI, Python 3.11, async · Graph nodes + conditional routing · Two credentials, separately exhaustible · Streaming responses · Graceful degradation</div>
+            </div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">Service 2</div>
+              <div style="font-family:var(--font-heading);font-size:18px;line-height:1;margin-bottom:var(--space-3)">Streamlit UI</div>
+              <div style="font-size:12.5px;line-height:1.6">Interactive chatbot · Profile form · Two modes: ask and fact-check · Depth selector · Renders the degradation banner</div>
+            </div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">Service 3</div>
+              <div style="font-family:var(--font-heading);font-size:18px;line-height:1;margin-bottom:var(--space-3)">External managed</div>
+              <div style="font-size:12.5px;line-height:1.6">Qdrant Cloud — vector store · Gemini embedding + generation APIs · Separate quotas, separate credentials</div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 10.1 — Three services, each independently credentialed and replaceable at runtime.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">10.1 Class diagram — backend core</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:200px">Class</th><th>Responsibility</th><th style="width:140px">Dependencies</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">EmbeddingService</td><td>Stateless text-to-vector, one model, one method. Wraps the provider call and errors out on failure — no fallback.</td><td class="doc-mono">embedding_model</td></tr>
+              <tr><td class="doc-mono">DocumentStore</td><td>Vector search and document retrieval. Manages both the remote Qdrant index and an in-memory keyword mirror for fallback.</td><td class="doc-mono">qdrant_client, in_memory_index</td></tr>
+              <tr><td class="doc-mono">RagWorkflow</td><td>The graph: retrieve, route, answer or no-context. Orchestrates dependencies and holds error-handling policy.</td><td class="doc-mono">embedder, store, llm_client</td></tr>
+              <tr><td class="doc-mono">LLMClient</td><td>Wraps the generation provider. Classifies errors into transient (quota, availability) and permanent (everything else).</td><td class="doc-mono">generation_model</td></tr>
+              <tr><td class="doc-mono">Routes</td><td>Transport layer only — validation, timer, response mapping. No business logic.</td><td class="doc-mono">workflow</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 11 -->
+      <section id="h11" data-screen-label="11 Class design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">11 · Class design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Dependency injection and testability</h2>
+        <p style="margin:0 0 var(--space-6);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Every class receives what it needs through its constructor, so a test can pass a mock. The composition root is in <span class="doc-mono">main.py</span> — one place where the graph is assembled, one place to understand how the pieces fit together.</p>
+
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:160px">Class</th><th>Constructor signature</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">EmbeddingService</td><td><span class="doc-mono">__init__(self, model)</span></td><td>One dependency — the model provider. Swappable at runtime.</td></tr>
+              <tr><td class="doc-mono">DocumentStore</td><td><span class="doc-mono">__init__(self, qdrant_client, collection_name)</span></td><td>Takes an already-initialised Qdrant client and a collection name. Both provided by the composition root.</td></tr>
+              <tr><td class="doc-mono">LLMClient</td><td><span class="doc-mono">__init__(self, model, error_classifier)</span></td><td>Model and error classification strategy injected. The classifier is instantiated once and shared across all requests.</td></tr>
+              <tr><td class="doc-mono">RagWorkflow</td><td><span class="doc-mono">__init__(self, embedder, store, llm_client, score_threshold)</span></td><td>All dependencies explicit. The score threshold is a parameter so it can be tuned per deployment.</td></tr>
+              <tr><td class="doc-mono">Routes</td><td><span class="doc-mono">__init__(self, workflow)</span></td><td>Single dependency — the workflow instance. No knowledge of how it was built.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 12 -->
+      <section id="h12" data-screen-label="12 Data design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">12 · Data design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Persistent, ephemeral and nowhere</h2>
+
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:140px">Store</th><th>Content</th><th>Lifecycle</th><th style="width:150px">Accessed by</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">Qdrant Cloud</td><td>Document payloads, embeddings at 3,072 dimensions</td><td>Persistent across sessions and deploys</td><td class="doc-mono">DocumentStore.search()</td></tr>
+              <tr><td class="doc-mono">In-memory index</td><td>Keyword index built from loaded documents</td><td>Rebuilt on service start; lost on crash or scale-down</td><td class="doc-mono">DocumentStore.keyword_search()</td></tr>
+              <tr><td class="doc-mono">Prompt templates</td><td>Three ask modes × three depths, plus fact-check template</td><td>Packaged with the service, read at start-up</td><td class="doc-mono">RagWorkflow._assemble_prompt()</td></tr>
+              <tr><td style="font-style:italic">None</td><td style="font-style:italic">Profile, question, claim, answer</td><td style="font-style:italic">Ephemeral — the request object — discarded with the response</td><td style="font-style:italic">Never stored</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The last row is deliberate. A health profile is sensitive; storing it would add a retention requirement, an access-control matrix, and audit logging. By design, it never touches the server's disk.</p>
+      </section>
+
+      <!-- 13 -->
+      <section id="h13" data-screen-label="13 API design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">13 · API design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Four endpoints and their contracts</h2>
+
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:130px">Endpoint</th><th>Request</th><th>Response</th><th style="width:120px">Codes</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">POST /ask</td><td class="doc-mono">{question, mode, depth, profile_context}</td><td><span class="doc-mono">answer, context_used, elapsed_ms, degraded</span></td><td>200, 422, 429</td></tr>
+              <tr><td class="doc-mono">POST /fact-check</td><td class="doc-mono">{claim, profile_context}</td><td><span class="doc-mono">verdict, summary, explanation, sources, context_used, elapsed_ms, degraded</span></td><td>200, 422, 429</td></tr>
+              <tr><td class="doc-mono">POST /add</td><td class="doc-mono">{text, api_key}</td><td><span class="doc-mono">document_id</span></td><td>201, 401, 422</td></tr>
+              <tr><td class="doc-mono">GET /status</td><td>—</td><td><span class="doc-mono">workflow_ready, store_reachable, workflow_ok</span></td><td>200</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">13.1 Request schema — POST /ask</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:160px">Field</th><th style="width:110px">Type</th><th>Constraint</th><th style="width:60px">Req.</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">question</td><td>str</td><td>1–2,000 characters</td><td>Y</td></tr>
+              <tr><td class="doc-mono">mode</td><td>enum</td><td><span class="doc-mono">brief | detailed | citations</span></td><td>Y</td></tr>
+              <tr><td class="doc-mono">depth</td><td>enum</td><td><span class="doc-mono">short | medium | long</span> (synonymous with mode; one per API version)</td><td>Y</td></tr>
+              <tr><td class="doc-mono">profile_context</td><td>str</td><td>Pre-formatted context block; client-side responsibility. Prepended to the question before embedding.</td><td>N</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">13.2 Response schema — POST /ask</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:160px">Field</th><th style="width:110px">Type</th><th>Present when</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">answer</td><td>str</td><td>always — either generated or the retrieved passages joined by rule</td></tr>
+              <tr><td class="doc-mono">context_used</td><td>list[object]</td><td>always — each object holds source, score, and passage text</td></tr>
+              <tr><td class="doc-mono">elapsed_ms</td><td>float</td><td>always</td></tr>
+              <tr><td class="doc-mono">degraded</td><td>bool</td><td>always — true when quota failed and passages are being returned as answer</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">13.3 Status codes</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:76px">Code</th><th>Condition</th><th>Response body</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">200</td><td>The graph completed, regardless of whether an answer was generated or passages were returned as degraded fallback</td><td>Always the response schema above</td></tr>
+              <tr><td class="doc-mono">422</td><td>Validation failed — question over 2,000 chars, missing mode, malformed profile</td><td class="doc-mono">{"detail": [error array]}</td></tr>
+              <tr><td class="doc-mono">429</td><td>Generation provider is exhausted and retrieval has no context to return. No graceful fallback available.</td><td class="doc-mono">{"detail": "Rate limit exceeded"}</td></tr>
+              <tr><td class="doc-mono">503</td><td>A dependency is completely unreachable (store and fallback both failed)</td><td class="doc-mono">{"detail": "Service unavailable"}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 14 -->
+      <section id="h14" data-screen-label="14 Retrieval design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">14 · Retrieval design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Vector search with a quality gate</h2>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">14.1 Configuration</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:180px">Parameter</th><th style="width:110px">Value</th><th>Rationale</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">Embedding model</td><td>Gemini embedding-001</td><td>3,072 dimensions, semantic-similarity task type, multilingual</td></tr>
+              <tr><td class="doc-mono">Embedding task type</td><td><span class="doc-mono">semantic_similarity</span></td><td>Explicitly trained for retrieval, not classification or clustering</td></tr>
+              <tr><td class="doc-mono">Index type</td><td>Qdrant — cosine similarity</td><td>Hosted, persistent, supports filtering by metadata</td></tr>
+              <tr><td class="doc-mono">Top-k</td><td>3</td><td>Three passages fit in a prompt without ballooning token count</td></tr>
+              <tr><td class="doc-mono">Score threshold</td><td>0.4</td><td><strong>Unvalidated.</strong> Chosen to exclude off-topic results; no labelled evaluation set exists (§14.2)</td></tr>
+              <tr><td class="doc-mono">Deduplication</td><td>Exact match on payload text</td><td>A question might match the same passage twice with tiny score differences; de-duplicate to keep the strongest match</td></tr>
+              <tr><td class="doc-mono">Fallback strategy</td><td>In-memory BM25 keyword search</td><td>Runs on a mirror built at start-up. Searches if Qdrant is unreachable but only from docs already in memory.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">14.2 Gap: unmeasured quality</h3>
+        <div class="card blueprint" style="padding:var(--space-6);margin:var(--space-6) 0;max-width:76ch">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <p style="margin:0;font-size:14px;line-height:1.65"><strong>The 0.4 threshold is a guess.</strong> No labelled query-to-passage set exists, so recall at 1 and 3 are unknown. An evaluation set of fifty queries each with known-relevant passages would show whether a threshold is burying relevant results or accepting garbage. This is R-01 in the risk register and the first roadmap item.</p>
+        </div>
+      </section>
+
+      <!-- 15 -->
+      <section id="h15" data-screen-label="15 Prompt and security design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">15 · Prompt &amp; security design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Delimiters, sanitisation and no stored secrets</h2>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">15.1 Prompt structure</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Every prompt has one invariant structure: instructions, then a TRUSTED_CONTEXT block holding the retrieved passages, then a USER_QUERY block holding the user's text, then a mode-specific closing. User content never lives outside its delimiter block.</p>
+        <div class="card blueprint" style="padding:var(--space-6);margin:var(--space-6) 0;max-width:76ch">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Example: Ask mode</div>
+          <pre style="margin:0;overflow-x:auto;font-size:12px;line-height:1.6;background:color-mix(in srgb, var(--color-text) 3%, transparent);padding:var(--space-3);border:1px solid var(--color-divider)">You are a health information assistant. Use only the provided context.
+
+&lt;TRUSTED_CONTEXT&gt;
+{{ passage 1 }}
+{{ passage 2 }}
+{{ passage 3 }}
+&lt;/TRUSTED_CONTEXT&gt;
+
+&lt;USER_QUERY&gt;
+{{ question + profile context }}
+&lt;/USER_QUERY&gt;
+
+Provide a {{ mode }}-level answer in {{ language }}.</pre>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">15.2 Sanitisation</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Before assembly, the user text is cleaned: null bytes stripped, runs of three or more newlines collapsed to two. These are defensive measures against both accidental and deliberate injection, though the XML delimiters are the load-bearing boundary.</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">15.3 Credentials and storage</h3>
+        <ul style="margin:0 0 var(--space-4);padding-left:1.1em;font-size:14px;line-height:1.75;max-width:76ch">
+          <li>Embedding and generation credentials are separate environment variables, so an exhaustion in one does not break the other.</li>
+          <li>No credentials are logged; errors are sanitised before they reach logs.</li>
+          <li>API keys for document ingestion are validated against an in-memory set read at start-up, not against a database.</li>
+          <li>The profile is never stored — it is assembled by the client, sent with the query, and discarded with the response.</li>
+        </ul>
+      </section>
+
+      <!-- 16 -->
+      <section id="h16" data-screen-label="16 Reliability design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">16 · Reliability design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Degraded states, not crashes</h2>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">16.1 Generation quota exhaustion</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">When the generation provider signals quota or availability failure, the error classifier recognises it as transient. The retrieved passages become the answer; they are joined by a newline-separated rule. The <span class="doc-mono">degraded</span> flag is set true, and the client renders a banner explaining that the text is quoted directly from the corpus, not generated.</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">16.2 Store unreachability</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">If Qdrant is unreachable, the workflow falls back to the in-memory keyword index. This index is built at start-up from the documents already in memory and is exact, not approximate. Its recall is lower than vector search — it misses paraphrases — but it is available. The response still carries a <span class="doc-mono">context_used</span> list so the client knows what was retrieved and by which method.</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">16.3 Both retrieval and generation fail</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">If retrieval is empty and generation is exhausted, the workflow has no answer to return. The no-context node responds with insufficient evidence. This is a 200 response with an empty <span class="doc-mono">context_used</span> list.</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">16.4 Configuration credibility</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The system will not start if required environment variables are missing. It will start with warnings if optional ones (store, generation credentials) are absent, but those paths degrade at runtime. A missing embedding credential is fatal — there is no fallback for embedding.</p>
+      </section>
+
+      <!-- 17 -->
+      <section id="h17" data-screen-label="17 Interface design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">17 · Interface design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Two modes, profile context, three answer depths</h2>
+
+        <figure style="padding:0;margin:var(--space-6) 0">
+          <img src="HealthTruth-AI_pages-to-jpg-0001.jpg" style="width:100%;height:auto;border:1px solid var(--color-divider)">
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-3)">Fig. 17.1 — The Streamlit interface. Sidebar for mode and profile; main area for conversation.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">17.1 Interface states</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th>State</th><th>Trigger</th><th>Presentation</th></tr></thead>
+            <tbody>
+              <tr><td>Empty</td><td>Load or reset</td><td>Welcome block with instructions; profile form ready</td></tr>
+              <tr><td>Profile set</td><td>User fills form</td><td>Summary of profile; question input enabled</td></tr>
+              <tr><td>Pending</td><td>Question submitted</td><td>Spinner; send button disabled</td></tr>
+              <tr><td>Answered</td><td>Response 200</td><td>Answer or no-context message; context sources listed</td></tr>
+              <tr><td>Degraded</td><td><span class="doc-mono">degraded: true</span></td><td>Answer banner with warning; passages shown as raw quotes</td></tr>
+              <tr><td>Error</td><td>429 or 503</td><td>Error modal with explanation and retry button</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 18 -->
+      <section id="h18" data-screen-label="18 Deployment design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">18 · Deployment design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Two containers, one configuration</h2>
+
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:110px">Service</th><th>Base image</th><th>Entrypoint</th><th style="width:130px">Port</th></tr></thead>
+            <tbody>
+              <tr><td>Backend</td><td><span class="doc-mono">python:3.11-slim</span></td><td><span class="doc-mono">uvicorn main:app</span></td><td>8000</td></tr>
+              <tr><td>Streamlit UI</td><td><span class="doc-mono">python:3.11-slim</span></td><td><span class="doc-mono">streamlit run chatbot.py</span></td><td>8501</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">18.1 Environment variables</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:210px">Variable</th><th style="width:130px">Default</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">QDRANT_URL</td><td>—</td><td>Qdrant Cloud endpoint. Required.</td></tr>
+              <tr><td class="doc-mono">QDRANT_API_KEY</td><td>—</td><td>Qdrant Cloud credentials. Required.</td></tr>
+              <tr><td class="doc-mono">EMBEDDING_API_KEY</td><td>—</td><td>Gemini embedding service credentials. Required.</td></tr>
+              <tr><td class="doc-mono">GENERATION_API_KEY</td><td>unset</td><td>Gemini generation service credentials. Omit to degrade all generations to retrieved passages.</td></tr>
+              <tr><td class="doc-mono">COLLECTION_NAME</td><td><span class="doc-mono">health-docs</span></td><td>Qdrant collection to search and write to.</td></tr>
+              <tr><td class="doc-mono">SCORE_THRESHOLD</td><td><span class="doc-mono">0.4</span></td><td>Minimum cosine similarity for a result to be included.</td></tr>
+              <tr><td class="doc-mono">RETRIEVAL_TOP_K</td><td><span class="doc-mono">3</span></td><td>Maximum number of passages to retrieve.</td></tr>
+              <tr><td class="doc-mono">INGESTION_API_KEY</td><td>unset</td><td>If set, the <span class="doc-mono">/add</span> endpoint is enabled and requires this key.</td></tr>
+              <tr><td class="doc-mono">BACKEND_URL</td><td><span class="doc-mono">http://localhost:8000</span></td><td>Streamlit client uses this to call the backend.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 19 -->
+      <section id="h19" data-screen-label="19 Observability specification" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">19 · Observability specification</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">What is measured, and what is not</h2>
+
+        <div class="card blueprint" style="padding:var(--space-6);margin:var(--space-6) 0;max-width:76ch;background:color-mix(in srgb, var(--color-accent) 5%, transparent)">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Gap: no observability yet</div>
+          <p style="margin:0;font-size:14px;line-height:1.65"><strong>Neither the backend nor the Streamlit app emit metrics.</strong> Every request is measured locally (elapsed time is returned in the response), but there is no centralised logging, no metrics dashboard, and no alerts. This is NFR-14 in the requirements and the highest-priority item in the roadmap.</p>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">19.1 Intended instrumentation</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The following series would answer the operational questions.</p>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:240px">Series</th><th style="width:86px">Type</th><th>Operational question</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">healthtruth_requests_total</td><td>Counter</td><td>Traffic volume and status split</td></tr>
+              <tr><td class="doc-mono">healthtruth_request_latency_seconds</td><td>Histogram</td><td>p95 and p99 latencies; is the target 1.5 s being met?</td></tr>
+              <tr><td class="doc-mono">healthtruth_retrieval_passages_found</td><td>Histogram</td><td>How often does retrieval return 0, 1, 2, or 3 passages?</td></tr>
+              <tr><td class="doc-mono">healthtruth_retrieval_score</td><td>Histogram</td><td>Score distribution — are results above the gate meaningful?</td></tr>
+              <tr><td class="doc-mono">healthtruth_generation_errors_total</td><td>Counter</td><td>Quota failures vs. other errors; is degradation happening?</td></tr>
+              <tr><td class="doc-mono">healthtruth_degradation_rate</td><td>Gauge</td><td>Share of recent requests falling back to retrieved passages</td></tr>
+              <tr><td class="doc-mono">healthtruth_store_reachability</td><td>Gauge</td><td>Is the vector store up? Triggers fallback to keyword search.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <sc-if value="{{ partDividers }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--color-accent-900);color:var(--color-bg);padding:calc(var(--space-8) * 1.2) var(--space-8);margin:calc(var(--space-8) * 1.6) 0 calc(var(--space-8) * 1.2);display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-8);flex-wrap:wrap">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;letter-spacing:-0.01em">Part IV — Verification</div>
+          <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7">Sections 20–24</div>
+        </div>
+      </sc-if>
+
+      <!-- 20 -->
+      <section id="h20" data-screen-label="20 Test plan" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">20 · Test plan</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">What must be proven before release</h2>
+
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:66px">ID</th><th style="width:82px">Level</th><th>Scenario</th><th>Expected result</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">TC-01</td><td>Unit</td><td>Sanitise text with null bytes and triple newlines</td><td>Both are removed; single and double newlines preserved</td></tr>
+              <tr><td class="doc-mono">TC-02</td><td>Unit</td><td>Route with three passages present</td><td>Proceed to answer node, not no-context</td></tr>
+              <tr><td class="doc-mono">TC-03</td><td>Unit</td><td>Route with empty context list</td><td>Proceed to no-context node; no generation call</td></tr>
+              <tr><td class="doc-mono">TC-04</td><td>Integration</td><td>POST /ask with a valid question</td><td>200; answer present; context_used present; elapsed_ms present; degraded false</td></tr>
+              <tr><td class="doc-mono">TC-05</td><td>Integration</td><td>POST /ask with question over 2,000 chars</td><td>422; validation error in detail</td></tr>
+              <tr><td class="doc-mono">TC-06</td><td>Integration</td><td>POST /fact-check with valid claim</td><td>200; verdict in [supported, contradicted, insufficient]; sources list present</td></tr>
+              <tr><td class="doc-mono">TC-07</td><td>Integration</td><td>Generation provider quota exhausted during /ask</td><td>200; degraded true; context joined and returned as answer; no crash</td></tr>
+              <tr><td class="doc-mono">TC-08</td><td>Integration</td><td>Qdrant unreachable; keyword search available</td><td>200; results from keyword search; context_used present</td></tr>
+              <tr><td class="doc-mono">TC-09</td><td>Integration</td><td>User text with XML tag-like content inside USER_QUERY block</td><td>Treated as literal text; no prompt injection</td></tr>
+              <tr><td class="doc-mono">TC-10</td><td>Integration</td><td>GET /status with store up and workflow ready</td><td>200; workflow_ok true; store_reachable true</td></tr>
+              <tr><td class="doc-mono">TC-11</td><td>Integration</td><td>POST /add with invalid key</td><td>401; document not added</td></tr>
+              <tr><td class="doc-mono">TC-12</td><td>System</td><td>Full ask flow: question → embed → retrieve → answer</td><td>Three passages above threshold retrieved; latency ≈ 1.5 s; answer generated from context</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 21 -->
+      <section id="h21" data-screen-label="21 Traceability matrix" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">21 · Traceability matrix</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Requirement → design → test</h2>
+
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:70px">Req</th><th style="width:100px">Use case</th><th>Design section</th><th style="width:100px">Test case</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">FR-01</td><td class="doc-mono">UC-01</td><td>§13 — POST /ask request schema</td><td class="doc-mono">TC-04, TC-05</td></tr>
+              <tr><td class="doc-mono">FR-02</td><td class="doc-mono">UC-02</td><td>§13 — POST /fact-check contract</td><td class="doc-mono">TC-06</td></tr>
+              <tr><td class="doc-mono">FR-03</td><td class="doc-mono">UC-01</td><td>§14.1 — embedding model configuration</td><td class="doc-mono">TC-12</td></tr>
+              <tr><td class="doc-mono">FR-04</td><td class="doc-mono">UC-01</td><td>§14.1 — retrieval configuration and gate</td><td class="doc-mono">TC-12</td></tr>
+              <tr><td class="doc-mono">FR-05</td><td class="doc-mono">UC-01</td><td>§07 — routing on context presence</td><td class="doc-mono">TC-02, TC-03</td></tr>
+              <tr><td class="doc-mono">FR-06</td><td class="doc-mono">UC-01</td><td>§15.1 — prompt structure and delimiters</td><td class="doc-mono">TC-09, TC-12</td></tr>
+              <tr><td class="doc-mono">FR-08, FR-09</td><td class="doc-mono">UC-02</td><td>§13.2 — response schema with verdict</td><td class="doc-mono">TC-06</td></tr>
+              <tr><td class="doc-mono">FR-10</td><td class="doc-mono">UC-01</td><td>§15.2 — sanitisation before prompt assembly</td><td class="doc-mono">TC-01</td></tr>
+              <tr><td class="doc-mono">FR-11, FR-12</td><td class="doc-mono">UC-01</td><td>§16.1 — error classification and degradation</td><td class="doc-mono">TC-07</td></tr>
+              <tr><td class="doc-mono">FR-13</td><td class="doc-mono">UC-01</td><td>§16.2 — keyword fallback</td><td class="doc-mono">TC-08</td></tr>
+              <tr><td class="doc-mono">FR-14, FR-15</td><td class="doc-mono">UC-03</td><td>§12 — stateless profile and §15.3</td><td>Code review</td></tr>
+              <tr><td class="doc-mono">FR-16</td><td class="doc-mono">UC-05</td><td>§13 — POST /add endpoint</td><td class="doc-mono">TC-11</td></tr>
+              <tr><td class="doc-mono">FR-17</td><td class="doc-mono">UC-06</td><td>§13 — GET /status endpoint</td><td class="doc-mono">TC-10</td></tr>
+              <tr><td class="doc-mono">FR-18</td><td class="doc-mono">UC-01</td><td>§13.2 — elapsed_ms field</td><td class="doc-mono">TC-04, TC-12</td></tr>
+              <tr><td class="doc-mono">NFR-01</td><td class="doc-mono">—</td><td>§18 — deployment and latency measure</td><td class="doc-mono">TC-12 — assert ≈ 1.5 s</td></tr>
+              <tr><td class="doc-mono">NFR-03</td><td class="doc-mono">—</td><td>§16 — graceful degradation policy</td><td class="doc-mono">TC-07</td></tr>
+              <tr><td class="doc-mono">NFR-05</td><td class="doc-mono">—</td><td>§07 — grounding guarantee</td><td class="doc-mono">TC-03 — assert no gen call</td></tr>
+              <tr><td class="doc-mono">NFR-06</td><td class="doc-mono">—</td><td>§15 — user content isolation</td><td class="doc-mono">TC-09</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 22 -->
+      <section id="h22" data-screen-label="22 Risk register" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">22 · Risk register</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Known exposures and their mitigations</h2>
+
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:62px">ID</th><th>Risk</th><th style="width:66px">Lik.</th><th style="width:66px">Imp.</th><th>Mitigation</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">R-01</td><td>Retrieval quality is unmeasured. The 0.4 threshold is a guess.</td><td>High</td><td>High</td><td>Build a labelled evaluation set and measure recall at 1 and 3 (top roadmap item)</td></tr>
+              <tr><td class="doc-mono">R-02</td><td>A question is outside the corpus; retrieval returns nothing.</td><td>High</td><td>Medium</td><td>Mitigated by design — the no-context path is explicit. The client is told the corpus has no coverage.</td></tr>
+              <tr><td class="doc-mono">R-03</td><td>Generation provider quota is exhausted; the service still works but returns passages as-is.</td><td>Medium</td><td>Low</td><td>Mitigated by design — the degradation flag and banner explain what happened. Two credentials so embedding still works.</td></tr>
+              <tr><td class="doc-mono">R-04</td><td>Retrieval and generation both fail; no output available.</td><td>Low</td><td>High</td><td>Return insufficient evidence at 200. User knows to reformulate or try later.</td></tr>
+              <tr><td class="doc-mono">R-05</td><td>Injection attack via user text in the prompt.</td><td>Low</td><td>High</td><td>XML delimiters structurally isolate user content; sanitisation removes null bytes and excess newlines. The load is on the delimiter.</td></tr>
+              <tr><td class="doc-mono">R-06</td><td>A health profile is mishandled or leaked.</td><td>Low</td><td>High</td><td>Profile is never stored — it lives only in the request object and is discarded with the response. Credentials are separate environment variables.</td></tr>
+              <tr><td class="doc-mono">R-07</td><td>The corpus is stale or a trusted source is removed, but an old answer persists.</td><td>Low</td><td>Medium</td><td>Document versioning is not yet built. Curator responsibility to remove and re-upload.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 23 -->
+      <section id="h23" data-screen-label="23 Limitations and roadmap" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">23 · Limitations &amp; roadmap</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Known gaps and the work ahead</h2>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-6);margin:var(--space-6) 0">
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Limitations</div>
+            <ul style="margin:0;padding-left:1.1em;font-size:14px;line-height:1.75">
+              <li>Retrieval threshold is unvalidated; no labelled evaluation set exists.</li>
+              <li>No metrics or dashboards — observability is entirely absent.</li>
+              <li>No conversation memory; each query is independent.</li>
+              <li>No document versioning; source management is manual.</li>
+              <li>Generation is not yet multi-modal; images and tables cannot be handled.</li>
+              <li>Ingestion is authenticated but not logged or rate-limited.</li>
+            </ul>
+          </div>
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Roadmap, priority order</div>
+            <ol style="margin:0;padding-left:1.2em;font-size:14px;line-height:1.75">
+              <li><strong>Build retrieval evaluation set.</strong> Fifty queries with labelled relevant passages; measure recall at 1 and 3 to validate the threshold.</li>
+              <li><strong>Metrics and dashboards.</strong> Emit Prometheus metrics; set up a Grafana dashboard to watch traffic, latency, error rates and degradation.</li>
+              <li><strong>Rate limiting on ingestion.</strong> Prevent bulk uploads from exhausting quota; log all ingestion events.</li>
+              <li><strong>Conversation memory.</strong> Stateless for now, but a follow-up should maintain context within one session.</li>
+              <li><strong>Document versioning and filtering.</strong> Track source age; allow curators to mark sources as deprecated; surface version info in the answer.</li>
+              <li><strong>Multi-modal retrieval.</strong> Handle images and tables in the corpus; embed and retrieve them.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- 24 -->
+      <section id="h24" data-screen-label="24 Glossary" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">24 · Glossary</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Terms as used in this document</h2>
+
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <tbody>
+              <tr><th style="width:180px">Grounding</th><td>The design principle that no answer is generated without retrieved context. If retrieval is empty, the system declines to answer.</td></tr>
+              <tr><th>Degradation</th><td>A graceful fallback when a provider is exhausted. Retrieved passages are joined and returned as the answer; the flag signals the client to display them as quotes, not as generated text.</td></tr>
+              <tr><th>Stateless personalisation</th><td>A health profile that shapes the answer but is never stored. The profile travels with the request in a structured block prepended to the query.</td></tr>
+              <tr><th>Profile context</th><td>The serialised health profile — age, conditions, allergies, medications — formatted as a structured block and prepended to the question before embedding and generation.</td></tr>
+              <tr><th>Embedding model</th><td>Gemini embedding-001, 3,072 dimensions, trained on semantic-similarity tasks. Separate credential from the generation model.</td></tr>
+              <tr><th>Score threshold</th><td>A cosine-similarity cutoff (currently 0.4) below which retrieved passages are discarded. Unvalidated.</td></tr>
+              <tr><th>Keyword fallback</th><td>An in-memory BM25 index built at start-up from documents already loaded. Used when Qdrant is unreachable.</td></tr>
+              <tr><th>Transient error</th><td>A quota or availability failure from the generation provider, classified as recoverable and causing degradation rather than failure.</td></tr>
+              <tr><th>XML delimiter</th><td>A structural boundary around user content in the prompt (<span class="doc-mono">&lt;USER_QUERY&gt;</span>) that protects against prompt injection.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer style="padding:calc(var(--space-8) * 1.4) var(--space-8) var(--space-8);border-top:1px solid var(--color-divider);display:flex;justify-content:space-between;gap:var(--space-6);flex-wrap:wrap;font-family:var(--font-heading);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">
+        <span>HealthTruth-AI — System Analysis · Rev 1.0</span>
+        <span>Ninditya Salma Nur Aini · August 2026</span>
+      </footer>
+
+    </div>
+  </div>
+</div></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;showToc&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Document structure&quot;},
+  &quot;showTraceability&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Document structure&quot;},
+  &quot;partDividers&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Document structure&quot;}
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showToc: this.props.showToc ?? true,
+      showTraceability: this.props.showTraceability ?? true,
+      partDividers: this.props.partDividers ?? true,
+    };
+  }
+}
+</script>
+<script>
+(function(){
+  var i18n = {
+    en: { navBack: '← All projects', navAbout: 'About', navContact: 'Contact' },
+    id: { navBack: '← Semua project', navAbout: 'Tentang', navContact: 'Kontak' }
+  };
+  function applyLang(lang){
+    var d = i18n[lang];
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k = el.getAttribute('data-i18n');
+      if (d[k] !== undefined) el.textContent = d[k];
+    });
+    document.querySelectorAll('.lang-btn').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-lang-target') === lang);
+    });
+    document.documentElement.lang = lang;
+  }
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      applyLang(b.getAttribute('data-lang-target'));
+    });
+  });
+})();
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  if (!btn) return;
+  function updateBtn(t){
+    btn.textContent = t === 'dark' ? '☀' : '🌙';
+    btn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  updateBtn(html.getAttribute('data-theme') || 'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateBtn(next);
+  });
+})();
+</script>
+</body>
+</html>

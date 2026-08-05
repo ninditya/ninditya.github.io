@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banking Intent Router — System Analysis · Ninditya Salma Nur Aini</title>
+<meta name="description" content="System requirements, analysis and design document for Banking Intent Router: EDA, SBERT modelling, RAG serving, deployment and monitoring.">
+<link rel="canonical" href="https://ninditya.github.io/banking-intent-router/system-analysis.html">
+<meta property="og:title" content="Banking Intent Router — System Analysis">
+<meta property="og:description" content="Full SRS-style system analysis: requirements, model design and evaluation, deployment design, observability and traceability matrix.">
+<meta property="og:url" content="https://ninditya.github.io/banking-intent-router/system-analysis.html">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff; --bg-alt: #f5f5f5; --bg-dark: #2d2d2d;
+    --ink: #4d4d4d; --ink-soft: #6b6b6b; --muted: #a0a0a0;
+    --line: #d3d3d3; --line-strong: #a0a0a0;
+    --primary: #1a5276; --accent: #c4490c; --accent-soft: #eaf2fb;
+    --green: #2d6a4f; --red: #c4490c;
+  }
+  html[data-theme="dark"]{
+    --bg:#1c1c1e;--bg-alt:#2c2c2e;--bg-dark:#000000;
+    --ink:#ffffff;--ink-soft:rgba(235,235,245,0.6);--muted:rgba(235,235,245,0.3);
+    --line:rgba(84,84,88,0.65);--line-strong:rgba(84,84,88,0.9);
+    --primary:#5bb8e8;--accent:#ff7043;--accent-soft:rgba(91,184,232,0.12);--green:#30d158;
+  }
+  #mainNav { position: sticky; top: 0; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); z-index: 100; }
+  html[data-theme="dark"] #mainNav{background:rgba(28,28,30,0.92)}
+  .nav-inner { max-width: 1080px; margin: 0 auto; padding: 16px 32px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .mobile-nav-toggle { display: none; background: transparent; border: none; color: var(--ink); font-size: 1.5rem; cursor: pointer; padding: 0 5px; line-height: 1; }
+  .nav-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .nav-tools { display: flex; align-items: center; gap: 10px; width: 100%; }
+  .nav-pill { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 100px; transition: all 0.2s ease; }
+  .nav-pill:hover { background: var(--bg-alt); color: var(--ink); }
+  .nav-pill.back { color: var(--primary); border: 1px solid var(--line); }
+  .nav-pill.back:hover { background: var(--primary); color: white; border-color: var(--primary); }
+  .lang-switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); margin-left: auto; }
+  .lang-btn { border: none; background: transparent; color: var(--muted); padding: 6px 10px; border-radius: 999px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
+  .lang-btn.active { background: var(--ink); color: var(--bg); }
+  html[data-theme="dark"] .nav-pills{background:rgba(28,28,30,0.96)}
+  html[data-theme="dark"] .lang-btn.active{background:#e5e5ea;color:#1c1c1e}
+  .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}
+  @media (max-width: 720px) {
+    .nav-tools { width: 100%; justify-content: space-between; }
+    .mobile-nav-toggle { display: block; }
+    .nav-pills { display: none; position: absolute; top: 56px; left: 0; width: 100%; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); flex-direction: column; padding: 1rem 2rem; gap: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    #mainNav.nav-open .nav-pills { display: flex; }
+  }
+</style>
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+<script src="./support.js"></script>
+</head>
+<body>
+<nav id="mainNav">
+  <div class="nav-inner">
+    <div class="nav-tools">
+      <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false" onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">&#9776;</button>
+      <div class="nav-pills">
+        <a class="nav-pill back" href="../#projects" data-i18n="navBack">&larr; All projects</a>
+        <a class="nav-pill" href="../#about" data-i18n="navAbout">About</a>
+        <a class="nav-pill" href="../#contact" data-i18n="navContact">Contact</a>
+      </div>
+      <div class="lang-switch" aria-label="Language switch">
+        <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+        <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+      </div>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">&#127769;</button>
+    </div>
+  </div>
+</nav>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/styles.css">
+  <script src="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; }
+    a { color: var(--color-accent-700); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 40%, transparent); }
+    a:hover { color: var(--color-accent-900); border-bottom-color: var(--color-accent-900); }
+    .table th { white-space: nowrap; }
+    .doc-mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12.5px; }
+  </style>
+</helmet>
+
+<div style="background:var(--color-bg);color:var(--color-text);min-height:100vh;padding-bottom:calc(var(--space-8) * 3)">
+
+  <div class="nav" style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-6);padding:var(--space-3) var(--space-8);border-bottom:1px solid var(--color-divider);position:sticky;top:0;background:var(--color-bg);z-index:20">
+    <div class="nav-brand" style="display:flex;align-items:baseline;gap:var(--space-3);font-family:var(--font-heading);font-weight:600;font-size:16px;letter-spacing:0.02em;text-transform:uppercase">
+      <span>Banking Intent Router</span>
+      <span style="font-size:11px;letter-spacing:0.14em;color:color-mix(in srgb, var(--color-text) 50%, transparent)">System Analysis Document</span>
+    </div>
+    <div style="display:flex;gap:var(--space-4);font-family:var(--font-heading);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">
+      <span>Rev 1.0</span>
+      <span>SRS · Analysis · Design · Test</span>
+    </div>
+  </div>
+
+  <!-- ── COVER ───────────────────────────────────────────────────────── -->
+  <header style="max-width:1180px;margin:0 auto;padding:calc(var(--space-8) * 2.4) var(--space-8) calc(var(--space-8) * 1.6)">
+    <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-6)">Software Requirements · Analysis · Design</div>
+    <h1 style="font-size:clamp(44px,6vw,78px);line-height:0.95;margin:0 0 var(--space-6);max-width:20ch">Banking Intent Router</h1>
+    <p style="font-size:21px;line-height:1.45;max-width:62ch;margin:0 0 calc(var(--space-8) * 1.4);color:color-mix(in srgb, var(--color-text) 72%, transparent);text-wrap:pretty">A confidence-based four-tier query router that places an intent classifier in front of a banking chatbot's answer generators, so that a large language model is called only when nothing cheaper can answer.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0;border-top:1px solid var(--color-divider)">
+      <div style="padding:var(--space-6) var(--space-6) var(--space-6) 0;border-right:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 50%, transparent);margin-bottom:var(--space-2)">System of record</div>
+        <div style="font-size:14px;line-height:1.5">mlops-banking-rag-query-<wbr>router-intent-classifier</div>
+      </div>
+      <div style="padding:var(--space-6);border-right:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 50%, transparent);margin-bottom:var(--space-2)">Document status</div>
+        <div style="font-size:14px;line-height:1.5">Rev 1.0 — as-built<br>August 2026</div>
+      </div>
+      <div style="padding:var(--space-6);border-right:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 50%, transparent);margin-bottom:var(--space-2)">Author</div>
+        <div style="font-size:14px;line-height:1.5">Ninditya Salma Nur Aini<br>AI / ML Engineer</div>
+      </div>
+      <div style="padding:var(--space-6)">
+        <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 50%, transparent);margin-bottom:var(--space-2)">Measured outcome</div>
+        <div style="font-size:14px;line-height:1.5">F1 macro 0.9305 · cost −95.96%<br>vs all-LLM baseline</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── BODY GRID ───────────────────────────────────────────────────── -->
+  <div style="max-width:1180px;margin:0 auto;padding:0 var(--space-8);display:grid;grid-template-columns:minmax(0,1fr);gap:calc(var(--space-8) * 1.5)">
+
+    <div>
+      <sc-if value="{{ showToc }}" hint-placeholder-val="{{ true }}">
+        <nav style="border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:var(--space-6) 0;margin-bottom:calc(var(--space-8) * 1.5)">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-4)">Contents</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:var(--space-2) var(--space-8);font-size:13.5px">
+            <a href="#s01" style="display:flex;gap:var(--space-3);border:0">01 · Introduction</a>
+            <a href="#s02" style="display:flex;gap:var(--space-3);border:0">02 · Overall description</a>
+            <a href="#s03" style="display:flex;gap:var(--space-3);border:0">03 · Functional requirements</a>
+            <a href="#s04" style="display:flex;gap:var(--space-3);border:0">04 · Non-functional requirements</a>
+            <a href="#s05" style="display:flex;gap:var(--space-3);border:0">05 · Business case &amp; cost model</a>
+            <a href="#s06" style="display:flex;gap:var(--space-3);border:0">06 · Use case model</a>
+            <a href="#s07" style="display:flex;gap:var(--space-3);border:0">07 · Process flow</a>
+            <a href="#s08" style="display:flex;gap:var(--space-3);border:0">08 · Data flow diagrams</a>
+            <a href="#s09" style="display:flex;gap:var(--space-3);border:0">09 · Sequence diagrams</a>
+            <a href="#s10" style="display:flex;gap:var(--space-3);border:0">10 · System architecture</a>
+            <a href="#s11" style="display:flex;gap:var(--space-3);border:0">11 · Class design</a>
+            <a href="#s12" style="display:flex;gap:var(--space-3);border:0">12 · Data design</a>
+            <a href="#s13" style="display:flex;gap:var(--space-3);border:0">13 · API design</a>
+            <a href="#s14" style="display:flex;gap:var(--space-3);border:0">14 · Routing &amp; threshold design</a>
+            <a href="#s15" style="display:flex;gap:var(--space-3);border:0">15 · Model design &amp; evaluation</a>
+            <a href="#s16" style="display:flex;gap:var(--space-3);border:0">16 · Interface design</a>
+            <a href="#s17" style="display:flex;gap:var(--space-3);border:0">17 · Deployment design</a>
+            <a href="#s18" style="display:flex;gap:var(--space-3);border:0">18 · CI/CD design</a>
+            <a href="#s19" style="display:flex;gap:var(--space-3);border:0">19 · Observability design</a>
+            <a href="#s20" style="display:flex;gap:var(--space-3);border:0">20 · Test plan</a>
+            <a href="#s21" style="display:flex;gap:var(--space-3);border:0">21 · Traceability matrix</a>
+            <a href="#s22" style="display:flex;gap:var(--space-3);border:0">22 · Risk register</a>
+            <a href="#s23" style="display:flex;gap:var(--space-3);border:0">23 · Limitations &amp; roadmap</a>
+            <a href="#s24" style="display:flex;gap:var(--space-3);border:0">24 · Glossary</a>
+          </div>
+        </nav>
+      </sc-if>
+
+      <!-- ══ PART I ═════════════════════════════════════════════════════ -->
+      <sc-if value="{{ partDividers }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--color-accent-900);color:var(--color-bg);padding:calc(var(--space-8) * 1.2) var(--space-8);margin-bottom:calc(var(--space-8) * 1.2);display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-8);flex-wrap:wrap">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;letter-spacing:-0.01em">Part I — Requirements</div>
+          <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7">Sections 01–05</div>
+        </div>
+      </sc-if>
+
+      <!-- 01 INTRODUCTION -->
+      <section id="s01" data-screen-label="01 Introduction" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">01 · Introduction</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Purpose, scope and basis of this specification</h2>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">1.1 Purpose</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">This document specifies the software requirements, the analysis model and the design of the Banking Intent Router. It is written as an as-built specification: every requirement, interface and design decision recorded here is traced to a file in the implementation rather than to an intended future state.</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">1.2 Scope</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The system classifies an inbound banking support query into one of 77 intents, derives a calibrated confidence score from that classification, and uses the score as a routing signal across four answer tiers. It exposes the decision through a JSON API, a browser chat client and a Prometheus metrics endpoint, and it is retrained by a continuous-integration pipeline.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-6);margin:var(--space-6) 0">
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker" style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">In scope</div>
+            <ul style="margin:0;padding-left:1.1em;font-size:14px;line-height:1.7">
+              <li>Intent classification over 77 Banking77 classes</li>
+              <li>Conversational pre-filter and four-tier routing</li>
+              <li>Retrieval from a curated 59-entry FAQ knowledge base</li>
+              <li>LLM escalation across four interchangeable providers</li>
+              <li>Per-request cost and latency accounting</li>
+              <li>Prometheus instrumentation and Grafana delivery</li>
+              <li>Automated preprocessing, training and image publication</li>
+            </ul>
+          </div>
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div class="card-kicker" style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Out of scope</div>
+            <ul style="margin:0;padding-left:1.1em;font-size:14px;line-height:1.7">
+              <li>Customer authentication and session identity</li>
+              <li>Core banking integration; no transaction is executed</li>
+              <li>Account-specific data lookup — answers are generic</li>
+              <li>Conversation memory across turns; every call is stateless</li>
+              <li>Languages other than English for classification</li>
+              <li>Human agent hand-off and ticketing</li>
+              <li>Model governance sign-off and regulatory approval</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">1.3 Intended readership</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Engineering reviewers assessing the design, ML engineers extending the model or thresholds, and operators running the serving stack. Sections 03–05 are readable without ML background; sections 14–15 assume familiarity with sentence embeddings and probability calibration.</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">1.4 References</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:70px">Ref</th><th>Item</th><th>Location</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">R-1</td><td>Banking77 dataset — 13,083 utterances, 77 intents (Casanueva et al., ACL 2020)</td><td class="doc-mono">PolyAI/banking77</td></tr>
+              <tr><td class="doc-mono">R-2</td><td>Preprocessing pipeline</td><td class="doc-mono">eksperimen/automate_NindityaS.py</td></tr>
+              <tr><td class="doc-mono">R-3</td><td>Production training entry point</td><td class="doc-mono">workflow_ci/modelling.py</td></tr>
+              <tr><td class="doc-mono">R-4</td><td>Shared routing constants</td><td class="doc-mono">workflow_ci/routing_utils.py</td></tr>
+              <tr><td class="doc-mono">R-5</td><td>Serving application and instrumentation</td><td class="doc-mono">serving/inference.py</td></tr>
+              <tr><td class="doc-mono">R-6</td><td>Retrieval module</td><td class="doc-mono">serving/rag.py</td></tr>
+              <tr><td class="doc-mono">R-7</td><td>LLM provider adapter</td><td class="doc-mono">serving/llm_client.py</td></tr>
+              <tr><td class="doc-mono">R-8</td><td>Knowledge base — 59 question/answer entries</td><td class="doc-mono">serving/banking_faq.json</td></tr>
+              <tr><td class="doc-mono">R-9</td><td>Retraining workflow and MLflow project</td><td class="doc-mono">workflow_ci/ci.yml · MLProject</td></tr>
+              <tr><td class="doc-mono">R-10</td><td>Monitoring stack and dashboard</td><td class="doc-mono">monitoring/docker-compose.yml · prometheus.yml</td></tr>
+              <tr><td class="doc-mono">R-11</td><td>Recorded tuning outcome</td><td class="doc-mono">artifacts/best_params_sbert.json</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 02 OVERALL DESCRIPTION -->
+      <section id="s02" data-screen-label="02 Overall description" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">02 · Overall description</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">The router as a cost-control layer</h2>
+        <p style="margin:0 0 var(--space-6);font-size:18px;line-height:1.5;max-width:70ch;color:color-mix(in srgb, var(--color-text) 72%, transparent);text-wrap:pretty">The system is not a chatbot. It is the decision layer that sits between a chat client and three existing answer sources, and its output is a routing decision plus the answer produced by the tier it selected.</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">2.1 System context</h3>
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--space-4);align-items:stretch">
+            <div style="border:1px solid var(--color-divider);padding:var(--space-4);text-align:center">
+              <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700)">External entity</div>
+              <div style="font-family:var(--font-heading);font-size:19px;margin-top:var(--space-2)">Customer</div>
+              <div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">free-text query</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--color-accent)">→</div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-4);text-align:center;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">
+              <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700)">Process 0</div>
+              <div style="font-family:var(--font-heading);font-size:19px;margin-top:var(--space-2)">Banking Intent Router</div>
+              <div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">classify · route · answer</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--color-accent)">→</div>
+            <div style="display:grid;gap:var(--space-2)">
+              <div style="border:1px solid var(--color-divider);padding:var(--space-2) var(--space-3);font-size:12.5px">FAQ knowledge base</div>
+              <div style="border:1px solid var(--color-divider);padding:var(--space-2) var(--space-3);font-size:12.5px">LLM provider API</div>
+              <div style="border:1px solid var(--color-divider);padding:var(--space-2) var(--space-3);font-size:12.5px">Prometheus / Grafana</div>
+              <div style="border:1px solid var(--color-divider);padding:var(--space-2) var(--space-3);font-size:12.5px">MLflow tracking (DagsHub)</div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 2.1 — Context diagram. One customer-facing input, four dependent systems.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">2.2 User classes</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th>Class</th><th>Interaction</th><th>Needs from the system</th></tr></thead>
+            <tbody>
+              <tr><td>Bank customer</td><td>Browser chat client at <span class="doc-mono">GET /</span></td><td>An accurate answer in under two seconds; no exposure to routing internals</td></tr>
+              <tr><td>Reviewer / demonstrator</td><td>Same client, reading the routing card</td><td>Visible tier, confidence, intent label, latency and per-query cost</td></tr>
+              <tr><td>ML engineer</td><td>MLflow runs, artifacts, <span class="doc-mono">routing_utils.py</span></td><td>Reproducible training, tunable thresholds, recorded metrics</td></tr>
+              <tr><td>Service operator</td><td><span class="doc-mono">/health</span>, <span class="doc-mono">/metrics</span>, Grafana</td><td>Liveness, tier mix, latency percentiles, drift and cost signals</td></tr>
+              <tr><td>Support content owner</td><td><span class="doc-mono">banking_faq.json</span></td><td>A knowledge base editable without retraining the model</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">2.3 Operating environment</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th>Layer</th><th>Configuration</th></tr></thead>
+            <tbody>
+              <tr><td>Runtime</td><td>Python 3.10 · FastAPI · Uvicorn · Pydantic</td></tr>
+              <tr><td>Model stack</td><td>sentence-transformers (all-MiniLM-L6-v2) · scikit-learn LinearSVC + CalibratedClassifierCV · faiss-cpu</td></tr>
+              <tr><td>Container</td><td><span class="doc-mono">python:3.10-slim</span>, CPU-only Torch 2.5.1 wheel, model pulled from the Hugging Face Hub at image build</td></tr>
+              <tr><td>Ports</td><td>7860 in the published image; <span class="doc-mono">PORT</span> overrides. Local default 8001. Prometheus 9090, Grafana 3000</td></tr>
+              <tr><td>Training</td><td>GitHub Actions runner (ubuntu-latest) · MLflow 2.16.2 project · DagsHub remote tracking</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">2.4 Constraints</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:76px">ID</th><th>Constraint</th><th>Consequence for the design</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">CO-01</td><td>Inference must run on CPU only</td><td>Encoder limited to a 6-layer MiniLM; classifier must be linear</td></tr>
+              <tr><td class="doc-mono">CO-02</td><td>LinearSVC exposes no probability estimate</td><td>Sigmoid calibration wrapper is mandatory, not optional (§14)</td></tr>
+              <tr><td class="doc-mono">CO-03</td><td>Hosting platform requires port 7860</td><td>Port is fixed in the image and overridable by environment only</td></tr>
+              <tr><td class="doc-mono">CO-04</td><td>LLM access is free-tier or absent</td><td>Provider is pluggable and defaults to a deterministic mock</td></tr>
+              <tr><td class="doc-mono">CO-05</td><td>The FAISS index is in-memory</td><td>Index is rebuilt from JSON at each start; no persistence layer</td></tr>
+              <tr><td class="doc-mono">CO-06</td><td>Single-process serving, no queue</td><td>Concurrency is bounded by the event loop; encode calls are blocking</td></tr>
+              <tr><td class="doc-mono">CO-07</td><td>No customer identity is available</td><td>Answers are generic; no per-account data may be referenced</td></tr>
+              <tr><td class="doc-mono">CO-08</td><td>Thresholds must stay identical in training and serving</td><td>Constants are declared once and mirrored deliberately (§14.3)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">2.5 Assumptions and dependencies</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:76px">ID</th><th>Assumption</th><th>If it fails</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">AS-01</td><td>Production queries resemble the Banking77 distribution</td><td>Confidence collapses, traffic shifts to the LLM tier, cost rises</td></tr>
+              <tr><td class="doc-mono">AS-02</td><td>Customers write in English</td><td>Classification degrades; only the conversational pre-filter covers Indonesian</td></tr>
+              <tr><td class="doc-mono">AS-03</td><td>The per-tier cost map approximates real vendor pricing</td><td>Reported savings become directional rather than financial</td></tr>
+              <tr><td class="doc-mono">AS-04</td><td>The FAQ covers the intents that reach tiers 1 and 2</td><td>Retrieval returns a weak nearest neighbour with a high tier score</td></tr>
+              <tr><td class="doc-mono">AS-05</td><td>The Hugging Face Hub is reachable at image build time</td><td>The image builds without a model and <span class="doc-mono">/predict</span> answers 503</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 03 FUNCTIONAL REQUIREMENTS -->
+      <section id="s03" data-screen-label="03 Functional requirements" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">03 · Functional requirements</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Twenty requirements, each traced to source</h2>
+        <p style="margin:0 0 var(--space-6);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Priority is stated as <strong>M</strong> (mandatory — the tier decision is wrong or absent without it), <strong>S</strong> (should — degrades usefulness), or <strong>C</strong> (could — supporting capability).</p>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:70px">ID</th><th>Requirement</th><th style="width:190px">Implemented in</th><th style="width:52px">Pri</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">FR-01</td><td>Accept a single free-text query as JSON on <span class="doc-mono">POST /predict</span> and validate it against a typed request schema.</td><td class="doc-mono">inference.py · PredictRequest</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-02</td><td>Screen the query against greeting and farewell keyword sets before any model call; on a match, answer from a static map, report tier <span class="doc-mono">conversational_handler</span>, intent id <span class="doc-mono">-1</span>, confidence 1.0 and cost 0.</td><td class="doc-mono">detect_conversational()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-03</td><td>Encode the query with the sentence-transformer named in <span class="doc-mono">encoder_name.txt</span>, with L2 normalisation enabled.</td><td class="doc-mono">BankingRouter.predict()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-04</td><td>Classify the embedding into one of 77 intent classes and return the class index.</td><td class="doc-mono">BankingRouter.predict()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-05</td><td>Derive confidence as the maximum calibrated class probability of the prediction.</td><td class="doc-mono">BankingRouter.predict()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-06</td><td>Select a tier from confidence: ≥ 0.55 template handler, 0.30–0.55 RAG pipeline, &lt; 0.30 LLM escalation.</td><td class="doc-mono">route_decision()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-07</td><td>On the template tier, retrieve the single best knowledge-base answer and return it without source attribution.</td><td class="doc-mono">predict() · top_k=1</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-08</td><td>On the RAG tier, retrieve the three best entries and return the answer together with each source question and its similarity score.</td><td class="doc-mono">BankingRAG.answer()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-09</td><td>On the LLM tier, call the configured provider with a fixed support-agent system prompt, appending the predicted intent as a context hint only when confidence ≥ 0.25.</td><td class="doc-mono">llm_client.generate()</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-10</td><td>Replace any LLM transport or provider failure with a static support message and a 200 response; never surface a provider error to the client.</td><td class="doc-mono">predict() except branch</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-11</td><td>Measure and return server-side latency in milliseconds for every request, including pre-filter hits.</td><td class="doc-mono">predict()</td><td>S</td></tr>
+              <tr><td class="doc-mono">FR-12</td><td>Expose readiness on <span class="doc-mono">GET /health</span>: model loaded, retrieval loaded, active LLM provider.</td><td class="doc-mono">health()</td><td>S</td></tr>
+              <tr><td class="doc-mono">FR-13</td><td>Expose all instrumentation on <span class="doc-mono">GET /metrics</span> in Prometheus text format from the main port.</td><td class="doc-mono">metrics()</td><td>S</td></tr>
+              <tr><td class="doc-mono">FR-14</td><td>Serve the chat client at <span class="doc-mono">GET /</span> and its assets under <span class="doc-mono">/static</span>.</td><td class="doc-mono">frontend() · StaticFiles</td><td>S</td></tr>
+              <tr><td class="doc-mono">FR-15</td><td>Render, per answer, a tier badge, a colour-coded confidence bar, the human-readable intent label, latency and the tier's unit cost.</td><td class="doc-mono">static/index.html · botResponse()</td><td>S</td></tr>
+              <tr><td class="doc-mono">FR-16</td><td>Maintain a client-side session panel: per-tier counts, query total, cost saved against an all-LLM baseline, mean confidence and mean latency.</td><td class="doc-mono">static/index.html · updateSidebar()</td><td>C</td></tr>
+              <tr><td class="doc-mono">FR-17</td><td>Load Banking77, normalise text, encode labels, fit a TF-IDF vectoriser and write a stratified 80/20 split with its fitted transformers.</td><td class="doc-mono">automate_NindityaS.py</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-18</td><td>Train the production model, log parameters, five evaluation metrics and six router cost metrics to MLflow, and emit the serving artifacts.</td><td class="doc-mono">modelling.py</td><td>M</td></tr>
+              <tr><td class="doc-mono">FR-19</td><td>On push to the training project, re-run the MLflow project, upload artifacts, build an image from the logged model and push it to the registry.</td><td class="doc-mono">ci.yml</td><td>S</td></tr>
+              <tr><td class="doc-mono">FR-20</td><td>When remote-write credentials are present, push all <span class="doc-mono">router_*</span> series to Grafana Cloud every 15 seconds using snappy-compressed protobuf.</td><td class="doc-mono">_grafana_push_loop()</td><td>C</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 04 NFR -->
+      <section id="s04" data-screen-label="04 Non-functional requirements" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">04 · Non-functional requirements</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Quality attributes and their measurement</h2>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:78px">ID</th><th style="width:120px">Attribute</th><th>Requirement</th><th style="width:200px">How it is verified</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">NFR-01</td><td>Performance</td><td>Mean end-to-end routing latency stays near 50 ms across a representative traffic mix.</td><td><span class="doc-mono">router_request_latency_seconds</span> histogram, p95/p99 panels</td></tr>
+              <tr><td class="doc-mono">NFR-02</td><td>Performance</td><td>Tier 0 resolves in under 1 ms and performs no embedding call.</td><td>Latency field on a greeting request (TC-02)</td></tr>
+              <tr><td class="doc-mono">NFR-03</td><td>Performance</td><td>Template tier answers in roughly 10 ms, RAG within 500 ms, LLM escalation within 2 s.</td><td>Per-tier latency observation</td></tr>
+              <tr><td class="doc-mono">NFR-04</td><td>Cost</td><td>Blended cost stays at or below ≈ $2.10 per 1,000 queries against a $50.00 all-LLM baseline.</td><td><span class="doc-mono">router_estimated_cost_usd_total</span> by tier</td></tr>
+              <tr><td class="doc-mono">NFR-05</td><td>Accuracy</td><td>Macro F1 on the held-out split is at least 0.90; the recorded release value is 0.9305.</td><td><span class="doc-mono">classification_report.json</span>, MLflow metric</td></tr>
+              <tr><td class="doc-mono">NFR-06</td><td>Reliability</td><td>No provider, retrieval or calibration failure produces a 5xx to the chat client.</td><td>Fault-injection cases TC-09 and TC-10</td></tr>
+              <tr><td class="doc-mono">NFR-07</td><td>Reliability</td><td>The service starts and serves <span class="doc-mono">/health</span> and <span class="doc-mono">/metrics</span> even when no model artifact is present.</td><td>Cold start without <span class="doc-mono">artifacts/</span> (TC-11)</td></tr>
+              <tr><td class="doc-mono">NFR-08</td><td>Observability</td><td>Twelve instrument series cover traffic, latency, confidence, tier mix, intent mix, input length, concurrency, cost, drift, model identity, errors and throughput.</td><td>Scrape of <span class="doc-mono">/metrics</span> (§19)</td></tr>
+              <tr><td class="doc-mono">NFR-09</td><td>Maintainability</td><td>Routing thresholds and the cost map are declared in one module per side of the boundary and never inline at call sites.</td><td>Static read of <span class="doc-mono">routing_utils.py</span></td></tr>
+              <tr><td class="doc-mono">NFR-10</td><td>Portability</td><td>The service runs from a single image with no host dependency beyond the container runtime.</td><td>Container build and run</td></tr>
+              <tr><td class="doc-mono">NFR-11</td><td>Security</td><td>All provider credentials arrive through environment variables; none are written to logs or responses.</td><td>Review of <span class="doc-mono">llm_client.py</span> and log output</td></tr>
+              <tr><td class="doc-mono">NFR-12</td><td>Privacy</td><td>Query text is never persisted server-side; only aggregate length and confidence statistics leave the process.</td><td>Review of the metrics registry</td></tr>
+              <tr><td class="doc-mono">NFR-13</td><td>Reproducibility</td><td>Split seed, hyperparameters and encoder name are fixed and recorded with each MLflow run id.</td><td><span class="doc-mono">mlflow_run_id.txt</span>, run parameters</td></tr>
+              <tr><td class="doc-mono">NFR-14</td><td>Usability</td><td>The client discloses the tier, the confidence and the cost of every answer without the reader consulting documentation.</td><td>Interface review (§16)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 05 BUSINESS CASE -->
+      <section id="s05" data-screen-label="05 Business case" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">05 · Business case</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Why a router pays for itself</h2>
+        <p style="margin:0 0 var(--space-6);font-size:18px;line-height:1.5;max-width:70ch;color:color-mix(in srgb, var(--color-text) 72%, transparent);text-wrap:pretty">A chatbot that sends every query to a large model pays the most expensive unit price for its most repetitive traffic. The router's premise is that confidence is a usable proxy for "has this been asked before".</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0;border:1px solid var(--color-divider);margin:var(--space-6) 0">
+          <div style="padding:var(--space-6);border-right:1px solid var(--color-divider)">
+            <div style="font-family:var(--font-heading);font-size:38px;line-height:1;color:var(--color-accent-700)">$50.00</div>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;margin-top:var(--space-2);color:color-mix(in srgb, var(--color-text) 60%, transparent)">Baseline per 1,000 queries<br>all traffic to the LLM</div>
+          </div>
+          <div style="padding:var(--space-6);border-right:1px solid var(--color-divider)">
+            <div style="font-family:var(--font-heading);font-size:38px;line-height:1;color:var(--color-accent-700)">$2.10</div>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;margin-top:var(--space-2);color:color-mix(in srgb, var(--color-text) 60%, transparent)">Routed per 1,000 queries<br>measured tier mix</div>
+          </div>
+          <div style="padding:var(--space-6);border-right:1px solid var(--color-divider)">
+            <div style="font-family:var(--font-heading);font-size:38px;line-height:1;color:var(--color-accent-700)">95.96%</div>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;margin-top:var(--space-2);color:color-mix(in srgb, var(--color-text) 60%, transparent)">Recorded cost reduction<br>best_params_sbert.json</div>
+          </div>
+          <div style="padding:var(--space-6)">
+            <div style="font-family:var(--font-heading);font-size:38px;line-height:1;color:var(--color-accent-700)">≈ 25×</div>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;margin-top:var(--space-2);color:color-mix(in srgb, var(--color-text) 60%, transparent)">Mean latency improvement<br>50 ms against 2 s</div>
+          </div>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">5.1 Unit cost model</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th>Tier</th><th>Answer source</th><th>Unit cost</th><th>Typical latency</th><th>External call</th></tr></thead>
+            <tbody>
+              <tr><td>0 — Conversational handler</td><td>Static response map</td><td class="doc-mono">$0.000</td><td>&lt; 1 ms</td><td>none</td></tr>
+              <tr><td>1 — Template handler</td><td>Knowledge base, top-1</td><td class="doc-mono">$0.001</td><td>≈ 10 ms</td><td>none</td></tr>
+              <tr><td>2 — RAG pipeline</td><td>Knowledge base, top-3 with sources</td><td class="doc-mono">$0.010</td><td>≈ 300–500 ms</td><td>none</td></tr>
+              <tr><td>3 — LLM escalation</td><td>Provider chat completion</td><td class="doc-mono">$0.050</td><td>≈ 2 s</td><td>OpenAI · Groq · Ollama</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Savings are computed in <span class="doc-mono">estimate_cost_savings()</span> during training, over the confidence distribution of the held-out split: actual cost is the sum of each prediction's tier price, the baseline is the row count multiplied by the LLM price, and the reported percentage is one minus their ratio. The same map is applied per request at serving time as a Prometheus counter, so the training estimate and the production figure are directly comparable.</p>
+        <div class="card blueprint" style="padding:var(--space-6);margin:var(--space-6) 0;max-width:76ch">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Boundary of the claim</div>
+          <p style="margin:0;font-size:14px;line-height:1.65">The cost map is an internal assumption, not a vendor invoice. It encodes the relative order of magnitude between a static answer, a vector lookup and a hosted completion. Absolute currency figures should be restated from real pricing before being used in a budget.</p>
+        </div>
+      </section>
+
+      <!-- ══ PART II ════════════════════════════════════════════════════ -->
+      <sc-if value="{{ partDividers }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--color-accent-900);color:var(--color-bg);padding:calc(var(--space-8) * 1.2) var(--space-8);margin:calc(var(--space-8) * 1.6) 0 calc(var(--space-8) * 1.2);display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-8);flex-wrap:wrap">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;letter-spacing:-0.01em">Part II — Analysis</div>
+          <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7">Sections 06–09</div>
+        </div>
+      </sc-if>
+
+      <!-- 06 USE CASES -->
+      <section id="s06" data-screen-label="06 Use case model" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">06 · Use case model</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Actors and system boundary</h2>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:130px minmax(0,1fr) 130px;gap:var(--space-6);align-items:center">
+            <div style="display:grid;gap:var(--space-4)">
+              <div style="text-align:center;font-family:var(--font-heading);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--color-text);padding:var(--space-3)">Customer</div>
+              <div style="text-align:center;font-family:var(--font-heading);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--color-text);padding:var(--space-3)">Reviewer</div>
+            </div>
+            <div style="border:1px dashed color-mix(in srgb, var(--color-text) 40%, transparent);padding:var(--space-6)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent);margin-bottom:var(--space-4);text-align:center">System boundary — Banking Intent Router</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:var(--space-3)">
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-01</span> Ask a banking question</div>
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-02</span> Open or close a conversation</div>
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-03</span> Inspect the routing decision</div>
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-04</span> Check service readiness</div>
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-05</span> Collect operational metrics</div>
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-06</span> Retrain and publish the model</div>
+                <div style="border:1px solid var(--color-divider);background:color-mix(in srgb, var(--color-accent) 9%, transparent);padding:var(--space-3);font-size:12.5px"><span class="doc-mono">UC-07</span> Curate the knowledge base</div>
+              </div>
+            </div>
+            <div style="display:grid;gap:var(--space-4)">
+              <div style="text-align:center;font-family:var(--font-heading);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--color-text);padding:var(--space-3)">Operator</div>
+              <div style="text-align:center;font-family:var(--font-heading);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--color-text);padding:var(--space-3)">ML engineer</div>
+              <div style="text-align:center;font-family:var(--font-heading);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--color-text);padding:var(--space-3)">Content owner</div>
+              <div style="text-align:center;font-family:var(--font-heading);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;border:1px dashed var(--color-divider);padding:var(--space-3);color:color-mix(in srgb, var(--color-text) 60%, transparent)">LLM provider<br>(secondary)</div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 6.1 — Use case diagram. Five human actors, one secondary system actor.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">6.1 Use case register</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:72px">ID</th><th>Use case</th><th style="width:130px">Primary actor</th><th style="width:190px">Trigger</th><th style="width:96px">Requirements</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">UC-01</td><td>Ask a banking question and receive a routed answer</td><td>Customer</td><td>Message submitted in the client</td><td class="doc-mono">FR-01 … FR-11</td></tr>
+              <tr><td class="doc-mono">UC-02</td><td>Open or close the conversation with a greeting or thanks</td><td>Customer</td><td>Utterance matches the pre-filter</td><td class="doc-mono">FR-02</td></tr>
+              <tr><td class="doc-mono">UC-03</td><td>Inspect tier, confidence, intent, latency and cost of an answer</td><td>Reviewer</td><td>Answer rendered</td><td class="doc-mono">FR-15, FR-16</td></tr>
+              <tr><td class="doc-mono">UC-04</td><td>Check that model and retrieval are loaded before routing traffic</td><td>Operator</td><td>Deploy or probe interval</td><td class="doc-mono">FR-12</td></tr>
+              <tr><td class="doc-mono">UC-05</td><td>Collect and visualise operational metrics</td><td>Operator</td><td>Scrape every 15 s, or remote-write push</td><td class="doc-mono">FR-13, FR-20</td></tr>
+              <tr><td class="doc-mono">UC-06</td><td>Retrain the classifier and publish a new serving image</td><td>ML engineer</td><td>Push to the training project, or manual dispatch</td><td class="doc-mono">FR-17 … FR-19</td></tr>
+              <tr><td class="doc-mono">UC-07</td><td>Add or revise a knowledge-base entry</td><td>Content owner</td><td>New support content approved</td><td class="doc-mono">FR-07, FR-08</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">6.2 UC-01 specification</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <tbody>
+              <tr><th style="width:170px">Preconditions</th><td>A model artifact and encoder name are loaded; the FAQ index is built or retrieval is reported unavailable.</td></tr>
+              <tr><th>Main flow</th><td>1. The customer submits a query. 2. The system records input length and increments in-flight requests. 3. The pre-filter finds no conversational match. 4. The query is embedded. 5. The classifier returns a class index and a calibrated probability vector. 6. Confidence is taken as the maximum probability. 7. A tier is selected. 8. The tier produces an answer. 9. Confidence, tier, intent, cost and latency are observed. 10. The response is returned and the client renders the routing card.</td></tr>
+              <tr><th>Alt. flow A — greeting</th><td>At step 3 the utterance matches the greeting or farewell set: the system answers from the static map with tier 0, intent id −1, confidence 1.0 and cost 0, and skips steps 4–7.</td></tr>
+              <tr><th>Alt. flow B — retrieval unavailable</th><td>At step 8 on tier 1 or 2 the retrieval module is absent: the answer field stays null, the tier decision is still reported, and the client falls back to its local template map.</td></tr>
+              <tr><th>Alt. flow C — provider failure</th><td>At step 8 on tier 3 the provider call raises: the error is logged, a static support message is returned in the LLM answer field, and the response remains 200.</td></tr>
+              <tr><th>Exception — model absent</th><td>At the precondition, no model is loaded: the endpoint answers 503 with an explanatory detail and the client shows a service-unavailable notice.</td></tr>
+              <tr><th>Postconditions</th><td>One request counter, one latency observation, one confidence observation, one tier counter, one intent counter and one cost increment are recorded. No query text is stored.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 07 PROCESS FLOW -->
+      <section id="s07" data-screen-label="07 Process flow" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">07 · Process flow</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">The four-tier routing activity</h2>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;gap:var(--space-2);max-width:760px;margin:0 auto">
+            <div style="border:1px solid var(--color-text);padding:var(--space-3) var(--space-4);text-align:center;font-family:var(--font-heading);font-size:14px;letter-spacing:0.08em;text-transform:uppercase">POST /predict · {"text": …}</div>
+            <div style="text-align:center;color:var(--color-accent);font-size:16px;line-height:1">↓</div>
+            <div style="border:1px solid var(--color-divider);padding:var(--space-4);display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap">
+              <div>
+                <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700)">Tier 0 · decision</div>
+                <div style="font-size:14px;font-weight:500">Conversational pre-filter — keyword match on greeting and farewell sets</div>
+              </div>
+              <div class="doc-mono" style="font-size:11.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent);white-space:nowrap">&lt; 1 ms · $0.000</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);align-items:start">
+              <div style="border:1px solid var(--color-divider);padding:var(--space-3);font-size:12.5px">match → static response, intent −1, confidence 1.0 → <strong>exit</strong></div>
+              <div style="font-size:12.5px;padding:var(--space-3);color:color-mix(in srgb, var(--color-text) 60%, transparent)">no match ↓ continue</div>
+            </div>
+            <div style="border:1px solid var(--color-divider);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700)">Step 1 · encode</div>
+              <div style="font-size:14px">SBERT all-MiniLM-L6-v2 → 384-dimension L2-normalised vector</div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent);font-size:16px;line-height:1">↓</div>
+            <div style="border:1px solid var(--color-divider);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700)">Step 2 · classify</div>
+              <div style="font-size:14px">LinearSVC with sigmoid calibration → 77-class probability vector; confidence = max(p), intent = argmax(p)</div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent);font-size:16px;line-height:1">↓ decision on confidence</div>
+            <div style="display:grid;gap:var(--space-2)">
+              <div style="border:1px solid var(--color-text);background:color-mix(in srgb, var(--color-accent) 12%, transparent);padding:var(--space-4);display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap">
+                <div><span class="doc-mono" style="color:var(--color-accent-700)">≥ 0.55</span> &nbsp;<strong style="font-family:var(--font-heading);font-size:15px;letter-spacing:0.04em;text-transform:uppercase">Tier 1 — Template handler</strong><div style="font-size:13px">Knowledge base top-1, answer returned without sources</div></div>
+                <div class="doc-mono" style="font-size:11.5px;white-space:nowrap">≈ 10 ms · $0.001</div>
+              </div>
+              <div style="border:1px solid var(--color-text);background:color-mix(in srgb, var(--color-accent) 8%, transparent);padding:var(--space-4);display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap">
+                <div><span class="doc-mono" style="color:var(--color-accent-700)">0.30 – 0.55</span> &nbsp;<strong style="font-family:var(--font-heading);font-size:15px;letter-spacing:0.04em;text-transform:uppercase">Tier 2 — RAG pipeline</strong><div style="font-size:13px">FAISS top-3 with per-source similarity scores</div></div>
+                <div class="doc-mono" style="font-size:11.5px;white-space:nowrap">≈ 300 ms · $0.010</div>
+              </div>
+              <div style="border:1px solid var(--color-text);background:color-mix(in srgb, var(--color-accent) 4%, transparent);padding:var(--space-4);display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap">
+                <div><span class="doc-mono" style="color:var(--color-accent-700)">&lt; 0.30</span> &nbsp;<strong style="font-family:var(--font-heading);font-size:15px;letter-spacing:0.04em;text-transform:uppercase">Tier 3 — LLM escalation</strong><div style="font-size:13px">Provider completion; intent hint attached only when confidence ≥ 0.25</div></div>
+                <div class="doc-mono" style="font-size:11.5px;white-space:nowrap">≈ 2 s · $0.050</div>
+              </div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent);font-size:16px;line-height:1">↓</div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-3) var(--space-4);text-align:center;font-family:var(--font-heading);font-size:14px;letter-spacing:0.08em;text-transform:uppercase">PredictResponse + six metric observations</div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 7.1 — Activity diagram. One decision node bypasses the model entirely; one three-way decision selects the answer source.</figcaption>
+        </figure>
+
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Two properties of this flow are deliberate. First, the pre-filter runs before the encoder, so "hi" never pays for an embedding pass and never pollutes the intent distribution. Second, the confidence bands are contiguous and exhaustive: every query lands in exactly one tier, and there is no path in which the router declines to answer.</p>
+      </section>
+
+      <!-- 08 DFD -->
+      <section id="s08" data-screen-label="08 Data flow" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">08 · Data flow</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Level 1 decomposition</h2>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;gap:var(--space-3)">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-3)">
+              <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">1.0</div><div style="font-family:var(--font-heading);font-size:15px">Screen utterance</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: raw text · out: tier-0 verdict</div></div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">2.0</div><div style="font-family:var(--font-heading);font-size:15px">Encode query</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: text · out: vector · reads D1</div></div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">3.0</div><div style="font-family:var(--font-heading);font-size:15px">Classify intent</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: vector · out: intent + probabilities · reads D1</div></div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">4.0</div><div style="font-family:var(--font-heading);font-size:15px">Decide tier</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: confidence · out: tier label</div></div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">5.0</div><div style="font-family:var(--font-heading);font-size:15px">Retrieve answer</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: text + k · out: answer + sources · reads D2, D3</div></div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">6.0</div><div style="font-family:var(--font-heading);font-size:15px">Escalate to LLM</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: text + intent + confidence · out: completion</div></div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">7.0</div><div style="font-family:var(--font-heading);font-size:15px">Record telemetry</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: all decisions · out: series · writes D4</div></div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-3)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">8.0</div><div style="font-family:var(--font-heading);font-size:15px">Assemble response</div><div style="font-size:12px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">in: tier output · out: PredictResponse</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-3);margin-top:var(--space-3)">
+              <div style="border-top:1px solid var(--color-text);border-bottom:1px solid var(--color-text);padding:var(--space-3);background:color-mix(in srgb, var(--color-accent) 8%, transparent)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">D1</div><div style="font-size:13px">Model artifacts — model.pkl, encoder_name.txt</div></div>
+              <div style="border-top:1px solid var(--color-text);border-bottom:1px solid var(--color-text);padding:var(--space-3);background:color-mix(in srgb, var(--color-accent) 8%, transparent)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">D2</div><div style="font-size:13px">FAQ knowledge base — banking_faq.json</div></div>
+              <div style="border-top:1px solid var(--color-text);border-bottom:1px solid var(--color-text);padding:var(--space-3);background:color-mix(in srgb, var(--color-accent) 8%, transparent)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">D3</div><div style="font-size:13px">FAISS inner-product index — process memory</div></div>
+              <div style="border-top:1px solid var(--color-text);border-bottom:1px solid var(--color-text);padding:var(--space-3);background:color-mix(in srgb, var(--color-accent) 8%, transparent)"><div class="doc-mono" style="font-size:11px;color:var(--color-accent-700)">D4</div><div style="font-size:13px">Metrics registry — Prometheus collector</div></div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 8.1 — DFD level 1. Eight processes, four data stores. Boxes with a top and bottom rule denote stores.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">8.1 Flow inventory</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th>Flow</th><th>From → to</th><th>Payload</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">f1</td><td>Customer → 1.0</td><td>Query string, unbounded length; length observed before use</td></tr>
+              <tr><td class="doc-mono">f2</td><td>1.0 → 2.0</td><td>Query string, when no conversational match was found</td></tr>
+              <tr><td class="doc-mono">f3</td><td>D1 → 2.0, 3.0</td><td>Encoder name; pickled calibrated classifier</td></tr>
+              <tr><td class="doc-mono">f4</td><td>2.0 → 3.0</td><td>384-float normalised embedding</td></tr>
+              <tr><td class="doc-mono">f5</td><td>3.0 → 4.0</td><td>Intent index and 77-element probability vector</td></tr>
+              <tr><td class="doc-mono">f6</td><td>4.0 → 5.0 / 6.0</td><td>Tier label and retrieval depth (1 or 3)</td></tr>
+              <tr><td class="doc-mono">f7</td><td>D2 → D3</td><td>59 FAQ questions encoded once at start-up and indexed</td></tr>
+              <tr><td class="doc-mono">f8</td><td>5.0 → 8.0</td><td>Best answer, top score, and up to three source records</td></tr>
+              <tr><td class="doc-mono">f9</td><td>6.0 → 8.0</td><td>Completion text, or the static fallback message on failure</td></tr>
+              <tr><td class="doc-mono">f10</td><td>All processes → 7.0 → D4</td><td>Counters, histogram observations and gauge settings</td></tr>
+              <tr><td class="doc-mono">f11</td><td>8.0 → Customer</td><td>PredictResponse; nine fields, four nullable</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 09 SEQUENCE -->
+      <section id="s09" data-screen-label="09 Sequence diagrams" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">09 · Sequence diagrams</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Three interaction scenarios</h2>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="font-family:var(--font-heading);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-4)">Scenario A — RAG tier, confidence 0.42</div>
+          <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;font-size:11.5px">
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Client</div>
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">FastAPI</div>
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Pre-filter</div>
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Router</div>
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">RAG</div>
+            <div style="padding:var(--space-2);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Metrics</div>
+
+            <div style="grid-column:1 / 3;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2);margin-top:var(--space-2)">1 · POST /predict {text} →</div>
+            <div style="grid-column:3 / 7;border-left:1px solid var(--color-divider);margin-top:var(--space-2)"></div>
+
+            <div style="grid-column:1 / 2;border-left:1px solid var(--color-divider)"></div>
+            <div style="grid-column:2 / 4;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2)">2 · detect_conversational(text) → None</div>
+            <div style="grid-column:4 / 7;border-left:1px solid var(--color-divider)"></div>
+
+            <div style="grid-column:1 / 2;border-left:1px solid var(--color-divider)"></div>
+            <div style="grid-column:2 / 5;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2)">3 · predict(text) → (intent 33, confidence 0.42)</div>
+            <div style="grid-column:5 / 7;border-left:1px solid var(--color-divider)"></div>
+
+            <div style="grid-column:1 / 4;border-left:1px solid var(--color-divider)"></div>
+            <div style="grid-column:4 / 5;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2)">4 · route_decision → rag_pipeline</div>
+            <div style="grid-column:5 / 7;border-left:1px solid var(--color-divider)"></div>
+
+            <div style="grid-column:1 / 4;border-left:1px solid var(--color-divider)"></div>
+            <div style="grid-column:4 / 6;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2)">5 · answer(text, top_k=3) → answer + 3 sources</div>
+            <div style="grid-column:6 / 7;border-left:1px solid var(--color-divider)"></div>
+
+            <div style="grid-column:1 / 2;border-left:1px solid var(--color-divider)"></div>
+            <div style="grid-column:2 / 7;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);padding:var(--space-2)">6 · observe confidence, tier, intent, cost, latency</div>
+
+            <div style="grid-column:1 / 3;border-left:1px solid var(--color-divider);border-top:1px solid var(--color-accent);border-bottom:1px solid var(--color-divider);padding:var(--space-2)">7 · ← 200 PredictResponse (rag_sources populated)</div>
+            <div style="grid-column:3 / 7;border-left:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider)"></div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 9.1 — Mid-confidence path. Seven messages, no external network call.</figcaption>
+        </figure>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--space-6);margin:var(--space-6) 0">
+          <figure class="blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Scenario B — tier 0 short circuit</div>
+            <ol style="margin:0;padding-left:1.3em;font-size:13.5px;line-height:1.75">
+              <li>Client posts <span class="doc-mono">"hello"</span>.</li>
+              <li>Input length observed; in-flight gauge incremented.</li>
+              <li>Pre-filter normalises case and trailing punctuation, matches the greeting set.</li>
+              <li>Tier counter and a zero-cost increment are recorded.</li>
+              <li>Response returns intent −1, confidence 1.0, the static greeting and <span class="doc-mono">conversational_intent: "greeting"</span>.</li>
+            </ol>
+            <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 9.2 — The encoder and classifier are never touched.</figcaption>
+          </figure>
+          <figure class="blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Scenario C — escalation with provider failure</div>
+            <ol style="margin:0;padding-left:1.3em;font-size:13.5px;line-height:1.75">
+              <li>Confidence resolves to 0.21 — below the mid threshold.</li>
+              <li>Intent label is looked up; the hint is suppressed because 0.21 &lt; 0.25.</li>
+              <li>The provider call raises a transport error.</li>
+              <li>The error is logged and the static support message is substituted.</li>
+              <li>Response returns 200 with tier <span class="doc-mono">llm_escalation</span>; the error counter is not incremented, because the request itself succeeded.</li>
+            </ol>
+            <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 9.3 — Failure is absorbed inside the tier, not propagated.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ══ PART III ═══════════════════════════════════════════════════ -->
+      <sc-if value="{{ partDividers }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--color-accent-900);color:var(--color-bg);padding:calc(var(--space-8) * 1.2) var(--space-8);margin:calc(var(--space-8) * 1.6) 0 calc(var(--space-8) * 1.2);display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-8);flex-wrap:wrap">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;letter-spacing:-0.01em">Part III — Design</div>
+          <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7">Sections 10–19</div>
+        </div>
+      </sc-if>
+
+      <!-- 10 ARCHITECTURE -->
+      <section id="s10" data-screen-label="10 System architecture" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">10 · System architecture</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Four layers, one process</h2>
+        <p style="margin:0 0 var(--space-6);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The serving application is a single Python process. Layering is enforced by module boundaries rather than by network hops: the API layer owns transport and instrumentation, the routing layer owns the decision, and the three answer modules are independent of each other.</p>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;gap:var(--space-3)">
+            <div style="border:1px solid var(--color-divider);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">Presentation</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--space-2);font-size:12.5px">
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">static/index.html — chat client, session KPIs</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">Grafana dashboard — 12 panels</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">MLflow / DagsHub run views</div>
+              </div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent)">↓ HTTP / JSON</div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-4);background:color-mix(in srgb, var(--color-accent) 7%, transparent)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">API &amp; instrumentation — inference.py</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--space-2);font-size:12.5px">
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">lifespan loader</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">POST /predict</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">GET /health</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">GET /metrics</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2)">remote-write pusher</div>
+              </div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent)">↓ in-process calls</div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">Decision — pre-filter + route_decision</div>
+              <div style="font-size:12.5px">Keyword screen, then a pure function from confidence to tier label. No I/O, no state.</div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent)">↓ tier dispatch</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-3)">
+              <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+                <div style="font-family:var(--font-heading);font-size:15px">BankingRouter</div>
+                <div style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 65%, transparent)">encoder + calibrated classifier; owns artifact loading</div>
+              </div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+                <div style="font-family:var(--font-heading);font-size:15px">BankingRAG</div>
+                <div style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 65%, transparent)">FAISS inner-product index over the FAQ; shares the encoder</div>
+              </div>
+              <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+                <div style="font-family:var(--font-heading);font-size:15px">LLMClient</div>
+                <div style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 65%, transparent)">four provider adapters behind one async method</div>
+              </div>
+            </div>
+            <div style="text-align:center;color:var(--color-accent)">↓ outbound</div>
+            <div style="border:1px dashed color-mix(in srgb, var(--color-text) 40%, transparent);padding:var(--space-4);display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--space-2);font-size:12.5px">
+              <div style="padding:var(--space-2)">OpenAI API</div>
+              <div style="padding:var(--space-2)">Groq API</div>
+              <div style="padding:var(--space-2)">Ollama (local)</div>
+              <div style="padding:var(--space-2)">Grafana Cloud</div>
+              <div style="padding:var(--space-2)">Hugging Face Hub</div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 10.1 — Layered component view. Solid frames are owned code; the dashed frame is outside the trust boundary.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">10.1 Module responsibilities</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:210px">Module</th><th>Responsibility</th><th style="width:200px">Depends on</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">serving/inference.py</td><td>Application assembly, request lifecycle, the four-tier dispatch, all twelve instruments, and the optional remote-write loop</td><td>FastAPI, prometheus_client, httpx</td></tr>
+              <tr><td class="doc-mono">serving/rag.py</td><td>Encodes the FAQ once at start-up, builds an inner-product index, and answers retrieval requests with scored sources</td><td>faiss, numpy, the shared encoder</td></tr>
+              <tr><td class="doc-mono">serving/llm_client.py</td><td>Provider selection with graceful demotion to mock, the intent-label table, prompt assembly and four transport implementations</td><td>httpx, python-dotenv</td></tr>
+              <tr><td class="doc-mono">workflow_ci/routing_utils.py</td><td>Single declaration of thresholds and the cost map for every training script, plus the savings estimator</td><td>pandas</td></tr>
+              <tr><td class="doc-mono">workflow_ci/modelling.py</td><td>Production training: encode, calibrate, evaluate, plot, log to MLflow, emit serving artifacts</td><td>sentence-transformers, scikit-learn, mlflow</td></tr>
+              <tr><td class="doc-mono">eksperimen/automate_NindityaS.py</td><td>Dataset acquisition, text normalisation, label encoding, TF-IDF fitting and the stratified split</td><td>datasets, scikit-learn</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 11 CLASS DESIGN -->
+      <section id="s11" data-screen-label="11 Class design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">11 · Class design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Three collaborators and their contracts</h2>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--space-4)">
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:16px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">BankingRouter</div>
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-divider);font-size:12px;line-height:1.7" class="doc-mono">− model: CalibratedClassifierCV<br>− encoder: SentenceTransformer<br>− rag: BankingRAG | None</div>
+              <div style="padding:var(--space-3);font-size:12px;line-height:1.7" class="doc-mono">+ load(model_dir): None<br>+ predict(text): (int, float)</div>
+            </div>
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:16px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">BankingRAG</div>
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-divider);font-size:12px;line-height:1.7" class="doc-mono">− encoder: SentenceTransformer<br>− faq: list[dict]<br>− index: faiss.IndexFlatIP<br>− embeddings: ndarray[float32]</div>
+              <div style="padding:var(--space-3);font-size:12px;line-height:1.7" class="doc-mono">− _load(faq_path): None<br>+ retrieve(query, top_k): list[dict]<br>+ answer(query, top_k): dict</div>
+            </div>
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:16px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">LLMClient</div>
+              <div style="padding:var(--space-3);border-bottom:1px solid var(--color-divider);font-size:12px;line-height:1.7" class="doc-mono">− provider: str<br>− api_key, groq_key: str<br>− oai_model, groq_model: str<br>− ollama_url, ollama_model: str</div>
+              <div style="padding:var(--space-3);font-size:12px;line-height:1.7" class="doc-mono">+ generate(text, intent_id, conf): str<br>− _call_openai(messages): str<br>− _call_groq(messages): str<br>− _call_ollama(messages): str<br>− _mock_response(label): str</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-4);margin-top:var(--space-4)">
+            <div style="border:1px solid var(--color-divider)">
+              <div style="padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-divider);font-family:var(--font-heading);font-size:14px">PredictRequest <span style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">«pydantic»</span></div>
+              <div class="doc-mono" style="padding:var(--space-3);font-size:12px">+ text: str</div>
+            </div>
+            <div style="border:1px solid var(--color-divider)">
+              <div style="padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-divider);font-family:var(--font-heading);font-size:14px">RAGSource <span style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">«pydantic»</span></div>
+              <div class="doc-mono" style="padding:var(--space-3);font-size:12px;line-height:1.7">+ question: str<br>+ score: float</div>
+            </div>
+            <div style="border:1px solid var(--color-divider)">
+              <div style="padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-divider);font-family:var(--font-heading);font-size:14px">PredictResponse <span style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">«pydantic»</span></div>
+              <div class="doc-mono" style="padding:var(--space-3);font-size:12px;line-height:1.7">+ intent_id: int<br>+ confidence: float<br>+ routing: str<br>+ latency_ms: float<br>+ rag_answer: str?<br>+ rag_sources: RAGSource[]<br>+ rag_score: float?<br>+ llm_answer: str?<br>+ conversational_intent: str?</div>
+            </div>
+            <div style="border:1px dashed color-mix(in srgb, var(--color-text) 40%, transparent)">
+              <div style="padding:var(--space-2) var(--space-3);border-bottom:1px dashed color-mix(in srgb, var(--color-text) 40%, transparent);font-family:var(--font-heading);font-size:14px">Module functions</div>
+              <div class="doc-mono" style="padding:var(--space-3);font-size:12px;line-height:1.7">detect_conversational(text)<br>route_decision(confidence)<br>estimate_cost_savings(series)</div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 11.1 — Class diagram. BankingRouter aggregates BankingRAG and passes it the same encoder instance; LLMClient is constructed once at import.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">11.1 Design notes</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-6);margin:var(--space-4) 0">
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Shared encoder</div>
+            <p style="margin:0;font-size:14px;line-height:1.65">The retrieval module receives the router's encoder rather than constructing its own. One MiniLM instance serves both classification and retrieval, halving memory and guaranteeing that query and FAQ vectors share a space.</p>
+          </div>
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Optional dependency</div>
+            <p style="margin:0;font-size:14px;line-height:1.65">Retrieval is a nullable attribute. If FAISS is missing or the FAQ file is absent, loading logs a warning and continues; the tier decision still happens and the answer field is simply empty.</p>
+          </div>
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Provider demotion
+</div>
+            <p style="margin:0;font-size:14px;line-height:1.65">The client selects a provider from one environment variable and silently demotes to the deterministic mock when the matching key is missing. A misconfigured deployment answers with a plausible support message instead of failing at start-up.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12 DATA DESIGN -->
+      <section id="s12" data-screen-label="12 Data design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">12 · Data design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Entities, schemas and artifacts</h2>
+        <p style="margin:0 0 var(--space-6);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The system holds no database. Its persistent state is a set of files: a labelled corpus, two fitted transformers, a serialised classifier and a JSON knowledge base. The diagram below records how those entities relate at run time.</p>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:var(--space-4)">
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:15px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">UTTERANCE</div>
+              <div class="doc-mono" style="padding:var(--space-3);font-size:11.5px;line-height:1.8">PK  row_index<br>&nbsp;&nbsp;&nbsp;&nbsp;text : str<br>FK  label : int → INTENT</div>
+              <div style="padding:var(--space-2) var(--space-3);border-top:1px solid var(--color-divider);font-size:11px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">train.csv 10,466 · test.csv 2,617</div>
+            </div>
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:15px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">INTENT</div>
+              <div class="doc-mono" style="padding:var(--space-3);font-size:11.5px;line-height:1.8">PK  intent_id : 0…76<br>&nbsp;&nbsp;&nbsp;&nbsp;slug : str<br>&nbsp;&nbsp;&nbsp;&nbsp;display_label : str</div>
+              <div style="padding:var(--space-2) var(--space-3);border-top:1px solid var(--color-divider);font-size:11px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">label_encoder.pkl · BANKING77_INTENTS · INTENT_NAMES</div>
+            </div>
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:15px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">FAQ_ENTRY</div>
+              <div class="doc-mono" style="padding:var(--space-3);font-size:11.5px;line-height:1.8">PK  id : str<br>&nbsp;&nbsp;&nbsp;&nbsp;question : str<br>&nbsp;&nbsp;&nbsp;&nbsp;answer : str<br>&nbsp;&nbsp;&nbsp;&nbsp;tags : str[]</div>
+              <div style="padding:var(--space-2) var(--space-3);border-top:1px solid var(--color-divider);font-size:11px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">banking_faq.json · 59 rows</div>
+            </div>
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:15px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">FAQ_VECTOR</div>
+              <div class="doc-mono" style="padding:var(--space-3);font-size:11.5px;line-height:1.8">PK  ordinal : int<br>FK  ordinal → FAQ_ENTRY<br>&nbsp;&nbsp;&nbsp;&nbsp;embedding : float32[384]</div>
+              <div style="padding:var(--space-2) var(--space-3);border-top:1px solid var(--color-divider);font-size:11px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">IndexFlatIP, rebuilt at start-up</div>
+            </div>
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:15px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">ROUTER_DECISION</div>
+              <div class="doc-mono" style="padding:var(--space-3);font-size:11.5px;line-height:1.8">&nbsp;&nbsp;&nbsp;&nbsp;text : str<br>FK  predicted_intent → INTENT<br>&nbsp;&nbsp;&nbsp;&nbsp;confidence : float<br>&nbsp;&nbsp;&nbsp;&nbsp;routing_decision : enum</div>
+              <div style="padding:var(--space-2) var(--space-3);border-top:1px solid var(--color-divider);font-size:11px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">router_decisions.csv — evaluation artifact</div>
+            </div>
+            <div style="border:1px solid var(--color-text)">
+              <div style="padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:15px;background:color-mix(in srgb, var(--color-accent) 10%, transparent)">MODEL_ARTIFACT</div>
+              <div class="doc-mono" style="padding:var(--space-3);font-size:11.5px;line-height:1.8">PK  mlflow_run_id : str<br>&nbsp;&nbsp;&nbsp;&nbsp;encoder_name : str<br>&nbsp;&nbsp;&nbsp;&nbsp;classifier : pickle<br>&nbsp;&nbsp;&nbsp;&nbsp;C, f1_macro, accuracy</div>
+              <div style="padding:var(--space-2) var(--space-3);border-top:1px solid var(--color-divider);font-size:11px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">artifacts/ + MLflow run</div>
+            </div>
+          </div>
+          <div style="margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid var(--color-divider);font-size:12.5px;line-height:1.9">
+            <div><span class="doc-mono" style="color:var(--color-accent-700)">INTENT 1—N UTTERANCE</span> &nbsp;each of the 77 intents owns many training utterances; the split is stratified so both sides carry every class.</div>
+            <div><span class="doc-mono" style="color:var(--color-accent-700)">FAQ_ENTRY 1—1 FAQ_VECTOR</span> &nbsp;ordinal position in the JSON array is the index key; reordering the file reorders the index.</div>
+            <div><span class="doc-mono" style="color:var(--color-accent-700)">INTENT 1—N ROUTER_DECISION</span> &nbsp;one decision row per held-out utterance, written at evaluation time only.</div>
+            <div><span class="doc-mono" style="color:var(--color-accent-700)">INTENT ⋯ FAQ_ENTRY</span> &nbsp;no foreign key. The knowledge base is addressed by vector similarity, never by intent id — which is why FAQ edits need no retraining.</div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 12.1 — Entity relationships. Six entities; two persisted as CSV, one as JSON, two as binary, one in memory.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">12.1 Artifact inventory</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:230px">Artifact</th><th>Content</th><th style="width:150px">Produced by</th><th style="width:130px">Consumed by</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">train.csv · test.csv</td><td>Cleaned text with encoded label, stratified 80/20 at seed 42</td><td>preprocessing</td><td>training</td></tr>
+              <tr><td class="doc-mono">vectorizer.pkl</td><td>TF-IDF, 1–2 grams, 10,000 features, min_df 2, sublinear term frequency</td><td>preprocessing</td><td>TF-IDF baseline only</td></tr>
+              <tr><td class="doc-mono">label_encoder.pkl</td><td>Intent string to integer mapping</td><td>preprocessing</td><td>reporting</td></tr>
+              <tr><td class="doc-mono">model.pkl</td><td>Calibrated LinearSVC, pickled</td><td>training</td><td>serving</td></tr>
+              <tr><td class="doc-mono">encoder_name.txt</td><td>Sentence-transformer identifier, resolved at load</td><td>training</td><td>serving</td></tr>
+              <tr><td class="doc-mono">classification_report.json</td><td>Per-class precision, recall, F1 and support, plus macro and weighted means</td><td>training</td><td>review</td></tr>
+              <tr><td class="doc-mono">confusion_matrix.png</td><td>Heat map over the twenty most frequent intents</td><td>training</td><td>review</td></tr>
+              <tr><td class="doc-mono">confidence_distribution.png</td><td>Histogram of maximum probability with both thresholds drawn</td><td>training</td><td>threshold review</td></tr>
+              <tr><td class="doc-mono">router_decisions.csv</td><td>Per-utterance tier assignment on the held-out split</td><td>training</td><td>cost analysis</td></tr>
+              <tr><td class="doc-mono">best_params_sbert.json</td><td>Selected model, C, test F1, test accuracy, cost saving, encoder</td><td>tuning</td><td>release record</td></tr>
+              <tr><td class="doc-mono">mlflow_run_id.txt</td><td>Run identifier used by CI to build the image from the logged model</td><td>training</td><td>CI</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 13 API DESIGN -->
+      <section id="s13" data-screen-label="13 API design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">13 · API design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Four endpoints, one payload shape</h2>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:150px">Endpoint</th><th>Request</th><th>Success</th><th style="width:180px">Failure</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">POST /predict</td><td><span class="doc-mono">{"text": str}</span></td><td>200 · PredictResponse, nine fields</td><td>503 when no model is loaded; 500 only on an unhandled defect</td></tr>
+              <tr><td class="doc-mono">GET /health</td><td>—</td><td>200 · status, model_loaded, rag_loaded, llm_provider</td><td>none — the route has no dependency</td></tr>
+              <tr><td class="doc-mono">GET /metrics</td><td>—</td><td>200 · Prometheus exposition text</td><td>none</td></tr>
+              <tr><td class="doc-mono">GET /</td><td>—</td><td>200 · the chat client; assets under <span class="doc-mono">/static</span></td><td>404 if the static directory is absent</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">13.1 Response field semantics</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:190px">Field</th><th>Meaning</th><th style="width:230px">Populated on</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">intent_id</td><td>Predicted class index, or −1 for a conversational hit</td><td>always</td></tr>
+              <tr><td class="doc-mono">confidence</td><td>Maximum calibrated probability; forced to 1.0 on tier 0</td><td>always</td></tr>
+              <tr><td class="doc-mono">routing</td><td>Tier label — one of four literals</td><td>always</td></tr>
+              <tr><td class="doc-mono">latency_ms</td><td>Server-side wall time for the whole handler</td><td>always</td></tr>
+              <tr><td class="doc-mono">rag_answer</td><td>Retrieved answer text, or the static conversational reply</td><td>tiers 0, 1, 2</td></tr>
+              <tr><td class="doc-mono">rag_sources</td><td>Up to three question and score pairs</td><td>tier 2 only</td></tr>
+              <tr><td class="doc-mono">rag_score</td><td>Similarity of the best retrieved entry</td><td>tiers 1, 2</td></tr>
+              <tr><td class="doc-mono">llm_answer</td><td>Provider completion, or the static support message</td><td>tier 3 only</td></tr>
+              <tr><td class="doc-mono">conversational_intent</td><td><span class="doc-mono">greeting</span> or <span class="doc-mono">farewell</span></td><td>tier 0 only</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The client distinguishes tiers by the <span class="doc-mono">routing</span> literal rather than by which fields are present, so adding a tier is a change in one map on each side. A single response shape across all four tiers keeps the contract stable while the tier mix shifts.</p>
+      </section>
+
+      <!-- 14 ROUTING DESIGN -->
+      <section id="s14" data-screen-label="14 Routing and threshold design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">14 · Routing &amp; threshold design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Turning a probability into a spending decision</h2>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">14.1 Why calibration is load-bearing</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">A linear support vector classifier emits decision-function margins, not probabilities. Margins are not comparable across classes and have no fixed scale, so a threshold expressed against them would drift with every retraining. The classifier is therefore wrapped in a sigmoid calibration over three cross-validation folds, which maps margins onto a probability simplex. The routing threshold then means the same thing from one release to the next — this is the reason the wrapper is a requirement rather than a refinement.</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">14.2 Threshold placement</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:130px">Constant</th><th style="width:80px">Value</th><th>Rationale</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">HIGH_THR</td><td>0.55</td><td>Above this point the predicted intent is reliable enough to answer from a single canned entry without showing sources. Set with reference to the confidence histogram, where the dense upper mode sits well clear of 0.55.</td></tr>
+              <tr><td class="doc-mono">MID_THR</td><td>0.30</td><td>Between the two thresholds the model is directionally right but not certain, so the answer is retrieved with three sources shown — the user can judge the match. Below it, retrieval would be guessing.</td></tr>
+              <tr><td class="doc-mono">hint gate</td><td>0.25</td><td>Inside the escalation tier the predicted label is passed to the model as a context hint only above 0.25; below that the prediction is noise and would mislead the completion.</td></tr>
+              <tr><td class="doc-mono">low-confidence</td><td>0.60</td><td>Drift indicator only. The share of the last hundred predictions below 0.60 is published as a gauge; it has no effect on routing.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">14.3 Single source of truth, and where it is duplicated</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Training-side scripts import thresholds, the cost map and the decision function from one shared module, so tuning the bands changes every experiment at once. The serving process declares the same four constants locally, because the serving image ships without the training package. This is a deliberate duplication with a maintenance cost: any threshold change must be applied on both sides, and §22 records it as a live risk (R-05).</p>
+        <div class="card blueprint" style="padding:var(--space-6);margin:var(--space-6) 0;max-width:76ch">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Invariant</div>
+          <p style="margin:0;font-size:14px;line-height:1.65">The bands are contiguous, exhaustive and ordered so that a higher confidence never selects a more expensive tier. Any future band must preserve that monotonicity, otherwise the cost model stops holding.</p>
+        </div>
+      </section>
+
+      <!-- 15 MODEL DESIGN -->
+      <section id="s15" data-screen-label="15 Model design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">15 · Model design &amp; evaluation</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Training pipeline and recorded results</h2>
+
+        <figure class="blueprint" style="padding:var(--space-8);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--space-2);align-items:stretch;font-size:12.5px">
+            <div style="border:1px solid var(--color-divider);padding:var(--space-3)"><div class="doc-mono" style="font-size:10px;color:var(--color-accent-700)">01</div>Load Banking77, concatenate the official train and test splits — 13,083 rows</div>
+            <div style="border:1px solid var(--color-divider);padding:var(--space-3)"><div class="doc-mono" style="font-size:10px;color:var(--color-accent-700)">02</div>Normalise text: lower-case, strip all but letters, digits and <span class="doc-mono">? ! .</span>, collapse whitespace</div>
+            <div style="border:1px solid var(--color-divider);padding:var(--space-3)"><div class="doc-mono" style="font-size:10px;color:var(--color-accent-700)">03</div>Label-encode intents; stratified 80/20 split at seed 42</div>
+            <div style="border:1px solid var(--color-divider);padding:var(--space-3)"><div class="doc-mono" style="font-size:10px;color:var(--color-accent-700)">04</div>Encode both splits with MiniLM at batch 256, normalised embeddings</div>
+            <div style="border:1px solid var(--color-divider);padding:var(--space-3)"><div class="doc-mono" style="font-size:10px;color:var(--color-accent-700)">05</div>Fit LinearSVC C=5, balanced class weights, 3,000 iterations; wrap in sigmoid calibration, 3 folds</div>
+            <div style="border:1px solid var(--color-divider);padding:var(--space-3)"><div class="doc-mono" style="font-size:10px;color:var(--color-accent-700)">06</div>Evaluate: accuracy, macro precision, recall, F1, log loss</div>
+            <div style="border:1px solid var(--color-divider);padding:var(--space-3)"><div class="doc-mono" style="font-size:10px;color:var(--color-accent-700)">07</div>Derive the tier mix over held-out confidences and log six cost metrics</div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-3);background:color-mix(in srgb, var(--color-accent) 10%, transparent)"><div class="doc-mono" style="font-size:10px;color:var(--color-accent-700)">08</div>Log model, plots, report and pickle to MLflow; write the run id for CI</div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 15.1 — Training pipeline. Steps 01–03 run in preprocessing; 04–08 in the MLflow project entry point.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">15.1 Model configuration</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:210px">Parameter</th><th style="width:180px">Value</th><th>Note</th></tr></thead>
+            <tbody>
+              <tr><td>Encoder</td><td class="doc-mono">all-MiniLM-L6-v2</td><td>Six transformer layers, 384-dimension output, CPU-friendly</td></tr>
+              <tr><td>Classifier</td><td class="doc-mono">LinearSVC</td><td>Selected over the TF-IDF baseline by the SBERT tuning run</td></tr>
+              <tr><td>Regularisation</td><td class="doc-mono">C = 5</td><td>Best value recorded in <span class="doc-mono">best_params_sbert.json</span>; exposed as the MLflow project's only tunable</td></tr>
+              <tr><td>Class weighting</td><td class="doc-mono">balanced</td><td>Counters the residual class imbalance across 77 intents</td></tr>
+              <tr><td>Iterations</td><td class="doc-mono">max_iter = 3000</td><td>Raised to reach convergence on 384-dimension dense input</td></tr>
+              <tr><td>Calibration</td><td class="doc-mono">sigmoid, cv = 3</td><td>Produces the probability the router thresholds against</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">15.2 Recorded results</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border:1px solid var(--color-divider);margin:var(--space-4) 0">
+          <div style="padding:var(--space-6);border-right:1px solid var(--color-divider)">
+            <div style="font-family:var(--font-heading);font-size:34px;line-height:1;color:var(--color-accent-700)">0.9305</div>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;margin-top:var(--space-2);color:color-mix(in srgb, var(--color-text) 60%, transparent)">F1 macro</div>
+          </div>
+          <div style="padding:var(--space-6);border-right:1px solid var(--color-divider)">
+            <div style="font-family:var(--font-heading);font-size:34px;line-height:1;color:var(--color-accent-700)">0.9285</div>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;margin-top:var(--space-2);color:color-mix(in srgb, var(--color-text) 60%, transparent)">Accuracy · 2,617 held-out rows</div>
+          </div>
+          <div style="padding:var(--space-6);border-right:1px solid var(--color-divider)">
+            <div style="font-family:var(--font-heading);font-size:34px;line-height:1;color:var(--color-accent-700)">77</div>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;margin-top:var(--space-2);color:color-mix(in srgb, var(--color-text) 60%, transparent)">Classes, all represented in both splits</div>
+          </div>
+          <div style="padding:var(--space-6)">
+            <div style="font-family:var(--font-heading);font-size:34px;line-height:1;color:var(--color-accent-700)">95.96%</div>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;margin-top:var(--space-2);color:color-mix(in srgb, var(--color-text) 60%, transparent)">Cost saving over the held-out mix</div>
+          </div>
+        </div>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Macro F1 sits slightly above accuracy, which indicates the balanced class weighting worked: the model is not carrying its score on the frequent intents alone. Two diagnostic artifacts accompany every run — a confusion heat map over the twenty most frequent intents, and a confidence histogram with both routing thresholds drawn on it. The histogram is the primary evidence for threshold placement and should be re-read after any retraining.</p>
+      </section>
+
+      <!-- 16 INTERFACE DESIGN -->
+      <section id="s16" data-screen-label="16 Interface design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">16 · Interface design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">The client discloses its own routing</h2>
+        <p style="margin:0 0 var(--space-6);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">The chat client is a demonstration surface as much as a support surface. Every answer carries the tier that produced it, the confidence that selected the tier, the intent label, the measured latency and the unit cost — so the routing behaviour specified in §07 is observable without reading logs.</p>
+
+        <figure class="blueprint" style="padding:var(--space-8);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:var(--space-4);min-height:340px">
+            <div style="border:1px solid var(--color-text);padding:var(--space-3);display:grid;gap:var(--space-4);align-content:start">
+              <div style="border-bottom:1px solid var(--color-divider);padding-bottom:var(--space-3);font-family:var(--font-heading);font-size:15px">Brand · service name</div>
+              <div>
+                <div style="font-family:var(--font-heading);font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent);margin-bottom:var(--space-2)">Routing stats</div>
+                <div style="display:grid;gap:4px;font-size:11.5px">
+                  <div style="border:1px solid var(--color-divider);padding:4px 6px;display:flex;justify-content:space-between"><span>Template handler</span><span class="doc-mono">n</span></div>
+                  <div style="border:1px solid var(--color-divider);padding:4px 6px;display:flex;justify-content:space-between"><span>RAG pipeline</span><span class="doc-mono">n</span></div>
+                  <div style="border:1px solid var(--color-divider);padding:4px 6px;display:flex;justify-content:space-between"><span>LLM escalation</span><span class="doc-mono">n</span></div>
+                </div>
+              </div>
+              <div>
+                <div style="font-family:var(--font-heading);font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent);margin-bottom:var(--space-2)">Session KPIs</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:11px">
+                  <div style="border:1px solid var(--color-divider);padding:6px;text-align:center">Queries</div>
+                  <div style="border:1px solid var(--color-divider);padding:6px;text-align:center">Cost saved</div>
+                  <div style="border:1px solid var(--color-divider);padding:6px;text-align:center">Avg conf.</div>
+                  <div style="border:1px solid var(--color-divider);padding:6px;text-align:center">Avg ms</div>
+                </div>
+              </div>
+              <div>
+                <div style="font-family:var(--font-heading);font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent);margin-bottom:var(--space-2)">Model</div>
+                <div style="border:1px solid var(--color-divider);padding:var(--space-2);font-size:11px;line-height:1.6">encoder · classifier · calibration · F1 · dataset</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;gap:var(--space-3)">
+              <div style="border:1px solid var(--color-divider);padding:var(--space-3);display:flex;justify-content:space-between;align-items:center;font-size:12px">
+                <span>Assistant title · model subtitle · liveness dot</span>
+                <span style="border:1px solid var(--color-divider);padding:2px 8px;font-size:10.5px;font-family:var(--font-heading);letter-spacing:0.1em;text-transform:uppercase">Router active</span>
+              </div>
+              <div style="border:1px solid var(--color-divider);padding:var(--space-4);display:grid;gap:var(--space-3);align-content:start">
+                <div style="justify-self:end;border:1px solid var(--color-text);background:color-mix(in srgb, var(--color-accent) 14%, transparent);padding:var(--space-2) var(--space-3);font-size:12px;max-width:70%">customer message</div>
+                <div style="border:1px solid var(--color-text);padding:var(--space-3);font-size:12px;max-width:80%">
+                  <div>answer text</div>
+                  <div style="margin-top:var(--space-3);padding-top:var(--space-2);border-top:1px solid var(--color-divider);display:grid;gap:6px">
+                    <div style="display:flex;gap:6px;align-items:center"><span style="border:1px solid var(--color-accent-700);color:var(--color-accent-700);padding:1px 7px;font-size:10px;font-family:var(--font-heading);letter-spacing:0.1em;text-transform:uppercase">tier badge</span></div>
+                    <div style="display:flex;gap:8px;align-items:center;font-size:10.5px"><span>confidence</span><span style="flex:1;height:4px;background:color-mix(in srgb, var(--color-text) 12%, transparent);display:block"><span style="display:block;width:62%;height:4px;background:var(--color-accent)"></span></span><span class="doc-mono">62.0%</span></div>
+                    <div class="doc-mono" style="font-size:10px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">intent label · latency ms · unit cost</div>
+                  </div>
+                </div>
+                <div style="border:1px solid var(--color-divider);border-style:dashed;padding:var(--space-2) var(--space-3);font-size:11.5px;max-width:80%">retrieved sources block — shown on tier 2 only, one row per source with its score</div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span style="border:1px solid var(--color-divider);padding:3px 9px;font-size:11px">suggestion chip</span>
+                <span style="border:1px solid var(--color-divider);padding:3px 9px;font-size:11px">suggestion chip</span>
+                <span style="border:1px solid var(--color-divider);padding:3px 9px;font-size:11px">×6 seeded queries</span>
+              </div>
+              <div style="border:1px solid var(--color-divider);padding:var(--space-3);display:flex;gap:var(--space-3);align-items:center">
+                <span style="flex:1;border:1px solid var(--color-divider);padding:var(--space-2) var(--space-3);font-size:12px;color:color-mix(in srgb, var(--color-text) 50%, transparent)">Type your banking question…</span>
+                <span style="border:1px solid var(--color-text);background:var(--color-accent);color:var(--color-bg);padding:var(--space-2) var(--space-4);font-family:var(--font-heading);font-size:12px;letter-spacing:0.1em;text-transform:uppercase">Send</span>
+              </div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 16.1 — Wireframe of the shipped client. Fixed 280 px instrumentation rail; single-column conversation; composer pinned to the foot.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">16.1 Interface states</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:170px">State</th><th>Trigger</th><th>Presentation</th></tr></thead>
+            <tbody>
+              <tr><td>Empty</td><td>No message sent yet</td><td>Centred welcome block plus six seeded suggestion chips</td></tr>
+              <tr><td>Pending</td><td>Request in flight</td><td>Send control disabled; three-dot typing bubble in the bot position</td></tr>
+              <tr><td>Answered</td><td>200 received</td><td>Answer bubble with routing card; sidebar counters and four KPIs recomputed</td></tr>
+              <tr><td>Sourced</td><td>Tier 2 response</td><td>Additional block listing each retrieved question with its percentage score</td></tr>
+              <tr><td>Escalated</td><td>Tier 3 response</td><td>Separate block holding the completion, distinct from the retrieved answer area</td></tr>
+              <tr><td>Unavailable</td><td>Non-200 or transport failure</td><td>Inline notice in the conversation asking whether the inference server is running</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Tier identity is carried by three redundant signals — badge wording, badge colour and the confidence bar's colour band, which switches at exactly the routing thresholds. Colour alone never carries the meaning.</p>
+      </section>
+
+      <!-- 17 DEPLOYMENT -->
+      <section id="s17" data-screen-label="17 Deployment design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">17 · Deployment design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">One image, three runtime topologies</h2>
+
+        <figure class="blueprint" style="padding:calc(var(--space-8) * 1.1);margin:var(--space-6) 0">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-4)">
+            <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">Node — build</div>
+              <div style="font-family:var(--font-heading);font-size:16px;margin-bottom:var(--space-2)">GitHub Actions runner</div>
+              <div style="font-size:12.5px;line-height:1.7">ubuntu-latest · Python 3.10 · MLflow 2.16.2 · Buildx<br>Writes the run id, builds and pushes the image</div>
+            </div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">Node — serve</div>
+              <div style="font-family:var(--font-heading);font-size:16px;margin-bottom:var(--space-2)">Serving container</div>
+              <div style="font-size:12.5px;line-height:1.7">python:3.10-slim · CPU Torch 2.5.1 · Uvicorn on 7860<br>Artifacts baked in at build from the model hub</div>
+            </div>
+            <div style="border:1px solid var(--color-text);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">Node — observe</div>
+              <div style="font-family:var(--font-heading);font-size:16px;margin-bottom:var(--space-2)">Monitoring compose stack</div>
+              <div style="font-size:12.5px;line-height:1.7">Prometheus 9090 scraping every 15 s · Grafana 3000 with a persistent volume</div>
+            </div>
+            <div style="border:1px dashed color-mix(in srgb, var(--color-text) 40%, transparent);padding:var(--space-4)">
+              <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-2)">External</div>
+              <div style="font-family:var(--font-heading);font-size:16px;margin-bottom:var(--space-2)">Managed services</div>
+              <div style="font-size:12.5px;line-height:1.7">DagsHub MLflow tracking · image registry · model hub · Grafana Cloud remote write · LLM provider</div>
+            </div>
+          </div>
+          <figcaption style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;margin-top:var(--space-4)">Fig. 17.1 — Deployment nodes. Local development substitutes port 8001 and a host-gateway scrape target for the container topology.</figcaption>
+        </figure>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">17.1 Configuration surface</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:225px">Variable</th><th style="width:150px">Default</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">MODEL_DIR</td><td class="doc-mono">artifacts</td><td>Directory searched for the classifier and encoder name at start-up</td></tr>
+              <tr><td class="doc-mono">PORT</td><td class="doc-mono">8001 / 7860</td><td>Listening port; the published image fixes 7860 for its host platform</td></tr>
+              <tr><td class="doc-mono">LLM_PROVIDER</td><td class="doc-mono">mock</td><td>Selects the escalation adapter; demotes to mock when its key is missing</td></tr>
+              <tr><td class="doc-mono">OPENAI_API_KEY · OPENAI_MODEL</td><td class="doc-mono">— / gpt-4o-mini</td><td>Credentials and model for the OpenAI adapter</td></tr>
+              <tr><td class="doc-mono">GROQ_API_KEY · GROQ_MODEL</td><td class="doc-mono">— / llama-3.1-8b-instant</td><td>Credentials and model for the Groq adapter</td></tr>
+              <tr><td class="doc-mono">OLLAMA_BASE_URL · OLLAMA_MODEL</td><td class="doc-mono">localhost:11434 / llama3.2</td><td>Endpoint and model for a local inference server</td></tr>
+              <tr><td class="doc-mono">METRICS_PORT</td><td class="doc-mono">unset</td><td>When set, opens a second HTTP server carrying only the metrics endpoint</td></tr>
+              <tr><td class="doc-mono">GRAFANA_REMOTE_WRITE_URL</td><td class="doc-mono">unset</td><td>With username and password, starts the 15-second remote-write task</td></tr>
+              <tr><td class="doc-mono">MLFLOW_TRACKING_URI · USERNAME · PASSWORD</td><td class="doc-mono">file:./mlruns</td><td>Redirects training runs to the remote tracking server</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 18 CI/CD -->
+      <section id="s18" data-screen-label="18 CI/CD design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">18 · CI/CD design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Retraining as a pipeline, not a ritual</h2>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:52px">#</th><th style="width:210px">Stage</th><th>Behaviour</th><th style="width:150px">Failure mode</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">1</td><td>Trigger</td><td>Push to the default branch touching the training project, or manual dispatch</td><td>—</td></tr>
+              <tr><td class="doc-mono">2</td><td>Environment</td><td>Checkout, Python 3.10, pinned MLflow, scikit-learn, pandas, numpy, matplotlib and seaborn</td><td>Hard fail on resolution conflict</td></tr>
+              <tr><td class="doc-mono">3</td><td>Train</td><td><span class="doc-mono">mlflow run . --env-manager=local</span> against the project entry point; tracking credentials are job-level so later steps inherit them</td><td>Hard fail; no artifacts published</td></tr>
+              <tr><td class="doc-mono">4</td><td>Artifact upload</td><td>Uploads the artifacts directory as a build artifact</td><td>Tolerated — the run remains recorded remotely</td></tr>
+              <tr><td class="doc-mono">5</td><td>Run id capture</td><td>Reads the run id file; aborts with an explicit message when it is absent</td><td>Hard fail — treated as evidence that training did not complete</td></tr>
+              <tr><td class="doc-mono">6</td><td>Image build</td><td><span class="doc-mono">mlflow models build-docker</span> against the logged model reference</td><td>Hard fail</td></tr>
+              <tr><td class="doc-mono">7</td><td>Publish</td><td>Registry login with repository secrets, push the tagged image, record its URL</td><td>Hard fail</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Two design choices are worth naming. The run id is written to a file by the training script rather than parsed from log output, which makes the hand-off between stages 3 and 6 explicit and testable. And the artifact upload is the only tolerated failure in the chain, because remote tracking already holds the same files — every other stage is load-bearing and fails loudly.</p>
+        <div class="card blueprint" style="padding:var(--space-6);margin:var(--space-6) 0;max-width:76ch">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Gap</div>
+          <p style="margin:0;font-size:14px;line-height:1.65">The pipeline publishes on every successful run. There is no quality gate comparing the new macro F1 against the deployed value, so a regression can be pushed as long as training completes. §23 lists this as the first roadmap item.</p>
+        </div>
+      </section>
+
+      <!-- 19 OBSERVABILITY -->
+      <section id="s19" data-screen-label="19 Observability design" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">19 · Observability design</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Twelve instruments and what each answers</h2>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:52px">#</th><th style="width:250px">Series</th><th style="width:86px">Type</th><th>Operational question it answers</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">1</td><td class="doc-mono">router_requests_total</td><td>Counter</td><td>Traffic rate, split by method, endpoint and status</td></tr>
+              <tr><td class="doc-mono">2</td><td class="doc-mono">router_request_latency_seconds</td><td>Histogram</td><td>p95 and p99 end-to-end latency; buckets span 10 ms to 5 s</td></tr>
+              <tr><td class="doc-mono">3</td><td class="doc-mono">router_prediction_confidence</td><td>Histogram</td><td>Where the confidence mass sits relative to both thresholds</td></tr>
+              <tr><td class="doc-mono">4</td><td class="doc-mono">router_routing_decisions_total</td><td>Counter</td><td>Tier mix — the single most important cost driver</td></tr>
+              <tr><td class="doc-mono">5</td><td class="doc-mono">router_intent_predictions_total</td><td>Counter</td><td>Which intents dominate real traffic against the training prior</td></tr>
+              <tr><td class="doc-mono">6</td><td class="doc-mono">router_input_text_length_chars</td><td>Histogram</td><td>Input drift; a shift in length usually precedes a shift in confidence</td></tr>
+              <tr><td class="doc-mono">7</td><td class="doc-mono">router_active_requests</td><td>Gauge</td><td>Concurrency against a single-process server</td></tr>
+              <tr><td class="doc-mono">8</td><td class="doc-mono">router_estimated_cost_usd_total</td><td>Counter</td><td>Cumulative modelled spend per tier</td></tr>
+              <tr><td class="doc-mono">9</td><td class="doc-mono">router_low_confidence_rate</td><td>Gauge</td><td>Share of the last hundred predictions below 0.60 — the drift alarm</td></tr>
+              <tr><td class="doc-mono">10</td><td class="doc-mono">router_model_info</td><td>Gauge</td><td>Which model version and type is actually serving</td></tr>
+              <tr><td class="doc-mono">11</td><td class="doc-mono">router_prediction_errors_total</td><td>Counter</td><td>Error rate, labelled by exception type</td></tr>
+              <tr><td class="doc-mono">12</td><td class="doc-mono">router_throughput_summary</td><td>Summary</td><td>Aggregate throughput and observation count</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">19.1 Delivery paths</h3>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Two paths carry the same registry. In development, Prometheus scrapes the metrics endpoint every fifteen seconds and Grafana reads from Prometheus. In hosted deployment, where no scraper can reach the container, a background task collects every <span class="doc-mono">router_*</span> sample, encodes it as a remote-write request and pushes it to Grafana Cloud on the same interval — protobuf assembled by hand and snappy-compressed, so no additional client library enters the image. Push failures are logged and the loop continues; telemetry never takes the service down.</p>
+
+        <h3 style="font-size:19px;margin:var(--space-6) 0 var(--space-2)">19.2 Alert candidates</h3>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th>Condition</th><th style="width:170px">Signal</th><th>Interpretation</th></tr></thead>
+            <tbody>
+              <tr><td>Low-confidence rate rises above its baseline for a sustained window</td><td class="doc-mono">#9</td><td>Distribution shift — traffic no longer resembles Banking77; cost will follow</td></tr>
+              <tr><td>Escalation share of the tier mix increases</td><td class="doc-mono">#4, #8</td><td>Either drift or a calibration regression in a new model version</td></tr>
+              <tr><td>p95 latency crosses one second</td><td class="doc-mono">#2, #7</td><td>Queueing on the single process, or provider slowness inside tier 3</td></tr>
+              <tr><td>Any increase in the error counter</td><td class="doc-mono">#11</td><td>A defect, not a degradation — the tiers absorb expected failures</td></tr>
+              <tr><td>Model info reports an unexpected version</td><td class="doc-mono">#10</td><td>A deployment served an artifact the operator did not intend to publish</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ══ PART IV ════════════════════════════════════════════════════ -->
+      <sc-if value="{{ partDividers }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--color-accent-900);color:var(--color-bg);padding:calc(var(--space-8) * 1.2) var(--space-8);margin:calc(var(--space-8) * 1.6) 0 calc(var(--space-8) * 1.2);display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-8);flex-wrap:wrap">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1;letter-spacing:-0.01em">Part IV — Verification</div>
+          <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7">Sections 20–24</div>
+        </div>
+      </sc-if>
+
+      <!-- 20 TEST PLAN -->
+      <section id="s20" data-screen-label="20 Test plan" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">20 · Test plan</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">What must be proven before a release ships</h2>
+        <p style="margin:0 0 var(--space-6);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Four levels apply. <strong>Unit</strong> covers the pure decision functions. <strong>Integration</strong> covers the endpoint with a loaded model. <strong>Model</strong> covers offline evaluation against the held-out split. <strong>Operational</strong> covers instrumentation and failure absorption. Every case names the requirement it discharges.</p>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:66px">ID</th><th style="width:82px">Level</th><th>Input / action</th><th>Expected result</th><th style="width:96px">Covers</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">TC-01</td><td>Unit</td><td>Confidence values 0.90, 0.55, 0.54, 0.30, 0.29, 0.00 passed to the decision function</td><td>Template, template, RAG, RAG, escalation, escalation — boundaries inclusive at the lower edge of each band</td><td class="doc-mono">FR-06</td></tr>
+              <tr><td class="doc-mono">TC-02</td><td>Unit</td><td>"hello", "Hi!", "terima kasih", "thanks you", "  bye  "</td><td>All classified as greeting or farewell; case, padding and trailing punctuation ignored</td><td class="doc-mono">FR-02</td></tr>
+              <tr><td class="doc-mono">TC-03</td><td>Unit</td><td>"my card was swallowed by the atm"</td><td>Not conversational — returns no match and continues to the model</td><td class="doc-mono">FR-02</td></tr>
+              <tr><td class="doc-mono">TC-04</td><td>Integration</td><td><span class="doc-mono">POST /predict</span> with "I lost my debit card"</td><td>200; intent within the lost-or-stolen family; template tier; answer present; latency reported</td><td class="doc-mono">FR-01, 03–07, 11</td></tr>
+              <tr><td class="doc-mono">TC-05</td><td>Integration</td><td>A deliberately ambiguous query that lands between the thresholds</td><td>RAG tier; three sources returned, each with a question and a score in descending order</td><td class="doc-mono">FR-08</td></tr>
+              <tr><td class="doc-mono">TC-06</td><td>Integration</td><td>An out-of-domain query, provider set to mock</td><td>Escalation tier; completion field populated; retrieval fields null</td><td class="doc-mono">FR-09</td></tr>
+              <tr><td class="doc-mono">TC-07</td><td>Integration</td><td>Greeting through the endpoint</td><td>intent_id −1, confidence 1.0, tier 0, conversational intent labelled, latency under 1 ms</td><td class="doc-mono">FR-02, NFR-02</td></tr>
+              <tr><td class="doc-mono">TC-08</td><td>Integration</td><td><span class="doc-mono">GET /health</span></td><td>Reports model loaded, retrieval loaded and the active provider</td><td class="doc-mono">FR-12</td></tr>
+              <tr><td class="doc-mono">TC-09</td><td>Operational</td><td>Provider endpoint made unreachable, then an escalating query sent</td><td>200 with the static support message; no 5xx; error counter unchanged</td><td class="doc-mono">FR-10, NFR-06</td></tr>
+              <tr><td class="doc-mono">TC-10</td><td>Operational</td><td>FAQ file removed, service restarted, template-tier query sent</td><td>Service starts with a warning; tier decision still returned; retrieval fields null</td><td class="doc-mono">NFR-06</td></tr>
+              <tr><td class="doc-mono">TC-11</td><td>Operational</td><td>Start with no model artifact present</td><td>Start-up warns; <span class="doc-mono">/health</span> and <span class="doc-mono">/metrics</span> answer; <span class="doc-mono">/predict</span> returns 503</td><td class="doc-mono">NFR-07</td></tr>
+              <tr><td class="doc-mono">TC-12</td><td>Operational</td><td>Scrape <span class="doc-mono">/metrics</span> after a mixed traffic sample</td><td>All twelve series present with non-zero observations where traffic exercised them</td><td class="doc-mono">FR-13, NFR-08</td></tr>
+              <tr><td class="doc-mono">TC-13</td><td>Operational</td><td>Send fifty queries across the tier mix; read the cost counter</td><td>Cumulative cost equals the sum of the per-tier unit prices for the observed mix</td><td class="doc-mono">NFR-04</td></tr>
+              <tr><td class="doc-mono">TC-14</td><td>Model</td><td>Evaluate the trained model on the held-out split</td><td>Macro F1 at or above 0.90; per-class report and both diagnostic plots written</td><td class="doc-mono">NFR-05, FR-18</td></tr>
+              <tr><td class="doc-mono">TC-15</td><td>Model</td><td>Recompute the savings estimate over the held-out confidences</td><td>Reported saving within one percentage point of the recorded 95.96%</td><td class="doc-mono">NFR-04</td></tr>
+              <tr><td class="doc-mono">TC-16</td><td>Integration</td><td>Client sends a query while the server is stopped</td><td>Inline unavailability notice in the conversation; no unhandled rejection in the console</td><td class="doc-mono">FR-15</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin:0 0 var(--space-4);font-size:15px;line-height:1.65;max-width:76ch;text-wrap:pretty">Two cases carry most of the risk. TC-01 pins the exact boundary semantics, because an off-by-one comparison silently moves traffic into a more expensive tier without any visible failure. TC-09 proves the property the whole escalation tier rests on: a provider outage must degrade the answer, never the service.</p>
+      </section>
+
+      <!-- 21 TRACEABILITY -->
+      <sc-if value="{{ showTraceability }}" hint-placeholder-val="{{ true }}">
+        <section id="s21" data-screen-label="21 Traceability matrix" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">21 · Traceability matrix</div>
+          <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Requirement to design to test</h2>
+          <div style="overflow-x:auto;margin:var(--space-4) 0">
+            <table class="table" style="width:100%;font-size:13px">
+              <thead><tr><th style="width:80px">Req</th><th style="width:110px">Use case</th><th>Design section</th><th style="width:170px">Verified by</th></tr></thead>
+              <tbody>
+                <tr><td class="doc-mono">FR-01</td><td class="doc-mono">UC-01</td><td>§13 API design — request schema</td><td class="doc-mono">TC-04</td></tr>
+                <tr><td class="doc-mono">FR-02</td><td class="doc-mono">UC-02</td><td>§07 Activity, tier 0 · §09 Scenario B</td><td class="doc-mono">TC-02, TC-03, TC-07</td></tr>
+                <tr><td class="doc-mono">FR-03, FR-04</td><td class="doc-mono">UC-01</td><td>§11 BankingRouter · §15 Model configuration</td><td class="doc-mono">TC-04, TC-14</td></tr>
+                <tr><td class="doc-mono">FR-05</td><td class="doc-mono">UC-01</td><td>§14.1 Calibration</td><td class="doc-mono">TC-14</td></tr>
+                <tr><td class="doc-mono">FR-06</td><td class="doc-mono">UC-01</td><td>§14.2 Threshold placement</td><td class="doc-mono">TC-01</td></tr>
+                <tr><td class="doc-mono">FR-07, FR-08</td><td class="doc-mono">UC-01, UC-07</td><td>§11 BankingRAG · §12 FAQ entities</td><td class="doc-mono">TC-04, TC-05</td></tr>
+                <tr><td class="doc-mono">FR-09</td><td class="doc-mono">UC-01</td><td>§11 LLMClient · §14.2 hint gate</td><td class="doc-mono">TC-06</td></tr>
+                <tr><td class="doc-mono">FR-10</td><td class="doc-mono">UC-01</td><td>§09 Scenario C</td><td class="doc-mono">TC-09</td></tr>
+                <tr><td class="doc-mono">FR-11</td><td class="doc-mono">UC-01, UC-03</td><td>§13.1 Response fields</td><td class="doc-mono">TC-04, TC-07</td></tr>
+                <tr><td class="doc-mono">FR-12</td><td class="doc-mono">UC-04</td><td>§13 API design</td><td class="doc-mono">TC-08, TC-11</td></tr>
+                <tr><td class="doc-mono">FR-13, FR-20</td><td class="doc-mono">UC-05</td><td>§19 Observability design</td><td class="doc-mono">TC-12</td></tr>
+                <tr><td class="doc-mono">FR-14, FR-15, FR-16</td><td class="doc-mono">UC-03</td><td>§16 Interface design</td><td class="doc-mono">TC-16</td></tr>
+                <tr><td class="doc-mono">FR-17, FR-18</td><td class="doc-mono">UC-06</td><td>§15 Training pipeline · §12.1 Artifacts</td><td class="doc-mono">TC-14, TC-15</td></tr>
+                <tr><td class="doc-mono">FR-19</td><td class="doc-mono">UC-06</td><td>§18 CI/CD design</td><td>Pipeline run</td></tr>
+                <tr><td class="doc-mono">NFR-01 … 03</td><td class="doc-mono">UC-01</td><td>§05.1 Unit cost model · §07</td><td class="doc-mono">TC-04, TC-07</td></tr>
+                <tr><td class="doc-mono">NFR-04</td><td class="doc-mono">UC-05</td><td>§05 Business case</td><td class="doc-mono">TC-13, TC-15</td></tr>
+                <tr><td class="doc-mono">NFR-05</td><td class="doc-mono">UC-06</td><td>§15.2 Recorded results</td><td class="doc-mono">TC-14</td></tr>
+                <tr><td class="doc-mono">NFR-06, NFR-07</td><td class="doc-mono">UC-01, UC-04</td><td>§11.1 Optional dependency · §09 Scenario C</td><td class="doc-mono">TC-09, TC-10, TC-11</td></tr>
+                <tr><td class="doc-mono">NFR-08</td><td class="doc-mono">UC-05</td><td>§19 Twelve instruments</td><td class="doc-mono">TC-12</td></tr>
+                <tr><td class="doc-mono">NFR-09</td><td class="doc-mono">UC-06</td><td>§14.3 Single source of truth</td><td>Static review</td></tr>
+                <tr><td class="doc-mono">NFR-10 … 13</td><td class="doc-mono">UC-04, UC-06</td><td>§17 Deployment design</td><td>Build and review</td></tr>
+                <tr><td class="doc-mono">NFR-14</td><td class="doc-mono">UC-03</td><td>§16.1 Interface states</td><td>Interface review</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </sc-if>
+
+      <!-- 22 RISK -->
+      <section id="s22" data-screen-label="22 Risk register" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">22 · Risk register</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Known exposures and their mitigations</h2>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <thead><tr><th style="width:62px">ID</th><th>Risk</th><th style="width:66px">Lik.</th><th style="width:66px">Imp.</th><th>Mitigation and current state</th></tr></thead>
+            <tbody>
+              <tr><td class="doc-mono">R-01</td><td>Production language and phrasing drift away from the Banking77 distribution, collapsing confidence</td><td>High</td><td>High</td><td>Low-confidence gauge and tier-mix panels expose it early; mitigation requires retraining on real traffic, which is not yet collected</td></tr>
+              <tr><td class="doc-mono">R-02</td><td>A retrained model is less well calibrated, moving traffic between tiers without any accuracy change</td><td>Medium</td><td>High</td><td>Confidence histogram is produced on every run; thresholds must be re-read against it. No automated calibration check exists</td></tr>
+              <tr><td class="doc-mono">R-03</td><td>Retrieval returns a confidently-scored but wrong entry because the knowledge base has no matching answer</td><td>Medium</td><td>Medium</td><td>Tier 2 shows sources and scores so the user can judge. Tier 1 shows none — the weaker position</td></tr>
+              <tr><td class="doc-mono">R-04</td><td>CI publishes a regressed model, since no metric gate guards the image push</td><td>Medium</td><td>High</td><td>Currently manual review of the run before promotion; a gate is the first roadmap item</td></tr>
+              <tr><td class="doc-mono">R-05</td><td>Thresholds diverge between the training module and the serving module</td><td>Medium</td><td>High</td><td>Both sites are documented in §14.3; a shared constant or a start-up assertion would remove the class of failure</td></tr>
+              <tr><td class="doc-mono">R-06</td><td>Blocking encode and retrieve calls run on the event loop, so concurrency degrades under load</td><td>Medium</td><td>Medium</td><td>In-flight gauge and latency percentiles make it visible; the fix is a worker pool or a thread executor</td></tr>
+              <tr><td class="doc-mono">R-07</td><td>Provider outage or quota exhaustion on the escalation tier</td><td>High</td><td>Low</td><td>Absorbed by design — static support message, 200 response, provider swappable by one variable</td></tr>
+              <tr><td class="doc-mono">R-08</td><td>Cost figures are read as billed amounts rather than as a modelled ratio</td><td>Medium</td><td>Medium</td><td>Stated explicitly in §05; the cost map should be restated from vendor pricing before any budget use</td></tr>
+              <tr><td class="doc-mono">R-09</td><td>Pickled model loading is a code-execution path if the artifact source is not trusted</td><td>Low</td><td>High</td><td>Artifacts are pulled from a single owned repository at build time; no user-supplied path is accepted</td></tr>
+              <tr><td class="doc-mono">R-10</td><td>The conversational pre-filter matches by prefix, so a real question opening with a greeting is short-circuited</td><td>Low</td><td>Medium</td><td>Known behaviour; a length or punctuation guard on the prefix branch would bound it</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 23 ROADMAP -->
+      <section id="s23" data-screen-label="23 Limitations and roadmap" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">23 · Limitations &amp; roadmap</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">What the current release does not do</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-6);margin:var(--space-6) 0">
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Limitations</div>
+            <ul style="margin:0;padding-left:1.1em;font-size:14px;line-height:1.75">
+              <li>Thresholds were placed by reading the confidence histogram, not by optimising a cost-weighted objective. There is no evidence that 0.55 and 0.30 are the best pair.</li>
+              <li>Retrieval quality is unmeasured. No labelled query-to-entry set exists, so recall at k for the fifty-nine-entry base is unknown.</li>
+              <li>Tier 1 answers without disclosing a source, so a wrong retrieval at high confidence is invisible to the user.</li>
+              <li>The service is stateless per turn; a follow-up question is classified with no memory of the previous one.</li>
+              <li>Classification is English-only. Only the pre-filter recognises Indonesian, and only for greetings.</li>
+              <li>Publication has no quality gate, and the serving process does not assert that its thresholds match the trained ones.</li>
+            </ul>
+          </div>
+          <div class="card blueprint" style="padding:var(--space-6)">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:var(--space-3)">Roadmap, in priority order</div>
+            <ol style="margin:0;padding-left:1.2em;font-size:14px;line-height:1.75">
+              <li><strong>Metric gate in CI.</strong> Compare the candidate's macro F1 and calibration against the deployed run and refuse to publish a regression.</li>
+              <li><strong>Threshold optimisation.</strong> Sweep both thresholds against a cost-weighted objective over the held-out confidences and record the frontier, replacing a read of the histogram with a chosen operating point.</li>
+              <li><strong>Retrieval evaluation set.</strong> Label a hundred queries with their correct knowledge-base entry; measure recall at 1 and 3 before any retrieval change.</li>
+              <li><strong>Share the thresholds.</strong> One package imported by both sides, or a start-up assertion that fails loudly on divergence.</li>
+              <li><strong>Move blocking work off the event loop.</strong> Encode and retrieve in a thread executor so concurrency is bounded by workers rather than by the loop.</li>
+              <li><strong>Show sources on tier 1.</strong> Even a single attributed source makes a wrong high-confidence answer visible.</li>
+              <li><strong>Retrain on production traffic.</strong> Once real queries are collected under a retention policy, the largest open risk (R-01) becomes addressable.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- 24 GLOSSARY -->
+      <section id="s24" data-screen-label="24 Glossary" style="padding:calc(var(--space-8) * 1.2) 0;border-top:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-accent-700);margin:0 0 var(--space-3)">24 · Glossary</div>
+        <h2 style="font-size:31px;margin:0 0 var(--space-4);max-width:26ch">Terms as used in this document</h2>
+        <div style="overflow-x:auto;margin:var(--space-4) 0">
+          <table class="table" style="width:100%;font-size:13px">
+            <tbody>
+              <tr><th style="width:210px">Banking77</th><td>Public intent-classification dataset of 13,083 real customer-service utterances over 77 fine-grained banking intents.</td></tr>
+              <tr><th>Calibration</th><td>Post-processing that converts a classifier's uncalibrated scores into probabilities that can be compared against a fixed threshold. Here: sigmoid fitting over three cross-validation folds.</td></tr>
+              <tr><th>Confidence</th><td>The maximum calibrated class probability for a prediction. The routing signal — not a statement about answer correctness.</td></tr>
+              <tr><th>Escalation</th><td>Routing a query to the most expensive tier because no cheaper source is trusted to answer it.</td></tr>
+              <tr><th>FAISS</th><td>Similarity-search library. Used here with an inner-product index which, over L2-normalised vectors, is equivalent to cosine similarity.</td></tr>
+              <tr><th>Inner product index</th><td>A flat index that scores a query against every stored vector by dot product — exact, not approximate, which is appropriate at fifty-nine entries.</td></tr>
+              <tr><th>Macro F1</th><td>The unweighted mean of per-class F1 scores. Treats a rare intent as equal in importance to a frequent one.</td></tr>
+              <tr><th>MLflow project</th><td>A declared entry point, environment and parameter set that makes a training run reproducible by a single command.</td></tr>
+              <tr><th>RAG</th><td>Retrieval-augmented generation. In this system the retrieval half is used on its own: an answer is returned from the knowledge base with no generation step.</td></tr>
+              <tr><th>Remote write</th><td>The Prometheus protocol for pushing samples to a remote store — used where an inbound scrape cannot reach the container.</td></tr>
+              <tr><th>SBERT</th><td>Sentence-BERT. A transformer fine-tuned so that whole-sentence embeddings are directly comparable by cosine similarity.</td></tr>
+              <tr><th>Tier</th><td>One of four answer sources, ordered by unit cost: conversational handler, template handler, RAG pipeline, LLM escalation.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer style="padding:calc(var(--space-8) * 1.4) 0 var(--space-8);border-top:1px solid var(--color-divider);display:flex;justify-content:space-between;gap:var(--space-6);flex-wrap:wrap;font-family:var(--font-heading);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 55%, transparent)">
+        <span>Banking Intent Router — System Analysis · Rev 1.0</span>
+        <span>Ninditya Salma Nur Aini · August 2026</span>
+      </footer>
+
+    </div>
+  </div>
+</div></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;showToc&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Document structure&quot;},
+  &quot;showTraceability&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Document structure&quot;},
+  &quot;partDividers&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Document structure&quot;}
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showToc: this.props.showToc ?? true,
+      showTraceability: this.props.showTraceability ?? true,
+      partDividers: this.props.partDividers ?? true,
+    };
+  }
+}
+</script>
+<script>
+(function(){
+  var i18n = {
+    en: { navBack: '← All projects', navAbout: 'About', navContact: 'Contact' },
+    id: { navBack: '← Semua project', navAbout: 'Tentang', navContact: 'Kontak' }
+  };
+  function applyLang(lang){
+    var d = i18n[lang];
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k = el.getAttribute('data-i18n');
+      if (d[k] !== undefined) el.textContent = d[k];
+    });
+    document.querySelectorAll('.lang-btn').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-lang-target') === lang);
+    });
+    document.documentElement.lang = lang;
+  }
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      applyLang(b.getAttribute('data-lang-target'));
+    });
+  });
+})();
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  if (!btn) return;
+  function updateBtn(t){
+    btn.textContent = t === 'dark' ? '☀' : '🌙';
+    btn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  updateBtn(html.getAttribute('data-theme') || 'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateBtn(next);
+  });
+})();
+</script>
+</body>
+</html>
