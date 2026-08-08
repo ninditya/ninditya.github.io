@@ -308,7 +308,7 @@
         </div>
         <h1 class="title" data-i18n="heroTitle">Beijing Air<br><em>Quality</em> Dashboard</h1>
         <p class="hero-lede" data-i18n="heroLede">
-          Transforming <strong>46 MB of hourly sensor data</strong> from 12 Beijing monitoring stations into actionable air quality insights through AQI modeling, statistical hypothesis testing, and geospatial analysis.
+          Turning <strong>46 MB of hourly sensor data</strong> from 12 Beijing monitoring stations into a standardized AQI, tested statistical patterns, and a geospatial station ranking — evidence for when, where, and under what conditions air quality gets worst.
         </p>
         <div class="hero-meta">
           <span data-i18n="metaType"><strong>Type</strong> EDA · Dashboard · Statistical Analysis</span>
@@ -352,7 +352,7 @@
           </div>
           <div class="stat">
             <div class="num">χ²<small>11,819</small></div>
-            <div class="label" data-i18n="stat3">Season vs PM2.5<br>chi-square statistic</div>
+            <div class="label" data-i18n="stat3">Season vs PM2.5 tier<br>chi-square statistic</div>
           </div>
           <div class="stat">
             <div class="num">6</div>
@@ -366,26 +366,26 @@
     <section class="content" id="summary">
       <div class="wrap">
         <div class="section-num" data-i18n="s1Num">01 · Executive Summary</div>
-        <h2 data-i18n="s1H2">Three findings every <em>stakeholder needs to know.</em></h2>
+        <h2 data-i18n="s1H2">Three patterns the data <em>actually supports.</em></h2>
         <p class="lede" data-i18n="s1Lede">
-          Before diving into methodology: here's what this analysis revealed that matters for policy and planning.
+          Before the methodology: three statistically-tested patterns from the 2013–2017 dataset, with their scope and limits noted upfront.
         </p>
 
         <div class="insight-grid">
           <div class="insight-cell">
-            <div class="insight-label" data-i18n="ins1Label">Seasonal pattern</div>
+            <div class="insight-label" data-i18n="ins1Label">Seasonal pattern (PM2.5)</div>
             <div class="insight-num">Winter</div>
-            <div class="insight-desc" data-i18n="ins1Desc">December–February is the dominant pollution season. Coal heating and temperature inversions trap PM2.5 near ground level — χ² = 11,819 confirms this isn't noise.</div>
+            <div class="insight-desc" data-i18n="ins1Desc">Winter (Dec–Feb) has the highest share of high-PM2.5 hours of any season — binning PM2.5 into Low/Medium/High and testing against season gives χ² = 11,819 (p &lt; 0.001), a statistically significant association. Composite AQI (which also weighs ozone) actually peaks in spring — see Technical Decisions for why.</div>
           </div>
           <div class="insight-cell">
-            <div class="insight-label" data-i18n="ins2Label">Strongest natural cleaner</div>
+            <div class="insight-label" data-i18n="ins2Label">Wind vs. pollution</div>
             <div class="insight-num">Wind</div>
-            <div class="insight-desc" data-i18n="ins2Desc">Wind speed (WSPM) showed the strongest negative correlation with PM2.5 levels across all 12 stations. High-wind days are consistently the cleanest days in the dataset.</div>
+            <div class="insight-desc" data-i18n="ins2Desc">Wind speed (WSPM) is negatively associated with AQI, most strongly in winter (Spearman r = −0.44). Pooled across the full period, other variables — pressure included — show comparable associations, so wind is one contributing factor, not a proven dominant one.</div>
           </div>
           <div class="insight-cell">
             <div class="insight-label" data-i18n="ins3Label">Spatial inequality</div>
             <div class="insight-num">Urban</div>
-            <div class="insight-desc" data-i18n="ins3Desc">Urban stations are disproportionately polluted. Zone type is a statistically significant predictor of AQI category (χ² = 4,600, p &lt; 0.001) — location determines air quality outcome.</div>
+            <div class="insight-desc" data-i18n="ins3Desc">Urban stations report unhealthy-or-worse AQI readings more often than suburban or rural ones (58% vs. 47% of readings). Zone type is significantly associated with AQI category (χ² = 4,600, p &lt; 0.001) — an association, not proof that location alone causes the difference.</div>
           </div>
         </div>
       </div>
@@ -395,7 +395,7 @@
     <section class="content alt" id="approach">
       <div class="wrap">
         <div class="section-num" data-i18n="s2Num">02 · Problem → Approach → Impact</div>
-        <h2 data-i18n="s2H2">Raw sensor data tells you <em>nothing. Until it does.</em></h2>
+        <h2 data-i18n="s2H2">Raw sensor data doesn't <em>explain itself.</em></h2>
 
         <div class="approach-flow" role="img" aria-label="Analysis pipeline flow">
           <div class="approach-step">
@@ -419,8 +419,8 @@
             <div class="approach-sub">Streamlit</div>
           </div>
           <div class="approach-step">
-            <div class="approach-box io" data-i18n="flow6">Actionable Insights</div>
-            <div class="approach-sub">Policy-ready findings</div>
+            <div class="approach-box io" data-i18n="flow6">Documented Findings</div>
+            <div class="approach-sub">Statistically tested findings</div>
           </div>
         </div>
 
@@ -429,19 +429,19 @@
             <span class="psi-label" data-i18n="psiChallengeLabel">Challenge</span>
             <h3 data-i18n="psiChallengeTitle">The Problem</h3>
             <ul>
-              <li data-i18n="psiC1">Beijing's air quality is a public health crisis — but raw CSV data doesn't tell the story</li>
-              <li data-i18n="psiC2">No standardized AQI metric across the 12 raw station datasets</li>
-              <li data-i18n="psiC3">Unclear which stations or seasons should be priority intervention targets</li>
-              <li data-i18n="psiC4">Meteorological relationships (wind, rain) were assumed but never quantified</li>
+              <li data-i18n="psiC1">Six raw pollutant concentrations per station, but no single standardized AQI value to compare severity across stations or time</li>
+              <li data-i18n="psiC2">No systematic test for whether the seasonal and spatial patterns visible in the raw data were real or just noise</li>
+              <li data-i18n="psiC3">Unclear which stations showed the most persistent poor air quality across the 2013–2017 period</li>
+              <li data-i18n="psiC4">Meteorological relationships (wind, rain, pressure) were assumed from domain knowledge but never checked against this dataset</li>
             </ul>
           </div>
           <div class="psi-card psi-solution">
             <span class="psi-label" data-i18n="psiSolutionLabel">Solution</span>
             <h3 data-i18n="psiSolutionTitle">The Approach</h3>
             <ul>
-              <li data-i18n="psiS1">Computed EPA-standard AQI from 6 raw pollutant readings per station</li>
-              <li data-i18n="psiS2">Ran Spearman correlation and chi-square tests to validate visual patterns statistically</li>
-              <li data-i18n="psiS3">Built a composite priority score to rank stations by pollution severity</li>
+              <li data-i18n="psiS1">Computed an EPA-based AQI from 6 raw pollutant readings per station using EPA breakpoint interpolation</li>
+              <li data-i18n="psiS2">Ran Spearman correlation and chi-square tests to check whether visually apparent patterns were statistically significant</li>
+              <li data-i18n="psiS3">Built a heuristic composite score (PM2.5, AQI, gas index) to rank stations for exploratory comparison</li>
               <li data-i18n="psiS4">Deployed as an interactive Streamlit dashboard with 5 analytical views</li>
             </ul>
           </div>
@@ -449,10 +449,10 @@
             <span class="psi-label" data-i18n="psiImpactLabel">Impact</span>
             <h3 data-i18n="psiImpactTitle">The Results</h3>
             <ul>
-              <li data-i18n="psiI1">Seasonal signal confirmed: χ² = 11,819 for season vs PM2.5</li>
-              <li data-i18n="psiI2">Spatial inequality confirmed: χ² = 4,600 for zone type vs AQI</li>
-              <li data-i18n="psiI3">Wind identified as the dominant natural pollution dispersal factor</li>
-              <li class="down" data-i18n="psiI4">Geospatial map surfaces highest-priority stations for intervention</li>
+              <li data-i18n="psiI1">Season significantly associated with PM2.5 tier: χ² = 11,819, p &lt; 0.001 (PM2.5 binned Low/Medium/High)</li>
+              <li data-i18n="psiI2">Zone type significantly associated with AQI category: χ² = 4,600, p &lt; 0.001</li>
+              <li data-i18n="psiI3">Wind speed negatively associated with AQI, strongest in winter (r = −0.44)</li>
+              <li class="down" data-i18n="psiI4">Geospatial map ranks stations by composite score for exploratory comparison</li>
             </ul>
           </div>
         </div>
@@ -463,9 +463,9 @@
     <section class="content" id="pipeline">
       <div class="wrap">
         <div class="section-num" data-i18n="s3Num">03 · Data Pipeline</div>
-        <h2 data-i18n="s3H2">From 12 CSV files to <em>EPA-grade AQI.</em></h2>
+        <h2 data-i18n="s3H2">From 12 CSV files to <em>a standardized AQI.</em></h2>
         <p class="lede" data-i18n="s3Lede">
-          Every step from raw sensor readings to dashboard-ready insights.
+          Every step from raw sensor readings to a standardized, dashboard-ready AQI.
         </p>
 
         <div class="two-col">
@@ -524,9 +524,9 @@
             <p data-i18n="aqiFormulaP2">Six categories from Good (0–50) through Hazardous (301+). This standardization makes all 12 stations directly comparable despite raw measurement differences.</p>
 
             <h3 data-i18n="priorityTitle">Priority Score Formula</h3>
-            <p data-i18n="priorityP1">Each station receives a composite score using Z-score normalized values:</p>
+            <p data-i18n="priorityP1">Each station receives a heuristic composite score using Z-score normalized values — not a validated risk model:</p>
             <p><code>priority = 0.5 × PM2.5_z + 0.35 × AQI_z + 0.15 × gas_index_z</code></p>
-            <p data-i18n="priorityP2">This weighted score drives the geospatial map — stations needing the most policy attention are immediately visible as large, high-priority markers.</p>
+            <p data-i18n="priorityP2">This weighted score drives the geospatial map, sized and colored by priority tier. Because AQI is partly derived from pollutant concentrations, PM2.5 and AQI overlap rather than measuring independent things — and the 50/35/15 weighting is a heuristic choice, not a fitted or validated one. Treat the score as an exploratory ranking aid, not a risk model.</p>
 
             <div class="stack-row">
               <div class="stack-item"><div class="stack-item-label">Dashboard</div><div class="stack-item-val">Streamlit</div></div>
@@ -544,7 +544,7 @@
     <section class="content alt" id="framework">
       <div class="wrap">
         <div class="section-num" data-i18n="s4Num">04 · Analysis Framework</div>
-        <h2 data-i18n="s4H2">Three analytical lenses, <em>one complete picture.</em></h2>
+        <h2 data-i18n="s4H2">Three analytical lenses on the <em>same dataset.</em></h2>
 
         <div class="analysis-grid">
           <div class="analysis-card">
@@ -554,17 +554,17 @@
             <ul>
               <li data-i18n="anal1L1">Hourly AQI patterns</li>
               <li data-i18n="anal1L2">Monthly trend lines</li>
-              <li data-i18n="anal1L3">Seasonal decomposition</li>
+              <li data-i18n="anal1L3">Seasonal comparison (box plots)</li>
               <li data-i18n="anal1L4">Critical period detection</li>
             </ul>
           </div>
           <div class="analysis-card">
             <span class="analysis-icon">🌦</span>
             <div class="analysis-tag" data-i18n="anal2Tag">Meteorological Analysis</div>
-            <h3 data-i18n="anal2Title">What drives pollution levels?</h3>
+            <h3 data-i18n="anal2Title">What's associated with pollution levels?</h3>
             <ul>
               <li data-i18n="anal2L1">Wind speed correlation</li>
-              <li data-i18n="anal2L2">Rainfall washout effect</li>
+              <li data-i18n="anal2L2">Rainfall correlation (weak)</li>
               <li data-i18n="anal2L3">Temperature & pressure</li>
               <li data-i18n="anal2L4">Spearman rank correlation</li>
             </ul>
@@ -594,7 +594,7 @@
           <div class="showcase-header">
             <div class="showcase-label" data-i18n="sc1Label">View 01 — 02</div>
             <h3 data-i18n="sc1Title">KPI Dashboard &amp; Trend Analysis</h3>
-            <p class="showcase-desc" data-i18n="sc1Desc">The entry point: current AQI status, dominant pollutant, and weather profile at a glance. Daily, monthly, and yearly AQI views are switchable via toggle — the hour-of-day × month heatmap makes winter-morning pollution patterns immediately visible.</p>
+            <p class="showcase-desc" data-i18n="sc1Desc">The entry point: current AQI status, dominant pollutant, and weather profile at a glance. Daily, monthly, and yearly AQI views are switchable via toggle — the hour-of-day × month heatmap flags the single worst hour/month combination, which turned out to be less intuitive than expected (see Key Findings).</p>
           </div>
           <img class="showcase-img" src="dashboard-kpi-trends.png" alt="KPI Dashboard and Trend Analysis — AQI status, dominant pollutant, heatmap of hour-of-day vs month pollution patterns across Beijing monitoring stations" loading="lazy">
         </div>
@@ -603,7 +603,7 @@
           <div class="showcase-header">
             <div class="showcase-label" data-i18n="sc3Label">View 03</div>
             <h3 data-i18n="sc3Title">Meteorology Analysis</h3>
-            <p class="showcase-desc" data-i18n="sc3Desc">Spearman correlation heatmap and wind rose diagram answer: does rain help? (yes) does high pressure trap pollution? (yes). Box plots show seasonal PM2.5 distributions across all stations.</p>
+            <p class="showcase-desc" data-i18n="sc3Desc">Spearman correlation heatmap and wind rose diagram show how AQI moves with temperature, pressure, dew point, wind, and rain — season by season. Most of these associations are weak-to-moderate, not a single strong driver. Box plots show seasonal AQI distributions across all stations.</p>
           </div>
           <img class="showcase-img" src="dashboard-meteo.png" alt="Meteorology Analysis — Spearman correlation heatmap, wind rose diagram, and seasonal PM2.5 box plots across 12 Beijing air quality stations" loading="lazy">
         </div>
@@ -612,7 +612,7 @@
           <div class="showcase-header">
             <div class="showcase-label" data-i18n="sc4Label">View 04</div>
             <h3 data-i18n="sc4Title">Geospatial Priority Map</h3>
-            <p class="showcase-desc" data-i18n="sc4Desc">Interactive Folium map where circle size = PM2.5 level and color = priority tier. The urban cluster stations visually stand out — no explanation needed to see which zones need policy attention first.</p>
+            <p class="showcase-desc" data-i18n="sc4Desc">Interactive Folium map where circle size = PM2.5 level and color = priority tier. The urban-cluster stations stand out visually, consistent with the higher share of unhealthy-or-worse readings measured there.</p>
           </div>
           <img class="showcase-img" src="dashboard-map.png" alt="Geospatial Priority Map — interactive Folium map showing 12 Beijing stations with circle markers sized by PM2.5 and colored by pollution priority tier" loading="lazy">
         </div>
@@ -621,9 +621,9 @@
           <div class="showcase-header">
             <div class="showcase-label" data-i18n="sc5Label">View 05</div>
             <h3 data-i18n="sc5Title">Categorical Analysis</h3>
-            <p class="showcase-desc" data-i18n="sc5Desc">Zone type vs AQI category contingency table with chi-square output. Confirms statistically that where a station is located (urban/suburban/rural) is a genuine predictor of its AQI outcome — not just a visual impression.</p>
+            <p class="showcase-desc" data-i18n="sc5Desc">Zone type vs AQI category contingency table with chi-square output. Confirms statistically that zone type (urban/suburban/rural) is significantly associated with AQI category — not just a visual impression.</p>
           </div>
-          <img class="showcase-img" src="dashboard-categorical.png" alt="Categorical Analysis — zone type vs AQI category contingency table with chi-square test output confirming spatial inequality across Beijing monitoring stations" loading="lazy">
+          <img class="showcase-img" src="dashboard-categorical.png" alt="Categorical Analysis — zone type vs AQI category contingency table with chi-square test output across Beijing monitoring stations" loading="lazy">
         </div>
       </div>
     </section>
@@ -632,49 +632,49 @@
     <section class="content alt" id="findings">
       <div class="wrap">
         <div class="section-num" data-i18n="s6Num">06 · Key Findings</div>
-        <h2 data-i18n="s6H2">What the data <em>actually proved.</em></h2>
+        <h2 data-i18n="s6H2">What the data <em>actually shows.</em></h2>
 
         <div class="findings-grid">
           <div class="finding-card">
             <div class="finding-tag" data-i18n="f1Tag">Seasonality</div>
-            <div class="finding-headline" data-i18n="f1Head">Winter = highest AQI</div>
+            <div class="finding-headline" data-i18n="f1Head">Winter = highest PM2.5</div>
             <div class="finding-stat">χ² = 11,819 · p &lt; 0.001</div>
-            <div class="finding-desc" data-i18n="f1Desc">December–February is the dominant pollution season. Coal heating and temperature inversions trap PM2.5 near ground level. This is statistically confirmed, not just visually observed.</div>
+            <div class="finding-desc" data-i18n="f1Desc">Winter (Dec–Feb) has the highest share of high-PM2.5 hours of any season, plausibly linked to coal heating and temperature inversions — though this test shows association, not mechanism. This is a PM2.5-specific result: composite AQI, which also factors in ozone, actually peaks in spring (172.8 avg) rather than winter (157.3 avg).</div>
           </div>
           <div class="finding-card">
             <div class="finding-tag" data-i18n="f2Tag">Meteorology</div>
-            <div class="finding-headline" data-i18n="f2Head">Wind reduces PM2.5</div>
-            <div class="finding-stat">Strongest negative Spearman ρ</div>
-            <div class="finding-desc" data-i18n="f2Desc">Wind speed (WSPM) showed the strongest negative correlation with PM2.5 of all meteorological variables. High-wind days are reliably the clearest days across all 12 stations.</div>
+            <div class="finding-headline" data-i18n="f2Head">Wind vs. AQI: weak, seasonal</div>
+            <div class="finding-stat">Spearman ρ, WSPM vs AQI</div>
+            <div class="finding-desc" data-i18n="f2Desc">Wind speed (WSPM) is negatively correlated with AQI, strongest in winter (r = −0.44). Across the full period it's a weak-to-moderate association, not the strongest one recorded — pressure showed a comparable negative correlation overall (r = −0.23 vs. WSPM's −0.13).</div>
           </div>
           <div class="finding-card">
             <div class="finding-tag" data-i18n="f3Tag">Spatial inequality</div>
             <div class="finding-headline" data-i18n="f3Head">Urban &gt; rural AQI</div>
             <div class="finding-stat">χ² = 4,600 · p &lt; 0.001</div>
-            <div class="finding-desc" data-i18n="f3Desc">Urban stations are disproportionately polluted compared to suburban and rural zones. Zone type is a statistically significant predictor of AQI category — location determines outcome.</div>
+            <div class="finding-desc" data-i18n="f3Desc">Urban stations report unhealthy-or-worse AQI readings more often than suburban or rural stations (58% vs. 47% of observations). Zone type is significantly associated with AQI category — an association the chi-square test confirms, not a causal claim.</div>
           </div>
           <div class="finding-card">
-            <div class="finding-tag" data-i18n="f4Tag">Rainfall effect</div>
-            <div class="finding-headline" data-i18n="f4Head">Rain cleanses PM2.5</div>
-            <div class="finding-stat">Wet deposition washout</div>
-            <div class="finding-desc" data-i18n="f4Desc">Rainfall events show measurable PM2.5 reduction in hours following precipitation. The wet deposition washout effect is clearly visible in the sensor time series.</div>
+            <div class="finding-tag" data-i18n="f4Tag">Rainfall</div>
+            <div class="finding-headline" data-i18n="f4Head">Rain: weak association with AQI</div>
+            <div class="finding-stat">Spearman r ≈ −0.04 (very weak)</div>
+            <div class="finding-desc" data-i18n="f4Desc">The dashboard's own correlation output describes the AQI–rainfall relationship as "very weak" (r ≈ −0.04). A wet-deposition washout effect is physically plausible, but this dataset doesn't provide strong quantitative support for it — a claim worth testing with better data (e.g. hourly pre/post-rain comparison) rather than asserting as confirmed.</div>
           </div>
           <div class="finding-card">
-            <div class="finding-tag" data-i18n="f5Tag">Station hotspot</div>
-            <div class="finding-headline" data-i18n="f5Head">Highest priority: urban cluster</div>
-            <div class="finding-stat">Composite priority score</div>
-            <div class="finding-desc" data-i18n="f5Desc">The priority scoring model surfaces stations requiring immediate policy attention — combining PM2.5 (50%), AQI (35%), and gas index (15%) into a single actionable metric.</div>
+            <div class="finding-tag" data-i18n="f5Tag">Station ranking</div>
+            <div class="finding-headline" data-i18n="f5Head">Priority ranking: urban cluster tops the list</div>
+            <div class="finding-stat">Heuristic composite score</div>
+            <div class="finding-desc" data-i18n="f5Desc">The composite score (PM2.5 50% + AQI 35% + gas index 15%, all Z-score normalized) ranks the urban cluster highest. Since AQI is partly derived from PM2.5, the two aren't independent signals — best read as an exploratory ranking, not a validated risk score.</div>
           </div>
           <div class="finding-card">
             <div class="finding-tag" data-i18n="f6Tag">Critical period</div>
-            <div class="finding-headline" data-i18n="f6Head">Morning + winter = worst</div>
-            <div class="finding-stat">Heatmap: 06:00–10:00 Dec–Feb</div>
-            <div class="finding-desc" data-i18n="f6Desc">The hour-of-day × month heatmap shows that winter mornings (06:00–10:00) consistently register the highest AQI values — the compound effect of overnight accumulation plus morning activity.</div>
+            <div class="finding-headline" data-i18n="f6Head">Not winter mornings — June, 7pm</div>
+            <div class="finding-stat">Heatmap peak: month 6, hour 19</div>
+            <div class="finding-desc" data-i18n="f6Desc">The dashboard's own hour × month summary table flags June at 19:00 as the single highest-average-AQI combination (180.2) — not the winter-morning pattern intuition suggests. A plausible follow-up hypothesis is evening ozone formation compounding with traffic, but that wasn't tested directly here.</div>
           </div>
         </div>
 
         <div class="pullquote" data-i18n="findingsPQ">
-          "The chi-square result alone — χ² = 11,819 for season vs PM2.5 — shows that seasonal patterns aren't noise. They're the dominant signal in this dataset."
+          "The chi-square result — χ² = 11,819 for season vs. binned PM2.5 — shows the winter pattern isn't noise. It's also a reminder that composite AQI and PM2.5 don't always tell the same seasonal story."
         </div>
       </div>
     </section>
@@ -684,7 +684,7 @@
       <div class="wrap">
         <div class="section-num" data-i18n="s7Num">07 · Technical Decisions</div>
         <h2 data-i18n="s7H2">Every choice has <em>a reason.</em></h2>
-        <p data-i18n="s7Lede">Three non-obvious design decisions that shaped the validity of this analysis.</p>
+        <p data-i18n="s7Lede">Four design decisions that shaped the validity of this analysis — including their limits.</p>
 
         <table class="compare">
           <thead>
@@ -698,22 +698,22 @@
             <tr class="highlight">
               <td><strong data-i18n="td1Decision">Spearman correlation</strong></td>
               <td data-i18n="td1Alt">Pearson correlation</td>
-              <td data-i18n="td1Why">Meteorological data is non-normal and non-linear. Pearson assumes both. Spearman rank correlation is more honest for this kind of skewed sensor data.</td>
+              <td data-i18n="td1Why">Meteorological variables here are skewed and their relationship with AQI isn't clearly linear. Spearman's rank-based approach doesn't assume linearity or normality — the trade-off is it only captures monotonic relationships, not the exact shape of the association.</td>
             </tr>
             <tr>
               <td><strong data-i18n="td2Decision">Composite priority score</strong></td>
               <td data-i18n="td2Alt">Rank by PM2.5 only</td>
-              <td data-i18n="td2Why">A single pollutant misses the full picture. The weighted composite (PM2.5 50%, AQI 35%, gas index 15%) gives a more complete view of which stations need policy attention most.</td>
+              <td data-i18n="td2Why">Ranking by PM2.5 alone ignores ozone and other gases captured in AQI. The weighted composite (PM2.5 50%, AQI 35%, gas index 15%) folds in more signal — but AQI is partly derived from PM2.5, so the two inputs overlap, and the 50/35/15 weights are a heuristic choice, not a fitted or validated one. Rankings should be read as exploratory.</td>
             </tr>
             <tr class="highlight">
               <td><strong data-i18n="td3Decision">IQR outlier detection</strong></td>
               <td data-i18n="td3Alt">Z-score cutoffs</td>
-              <td data-i18n="td3Why">Sensor data includes real extreme events (dust storms, industrial incidents). IQR is more conservative — preserving genuine extremes while flagging sensor malfunctions.</td>
+              <td data-i18n="td3Why">Z-score cutoffs assume a roughly normal distribution, which AQI readings aren't. IQR-based flagging doesn't make that assumption, so it's less likely to mislabel genuine extreme events (e.g. dust storms) as errors — though it still can't distinguish a real extreme from a sensor fault without manual review.</td>
             </tr>
             <tr>
               <td><strong data-i18n="td4Decision">Chi-square for zone/season</strong></td>
               <td data-i18n="td4Alt">Visual inspection only</td>
-              <td data-i18n="td4Why">Visual patterns are hypothesis, not proof. Chi-square tests with p &lt; 0.001 convert the observation into a statistically validated finding.</td>
+              <td data-i18n="td4Why">A visual pattern could be sampling noise. Chi-square tests (p &lt; 0.001 for both) turn "looks related" into a statistically testable claim — though the test establishes association, not that zone or season causes the difference.</td>
             </tr>
           </tbody>
         </table>
@@ -778,24 +778,24 @@
           <div class="roadmap-item">
             <div class="roadmap-step">01</div>
             <div>
-              <div class="roadmap-label" data-i18n="road1Label">AQI Forecasting</div>
-              <div class="roadmap-sub" data-i18n="road1Sub">weather-based predictive model</div>
+              <div class="roadmap-label" data-i18n="road1Label">Forecasting Baseline</div>
+              <div class="roadmap-sub" data-i18n="road1Sub">temporal train/test split · naive baseline · backtesting</div>
             </div>
           </div>
           <div class="roadmap-arrow">↓</div>
           <div class="roadmap-item">
             <div class="roadmap-step">02</div>
             <div>
-              <div class="roadmap-label" data-i18n="road2Label">Automated Alert System</div>
-              <div class="roadmap-sub" data-i18n="road2Sub">PM2.5 threshold · critical period flags</div>
+              <div class="roadmap-label" data-i18n="road2Label">AQI Forecasting Model</div>
+              <div class="roadmap-sub" data-i18n="road2Sub">MAE/RMSE evaluated against baseline</div>
             </div>
           </div>
           <div class="roadmap-arrow">↓</div>
           <div class="roadmap-item">
             <div class="roadmap-step">03</div>
             <div>
-              <div class="roadmap-label" data-i18n="road3Label">Policy Recommendation Engine</div>
-              <div class="roadmap-sub" data-i18n="road3Sub">station-level intervention priorities</div>
+              <div class="roadmap-label" data-i18n="road3Label">Threshold-Based Alerting</div>
+              <div class="roadmap-sub" data-i18n="road3Sub">flag critical periods · rank stations for follow-up</div>
             </div>
           </div>
         </div>
@@ -834,51 +834,51 @@
         kickerTag: 'Applied Data Science',
         kickerText: 'IDCamp Intermediate · Environmental Analytics',
         heroTitle: 'Beijing Air<br><em>Quality</em> Dashboard',
-        heroLede: 'Transforming <strong>46 MB of hourly sensor data</strong> from 12 Beijing monitoring stations into actionable air quality insights through AQI modeling, statistical hypothesis testing, and geospatial analysis.',
+        heroLede: 'Turning <strong>46 MB of hourly sensor data</strong> from 12 Beijing monitoring stations into a standardized AQI, tested statistical patterns, and a geospatial station ranking — evidence for when, where, and under what conditions air quality gets worst.',
         metaType: '<strong>Type</strong> EDA · Dashboard · Statistical Analysis',
         metaLevel: '<strong>Level</strong> IDCamp Intermediate',
         stat1: 'Monitoring stations<br>across Beijing',
         stat2: 'Hourly sensor data<br>2013–2017',
-        stat3: 'Season vs PM2.5<br>chi-square statistic',
+        stat3: 'Season vs PM2.5 tier<br>chi-square statistic',
         stat4: 'AQI categories<br>EPA breakpoints',
         s1Num: '01 · Executive Summary',
-        s1H2: 'Three findings every <em>stakeholder needs to know.</em>',
-        s1Lede: 'Before diving into methodology: here\'s what this analysis revealed that matters for policy and planning.',
-        ins1Label: 'Seasonal pattern',
-        ins1Desc: 'December–February is the dominant pollution season. Coal heating and temperature inversions trap PM2.5 near ground level — χ² = 11,819 confirms this isn\'t noise.',
-        ins2Label: 'Strongest natural cleaner',
-        ins2Desc: 'Wind speed (WSPM) showed the strongest negative correlation with PM2.5 levels across all 12 stations. High-wind days are consistently the cleanest days in the dataset.',
+        s1H2: 'Three patterns the data <em>actually supports.</em>',
+        s1Lede: 'Before the methodology: three statistically-tested patterns from the 2013–2017 dataset, with their scope and limits noted upfront.',
+        ins1Label: 'Seasonal pattern (PM2.5)',
+        ins1Desc: 'Winter (Dec–Feb) has the highest share of high-PM2.5 hours of any season — binning PM2.5 into Low/Medium/High and testing against season gives χ² = 11,819 (p < 0.001), a statistically significant association. Composite AQI (which also weighs ozone) actually peaks in spring — see Technical Decisions for why.',
+        ins2Label: 'Wind vs. pollution',
+        ins2Desc: 'Wind speed (WSPM) is negatively associated with AQI, most strongly in winter (Spearman r = −0.44). Pooled across the full period, other variables — pressure included — show comparable associations, so wind is one contributing factor, not a proven dominant one.',
         ins3Label: 'Spatial inequality',
-        ins3Desc: 'Urban stations are disproportionately polluted. Zone type is a statistically significant predictor of AQI category (χ² = 4,600, p < 0.001) — location determines air quality outcome.',
+        ins3Desc: 'Urban stations report unhealthy-or-worse AQI readings more often than suburban or rural ones (58% vs. 47% of readings). Zone type is significantly associated with AQI category (χ² = 4,600, p < 0.001) — an association, not proof that location alone causes the difference.',
         s2Num: '02 · Problem → Approach → Impact',
-        s2H2: 'Raw sensor data tells you <em>nothing. Until it does.</em>',
+        s2H2: 'Raw sensor data doesn\'t <em>explain itself.</em>',
         flow1: 'Raw Sensor Data',
         flow2: 'AQI Calculation',
         flow3: 'Statistical Analysis',
         flow4: 'Spatial Prioritization',
         flow5: 'Interactive Dashboard',
-        flow6: 'Actionable Insights',
+        flow6: 'Documented Findings',
         psiChallengeLabel: 'Challenge',
         psiChallengeTitle: 'The Problem',
-        psiC1: 'Beijing\'s air quality is a public health crisis — but raw CSV data doesn\'t tell the story',
-        psiC2: 'No standardized AQI metric across the 12 raw station datasets',
-        psiC3: 'Unclear which stations or seasons should be priority intervention targets',
-        psiC4: 'Meteorological relationships (wind, rain) were assumed but never quantified',
+        psiC1: 'Six raw pollutant concentrations per station, but no single standardized AQI value to compare severity across stations or time',
+        psiC2: 'No systematic test for whether the seasonal and spatial patterns visible in the raw data were real or just noise',
+        psiC3: 'Unclear which stations showed the most persistent poor air quality across the 2013–2017 period',
+        psiC4: 'Meteorological relationships (wind, rain, pressure) were assumed from domain knowledge but never checked against this dataset',
         psiSolutionLabel: 'Solution',
         psiSolutionTitle: 'The Approach',
-        psiS1: 'Computed EPA-standard AQI from 6 raw pollutant readings per station',
-        psiS2: 'Ran Spearman correlation and chi-square tests to validate visual patterns statistically',
-        psiS3: 'Built a composite priority score to rank stations by pollution severity',
+        psiS1: 'Computed an EPA-based AQI from 6 raw pollutant readings per station using EPA breakpoint interpolation',
+        psiS2: 'Ran Spearman correlation and chi-square tests to check whether visually apparent patterns were statistically significant',
+        psiS3: 'Built a heuristic composite score (PM2.5, AQI, gas index) to rank stations for exploratory comparison',
         psiS4: 'Deployed as an interactive Streamlit dashboard with 5 analytical views',
         psiImpactLabel: 'Impact',
         psiImpactTitle: 'The Results',
-        psiI1: 'Seasonal signal confirmed: χ² = 11,819 for season vs PM2.5',
-        psiI2: 'Spatial inequality confirmed: χ² = 4,600 for zone type vs AQI',
-        psiI3: 'Wind identified as the dominant natural pollution dispersal factor',
-        psiI4: 'Geospatial map surfaces highest-priority stations for intervention',
+        psiI1: 'Season significantly associated with PM2.5 tier: χ² = 11,819, p < 0.001 (PM2.5 binned Low/Medium/High)',
+        psiI2: 'Zone type significantly associated with AQI category: χ² = 4,600, p < 0.001',
+        psiI3: 'Wind speed negatively associated with AQI, strongest in winter (r = −0.44)',
+        psiI4: 'Geospatial map ranks stations by composite score for exploratory comparison',
         s3Num: '03 · Data Pipeline',
-        s3H2: 'From 12 CSV files to <em>EPA-grade AQI.</em>',
-        s3Lede: 'Every step from raw sensor readings to dashboard-ready insights.',
+        s3H2: 'From 12 CSV files to <em>a standardized AQI.</em>',
+        s3Lede: 'Every step from raw sensor readings to a standardized, dashboard-ready AQI.',
         pipe0Name: '12 CSV Files',
         pipe0Sub: 'hourly sensor readings, 2013–2017',
         pipe1Name: 'Data Cleaning',
@@ -895,20 +895,20 @@
         aqiFormulaP1: 'The EPA uses piecewise linear interpolation to convert raw pollutant concentrations into sub-index values. The final AQI is the maximum across all pollutants:',
         aqiFormulaP2: 'Six categories from Good (0–50) through Hazardous (301+). This standardization makes all 12 stations directly comparable despite raw measurement differences.',
         priorityTitle: 'Priority Score Formula',
-        priorityP1: 'Each station receives a composite score using Z-score normalized values:',
-        priorityP2: 'This weighted score drives the geospatial map — stations needing the most policy attention are immediately visible as large, high-priority markers.',
+        priorityP1: 'Each station receives a heuristic composite score using Z-score normalized values — not a validated risk model:',
+        priorityP2: 'This weighted score drives the geospatial map, sized and colored by priority tier. Because AQI is partly derived from pollutant concentrations, PM2.5 and AQI overlap rather than measuring independent things — and the 50/35/15 weighting is a heuristic choice, not a fitted or validated one. Treat the score as an exploratory ranking aid, not a risk model.',
         s4Num: '04 · Analysis Framework',
-        s4H2: 'Three analytical lenses, <em>one complete picture.</em>',
+        s4H2: 'Three analytical lenses on the <em>same dataset.</em>',
         anal1Tag: 'Temporal Analysis',
         anal1Title: 'When does pollution peak?',
         anal1L1: 'Hourly AQI patterns',
         anal1L2: 'Monthly trend lines',
-        anal1L3: 'Seasonal decomposition',
+        anal1L3: 'Seasonal comparison (box plots)',
         anal1L4: 'Critical period detection',
         anal2Tag: 'Meteorological Analysis',
-        anal2Title: 'What drives pollution levels?',
+        anal2Title: 'What\'s associated with pollution levels?',
         anal2L1: 'Wind speed correlation',
-        anal2L2: 'Rainfall washout effect',
+        anal2L2: 'Rainfall correlation (weak)',
         anal2L3: 'Temperature & pressure',
         anal2L4: 'Spearman rank correlation',
         anal3Tag: 'Spatial Analysis',
@@ -921,55 +921,55 @@
         s5H2: 'Five views, one <em>coherent story.</em>',
         sc1Label: 'View 01 — 02',
         sc1Title: 'KPI Dashboard &amp; Trend Analysis',
-        sc1Desc: 'The entry point: current AQI status, dominant pollutant, and weather profile at a glance. Daily, monthly, and yearly AQI views are switchable via toggle — the hour-of-day × month heatmap makes winter-morning pollution patterns immediately visible.',
+        sc1Desc: 'The entry point: current AQI status, dominant pollutant, and weather profile at a glance. Daily, monthly, and yearly AQI views are switchable via toggle — the hour-of-day × month heatmap flags the single worst hour/month combination, which turned out to be less intuitive than expected (see Key Findings).',
         sc3Label: 'View 03',
         sc3Title: 'Meteorology Analysis',
-        sc3Desc: 'Spearman correlation heatmap and wind rose diagram answer: does rain help? (yes) does high pressure trap pollution? (yes). Box plots show seasonal PM2.5 distributions across all stations.',
+        sc3Desc: 'Spearman correlation heatmap and wind rose diagram show how AQI moves with temperature, pressure, dew point, wind, and rain — season by season. Most of these associations are weak-to-moderate, not a single strong driver. Box plots show seasonal AQI distributions across all stations.',
         sc4Label: 'View 04',
         sc4Title: 'Geospatial Priority Map',
-        sc4Desc: 'Interactive Folium map where circle size = PM2.5 level and color = priority tier. The urban cluster stations visually stand out — no explanation needed to see which zones need policy attention first.',
+        sc4Desc: 'Interactive Folium map where circle size = PM2.5 level and color = priority tier. The urban-cluster stations stand out visually, consistent with the higher share of unhealthy-or-worse readings measured there.',
         sc5Label: 'View 05',
         sc5Title: 'Categorical Analysis',
-        sc5Desc: 'Zone type vs AQI category contingency table with chi-square output. Confirms statistically that where a station is located (urban/suburban/rural) is a genuine predictor of its AQI outcome.',
+        sc5Desc: 'Zone type vs AQI category contingency table with chi-square output. Confirms statistically that zone type (urban/suburban/rural) is significantly associated with AQI category — not just a visual impression.',
         s6Num: '06 · Key Findings',
-        s6H2: 'What the data <em>actually proved.</em>',
+        s6H2: 'What the data <em>actually shows.</em>',
         f1Tag: 'Seasonality',
-        f1Head: 'Winter = highest AQI',
-        f1Desc: 'December–February is the dominant pollution season. Coal heating and temperature inversions trap PM2.5 near ground level. This is statistically confirmed, not just visually observed.',
+        f1Head: 'Winter = highest PM2.5',
+        f1Desc: 'Winter (Dec–Feb) has the highest share of high-PM2.5 hours of any season, plausibly linked to coal heating and temperature inversions — though this test shows association, not mechanism. This is a PM2.5-specific result: composite AQI, which also factors in ozone, actually peaks in spring (172.8 avg) rather than winter (157.3 avg).',
         f2Tag: 'Meteorology',
-        f2Head: 'Wind reduces PM2.5',
-        f2Desc: 'Wind speed (WSPM) showed the strongest negative correlation with PM2.5 of all meteorological variables. High-wind days are reliably the clearest days across all 12 stations.',
+        f2Head: 'Wind vs. AQI: weak, seasonal',
+        f2Desc: 'Wind speed (WSPM) is negatively correlated with AQI, strongest in winter (r = −0.44). Across the full period it\'s a weak-to-moderate association, not the strongest one recorded — pressure showed a comparable negative correlation overall (r = −0.23 vs. WSPM\'s −0.13).',
         f3Tag: 'Spatial inequality',
         f3Head: 'Urban > rural AQI',
-        f3Desc: 'Urban stations are disproportionately polluted compared to suburban and rural zones. Zone type is a statistically significant predictor of AQI category — location determines outcome.',
-        f4Tag: 'Rainfall effect',
-        f4Head: 'Rain cleanses PM2.5',
-        f4Desc: 'Rainfall events show measurable PM2.5 reduction in hours following precipitation. The wet deposition washout effect is clearly visible in the sensor time series.',
-        f5Tag: 'Station hotspot',
-        f5Head: 'Highest priority: urban cluster',
-        f5Desc: 'The priority scoring model surfaces stations requiring immediate policy attention — combining PM2.5 (50%), AQI (35%), and gas index (15%) into a single actionable metric.',
+        f3Desc: 'Urban stations report unhealthy-or-worse AQI readings more often than suburban or rural stations (58% vs. 47% of observations). Zone type is significantly associated with AQI category — an association the chi-square test confirms, not a causal claim.',
+        f4Tag: 'Rainfall',
+        f4Head: 'Rain: weak association with AQI',
+        f4Desc: 'The dashboard\'s own correlation output describes the AQI–rainfall relationship as "very weak" (r ≈ −0.04). A wet-deposition washout effect is physically plausible, but this dataset doesn\'t provide strong quantitative support for it — a claim worth testing with better data (e.g. hourly pre/post-rain comparison) rather than asserting as confirmed.',
+        f5Tag: 'Station ranking',
+        f5Head: 'Priority ranking: urban cluster tops the list',
+        f5Desc: 'The composite score (PM2.5 50% + AQI 35% + gas index 15%, all Z-score normalized) ranks the urban cluster highest. Since AQI is partly derived from PM2.5, the two aren\'t independent signals — best read as an exploratory ranking, not a validated risk score.',
         f6Tag: 'Critical period',
-        f6Head: 'Morning + winter = worst',
-        f6Desc: 'The hour-of-day × month heatmap shows winter mornings (06:00–10:00) consistently register the highest AQI values — the compound effect of overnight accumulation plus morning activity.',
-        findingsPQ: '"The chi-square result alone — χ² = 11,819 for season vs PM2.5 — shows that seasonal patterns aren\'t noise. They\'re the dominant signal in this dataset."',
+        f6Head: 'Not winter mornings — June, 7pm',
+        f6Desc: 'The dashboard\'s own hour × month summary table flags June at 19:00 as the single highest-average-AQI combination (180.2) — not the winter-morning pattern intuition suggests. A plausible follow-up hypothesis is evening ozone formation compounding with traffic, but that wasn\'t tested directly here.',
+        findingsPQ: '"The chi-square result — χ² = 11,819 for season vs. binned PM2.5 — shows the winter pattern isn\'t noise. It\'s also a reminder that composite AQI and PM2.5 don\'t always tell the same seasonal story."',
         s7Num: '07 · Technical Decisions',
         s7H2: 'Every choice has <em>a reason.</em>',
-        s7Lede: 'Three non-obvious design decisions that shaped the validity of this analysis.',
+        s7Lede: 'Four design decisions that shaped the validity of this analysis — including their limits.',
         tdDecision: 'Decision',
         tdAlternative: 'Alternative considered',
         tdWhy: 'Why this choice',
         td1Decision: 'Spearman correlation',
         td1Alt: 'Pearson correlation',
-        td1Why: 'Meteorological data is non-normal and non-linear. Pearson assumes both. Spearman rank correlation is more honest for this kind of skewed sensor data.',
+        td1Why: 'Meteorological variables here are skewed and their relationship with AQI isn\'t clearly linear. Spearman\'s rank-based approach doesn\'t assume linearity or normality — the trade-off is it only captures monotonic relationships, not the exact shape of the association.',
         td2Decision: 'Composite priority score',
         td2Alt: 'Rank by PM2.5 only',
-        td2Why: 'A single pollutant misses the full picture. The weighted composite (PM2.5 50%, AQI 35%, gas index 15%) gives a more complete view of which stations need policy attention most.',
+        td2Why: 'Ranking by PM2.5 alone ignores ozone and other gases captured in AQI. The weighted composite (PM2.5 50%, AQI 35%, gas index 15%) folds in more signal — but AQI is partly derived from PM2.5, so the two inputs overlap, and the 50/35/15 weights are a heuristic choice, not a fitted or validated one. Rankings should be read as exploratory.',
         td3Decision: 'IQR outlier detection',
         td3Alt: 'Z-score cutoffs',
-        td3Why: 'Sensor data includes real extreme events (dust storms, industrial incidents). IQR is more conservative — preserving genuine extremes while flagging sensor malfunctions.',
+        td3Why: 'Z-score cutoffs assume a roughly normal distribution, which AQI readings aren\'t. IQR-based flagging doesn\'t make that assumption, so it\'s less likely to mislabel genuine extreme events (e.g. dust storms) as errors — though it still can\'t distinguish a real extreme from a sensor fault without manual review.',
         td4Decision: 'Chi-square for zone/season',
         td4Alt: 'Visual inspection only',
-        td4Why: 'Visual patterns are hypothesis, not proof. Chi-square tests with p < 0.001 convert the observation into a statistically validated finding.',
+        td4Why: 'A visual pattern could be sampling noise. Chi-square tests (p < 0.001 for both) turn "looks related" into a statistically testable claim — though the test establishes association, not that zone or season causes the difference.',
         s8Num: '08 · Learning Journey',
         s8H2: 'This submission was <em>rejected once — then passed.</em>',
         s8Desc: 'This dashboard is the capstone for <strong>Belajar Fundamental Analisis Data</strong> — IDCamp 2025 Intermediate level on Dicoding. The first submission was rejected. Here\'s what changed.',
@@ -992,12 +992,12 @@
         s9Lede: 'The current dashboard explains what happened. The next phase is predicting what will happen — and flagging it before it does.',
         road0Label: 'Dashboard Analytics',
         road0Sub: 'AQI trends · spatial map · chi-square',
-        road1Label: 'AQI Forecasting',
-        road1Sub: 'weather-based predictive model',
-        road2Label: 'Automated Alert System',
-        road2Sub: 'PM2.5 threshold · critical period flags',
-        road3Label: 'Policy Recommendation Engine',
-        road3Sub: 'station-level intervention priorities',
+        road1Label: 'Forecasting Baseline',
+        road1Sub: 'temporal train/test split · naive baseline · backtesting',
+        road2Label: 'AQI Forecasting Model',
+        road2Sub: 'MAE/RMSE evaluated against baseline',
+        road3Label: 'Threshold-Based Alerting',
+        road3Sub: 'flag critical periods · rank stations for follow-up',
         ctaNum: 'Try it · See the code',
         ctaH2: 'Interactive dashboard <em>on Streamlit.</em>',
         ctaP: 'Explore 12-station Beijing air quality data — AQI trends, seasonal patterns, meteorological correlations, and a geospatial priority map. All from 46 MB of hourly sensor readings.',
@@ -1012,51 +1012,51 @@
         kickerTag: 'Data Science Terapan',
         kickerText: 'IDCamp Intermediate · Analisis Lingkungan',
         heroTitle: 'Dashboard Kualitas<br><em>Udara</em> Beijing',
-        heroLede: 'Mengubah <strong>46 MB data sensor per jam</strong> dari 12 stasiun pemantauan Beijing menjadi wawasan kualitas udara yang dapat ditindaklanjuti melalui pemodelan AQI, uji hipotesis statistik, dan analisis geospasial.',
+        heroLede: 'Mengubah <strong>46 MB data sensor per jam</strong> dari 12 stasiun pemantauan Beijing menjadi AQI yang terstandarisasi, pola statistik yang teruji, dan pemeringkatan stasiun secara geospasial — bukti untuk kapan, di mana, dan dalam kondisi apa kualitas udara memburuk.',
         metaType: '<strong>Tipe</strong> EDA · Dashboard · Analisis Statistik',
         metaLevel: '<strong>Level</strong> IDCamp Intermediate',
         stat1: 'Stasiun pemantauan<br>di seluruh Beijing',
         stat2: 'Data sensor per jam<br>2013–2017',
-        stat3: 'Musim vs PM2.5<br>statistik chi-square',
+        stat3: 'Musim vs tier PM2.5<br>statistik chi-square',
         stat4: 'Kategori AQI<br>breakpoint EPA',
         s1Num: '01 · Ringkasan Eksekutif',
-        s1H2: 'Tiga temuan yang perlu diketahui <em>setiap pemangku kepentingan.</em>',
-        s1Lede: 'Sebelum masuk ke metodologi: inilah yang terungkap dari analisis ini yang penting untuk kebijakan dan perencanaan.',
-        ins1Label: 'Pola musiman',
-        ins1Desc: 'Desember–Februari adalah musim polusi paling dominan. Pemanas batu bara dan inversi temperatur memerangkap PM2.5 dekat permukaan tanah — χ² = 11.819 mengkonfirmasi ini bukan noise.',
-        ins2Label: 'Pembersih alami terkuat',
-        ins2Desc: 'Kecepatan angin (WSPM) menunjukkan korelasi negatif terkuat dengan kadar PM2.5 di semua 12 stasiun. Hari-hari dengan angin kencang secara konsisten adalah hari-hari terbersih dalam dataset.',
+        s1H2: 'Tiga pola yang <em>benar-benar didukung data.</em>',
+        s1Lede: 'Sebelum masuk ke metodologi: tiga pola yang teruji secara statistik dari dataset 2013–2017, lengkap dengan cakupan dan batasannya.',
+        ins1Label: 'Pola musiman (PM2.5)',
+        ins1Desc: 'Musim dingin (Des–Feb) punya proporsi jam ber-PM2.5 tinggi paling besar dibanding musim lain — membagi PM2.5 ke tier Low/Medium/High lalu diuji terhadap musim menghasilkan χ² = 11.819 (p < 0,001), asosiasi yang signifikan secara statistik. AQI komposit (yang juga memperhitungkan ozon) justru memuncak di musim semi — lihat Keputusan Teknis untuk alasannya.',
+        ins2Label: 'Angin vs polusi',
+        ins2Desc: 'Kecepatan angin (WSPM) berkorelasi negatif dengan AQI, paling kuat di musim dingin (Spearman r = −0,44). Secara keseluruhan sepanjang periode, variabel lain — termasuk tekanan udara — menunjukkan asosiasi yang sebanding, jadi angin adalah salah satu faktor yang berkontribusi, bukan faktor dominan yang terbukti.',
         ins3Label: 'Ketimpangan spasial',
-        ins3Desc: 'Stasiun urban secara tidak proporsional lebih tercemar. Tipe zona adalah prediktor signifikan secara statistik dari kategori AQI (χ² = 4.600, p < 0,001) — lokasi menentukan hasil kualitas udara.',
+        ins3Desc: 'Stasiun urban lebih sering mencatat AQI kategori tidak sehat atau lebih buruk dibanding stasiun suburban atau rural (58% vs. 47% dari seluruh pembacaan). Tipe zona berasosiasi signifikan dengan kategori AQI (χ² = 4.600, p < 0,001) — sebuah asosiasi, bukan bukti bahwa lokasi saja yang menyebabkan perbedaan ini.',
         s2Num: '02 · Masalah → Pendekatan → Dampak',
-        s2H2: 'Data sensor mentah tidak bercerita. <em>Sampai kita membuatnya bercerita.</em>',
+        s2H2: 'Data sensor mentah tidak <em>menjelaskan dirinya sendiri.</em>',
         flow1: 'Data Sensor Mentah',
         flow2: 'Kalkulasi AQI',
         flow3: 'Analisis Statistik',
         flow4: 'Prioritas Spasial',
         flow5: 'Dashboard Interaktif',
-        flow6: 'Wawasan Actionable',
+        flow6: 'Temuan Terdokumentasi',
         psiChallengeLabel: 'Tantangan',
         psiChallengeTitle: 'Masalahnya',
-        psiC1: 'Kualitas udara Beijing adalah krisis kesehatan publik — tapi data CSV mentah tidak menceritakan kisahnya',
-        psiC2: 'Tidak ada metrik AQI terstandarisasi di 12 dataset stasiun mentah',
-        psiC3: 'Tidak jelas stasiun atau musim mana yang harus menjadi target intervensi prioritas',
-        psiC4: 'Hubungan meteorologis (angin, hujan) diasumsikan tapi tidak pernah dikuantifikasi',
+        psiC1: 'Enam konsentrasi polutan mentah per stasiun, tapi tidak ada satu nilai AQI terstandarisasi untuk membandingkan tingkat keparahan antar stasiun atau waktu',
+        psiC2: 'Tidak ada uji sistematis untuk memastikan apakah pola musiman dan spasial yang terlihat di data mentah itu nyata atau sekadar noise',
+        psiC3: 'Tidak jelas stasiun mana yang menunjukkan kualitas udara buruk paling persisten sepanjang periode 2013–2017',
+        psiC4: 'Hubungan meteorologis (angin, hujan, tekanan) diasumsikan dari pengetahuan domain tapi tidak pernah diuji terhadap dataset ini',
         psiSolutionLabel: 'Solusi',
         psiSolutionTitle: 'Pendekatannya',
-        psiS1: 'Menghitung AQI standar EPA dari 6 bacaan polutan mentah per stasiun',
-        psiS2: 'Menjalankan korelasi Spearman dan uji chi-square untuk memvalidasi pola visual secara statistik',
-        psiS3: 'Membangun skor prioritas komposit untuk meranking stasiun berdasarkan tingkat polusi',
+        psiS1: 'Menghitung AQI berbasis EPA dari 6 bacaan polutan mentah per stasiun menggunakan interpolasi breakpoint EPA',
+        psiS2: 'Menjalankan korelasi Spearman dan uji chi-square untuk memeriksa apakah pola yang tampak secara visual signifikan secara statistik',
+        psiS3: 'Membangun skor komposit heuristik (PM2.5, AQI, gas index) untuk meranking stasiun sebagai perbandingan eksploratif',
         psiS4: 'Deploy sebagai dashboard Streamlit interaktif dengan 5 tampilan analitis',
         psiImpactLabel: 'Dampak',
         psiImpactTitle: 'Hasilnya',
-        psiI1: 'Sinyal musiman dikonfirmasi: χ² = 11.819 untuk musim vs PM2.5',
-        psiI2: 'Ketimpangan spasial dikonfirmasi: χ² = 4.600 untuk tipe zona vs AQI',
-        psiI3: 'Angin diidentifikasi sebagai faktor dispersi polusi alami yang dominan',
-        psiI4: 'Peta geospasial menampilkan stasiun prioritas tertinggi untuk intervensi',
+        psiI1: 'Musim berasosiasi signifikan dengan tier PM2.5: χ² = 11.819, p < 0,001 (PM2.5 dibagi ke tier Low/Medium/High)',
+        psiI2: 'Tipe zona berasosiasi signifikan dengan kategori AQI: χ² = 4.600, p < 0,001',
+        psiI3: 'Kecepatan angin berasosiasi negatif dengan AQI, paling kuat di musim dingin (r = −0,44)',
+        psiI4: 'Peta geospasial meranking stasiun berdasarkan skor komposit untuk perbandingan eksploratif',
         s3Num: '03 · Pipeline Data',
-        s3H2: 'Dari 12 file CSV ke <em>AQI standar EPA.</em>',
-        s3Lede: 'Setiap langkah dari bacaan sensor mentah hingga wawasan siap dashboard.',
+        s3H2: 'Dari 12 file CSV ke <em>AQI yang terstandarisasi.</em>',
+        s3Lede: 'Setiap langkah dari bacaan sensor mentah hingga AQI terstandarisasi yang siap dashboard.',
         pipe0Name: '12 File CSV',
         pipe0Sub: 'bacaan sensor per jam, 2013–2017',
         pipe1Name: 'Pembersihan Data',
@@ -1073,20 +1073,20 @@
         aqiFormulaP1: 'EPA menggunakan interpolasi linier piecewise untuk mengkonversi konsentrasi polutan mentah menjadi nilai sub-index. AQI akhir adalah maksimum dari semua polutan:',
         aqiFormulaP2: 'Enam kategori dari Baik (0–50) hingga Berbahaya (301+). Standarisasi ini membuat semua 12 stasiun dapat dibandingkan secara langsung meski pengukuran mentahnya berbeda.',
         priorityTitle: 'Formula Skor Prioritas',
-        priorityP1: 'Setiap stasiun mendapatkan skor komposit menggunakan nilai Z-score ternormalisasi:',
-        priorityP2: 'Skor berbobot ini menggerakkan peta geospasial — stasiun yang paling membutuhkan perhatian kebijakan langsung terlihat sebagai marker besar prioritas tinggi.',
+        priorityP1: 'Setiap stasiun mendapatkan skor komposit heuristik menggunakan nilai Z-score ternormalisasi — bukan model risiko yang tervalidasi:',
+        priorityP2: 'Skor berbobot ini menggerakkan peta geospasial, dengan ukuran dan warna sesuai tier prioritas. Karena AQI sebagian berasal dari konsentrasi polutan, PM2.5 dan AQI saling tumpang tindih alih-alih mengukur hal yang independen — dan bobot 50/35/15 adalah pilihan heuristik, bukan hasil fitting atau validasi. Perlakukan skor ini sebagai alat ranking eksploratif, bukan model risiko.',
         s4Num: '04 · Kerangka Analisis',
-        s4H2: 'Tiga lensa analitis, <em>satu gambaran lengkap.</em>',
+        s4H2: 'Tiga lensa analitis pada <em>dataset yang sama.</em>',
         anal1Tag: 'Analisis Temporal',
         anal1Title: 'Kapan polusi memuncak?',
         anal1L1: 'Pola AQI per jam',
         anal1L2: 'Tren bulanan',
-        anal1L3: 'Dekomposisi musiman',
+        anal1L3: 'Perbandingan musiman (box plot)',
         anal1L4: 'Deteksi periode kritis',
         anal2Tag: 'Analisis Meteorologi',
-        anal2Title: 'Apa yang mendorong kadar polusi?',
+        anal2Title: 'Apa yang berasosiasi dengan kadar polusi?',
         anal2L1: 'Korelasi kecepatan angin',
-        anal2L2: 'Efek washout hujan',
+        anal2L2: 'Korelasi hujan (lemah)',
         anal2L3: 'Suhu & tekanan udara',
         anal2L4: 'Korelasi rank Spearman',
         anal3Tag: 'Analisis Spasial',
@@ -1099,55 +1099,55 @@
         s5H2: 'Lima tampilan, satu <em>cerita yang koheren.</em>',
         sc1Label: 'Tampilan 01 — 02',
         sc1Title: 'Dashboard KPI &amp; Analisis Tren',
-        sc1Desc: 'Titik masuk: status AQI saat ini, polutan dominan, dan profil cuaca sekilas. Tampilan AQI harian, bulanan, dan tahunan bisa diubah via toggle — heatmap jam-per-hari × bulan membuat pola polusi pagi musim dingin langsung terlihat.',
+        sc1Desc: 'Titik masuk: status AQI saat ini, polutan dominan, dan profil cuaca sekilas. Tampilan AQI harian, bulanan, dan tahunan bisa diubah via toggle — heatmap jam-per-hari × bulan menandai kombinasi jam/bulan dengan AQI tertinggi, yang ternyata kurang intuitif dari dugaan awal (lihat Temuan Utama).',
         sc3Label: 'Tampilan 03',
         sc3Title: 'Analisis Meteorologi',
-        sc3Desc: 'Heatmap korelasi Spearman dan diagram wind rose menjawab: apakah hujan membantu? (ya) apakah tekanan tinggi memerangkap polusi? (ya). Box plot menunjukkan distribusi PM2.5 musiman.',
+        sc3Desc: 'Heatmap korelasi Spearman dan diagram wind rose menunjukkan bagaimana AQI bergerak seiring suhu, tekanan, titik embun, angin, dan hujan — per musim. Sebagian besar asosiasi ini lemah hingga sedang, bukan satu faktor dominan tunggal. Box plot menunjukkan distribusi AQI musiman di semua stasiun.',
         sc4Label: 'Tampilan 04',
         sc4Title: 'Peta Prioritas Geospasial',
-        sc4Desc: 'Peta Folium interaktif di mana ukuran lingkaran = kadar PM2.5 dan warna = tier prioritas. Stasiun kluster urban langsung mencolok — tidak perlu penjelasan untuk melihat zona mana yang perlu intervensi pertama.',
+        sc4Desc: 'Peta Folium interaktif di mana ukuran lingkaran = kadar PM2.5 dan warna = tier prioritas. Stasiun kluster urban mencolok secara visual, konsisten dengan proporsi pembacaan tidak sehat-atau-lebih-buruk yang lebih tinggi di sana.',
         sc5Label: 'Tampilan 05',
         sc5Title: 'Analisis Kategorikal',
-        sc5Desc: 'Tabel kontingensi tipe zona vs kategori AQI dengan output chi-square. Mengkonfirmasi secara statistik bahwa lokasi stasiun (urban/suburban/rural) adalah prediktor nyata dari outcome AQI-nya.',
+        sc5Desc: 'Tabel kontingensi tipe zona vs kategori AQI dengan output chi-square. Mengkonfirmasi secara statistik bahwa tipe zona (urban/suburban/rural) berasosiasi signifikan dengan kategori AQI — bukan sekadar kesan visual.',
         s6Num: '06 · Temuan Utama',
-        s6H2: 'Apa yang benar-benar <em>terbukti dari data.</em>',
+        s6H2: 'Apa yang <em>sebenarnya ditunjukkan data.</em>',
         f1Tag: 'Musiman',
-        f1Head: 'Musim dingin = AQI tertinggi',
-        f1Desc: 'Desember–Februari adalah musim polusi paling dominan. Pemanas batu bara dan inversi temperatur memerangkap PM2.5 dekat permukaan. Ini dikonfirmasi secara statistik, bukan hanya observasi visual.',
+        f1Head: 'Musim dingin = PM2.5 tertinggi',
+        f1Desc: 'Musim dingin (Des–Feb) punya proporsi jam ber-PM2.5 tinggi paling besar dibanding musim lain, kemungkinan terkait pemanas batu bara dan inversi temperatur — meski uji ini menunjukkan asosiasi, bukan mekanisme. Ini hasil yang spesifik untuk PM2.5: AQI komposit, yang juga memperhitungkan ozon, justru memuncak di musim semi (rerata 172,8) alih-alih musim dingin (rerata 157,3).',
         f2Tag: 'Meteorologi',
-        f2Head: 'Angin mengurangi PM2.5',
-        f2Desc: 'Kecepatan angin (WSPM) menunjukkan korelasi negatif terkuat dengan PM2.5 dari semua variabel meteorologis. Hari-hari berangin kencang secara konsisten adalah hari-hari terbersih.',
+        f2Head: 'Angin vs AQI: lemah, musiman',
+        f2Desc: 'Kecepatan angin (WSPM) berkorelasi negatif dengan AQI, paling kuat di musim dingin (r = −0,44). Sepanjang periode penuh ini asosiasi yang lemah hingga sedang, bukan yang terkuat — tekanan udara menunjukkan korelasi negatif yang sebanding secara keseluruhan (r = −0,23 vs. WSPM −0,13).',
         f3Tag: 'Ketimpangan spasial',
         f3Head: 'AQI urban > rural',
-        f3Desc: 'Stasiun urban secara tidak proporsional lebih tercemar dibanding zona suburban dan rural. Tipe zona adalah prediktor signifikan secara statistik dari kategori AQI — lokasi menentukan hasil.',
-        f4Tag: 'Efek hujan',
-        f4Head: 'Hujan membersihkan PM2.5',
-        f4Desc: 'Kejadian hujan menunjukkan penurunan PM2.5 yang terukur dalam jam-jam berikutnya. Efek washout deposisi basah terlihat jelas dalam time series sensor.',
-        f5Tag: 'Hotspot stasiun',
-        f5Head: 'Prioritas tertinggi: kluster urban',
-        f5Desc: 'Model skor prioritas menampilkan stasiun yang membutuhkan perhatian kebijakan segera — menggabungkan PM2.5 (50%), AQI (35%), dan gas index (15%) menjadi satu metrik actionable.',
+        f3Desc: 'Stasiun urban lebih sering mencatat AQI kategori tidak sehat atau lebih buruk dibanding stasiun suburban atau rural (58% vs. 47% dari observasi). Tipe zona berasosiasi signifikan dengan kategori AQI — asosiasi yang dikonfirmasi uji chi-square, bukan klaim kausal.',
+        f4Tag: 'Curah hujan',
+        f4Head: 'Hujan: asosiasi lemah dengan AQI',
+        f4Desc: 'Output korelasi dari dashboard sendiri menyebut hubungan AQI–hujan sebagai "sangat lemah" (r ≈ −0,04). Efek washout deposisi basah masuk akal secara fisik, tapi dataset ini tidak memberikan dukungan kuantitatif yang kuat untuk itu — klaim yang layak diuji dengan data lebih baik (misalnya perbandingan sebelum/sesudah hujan per jam) alih-alih diklaim sebagai sudah terkonfirmasi.',
+        f5Tag: 'Ranking stasiun',
+        f5Head: 'Ranking prioritas: kluster urban di puncak',
+        f5Desc: 'Skor komposit (PM2.5 50% + AQI 35% + gas index 15%, semua dinormalisasi Z-score) menempatkan kluster urban di posisi tertinggi. Karena AQI sebagian berasal dari PM2.5, keduanya bukan sinyal yang independen — sebaiknya dibaca sebagai ranking eksploratif, bukan skor risiko yang tervalidasi.',
         f6Tag: 'Periode kritis',
-        f6Head: 'Pagi + musim dingin = terparah',
-        f6Desc: 'Heatmap jam-per-hari × bulan menunjukkan pagi musim dingin (06:00–10:00) secara konsisten mencatat nilai AQI tertinggi — efek gabungan akumulasi semalam plus aktivitas pagi.',
-        findingsPQ: '"Hasil chi-square saja — χ² = 11.819 untuk musim vs PM2.5 — menunjukkan bahwa pola musiman bukan noise. Itu adalah sinyal dominan dalam dataset ini."',
+        f6Head: 'Bukan pagi musim dingin — Juni, jam 7 malam',
+        f6Desc: 'Tabel ringkasan jam × bulan dari dashboard sendiri menandai Juni pukul 19:00 sebagai kombinasi AQI rata-rata tertinggi (180,2) — bukan pola pagi musim dingin seperti dugaan intuitif. Hipotesis lanjutan yang masuk akal adalah pembentukan ozon sore/malam yang bertumpuk dengan lalu lintas, tapi ini tidak diuji langsung di sini.',
+        findingsPQ: '"Hasil chi-square — χ² = 11.819 untuk musim vs tier PM2.5 — menunjukkan pola musim dingin bukan noise. Ini juga pengingat bahwa AQI komposit dan PM2.5 tidak selalu bercerita musiman yang sama."',
         s7Num: '07 · Keputusan Teknis',
         s7H2: 'Setiap pilihan punya <em>alasannya.</em>',
-        s7Lede: 'Tiga keputusan desain tidak-obvious yang membentuk validitas analisis ini.',
+        s7Lede: 'Empat keputusan desain yang membentuk validitas analisis ini — lengkap dengan batasannya.',
         tdDecision: 'Keputusan',
         tdAlternative: 'Alternatif yang dipertimbangkan',
         tdWhy: 'Mengapa pilihan ini',
         td1Decision: 'Korelasi Spearman',
         td1Alt: 'Korelasi Pearson',
-        td1Why: 'Data meteorologis tidak normal dan tidak linear. Pearson mengasumsikan keduanya. Korelasi rank Spearman lebih jujur untuk data sensor yang miring seperti ini.',
+        td1Why: 'Variabel meteorologis di sini miring (skewed) dan hubungannya dengan AQI tidak jelas linear. Pendekatan berbasis rank dari Spearman tidak mengasumsikan linearitas atau normalitas — trade-off-nya, ia hanya menangkap hubungan monoton, bukan bentuk asosiasi yang persis.',
         td2Decision: 'Skor prioritas komposit',
         td2Alt: 'Ranking berdasarkan PM2.5 saja',
-        td2Why: 'Satu polutan melewatkan gambaran lengkap. Komposit berbobot (PM2.5 50%, AQI 35%, gas index 15%) memberikan pandangan lebih lengkap tentang stasiun mana yang paling membutuhkan perhatian kebijakan.',
+        td2Why: 'Ranking berdasarkan PM2.5 saja mengabaikan ozon dan gas lain yang tercakup dalam AQI. Komposit berbobot (PM2.5 50%, AQI 35%, gas index 15%) menambahkan lebih banyak sinyal — tapi karena AQI sebagian berasal dari PM2.5, kedua input ini tumpang tindih, dan bobot 50/35/15 adalah pilihan heuristik, bukan hasil fitting atau validasi. Ranking sebaiknya dibaca sebagai eksploratif.',
         td3Decision: 'Deteksi outlier IQR',
         td3Alt: 'Cutoff z-score',
-        td3Why: 'Data sensor mencakup kejadian ekstrem nyata (badai debu, insiden industri). IQR lebih konservatif — mempertahankan kejadian ekstrem nyata sambil menandai kerusakan sensor.',
+        td3Why: 'Cutoff Z-score mengasumsikan distribusi yang kurang lebih normal, sementara pembacaan AQI tidak demikian. Penandaan berbasis IQR tidak membuat asumsi itu, sehingga lebih kecil kemungkinannya salah menandai kejadian ekstrem yang nyata (misalnya badai debu) sebagai error — meski tetap tidak bisa membedakan ekstrem nyata dari kerusakan sensor tanpa peninjauan manual.',
         td4Decision: 'Chi-square untuk zona/musim',
         td4Alt: 'Inspeksi visual saja',
-        td4Why: 'Pola visual adalah hipotesis, bukan bukti. Uji chi-square dengan p < 0,001 mengubah observasi menjadi temuan yang tervalidasi secara statistik.',
+        td4Why: 'Pola visual bisa jadi hanya noise sampling. Uji chi-square (p < 0,001 untuk keduanya) mengubah "terlihat berkaitan" menjadi klaim yang teruji secara statistik — meski uji ini hanya menetapkan asosiasi, bukan bahwa zona atau musim menyebabkan perbedaannya.',
         s8Num: '08 · Perjalanan Belajar',
         s8H2: 'Submission ini <em>pernah ditolak — lalu lulus.</em>',
         s8Desc: 'Dashboard ini adalah tugas akhir <strong>Belajar Fundamental Analisis Data</strong> — IDCamp 2025 level Intermediate dari Dicoding. Submission pertama ditolak. Ini yang berubah.',
@@ -1170,12 +1170,12 @@
         s9Lede: 'Dashboard saat ini menjelaskan apa yang terjadi. Fase berikutnya adalah memprediksi apa yang akan terjadi — dan menandainya sebelum terjadi.',
         road0Label: 'Dashboard Analytics',
         road0Sub: 'tren AQI · peta spasial · chi-square',
-        road1Label: 'Forecasting AQI',
-        road1Sub: 'model prediktif berbasis cuaca',
-        road2Label: 'Sistem Alert Otomatis',
-        road2Sub: 'threshold PM2.5 · flag periode kritis',
-        road3Label: 'Mesin Rekomendasi Kebijakan',
-        road3Sub: 'prioritas intervensi per stasiun',
+        road1Label: 'Baseline Forecasting',
+        road1Sub: 'split train/test temporal · baseline naif · backtesting',
+        road2Label: 'Model Forecasting AQI',
+        road2Sub: 'evaluasi MAE/RMSE terhadap baseline',
+        road3Label: 'Alert Berbasis Threshold',
+        road3Sub: 'tandai periode kritis · ranking stasiun untuk tindak lanjut',
         ctaNum: 'Coba · Lihat kodenya',
         ctaH2: 'Dashboard interaktif <em>di Streamlit.</em>',
         ctaP: 'Jelajahi data kualitas udara Beijing dari 12 stasiun — tren AQI, pola musiman, korelasi meteorologi, dan peta prioritas geospasial. Semua dari 46 MB data sensor per jam.',

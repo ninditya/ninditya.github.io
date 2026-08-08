@@ -269,9 +269,10 @@
         <span class="tag">Defect Mgmt (JIRA-style)</span><span class="tag">Agile / Scrum</span>
       </div>
       <div class="disclosure" data-i18n="disclosure">
-        <strong>Full disclosure:</strong> SigmaPay is a fictional bank built specifically for this portfolio — it is not
-        production banking experience. What's real is the STLC discipline: every test case, defect, and query below was
-        actually designed and executed against the prototype linked at the bottom of this page.
+        <strong>Full disclosure:</strong> SigmaPay is a fictional bank built specifically for this portfolio, using
+        synthetic accounts and a simulated environment — it is not production banking experience. What's real is the
+        STLC discipline: every test case, defect, and query below was actually designed and executed against the
+        prototype linked at the bottom of this page.
       </div>
     </div>
   </section>
@@ -294,7 +295,7 @@
     <div class="wrap">
       <div class="section-num" data-i18n="whyNum">01 · Why This Project</div>
       <h2 data-i18n="whyTitle">Banking QA postings want proof. <em>Not a list of buzzwords.</em></h2>
-      <p class="lede" data-i18n="whyLede">Manual QA job postings for Indonesian digital banking consistently ask for the same concrete things: Transfer, QRIS, Virtual Account, SIT/UAT, JIRA or Azure DevOps, Postman, SQL, Agile/Scrum. Rather than list these as keywords, I built a dummy mobile banking app and ran a complete Software Testing Life Cycle against it — so every skill on this page is something I can walk through in detail, not recite.</p>
+      <p class="lede" data-i18n="whyLede">Manual QA job postings for Indonesian digital banking consistently ask for the same concrete things: Transfer, QRIS, Virtual Account, SIT/UAT, JIRA or Azure DevOps, Postman, SQL, Agile/Scrum. Rather than list these as keywords, I built a dummy mobile banking app and ran a complete Software Testing Life Cycle against it — so every skill on this page is something I can walk through in detail, not recite. Every artifact below traces the same chain: requirement → test scenario → test case → execution → defect → retest → closure.</p>
 
       <table class="decision">
         <thead><tr><th data-i18n="stlcColPhase">STLC Phase</th><th data-i18n="stlcColActivity">What I Did</th><th data-i18n="stlcColArtifact">Artifact</th></tr></thead>
@@ -371,8 +372,9 @@
           </table>
         </div>
       </div>
+      <p class="data-note" data-i18n="envNote">All endpoints, sandboxes, and the database above are simulated and non-production — built specifically for this exercise, not connected to any real banking system.</p>
 
-      <h3 data-i18n="testDataTitle">Test data — dummy accounts</h3>
+      <h3 data-i18n="testDataTitle">Test data — synthetic accounts</h3>
       <p class="data-note" data-i18n="testDataNote">Four accounts, four different states — enough to cover the normal path and the two failure modes that matter most in banking: no money, and a blocked destination.</p>
       <table class="decision">
         <thead><tr><th data-i18n="acctColUser">Account</th><th data-i18n="acctColBalance">Balance</th><th data-i18n="acctColLogin">Can Login?</th><th data-i18n="acctColNote">Purpose</th></tr></thead>
@@ -428,7 +430,7 @@
     <div class="wrap">
       <div class="section-num" data-i18n="execNum">04 · Test Execution</div>
       <h2 data-i18n="execTitle">80% pass rate on Cycle 1. <em>100% by Cycle 3.</em></h2>
-      <p class="lede" data-i18n="execLede">Smoke test gates every cycle — 5 critical checks must pass before functional testing starts. Cycle 1 found 6 defects; Cycle 2 retested them alongside a regression pass and found one more, in a module outside the original scope.</p>
+      <p class="lede" data-i18n="execLede">Smoke test gates every cycle — 5 critical checks must pass before functional testing starts. Cycle 1 found 6 defects; Cycle 2 retested them alongside a regression pass and found one more, in a module outside the original scope. The 30 test cases were executed once in Cycle 1; Cycles 2 and 3 retested only the affected subset alongside regression checks, so the 51 total below counts test executions across cycles, not 51 unique test cases.</p>
 
       <div class="cycle-flow" role="img" aria-label="Three execution cycles">
         <div class="cycle-box">
@@ -473,42 +475,42 @@
         <div class="bug-card">
           <div class="bug-top"><span class="bug-id">BUG-SGP-001</span><span class="sev critical" data-i18n="sevCritical">Critical</span></div>
           <h4 data-i18n="bug1Title">Double debit on rapid double-tap of "Send"</h4>
-          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug1Root">No debounce on the submit button and no idempotency key on <code>POST /transfer</code> — the second tap created a second, fully separate transaction.</span></div>
+          <div class="bug-field"><strong data-i18n="fRootCause">Observed Cause</strong><span data-i18n="bug1Root">No debounce on the submit button and no idempotency key on <code>POST /transfer</code> — the second tap created a second, fully separate transaction.</span></div>
           <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug1Fix">Disable the button on first tap; add an idempotency key server-side.</span></div>
           <div class="bug-status">✓ <span data-i18n="statusClosed">Closed — verified via SQL duplicate-check query</span></div>
         </div>
         <div class="bug-card">
           <div class="bug-top"><span class="bug-id">BUG-SGP-002</span><span class="sev critical" data-i18n="sevCritical">Critical</span></div>
           <h4 data-i18n="bug2Title">UI shows "Failed" while the backend recorded success</h4>
-          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug2Root">Client assumed failure on timeout instead of querying actual transaction status — balance was already debited and backend status was SUCCESS.</span></div>
+          <div class="bug-field"><strong data-i18n="fRootCause">Observed Cause</strong><span data-i18n="bug2Root">Client assumed failure on timeout instead of querying actual transaction status — balance was already debited and backend status was SUCCESS.</span></div>
           <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug2Fix">Client auto-queries transaction status after any timeout, before showing a failure state.</span></div>
           <div class="bug-status">✓ <span data-i18n="statusClosed2">Closed — status now reconciled automatically</span></div>
         </div>
         <div class="bug-card">
           <div class="bug-top"><span class="bug-id">BUG-SGP-003</span><span class="sev major" data-i18n="sevMajor">Major</span></div>
           <h4 data-i18n="bug3Title">No auto-reversal when BI-FAST switching times out</h4>
-          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug3Root">No scheduled job to reverse funds or resolve a "Pending" state once the SLA is exceeded — money stayed debited indefinitely.</span></div>
+          <div class="bug-field"><strong data-i18n="fRootCause">Observed Cause</strong><span data-i18n="bug3Root">No scheduled job to reverse funds or resolve a "Pending" state once the SLA is exceeded — money stayed debited indefinitely.</span></div>
           <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug3Fix">Scheduled auto-reversal job after a 15-minute SLA, with user notification.</span></div>
           <div class="bug-status">✓ <span data-i18n="statusClosed3">Closed — verified via Pending-past-SLA query</span></div>
         </div>
         <div class="bug-card">
           <div class="bug-top"><span class="bug-id">BUG-SGP-004</span><span class="sev critical" data-i18n="sevCritical">Critical</span></div>
           <h4 data-i18n="bug4Title">Expired QR still gets processed for payment</h4>
-          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug4Root">No <code>expiry_time</code> check on client or backend before hitting <code>POST /qris/pay</code> — payment succeeded past the QR's validity window.</span></div>
+          <div class="bug-field"><strong data-i18n="fRootCause">Observed Cause</strong><span data-i18n="bug4Root">No <code>expiry_time</code> check on client or backend before hitting <code>POST /qris/pay</code> — payment succeeded past the QR's validity window.</span></div>
           <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug4Fix">Validate expiry on both client (fast UX) and backend (source of truth).</span></div>
           <div class="bug-status">✓ <span data-i18n="statusClosed4">Closed — verified via Postman assertion on errorCode QR_EXPIRED</span></div>
         </div>
         <div class="bug-card">
           <div class="bug-top"><span class="bug-id">BUG-SGP-005</span><span class="sev major" data-i18n="sevMajor">Major</span></div>
           <h4 data-i18n="bug5Title">No Merchant ID cross-check at settlement</h4>
-          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug5Root">Settlement trusted the Merchant ID embedded in the QR payload with no cross-check against registered merchant master data.</span></div>
+          <div class="bug-field"><strong data-i18n="fRootCause">Observed Cause</strong><span data-i18n="bug5Root">Settlement trusted the Merchant ID embedded in the QR payload with no cross-check against registered merchant master data.</span></div>
           <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug5Fix">Validate QR Merchant ID against master data before final settlement.</span></div>
           <div class="bug-status">✓ <span data-i18n="statusClosed5">Closed — verified via merchant cross-check query</span></div>
         </div>
         <div class="bug-card">
           <div class="bug-top"><span class="bug-id">BUG-SGP-006</span><span class="sev minor" data-i18n="sevMinor">Minor</span></div>
           <h4 data-i18n="bug6Title">Negative amount accepted with no client-side validation</h4>
-          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug6Root">Form allowed <code>-100000</code> through to the confirmation screen, surfacing a vague backend error instead of failing fast.</span></div>
+          <div class="bug-field"><strong data-i18n="fRootCause">Observed Cause</strong><span data-i18n="bug6Root">Form allowed <code>-100000</code> through to the confirmation screen, surfacing a vague backend error instead of failing fast.</span></div>
           <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug6Fix">Add client-side validation for the amount field.</span></div>
           <div class="bug-status">✓ <span data-i18n="statusClosed6">Closed</span></div>
         </div>
@@ -525,7 +527,7 @@
     <div class="wrap">
       <div class="section-num" data-i18n="valNum">06 · API &amp; Database Validation</div>
       <h2 data-i18n="valTitle">If it only looks right in the UI, <em>it isn't verified.</em></h2>
-      <p class="lede" data-i18n="valLede">This is the layer that separates "clicked through the screens" from a QA who can prove root cause to a developer with a request/response pair or a query result — not just a claim.</p>
+      <p class="lede" data-i18n="valLede">This is the layer that separates "clicked through the screens" from a QA who can prove root cause to a developer with a request/response pair or a query result — not just a claim. These are basic negative and robustness checks at the API layer, not formal penetration testing — that remains a dedicated Security team's scope.</p>
 
       <div class="two-col" style="align-items:start;">
         <div>
@@ -563,7 +565,7 @@ pm.test(<span class="s">"Amount matches request"</span>, () =&gt; {
               <tr><td data-i18n="negApi2">Required field removed from body</td><td data-i18n="negApi2v">HTTP 400, not 500</td></tr>
               <tr><td data-i18n="negApi3">Same idempotency key sent twice</td><td data-i18n="negApi3v">2nd request returns 1st transaction — validates BUG-SGP-001 fix</td></tr>
               <tr><td data-i18n="negApi4">SQL injection payload in <code>note</code></td><td data-i18n="negApi4v">Treated as plain string, no 500</td></tr>
-              <tr><td data-i18n="negApi5">Status endpoint hit with another user's transactionId</td><td data-i18n="negApi5v">HTTP 403 — IDOR check</td></tr>
+              <tr><td data-i18n="negApi5">Status endpoint hit with another user's transactionId</td><td data-i18n="negApi5v">HTTP 403 — authorization boundary check</td></tr>
             </tbody>
           </table>
         </div>
@@ -626,7 +628,7 @@ WHERE status = <span class="s">'PENDING'</span>
         </tbody>
       </table>
 
-      <div class="pullquote" data-i18n="goQuote">"Recommendation: <strong>GO</strong> for UAT and a soft launch — with tight monitoring on Transfer &amp; QRIS for the first two weeks, a rollback plan for BI-FAST reversal scenarios specifically, and the regression suite flagged as the top automation candidate next sprint."</div>
+      <div class="pullquote" data-i18n="goQuote">"Recommendation: <strong>Proceed to simulated UAT</strong> — with focused monitoring on Transfer &amp; QRIS scenarios, a rollback plan for BI-FAST reversal cases specifically, and the regression suite flagged as the top automation candidate next sprint."</div>
     </div>
   </section>
 
@@ -726,11 +728,11 @@ WHERE status = <span class="s">'PENDING'</span>
         heroMetaDesign:'<strong>Design</strong> 30 test cases · positive/negative/edge case',
         heroMetaExecute:'<strong>Execute</strong> manual UI · Postman API · SQL validation',
         heroMetaClose:'<strong>Close</strong> defect density · exit criteria · Go/No-Go',
-        disclosure:'<strong>Full disclosure:</strong> SigmaPay is a fictional bank built specifically for this portfolio — it is not production banking experience. What\'s real is the STLC discipline: every test case, defect, and query below was actually designed and executed against the prototype linked at the bottom of this page.',
+        disclosure:'<strong>Full disclosure:</strong> SigmaPay is a fictional bank built specifically for this portfolio, using synthetic accounts and a simulated environment — it is not production banking experience. What\'s real is the STLC discipline: every test case, defect, and query below was actually designed and executed against the prototype linked at the bottom of this page.',
         stat1:'Test cases<br>designed', stat2:'Defects found<br>3 Critical', stat3:'Test executions<br>across 3 cycles', stat4:'Final pass rate<br>Cycle 3', stat5:'Prototype screens<br>+ QA workbench',
         whyNum:'01 · Why This Project',
         whyTitle:'Banking QA postings want proof. <em>Not a list of buzzwords.</em>',
-        whyLede:'Manual QA job postings for Indonesian digital banking consistently ask for the same concrete things: Transfer, QRIS, Virtual Account, SIT/UAT, JIRA or Azure DevOps, Postman, SQL, Agile/Scrum. Rather than list these as keywords, I built a dummy mobile banking app and ran a complete Software Testing Life Cycle against it — so every skill on this page is something I can walk through in detail, not recite.',
+        whyLede:'Manual QA job postings for Indonesian digital banking consistently ask for the same concrete things: Transfer, QRIS, Virtual Account, SIT/UAT, JIRA or Azure DevOps, Postman, SQL, Agile/Scrum. Rather than list these as keywords, I built a dummy mobile banking app and ran a complete Software Testing Life Cycle against it — so every skill on this page is something I can walk through in detail, not recite. Every artifact below traces the same chain: requirement → test scenario → test case → execution → defect → retest → closure.',
         stlcColPhase:'STLC Phase', stlcColActivity:'What I Did', stlcColArtifact:'Artifact',
         stlc1:'Reviewed user stories, flagged ambiguous requirements — like the exact daily transfer limit — before test design started.',
         stlc2:'Defined scope, strategy, entry/exit criteria, environment, and a risk register.',
@@ -747,7 +749,8 @@ WHERE status = <span class="s">'PENDING'</span>
         criteriaTitle:'Entry &amp; exit criteria', entryLabel:'Entry', entryVal:'Smoke test passes 10 critical cases; test cases reviewed; test data ready',
         exitLabel:'Exit', exitVal:'≥95% test cases executed; 0 open Critical/Blocker; Major defects risk-accepted by PO',
         envTitle:'Test environment', envAppLabel:'App', envApiLabel:'API', envDbLabel:'Database', envSandboxLabel:'Sandbox', envToolsLabel:'Tools',
-        testDataTitle:'Test data — dummy accounts',
+        envNote:'All endpoints, sandboxes, and the database above are simulated and non-production — built specifically for this exercise, not connected to any real banking system.',
+        testDataTitle:'Test data — synthetic accounts',
         testDataNote:'Four accounts, four different states — enough to cover the normal path and the two failure modes that matter most in banking: no money, and a blocked destination.',
         acctColUser:'Account', acctColBalance:'Balance', acctColLogin:'Can Login?', acctColNote:'Purpose',
         acctA:'Main account for normal transfer scenarios', acctB:'Destination-only account (receiver)', acctC:'Insufficient-balance scenario', acctD:'Blocked/inactive destination scenario',
@@ -769,7 +772,7 @@ WHERE status = <span class="s">'PENDING'</span>
         fullSetLink:'→ Full 30-case set (CSV)',
         execNum:'04 · Test Execution',
         execTitle:'80% pass rate on Cycle 1. <em>100% by Cycle 3.</em>',
-        execLede:'Smoke test gates every cycle — 5 critical checks must pass before functional testing starts. Cycle 1 found 6 defects; Cycle 2 retested them alongside a regression pass and found one more, in a module outside the original scope.',
+        execLede:'Smoke test gates every cycle — 5 critical checks must pass before functional testing starts. Cycle 1 found 6 defects; Cycle 2 retested them alongside a regression pass and found one more, in a module outside the original scope. The 30 test cases were executed once in Cycle 1; Cycles 2 and 3 retested only the affected subset alongside regression checks, so the 51 total below counts test executions across cycles, not 51 unique test cases.',
         cyc1Label:'Cycle 1 · SIT', cyc1Detail:'30 test cases · 24 pass · 6 fail',
         cyc2Label:'Cycle 2 · Retest + Regression', cyc2Detail:'18 test cases · 17 pass · 1 new defect',
         cyc3Label:'Cycle 3 · Final Regression', cyc3Detail:'3 test cases · all pass',
@@ -778,7 +781,7 @@ WHERE status = <span class="s">'PENDING'</span>
         defectsNum:'05 · Defect Management',
         defectsTitle:'6 bugs. <em>3 of them touch real money.</em>',
         defectsLede:'Logged in JIRA-style format — Summary, Environment, Steps to Reproduce, Expected vs. Actual, Severity, Priority. Every one below is reproducible live in the prototype: set the build toggle to <code>v1.4.0-QA</code> to trigger it, then flip to <code>v1.5.0-FIX</code> and repeat the same steps to verify the fix.',
-        sevCritical:'Critical', sevMajor:'Major', sevMinor:'Minor', fRootCause:'Root Cause', fFix:'Fix',
+        sevCritical:'Critical', sevMajor:'Major', sevMinor:'Minor', fRootCause:'Observed Cause', fFix:'Fix',
         bug1Title:'Double debit on rapid double-tap of "Send"',
         bug1Root:'No debounce on the submit button and no idempotency key on <code>POST /transfer</code> — the second tap created a second, fully separate transaction.',
         bug1Fix:'Disable the button on first tap; add an idempotency key server-side.',
@@ -806,13 +809,13 @@ WHERE status = <span class="s">'PENDING'</span>
         bug7Note:'<strong>Found during regression, not the original test pass:</strong> BUG-SGP-007 — transaction history sorted incorrectly after a date-format change elsewhere in the app. It was outside the Transfer/QRIS scope entirely, which is exactly the point of running a full regression suite instead of only retesting what changed.',
         valNum:'06 · API &amp; Database Validation',
         valTitle:'If it only looks right in the UI, <em>it isn\'t verified.</em>',
-        valLede:'This is the layer that separates "clicked through the screens" from a QA who can prove root cause to a developer with a request/response pair or a query result — not just a claim.',
+        valLede:'This is the layer that separates "clicked through the screens" from a QA who can prove root cause to a developer with a request/response pair or a query result — not just a claim. These are basic negative and robustness checks at the API layer, not formal penetration testing — that remains a dedicated Security team\'s scope.',
         collectionTitle:'Postman collection structure',
         negApiTitle:'Negative tests only visible at the API layer',
         negApi1:'Expired/invalid token', negApi2:'Required field removed from body', negApi2v:'HTTP 400, not 500',
         negApi3:'Same idempotency key sent twice', negApi3v:'2nd request returns 1st transaction — validates BUG-SGP-001 fix',
         negApi4:'SQL injection payload in <code>note</code>', negApi4v:'Treated as plain string, no 500',
-        negApi5:'Status endpoint hit with another user\'s transactionId', negApi5v:'HTTP 403 — IDOR check',
+        negApi5:'Status endpoint hit with another user\'s transactionId', negApi5v:'HTTP 403 — authorization boundary check',
         sqlTitle:'SQL validation — proving root cause from the data',
         sqlFullLink:'→ All 10 validation queries (.sql)',
         closureNum:'07 · Test Closure &amp; Sign-off',
@@ -822,7 +825,7 @@ WHERE status = <span class="s">'PENDING'</span>
         exitColCriteria:'Exit Criteria', exitColTarget:'Target', exitColActual:'Actual',
         exit1:'Test cases executed', exit2:'Critical defects open', exit3:'Major defects open', exit3t:'0 or risk-accepted',
         exit4:'Summary report approved', exit4t:'Yes', exit4a:'Pending sign-off',
-        goQuote:'"Recommendation: <strong>GO</strong> for UAT and a soft launch — with tight monitoring on Transfer &amp; QRIS for the first two weeks, a rollback plan for BI-FAST reversal scenarios specifically, and the regression suite flagged as the top automation candidate next sprint."',
+        goQuote:'"Recommendation: <strong>Proceed to simulated UAT</strong> — with focused monitoring on Transfer &amp; QRIS scenarios, a rollback plan for BI-FAST reversal cases specifically, and the regression suite flagged as the top automation candidate next sprint."',
         regNum:'08 · Regression Discipline',
         regTitle:'26 checks, <em>reused every release.</em>',
         regLede:'A living checklist run before every release and every Critical/Major hotfix — not a one-time artifact. It\'s what caught BUG-SGP-007 outside the original scope. Critical-path items (Fund Transfer + Database Sanity) block release on any failure.',
@@ -854,11 +857,11 @@ WHERE status = <span class="s">'PENDING'</span>
         heroMetaDesign:'<strong>Design</strong> 30 test case · positive/negative/edge case',
         heroMetaExecute:'<strong>Execute</strong> manual UI · Postman API · validasi SQL',
         heroMetaClose:'<strong>Close</strong> defect density · exit criteria · Go/No-Go',
-        disclosure:'<strong>Disclosure penuh:</strong> SigmaPay adalah bank fiktif yang dibuat khusus untuk portfolio ini — bukan pengalaman banking production. Yang nyata adalah disiplin STLC-nya: setiap test case, defect, dan query di bawah ini benar-benar didesain dan dieksekusi terhadap prototype yang ditautkan di bagian bawah halaman ini.',
+        disclosure:'<strong>Disclosure penuh:</strong> SigmaPay adalah bank fiktif yang dibuat khusus untuk portfolio ini, menggunakan akun sintetis dan environment simulasi — bukan pengalaman banking production. Yang nyata adalah disiplin STLC-nya: setiap test case, defect, dan query di bawah ini benar-benar didesain dan dieksekusi terhadap prototype yang ditautkan di bagian bawah halaman ini.',
         stat1:'Test case<br>didesain', stat2:'Defect ditemukan<br>3 Critical', stat3:'Eksekusi test<br>di 3 cycle', stat4:'Pass rate akhir<br>Cycle 3', stat5:'Layar prototype<br>+ QA workbench',
         whyNum:'01 · Kenapa Project Ini',
         whyTitle:'Loker QA banking minta bukti. <em>Bukan daftar buzzword.</em>',
-        whyLede:'Loker QA manual untuk digital banking Indonesia konsisten meminta hal yang sama: Transfer, QRIS, Virtual Account, SIT/UAT, JIRA atau Azure DevOps, Postman, SQL, Agile/Scrum. Daripada sekadar mencantumkannya sebagai keyword, saya membangun aplikasi mobile banking dummy dan menjalankan siklus Software Testing Life Cycle lengkap terhadapnya — jadi setiap skill di halaman ini bisa saya jelaskan detail, bukan sekadar dihafalkan.',
+        whyLede:'Loker QA manual untuk digital banking Indonesia konsisten meminta hal yang sama: Transfer, QRIS, Virtual Account, SIT/UAT, JIRA atau Azure DevOps, Postman, SQL, Agile/Scrum. Daripada sekadar mencantumkannya sebagai keyword, saya membangun aplikasi mobile banking dummy dan menjalankan siklus Software Testing Life Cycle lengkap terhadapnya — jadi setiap skill di halaman ini bisa saya jelaskan detail, bukan sekadar dihafalkan. Setiap artifact di bawah mengikuti rantai yang sama: requirement → test scenario → test case → eksekusi → defect → retest → closure.',
         stlcColPhase:'Fase STLC', stlcColActivity:'Yang Saya Lakukan', stlcColArtifact:'Artifact',
         stlc1:'Review user story, menandai requirement ambigu — seperti nominal pasti limit transfer harian — sebelum test design dimulai.',
         stlc2:'Menentukan scope, strategi, entry/exit criteria, environment, dan risk register.',
@@ -875,7 +878,8 @@ WHERE status = <span class="s">'PENDING'</span>
         criteriaTitle:'Entry &amp; exit criteria', entryLabel:'Entry', entryVal:'Smoke test lolos 10 kasus kritikal; test case sudah direview; test data siap',
         exitLabel:'Exit', exitVal:'≥95% test case dieksekusi; 0 Critical/Blocker open; defect Major sudah risk-accepted PO',
         envTitle:'Test environment', envAppLabel:'Aplikasi', envApiLabel:'API', envDbLabel:'Database', envSandboxLabel:'Sandbox', envToolsLabel:'Tools',
-        testDataTitle:'Test data — akun dummy',
+        envNote:'Semua endpoint, sandbox, dan database di atas bersifat simulasi dan non-production — dibangun khusus untuk latihan ini, tidak terhubung ke sistem banking nyata manapun.',
+        testDataTitle:'Test data — akun sintetis',
         testDataNote:'Empat akun, empat kondisi berbeda — cukup untuk mencakup alur normal dan dua mode kegagalan paling penting di banking: tidak ada uang, dan rekening tujuan diblokir.',
         acctColUser:'Akun', acctColBalance:'Saldo', acctColLogin:'Bisa Login?', acctColNote:'Kegunaan',
         acctA:'Akun utama untuk skenario transfer normal', acctB:'Akun tujuan saja (penerima)', acctC:'Skenario saldo tidak cukup', acctD:'Skenario rekening tujuan diblokir/tidak aktif',
@@ -897,7 +901,7 @@ WHERE status = <span class="s">'PENDING'</span>
         fullSetLink:'→ Lihat 30 test case lengkap (CSV)',
         execNum:'04 · Test Execution',
         execTitle:'Pass rate 80% di Cycle 1. <em>100% di Cycle 3.</em>',
-        execLede:'Smoke test menjadi gate di setiap cycle — 5 kasus kritikal harus lolos sebelum functional testing dimulai. Cycle 1 menemukan 6 defect; Cycle 2 melakukan retest sekaligus regression dan menemukan 1 defect lagi, di modul luar scope awal.',
+        execLede:'Smoke test menjadi gate di setiap cycle — 5 kasus kritikal harus lolos sebelum functional testing dimulai. Cycle 1 menemukan 6 defect; Cycle 2 melakukan retest sekaligus regression dan menemukan 1 defect lagi, di modul luar scope awal. 30 test case dieksekusi sekali di Cycle 1; Cycle 2 dan Cycle 3 hanya me-retest subset yang terdampak beserta pengecekan regresi, sehingga total 51 di bawah ini menghitung jumlah eksekusi test lintas cycle, bukan 51 test case unik.',
         cyc1Label:'Cycle 1 · SIT', cyc1Detail:'30 test case · 24 pass · 6 fail',
         cyc2Label:'Cycle 2 · Retest + Regresi', cyc2Detail:'18 test case · 17 pass · 1 defect baru',
         cyc3Label:'Cycle 3 · Regresi Final', cyc3Detail:'3 test case · semua pass',
@@ -906,7 +910,7 @@ WHERE status = <span class="s">'PENDING'</span>
         defectsNum:'05 · Defect Management',
         defectsTitle:'6 bug. <em>3 di antaranya menyentuh uang sungguhan.</em>',
         defectsLede:'Dicatat dengan format gaya JIRA — Summary, Environment, Steps to Reproduce, Expected vs Actual, Severity, Priority. Semua bug di bawah bisa direproduksi langsung di prototype: set toggle build ke <code>v1.4.0-QA</code> untuk memicu bug, lalu pindahkan ke <code>v1.5.0-FIX</code> dan ulangi langkah yang sama untuk verifikasi fix.',
-        sevCritical:'Critical', sevMajor:'Major', sevMinor:'Minor', fRootCause:'Root Cause', fFix:'Fix',
+        sevCritical:'Critical', sevMajor:'Major', sevMinor:'Minor', fRootCause:'Penyebab yang Diamati', fFix:'Fix',
         bug1Title:'Double debit saat tombol "Kirim" ditekan dua kali cepat',
         bug1Root:'Tidak ada debounce pada tombol submit dan tidak ada idempotency key di <code>POST /transfer</code> — tap kedua membuat transaksi baru yang sepenuhnya terpisah.',
         bug1Fix:'Disable tombol setelah tap pertama; tambahkan idempotency key di sisi server.',
@@ -934,13 +938,13 @@ WHERE status = <span class="s">'PENDING'</span>
         bug7Note:'<strong>Ditemukan saat regresi, bukan test pass awal:</strong> BUG-SGP-007 — riwayat mutasi salah urut setelah perubahan format tanggal di bagian lain aplikasi. Sama sekali di luar scope Transfer/QRIS — justru inilah gunanya menjalankan regression suite penuh, bukan hanya retest area yang berubah.',
         valNum:'06 · API &amp; Database Validation',
         valTitle:'Kalau cuma terlihat benar di UI, <em>berarti belum tervalidasi.</em>',
-        valLede:'Ini layer yang membedakan "klik-klik doang di layar" dengan QA yang bisa membuktikan root cause ke developer lewat pasangan request/response atau hasil query — bukan sekadar klaim.',
+        valLede:'Ini layer yang membedakan "klik-klik doang di layar" dengan QA yang bisa membuktikan root cause ke developer lewat pasangan request/response atau hasil query — bukan sekadar klaim. Ini adalah pengecekan negative dan robustness dasar di level API, bukan penetration testing formal — itu tetap menjadi tanggung jawab tim Security terpisah.',
         collectionTitle:'Struktur collection Postman',
         negApiTitle:'Negative test yang hanya terlihat di level API',
         negApi1:'Token expired/invalid', negApi2:'Field wajib dihapus dari body', negApi2v:'HTTP 400, bukan 500',
         negApi3:'Idempotency key sama dikirim 2x', negApi3v:'Request ke-2 mengembalikan transaksi ke-1 — validasi fix BUG-SGP-001',
         negApi4:'Payload SQL injection di <code>note</code>', negApi4v:'Diperlakukan sebagai string biasa, tidak 500',
-        negApi5:'Endpoint status diakses dengan transactionId user lain', negApi5v:'HTTP 403 — cek IDOR',
+        negApi5:'Endpoint status diakses dengan transactionId user lain', negApi5v:'HTTP 403 — cek batas otorisasi',
         sqlTitle:'Validasi SQL — membuktikan root cause dari data',
         sqlFullLink:'→ Semua 10 query validasi (.sql)',
         closureNum:'07 · Test Closure &amp; Sign-off',
@@ -950,7 +954,7 @@ WHERE status = <span class="s">'PENDING'</span>
         exitColCriteria:'Exit Criteria', exitColTarget:'Target', exitColActual:'Aktual',
         exit1:'Test case dieksekusi', exit2:'Defect Critical open', exit3:'Defect Major open', exit3t:'0 atau risk-accepted',
         exit4:'Summary report disetujui', exit4t:'Ya', exit4a:'Menunggu sign-off',
-        goQuote:'"Rekomendasi: <strong>GO</strong> untuk lanjut UAT dan soft launch — dengan monitoring ketat pada Transfer &amp; QRIS di dua minggu pertama, rollback plan khusus untuk skenario reversal BI-FAST, dan regression suite ditandai sebagai kandidat automasi utama sprint berikutnya."',
+        goQuote:'"Rekomendasi: <strong>Lanjutkan ke simulated UAT</strong> — dengan monitoring fokus pada skenario Transfer &amp; QRIS, rollback plan khusus untuk kasus reversal BI-FAST, dan regression suite ditandai sebagai kandidat automasi utama sprint berikutnya."',
         regNum:'08 · Disiplin Regresi',
         regTitle:'26 pengecekan, <em>dipakai ulang tiap rilis.</em>',
         regLede:'Checklist hidup yang dijalankan sebelum setiap rilis dan setiap hotfix Critical/Major — bukan artifact sekali pakai. Inilah yang menangkap BUG-SGP-007 di luar scope awal. Item critical-path (Fund Transfer + Database Sanity) memblokir rilis kalau ada yang gagal.',
