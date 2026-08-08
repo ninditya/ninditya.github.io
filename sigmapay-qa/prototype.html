@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+<script src="./support.js"></script>
+</head>
+<body>
+<nav class="site-nav" id="siteNav">
+  <div class="site-nav-inner">
+    <div class="site-nav-tools">
+      <button class="site-nav-toggle" type="button" id="siteNavToggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <div class="site-nav-pills">
+        <a href="./" class="site-nav-pill back" data-nav="back">&larr; Back to case study</a>
+        <a href="/#projects" class="site-nav-pill" data-nav="projects">Projects</a>
+        <a href="/#contact" class="site-nav-pill" data-nav="contact">Contact</a>
+      </div>
+      <div class="site-lang-switch" aria-label="Language switch">
+        <button class="site-lang-btn active" type="button" data-lang="en">EN</button>
+        <button class="site-lang-btn" type="button" data-lang="id">ID</button>
+      </div>
+      <button class="site-theme-toggle" type="button" id="siteThemeToggle" aria-label="Switch to dark mode">&#127769;</button>
+    </div>
+  </div>
+</nav>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/styles.css">
+<script src="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:var(--color-bg); color:var(--color-text); font-family:var(--font-body); }
+  a { color:var(--color-accent-700); text-decoration:none; }
+  a:hover { color:var(--color-accent); }
+  ::-webkit-scrollbar { width:9px; height:9px; }
+  ::-webkit-scrollbar-thumb { background:var(--color-neutral-300); }
+  ::-webkit-scrollbar-track { background:transparent; }
+  @keyframes sweep { 0%{transform:translateY(-40%)} 100%{transform:translateY(340%)} }
+  @keyframes spin { to { transform:rotate(360deg) } }
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column;background:var(--color-bg)">
+
+  <header style="display:flex;align-items:center;gap:20px;padding:11px 18px;border-bottom:1px solid var(--color-divider)">
+    <span style="font-family:var(--font-heading);font-weight:600;font-size:19px;letter-spacing:.04em">SIGMAPAY <span style="color:var(--color-accent-700)">/ QA WORKBENCH</span></span>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:color-mix(in srgb,var(--color-text) 50%,transparent)">Sprint 14 &nbsp;·&nbsp; api-qa.sigmapay.dummy &nbsp;·&nbsp; schema sigmapay_qa</span>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+      <span style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Build terpasang</span>
+      <div style="display:flex">
+        <button onClick="{{ setBuggy }}" class="btn btn-secondary" style="position:relative;font-family:'IBM Plex Mono',monospace;font-size:11px;padding:7px 12px">
+          v1.4.0-QA
+          <sc-if value="{{ isBuggy }}" hint-placeholder-val="{{ true }}"><i style="position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--color-accent)"></i></sc-if>
+        </button>
+        <button onClick="{{ setFixed }}" class="btn btn-secondary" style="position:relative;font-family:'IBM Plex Mono',monospace;font-size:11px;padding:7px 12px;border-left:none">
+          v1.5.0-FIX
+          <sc-if value="{{ isFixed }}" hint-placeholder-val="{{ true }}"><i style="position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--color-accent)"></i></sc-if>
+        </button>
+      </div>
+      <button onClick="{{ resetAll }}" class="btn btn-secondary" style="font-size:12px;padding:7px 12px">Reset environment</button>
+    </div>
+  </header>
+
+  <div style="flex:1;display:grid;grid-template-columns:274px minmax(430px,1fr) 396px;overflow-x:auto">
+
+    <aside style="border-right:1px solid var(--color-divider);display:flex;flex-direction:column">
+      <div style="padding:12px 14px 10px;border-bottom:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">01 / Kondisi jaringan</div>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-top:9px">
+          <sc-for list="{{ nets }}" as="n" hint-placeholder-count="3">
+            <button onClick="{{ n.tap }}" class="btn btn-secondary" style="position:relative;justify-content:flex-start;font-size:12px;padding:7px 10px;text-align:left">
+              {{ n.label }}
+              <sc-if value="{{ n.on }}" hint-placeholder-val="{{ true }}"><i style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--color-accent)"></i></sc-if>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="padding:12px 14px 10px;border-bottom:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">02 / Akun uji</div>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-top:9px">
+          <sc-for list="{{ accounts }}" as="a" hint-placeholder-count="4">
+            <button onClick="{{ a.tap }}" class="btn btn-secondary" style="position:relative;display:block;text-align:left;font-size:12px;padding:7px 10px;line-height:1.35">
+              <span style="font-family:var(--font-heading);font-size:13px">{{ a.name }}</span>
+              <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ a.no }} · {{ a.saldo }}</span>
+              <sc-if value="{{ a.on }}" hint-placeholder-val="{{ true }}"><i style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--color-accent)"></i></sc-if>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="padding:12px 14px 10px;border-bottom:1px solid var(--color-divider)">
+        <div style="font-family:var(--font-heading);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">03 / Akumulasi limit harian</div>
+        <div style="font-size:11px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-top:6px">Limit transfer Rp 50.000.000 / hari</div>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-top:8px">
+          <sc-for list="{{ accums }}" as="k" hint-placeholder-count="2">
+            <button onClick="{{ k.tap }}" class="btn btn-secondary" style="position:relative;justify-content:flex-start;font-size:12px;padding:7px 10px">
+              {{ k.label }}
+              <sc-if value="{{ k.on }}" hint-placeholder-val="{{ true }}"><i style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--color-accent)"></i></sc-if>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="padding:12px 14px 16px">
+        <div style="font-family:var(--font-heading);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">04 / Aksi QA</div>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-top:9px">
+          <button onClick="{{ forceTimeout }}" class="btn btn-secondary" style="justify-content:flex-start;font-size:12px;padding:7px 10px">Paksa sesi timeout</button>
+          <button onClick="{{ logout }}" class="btn btn-secondary" style="justify-content:flex-start;font-size:12px;padding:7px 10px">Logout / kembali ke Login</button>
+        </div>
+        <p style="font-size:11px;line-height:1.5;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:14px 0 0">Semua data rekening, nominal dan ID transaksi bersifat dummy — sesuai catatan pada README project.</p>
+      </div>
+    </aside>
+
+    <main style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px 16px 24px">
+      <div style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">
+        <span style="color:var(--color-accent-700)">{{ screenCode }}</span>
+        <span>{{ screenTitle }}</span>
+        <span>·</span>
+        <span>{{ buildLabel }}</span>
+      </div>
+
+      <div class="blueprint" style="padding:14px">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ devW }}" height="{{ devH }}" hint-size="390px,782px">
+
+          <div style="height:100%;display:flex;flex-direction:column;background:var(--color-bg);padding-top:52px;box-sizing:border-box;font-family:var(--font-body)">
+
+            <sc-if value="{{ chrome }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-accent-900);color:var(--color-bg)">
+                <button onClick="{{ back }}" class="btn" style="border-color:color-mix(in srgb,#f2f2f3 35%,transparent);color:var(--color-bg);background:transparent;width:30px;height:30px;padding:0;font-size:15px">‹</button>
+                <span style="font-family:var(--font-heading);font-size:17px;letter-spacing:.02em">{{ appTitle }}</span>
+                <span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:9px;opacity:.7">{{ buildTag }}</span>
+              </div>
+            </sc-if>
+
+            <div style="flex:1;overflow:auto;padding:16px 16px 46px">
+
+              <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S01 Login" style="display:flex;flex-direction:column;height:100%;padding-top:26px">
+                  <div style="font-family:var(--font-heading);font-size:36px;letter-spacing:.06em;line-height:1">SIGMAPAY</div>
+                  <div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--color-accent-700);margin-top:2px">Mobile Banking</div>
+                  <div style="margin-top:40px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Pilih akun uji</div>
+                  <div style="display:flex;flex-direction:column;gap:9px;margin-top:11px">
+                    <sc-for list="{{ loginable }}" as="a" hint-placeholder-count="3">
+                      <button onClick="{{ a.login }}" class="btn btn-secondary" style="display:block;text-align:left;padding:12px 13px;line-height:1.4">
+                        <span style="font-family:var(--font-heading);font-size:16px">{{ a.name }}</span>
+                        <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ a.no }} · {{ a.saldo }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <div style="margin-top:auto;font-size:11px;line-height:1.5;color:color-mix(in srgb,var(--color-text) 55%,transparent)">PIN untuk semua akun uji: <b style="font-family:'IBM Plex Mono',monospace">123456</b>. PIN salah ditolak (REG-02).</div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isPin }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S02 PIN login">
+                  <div style="font-family:var(--font-heading);font-size:22px">Masukkan PIN</div>
+                  <div style="font-size:13px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin-top:2px">{{ activeName }}</div>
+                  <div style="display:flex;gap:11px;margin:26px 0 4px">
+                    <sc-for list="{{ pinDots }}" as="d" hint-placeholder-count="6">
+                      <span style="position:relative;width:100%;height:34px;border:1px solid var(--color-divider);display:block">
+                        <sc-if value="{{ d.on }}" hint-placeholder-val="{{ true }}"><i style="position:absolute;inset:0;background:var(--color-accent)"></i></sc-if>
+                      </span>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{ pinError }}" hint-placeholder-val="{{ true }}">
+                    <div style="font-size:12px;color:#b0402e;margin-top:10px">PIN salah. Sisa percobaan: {{ pinLeft }}</div>
+                  </sc-if>
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:24px">
+                    <sc-for list="{{ pad }}" as="k" hint-placeholder-count="12">
+                      <button onClick="{{ k.tap }}" class="btn btn-secondary" style="height:50px;font-family:var(--font-heading);font-size:20px">{{ k.l }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S03 Home">
+                  <div class="blueprint" style="padding:14px;background:var(--color-accent-900);color:var(--color-bg);border-color:var(--color-accent-900)">
+                    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                    <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.75">Rekening utama</div>
+                    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;margin-top:3px;opacity:.85">{{ activeNo }}</div>
+                    <div style="font-family:var(--font-heading);font-size:33px;margin-top:10px;line-height:1">{{ activeSaldo }}</div>
+                    <div style="font-size:11px;opacity:.7;margin-top:4px">Limit harian tersisa {{ limitLeft }}</div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:16px">
+                    <sc-for list="{{ menu }}" as="m" hint-placeholder-count="6">
+                      <button onClick="{{ m.tap }}" class="btn btn-secondary" style="display:block;height:74px;font-size:11.5px;line-height:1.3;padding:8px 6px">
+                        <span style="display:block;font-family:var(--font-heading);font-size:17px;color:var(--color-accent-700);margin-bottom:4px">{{ m.mark }}</span>
+                        {{ m.label }}
+                      </button>
+                    </sc-for>
+                  </div>
+                  <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:20px 0 6px">Transaksi terakhir</div>
+                  <sc-if value="{{ noHistory }}" hint-placeholder-val="{{ true }}">
+                    <div style="font-size:12.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);padding:10px 0">Belum ada transaksi pada sesi ini.</div>
+                  </sc-if>
+                  <sc-for list="{{ recent }}" as="h" hint-placeholder-count="2">
+                    <button onClick="{{ h.tap }}" style="width:100%;display:flex;justify-content:space-between;gap:10px;padding:10px 0;border:none;border-bottom:1px solid var(--color-divider);background:transparent;text-align:left;cursor:pointer;font:inherit">
+                      <span>
+                        <span style="display:block;font-size:13px">{{ h.title }}</span>
+                        <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ h.id }} · {{ h.status }}</span>
+                      </span>
+                      <span style="font-family:var(--font-heading);font-size:15px;white-space:nowrap">{{ h.amount }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isTrfType }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S04 Jenis transfer">
+                  <div style="font-family:var(--font-heading);font-size:20px;margin-bottom:12px">Pilih jenis transfer</div>
+                  <div style="display:flex;flex-direction:column;gap:9px">
+                    <sc-for list="{{ trfKinds }}" as="k" hint-placeholder-count="3">
+                      <button onClick="{{ k.tap }}" class="btn btn-secondary" style="display:block;text-align:left;padding:13px;line-height:1.4">
+                        <span style="font-family:var(--font-heading);font-size:16px">{{ k.label }}</span>
+                        <span style="display:block;font-size:11.5px;color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ k.note }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isBank }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S05 Pilih bank tujuan">
+                  <div style="font-family:var(--font-heading);font-size:20px;margin-bottom:12px">Bank tujuan (BI-FAST)</div>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <sc-for list="{{ banks }}" as="b" hint-placeholder-count="3">
+                      <button onClick="{{ b.tap }}" class="btn btn-secondary" style="justify-content:space-between;padding:12px 13px;font-size:14px">
+                        {{ b.name }}<span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ b.code }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isDest }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S06 Rekening tujuan">
+                  <div style="font-family:var(--font-heading);font-size:20px">Nomor rekening tujuan</div>
+                  <div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin-top:2px">{{ destBankLabel }}</div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:22px;letter-spacing:.06em;padding:12px 0;border-bottom:1px solid var(--color-accent);min-height:28px;margin-top:14px">{{ destShown }}</div>
+                  <sc-if value="{{ destName }}" hint-placeholder-val="{{ true }}">
+                    <div style="margin-top:12px;padding:10px 12px;background:var(--color-accent-100);font-size:13px">
+                      <span style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-800);display:block">Hasil inquiry</span>
+                      {{ destName }}
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ destError }}" hint-placeholder-val="{{ true }}">
+                    <div style="margin-top:12px;padding:10px 12px;border:1px solid #b0402e;color:#8d3324;font-size:13px">{{ destError }}</div>
+                  </sc-if>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:14px">
+                    <sc-for list="{{ destPresets }}" as="p" hint-placeholder-count="4">
+                      <button onClick="{{ p.tap }}" class="btn btn-secondary" style="font-size:11px;padding:5px 9px">{{ p.label }}</button>
+                    </sc-for>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px">
+                    <sc-for list="{{ pad }}" as="k" hint-placeholder-count="12">
+                      <button onClick="{{ k.tap }}" class="btn btn-secondary" style="height:44px;font-family:var(--font-heading);font-size:19px">{{ k.l }}</button>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ inquiry }}" class="btn btn-primary btn-block" style="margin-top:12px;height:44px">Cek rekening</button>
+                  <sc-if value="{{ canContinueDest }}" hint-placeholder-val="{{ true }}">
+                    <button onClick="{{ toAmount }}" class="btn btn-secondary btn-block" style="height:44px">Lanjut ke nominal</button>
+                  </sc-if>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isVaInput }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S07 Nomor Virtual Account">
+                  <div style="font-family:var(--font-heading);font-size:20px">Nomor Virtual Account</div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;letter-spacing:.05em;padding:12px 0;border-bottom:1px solid var(--color-accent);min-height:26px;margin-top:14px">{{ vaShown }}</div>
+                  <div style="display:flex;gap:6px;margin-top:12px">
+                    <sc-for list="{{ vaPresets }}" as="p" hint-placeholder-count="2">
+                      <button onClick="{{ p.tap }}" class="btn btn-secondary" style="font-size:11px;padding:5px 9px">{{ p.label }}</button>
+                    </sc-for>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px">
+                    <sc-for list="{{ pad }}" as="k" hint-placeholder-count="12">
+                      <button onClick="{{ k.tap }}" class="btn btn-secondary" style="height:44px;font-family:var(--font-heading);font-size:19px">{{ k.l }}</button>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ vaInquiry }}" class="btn btn-primary btn-block" style="margin-top:12px;height:44px">Cek tagihan</button>
+                  <sc-if value="{{ vaError }}" hint-placeholder-val="{{ true }}">
+                    <div style="margin-top:12px;padding:10px 12px;border:1px solid #b0402e;color:#8d3324;font-size:13px">{{ vaError }}</div>
+                  </sc-if>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isVaBill }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S08 Detail tagihan VA">
+                  <div style="font-family:var(--font-heading);font-size:20px;margin-bottom:12px">Detail tagihan</div>
+                  <sc-for list="{{ vaRows }}" as="r" hint-placeholder-count="5">
+                    <div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--color-divider);font-size:13px">
+                      <span style="color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ r.k }}</span><span style="text-align:right">{{ r.v }}</span>
+                    </div>
+                  </sc-for>
+                  <button onClick="{{ toPin }}" class="btn btn-primary btn-block" style="margin-top:18px;height:46px">Bayar tagihan</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isAmount }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S09 Nominal transfer">
+                  <div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 58%,transparent)">Kepada {{ destName }}</div>
+                  <div style="font-family:var(--font-heading);font-size:32px;padding:10px 0;border-bottom:1px solid var(--color-accent);line-height:1.1;word-break:break-all">{{ amountShown }}</div>
+                  <sc-if value="{{ amountError }}" hint-placeholder-val="{{ true }}">
+                    <div style="font-size:12px;color:#b0402e;margin-top:8px">{{ amountError }}</div>
+                  </sc-if>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">
+                    <sc-for list="{{ amountPresets }}" as="p" hint-placeholder-count="5">
+                      <button onClick="{{ p.tap }}" class="btn btn-secondary" style="font-size:11px;padding:5px 9px">{{ p.label }}</button>
+                    </sc-for>
+                  </div>
+                  <div style="margin-top:14px">
+                    <label class="field" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase">Berita transfer</label>
+                    <input class="input" defaultValue="{{ noteValue }}" onChange="{{ onNote }}" placeholder="opsional" style="margin-top:5px">
+                    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:7px">
+                      <sc-for list="{{ notePresets }}" as="p" hint-placeholder-count="2">
+                        <button onClick="{{ p.tap }}" class="btn btn-secondary" style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:4px 8px">{{ p.label }}</button>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px">
+                    <sc-for list="{{ pad }}" as="k" hint-placeholder-count="12">
+                      <button onClick="{{ k.tap }}" class="btn btn-secondary" style="height:42px;font-family:var(--font-heading);font-size:18px">{{ k.l }}</button>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ toConfirm }}" disabled="{{ amountBlocked }}" class="btn btn-primary btn-block" style="margin-top:12px;height:46px">Lanjut</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isConfirm }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S10 Konfirmasi transfer">
+                  <div style="font-family:var(--font-heading);font-size:20px;margin-bottom:12px">Konfirmasi transfer</div>
+                  <sc-for list="{{ confirmRows }}" as="r" hint-placeholder-count="6">
+                    <div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--color-divider);font-size:13px">
+                      <span style="color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ r.k }}</span><span style="text-align:right;word-break:break-all">{{ r.v }}</span>
+                    </div>
+                  </sc-for>
+                  <div style="display:flex;justify-content:space-between;gap:12px;padding:12px 0;font-family:var(--font-heading);font-size:19px">
+                    <span>Total debit</span><span>{{ totalDebit }}</span>
+                  </div>
+                  <button onClick="{{ toPin }}" class="btn btn-primary btn-block" style="height:46px">Lanjut ke PIN</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isTrfPin }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S11 PIN transaksi">
+                  <div style="font-family:var(--font-heading);font-size:20px">PIN transaksi</div>
+                  <div style="font-size:12.5px;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin-top:2px">{{ payLabel }} · {{ totalDebit }}</div>
+                  <div style="display:flex;gap:11px;margin:20px 0 4px">
+                    <sc-for list="{{ pinDots }}" as="d" hint-placeholder-count="6">
+                      <span style="position:relative;width:100%;height:32px;border:1px solid var(--color-divider);display:block">
+                        <sc-if value="{{ d.on }}" hint-placeholder-val="{{ true }}"><i style="position:absolute;inset:0;background:var(--color-accent)"></i></sc-if>
+                      </span>
+                    </sc-for>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px">
+                    <sc-for list="{{ pad }}" as="k" hint-placeholder-count="12">
+                      <button onClick="{{ k.tap }}" class="btn btn-secondary" style="height:46px;font-family:var(--font-heading);font-size:19px">{{ k.l }}</button>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ send }}" disabled="{{ sendBlocked }}" class="btn btn-primary btn-block" style="height:48px;margin-top:14px">{{ sendLabel }}</button>
+                  <div style="font-size:10.5px;line-height:1.5;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-top:8px">TC-TRF-015 — tap tombol dua kali cepat (&lt;1 detik) untuk menguji double debit.</div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isOtp }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S12 OTP">
+                  <div style="font-family:var(--font-heading);font-size:20px">Masukkan OTP</div>
+                  <div style="font-size:12.5px;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin-top:2px">Kode dikirim ke 0812****7788 · sandbox: <b style="font-family:'IBM Plex Mono',monospace">246810</b></div>
+                  <div style="display:flex;gap:9px;margin:20px 0 4px">
+                    <sc-for list="{{ otpDots }}" as="d" hint-placeholder-count="6">
+                      <span style="position:relative;width:100%;height:32px;border:1px solid var(--color-divider);display:block">
+                        <sc-if value="{{ d.on }}" hint-placeholder-val="{{ true }}"><i style="position:absolute;inset:0;background:var(--color-accent)"></i></sc-if>
+                      </span>
+                    </sc-for>
+                  </div>
+                  <div style="font-size:12px;color:#b0402e;min-height:18px;margin-top:8px">{{ otpMsg }}</div>
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">
+                    <sc-for list="{{ pad }}" as="k" hint-placeholder-count="12">
+                      <button onClick="{{ k.tap }}" class="btn btn-secondary" style="height:44px;font-family:var(--font-heading);font-size:19px">{{ k.l }}</button>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ submitOtp }}" class="btn btn-primary btn-block" style="height:46px;margin-top:12px">Verifikasi &amp; kirim</button>
+                  <button onClick="{{ wrongOtp }}" class="btn btn-secondary btn-block" style="height:38px;font-size:11.5px">Isi OTP salah (TC-TRF-010)</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isLocked }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S13 Akun terkunci" style="text-align:center;padding-top:50px">
+                  <div style="font-family:var(--font-heading);font-size:44px;color:var(--color-accent-700)">✕</div>
+                  <div style="font-family:var(--font-heading);font-size:21px;margin-top:10px">Transaksi terkunci sementara</div>
+                  <p style="font-size:13px;line-height:1.55;color:color-mix(in srgb,var(--color-text) 62%,transparent);margin-top:8px">OTP salah 3 kali. Sesi transaksi dikunci 30 menit sesuai kebijakan. Saldo tidak terdebit.</p>
+                  <button onClick="{{ goHome }}" class="btn btn-secondary btn-block" style="height:44px;margin-top:22px">Kembali ke Home</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isProcess }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S14 Memproses" style="text-align:center;padding-top:110px">
+                  <div style="width:40px;height:40px;border:2px solid var(--color-divider);border-top-color:var(--color-accent);margin:0 auto;animation:spin 900ms linear infinite"></div>
+                  <div style="font-family:var(--font-heading);font-size:19px;margin-top:20px">Memproses transaksi</div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-top:6px">{{ processNote }}</div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isSuccess }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S15 Transaksi berhasil">
+                  <div style="text-align:center;padding:10px 0 16px">
+                    <div style="font-family:var(--font-heading);font-size:40px;color:var(--color-accent-700)">✓</div>
+                    <div style="font-family:var(--font-heading);font-size:21px;margin-top:6px">{{ successTitle }}</div>
+                    <div style="font-family:var(--font-heading);font-size:28px;margin-top:6px">{{ lastAmount }}</div>
+                  </div>
+                  <div class="blueprint" style="padding:13px">
+                    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                    <sc-for list="{{ receiptRows }}" as="r" hint-placeholder-count="6">
+                      <div style="display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--color-divider);font-size:12.5px">
+                        <span style="color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ r.k }}</span><span style="text-align:right;word-break:break-all">{{ r.v }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ goReceipt }}" class="btn btn-secondary btn-block" style="height:42px;margin-top:14px">Lihat e-receipt</button>
+                  <button onClick="{{ goHome }}" class="btn btn-primary btn-block" style="height:44px">Selesai</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isFailed }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S16 Transaksi gagal">
+                  <div style="text-align:center;padding:40px 0 10px">
+                    <div style="font-family:var(--font-heading);font-size:40px;color:#b0402e">!</div>
+                    <div style="font-family:var(--font-heading);font-size:21px;margin-top:8px">{{ failTitle }}</div>
+                    <p style="font-size:13px;line-height:1.55;color:color-mix(in srgb,var(--color-text) 62%,transparent);margin:10px 18px 0">{{ failReason }}</p>
+                  </div>
+                  <button onClick="{{ goHome }}" class="btn btn-secondary btn-block" style="height:44px;margin-top:16px">Kembali ke Home</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isPending }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S17 Transaksi pending">
+                  <div style="text-align:center;padding:36px 0 8px">
+                    <div style="font-family:var(--font-heading);font-size:40px;color:var(--color-accent-700)">⋯</div>
+                    <div style="font-family:var(--font-heading);font-size:21px;margin-top:8px">{{ pendingTitle }}</div>
+                    <p style="font-size:13px;line-height:1.55;color:color-mix(in srgb,var(--color-text) 62%,transparent);margin:10px 14px 0">{{ pendingNote }}</p>
+                  </div>
+                  <div class="blueprint" style="padding:13px;margin-top:12px">
+                    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                    <sc-for list="{{ receiptRows }}" as="r" hint-placeholder-count="5">
+                      <div style="display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--color-divider);font-size:12.5px">
+                        <span style="color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ r.k }}</span><span style="text-align:right">{{ r.v }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ goHome }}" class="btn btn-secondary btn-block" style="height:44px;margin-top:14px">Kembali ke Home</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isTimeout }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S18 Sesi berakhir" style="text-align:center;padding-top:60px">
+                  <div style="font-family:var(--font-heading);font-size:21px">Sesi Anda telah berakhir</div>
+                  <p style="font-size:13px;line-height:1.55;color:color-mix(in srgb,var(--color-text) 62%,transparent);margin:10px 20px 0">Demi keamanan, silakan login ulang. Transaksi tidak dieksekusi dan saldo tidak berubah.</p>
+                  <button onClick="{{ logout }}" class="btn btn-primary btn-block" style="height:44px;margin-top:24px">Login ulang</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isScan }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S19 Scan QRIS">
+                  <div style="position:relative;height:190px;background:var(--color-accent-900);overflow:hidden;display:grid;place-items:center">
+                    <div style="width:118px;height:118px;border:1px solid color-mix(in srgb,#f2f2f3 55%,transparent);position:relative"></div>
+                    <div style="position:absolute;left:0;right:0;height:2px;background:var(--color-accent);animation:sweep 2.4s linear infinite"></div>
+                    <div style="position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10px;color:color-mix(in srgb,#f2f2f3 75%,transparent)">kamera simulator · pilih QR di bawah</div>
+                  </div>
+                  <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:14px 0 8px">QR uji tersedia</div>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <sc-for list="{{ qrs }}" as="q" hint-placeholder-count="5">
+                      <button onClick="{{ q.tap }}" class="btn btn-secondary" style="display:block;text-align:left;padding:11px 12px;line-height:1.4">
+                        <span style="font-family:var(--font-heading);font-size:15px">{{ q.name }}</span>
+                        <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ q.meta }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isQrisAmount }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S20 Nominal QRIS">
+                  <div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ qrName }}</div>
+                  <div style="font-family:var(--font-heading);font-size:32px;padding:10px 0;border-bottom:1px solid var(--color-accent);line-height:1.1;word-break:break-all">{{ qrAmountShown }}</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">
+                    <sc-for list="{{ qrPresets }}" as="p" hint-placeholder-count="3">
+                      <button onClick="{{ p.tap }}" class="btn btn-secondary" style="font-size:11px;padding:5px 9px">{{ p.label }}</button>
+                    </sc-for>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px">
+                    <sc-for list="{{ pad }}" as="k" hint-placeholder-count="12">
+                      <button onClick="{{ k.tap }}" class="btn btn-secondary" style="height:44px;font-family:var(--font-heading);font-size:19px">{{ k.l }}</button>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ toQrisConfirm }}" class="btn btn-primary btn-block" style="height:46px;margin-top:12px">Lanjut</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isQrisConfirm }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S21 Konfirmasi QRIS">
+                  <div style="font-family:var(--font-heading);font-size:20px;margin-bottom:12px">Konfirmasi pembayaran</div>
+                  <sc-for list="{{ qrRows }}" as="r" hint-placeholder-count="6">
+                    <div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--color-divider);font-size:13px">
+                      <span style="color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ r.k }}</span><span style="text-align:right">{{ r.v }}</span>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ qrWarn }}" hint-placeholder-val="{{ true }}">
+                    <div style="margin-top:12px;padding:10px 12px;border:1px solid #b0402e;color:#8d3324;font-size:12.5px;line-height:1.5">{{ qrWarn }}</div>
+                  </sc-if>
+                  <button onClick="{{ toQrisPin }}" class="btn btn-primary btn-block" style="height:46px;margin-top:16px">Bayar</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isQrisPin }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S22 PIN QRIS">
+                  <div style="font-family:var(--font-heading);font-size:20px">PIN pembayaran</div>
+                  <div style="font-size:12.5px;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin-top:2px">{{ qrName }} · {{ qrAmountShown }}</div>
+                  <div style="display:flex;gap:11px;margin:20px 0 4px">
+                    <sc-for list="{{ pinDots }}" as="d" hint-placeholder-count="6">
+                      <span style="position:relative;width:100%;height:32px;border:1px solid var(--color-divider);display:block">
+                        <sc-if value="{{ d.on }}" hint-placeholder-val="{{ true }}"><i style="position:absolute;inset:0;background:var(--color-accent)"></i></sc-if>
+                      </span>
+                    </sc-for>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px">
+                    <sc-for list="{{ pad }}" as="k" hint-placeholder-count="12">
+                      <button onClick="{{ k.tap }}" class="btn btn-secondary" style="height:46px;font-family:var(--font-heading);font-size:19px">{{ k.l }}</button>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ send }}" disabled="{{ sendBlocked }}" class="btn btn-primary btn-block" style="height:48px;margin-top:14px">{{ sendLabel }}</button>
+                  <button onClick="{{ killApp }}" class="btn btn-secondary btn-block" style="height:38px;font-size:11.5px">Force close app (TC-QRIS-008)</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isHistory }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S25 Riwayat mutasi">
+                  <div style="font-family:var(--font-heading);font-size:20px;margin-bottom:4px">Riwayat mutasi</div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-bottom:10px">{{ activeNo }} · {{ historyCount }} transaksi</div>
+                  <sc-if value="{{ noHistory }}" hint-placeholder-val="{{ true }}">
+                    <div style="font-size:12.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);padding:16px 0">Belum ada transaksi pada sesi ini.</div>
+                  </sc-if>
+                  <sc-for list="{{ history }}" as="h" hint-placeholder-count="3">
+                    <button onClick="{{ h.tap }}" style="width:100%;display:flex;justify-content:space-between;gap:10px;padding:11px 0;border:none;border-bottom:1px solid var(--color-divider);background:transparent;text-align:left;cursor:pointer;font:inherit">
+                      <span>
+                        <span style="display:block;font-size:13px">{{ h.title }}</span>
+                        <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ h.id }} · {{ h.time }} · {{ h.status }}</span>
+                      </span>
+                      <span style="font-family:var(--font-heading);font-size:15px;white-space:nowrap">{{ h.amount }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isReceipt }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S26 E-receipt">
+                  <div style="font-family:var(--font-heading);font-size:20px;margin-bottom:12px">Bukti transaksi</div>
+                  <div class="blueprint" style="padding:14px">
+                    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                    <sc-for list="{{ receiptRows }}" as="r" hint-placeholder-count="7">
+                      <div style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--color-divider);font-size:12.5px">
+                        <span style="color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ r.k }}</span><span style="text-align:right;word-break:break-all">{{ r.v }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ share }}" class="btn btn-secondary btn-block" style="height:42px;margin-top:14px">Unduh / bagikan bukti</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isNotif }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S27 Notifikasi">
+                  <div style="font-family:var(--font-heading);font-size:20px;margin-bottom:10px">Notifikasi</div>
+                  <sc-if value="{{ noNotif }}" hint-placeholder-val="{{ true }}">
+                    <div style="font-size:12.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);padding:16px 0">Belum ada notifikasi.</div>
+                  </sc-if>
+                  <sc-for list="{{ notifs }}" as="n" hint-placeholder-count="3">
+                    <div style="padding:11px 0;border-bottom:1px solid var(--color-divider)">
+                      <div style="font-size:13px">{{ n.text }}</div>
+                      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-top:2px">{{ n.time }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S28 Profil">
+                  <div style="font-family:var(--font-heading);font-size:20px;margin-bottom:12px">Profil &amp; keamanan</div>
+                  <sc-for list="{{ profileRows }}" as="r" hint-placeholder-count="5">
+                    <div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--color-divider);font-size:13px">
+                      <span style="color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ r.k }}</span><span style="text-align:right">{{ r.v }}</span>
+                    </div>
+                  </sc-for>
+                  <button onClick="{{ goLimit }}" class="btn btn-secondary btn-block" style="height:42px;margin-top:14px">Limit &amp; biaya</button>
+                  <button onClick="{{ goAbout }}" class="btn btn-secondary btn-block" style="height:42px">Tentang aplikasi</button>
+                  <button onClick="{{ logout }}" class="btn btn-secondary btn-block" style="height:42px">Keluar</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isLimit }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S29 Limit dan biaya">
+                  <div style="font-family:var(--font-heading);font-size:20px;margin-bottom:12px">Limit &amp; biaya</div>
+                  <sc-for list="{{ limitRows }}" as="r" hint-placeholder-count="6">
+                    <div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--color-divider);font-size:13px">
+                      <span style="color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ r.k }}</span><span style="text-align:right">{{ r.v }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ true }}">
+                <div data-screen-label="S30 Tentang build">
+                  <div style="font-family:var(--font-heading);font-size:20px;margin-bottom:12px">Tentang aplikasi</div>
+                  <sc-for list="{{ aboutRows }}" as="r" hint-placeholder-count="6">
+                    <div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--color-divider);font-size:12.5px">
+                      <span style="color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ r.k }}</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:11px">{{ r.v }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+            </div>
+          </div>
+        </x-import>
+      </div>
+    </main>
+
+    <aside style="border-left:1px solid var(--color-divider);display:flex;flex-direction:column;min-height:0">
+      <div style="display:flex;border-bottom:1px solid var(--color-divider)">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <button onClick="{{ t.tap }}" style="position:relative;flex:1;padding:11px 4px;border:none;background:transparent;cursor:pointer;font-family:var(--font-heading);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:inherit">
+            {{ t.label }}
+            <sc-if value="{{ t.on }}" hint-placeholder-val="{{ true }}"><i style="position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--color-accent)"></i></sc-if>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="flex:1;overflow:auto;padding:12px 14px 20px">
+
+        <sc-if value="{{ tabTc }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Test case pada layar {{ screenCode }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;margin:4px 0 12px">{{ tcProgress }}</div>
+            <sc-for list="{{ screenTcs }}" as="c" hint-placeholder-count="3">
+              <div class="blueprint" style="padding:11px;margin-bottom:10px">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--color-accent-700)">{{ c.id }}</span>
+                  <span class="tag tag-neutral" style="font-size:10px">{{ c.ty }}</span>
+                  <span class="tag tag-outline" style="font-size:10px">{{ c.p }}</span>
+                  <sc-if value="{{ c.done }}" hint-placeholder-val="{{ true }}">
+                    <span class="tag tag-accent" style="font-size:10px;margin-left:auto">{{ c.status }}</span>
+                  </sc-if>
+                </div>
+                <div style="font-size:13px;margin-top:6px;line-height:1.35">{{ c.t }}</div>
+                <div style="font-size:11.5px;line-height:1.5;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin-top:5px"><b style="color:var(--color-accent-700)">Expected:</b> {{ c.e }}</div>
+                <div style="display:flex;gap:6px;margin-top:9px">
+                  <button onClick="{{ c.pass }}" class="btn btn-secondary" style="font-size:11px;padding:4px 10px">Pass</button>
+                  <button onClick="{{ c.fail }}" class="btn btn-secondary" style="font-size:11px;padding:4px 10px">Fail</button>
+                  <button onClick="{{ c.block }}" class="btn btn-secondary" style="font-size:11px;padding:4px 10px">Blocked</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabApi }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-bottom:10px">Log eksekusi — API &amp; aplikasi</div>
+            <sc-if value="{{ noLog }}" hint-placeholder-val="{{ true }}">
+              <div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Belum ada request. Jalankan alur di perangkat.</div>
+            </sc-if>
+            <sc-for list="{{ log }}" as="l" hint-placeholder-count="4">
+              <div style="padding:8px 0;border-bottom:1px solid var(--color-divider);font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.5">
+                <div style="display:flex;gap:8px">
+                  <span style="color:var(--color-accent-700);flex-shrink:0">{{ l.kind }}</span>
+                  <span style="color:color-mix(in srgb,var(--color-text) 50%,transparent);margin-left:auto;flex-shrink:0">{{ l.status }}</span>
+                </div>
+                <div style="margin-top:2px;word-break:break-word">{{ l.text }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabSql }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.5;color:var(--color-accent-700);word-break:break-all">SELECT account_no, holder, balance FROM accounts;</div>
+            <table class="table" style="margin-top:8px;font-size:12px">
+              <thead><tr><th>Rekening</th><th>Nama</th><th style="text-align:right">Saldo</th></tr></thead>
+              <tbody>
+                <sc-for list="{{ dbAccounts }}" as="a" hint-placeholder-count="4">
+                  <tr>
+                    <td style="font-family:'IBM Plex Mono',monospace;font-size:10.5px">{{ a.no }}</td>
+                    <td style="font-size:12px">{{ a.name }}</td>
+                    <td style="text-align:right;font-size:12px">{{ a.saldo }}</td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.5;color:var(--color-accent-700);margin-top:18px;word-break:break-all">SELECT trx_id, type, amount, status FROM transactions ORDER BY created_at DESC;</div>
+            <sc-if value="{{ noDb }}" hint-placeholder-val="{{ true }}">
+              <div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-top:8px">0 rows.</div>
+            </sc-if>
+            <table class="table" style="margin-top:8px;font-size:12px">
+              <tbody>
+                <sc-for list="{{ dbTx }}" as="r" hint-placeholder-count="3">
+                  <tr>
+                    <td style="font-family:'IBM Plex Mono',monospace;font-size:10px;line-height:1.5">{{ r.id }}<br>{{ r.type }}</td>
+                    <td style="font-size:11.5px;text-align:right">{{ r.amount }}<br><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ r.status }}</span></td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.5;color:var(--color-accent-700);margin-top:18px;word-break:break-all">-- Query #3: cek transaksi duplikat</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;margin-top:5px">{{ dupResult }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.5;color:var(--color-accent-700);margin-top:14px;word-break:break-all">-- Query #8: ledger debit = kredit</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;margin-top:5px">{{ ledgerResult }}</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tabBug }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-bottom:10px">Defect — status pada sesi ini</div>
+            <sc-for list="{{ bugs }}" as="b" hint-placeholder-count="6">
+              <div class="blueprint" style="padding:11px;margin-bottom:10px">
+                <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+                <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--color-accent-700)">{{ b.id }}</span>
+                  <span class="tag tag-neutral" style="font-size:10px">{{ b.sev }}</span>
+                  <span class="tag tag-outline" style="font-size:10px">{{ b.pri }}</span>
+                </div>
+                <div style="font-size:12.5px;margin-top:6px;line-height:1.4">{{ b.t }}</div>
+                <div style="display:flex;justify-content:space-between;gap:8px;margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">
+                  <span>{{ b.tc }}</span><span>{{ b.state }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+      </div>
+    </aside>
+  </div>
+
+  <footer style="border-top:1px solid var(--color-divider);padding:11px 16px 14px;overflow-x:auto">
+    <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-bottom:9px">Peta alur — 30 layar</div>
+    <div style="display:flex;gap:22px;min-width:max-content">
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="4">
+        <div>
+          <div style="font-family:var(--font-heading);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:6px">{{ g.name }}</div>
+          <div style="display:flex;gap:6px">
+            <sc-for list="{{ g.nodes }}" as="n" hint-placeholder-count="6">
+              <button onClick="{{ n.tap }}" style="position:relative;width:78px;padding:7px 6px 9px;border:1px solid var(--color-divider);background:transparent;cursor:pointer;text-align:left;font:inherit">
+                <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:color-mix(in srgb,var(--color-text) 50%,transparent)">{{ n.code }}</span>
+                <span style="display:block;font-size:11px;line-height:1.25;margin-top:2px">{{ n.label }}</span>
+                <sc-if value="{{ n.on }}" hint-placeholder-val="{{ true }}"><i style="position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--color-accent)"></i></sc-if>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000},&quot;build&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;v1.4.0-QA&quot;,&quot;v1.5.0-FIX&quot;],&quot;default&quot;:&quot;v1.4.0-QA&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Environment&quot;}}">
+const RP = (n) => (n < 0 ? '-' : '') + 'Rp ' + Math.round(Math.abs(n)).toLocaleString('id-ID');
+const DAILY_LIMIT = 50000000;
+const QRIS_LIMIT = 10000000;
+const FEE = { intra: 1000, inter: 2500, va: 0, qris: 0 };
+const XSS_PAYLOAD = '<' + 'script>alert(1)<' + '/script>';
+const SQLI_PAYLOAD = "' OR '1'='1";
+const RISKY = new RegExp('<' + "script|' OR '1'='1", 'i');
+
+const ACC = {
+  A: { name: 'Andi Prasetyo', no: '8801 2345 6789', bal: 5000000, login: true },
+  B: { name: 'Budi Santoso', no: '8801 9988 7766', bal: 1000000, login: false },
+  C: { name: 'Citra Dewi', no: '8801 5544 3322', bal: 0, login: true },
+  D: { name: 'Dian Kusuma', no: '8801 1122 3344', bal: 750000, login: false, blocked: true }
+};
+
+const QRS = [
+  { k: 'ok', name: 'Kopi Kalibrata', meta: 'QRIS statis · NMID ID1023456789012 · valid', kind: 'static' },
+  { k: 'dyn', name: 'Toko Serba Ada', meta: 'QRIS dinamis · Rp 75.000 · valid', kind: 'dynamic', amount: 75000 },
+  { k: 'exp', name: 'Warung Sate Pak Har', meta: 'QRIS dinamis · Rp 45.000 · EXPIRED 5 menit lalu', kind: 'dynamic', amount: 45000, expired: true },
+  { k: 'mis', name: 'Laundry Ekspress', meta: 'QRIS dinamis · Rp 120.000 · Merchant ID mismatch', kind: 'dynamic', amount: 120000, mismatch: true },
+  { k: 'bad', name: 'QR tidak dikenali', meta: 'Bukan format QRIS nasional / rusak', kind: 'invalid' }
+];
+
+const TCS = [
+  { id: 'TC-TRF-001', t: 'Transfer intrabank saldo cukup', ty: 'Positive', p: 'High', e: 'Transfer sukses; saldo pengirim berkurang + admin fee; saldo penerima bertambah; e-receipt muncul' },
+  { id: 'TC-TRF-002', t: 'Transfer interbank via BI-FAST saldo cukup', ty: 'Positive', p: 'High', e: 'Transfer sukses real-time; status Berhasil' },
+  { id: 'TC-TRF-003', t: 'Transfer ke Virtual Account', ty: 'Positive', p: 'High', e: 'Pembayaran VA sukses; status settlement Berhasil' },
+  { id: 'TC-TRF-004', t: 'Menampilkan rincian biaya admin sebelum konfirmasi', ty: 'Positive', p: 'Medium', e: 'Halaman konfirmasi menampilkan nominal + biaya admin + total debit secara jelas' },
+  { id: 'TC-TRF-005', t: 'Notifikasi & e-receipt setelah transfer sukses', ty: 'Positive', p: 'Medium', e: 'Notifikasi muncul; e-receipt dapat diunduh dengan data transaksi lengkap' },
+  { id: 'TC-TRF-006', t: 'Transfer ditolak saat saldo tidak cukup', ty: 'Negative', p: 'High', e: 'Ditolak dengan pesan Saldo tidak mencukupi; saldo tidak berubah' },
+  { id: 'TC-TRF-007', t: 'Transfer ditolak saat melebihi limit harian', ty: 'Negative', p: 'High', e: 'Ditolak dengan pesan Melebihi limit transaksi harian; saldo tidak berubah' },
+  { id: 'TC-TRF-008', t: 'Transfer ditolak rekening tujuan tidak valid', ty: 'Negative', p: 'High', e: 'Muncul Rekening tidak ditemukan; tombol lanjut disabled' },
+  { id: 'TC-TRF-009', t: 'Transfer ditolak rekening tujuan diblokir', ty: 'Negative', p: 'High', e: 'Muncul pesan rekening tidak dapat menerima dana / status tidak aktif' },
+  { id: 'TC-TRF-010', t: 'Akun terkunci setelah OTP salah 3x', ty: 'Negative', p: 'High', e: 'Setelah percobaan ke-3 transaksi terkunci sementara; saldo tidak terdebit' },
+  { id: 'TC-TRF-011', t: 'Transfer gagal saat sesi timeout di tahap konfirmasi', ty: 'Negative', p: 'Medium', e: 'Sesi berakhir & minta login ulang; transaksi tidak tereksekusi' },
+  { id: 'TC-TRF-012', t: 'Validasi input nominal negatif/nol', ty: 'Negative', p: 'Medium', e: 'Input ditolak; tombol lanjut disabled atau muncul pesan validasi' },
+  { id: 'TC-TRF-013', t: 'Validasi input nominal karakter non-numerik', ty: 'Negative', p: 'Low', e: 'Field menolak input non-numerik / menampilkan error validasi' },
+  { id: 'TC-TRF-014', t: 'Transfer ke rekening sendiri', ty: 'Negative', p: 'Low', e: 'Sesuai business rule: ditolak dengan pesan jelas atau diizinkan dengan perlakuan khusus' },
+  { id: 'TC-TRF-015', t: 'Cegah double debit saat tombol transfer ditekan 2x cepat', ty: 'Edge Case', p: 'Critical', e: 'Hanya 1 transaksi tereksekusi; saldo terpotong 1x; tidak ada duplikat transaction ID' },
+  { id: 'TC-TRF-016', t: 'Status transaksi ambigu saat koneksi terputus', ty: 'Edge Case', p: 'Critical', e: 'Status transaksi konsisten dengan saldo aktual; jika terdebit maka status harus Berhasil' },
+  { id: 'TC-TRF-017', t: 'Reversal otomatis saat switching BI-FAST timeout', ty: 'Edge Case', p: 'Critical', e: 'Reversal otomatis (saldo dikembalikan) atau status Pending yang jelas dengan rekonsiliasi' },
+  { id: 'TC-TRF-019', t: 'Validasi nominal ekstrem besar', ty: 'Edge Case', p: 'Medium', e: 'Ditolak / dibatasi sesuai limit maksimum; tidak overflow atau crash' },
+  { id: 'TC-TRF-020', t: 'Input berbahaya pada field catatan transfer', ty: 'Edge Case', p: 'High', e: 'Input di-sanitize; tidak dieksekusi sebagai script; tidak menyebabkan SQL error' },
+  { id: 'TC-QRIS-001', t: 'Bayar QRIS statis dengan input nominal manual', ty: 'Positive', p: 'High', e: 'Pembayaran sukses; saldo berkurang sesuai nominal; merchant menerima notifikasi' },
+  { id: 'TC-QRIS-002', t: 'Bayar QRIS dinamis nominal otomatis', ty: 'Positive', p: 'High', e: 'Sukses tanpa input manual nominal; nominal sesuai QR' },
+  { id: 'TC-QRIS-003', t: 'Status pembayaran QRIS sukses terverifikasi', ty: 'Positive', p: 'Medium', e: 'Status Berhasil konsisten di sisi customer & merchant' },
+  { id: 'TC-QRIS-004', t: 'Pembayaran ditolak QR expired', ty: 'Negative', p: 'High', e: 'Muncul QR sudah kedaluwarsa; tidak dapat lanjut ke pembayaran' },
+  { id: 'TC-QRIS-005', t: 'Pembayaran ditolak QR rusak/tidak terbaca', ty: 'Negative', p: 'Medium', e: 'Muncul pesan error scan tidak berhasil; aplikasi tidak crash' },
+  { id: 'TC-QRIS-006', t: 'Pembayaran ditolak saldo tidak cukup', ty: 'Negative', p: 'High', e: 'Ditolak dengan pesan saldo tidak cukup; saldo tetap' },
+  { id: 'TC-QRIS-007', t: 'Pembayaran ditolak melebihi limit QRIS harian', ty: 'Negative', p: 'Medium', e: 'Ditolak dengan pesan melebihi limit QRIS harian' },
+  { id: 'TC-QRIS-008', t: 'Saldo tidak terpotong jika app ditutup sebelum konfirmasi final', ty: 'Edge Case', p: 'Critical', e: 'Tidak ada transaksi tercatat; saldo tidak berubah' },
+  { id: 'TC-QRIS-009', t: 'Validasi kecocokan Merchant ID saat settlement', ty: 'Edge Case', p: 'Critical', e: 'Transaksi ditolak / di-flag sebelum dana tersettle ke merchant yang salah' },
+  { id: 'TC-QRIS-010', t: 'Concurrent payment pada QR statis yang sama', ty: 'Edge Case', p: 'High', e: 'Tidak terjadi race condition; kedua transaksi tercatat benar' },
+  { id: 'REG-01', t: 'Login dengan kredensial valid berhasil', ty: 'Regression', p: 'High', e: 'Masuk ke Home, saldo tampil sesuai database' },
+  { id: 'REG-02', t: 'Login dengan PIN/password salah ditolak', ty: 'Regression', p: 'High', e: 'Login ditolak dengan pesan jelas' },
+  { id: 'REG-04', t: 'Sesi otomatis logout setelah idle sesuai kebijakan', ty: 'Regression', p: 'Medium', e: 'Sesi berakhir dan user diminta login ulang' },
+  { id: 'REG-05', t: 'Saldo yang tampil di Home sesuai dengan database', ty: 'Regression', p: 'High', e: 'Saldo UI sama dengan saldo pada tabel accounts' },
+  { id: 'REG-06', t: 'Riwayat mutasi menampilkan transaksi terbaru dengan urutan benar', ty: 'Regression', p: 'High', e: 'Urutan tanggal descending, transaksi terbaru di atas' },
+  { id: 'REG-07', t: 'Detail transaksi pada mutasi dapat dibuka & datanya lengkap', ty: 'Regression', p: 'Medium', e: 'Detail terbuka dengan data lengkap' },
+  { id: 'REG-21', t: 'POST /transfer mengembalikan response sesuai kontrak', ty: 'Regression', p: 'High', e: 'Status code & schema sesuai kontrak API' }
+];
+
+const BUGS = [
+  { id: 'BUG-SGP-001', t: 'Double debit terjadi saat tombol Kirim ditekan dua kali secara cepat', sev: 'Critical', pri: 'P1', tc: 'TC-TRF-015' },
+  { id: 'BUG-SGP-002', t: 'Status transaksi Gagal di UI padahal saldo sudah terdebit', sev: 'Critical', pri: 'P1', tc: 'TC-TRF-016' },
+  { id: 'BUG-SGP-003', t: 'Tidak ada reversal otomatis saat switching BI-FAST timeout', sev: 'Major', pri: 'P2', tc: 'TC-TRF-017' },
+  { id: 'BUG-SGP-004', t: 'Pembayaran tetap diproses meskipun QR code sudah kedaluwarsa', sev: 'Critical', pri: 'P1', tc: 'TC-QRIS-004' },
+  { id: 'BUG-SGP-005', t: 'Tidak ada validasi kecocokan Merchant ID saat settlement', sev: 'Major', pri: 'P2', tc: 'TC-QRIS-009' },
+  { id: 'BUG-SGP-006', t: 'Field nominal menerima input negatif tanpa validasi', sev: 'Minor', pri: 'P3', tc: 'TC-TRF-012' }
+];
+
+const SCREENS = [
+  { g: 'Autentikasi', id: 'login', code: 'S01', label: 'Login', title: 'Login', tcs: ['REG-01', 'REG-02'] },
+  { g: 'Autentikasi', id: 'pin', code: 'S02', label: 'PIN login', title: 'PIN login', tcs: ['REG-01', 'REG-02'] },
+  { g: 'Autentikasi', id: 'home', code: 'S03', label: 'Home', title: 'Beranda', tcs: ['REG-05', 'REG-06'] },
+  { g: 'Fund Transfer', id: 'trf_type', code: 'S04', label: 'Jenis transfer', title: 'Transfer', tcs: ['TC-TRF-001', 'TC-TRF-002', 'TC-TRF-003'] },
+  { g: 'Fund Transfer', id: 'bank', code: 'S05', label: 'Pilih bank', title: 'Bank tujuan', tcs: ['TC-TRF-002'] },
+  { g: 'Fund Transfer', id: 'dest', code: 'S06', label: 'Rekening tujuan', title: 'Rekening tujuan', tcs: ['TC-TRF-008', 'TC-TRF-009', 'TC-TRF-014'] },
+  { g: 'Fund Transfer', id: 'va_input', code: 'S07', label: 'Nomor VA', title: 'Virtual Account', tcs: ['TC-TRF-003'] },
+  { g: 'Fund Transfer', id: 'va_bill', code: 'S08', label: 'Detail tagihan', title: 'Virtual Account', tcs: ['TC-TRF-003'] },
+  { g: 'Fund Transfer', id: 'amount', code: 'S09', label: 'Nominal', title: 'Nominal transfer', tcs: ['TC-TRF-012', 'TC-TRF-013', 'TC-TRF-019', 'TC-TRF-020'] },
+  { g: 'Fund Transfer', id: 'confirm', code: 'S10', label: 'Konfirmasi', title: 'Konfirmasi', tcs: ['TC-TRF-004', 'TC-TRF-006', 'TC-TRF-007'] },
+  { g: 'Fund Transfer', id: 'trf_pin', code: 'S11', label: 'PIN transaksi', title: 'PIN transaksi', tcs: ['TC-TRF-015', 'TC-TRF-011'] },
+  { g: 'Fund Transfer', id: 'otp', code: 'S12', label: 'OTP', title: 'Verifikasi OTP', tcs: ['TC-TRF-010', 'TC-TRF-015'] },
+  { g: 'Fund Transfer', id: 'locked', code: 'S13', label: 'Terkunci', title: 'Transaksi terkunci', tcs: ['TC-TRF-010'] },
+  { g: 'Fund Transfer', id: 'process', code: 'S14', label: 'Memproses', title: 'Memproses', tcs: ['TC-TRF-016'] },
+  { g: 'Fund Transfer', id: 'success', code: 'S15', label: 'Berhasil', title: 'Transaksi berhasil', tcs: ['TC-TRF-001', 'TC-TRF-005'] },
+  { g: 'Fund Transfer', id: 'failed', code: 'S16', label: 'Gagal', title: 'Transaksi gagal', tcs: ['TC-TRF-006', 'TC-TRF-007', 'TC-TRF-016'] },
+  { g: 'Fund Transfer', id: 'pending', code: 'S17', label: 'Pending', title: 'Status transaksi', tcs: ['TC-TRF-017'] },
+  { g: 'Fund Transfer', id: 'timeout', code: 'S18', label: 'Sesi habis', title: 'Sesi berakhir', tcs: ['TC-TRF-011', 'REG-04'] },
+  { g: 'QRIS', id: 'scan', code: 'S19', label: 'Scan QRIS', title: 'Scan QRIS', tcs: ['TC-QRIS-004', 'TC-QRIS-005', 'TC-QRIS-009'] },
+  { g: 'QRIS', id: 'qris_amount', code: 'S20', label: 'Nominal QRIS', title: 'Nominal QRIS', tcs: ['TC-QRIS-001', 'TC-QRIS-006'] },
+  { g: 'QRIS', id: 'qris_confirm', code: 'S21', label: 'Konfirmasi', title: 'Konfirmasi QRIS', tcs: ['TC-QRIS-002', 'TC-QRIS-007', 'TC-QRIS-009'] },
+  { g: 'QRIS', id: 'qris_pin', code: 'S22', label: 'PIN bayar', title: 'PIN pembayaran', tcs: ['TC-QRIS-008', 'TC-QRIS-010'] },
+  { g: 'QRIS', id: 'qris_success', code: 'S23', label: 'Berhasil', title: 'Pembayaran berhasil', tcs: ['TC-QRIS-003'] },
+  { g: 'QRIS', id: 'qris_failed', code: 'S24', label: 'Gagal', title: 'Pembayaran gagal', tcs: ['TC-QRIS-004', 'TC-QRIS-005', 'TC-QRIS-006'] },
+  { g: 'Akun & Riwayat', id: 'history', code: 'S25', label: 'Mutasi', title: 'Riwayat mutasi', tcs: ['REG-06', 'REG-07', 'TC-TRF-005'] },
+  { g: 'Akun & Riwayat', id: 'receipt', code: 'S26', label: 'E-receipt', title: 'Bukti transaksi', tcs: ['TC-TRF-005', 'REG-07'] },
+  { g: 'Akun & Riwayat', id: 'notif', code: 'S27', label: 'Notifikasi', title: 'Notifikasi', tcs: ['TC-TRF-005'] },
+  { g: 'Akun & Riwayat', id: 'profile', code: 'S28', label: 'Profil', title: 'Profil', tcs: ['REG-04'] },
+  { g: 'Akun & Riwayat', id: 'limit', code: 'S29', label: 'Limit & biaya', title: 'Limit & biaya', tcs: ['TC-TRF-007', 'TC-QRIS-007'] },
+  { g: 'Akun & Riwayat', id: 'about', code: 'S30', label: 'Tentang build', title: 'Tentang aplikasi', tcs: ['REG-21'] }
+];
+
+const findScreen = (id) => SCREENS.find((s) => s.id === id) || SCREENS[0];
+const findTc = (id) => TCS.find((t) => t.id === id);
+const clock = () => new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = this.fresh(props && props.build === 'v1.5.0-FIX' ? 'fixed' : 'buggy');
+  }
+
+  fresh(build) {
+    return {
+      build: build || 'buggy',
+      net: 'normal',
+      accum: 0,
+      user: 'A',
+      screen: 'login',
+      bal: { A: ACC.A.bal, B: ACC.B.bal, C: ACC.C.bal, D: ACC.D.bal },
+      kind: 'intra',
+      bank: null,
+      dest: '',
+      destKey: null,
+      destName: '',
+      destError: '',
+      va: '',
+      vaError: '',
+      amt: '',
+      note: '',
+      qr: null,
+      qamt: '',
+      pin: '',
+      otp: '',
+      otpTries: 0,
+      otpMsg: '',
+      pinError: false,
+      pinTries: 0,
+      sending: false,
+      tx: null,
+      failTitle: '',
+      failReason: '',
+      pendingTitle: '',
+      pendingNote: '',
+      history: [],
+      notifs: [],
+      log: [],
+      db: [],
+      tc: {},
+      bugs: {},
+      tab: 'tc',
+      lastSend: 0
+    };
+  }
+
+  go(screen) { this.setState({ screen }); }
+
+  addLog(kind, text, status) {
+    this.setState((s) => ({ log: [{ kind, text, status: status || '', t: clock() }].concat(s.log).slice(0, 60) }));
+  }
+
+  mark(id, how) { this.setState((s) => ({ bugs: Object.assign({}, s.bugs, { [id]: how }) })); }
+
+  notify(text) { this.setState((s) => ({ notifs: [{ text, time: clock() }].concat(s.notifs) })); }
+
+  record(row) { this.setState((s) => ({ db: [row].concat(s.db), history: [row].concat(s.history) })); }
+
+  debit(user, n) { this.setState((s) => ({ bal: Object.assign({}, s.bal, { [user]: s.bal[user] - n }) })); }
+
+  credit(user, n) { this.setState((s) => ({ bal: Object.assign({}, s.bal, { [user]: s.bal[user] + n }) })); }
+
+  amountVal() {
+    const raw = this.state.amt;
+    if (!/^-?\d+$/.test(raw)) return NaN;
+    return parseInt(raw, 10);
+  }
+
+  qrisVal() {
+    const q = this.state.qr;
+    if (q && q.kind === 'dynamic') return q.amount;
+    const raw = this.state.qamt;
+    if (!/^\d+$/.test(raw)) return NaN;
+    return parseInt(raw, 10);
+  }
+
+  isQrisFlow() {
+    return ['scan', 'qris_amount', 'qris_confirm', 'qris_pin', 'qris_success', 'qris_failed'].indexOf(this.state.screen) >= 0;
+  }
+
+  padTap(k) {
+    const s = this.state.screen;
+    const field = s === 'pin' || s === 'trf_pin' || s === 'qris_pin' ? 'pin'
+      : s === 'otp' ? 'otp'
+        : s === 'amount' ? 'amt'
+          : s === 'qris_amount' ? 'qamt'
+            : s === 'dest' ? 'dest'
+              : s === 'va_input' ? 'va' : null;
+    if (!field) return;
+    const max = field === 'pin' || field === 'otp' ? 6 : field === 'va' ? 16 : field === 'dest' ? 14 : 12;
+    let v = this.state[field];
+    if (k === '⌫') v = v.slice(0, -1);
+    else if (v.length < max) v = v + k;
+    if (field === 'pin' && s === 'pin' && v.length === 6) {
+      if (v === '123456') {
+        this.setState({ pin: '', pinError: false, screen: 'home' });
+        this.addLog('API', 'POST /auth/login — user ' + ACC[this.state.user].name, '200 OK');
+      } else {
+        this.setState({ pin: '', pinError: true, pinTries: this.state.pinTries + 1 });
+        this.addLog('API', 'POST /auth/login — errorCode INVALID_CREDENTIALS', '401 Unauthorized');
+      }
+      return;
+    }
+    const patch = {};
+    patch[field] = v;
+    if (field === 'dest') { patch.destName = ''; patch.destError = ''; }
+    this.setState(patch);
+  }
+
+  startTransfer(kind) {
+    this.setState({ kind, bank: null, dest: '', destKey: null, destName: '', destError: '', amt: '', note: '', qr: null });
+    this.go(kind === 'inter' ? 'bank' : kind === 'va' ? 'va_input' : 'dest');
+  }
+
+  inquiry() {
+    const d = this.state.dest.replace(/\s/g, '');
+    const me = ACC[this.state.user].no.replace(/\s/g, '');
+    this.addLog('API', 'GET /account/inquiry?no=' + d, '200 OK');
+    if (d === me) {
+      this.setState({ destName: '', destKey: null, destError: 'Rekening tujuan sama dengan rekening Anda. Gunakan menu Pindah Buku.' });
+      return;
+    }
+    const keys = Object.keys(ACC);
+    let hitKey = null;
+    keys.forEach((k) => { if (ACC[k].no.replace(/\s/g, '') === d) hitKey = k; });
+    if (!hitKey) {
+      this.setState({ destName: '', destKey: null, destError: 'Rekening tidak ditemukan.' });
+      this.addLog('API', 'GET /account/inquiry — errorCode ACCOUNT_NOT_FOUND', '404 Not Found');
+      return;
+    }
+    if (ACC[hitKey].blocked) {
+      this.setState({ destName: '', destKey: null, destError: 'Rekening tidak aktif / diblokir dan tidak dapat menerima dana.' });
+      this.addLog('API', 'GET /account/inquiry — errorCode ACCOUNT_BLOCKED', '422 Unprocessable');
+      return;
+    }
+    this.setState({ destName: ACC[hitKey].name, destKey: hitKey, destError: '' });
+  }
+
+  vaInquiry() {
+    const v = this.state.va.replace(/\s/g, '');
+    const ok = v === '88081234567890';
+    this.addLog('API', 'GET /va/inquiry?no=' + v, ok ? '200 OK' : '404 Not Found');
+    if (ok) this.setState({ vaError: '', destName: 'PLN Prabayar', amt: '250000', screen: 'va_bill' });
+    else this.setState({ vaError: 'Nomor Virtual Account tidak ditemukan atau sudah kedaluwarsa.' });
+  }
+
+  toConfirm() {
+    const v = this.amountVal();
+    const bad = !Number.isFinite(v) || v <= 0;
+    if (bad && this.state.build === 'fixed') {
+      this.mark('BUG-SGP-006', 'fixed');
+      this.addLog('APP', 'Validasi client menolak nominal "' + this.state.amt + '" sebelum request dikirim', 'BLOCKED');
+      return;
+    }
+    if (bad) {
+      this.mark('BUG-SGP-006', 'repro');
+      this.addLog('APP', 'Nominal "' + this.state.amt + '" lolos validasi client — tombol Lanjut tetap aktif', 'WARN');
+    }
+    if (RISKY.test(this.state.note)) {
+      this.addLog('APP', 'Payload pada field berita transfer di-escape sebelum dikirim ke API', 'SANITIZED');
+    }
+    this.go('confirm');
+  }
+
+  send() {
+    const st = this.state;
+    if (st.sending) {
+      if (st.build === 'fixed') {
+        this.addLog('APP', 'Tap ke-2 diabaikan — tombol disabled + Idempotency-Key sama dikirim ulang', 'IGNORED');
+        this.mark('BUG-SGP-001', 'fixed');
+        return;
+      }
+      this.addLog('API', 'POST /transfer — request ke-2 terkirim tanpa Idempotency-Key', '201 Created');
+      this.mark('BUG-SGP-001', 'repro');
+      this.commit(true);
+      return;
+    }
+    const qris = this.isQrisFlow();
+    const val = qris ? this.qrisVal() : this.amountVal();
+    this.setState({ sending: true, lastSend: Date.now() });
+    this.addLog('API', (qris ? 'POST /qris/pay' : 'POST /transfer') + ' — amount ' + (Number.isFinite(val) ? RP(val) : String(qris ? this.state.qamt : this.state.amt)), 'sending…');
+    setTimeout(() => this.settle(), 950);
+  }
+
+  settle() {
+    if (this.isQrisFlow()) return this.settleQris();
+    const st = this.state;
+    const amt = this.amountVal();
+    const fee = FEE[st.kind] || 0;
+    const bal = st.bal[st.user];
+    const fail = (reason, code) => {
+      this.addLog('API', 'POST /transfer — errorCode ' + code, '400 Bad Request');
+      this.setState({ sending: false, failTitle: 'Transaksi gagal', failReason: reason, screen: 'failed' });
+    };
+    if (!Number.isFinite(amt) || amt <= 0) return fail('Terjadi kesalahan. Silakan coba beberapa saat lagi.', 'INVALID_AMOUNT');
+    if (amt + fee > bal) return fail('Saldo tidak mencukupi untuk melakukan transaksi ini.', 'INSUFFICIENT_BALANCE');
+    if (st.accum + amt > DAILY_LIMIT) return fail('Melebihi limit transaksi harian Rp 50.000.000.', 'DAILY_LIMIT_EXCEEDED');
+    if (st.kind === 'inter' && st.net === 'switch_timeout') {
+      this.setState({ sending: false });
+      return this.holdPending(amt, fee);
+    }
+    this.setState({ sending: false });
+    this.commit(false);
+  }
+
+  commit(dup) {
+    const st = this.state;
+    const amt = this.amountVal();
+    const fee = FEE[st.kind] || 0;
+    const id = 'TRX' + String(Math.floor(Math.random() * 900000) + 100000);
+    const label = st.kind === 'intra' ? 'Transfer intrabank' : st.kind === 'inter' ? 'Transfer BI-FAST' : 'Pembayaran Virtual Account';
+    const to = st.kind === 'va' ? 'PLN Prabayar' : st.destName || 'Rekening tujuan';
+    const row = { id, type: label, to, amount: RP(-(amt + fee)), raw: amt, fee, status: 'SUCCESS', time: clock(), kind: st.kind, note: st.note };
+    this.debit(st.user, amt + fee);
+    if (st.destKey && st.kind === 'intra') this.credit(st.destKey, amt);
+    this.record(row);
+    this.setState((s) => ({ accum: s.accum + amt, tx: row, pin: '', otp: '', otpTries: 0 }));
+    this.notify(label + ' ' + RP(amt) + ' ke ' + to + ' berhasil.');
+    this.addLog('DB', 'INSERT INTO transactions (' + id + ', ' + label + ', ' + RP(amt) + ', SUCCESS)', 'committed');
+    if (st.net === 'drop' && !dup) {
+      if (st.build === 'fixed') {
+        this.addLog('APP', 'Response timeout — client menjalankan GET /transaction/status/' + id, '200 OK · SUCCESS');
+        this.mark('BUG-SGP-002', 'fixed');
+        this.go('success');
+      } else {
+        this.addLog('APP', 'Response tidak diterima — UI menyimpulkan gagal tanpa query status', 'MISMATCH');
+        this.mark('BUG-SGP-002', 'repro');
+        this.setState({ failTitle: 'Transfer Gagal', failReason: 'Transfer gagal, silakan coba lagi. (Saldo di database sudah terdebit dan status backend SUCCESS)', screen: 'failed' });
+      }
+      return;
+    }
+    this.go('success');
+  }
+
+  holdPending(amt, fee) {
+    const st = this.state;
+    const id = 'TRX' + String(Math.floor(Math.random() * 900000) + 100000);
+    const row = { id, type: 'Transfer BI-FAST', to: st.destName, amount: RP(-(amt + fee)), raw: amt, fee, status: 'PENDING', time: clock(), kind: 'inter', note: st.note };
+    this.debit(st.user, amt + fee);
+    this.record(row);
+    this.setState({
+      tx: row, pin: '', otp: '', otpTries: 0, screen: 'pending',
+      pendingTitle: 'Transaksi sedang diproses',
+      pendingNote: 'Switching BI-FAST tidak memberikan response (timeout). Dana sudah didebit dari rekening Anda.'
+    });
+    this.addLog('API', 'POST /bifast/transfer — tidak ada response dari switching', 'TIMEOUT');
+    this.addLog('DB', 'INSERT INTO transactions (' + id + ', BI-FAST, ' + RP(amt) + ', PENDING)', 'committed');
+    if (st.build === 'fixed') {
+      setTimeout(() => {
+        if (!this.state.tx || this.state.tx.id !== id) return;
+        this.credit(this.state.user, amt + fee);
+        this.setState((s) => ({
+          db: s.db.map((r) => (r.id === id ? Object.assign({}, r, { status: 'REVERSED' }) : r)),
+          history: s.history.map((r) => (r.id === id ? Object.assign({}, r, { status: 'REVERSED' }) : r)),
+          pendingTitle: 'Dana telah dikembalikan',
+          pendingNote: 'Switching tidak merespons dalam SLA. Scheduler menjalankan reversal otomatis dan saldo Anda dikembalikan penuh.'
+        }));
+        this.addLog('APP', 'Scheduler auto-reversal berjalan (SLA terlampaui) — ' + id + ' menjadi REVERSED', 'REVERSED');
+        this.notify('Dana ' + RP(amt + fee) + ' telah dikembalikan ke rekening Anda.');
+        this.mark('BUG-SGP-003', 'fixed');
+      }, 4500);
+    } else {
+      this.mark('BUG-SGP-003', 'repro');
+      this.addLog('APP', 'Tidak ada scheduler reversal — status bertahan di PENDING tanpa batas waktu', 'STUCK');
+    }
+  }
+
+  scan(q) {
+    this.addLog('API', 'POST /qris/decode — ' + q.name, q.kind === 'invalid' ? '400 Bad Request' : '200 OK');
+    if (q.kind === 'invalid') {
+      this.setState({ qr: null, failTitle: 'QR tidak terbaca', failReason: 'Kode QR rusak atau bukan format QRIS nasional. Silakan coba lagi.', screen: 'qris_failed' });
+      return;
+    }
+    if (q.expired) {
+      if (this.state.build === 'fixed') {
+        this.mark('BUG-SGP-004', 'fixed');
+        this.addLog('API', 'POST /qris/decode — errorCode QR_EXPIRED (divalidasi client & backend)', '400 Bad Request');
+        this.setState({ qr: null, failTitle: 'QR sudah kedaluwarsa', failReason: 'Masa berlaku kode QR ini sudah lewat. Minta merchant menampilkan QR baru.', screen: 'qris_failed' });
+        return;
+      }
+      this.mark('BUG-SGP-004', 'repro');
+      this.addLog('APP', 'expiry_time tidak divalidasi di client maupun backend — pembayaran diteruskan', 'WARN');
+    }
+    this.setState({ qr: q, qamt: '', screen: q.kind === 'static' ? 'qris_amount' : 'qris_confirm' });
+  }
+
+  settleQris() {
+    const st = this.state;
+    const q = st.qr;
+    const amt = this.qrisVal();
+    const fail = (title, reason, code) => {
+      this.addLog('API', 'POST /qris/pay — errorCode ' + code, '400 Bad Request');
+      this.setState({ sending: false, failTitle: title, failReason: reason, screen: 'qris_failed' });
+    };
+    if (!q) return fail('Pembayaran gagal', 'Data QR tidak tersedia.', 'QR_MISSING');
+    if (!Number.isFinite(amt) || amt <= 0) return fail('Pembayaran gagal', 'Nominal pembayaran tidak valid.', 'INVALID_AMOUNT');
+    if (amt > st.bal[st.user]) return fail('Pembayaran gagal', 'Saldo tidak mencukupi untuk pembayaran ini.', 'INSUFFICIENT_BALANCE');
+    if (amt > QRIS_LIMIT) return fail('Pembayaran gagal', 'Melebihi limit QRIS harian Rp 10.000.000 per transaksi.', 'QRIS_LIMIT_EXCEEDED');
+    if (q.mismatch) {
+      if (st.build === 'fixed') {
+        this.mark('BUG-SGP-005', 'fixed');
+        this.addLog('APP', 'Merchant ID pada QR tidak cocok dengan master data — transaksi di-flag sebelum settlement', 'REJECTED');
+        return fail('Pembayaran ditolak', 'Data merchant pada QR tidak cocok dengan data terdaftar. Transaksi dibatalkan demi keamanan.', 'MERCHANT_MISMATCH');
+      }
+      this.mark('BUG-SGP-005', 'repro');
+      this.addLog('APP', 'Settlement mengikuti Merchant ID pada QR tanpa cross-check master data', 'WARN');
+    }
+    const id = 'QRS' + String(Math.floor(Math.random() * 900000) + 100000);
+    const row = { id, type: 'QRIS — ' + q.name, to: q.name, amount: RP(-amt), raw: amt, fee: 0, status: 'SUCCESS', time: clock(), kind: 'qris', note: '' };
+    this.debit(st.user, amt);
+    this.record(row);
+    this.setState({ sending: false, tx: row, pin: '', screen: 'qris_success' });
+    this.notify('Pembayaran QRIS ' + RP(amt) + ' ke ' + q.name + ' berhasil.');
+    this.addLog('DB', 'INSERT INTO transactions (' + id + ', QRIS, ' + RP(amt) + ', SUCCESS)', 'committed');
+  }
+
+  killApp() {
+    this.addLog('APP', 'Aplikasi di-force close sebelum submit PIN — tidak ada request dikirim', 'ABORTED');
+    this.setState({ pin: '', qr: null, qamt: '', screen: 'login' });
+  }
+
+  submitOtp() {
+    if (this.state.otp === '246810') {
+      this.setState({ otpMsg: '' });
+      this.addLog('API', 'POST /otp/verify', '200 OK');
+      this.send();
+      return;
+    }
+    const n = this.state.otpTries + 1;
+    this.addLog('API', 'POST /otp/verify — errorCode OTP_INVALID', '401 Unauthorized');
+    if (n >= 3) {
+      this.setState({ otpTries: n, otp: '', screen: 'locked' });
+      this.addLog('APP', 'Transaksi dikunci sementara setelah 3 percobaan OTP gagal — saldo tidak terdebit', 'LOCKED');
+      return;
+    }
+    this.setState({ otpTries: n, otp: '', otpMsg: 'Kode OTP salah. Percobaan ' + n + ' dari 3.' });
+  }
+
+  setTc(id, status) {
+    this.setState((s) => ({ tc: Object.assign({}, s.tc, { [id]: status }) }));
+    this.addLog('QA', id + ' ditandai ' + status, status.toUpperCase());
+  }
+
+  onSend() {
+    const st = this.state;
+    if (st.pin.length < 6) return;
+    if (!this.isQrisFlow() && st.kind === 'inter' && !st.sending && st.otp !== '246810') {
+      this.setState({ otp: '', otpMsg: '', screen: 'otp' });
+      this.addLog('API', 'POST /otp/request — SMS OTP dikirim', '200 OK');
+      return;
+    }
+    this.send();
+  }
+
+  renderVals() {
+    const st = this.state;
+    const sc = findScreen(st.screen);
+    const me = ACC[st.user];
+    const is = (id) => st.screen === id;
+    const amtV = this.amountVal();
+    const fee = FEE[st.kind] || 0;
+    const qrisAmt = this.qrisVal();
+
+    const pad = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', '⌫'].map((l, i) => ({
+      l: l, i: i, tap: l ? () => this.padTap(l) : () => {}
+    }));
+
+    const history = st.history.map((h) => ({
+      id: h.id, title: h.type + ' · ' + h.to, amount: h.amount, status: h.status, time: h.time,
+      tap: () => this.setState({ tx: h, screen: 'receipt' })
+    }));
+
+    const tx = st.tx;
+    const receiptRows = tx ? [
+      { k: 'ID Transaksi', v: tx.id },
+      { k: 'Jenis', v: tx.type },
+      { k: 'Tujuan', v: tx.to },
+      { k: 'Nominal', v: RP(tx.raw) },
+      { k: 'Biaya admin', v: RP(tx.fee) },
+      { k: 'Total debit', v: RP(tx.raw + tx.fee) },
+      { k: 'Berita', v: tx.note ? tx.note : '—' },
+      { k: 'Status', v: tx.status },
+      { k: 'Waktu', v: tx.time }
+    ] : [];
+
+    const screenTcs = sc.tcs.map((id) => {
+      const c = findTc(id) || { id: id, t: id, ty: '', p: '', e: '' };
+      const status = st.tc[id];
+      return {
+        id: c.id, t: c.t, ty: c.ty, p: c.p, e: c.e,
+        done: !!status, status: status || '',
+        pass: () => this.setTc(id, 'Pass'),
+        fail: () => this.setTc(id, 'Fail'),
+        block: () => this.setTc(id, 'Blocked')
+      };
+    });
+
+    const groups = [];
+    SCREENS.forEach((s) => {
+      let g = null;
+      groups.forEach((x) => { if (x.name === s.g) g = x; });
+      if (!g) { g = { name: s.g, nodes: [] }; groups.push(g); }
+      g.nodes.push({ code: s.code, label: s.label, on: st.screen === s.id, tap: () => this.go(s.id) });
+    });
+
+    const seen = {};
+    let dupHits = 0;
+    st.db.forEach((r) => {
+      const key = r.type + '|' + r.raw + '|' + r.to;
+      seen[key] = (seen[key] || 0) + 1;
+      if (seen[key] > 1) dupHits++;
+    });
+
+    const badAmount = !Number.isFinite(amtV) || amtV <= 0;
+
+    return {
+      devW: 390, devH: 782,
+      isBuggy: st.build === 'buggy', isFixed: st.build === 'fixed',
+      buildLabel: st.build === 'buggy' ? 'build v1.4.0-QA' : 'build v1.5.0-FIX',
+      buildTag: st.build === 'buggy' ? 'v1.4.0-QA' : 'v1.5.0-FIX',
+      setBuggy: () => { this.setState({ build: 'buggy' }); this.addLog('QA', 'Build v1.4.0-QA dipasang di environment QA', 'DEPLOYED'); },
+      setFixed: () => { this.setState({ build: 'fixed' }); this.addLog('QA', 'Build v1.5.0-FIX dipasang — retest defect', 'DEPLOYED'); },
+      resetAll: () => this.setState(this.fresh(st.build)),
+
+      nets: [
+        { label: 'Normal', on: st.net === 'normal', tap: () => this.setState({ net: 'normal' }) },
+        { label: 'Koneksi putus setelah submit', on: st.net === 'drop', tap: () => this.setState({ net: 'drop' }) },
+        { label: 'Switching BI-FAST timeout', on: st.net === 'switch_timeout', tap: () => this.setState({ net: 'switch_timeout' }) }
+      ],
+      accums: [
+        { label: 'Akumulasi hari ini Rp 0', on: st.accum === 0, tap: () => this.setState({ accum: 0 }) },
+        { label: 'Akumulasi hari ini Rp 49.000.000', on: st.accum >= 49000000, tap: () => this.setState({ accum: 49000000 }) }
+      ],
+      accounts: Object.keys(ACC).map((k) => ({
+        name: ACC[k].name + (ACC[k].blocked ? ' — diblokir' : ''), no: ACC[k].no,
+        saldo: RP(st.bal[k]), on: st.user === k,
+        tap: () => this.setState({ user: k, screen: 'login' })
+      })),
+      loginable: Object.keys(ACC).filter((k) => ACC[k].login).map((k) => ({
+        name: ACC[k].name, no: ACC[k].no, saldo: RP(st.bal[k]),
+        login: () => this.setState({ user: k, screen: 'pin', pin: '', pinError: false, pinTries: 0 })
+      })),
+      forceTimeout: () => { this.addLog('APP', 'Sesi idle melewati batas 5 menit — sesi diakhiri', 'SESSION_EXPIRED'); this.go('timeout'); },
+      logout: () => this.setState({ screen: 'login', pin: '', pinError: false }),
+
+      screenCode: sc.code, screenTitle: sc.label, appTitle: sc.title,
+      chrome: st.screen !== 'login' && st.screen !== 'pin',
+      back: () => this.go('home'),
+      goHome: () => this.go('home'),
+      goLimit: () => this.go('limit'),
+      goAbout: () => this.go('about'),
+
+      isLogin: is('login'), isPin: is('pin'), isHome: is('home'), isTrfType: is('trf_type'),
+      isBank: is('bank'), isDest: is('dest'), isVaInput: is('va_input'), isVaBill: is('va_bill'),
+      isAmount: is('amount'), isConfirm: is('confirm'), isTrfPin: is('trf_pin'), isOtp: is('otp'),
+      isLocked: is('locked'), isProcess: is('process'), isSuccess: is('success') || is('qris_success'),
+      isFailed: is('failed') || is('qris_failed'), isPending: is('pending'), isTimeout: is('timeout'),
+      isScan: is('scan'), isQrisAmount: is('qris_amount'), isQrisConfirm: is('qris_confirm'),
+      isQrisPin: is('qris_pin'), isHistory: is('history'), isReceipt: is('receipt'),
+      isNotif: is('notif'), isProfile: is('profile'), isLimit: is('limit'), isAbout: is('about'),
+
+      activeName: me.name, activeNo: me.no, activeSaldo: RP(st.bal[st.user]),
+      limitLeft: RP(Math.max(0, DAILY_LIMIT - st.accum)),
+      pinDots: [0, 1, 2, 3, 4, 5].map((i) => ({ i: i, on: st.pin.length > i })),
+      otpDots: [0, 1, 2, 3, 4, 5].map((i) => ({ i: i, on: st.otp.length > i })),
+      pinError: st.pinError, pinLeft: Math.max(0, 3 - st.pinTries), pad: pad,
+
+      menu: [
+        { mark: '↗', label: 'Transfer', tap: () => this.go('trf_type') },
+        { mark: '▣', label: 'Scan QRIS', tap: () => this.setState({ qr: null, qamt: '', screen: 'scan' }) },
+        { mark: '≡', label: 'Mutasi', tap: () => this.go('history') },
+        { mark: '◔', label: 'Notifikasi', tap: () => this.go('notif') },
+        { mark: '⊞', label: 'Limit & biaya', tap: () => this.go('limit') },
+        { mark: '◎', label: 'Profil', tap: () => this.go('profile') }
+      ],
+      recent: history.slice(0, 3), history: history, historyCount: st.history.length,
+      noHistory: st.history.length === 0,
+      notifs: st.notifs, noNotif: st.notifs.length === 0,
+
+      trfKinds: [
+        { label: 'Sesama SigmaPay', note: 'Intrabank · biaya admin Rp 1.000', tap: () => this.startTransfer('intra') },
+        { label: 'Bank lain (BI-FAST)', note: 'Real-time · biaya admin Rp 2.500', tap: () => this.startTransfer('inter') },
+        { label: 'Virtual Account', note: 'Bayar tagihan · tanpa biaya admin', tap: () => this.startTransfer('va') }
+      ],
+      banks: [
+        { name: 'Bank XYZ', code: '014', tap: () => this.setState({ bank: 'Bank XYZ', screen: 'dest' }) },
+        { name: 'Bank ABC', code: '008', tap: () => this.setState({ bank: 'Bank ABC', screen: 'dest' }) },
+        { name: 'Bank Nusantara', code: '451', tap: () => this.setState({ bank: 'Bank Nusantara', screen: 'dest' }) }
+      ],
+      destBankLabel: st.kind === 'inter' ? (st.bank || 'Bank lain') + ' · BI-FAST' : 'SigmaPay · Intrabank',
+      destShown: st.dest || '—',
+      destName: st.destName, destError: st.destError,
+      canContinueDest: !!st.destName,
+      destPresets: [
+        { label: 'User B (aktif)', tap: () => this.setState({ dest: '8801 9988 7766', destName: '', destKey: null, destError: '' }) },
+        { label: 'User D (diblokir)', tap: () => this.setState({ dest: '8801 1122 3344', destName: '', destKey: null, destError: '' }) },
+        { label: 'Tidak terdaftar', tap: () => this.setState({ dest: '0000000000', destName: '', destKey: null, destError: '' }) },
+        { label: 'Rekening sendiri', tap: () => this.setState({ dest: ACC[st.user].no, destName: '', destKey: null, destError: '' }) }
+      ],
+      inquiry: () => this.inquiry(),
+      toAmount: () => this.setState({ amt: '', screen: 'amount' }),
+
+      vaShown: st.va || '—', vaError: st.vaError,
+      vaPresets: [
+        { label: 'VA valid 88081234567890', tap: () => this.setState({ va: '88081234567890', vaError: '' }) },
+        { label: 'VA tidak terdaftar', tap: () => this.setState({ va: '88089999999999', vaError: '' }) }
+      ],
+      vaInquiry: () => this.vaInquiry(),
+      vaRows: [
+        { k: 'Nomor VA', v: st.va || '—' },
+        { k: 'Penyedia', v: 'PLN Prabayar' },
+        { k: 'Nama pelanggan', v: me.name },
+        { k: 'Tagihan', v: RP(250000) },
+        { k: 'Biaya admin', v: RP(0) }
+      ],
+
+      amountShown: st.amt ? (/^-?\d+$/.test(st.amt) ? RP(parseInt(st.amt, 10)) : st.amt) : 'Rp 0',
+      amountError: st.build === 'fixed' && st.amt && badAmount ? 'Nominal harus berupa angka lebih besar dari 0.' : '',
+      amountBlocked: st.build === 'fixed' && badAmount,
+      amountPresets: [
+        { label: 'Rp 500.000', tap: () => this.setState({ amt: '500000' }) },
+        { label: 'Rp 5.000.000', tap: () => this.setState({ amt: '5000000' }) },
+        { label: '-100000 · TC-012', tap: () => this.setState({ amt: '-100000' }) },
+        { label: 'abc · TC-013', tap: () => this.setState({ amt: 'abc' }) },
+        { label: '999.999.999.999 · TC-019', tap: () => this.setState({ amt: '999999999999' }) }
+      ],
+      noteValue: st.note,
+      onNote: (e) => this.setState({ note: e.target.value }),
+      notePresets: [
+        { label: XSS_PAYLOAD, tap: () => this.setState({ note: XSS_PAYLOAD }) },
+        { label: SQLI_PAYLOAD, tap: () => this.setState({ note: SQLI_PAYLOAD }) }
+      ],
+      toConfirm: () => this.toConfirm(),
+
+      confirmRows: [
+        { k: 'Jenis', v: st.kind === 'intra' ? 'Transfer sesama SigmaPay' : st.kind === 'inter' ? 'Transfer BI-FAST · ' + (st.bank || '') : 'Virtual Account' },
+        { k: 'Tujuan', v: st.destName || '—' },
+        { k: 'Rekening', v: st.kind === 'va' ? st.va : st.dest },
+        { k: 'Nominal', v: Number.isFinite(amtV) ? RP(amtV) : st.amt },
+        { k: 'Biaya admin', v: RP(fee) },
+        { k: 'Berita', v: st.note ? st.note : '—' }
+      ],
+      totalDebit: Number.isFinite(amtV) ? RP(amtV + fee) : '—',
+      payLabel: st.kind === 'va' ? 'Pembayaran VA' : st.destName || 'Transfer',
+      toPin: () => this.setState({ pin: '', screen: 'trf_pin' }),
+
+      sendLabel: st.sending ? 'Mengirim…' : 'Kirim',
+      sendBlocked: st.pin.length < 6 || (st.build === 'fixed' && st.sending),
+      send: () => this.onSend(),
+      submitOtp: () => this.submitOtp(),
+      wrongOtp: () => this.setState({ otp: '000000' }),
+      otpMsg: st.otpMsg,
+      killApp: () => this.killApp(),
+
+      processNote: st.net === 'drop' ? 'menunggu response…' : 'menghubungi core banking…',
+      successTitle: st.screen === 'qris_success' ? 'Pembayaran berhasil' : 'Transaksi berhasil',
+      lastAmount: tx ? RP(tx.raw) : '—',
+      receiptRows: receiptRows,
+      goReceipt: () => this.go('receipt'),
+      share: () => this.addLog('QA', 'E-receipt ' + (tx ? tx.id : '') + ' diunduh sebagai evidence', 'SAVED'),
+
+      failTitle: st.failTitle, failReason: st.failReason,
+      pendingTitle: st.pendingTitle, pendingNote: st.pendingNote,
+
+      qrs: QRS.map((q) => ({ name: q.name, meta: q.meta, tap: () => this.scan(q) })),
+      qrName: st.qr ? st.qr.name : '—',
+      qrAmountShown: Number.isFinite(qrisAmt) ? RP(qrisAmt) : (st.qamt || 'Rp 0'),
+      qrPresets: [
+        { label: 'Rp 50.000', tap: () => this.setState({ qamt: '50000' }) },
+        { label: 'Rp 2.000.000', tap: () => this.setState({ qamt: '2000000' }) },
+        { label: 'Rp 12.000.000 · limit', tap: () => this.setState({ qamt: '12000000' }) }
+      ],
+      toQrisConfirm: () => this.go('qris_confirm'),
+      toQrisPin: () => this.setState({ pin: '', screen: 'qris_pin' }),
+      qrRows: st.qr ? [
+        { k: 'Merchant', v: st.qr.name },
+        { k: 'Jenis QR', v: st.qr.kind === 'static' ? 'QRIS statis' : 'QRIS dinamis' },
+        { k: 'NMID', v: st.qr.mismatch ? 'ID99999999999 (tidak terdaftar)' : 'ID1023456789012' },
+        { k: 'Nominal', v: Number.isFinite(qrisAmt) ? RP(qrisAmt) : '—' },
+        { k: 'Biaya', v: RP(0) },
+        { k: 'Sumber dana', v: me.name + ' · ' + me.no }
+      ] : [],
+      qrWarn: st.qr && st.qr.expired ? 'Masa berlaku QR ini sudah lewat 5 menit — pada build ini pembayaran tetap dapat diteruskan.'
+        : st.qr && st.qr.mismatch ? 'Merchant ID pada QR tidak terdaftar di master data merchant.' : '',
+
+      profileRows: [
+        { k: 'Nama', v: me.name },
+        { k: 'Rekening', v: me.no },
+        { k: 'Status akun', v: 'Aktif' },
+        { k: 'Biometric login', v: 'Nonaktif' },
+        { k: 'Batas idle sesi', v: '5 menit' }
+      ],
+      limitRows: [
+        { k: 'Limit transfer harian', v: RP(DAILY_LIMIT) },
+        { k: 'Terpakai hari ini', v: RP(st.accum) },
+        { k: 'Sisa limit', v: RP(Math.max(0, DAILY_LIMIT - st.accum)) },
+        { k: 'Limit QRIS per transaksi', v: RP(QRIS_LIMIT) },
+        { k: 'Biaya intrabank', v: RP(FEE.intra) },
+        { k: 'Biaya BI-FAST', v: RP(FEE.inter) }
+      ],
+      aboutRows: [
+        { k: 'Versi build', v: st.build === 'buggy' ? '1.4.0-QA' : '1.5.0-FIX' },
+        { k: 'Environment', v: 'QA' },
+        { k: 'API base', v: 'api-qa.sigmapay.dummy' },
+        { k: 'Database', v: 'sigmapay_qa' },
+        { k: 'Sandbox', v: 'BI-FAST & QRIS Simulator' },
+        { k: 'Sprint', v: 'Sprint 14' }
+      ],
+
+      tabs: [
+        { label: 'Test case', on: st.tab === 'tc', tap: () => this.setState({ tab: 'tc' }) },
+        { label: 'API', on: st.tab === 'api', tap: () => this.setState({ tab: 'api' }) },
+        { label: 'SQL', on: st.tab === 'sql', tap: () => this.setState({ tab: 'sql' }) },
+        { label: 'Defect', on: st.tab === 'bug', tap: () => this.setState({ tab: 'bug' }) }
+      ],
+      tabTc: st.tab === 'tc', tabApi: st.tab === 'api', tabSql: st.tab === 'sql', tabBug: st.tab === 'bug',
+      screenTcs: screenTcs,
+      tcProgress: Object.keys(st.tc).length + ' dari ' + TCS.length + ' test case dieksekusi pada sesi ini',
+      log: st.log, noLog: st.log.length === 0,
+      dbAccounts: Object.keys(ACC).map((k) => ({ no: ACC[k].no, name: ACC[k].name, saldo: RP(st.bal[k]) })),
+      dbTx: st.db.map((r) => ({ id: r.id, type: r.type, amount: r.amount, status: r.status })),
+      noDb: st.db.length === 0,
+      dupResult: dupHits > 0 ? dupHits + ' baris duplikat terdeteksi — investigasi BUG-SGP-001' : '0 baris duplikat',
+      ledgerResult: st.db.some((r) => r.status === 'PENDING') ? 'Tidak seimbang — ada transaksi PENDING melewati SLA' : 'Seimbang — debit = kredit',
+      groups: groups,
+      bugs: BUGS.map((b) => ({
+        id: b.id, t: b.t, sev: b.sev, pri: b.pri, tc: b.tc,
+        state: st.bugs[b.id] === 'repro' ? 'TEREPRODUKSI' : st.bugs[b.id] === 'fixed' ? 'RETEST PASS' : 'belum diuji'
+      }))
+    };
+  }
+}
+</script>
+<script>
+(function(){
+  var html = document.documentElement;
+  var btn = document.getElementById('siteThemeToggle');
+  if (!btn) return;
+  function updateBtn(mode){
+    btn.textContent = mode === 'dark' ? '☀' : '🌙';
+    btn.setAttribute('aria-label', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  updateBtn(html.getAttribute('data-theme') || 'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateBtn(next);
+  });
+})();
+(function(){
+  var labels = {
+    en: { back: '← Back to case study', projects: 'Projects', contact: 'Contact' },
+    id: { back: '← Kembali ke case study', projects: 'Proyek', contact: 'Kontak' }
+  };
+  function apply(lang){
+    document.querySelectorAll('.site-lang-btn').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+    document.querySelectorAll('.site-nav-pill').forEach(function(a){
+      var key = a.getAttribute('data-nav');
+      if (key && labels[lang][key]) a.textContent = labels[lang][key];
+    });
+  }
+  document.querySelectorAll('.site-lang-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      var lang = b.getAttribute('data-lang');
+      localStorage.setItem('lang', lang);
+      apply(lang);
+    });
+  });
+  apply(localStorage.getItem('lang') || 'en');
+})();
+</script>
+</body>
+</html>

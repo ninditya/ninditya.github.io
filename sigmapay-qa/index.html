@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA Portfolio — SigmaPay Mobile Banking (Transfer &amp; QRIS) · Ninditya Salma Nur Aini</title>
+  <meta name="description" content="A full STLC simulation for a mobile banking app: 30 test cases, 3 execution cycles, 6 real defects (3 Critical), API + SQL validation, and an interactive prototype where every bug can be reproduced and re-verified after the fix.">
+  <link rel="canonical" href="https://ninditya.github.io/sigmapay-qa/">
+  <meta property="og:title" content="QA Portfolio — SigmaPay Mobile Banking (Transfer & QRIS)">
+  <meta property="og:url" content="https://ninditya.github.io/sigmapay-qa/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+      --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+      --line:#d7e0e2; --line-strong:#a9bcc0;
+      --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+      --green:#1f8a5f; --critical:#b23a2e; --major:#b8862c; --minor:#5b6c73;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased; }
+    .skip-link { position:absolute; top:-40px; left:0; background:var(--ink); color:#fff; padding:8px 16px; z-index:1000; transition:top 0.2s; font-family:'JetBrains Mono',monospace; font-size:0.8rem; text-decoration:none; }
+    .skip-link:focus { top:0; }
+    *:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
+    nav { position:sticky; top:0; background:rgba(255,255,255,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); z-index:100; }
+    .nav-inner { max-width:1100px; margin:0 auto; padding:16px 32px; display:flex; justify-content:flex-start; align-items:center; flex-wrap:wrap; gap:16px; }
+    .nav-tools { display:flex; align-items:center; gap:10px; width:100%; }
+    .mobile-nav-toggle { display:none; background:transparent; border:none; color:var(--ink); font-size:1.5rem; cursor:pointer; padding:0 5px; line-height:1; }
+    .nav-pills { display:flex; gap:6px; flex-wrap:wrap; }
+    .nav-pill { font-size:13px; color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:100px; transition:all 0.2s ease; }
+    .nav-pill:hover { background:var(--bg-alt); color:var(--ink); }
+    .nav-pill.back { color:var(--primary); border:1px solid var(--line); }
+    .nav-pill.back:hover { background:var(--primary); color:white; border-color:var(--primary); }
+    .lang-switch { display:inline-flex; padding:3px; border:1px solid var(--line); border-radius:999px; background:var(--bg); margin-left:auto; }
+    .lang-btn { border:none; background:transparent; color:var(--muted); padding:6px 10px; border-radius:999px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; transition:all 0.15s; }
+    .lang-btn.active { background:var(--ink); color:white; }
+    .theme-toggle { width:44px; height:44px; border-radius:50%; border:1px solid var(--line); background:var(--bg-alt); color:var(--ink); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:all 0.15s; flex-shrink:0; line-height:1; }
+    .wrap { max-width:1100px; margin:0 auto; padding:0 32px; }
+    section.content { padding:80px 0; border-bottom:1px solid var(--line); }
+    section.content.alt { background:var(--bg-alt); }
+    .section-num { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px; font-weight:500; }
+    h2 { font-family:'Fraunces',serif; font-size:clamp(30px,4.2vw,46px); font-weight:400; letter-spacing:-0.01em; line-height:1.15; margin-bottom:32px; max-width:820px; color:var(--ink); }
+    h2 em { font-style:italic; color:var(--primary); }
+    h3 { font-family:'Fraunces',serif; font-size:22px; font-weight:400; margin:32px 0 14px; letter-spacing:-0.01em; color:var(--ink); }
+    h3 em { font-style:italic; color:var(--primary); }
+    .lede { font-family:'Fraunces',serif; font-size:21px; line-height:1.5; color:var(--ink-soft); max-width:760px; margin-bottom:24px; font-weight:400; }
+    p { margin-bottom:16px; max-width:760px; color:var(--ink-soft); font-size:15.5px; }
+    p code, li code, td code { background:var(--bg-alt); border:1px solid var(--line); padding:1px 6px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink); }
+    pre.code { background:var(--bg-dark); color:#d6e3e0; padding:22px 26px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.7; overflow-x:auto; margin:22px 0; border-radius:6px; border-left:3px solid var(--accent); max-width:920px; }
+    pre.code .c { color:#7a9490; font-style:italic; }
+    pre.code .s { color:var(--accent); }
+    pre.code .k { color:#e39a8f; }
+    pre.code .n { color:#7ec4c8; }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin:20px 0; }
+    .tag { font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; padding:5px 11px; border:1px solid var(--line-strong); background:white; border-radius:3px; color:var(--ink-soft); }
+    .pullquote { border-left:3px solid var(--accent); padding:16px 0 16px 28px; margin:32px 0; font-family:'Fraunces',serif; font-size:21px; font-style:italic; line-height:1.45; max-width:760px; color:var(--ink); }
+    .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity:1; transform:translateY(0); }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin:32px 0; }
+
+    /* Hero */
+    .hero { padding:76px 0 56px; border-bottom:1px solid var(--line); }
+    .hero-kicker { display:flex; align-items:center; gap:12px; margin-bottom:32px; flex-wrap:wrap; }
+    .kicker-tag { background:var(--ink); color:var(--accent); padding:5px 12px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; }
+    .kicker-text { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.03em; }
+    h1.title { font-family:'Fraunces',serif; font-size:clamp(40px,6vw,72px); line-height:1.05; letter-spacing:-0.02em; color:var(--ink); margin-bottom:28px; font-weight:400; }
+    h1.title em { font-style:italic; color:var(--primary); }
+    .hero-lede { font-family:'Fraunces',serif; font-size:clamp(19px,2.1vw,22px); line-height:1.5; max-width:700px; color:var(--ink-soft); font-weight:400; }
+    .hero-lede strong { background:linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%); font-weight:500; color:var(--ink); }
+    .hero-meta { display:flex; flex-wrap:wrap; gap:26px; margin-top:40px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.02em; color:var(--muted); }
+    .hero-meta span strong { color:var(--ink); font-weight:500; margin-right:6px; text-transform:uppercase; letter-spacing:0.08em; font-size:10px; }
+    .disclosure { margin-top:28px; padding:12px 16px; background:var(--accent-soft); border:1px solid var(--line); border-radius:6px; max-width:700px; font-size:13px; color:var(--ink-soft); font-family:'Inter',sans-serif; }
+    .disclosure strong { color:var(--ink); }
+
+    /* Stats */
+    .stats-strip { background:var(--bg-dark); color:var(--bg); padding:56px 0; }
+    .stats-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:0; }
+    .stat { text-align:left; padding:0 22px; border-left:1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left:none; padding-left:0; }
+    .stat .num { font-family:'Fraunces',serif; font-size:clamp(32px,4.2vw,48px); font-weight:400; line-height:1; color:var(--accent); letter-spacing:-0.02em; }
+    .stat .num small { font-size:0.5em; color:var(--bg); opacity:0.7; }
+    .stat .label { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.07em; text-transform:uppercase; margin-top:12px; opacity:0.7; line-height:1.4; }
+
+    /* Compare split */
+    .compare-split { display:grid; grid-template-columns:1fr 1fr; gap:2px; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:36px 0; }
+    .cs-col { padding:28px 26px; }
+    .cs-col.bad { background:rgba(178,58,46,0.05); border-right:2px solid var(--line); }
+    .cs-col.good { background:rgba(31,138,95,0.05); }
+    .cs-header { font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; font-weight:500; margin-bottom:16px; padding:6px 12px; border-radius:3px; display:inline-block; }
+    .cs-col.bad .cs-header { background:rgba(178,58,46,0.1); color:var(--critical); }
+    .cs-col.good .cs-header { background:rgba(31,138,95,0.1); color:var(--green); }
+    .cs-list { list-style:none; }
+    .cs-list li { font-size:14px; color:var(--ink-soft); padding:6px 0; border-bottom:1px solid var(--line); }
+    .cs-list li:last-child { border-bottom:none; }
+
+    /* Decision-style tables */
+    table.decision { width:100%; border-collapse:collapse; margin:28px 0; font-size:13.5px; }
+    table.decision th { text-align:left; padding:11px 14px; background:var(--bg-dark); color:rgba(255,255,255,0.8); font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.07em; text-transform:uppercase; font-weight:500; }
+    table.decision td { padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-soft); }
+    table.decision td:first-child { color:var(--ink); font-weight:500; }
+    table.decision tr:last-child td { border-bottom:none; }
+    table.decision td.num { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--primary); }
+    table.decision a.doclink { color:var(--primary); text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:11.5px; }
+    table.decision a.doclink:hover { text-decoration:underline; }
+    table.decision td.status-pass { color:var(--green); font-weight:600; }
+    table.decision td.status-fail { color:var(--critical); font-weight:600; }
+
+    /* Account / data cards */
+    .data-note { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted); margin:-8px 0 20px; }
+
+    /* Cycle funnel */
+    .cycle-flow { display:flex; align-items:stretch; gap:0; margin:36px 0; overflow-x:auto; }
+    .cycle-box { flex:1; min-width:170px; border:1px solid var(--line); border-radius:8px; padding:20px; background:var(--bg); }
+    .cycle-box .cyc-label { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:8px; }
+    .cycle-box .cyc-rate { font-family:'Fraunces',serif; font-size:34px; color:var(--primary); line-height:1; }
+    .cycle-box .cyc-detail { font-size:12px; color:var(--ink-soft); margin-top:8px; }
+    .cycle-arrow { display:flex; align-items:center; padding:0 14px; color:var(--muted); font-size:20px; font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+    .cycle-box.final .cyc-rate { color:var(--green); }
+
+    /* Bug cards */
+    .bug-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin:36px 0; }
+    .bug-card { border:1px solid var(--line); border-radius:10px; padding:22px 24px; background:var(--bg); }
+    .bug-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; gap:10px; }
+    .bug-id { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.05em; }
+    .sev { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; padding:4px 10px; border-radius:100px; }
+    .sev.critical { background:rgba(178,58,46,0.12); color:var(--critical); }
+    .sev.major { background:rgba(184,134,44,0.14); color:var(--major); }
+    .sev.minor { background:rgba(91,108,115,0.12); color:var(--minor); }
+    .bug-card h4 { font-family:'Fraunces',serif; font-weight:400; font-size:17px; margin-bottom:10px; line-height:1.35; color:var(--ink); }
+    .bug-field { font-size:13px; color:var(--ink-soft); margin-bottom:8px; }
+    .bug-field strong { color:var(--ink); font-weight:600; display:block; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:2px; }
+    .bug-status { display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--green); font-weight:600; margin-top:8px; }
+    .bug-extra { margin-top:16px; padding:16px 18px; border:1px dashed var(--line-strong); border-radius:8px; background:var(--bg-alt); font-size:13.5px; color:var(--ink-soft); }
+
+    /* Density bars */
+    .density-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin:32px 0; }
+    .density-card { border:1px solid var(--line); border-radius:10px; padding:20px; }
+    .density-label { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; color:var(--muted); }
+    .density-bar-track { height:10px; background:rgba(0,0,0,0.06); border-radius:5px; overflow:hidden; margin-bottom:10px; }
+    .density-bar { height:100%; border-radius:5px; }
+    .density-pct { font-family:'Fraunces',serif; font-size:26px; }
+
+    /* Folder tree */
+    .folder-tree { font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.85; background:var(--bg-dark); color:#d6e3e0; padding:26px 30px; border-radius:6px; border-left:3px solid var(--primary); margin:28px 0; max-width:520px; overflow-x:auto; white-space:pre; }
+    .folder-tree .dir { color:#7ec4c8; }
+    .folder-tree .file { color:#d6e3e0; }
+    .folder-tree .key-file { color:var(--accent); }
+
+    /* Pill list */
+    .pill-list { display:flex; flex-wrap:wrap; gap:10px; margin:24px 0; }
+    .pill { border:1px solid var(--line); border-radius:100px; padding:8px 16px; font-size:13px; color:var(--ink-soft); background:var(--bg); }
+    .pill strong { color:var(--primary); font-family:'JetBrains Mono',monospace; font-size:11px; margin-right:6px; }
+
+    /* Toggle mock */
+    .toggle-mock { display:inline-flex; border:1px solid var(--line-strong); border-radius:100px; overflow:hidden; margin:22px 0; font-family:'JetBrains Mono',monospace; font-size:12px; }
+    .toggle-mock span { padding:9px 18px; }
+    .toggle-mock .buggy { background:rgba(178,58,46,0.12); color:var(--critical); font-weight:600; }
+    .toggle-mock .fixed { color:var(--muted); }
+
+    /* Doc list */
+    .doc-list { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:28px 0; max-width:760px; }
+    .doc-list a { display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink-soft); text-decoration:none; padding:9px 12px; border:1px solid var(--line); border-radius:6px; background:var(--bg); transition:all .15s; }
+    .doc-list a:hover { border-color:var(--primary); color:var(--primary); }
+
+    /* Lessons */
+    .lesson-cards { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:32px 0; }
+    .lesson-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:20px; }
+    .lesson-label { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:8px; }
+    .lesson-card p { font-size:14px; color:rgba(255,255,255,0.65); margin:0; max-width:none; line-height:1.6; }
+    .lesson-card p strong { color:rgba(255,255,255,0.9); }
+
+    /* CTA */
+    .cta-section { background:var(--bg-dark); color:var(--bg); padding:76px 0; }
+    .cta-section .section-num { color:var(--accent); }
+    .cta-section h2 { color:var(--bg); }
+    .cta-section h2 em { color:var(--accent); }
+    .cta-section p { color:rgba(255,255,255,0.7); }
+    .cta-buttons { display:flex; flex-wrap:wrap; gap:14px; margin-top:28px; }
+    .btn { display:inline-block; padding:14px 26px; background:var(--accent); color:var(--bg-dark); text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; border:2px solid var(--accent); border-radius:4px; transition:all 0.2s ease; }
+    .btn:hover { background:transparent; color:var(--accent); }
+    .btn.ghost { background:transparent; color:var(--bg); border-color:rgba(255,255,255,0.4); }
+    .btn.ghost:hover { background:var(--bg); color:var(--ink); }
+    footer { background:var(--bg-dark); color:rgba(255,255,255,0.6); padding:28px 0; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.04em; border-top:1px solid rgba(255,255,255,0.1); }
+    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    footer a { color:var(--accent); text-decoration:none; }
+
+    /* Dark mode */
+    html[data-theme="dark"] { --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12); --green:#39c785; --critical:#e2685a; --major:#e0a94a; --minor:#9fb0b5; }
+    html[data-theme="dark"] nav { background:rgba(18,25,27,0.92); }
+    html[data-theme="dark"] .stats-strip, html[data-theme="dark"] pre.code, html[data-theme="dark"] .folder-tree { background:#000000; }
+    html[data-theme="dark"] .tag, html[data-theme="dark"] .cycle-box, html[data-theme="dark"] .bug-card, html[data-theme="dark"] .density-card, html[data-theme="dark"] .pill, html[data-theme="dark"] .doc-list a { background:var(--bg-alt); }
+    html[data-theme="dark"] .cs-col { background:var(--bg-alt) !important; }
+    html[data-theme="dark"] .lang-btn.active { background:#e5e5ea; color:#1c1c1e; }
+    html[data-theme="dark"] table.decision th { background:#111; }
+    html[data-theme="dark"] .disclosure { background:rgba(79,195,188,0.08); }
+    html[data-theme="dark"] .bug-extra { background:var(--bg-alt); }
+
+    /* Responsive */
+    @media (max-width:800px) {
+      .stats-grid { grid-template-columns:repeat(3,1fr); gap:26px; }
+      .stat { border-left:none !important; padding:0; }
+      .two-col, .compare-split, .density-grid { grid-template-columns:1fr; }
+      .bug-grid { grid-template-columns:1fr; }
+      .lesson-cards { grid-template-columns:1fr; }
+      .doc-list { grid-template-columns:1fr; }
+      .cycle-flow { flex-direction:column; }
+      .cycle-arrow { transform:rotate(90deg); padding:6px 0; align-self:center; }
+    }
+    @media (max-width:600px) {
+      .stats-grid { grid-template-columns:repeat(2,1fr); }
+      .wrap { padding:0 20px; }
+      .nav-inner { padding:14px 20px; }
+      .hero { padding:52px 0 36px; }
+      .mobile-nav-toggle { display:block; }
+      .nav-pills { display:none; position:absolute; top:56px; left:0; width:100%; background:rgba(255,255,255,0.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); flex-direction:column; padding:1rem 1.5rem; gap:0.4rem; }
+      nav.nav-open .nav-pills { display:flex; }
+    }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } html { scroll-behavior:auto; } }
+  </style>
+  <script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+  <a href="#why" class="skip-link">Skip to main content</a>
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a href="/" class="nav-pill back" data-i18n="navBack">← All projects</a>
+          <a href="/#projects" class="nav-pill" data-i18n="navProjects">Projects</a>
+          <a href="/#contact" class="nav-pill" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-kicker">
+        <span class="kicker-tag" data-i18n="kickerTag">QA Manual Testing Portfolio</span>
+        <span class="kicker-text">SigmaPay Mobile Banking · Fund Transfer &amp; QRIS Payment · dummy system</span>
+      </div>
+      <h1 class="title" data-i18n="heroTitle">Six bugs. <em>Three of them touch real money.</em></h1>
+      <p class="hero-lede" data-i18n="heroLede">
+        A full STLC simulation built for a dummy mobile banking app — Fund Transfer (Intrabank / BI-FAST / Virtual Account)
+        and QRIS Payment. <strong>30 test cases, 3 execution cycles, 6 real defects</strong>, API + database validation,
+        and an interactive prototype where every bug can be reproduced — then re-verified after the fix.
+      </p>
+      <div class="hero-meta">
+        <span data-i18n="heroMetaPlan"><strong>Plan</strong> scope · strategy · risk · entry/exit criteria</span>
+        <span data-i18n="heroMetaDesign"><strong>Design</strong> 30 test cases · positive/negative/edge case</span>
+        <span data-i18n="heroMetaExecute"><strong>Execute</strong> manual UI · Postman API · SQL validation</span>
+        <span data-i18n="heroMetaClose"><strong>Close</strong> defect density · exit criteria · Go/No-Go</span>
+      </div>
+      <div class="tags">
+        <span class="tag">Manual Testing</span><span class="tag">SIT / UAT</span><span class="tag">Regression Testing</span>
+        <span class="tag">Smoke Testing</span><span class="tag">API Testing (Postman)</span><span class="tag">SQL Validation</span>
+        <span class="tag">Defect Mgmt (JIRA-style)</span><span class="tag">Agile / Scrum</span>
+      </div>
+      <div class="disclosure" data-i18n="disclosure">
+        <strong>Full disclosure:</strong> SigmaPay is a fictional bank built specifically for this portfolio — it is not
+        production banking experience. What's real is the STLC discipline: every test case, defect, and query below was
+        actually designed and executed against the prototype linked at the bottom of this page.
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-strip">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat"><div class="num">30</div><div class="label" data-i18n="stat1">Test cases<br>designed</div></div>
+        <div class="stat"><div class="num">6</div><div class="label" data-i18n="stat2">Defects found<br>3 Critical</div></div>
+        <div class="stat"><div class="num">51</div><div class="label" data-i18n="stat3">Test executions<br>across 3 cycles</div></div>
+        <div class="stat"><div class="num">100<small>%</small></div><div class="label" data-i18n="stat4">Final pass rate<br>Cycle 3</div></div>
+        <div class="stat"><div class="num">30</div><div class="label" data-i18n="stat5">Prototype screens<br>+ QA workbench</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 WHY -->
+  <section class="content" id="why">
+    <div class="wrap">
+      <div class="section-num" data-i18n="whyNum">01 · Why This Project</div>
+      <h2 data-i18n="whyTitle">Banking QA postings want proof. <em>Not a list of buzzwords.</em></h2>
+      <p class="lede" data-i18n="whyLede">Manual QA job postings for Indonesian digital banking consistently ask for the same concrete things: Transfer, QRIS, Virtual Account, SIT/UAT, JIRA or Azure DevOps, Postman, SQL, Agile/Scrum. Rather than list these as keywords, I built a dummy mobile banking app and ran a complete Software Testing Life Cycle against it — so every skill on this page is something I can walk through in detail, not recite.</p>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="stlcColPhase">STLC Phase</th><th data-i18n="stlcColActivity">What I Did</th><th data-i18n="stlcColArtifact">Artifact</th></tr></thead>
+        <tbody>
+          <tr><td>01 · Requirement Analysis</td><td data-i18n="stlc1">Reviewed user stories, flagged ambiguous requirements — like the exact daily transfer limit — before test design started.</td><td></td></tr>
+          <tr><td>02 · Test Planning</td><td data-i18n="stlc2">Defined scope, strategy, entry/exit criteria, environment, and a risk register.</td><td><a class="doclink" href="docs/Test_Plan_MobileBanking.md" target="_blank" rel="noopener">Test_Plan_MobileBanking.md ↗</a></td></tr>
+          <tr><td>03 · Test Case Design</td><td data-i18n="stlc3">Broke requirements into scenarios, then 30 detailed test cases with steps, data, and expected results.</td><td><a class="doclink" href="docs/Test_Case_Transfer_QRIS.csv" target="_blank" rel="noopener">Test_Case_Transfer_QRIS.csv ↗</a></td></tr>
+          <tr><td>04 · Test Environment Setup</td><td data-i18n="stlc4">Dummy accounts, BI-FAST/QRIS switching sandbox, Postman collection, JIRA-style defect board.</td><td></td></tr>
+          <tr><td>05 · Test Execution</td><td data-i18n="stlc5">3 cycles — manual UI, Postman API, SQL database validation, defect logging, and retest.</td><td><a class="doclink" href="docs/Test_Execution_Report.md" target="_blank" rel="noopener">Test_Execution_Report.md ↗</a></td></tr>
+          <tr><td>06 · Test Cycle Closure</td><td data-i18n="stlc6">Defect density analysis, exit criteria evaluation, and a Go/No-Go recommendation.</td><td><a class="doclink" href="docs/Test_Summary_Report.md" target="_blank" rel="noopener">Test_Summary_Report.md ↗</a></td></tr>
+        </tbody>
+      </table>
+
+      <div class="pill-list">
+        <span class="pill"><strong>Unit</strong> Developer</span>
+        <span class="pill"><strong>SIT</strong> QA</span>
+        <span class="pill"><strong>Functional</strong> QA</span>
+        <span class="pill"><strong>Regression</strong> QA</span>
+        <span class="pill"><strong>Smoke</strong> QA</span>
+        <span class="pill"><strong>UAT</strong> Business + QA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 PLAN & SCOPE -->
+  <section class="content alt" id="plan">
+    <div class="wrap">
+      <div class="section-num" data-i18n="planNum">02 · Test Plan &amp; Scope</div>
+      <h2 data-i18n="planTitle">Scoped like production. <em>Even though the bank is fictional.</em></h2>
+      <p class="lede" data-i18n="planLede">Performance and penetration testing sit with dedicated teams in a real org, so they're explicitly out of scope here — but everything a manual QA owns end-to-end is in.</p>
+
+      <div class="compare-split">
+        <div class="cs-col good">
+          <span class="cs-header" data-i18n="inScopeLabel">In Scope</span>
+          <ul class="cs-list" data-i18n-html="inScopeList">
+            <li>Functional: Intrabank, BI-FAST, Virtual Account, QRIS (scan &amp; pay)</li>
+            <li>Negative: insufficient balance, limits, invalid input, session timeout</li>
+            <li>API testing: <code>POST /transfer</code>, <code>POST /qris/pay</code>, <code>GET /transaction/status</code></li>
+            <li>Database validation: balance mutation, transaction log, settlement status</li>
+            <li>Regression: Login, Check Balance, Transaction History</li>
+            <li>SIT against BI-FAST &amp; QRIS switching sandboxes</li>
+          </ul>
+        </div>
+        <div class="cs-col bad">
+          <span class="cs-header" data-i18n="outScopeLabel">Out of Scope</span>
+          <ul class="cs-list" data-i18n-html="outScopeList">
+            <li>Performance / load testing — owned by a dedicated Performance team</li>
+            <li>Security penetration testing — owned by a dedicated Security team</li>
+            <li>Test automation — manual this phase; regression suite is the automation candidate next sprint</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="criteriaTitle">Entry &amp; exit criteria</h3>
+          <table class="decision">
+            <tbody>
+              <tr><td data-i18n="entryLabel">Entry</td><td data-i18n="entryVal">Smoke test passes 10 critical cases; test cases reviewed; test data ready</td></tr>
+              <tr><td data-i18n="exitLabel">Exit</td><td data-i18n="exitVal">≥95% test cases executed; 0 open Critical/Blocker; Major defects risk-accepted by PO</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3 data-i18n="envTitle">Test environment</h3>
+          <table class="decision">
+            <tbody>
+              <tr><td data-i18n="envAppLabel">App</td><td>SigmaPay Mobile (Android/iOS) — QA build</td></tr>
+              <tr><td data-i18n="envApiLabel">API</td><td><code>api-qa.sigmapay.dummy</code></td></tr>
+              <tr><td data-i18n="envDbLabel">Database</td><td>PostgreSQL — schema <code>sigmapay_qa</code></td></tr>
+              <tr><td data-i18n="envSandboxLabel">Sandbox</td><td>BI-FAST Simulator, QRIS Switching Simulator</td></tr>
+              <tr><td data-i18n="envToolsLabel">Tools</td><td>JIRA · Postman · DBeaver · Sheets</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 data-i18n="testDataTitle">Test data — dummy accounts</h3>
+      <p class="data-note" data-i18n="testDataNote">Four accounts, four different states — enough to cover the normal path and the two failure modes that matter most in banking: no money, and a blocked destination.</p>
+      <table class="decision">
+        <thead><tr><th data-i18n="acctColUser">Account</th><th data-i18n="acctColBalance">Balance</th><th data-i18n="acctColLogin">Can Login?</th><th data-i18n="acctColNote">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>User A — Andi Prasetyo</td><td>Rp 5,000,000</td><td class="status-pass">Yes</td><td data-i18n="acctA">Main account for normal transfer scenarios</td></tr>
+          <tr><td>User B — Budi Santoso</td><td>Rp 1,000,000</td><td class="status-fail">No</td><td data-i18n="acctB">Destination-only account (receiver)</td></tr>
+          <tr><td>User C — Citra Dewi</td><td>Rp 0</td><td class="status-pass">Yes</td><td data-i18n="acctC">Insufficient-balance scenario</td></tr>
+          <tr><td>User D — Dian Kusuma</td><td>Rp 750,000</td><td class="status-fail">Blocked</td><td data-i18n="acctD">Blocked/inactive destination scenario</td></tr>
+        </tbody>
+      </table>
+
+      <div class="pullquote" data-i18n="limitPullquote">"The QRIS limit is Rp 10,000,000 <em>per transaction</em>. The transfer limit is Rp 50,000,000 <em>accumulated per day</em>. Same-sounding rule, completely different mechanism — the exact kind of detail that produces a wrong test case if you don't ask first."</div>
+    </div>
+  </section>
+
+  <!-- 03 TEST DESIGN -->
+  <section class="content" id="design">
+    <div class="wrap">
+      <div class="section-num" data-i18n="designNum">03 · Test Scenario &amp; Case Design</div>
+      <h2 data-i18n="designTitle">The interesting bugs live in <em>the edge cases.</em></h2>
+      <p class="lede" data-i18n="designLede">38 high-level scenarios across Transfer, QRIS, and light non-functional checks — split into positive, negative, and edge case — broken down into 30 detailed test cases with steps, test data, and expected results.</p>
+
+      <h3 data-i18n="edgeTitle">5 edge cases worth designing on purpose</h3>
+      <table class="decision">
+        <thead><tr><th data-i18n="edgeColScenario">Scenario</th><th data-i18n="edgeColWhy">Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="edge1T">Double-tap "Send" within 1 second</td><td data-i18n="edge1D">Classic bug pattern that causes real financial loss if the second tap isn't debounced or idempotency-checked.</td></tr>
+          <tr><td data-i18n="edge2T">Connection drops right after submit</td><td data-i18n="edge2D">Money can leave the account while the screen still says "Failed" — a reconciliation gap, not just a UI glitch.</td></tr>
+          <tr><td data-i18n="edge3T">BI-FAST switching times out</td><td data-i18n="edge3D">Funds leave the sender but never arrive — needs an automatic reversal or an honest "Pending" state.</td></tr>
+          <tr><td data-i18n="edge4T">QR Merchant ID mismatch at settlement</td><td data-i18n="edge4D">Money can settle to the wrong merchant if the QR payload isn't cross-checked against backend master data.</td></tr>
+          <tr><td data-i18n="edge5T">Two devices scan the same static QR at once</td><td data-i18n="edge5D">Concurrency bug — a race condition on balance updates is easy to miss with sequential manual testing alone.</td></tr>
+        </tbody>
+      </table>
+
+      <h3 data-i18n="sampleTitle">A sample of the 30 test cases</h3>
+      <table class="decision">
+        <thead><tr><th>ID</th><th data-i18n="tcColTitle">Title</th><th data-i18n="tcColType">Type</th><th data-i18n="tcColPriority">Priority</th></tr></thead>
+        <tbody>
+          <tr><td class="num">TC-TRF-006</td><td data-i18n="tc006">Transfer rejected when balance is insufficient</td><td>Negative</td><td>High</td></tr>
+          <tr><td class="num">TC-TRF-015</td><td data-i18n="tc015">Prevent double debit on rapid double-tap</td><td>Edge Case</td><td>Critical</td></tr>
+          <tr><td class="num">TC-TRF-016</td><td data-i18n="tc016">Ambiguous transaction status when connection drops</td><td>Edge Case</td><td>Critical</td></tr>
+          <tr><td class="num">TC-QRIS-004</td><td data-i18n="tc_qris004">Payment rejected for an expired QR</td><td>Negative</td><td>High</td></tr>
+          <tr><td class="num">TC-QRIS-007</td><td data-i18n="tc_qris007">Payment rejected above the per-transaction QRIS limit</td><td>Negative</td><td>Medium</td></tr>
+          <tr><td class="num">TC-QRIS-009</td><td data-i18n="tc_qris009">Merchant ID cross-check at settlement</td><td>Edge Case</td><td>Critical</td></tr>
+        </tbody>
+      </table>
+      <p><a class="doclink" style="font-family:'JetBrains Mono',monospace" href="docs/Test_Case_Transfer_QRIS.csv" target="_blank" rel="noopener" data-i18n="fullSetLink">→ Full 30-case set (CSV)</a></p>
+    </div>
+  </section>
+
+  <!-- 04 EXECUTION -->
+  <section class="content alt" id="execution">
+    <div class="wrap">
+      <div class="section-num" data-i18n="execNum">04 · Test Execution</div>
+      <h2 data-i18n="execTitle">80% pass rate on Cycle 1. <em>100% by Cycle 3.</em></h2>
+      <p class="lede" data-i18n="execLede">Smoke test gates every cycle — 5 critical checks must pass before functional testing starts. Cycle 1 found 6 defects; Cycle 2 retested them alongside a regression pass and found one more, in a module outside the original scope.</p>
+
+      <div class="cycle-flow" role="img" aria-label="Three execution cycles">
+        <div class="cycle-box">
+          <div class="cyc-label" data-i18n="cyc1Label">Cycle 1 · SIT</div>
+          <div class="cyc-rate">80%</div>
+          <div class="cyc-detail" data-i18n="cyc1Detail">30 test cases · 24 pass · 6 fail</div>
+        </div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-box">
+          <div class="cyc-label" data-i18n="cyc2Label">Cycle 2 · Retest + Regression</div>
+          <div class="cyc-rate">94%</div>
+          <div class="cyc-detail" data-i18n="cyc2Detail">18 test cases · 17 pass · 1 new defect</div>
+        </div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-box final">
+          <div class="cyc-label" data-i18n="cyc3Label">Cycle 3 · Final Regression</div>
+          <div class="cyc-rate">100%</div>
+          <div class="cyc-detail" data-i18n="cyc3Detail">3 test cases · all pass</div>
+        </div>
+      </div>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="cycleColName">Cycle</th><th data-i18n="cycleColTotal">Total TC</th><th data-i18n="cycleColPass">Pass</th><th data-i18n="cycleColFail">Fail</th><th data-i18n="cycleColRate">Pass Rate</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="cyc1Name">Cycle 1 (SIT)</td><td>30</td><td>24</td><td>6</td><td>80%</td></tr>
+          <tr><td data-i18n="cyc2Name">Cycle 2 (Retest + Regression)</td><td>18</td><td>17</td><td>1</td><td>94%</td></tr>
+          <tr><td data-i18n="cyc3Name">Cycle 3 (Final Regression)</td><td>3</td><td>3</td><td>0</td><td>100%</td></tr>
+          <tr><td data-i18n="cycTotalName"><strong>Total</strong></td><td><strong>51</strong></td><td><strong>44</strong></td><td><strong>7</strong> <span data-i18n="allClosed">(all closed)</span></td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 05 DEFECTS -->
+  <section class="content" id="defects">
+    <div class="wrap">
+      <div class="section-num" data-i18n="defectsNum">05 · Defect Management</div>
+      <h2 data-i18n="defectsTitle">6 bugs. <em>3 of them touch real money.</em></h2>
+      <p class="lede" data-i18n="defectsLede">Logged in JIRA-style format — Summary, Environment, Steps to Reproduce, Expected vs. Actual, Severity, Priority. Every one below is reproducible live in the prototype: set the build toggle to <code>v1.4.0-QA</code> to trigger it, then flip to <code>v1.5.0-FIX</code> and repeat the same steps to verify the fix.</p>
+
+      <div class="bug-grid">
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-SGP-001</span><span class="sev critical" data-i18n="sevCritical">Critical</span></div>
+          <h4 data-i18n="bug1Title">Double debit on rapid double-tap of "Send"</h4>
+          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug1Root">No debounce on the submit button and no idempotency key on <code>POST /transfer</code> — the second tap created a second, fully separate transaction.</span></div>
+          <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug1Fix">Disable the button on first tap; add an idempotency key server-side.</span></div>
+          <div class="bug-status">✓ <span data-i18n="statusClosed">Closed — verified via SQL duplicate-check query</span></div>
+        </div>
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-SGP-002</span><span class="sev critical" data-i18n="sevCritical">Critical</span></div>
+          <h4 data-i18n="bug2Title">UI shows "Failed" while the backend recorded success</h4>
+          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug2Root">Client assumed failure on timeout instead of querying actual transaction status — balance was already debited and backend status was SUCCESS.</span></div>
+          <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug2Fix">Client auto-queries transaction status after any timeout, before showing a failure state.</span></div>
+          <div class="bug-status">✓ <span data-i18n="statusClosed2">Closed — status now reconciled automatically</span></div>
+        </div>
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-SGP-003</span><span class="sev major" data-i18n="sevMajor">Major</span></div>
+          <h4 data-i18n="bug3Title">No auto-reversal when BI-FAST switching times out</h4>
+          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug3Root">No scheduled job to reverse funds or resolve a "Pending" state once the SLA is exceeded — money stayed debited indefinitely.</span></div>
+          <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug3Fix">Scheduled auto-reversal job after a 15-minute SLA, with user notification.</span></div>
+          <div class="bug-status">✓ <span data-i18n="statusClosed3">Closed — verified via Pending-past-SLA query</span></div>
+        </div>
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-SGP-004</span><span class="sev critical" data-i18n="sevCritical">Critical</span></div>
+          <h4 data-i18n="bug4Title">Expired QR still gets processed for payment</h4>
+          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug4Root">No <code>expiry_time</code> check on client or backend before hitting <code>POST /qris/pay</code> — payment succeeded past the QR's validity window.</span></div>
+          <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug4Fix">Validate expiry on both client (fast UX) and backend (source of truth).</span></div>
+          <div class="bug-status">✓ <span data-i18n="statusClosed4">Closed — verified via Postman assertion on errorCode QR_EXPIRED</span></div>
+        </div>
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-SGP-005</span><span class="sev major" data-i18n="sevMajor">Major</span></div>
+          <h4 data-i18n="bug5Title">No Merchant ID cross-check at settlement</h4>
+          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug5Root">Settlement trusted the Merchant ID embedded in the QR payload with no cross-check against registered merchant master data.</span></div>
+          <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug5Fix">Validate QR Merchant ID against master data before final settlement.</span></div>
+          <div class="bug-status">✓ <span data-i18n="statusClosed5">Closed — verified via merchant cross-check query</span></div>
+        </div>
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-SGP-006</span><span class="sev minor" data-i18n="sevMinor">Minor</span></div>
+          <h4 data-i18n="bug6Title">Negative amount accepted with no client-side validation</h4>
+          <div class="bug-field"><strong data-i18n="fRootCause">Root Cause</strong><span data-i18n="bug6Root">Form allowed <code>-100000</code> through to the confirmation screen, surfacing a vague backend error instead of failing fast.</span></div>
+          <div class="bug-field"><strong data-i18n="fFix">Fix</strong><span data-i18n="bug6Fix">Add client-side validation for the amount field.</span></div>
+          <div class="bug-status">✓ <span data-i18n="statusClosed6">Closed</span></div>
+        </div>
+      </div>
+
+      <div class="bug-extra" data-i18n="bug7Note">
+        <strong>Found during regression, not the original test pass:</strong> BUG-SGP-007 — transaction history sorted incorrectly after a date-format change elsewhere in the app. It was outside the Transfer/QRIS scope entirely, which is exactly the point of running a full regression suite instead of only retesting what changed.
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 API + SQL -->
+  <section class="content alt" id="validation">
+    <div class="wrap">
+      <div class="section-num" data-i18n="valNum">06 · API &amp; Database Validation</div>
+      <h2 data-i18n="valTitle">If it only looks right in the UI, <em>it isn't verified.</em></h2>
+      <p class="lede" data-i18n="valLede">This is the layer that separates "clicked through the screens" from a QA who can prove root cause to a developer with a request/response pair or a query result — not just a claim.</p>
+
+      <div class="two-col" style="align-items:start;">
+        <div>
+          <h3 data-i18n="collectionTitle">Postman collection structure</h3>
+          <div class="folder-tree">
+<span class="dir">SigmaPay QA Collection/</span>
+├── <span class="dir">Auth/</span>
+│   └── <span class="key-file">POST /auth/login</span>
+├── <span class="dir">Transfer/</span>
+│   ├── <span class="key-file">POST /transfer/inquiry</span>
+│   ├── <span class="key-file">POST /transfer</span>
+│   └── <span class="key-file">GET /transaction/status</span>
+└── <span class="dir">QRIS/</span>
+    ├── <span class="key-file">POST /qris/decode</span>
+    └── <span class="key-file">POST /qris/pay</span>
+          </div>
+          <pre class="code"><span class="c">// pm.test assertions after POST /transfer</span>
+pm.test(<span class="s">"Status code is 200"</span>, () =&gt; {
+  pm.response.to.have.status(<span class="n">200</span>);
+});
+pm.test(<span class="s">"Response has transactionId"</span>, () =&gt; {
+  <span class="k">const</span> body = pm.response.json();
+  pm.expect(body.transactionId).to.match(<span class="n">/^TRX/</span>);
+});
+pm.test(<span class="s">"Amount matches request"</span>, () =&gt; {
+  <span class="k">const</span> req = JSON.parse(pm.request.body.raw);
+  pm.expect(pm.response.json().amount).to.eql(req.amount);
+});</pre>
+        </div>
+        <div>
+          <h3 data-i18n="negApiTitle">Negative tests only visible at the API layer</h3>
+          <table class="decision">
+            <tbody>
+              <tr><td data-i18n="negApi1">Expired/invalid token</td><td>HTTP 401</td></tr>
+              <tr><td data-i18n="negApi2">Required field removed from body</td><td data-i18n="negApi2v">HTTP 400, not 500</td></tr>
+              <tr><td data-i18n="negApi3">Same idempotency key sent twice</td><td data-i18n="negApi3v">2nd request returns 1st transaction — validates BUG-SGP-001 fix</td></tr>
+              <tr><td data-i18n="negApi4">SQL injection payload in <code>note</code></td><td data-i18n="negApi4v">Treated as plain string, no 500</td></tr>
+              <tr><td data-i18n="negApi5">Status endpoint hit with another user's transactionId</td><td data-i18n="negApi5v">HTTP 403 — IDOR check</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 data-i18n="sqlTitle">SQL validation — proving root cause from the data</h3>
+      <pre class="code"><span class="c">-- A.3 · No duplicate transactions from double-tap (BUG-SGP-001)</span>
+SELECT type, amount, destination_account, COUNT(*) AS total,
+       array_agg(trx_id) AS trx_ids
+FROM transactions
+WHERE account_no = <span class="s">'8801 2345 6789'</span>
+  AND created_at &gt;= NOW() - INTERVAL <span class="s">'5 minutes'</span>
+GROUP BY type, amount, destination_account
+HAVING COUNT(*) &gt; 1;
+<span class="c">-- v1.4.0-QA (buggy): 1 duplicate row. v1.5.0-FIX: 0 rows.</span>
+
+<span class="c">-- B.5 · Pending transactions past the 15-minute SLA (BUG-SGP-003)</span>
+SELECT trx_id, amount, status, created_at,
+       NOW() - created_at AS pending_duration
+FROM transactions
+WHERE status = <span class="s">'PENDING'</span>
+  AND created_at &lt; NOW() - INTERVAL <span class="s">'15 minutes'</span>;
+<span class="c">-- v1.5.0-FIX: 0 rows — auto-reversal job resolves them in time.</span></pre>
+      <p><a class="doclink" style="font-family:'JetBrains Mono',monospace" href="docs/SQL_Queries_Validation.sql" target="_blank" rel="noopener" data-i18n="sqlFullLink">→ All 10 validation queries (.sql)</a></p>
+    </div>
+  </section>
+
+  <!-- 07 CLOSURE -->
+  <section class="content" id="closure">
+    <div class="wrap">
+      <div class="section-num" data-i18n="closureNum">07 · Test Closure &amp; Sign-off</div>
+      <h2 data-i18n="closureTitle">The recommendation was <em>Go — with conditions.</em></h2>
+
+      <div class="density-grid">
+        <div class="density-card">
+          <div class="density-label" data-i18n="densCritical">Critical · 43%</div>
+          <div class="density-pct" style="color:var(--critical)">3</div>
+          <div class="density-bar-track"><div class="density-bar" style="width:43%;background:var(--critical)"></div></div>
+        </div>
+        <div class="density-card">
+          <div class="density-label" data-i18n="densMajor">Major · 29%</div>
+          <div class="density-pct" style="color:var(--major)">2</div>
+          <div class="density-bar-track"><div class="density-bar" style="width:29%;background:var(--major)"></div></div>
+        </div>
+        <div class="density-card">
+          <div class="density-label" data-i18n="densMinor">Minor · 28%</div>
+          <div class="density-pct" style="color:var(--minor)">2</div>
+          <div class="density-bar-track"><div class="density-bar" style="width:28%;background:var(--minor)"></div></div>
+        </div>
+      </div>
+      <p class="data-note" data-i18n="densNote">Transfer accounted for 5 of 7 defects (71%) — unsurprising given it carries the external BI-FAST integration, limit checks, and concurrency exposure.</p>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="exitColCriteria">Exit Criteria</th><th data-i18n="exitColTarget">Target</th><th data-i18n="exitColActual">Actual</th><th>✓</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="exit1">Test cases executed</td><td>≥95%</td><td>100%</td><td class="status-pass">✅</td></tr>
+          <tr><td data-i18n="exit2">Critical defects open</td><td>0</td><td>0</td><td class="status-pass">✅</td></tr>
+          <tr><td data-i18n="exit3">Major defects open</td><td data-i18n="exit3t">0 or risk-accepted</td><td>0</td><td class="status-pass">✅</td></tr>
+          <tr><td data-i18n="exit4">Summary report approved</td><td data-i18n="exit4t">Yes</td><td data-i18n="exit4a">Pending sign-off</td><td>⏳</td></tr>
+        </tbody>
+      </table>
+
+      <div class="pullquote" data-i18n="goQuote">"Recommendation: <strong>GO</strong> for UAT and a soft launch — with tight monitoring on Transfer &amp; QRIS for the first two weeks, a rollback plan for BI-FAST reversal scenarios specifically, and the regression suite flagged as the top automation candidate next sprint."</div>
+    </div>
+  </section>
+
+  <!-- 08 REGRESSION -->
+  <section class="content alt" id="regression">
+    <div class="wrap">
+      <div class="section-num" data-i18n="regNum">08 · Regression Discipline</div>
+      <h2 data-i18n="regTitle">26 checks, <em>reused every release.</em></h2>
+      <p class="lede" data-i18n="regLede">A living checklist run before every release and every Critical/Major hotfix — not a one-time artifact. It's what caught BUG-SGP-007 outside the original scope. Critical-path items (Fund Transfer + Database Sanity) block release on any failure.</p>
+      <div class="pill-list">
+        <span class="pill"><strong>6</strong> <span data-i18n="regCat1">Login &amp; Auth</span></span>
+        <span class="pill"><strong>4</strong> <span data-i18n="regCat2">Balance &amp; History</span></span>
+        <span class="pill"><strong>7</strong> <span data-i18n="regCat3">Fund Transfer</span></span>
+        <span class="pill"><strong>5</strong> <span data-i18n="regCat4">QRIS Payment</span></span>
+        <span class="pill"><strong>3</strong> <span data-i18n="regCat5">API Layer</span></span>
+        <span class="pill"><strong>3</strong> <span data-i18n="regCat6">Database Sanity</span></span>
+      </div>
+      <p><a class="doclink" style="font-family:'JetBrains Mono',monospace" href="docs/Regression_Test_Checklist.md" target="_blank" rel="noopener" data-i18n="regFullLink">→ Full 26-item checklist</a></p>
+    </div>
+  </section>
+
+  <!-- 09 LESSONS -->
+  <section class="content" id="lessons" style="background:var(--bg-dark);">
+    <div class="wrap">
+      <div class="section-num" style="color:var(--accent);" data-i18n="lessonsNum">09 · Lessons Learned</div>
+      <h2 style="color:white;" data-i18n="lessonsTitle">QA in banking isn't about clicking buttons. <em style="color:var(--accent);">It's about protecting money that moves.</em></h2>
+      <div class="lesson-cards">
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson1Label">Edge cases are where money bugs hide</div>
+          <p data-i18n="lesson1P">Happy-path testing found zero of the three Critical defects. <strong>Double debit, ambiguous status, and reversal timing only surface under edge-case and concurrency conditions</strong> — exactly the cases easiest to skip under deadline pressure.</p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson2Label">Verify below the screen, not just on it</div>
+          <p data-i18n="lesson2P">BUG-SGP-002 and BUG-SGP-004's real root cause was in the backend, not the UI. <strong>A SQL query and a Postman assertion proved it</strong> — a screenshot alone would not have.</p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson3Label">Regression discipline scales</div>
+          <p data-i18n="lesson3P">A 26-item checklist, reused every cycle, caught BUG-SGP-007 in a module that wasn't even part of the original release. <strong>That's the return on writing the checklist once.</strong></p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson4Label">Saying "simulation, not production" is a credibility move</div>
+          <p data-i18n="lesson4P">This project proves STLC discipline end-to-end. <strong>Overstating it as production banking experience would be the first thing a good interviewer catches</strong> — being precise about the difference is the more senior answer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ctaNum">Interactive Prototype · Live Demo</div>
+      <h2 data-i18n="ctaTitle">See the bugs. <em>Then watch them get fixed.</em></h2>
+      <p data-i18n="ctaP">A 30-screen SigmaPay app with a QA workbench panel alongside it — per-screen test case tracker, live API log, a SQL tab, and a defect tracker. Reproduce all 6 defects on the buggy build, flip the toggle, and re-verify the exact same steps on the fixed build.</p>
+      <div class="toggle-mock" role="img" aria-label="Build toggle mock">
+        <span class="buggy">v1.4.0-QA · buggy</span><span class="fixed">v1.5.0-FIX</span>
+      </div>
+      <div class="cta-buttons">
+        <a href="prototype.html" class="btn" data-i18n="ctaOpen">Open Interactive Prototype →</a>
+        <a href="/" class="btn ghost" data-i18n="ctaBack">← Back to portfolio</a>
+      </div>
+
+      <h3 style="color:white;margin-top:48px;" data-i18n="docsTitle">Full documentation set</h3>
+      <div class="doc-list">
+        <a href="docs/SDLC_STLC_Concept.md" target="_blank" rel="noopener">00 · SDLC_STLC_Concept.md</a>
+        <a href="docs/Testing_Types_Taxonomy.md" target="_blank" rel="noopener">00 · Testing_Types_Taxonomy.md</a>
+        <a href="docs/STLC_Tools_Mapping.md" target="_blank" rel="noopener">00 · STLC_Tools_Mapping.md</a>
+        <a href="docs/Test_Plan_MobileBanking.md" target="_blank" rel="noopener">01 · Test_Plan_MobileBanking.md</a>
+        <a href="docs/Test_Scenario_Transfer_QRIS.md" target="_blank" rel="noopener">02 · Test_Scenario_Transfer_QRIS.md</a>
+        <a href="docs/Test_Case_Transfer_QRIS.csv" target="_blank" rel="noopener">03 · Test_Case_Transfer_QRIS.csv</a>
+        <a href="docs/Test_Execution_Report.md" target="_blank" rel="noopener">04 · Test_Execution_Report.md</a>
+        <a href="docs/Bug_Report_Sample.md" target="_blank" rel="noopener">05 · Bug_Report_Sample.md</a>
+        <a href="docs/Postman_API_Test_Notes.md" target="_blank" rel="noopener">06 · Postman_API_Test_Notes.md</a>
+        <a href="docs/SQL_Queries_Validation.sql" target="_blank" rel="noopener">07 · SQL_Queries_Validation.sql</a>
+        <a href="docs/Test_Summary_Report.md" target="_blank" rel="noopener">08 · Test_Summary_Report.md</a>
+        <a href="docs/Regression_Test_Checklist.md" target="_blank" rel="noopener">09 · Regression_Test_Checklist.md</a>
+        <a href="docs/Panduan_Kerja_QA_Manual_Banking.md" target="_blank" rel="noopener">10 · Panduan_Kerja_QA_Manual_Banking.md</a>
+        <a href="docs/README.md" target="_blank" rel="noopener">README.md</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span data-i18n="footerLeft">© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a></span>
+      <span><a href="/#contact" data-i18n="footerContact">Get in touch</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        navBack:'← All projects', navProjects:'Projects', navContact:'Contact',
+        kickerTag:'QA Manual Testing Portfolio',
+        heroTitle:'Six bugs. <em>Three of them touch real money.</em>',
+        heroLede:'A full STLC simulation built for a dummy mobile banking app — Fund Transfer (Intrabank / BI-FAST / Virtual Account) and QRIS Payment. <strong>30 test cases, 3 execution cycles, 6 real defects</strong>, API + database validation, and an interactive prototype where every bug can be reproduced — then re-verified after the fix.',
+        heroMetaPlan:'<strong>Plan</strong> scope · strategy · risk · entry/exit criteria',
+        heroMetaDesign:'<strong>Design</strong> 30 test cases · positive/negative/edge case',
+        heroMetaExecute:'<strong>Execute</strong> manual UI · Postman API · SQL validation',
+        heroMetaClose:'<strong>Close</strong> defect density · exit criteria · Go/No-Go',
+        disclosure:'<strong>Full disclosure:</strong> SigmaPay is a fictional bank built specifically for this portfolio — it is not production banking experience. What\'s real is the STLC discipline: every test case, defect, and query below was actually designed and executed against the prototype linked at the bottom of this page.',
+        stat1:'Test cases<br>designed', stat2:'Defects found<br>3 Critical', stat3:'Test executions<br>across 3 cycles', stat4:'Final pass rate<br>Cycle 3', stat5:'Prototype screens<br>+ QA workbench',
+        whyNum:'01 · Why This Project',
+        whyTitle:'Banking QA postings want proof. <em>Not a list of buzzwords.</em>',
+        whyLede:'Manual QA job postings for Indonesian digital banking consistently ask for the same concrete things: Transfer, QRIS, Virtual Account, SIT/UAT, JIRA or Azure DevOps, Postman, SQL, Agile/Scrum. Rather than list these as keywords, I built a dummy mobile banking app and ran a complete Software Testing Life Cycle against it — so every skill on this page is something I can walk through in detail, not recite.',
+        stlcColPhase:'STLC Phase', stlcColActivity:'What I Did', stlcColArtifact:'Artifact',
+        stlc1:'Reviewed user stories, flagged ambiguous requirements — like the exact daily transfer limit — before test design started.',
+        stlc2:'Defined scope, strategy, entry/exit criteria, environment, and a risk register.',
+        stlc3:'Broke requirements into scenarios, then 30 detailed test cases with steps, data, and expected results.',
+        stlc4:'Dummy accounts, BI-FAST/QRIS switching sandbox, Postman collection, JIRA-style defect board.',
+        stlc5:'3 cycles — manual UI, Postman API, SQL database validation, defect logging, and retest.',
+        stlc6:'Defect density analysis, exit criteria evaluation, and a Go/No-Go recommendation.',
+        planNum:'02 · Test Plan &amp; Scope',
+        planTitle:'Scoped like production. <em>Even though the bank is fictional.</em>',
+        planLede:'Performance and penetration testing sit with dedicated teams in a real org, so they\'re explicitly out of scope here — but everything a manual QA owns end-to-end is in.',
+        inScopeLabel:'In Scope', outScopeLabel:'Out of Scope',
+        inScopeList:'<li>Functional: Intrabank, BI-FAST, Virtual Account, QRIS (scan &amp; pay)</li><li>Negative: insufficient balance, limits, invalid input, session timeout</li><li>API testing: <code>POST /transfer</code>, <code>POST /qris/pay</code>, <code>GET /transaction/status</code></li><li>Database validation: balance mutation, transaction log, settlement status</li><li>Regression: Login, Check Balance, Transaction History</li><li>SIT against BI-FAST &amp; QRIS switching sandboxes</li>',
+        outScopeList:'<li>Performance / load testing — owned by a dedicated Performance team</li><li>Security penetration testing — owned by a dedicated Security team</li><li>Test automation — manual this phase; regression suite is the automation candidate next sprint</li>',
+        criteriaTitle:'Entry &amp; exit criteria', entryLabel:'Entry', entryVal:'Smoke test passes 10 critical cases; test cases reviewed; test data ready',
+        exitLabel:'Exit', exitVal:'≥95% test cases executed; 0 open Critical/Blocker; Major defects risk-accepted by PO',
+        envTitle:'Test environment', envAppLabel:'App', envApiLabel:'API', envDbLabel:'Database', envSandboxLabel:'Sandbox', envToolsLabel:'Tools',
+        testDataTitle:'Test data — dummy accounts',
+        testDataNote:'Four accounts, four different states — enough to cover the normal path and the two failure modes that matter most in banking: no money, and a blocked destination.',
+        acctColUser:'Account', acctColBalance:'Balance', acctColLogin:'Can Login?', acctColNote:'Purpose',
+        acctA:'Main account for normal transfer scenarios', acctB:'Destination-only account (receiver)', acctC:'Insufficient-balance scenario', acctD:'Blocked/inactive destination scenario',
+        limitPullquote:'"The QRIS limit is Rp 10,000,000 <em>per transaction</em>. The transfer limit is Rp 50,000,000 <em>accumulated per day</em>. Same-sounding rule, completely different mechanism — the exact kind of detail that produces a wrong test case if you don\'t ask first."',
+        designNum:'03 · Test Scenario &amp; Case Design',
+        designTitle:'The interesting bugs live in <em>the edge cases.</em>',
+        designLede:'38 high-level scenarios across Transfer, QRIS, and light non-functional checks — split into positive, negative, and edge case — broken down into 30 detailed test cases with steps, test data, and expected results.',
+        edgeTitle:'5 edge cases worth designing on purpose',
+        edgeColScenario:'Scenario', edgeColWhy:'Why it matters',
+        edge1T:'Double-tap "Send" within 1 second', edge1D:'Classic bug pattern that causes real financial loss if the second tap isn\'t debounced or idempotency-checked.',
+        edge2T:'Connection drops right after submit', edge2D:'Money can leave the account while the screen still says "Failed" — a reconciliation gap, not just a UI glitch.',
+        edge3T:'BI-FAST switching times out', edge3D:'Funds leave the sender but never arrive — needs an automatic reversal or an honest "Pending" state.',
+        edge4T:'QR Merchant ID mismatch at settlement', edge4D:'Money can settle to the wrong merchant if the QR payload isn\'t cross-checked against backend master data.',
+        edge5T:'Two devices scan the same static QR at once', edge5D:'Concurrency bug — a race condition on balance updates is easy to miss with sequential manual testing alone.',
+        sampleTitle:'A sample of the 30 test cases',
+        tcColTitle:'Title', tcColType:'Type', tcColPriority:'Priority',
+        tc006:'Transfer rejected when balance is insufficient', tc015:'Prevent double debit on rapid double-tap', tc016:'Ambiguous transaction status when connection drops',
+        tc_qris004:'Payment rejected for an expired QR', tc_qris007:'Payment rejected above the per-transaction QRIS limit', tc_qris009:'Merchant ID cross-check at settlement',
+        fullSetLink:'→ Full 30-case set (CSV)',
+        execNum:'04 · Test Execution',
+        execTitle:'80% pass rate on Cycle 1. <em>100% by Cycle 3.</em>',
+        execLede:'Smoke test gates every cycle — 5 critical checks must pass before functional testing starts. Cycle 1 found 6 defects; Cycle 2 retested them alongside a regression pass and found one more, in a module outside the original scope.',
+        cyc1Label:'Cycle 1 · SIT', cyc1Detail:'30 test cases · 24 pass · 6 fail',
+        cyc2Label:'Cycle 2 · Retest + Regression', cyc2Detail:'18 test cases · 17 pass · 1 new defect',
+        cyc3Label:'Cycle 3 · Final Regression', cyc3Detail:'3 test cases · all pass',
+        cycleColName:'Cycle', cycleColTotal:'Total TC', cycleColPass:'Pass', cycleColFail:'Fail', cycleColRate:'Pass Rate',
+        cyc1Name:'Cycle 1 (SIT)', cyc2Name:'Cycle 2 (Retest + Regression)', cyc3Name:'Cycle 3 (Final Regression)', cycTotalName:'<strong>Total</strong>', allClosed:'(all closed)',
+        defectsNum:'05 · Defect Management',
+        defectsTitle:'6 bugs. <em>3 of them touch real money.</em>',
+        defectsLede:'Logged in JIRA-style format — Summary, Environment, Steps to Reproduce, Expected vs. Actual, Severity, Priority. Every one below is reproducible live in the prototype: set the build toggle to <code>v1.4.0-QA</code> to trigger it, then flip to <code>v1.5.0-FIX</code> and repeat the same steps to verify the fix.',
+        sevCritical:'Critical', sevMajor:'Major', sevMinor:'Minor', fRootCause:'Root Cause', fFix:'Fix',
+        bug1Title:'Double debit on rapid double-tap of "Send"',
+        bug1Root:'No debounce on the submit button and no idempotency key on <code>POST /transfer</code> — the second tap created a second, fully separate transaction.',
+        bug1Fix:'Disable the button on first tap; add an idempotency key server-side.',
+        statusClosed:'Closed — verified via SQL duplicate-check query',
+        bug2Title:'UI shows "Failed" while the backend recorded success',
+        bug2Root:'Client assumed failure on timeout instead of querying actual transaction status — balance was already debited and backend status was SUCCESS.',
+        bug2Fix:'Client auto-queries transaction status after any timeout, before showing a failure state.',
+        statusClosed2:'Closed — status now reconciled automatically',
+        bug3Title:'No auto-reversal when BI-FAST switching times out',
+        bug3Root:'No scheduled job to reverse funds or resolve a "Pending" state once the SLA is exceeded — money stayed debited indefinitely.',
+        bug3Fix:'Scheduled auto-reversal job after a 15-minute SLA, with user notification.',
+        statusClosed3:'Closed — verified via Pending-past-SLA query',
+        bug4Title:'Expired QR still gets processed for payment',
+        bug4Root:'No <code>expiry_time</code> check on client or backend before hitting <code>POST /qris/pay</code> — payment succeeded past the QR\'s validity window.',
+        bug4Fix:'Validate expiry on both client (fast UX) and backend (source of truth).',
+        statusClosed4:'Closed — verified via Postman assertion on errorCode QR_EXPIRED',
+        bug5Title:'No Merchant ID cross-check at settlement',
+        bug5Root:'Settlement trusted the Merchant ID embedded in the QR payload with no cross-check against registered merchant master data.',
+        bug5Fix:'Validate QR Merchant ID against master data before final settlement.',
+        statusClosed5:'Closed — verified via merchant cross-check query',
+        bug6Title:'Negative amount accepted with no client-side validation',
+        bug6Root:'Form allowed <code>-100000</code> through to the confirmation screen, surfacing a vague backend error instead of failing fast.',
+        bug6Fix:'Add client-side validation for the amount field.',
+        statusClosed6:'Closed',
+        bug7Note:'<strong>Found during regression, not the original test pass:</strong> BUG-SGP-007 — transaction history sorted incorrectly after a date-format change elsewhere in the app. It was outside the Transfer/QRIS scope entirely, which is exactly the point of running a full regression suite instead of only retesting what changed.',
+        valNum:'06 · API &amp; Database Validation',
+        valTitle:'If it only looks right in the UI, <em>it isn\'t verified.</em>',
+        valLede:'This is the layer that separates "clicked through the screens" from a QA who can prove root cause to a developer with a request/response pair or a query result — not just a claim.',
+        collectionTitle:'Postman collection structure',
+        negApiTitle:'Negative tests only visible at the API layer',
+        negApi1:'Expired/invalid token', negApi2:'Required field removed from body', negApi2v:'HTTP 400, not 500',
+        negApi3:'Same idempotency key sent twice', negApi3v:'2nd request returns 1st transaction — validates BUG-SGP-001 fix',
+        negApi4:'SQL injection payload in <code>note</code>', negApi4v:'Treated as plain string, no 500',
+        negApi5:'Status endpoint hit with another user\'s transactionId', negApi5v:'HTTP 403 — IDOR check',
+        sqlTitle:'SQL validation — proving root cause from the data',
+        sqlFullLink:'→ All 10 validation queries (.sql)',
+        closureNum:'07 · Test Closure &amp; Sign-off',
+        closureTitle:'The recommendation was <em>Go — with conditions.</em>',
+        densCritical:'Critical · 43%', densMajor:'Major · 29%', densMinor:'Minor · 28%',
+        densNote:'Transfer accounted for 5 of 7 defects (71%) — unsurprising given it carries the external BI-FAST integration, limit checks, and concurrency exposure.',
+        exitColCriteria:'Exit Criteria', exitColTarget:'Target', exitColActual:'Actual',
+        exit1:'Test cases executed', exit2:'Critical defects open', exit3:'Major defects open', exit3t:'0 or risk-accepted',
+        exit4:'Summary report approved', exit4t:'Yes', exit4a:'Pending sign-off',
+        goQuote:'"Recommendation: <strong>GO</strong> for UAT and a soft launch — with tight monitoring on Transfer &amp; QRIS for the first two weeks, a rollback plan for BI-FAST reversal scenarios specifically, and the regression suite flagged as the top automation candidate next sprint."',
+        regNum:'08 · Regression Discipline',
+        regTitle:'26 checks, <em>reused every release.</em>',
+        regLede:'A living checklist run before every release and every Critical/Major hotfix — not a one-time artifact. It\'s what caught BUG-SGP-007 outside the original scope. Critical-path items (Fund Transfer + Database Sanity) block release on any failure.',
+        regCat1:'Login &amp; Auth', regCat2:'Balance &amp; History', regCat3:'Fund Transfer', regCat4:'QRIS Payment', regCat5:'API Layer', regCat6:'Database Sanity',
+        regFullLink:'→ Full 26-item checklist',
+        lessonsNum:'09 · Lessons Learned',
+        lessonsTitle:'QA in banking isn\'t about clicking buttons. <em style="color:var(--accent);">It\'s about protecting money that moves.</em>',
+        lesson1Label:'Edge cases are where money bugs hide',
+        lesson1P:'Happy-path testing found zero of the three Critical defects. <strong>Double debit, ambiguous status, and reversal timing only surface under edge-case and concurrency conditions</strong> — exactly the cases easiest to skip under deadline pressure.',
+        lesson2Label:'Verify below the screen, not just on it',
+        lesson2P:'BUG-SGP-002 and BUG-SGP-004\'s real root cause was in the backend, not the UI. <strong>A SQL query and a Postman assertion proved it</strong> — a screenshot alone would not have.',
+        lesson3Label:'Regression discipline scales',
+        lesson3P:'A 26-item checklist, reused every cycle, caught BUG-SGP-007 in a module that wasn\'t even part of the original release. <strong>That\'s the return on writing the checklist once.</strong>',
+        lesson4Label:'Saying "simulation, not production" is a credibility move',
+        lesson4P:'This project proves STLC discipline end-to-end. <strong>Overstating it as production banking experience would be the first thing a good interviewer catches</strong> — being precise about the difference is the more senior answer.',
+        ctaNum:'Interactive Prototype · Live Demo',
+        ctaTitle:'See the bugs. <em>Then watch them get fixed.</em>',
+        ctaP:'A 30-screen SigmaPay app with a QA workbench panel alongside it — per-screen test case tracker, live API log, a SQL tab, and a defect tracker. Reproduce all 6 defects on the buggy build, flip the toggle, and re-verify the exact same steps on the fixed build.',
+        ctaOpen:'Open Interactive Prototype →', ctaBack:'← Back to portfolio',
+        docsTitle:'Full documentation set',
+        footerLeft:'© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a>', footerContact:'Get in touch',
+      },
+      id: {
+        navBack:'← Semua project', navProjects:'Projects', navContact:'Kontak',
+        kickerTag:'Portfolio QA Manual Testing',
+        heroTitle:'Enam bug. <em>Tiga di antaranya menyentuh uang sungguhan.</em>',
+        heroLede:'Simulasi STLC lengkap untuk aplikasi mobile banking dummy — Fund Transfer (Intrabank / BI-FAST / Virtual Account) dan QRIS Payment. <strong>30 test case, 3 cycle eksekusi, 6 defect nyata</strong>, validasi API + database, dan prototype interaktif tempat setiap bug bisa direproduksi — lalu diverifikasi ulang setelah fix.',
+        heroMetaPlan:'<strong>Plan</strong> scope · strategi · risiko · entry/exit criteria',
+        heroMetaDesign:'<strong>Design</strong> 30 test case · positive/negative/edge case',
+        heroMetaExecute:'<strong>Execute</strong> manual UI · Postman API · validasi SQL',
+        heroMetaClose:'<strong>Close</strong> defect density · exit criteria · Go/No-Go',
+        disclosure:'<strong>Disclosure penuh:</strong> SigmaPay adalah bank fiktif yang dibuat khusus untuk portfolio ini — bukan pengalaman banking production. Yang nyata adalah disiplin STLC-nya: setiap test case, defect, dan query di bawah ini benar-benar didesain dan dieksekusi terhadap prototype yang ditautkan di bagian bawah halaman ini.',
+        stat1:'Test case<br>didesain', stat2:'Defect ditemukan<br>3 Critical', stat3:'Eksekusi test<br>di 3 cycle', stat4:'Pass rate akhir<br>Cycle 3', stat5:'Layar prototype<br>+ QA workbench',
+        whyNum:'01 · Kenapa Project Ini',
+        whyTitle:'Loker QA banking minta bukti. <em>Bukan daftar buzzword.</em>',
+        whyLede:'Loker QA manual untuk digital banking Indonesia konsisten meminta hal yang sama: Transfer, QRIS, Virtual Account, SIT/UAT, JIRA atau Azure DevOps, Postman, SQL, Agile/Scrum. Daripada sekadar mencantumkannya sebagai keyword, saya membangun aplikasi mobile banking dummy dan menjalankan siklus Software Testing Life Cycle lengkap terhadapnya — jadi setiap skill di halaman ini bisa saya jelaskan detail, bukan sekadar dihafalkan.',
+        stlcColPhase:'Fase STLC', stlcColActivity:'Yang Saya Lakukan', stlcColArtifact:'Artifact',
+        stlc1:'Review user story, menandai requirement ambigu — seperti nominal pasti limit transfer harian — sebelum test design dimulai.',
+        stlc2:'Menentukan scope, strategi, entry/exit criteria, environment, dan risk register.',
+        stlc3:'Memecah requirement jadi skenario, lalu 30 test case detail dengan steps, data uji, dan expected result.',
+        stlc4:'Akun dummy, sandbox switching BI-FAST/QRIS, collection Postman, board defect gaya JIRA.',
+        stlc5:'3 cycle — manual UI, Postman API, validasi database SQL, defect logging, dan retest.',
+        stlc6:'Analisis defect density, evaluasi exit criteria, dan rekomendasi Go/No-Go.',
+        planNum:'02 · Test Plan &amp; Scope',
+        planTitle:'Scope selayaknya production. <em>Meski banknya fiktif.</em>',
+        planLede:'Performance testing dan penetration testing ditangani tim terpisah di organisasi nyata, jadi keduanya secara eksplisit di luar scope — tapi semua yang menjadi tanggung jawab manual QA end-to-end ada di sini.',
+        inScopeLabel:'In Scope', outScopeLabel:'Out of Scope',
+        inScopeList:'<li>Functional: Intrabank, BI-FAST, Virtual Account, QRIS (scan &amp; pay)</li><li>Negative: saldo tidak cukup, limit, input tidak valid, sesi timeout</li><li>API testing: <code>POST /transfer</code>, <code>POST /qris/pay</code>, <code>GET /transaction/status</code></li><li>Validasi database: mutasi saldo, log transaksi, status settlement</li><li>Regresi: Login, Cek Saldo, Riwayat Mutasi</li><li>SIT terhadap sandbox switching BI-FAST &amp; QRIS</li>',
+        outScopeList:'<li>Performance / load testing — ditangani tim Performance terpisah</li><li>Security penetration testing — ditangani tim Security terpisah</li><li>Automation testing — manual di fase ini; regression suite jadi kandidat automasi sprint berikutnya</li>',
+        criteriaTitle:'Entry &amp; exit criteria', entryLabel:'Entry', entryVal:'Smoke test lolos 10 kasus kritikal; test case sudah direview; test data siap',
+        exitLabel:'Exit', exitVal:'≥95% test case dieksekusi; 0 Critical/Blocker open; defect Major sudah risk-accepted PO',
+        envTitle:'Test environment', envAppLabel:'Aplikasi', envApiLabel:'API', envDbLabel:'Database', envSandboxLabel:'Sandbox', envToolsLabel:'Tools',
+        testDataTitle:'Test data — akun dummy',
+        testDataNote:'Empat akun, empat kondisi berbeda — cukup untuk mencakup alur normal dan dua mode kegagalan paling penting di banking: tidak ada uang, dan rekening tujuan diblokir.',
+        acctColUser:'Akun', acctColBalance:'Saldo', acctColLogin:'Bisa Login?', acctColNote:'Kegunaan',
+        acctA:'Akun utama untuk skenario transfer normal', acctB:'Akun tujuan saja (penerima)', acctC:'Skenario saldo tidak cukup', acctD:'Skenario rekening tujuan diblokir/tidak aktif',
+        limitPullquote:'"Limit QRIS adalah Rp 10.000.000 <em>per transaksi</em>. Limit transfer adalah Rp 50.000.000 <em>akumulasi per hari</em>. Kedengarannya mirip, mekanismenya sama sekali berbeda — persis jenis detail yang menghasilkan test case salah kalau tidak ditanya dulu."',
+        designNum:'03 · Test Scenario &amp; Case Design',
+        designTitle:'Bug yang menarik ada di <em>edge case.</em>',
+        designLede:'38 skenario high-level di Transfer, QRIS, dan sedikit pengecekan non-fungsional — dipecah jadi positive, negative, dan edge case — lalu diturunkan jadi 30 test case detail dengan steps, test data, dan expected result.',
+        edgeTitle:'5 edge case yang sengaja didesain',
+        edgeColScenario:'Skenario', edgeColWhy:'Kenapa Penting',
+        edge1T:'Tap "Kirim" dua kali dalam &lt;1 detik', edge1D:'Pola bug klasik yang menyebabkan kerugian finansial nyata kalau tap kedua tidak di-debounce atau di-cek idempotency.',
+        edge2T:'Koneksi putus tepat setelah submit', edge2D:'Uang bisa keluar dari rekening sementara layar masih menampilkan "Gagal" — ini gap rekonsiliasi, bukan sekadar glitch UI.',
+        edge3T:'Switching BI-FAST timeout', edge3D:'Dana keluar dari pengirim tapi tidak pernah sampai — butuh reversal otomatis atau status "Pending" yang jujur.',
+        edge4T:'Merchant ID QR tidak cocok saat settlement', edge4D:'Uang bisa tersettle ke merchant yang salah kalau payload QR tidak di-cross-check ke master data backend.',
+        edge5T:'Dua device scan QR statis yang sama bersamaan', edge5D:'Bug concurrency — race condition pada update saldo mudah terlewat kalau hanya manual testing sekuensial.',
+        sampleTitle:'Sampel dari 30 test case',
+        tcColTitle:'Judul', tcColType:'Type', tcColPriority:'Priority',
+        tc006:'Transfer ditolak saat saldo tidak cukup', tc015:'Cegah double debit saat tap cepat berulang', tc016:'Status transaksi ambigu saat koneksi terputus',
+        tc_qris004:'Pembayaran ditolak untuk QR expired', tc_qris007:'Pembayaran ditolak di atas limit QRIS per transaksi', tc_qris009:'Cross-check Merchant ID saat settlement',
+        fullSetLink:'→ Lihat 30 test case lengkap (CSV)',
+        execNum:'04 · Test Execution',
+        execTitle:'Pass rate 80% di Cycle 1. <em>100% di Cycle 3.</em>',
+        execLede:'Smoke test menjadi gate di setiap cycle — 5 kasus kritikal harus lolos sebelum functional testing dimulai. Cycle 1 menemukan 6 defect; Cycle 2 melakukan retest sekaligus regression dan menemukan 1 defect lagi, di modul luar scope awal.',
+        cyc1Label:'Cycle 1 · SIT', cyc1Detail:'30 test case · 24 pass · 6 fail',
+        cyc2Label:'Cycle 2 · Retest + Regresi', cyc2Detail:'18 test case · 17 pass · 1 defect baru',
+        cyc3Label:'Cycle 3 · Regresi Final', cyc3Detail:'3 test case · semua pass',
+        cycleColName:'Cycle', cycleColTotal:'Total TC', cycleColPass:'Pass', cycleColFail:'Fail', cycleColRate:'Pass Rate',
+        cyc1Name:'Cycle 1 (SIT)', cyc2Name:'Cycle 2 (Retest + Regresi)', cyc3Name:'Cycle 3 (Regresi Final)', cycTotalName:'<strong>Total</strong>', allClosed:'(semua sudah closed)',
+        defectsNum:'05 · Defect Management',
+        defectsTitle:'6 bug. <em>3 di antaranya menyentuh uang sungguhan.</em>',
+        defectsLede:'Dicatat dengan format gaya JIRA — Summary, Environment, Steps to Reproduce, Expected vs Actual, Severity, Priority. Semua bug di bawah bisa direproduksi langsung di prototype: set toggle build ke <code>v1.4.0-QA</code> untuk memicu bug, lalu pindahkan ke <code>v1.5.0-FIX</code> dan ulangi langkah yang sama untuk verifikasi fix.',
+        sevCritical:'Critical', sevMajor:'Major', sevMinor:'Minor', fRootCause:'Root Cause', fFix:'Fix',
+        bug1Title:'Double debit saat tombol "Kirim" ditekan dua kali cepat',
+        bug1Root:'Tidak ada debounce pada tombol submit dan tidak ada idempotency key di <code>POST /transfer</code> — tap kedua membuat transaksi baru yang sepenuhnya terpisah.',
+        bug1Fix:'Disable tombol setelah tap pertama; tambahkan idempotency key di sisi server.',
+        statusClosed:'Closed — tervalidasi via query SQL pengecekan duplikasi',
+        bug2Title:'UI menampilkan "Gagal" padahal backend mencatat sukses',
+        bug2Root:'Client mengasumsikan gagal saat timeout, bukan mengecek status transaksi aktual — saldo sudah terdebit dan status backend SUCCESS.',
+        bug2Fix:'Client otomatis query status transaksi setelah timeout apapun, sebelum menampilkan status gagal.',
+        statusClosed2:'Closed — status kini direkonsiliasi otomatis',
+        bug3Title:'Tidak ada reversal otomatis saat switching BI-FAST timeout',
+        bug3Root:'Tidak ada scheduled job untuk mengembalikan dana atau menyelesaikan status "Pending" setelah SLA terlampaui — saldo tetap terpotong tanpa batas waktu.',
+        bug3Fix:'Scheduled job auto-reversal setelah SLA 15 menit, dengan notifikasi ke user.',
+        statusClosed3:'Closed — tervalidasi via query Pending-lewat-SLA',
+        bug4Title:'QR expired tetap bisa diproses untuk pembayaran',
+        bug4Root:'Tidak ada pengecekan <code>expiry_time</code> di client maupun backend sebelum hit <code>POST /qris/pay</code> — pembayaran tetap berhasil melewati masa berlaku QR.',
+        bug4Fix:'Validasi expiry di client (UX cepat) dan backend (source of truth).',
+        statusClosed4:'Closed — tervalidasi via assertion Postman pada errorCode QR_EXPIRED',
+        bug5Title:'Tidak ada cross-check Merchant ID saat settlement',
+        bug5Root:'Settlement mempercayai Merchant ID dari payload QR tanpa cross-check ke master data merchant terdaftar.',
+        bug5Fix:'Validasi Merchant ID pada QR terhadap master data sebelum settlement final.',
+        statusClosed5:'Closed — tervalidasi via query cross-check merchant',
+        bug6Title:'Nominal negatif diterima tanpa validasi client-side',
+        bug6Root:'Form meloloskan <code>-100000</code> hingga halaman konfirmasi, memunculkan error backend yang tidak informatif alih-alih gagal cepat.',
+        bug6Fix:'Tambahkan validasi client-side pada field nominal.',
+        statusClosed6:'Closed',
+        bug7Note:'<strong>Ditemukan saat regresi, bukan test pass awal:</strong> BUG-SGP-007 — riwayat mutasi salah urut setelah perubahan format tanggal di bagian lain aplikasi. Sama sekali di luar scope Transfer/QRIS — justru inilah gunanya menjalankan regression suite penuh, bukan hanya retest area yang berubah.',
+        valNum:'06 · API &amp; Database Validation',
+        valTitle:'Kalau cuma terlihat benar di UI, <em>berarti belum tervalidasi.</em>',
+        valLede:'Ini layer yang membedakan "klik-klik doang di layar" dengan QA yang bisa membuktikan root cause ke developer lewat pasangan request/response atau hasil query — bukan sekadar klaim.',
+        collectionTitle:'Struktur collection Postman',
+        negApiTitle:'Negative test yang hanya terlihat di level API',
+        negApi1:'Token expired/invalid', negApi2:'Field wajib dihapus dari body', negApi2v:'HTTP 400, bukan 500',
+        negApi3:'Idempotency key sama dikirim 2x', negApi3v:'Request ke-2 mengembalikan transaksi ke-1 — validasi fix BUG-SGP-001',
+        negApi4:'Payload SQL injection di <code>note</code>', negApi4v:'Diperlakukan sebagai string biasa, tidak 500',
+        negApi5:'Endpoint status diakses dengan transactionId user lain', negApi5v:'HTTP 403 — cek IDOR',
+        sqlTitle:'Validasi SQL — membuktikan root cause dari data',
+        sqlFullLink:'→ Semua 10 query validasi (.sql)',
+        closureNum:'07 · Test Closure &amp; Sign-off',
+        closureTitle:'Rekomendasinya adalah <em>Go — dengan kondisi.</em>',
+        densCritical:'Critical · 43%', densMajor:'Major · 29%', densMinor:'Minor · 28%',
+        densNote:'Modul Transfer menyumbang 5 dari 7 defect (71%) — wajar mengingat kompleksitas integrasi eksternal BI-FAST, pengecekan limit, dan eksposur concurrency.',
+        exitColCriteria:'Exit Criteria', exitColTarget:'Target', exitColActual:'Aktual',
+        exit1:'Test case dieksekusi', exit2:'Defect Critical open', exit3:'Defect Major open', exit3t:'0 atau risk-accepted',
+        exit4:'Summary report disetujui', exit4t:'Ya', exit4a:'Menunggu sign-off',
+        goQuote:'"Rekomendasi: <strong>GO</strong> untuk lanjut UAT dan soft launch — dengan monitoring ketat pada Transfer &amp; QRIS di dua minggu pertama, rollback plan khusus untuk skenario reversal BI-FAST, dan regression suite ditandai sebagai kandidat automasi utama sprint berikutnya."',
+        regNum:'08 · Disiplin Regresi',
+        regTitle:'26 pengecekan, <em>dipakai ulang tiap rilis.</em>',
+        regLede:'Checklist hidup yang dijalankan sebelum setiap rilis dan setiap hotfix Critical/Major — bukan artifact sekali pakai. Inilah yang menangkap BUG-SGP-007 di luar scope awal. Item critical-path (Fund Transfer + Database Sanity) memblokir rilis kalau ada yang gagal.',
+        regCat1:'Login &amp; Auth', regCat2:'Saldo &amp; Mutasi', regCat3:'Fund Transfer', regCat4:'QRIS Payment', regCat5:'API Layer', regCat6:'Database Sanity',
+        regFullLink:'→ Lihat 26 item checklist lengkap',
+        lessonsNum:'09 · Pelajaran',
+        lessonsTitle:'QA di banking bukan soal klik-klik tombol. <em style="color:var(--accent);">Ini soal menjaga uang yang bergerak.</em>',
+        lesson1Label:'Bug yang menyangkut uang ada di edge case',
+        lesson1P:'Happy-path testing tidak menemukan satupun dari tiga defect Critical. <strong>Double debit, status ambigu, dan timing reversal hanya muncul di kondisi edge case dan concurrency</strong> — persis kasus yang paling mudah diskip di bawah tekanan deadline.',
+        lesson2Label:'Validasi di bawah layar, bukan cuma di layar',
+        lesson2P:'Root cause asli BUG-SGP-002 dan BUG-SGP-004 ada di backend, bukan UI. <strong>Query SQL dan assertion Postman yang membuktikannya</strong> — screenshot saja tidak akan cukup.',
+        lesson3Label:'Disiplin regresi itu scalable',
+        lesson3P:'Checklist 26 item, dipakai ulang tiap cycle, menangkap BUG-SGP-007 di modul yang bahkan bukan bagian dari rilis awal. <strong>Itulah return dari menulis checklist sekali saja.</strong>',
+        lesson4Label:'Bilang "simulasi, bukan production" itu justru menambah kredibilitas',
+        lesson4P:'Project ini membuktikan disiplin STLC end-to-end. <strong>Melebih-lebihkannya sebagai pengalaman banking production adalah hal pertama yang ditangkap interviewer yang baik</strong> — presisi soal perbedaan ini adalah jawaban yang lebih senior.',
+        ctaNum:'Prototype Interaktif · Live Demo',
+        ctaTitle:'Lihat bug-nya. <em>Lalu tonton perbaikannya.</em>',
+        ctaP:'Aplikasi SigmaPay 30 layar dengan panel QA workbench di sampingnya — tracker test case per layar, log API live, tab SQL, dan tracker defect. Reproduksi ke-6 defect di build buggy, pindahkan toggle, lalu verifikasi ulang dengan langkah yang sama persis di build yang sudah fix.',
+        ctaOpen:'Buka Prototype Interaktif →', ctaBack:'← Kembali ke portfolio',
+        docsTitle:'Set dokumentasi lengkap',
+        footerLeft:'© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a>', footerContact:'Hubungi saya',
+      }
+    };
+
+    let currentLang = 'en';
+    function applyTranslations(lang) {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang]?.[key] !== undefined) el.innerHTML = translations[lang][key];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (translations[lang]?.[key] !== undefined) el.innerHTML = translations[lang][key];
+      });
+      document.documentElement.lang = lang;
+    }
+    document.querySelectorAll('[data-lang-target]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-lang-target');
+        if (target === currentLang) return;
+        currentLang = target;
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-lang-target') === target));
+        applyTranslations(target);
+      });
+    });
+    applyTranslations('en');
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Theme toggle
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      function update(t){ btn.textContent = t==='dark'?'☀':'🌙'; btn.setAttribute('aria-label', t==='dark'?'Switch to light mode':'Switch to dark mode'); }
+      update(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click', function(){
+        const next = html.getAttribute('data-theme')==='dark'?'light':'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        update(next);
+      });
+    })();
+  </script>
+</body>
+</html>
