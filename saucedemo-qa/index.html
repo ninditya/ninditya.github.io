@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA &amp; Test Automation Portfolio — SauceDemo (Playwright · Cypress · Selenium) · Ninditya Salma Nur Aini</title>
+  <meta name="description" content="29 regression test cases automated three times over — Playwright, Cypress, and Selenium — run against the live SauceDemo site. Two frameworks disagreed on the same bug; here's why, and what changed when the suite was re-run.">
+  <link rel="canonical" href="https://ninditya.github.io/saucedemo-qa/">
+  <meta property="og:title" content="QA &amp; Test Automation Portfolio — SauceDemo (Playwright · Cypress · Selenium)">
+  <meta property="og:url" content="https://ninditya.github.io/saucedemo-qa/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#ffffff; --bg-alt:#f4f4f8; --bg-dark:#13131e;
+      --ink:#1c1c26; --ink-soft:#54566b; --muted:#9395a8;
+      --line:#dcdce6; --line-strong:#adaec2;
+      --primary:#473c93; --accent:#d9622b; --accent-soft:#eeecf9;
+      --green:#1f8a5f; --high:#c0392b; --medium:#c9820c; --minor:#5b6c73;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased; }
+    .skip-link { position:absolute; top:-40px; left:0; background:var(--ink); color:#fff; padding:8px 16px; z-index:1000; transition:top 0.2s; font-family:'JetBrains Mono',monospace; font-size:0.8rem; text-decoration:none; }
+    .skip-link:focus { top:0; }
+    *:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
+    nav { position:sticky; top:0; background:rgba(255,255,255,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); z-index:100; }
+    .nav-inner { max-width:1100px; margin:0 auto; padding:16px 32px; display:flex; justify-content:flex-start; align-items:center; flex-wrap:wrap; gap:16px; }
+    .nav-tools { display:flex; align-items:center; gap:10px; width:100%; }
+    .mobile-nav-toggle { display:none; background:transparent; border:none; color:var(--ink); font-size:1.5rem; cursor:pointer; padding:0 5px; line-height:1; }
+    .nav-pills { display:flex; gap:6px; flex-wrap:wrap; }
+    .nav-pill { font-size:13px; color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:100px; transition:all 0.2s ease; }
+    .nav-pill:hover { background:var(--bg-alt); color:var(--ink); }
+    .nav-pill.back { color:var(--primary); border:1px solid var(--line); }
+    .nav-pill.back:hover { background:var(--primary); color:white; border-color:var(--primary); }
+    .lang-switch { display:inline-flex; padding:3px; border:1px solid var(--line); border-radius:999px; background:var(--bg); margin-left:auto; }
+    .lang-btn { border:none; background:transparent; color:var(--muted); padding:6px 10px; border-radius:999px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; transition:all 0.15s; }
+    .lang-btn.active { background:var(--ink); color:white; }
+    .theme-toggle { width:44px; height:44px; border-radius:50%; border:1px solid var(--line); background:var(--bg-alt); color:var(--ink); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:all 0.15s; flex-shrink:0; line-height:1; }
+    .wrap { max-width:1100px; margin:0 auto; padding:0 32px; }
+    section.content { padding:80px 0; border-bottom:1px solid var(--line); }
+    section.content.alt { background:var(--bg-alt); }
+    .section-num { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px; font-weight:500; }
+    h2 { font-family:'Fraunces',serif; font-size:clamp(30px,4.2vw,46px); font-weight:400; letter-spacing:-0.01em; line-height:1.15; margin-bottom:32px; max-width:820px; color:var(--ink); }
+    h2 em { font-style:italic; color:var(--primary); }
+    h3 { font-family:'Fraunces',serif; font-size:22px; font-weight:400; margin:32px 0 14px; letter-spacing:-0.01em; color:var(--ink); }
+    h3 em { font-style:italic; color:var(--primary); }
+    .lede { font-family:'Fraunces',serif; font-size:21px; line-height:1.5; color:var(--ink-soft); max-width:760px; margin-bottom:24px; font-weight:400; }
+    p { margin-bottom:16px; max-width:760px; color:var(--ink-soft); font-size:15.5px; }
+    p code, li code, td code { background:var(--bg-alt); border:1px solid var(--line); padding:1px 6px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink); }
+    pre.code { background:var(--bg-dark); color:#dcdce6; padding:22px 26px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.7; overflow-x:auto; margin:22px 0; border-radius:6px; border-left:3px solid var(--accent); max-width:920px; }
+    pre.code .c { color:#83839c; font-style:italic; }
+    pre.code .s { color:var(--accent); }
+    pre.code .k { color:#e39a8f; }
+    pre.code .n { color:#8f88d6; }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin:20px 0; }
+    .tag { font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; padding:5px 11px; border:1px solid var(--line-strong); background:white; border-radius:3px; color:var(--ink-soft); }
+    .pullquote { border-left:3px solid var(--accent); padding:16px 0 16px 28px; margin:32px 0; font-family:'Fraunces',serif; font-size:21px; font-style:italic; line-height:1.45; max-width:760px; color:var(--ink); }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin:32px 0; }
+
+    /* Hero */
+    .hero { padding:76px 0 56px; border-bottom:1px solid var(--line); }
+    .hero-kicker { display:flex; align-items:center; gap:12px; margin-bottom:32px; flex-wrap:wrap; }
+    .kicker-tag { background:var(--ink); color:var(--accent); padding:5px 12px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; }
+    .kicker-text { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.03em; }
+    h1.title { font-family:'Fraunces',serif; font-size:clamp(38px,5.6vw,66px); line-height:1.08; letter-spacing:-0.02em; color:var(--ink); margin-bottom:28px; font-weight:400; }
+    h1.title em { font-style:italic; color:var(--primary); }
+    .hero-lede { font-family:'Fraunces',serif; font-size:clamp(19px,2.1vw,22px); line-height:1.5; max-width:720px; color:var(--ink-soft); font-weight:400; }
+    .hero-lede strong { background:linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%); font-weight:500; color:var(--ink); }
+    .hero-meta { display:flex; flex-wrap:wrap; gap:26px; margin-top:40px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.02em; color:var(--muted); }
+    .hero-meta span strong { color:var(--ink); font-weight:500; margin-right:6px; text-transform:uppercase; letter-spacing:0.08em; font-size:10px; }
+    .disclosure { margin-top:28px; padding:12px 16px; background:var(--accent-soft); border:1px solid var(--line); border-radius:6px; max-width:720px; font-size:13px; color:var(--ink-soft); font-family:'Inter',sans-serif; }
+    .disclosure strong { color:var(--ink); }
+
+    /* Stats */
+    .stats-strip { background:var(--bg-dark); color:var(--bg); padding:56px 0; }
+    .stats-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:0; }
+    .stat { text-align:left; padding:0 22px; border-left:1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left:none; padding-left:0; }
+    .stat .num { font-family:'Fraunces',serif; font-size:clamp(32px,4.2vw,48px); font-weight:400; line-height:1; color:var(--accent); letter-spacing:-0.02em; }
+    .stat .num small { font-size:0.5em; color:var(--bg); opacity:0.7; }
+    .stat .label { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.07em; text-transform:uppercase; margin-top:12px; opacity:0.7; line-height:1.4; }
+
+    /* Compare split */
+    .compare-split { display:grid; grid-template-columns:1fr 1fr; gap:2px; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:36px 0; }
+    .cs-col { padding:28px 26px; }
+    .cs-col.bad { background:rgba(192,57,43,0.05); border-right:2px solid var(--line); }
+    .cs-col.good { background:rgba(31,138,95,0.05); }
+    .cs-header { font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; font-weight:500; margin-bottom:16px; padding:6px 12px; border-radius:3px; display:inline-block; }
+    .cs-col.bad .cs-header { background:rgba(192,57,43,0.1); color:var(--high); }
+    .cs-col.good .cs-header { background:rgba(31,138,95,0.1); color:var(--green); }
+    .cs-list { list-style:none; }
+    .cs-list li { font-size:14px; color:var(--ink-soft); padding:6px 0; border-bottom:1px solid var(--line); }
+    .cs-list li:last-child { border-bottom:none; }
+
+    /* Decision-style tables */
+    table.decision { width:100%; border-collapse:collapse; margin:28px 0; font-size:13.5px; }
+    table.decision th { text-align:left; padding:11px 14px; background:var(--bg-dark); color:rgba(255,255,255,0.8); font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.07em; text-transform:uppercase; font-weight:500; }
+    table.decision td { padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-soft); }
+    table.decision td:first-child { color:var(--ink); font-weight:500; }
+    table.decision tr:last-child td { border-bottom:none; }
+    table.decision td.num { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--primary); }
+    table.decision a.doclink { color:var(--primary); text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:11.5px; }
+    table.decision a.doclink:hover { text-decoration:underline; }
+    table.decision td.status-pass { color:var(--green); font-weight:600; }
+    table.decision td.status-fail { color:var(--high); font-weight:600; }
+    table.decision td.status-warn { color:var(--medium); font-weight:600; }
+
+    .data-note { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted); margin:-8px 0 20px; }
+
+    /* Framework flow */
+    .fw-flow { display:flex; align-items:stretch; gap:16px; margin:36px 0; flex-wrap:wrap; }
+    .fw-box { flex:1; min-width:200px; border:1px solid var(--line); border-radius:8px; padding:20px; background:var(--bg); }
+    .fw-box .fw-label { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:8px; }
+    .fw-box .fw-rate { font-family:'Fraunces',serif; font-size:34px; color:var(--primary); line-height:1; }
+    .fw-box .fw-detail { font-size:12px; color:var(--ink-soft); margin-top:8px; }
+    .fw-box.final .fw-rate { color:var(--green); }
+    .fw-box.warn .fw-rate { color:var(--medium); }
+
+    /* Bug cards */
+    .bug-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin:36px 0; }
+    .bug-card { border:1px solid var(--line); border-radius:10px; padding:22px 24px; background:var(--bg); }
+    .bug-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; gap:10px; }
+    .bug-id { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.05em; }
+    .sev { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; padding:4px 10px; border-radius:100px; }
+    .sev.high { background:rgba(192,57,43,0.12); color:var(--high); }
+    .sev.medium { background:rgba(201,130,12,0.14); color:var(--medium); }
+    .bug-card h4 { font-family:'Fraunces',serif; font-weight:400; font-size:17px; margin-bottom:10px; line-height:1.35; color:var(--ink); }
+    .bug-field { font-size:13px; color:var(--ink-soft); margin-bottom:8px; }
+    .bug-field strong { color:var(--ink); font-weight:600; display:block; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:2px; }
+    .bug-status { display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; margin-top:8px; }
+    .bug-status.still { color:var(--high); }
+    .bug-status.fixed { color:var(--green); }
+    .bug-status.diverge { color:var(--medium); }
+    .bug-status.manual { color:var(--muted); }
+    .bug-extra { margin-top:16px; padding:16px 18px; border:1px dashed var(--line-strong); border-radius:8px; background:var(--bg-alt); font-size:13.5px; color:var(--ink-soft); }
+
+    /* Density bars */
+    .density-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin:32px 0; }
+    .density-card { border:1px solid var(--line); border-radius:10px; padding:18px; }
+    .density-label { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; color:var(--muted); }
+    .density-bar-track { height:10px; background:rgba(0,0,0,0.06); border-radius:5px; overflow:hidden; margin-bottom:10px; }
+    .density-bar { height:100%; border-radius:5px; }
+    .density-pct { font-family:'Fraunces',serif; font-size:24px; }
+
+    /* Folder tree */
+    .folder-tree { font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.85; background:var(--bg-dark); color:#dcdce6; padding:26px 30px; border-radius:6px; border-left:3px solid var(--primary); margin:28px 0; max-width:560px; overflow-x:auto; white-space:pre; }
+    .folder-tree .dir { color:#8f88d6; }
+    .folder-tree .file { color:#dcdce6; }
+    .folder-tree .key-file { color:var(--accent); }
+
+    /* Pill list */
+    .pill-list { display:flex; flex-wrap:wrap; gap:10px; margin:24px 0; }
+    .pill { border:1px solid var(--line); border-radius:100px; padding:8px 16px; font-size:13px; color:var(--ink-soft); background:var(--bg); }
+    .pill strong { color:var(--primary); font-family:'JetBrains Mono',monospace; font-size:11px; margin-right:6px; }
+    .pill.dim { opacity:0.6; }
+
+    /* Doc list */
+    .doc-list { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:28px 0; max-width:760px; }
+    .doc-list a { display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink-soft); text-decoration:none; padding:9px 12px; border:1px solid var(--line); border-radius:6px; background:var(--bg); transition:all .15s; }
+    .doc-list a:hover { border-color:var(--primary); color:var(--primary); }
+
+    /* Lessons */
+    .lesson-cards { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:32px 0; }
+    .lesson-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:20px; }
+    .lesson-label { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:8px; }
+    .lesson-card p { font-size:14px; color:rgba(255,255,255,0.65); margin:0; max-width:none; line-height:1.6; }
+    .lesson-card p strong { color:rgba(255,255,255,0.9); }
+
+    /* CTA */
+    .cta-section { background:var(--bg-dark); color:var(--bg); padding:76px 0; }
+    .cta-section .section-num { color:var(--accent); }
+    .cta-section h2 { color:var(--bg); }
+    .cta-section h2 em { color:var(--accent); }
+    .cta-section p { color:rgba(255,255,255,0.7); }
+    .cta-buttons { display:flex; flex-wrap:wrap; gap:14px; margin-top:28px; }
+    .btn { display:inline-block; padding:14px 26px; background:var(--accent); color:var(--bg-dark); text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; border:2px solid var(--accent); border-radius:4px; transition:all 0.2s ease; }
+    .btn:hover { background:transparent; color:var(--accent); }
+    .btn.ghost { background:transparent; color:var(--bg); border-color:rgba(255,255,255,0.4); }
+    .btn.ghost:hover { background:var(--bg); color:var(--ink); }
+    footer { background:var(--bg-dark); color:rgba(255,255,255,0.6); padding:28px 0; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.04em; border-top:1px solid rgba(255,255,255,0.1); }
+    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    footer a { color:var(--accent); text-decoration:none; }
+
+    /* Dark mode */
+    html[data-theme="dark"] { --bg:#15151f; --bg-alt:#1d1d2b; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.62); --muted:rgba(235,235,245,0.32); --line:rgba(140,140,170,0.28); --line-strong:rgba(140,140,170,0.45); --primary:#9086e6; --accent:#f0925a; --accent-soft:rgba(144,134,230,0.12); --green:#39c785; --high:#e2685a; --medium:#e0a94a; --minor:#9fb0b5; }
+    html[data-theme="dark"] nav { background:rgba(21,21,31,0.92); }
+    html[data-theme="dark"] .stats-strip, html[data-theme="dark"] pre.code, html[data-theme="dark"] .folder-tree { background:#000000; }
+    html[data-theme="dark"] .tag, html[data-theme="dark"] .fw-box, html[data-theme="dark"] .bug-card, html[data-theme="dark"] .density-card, html[data-theme="dark"] .pill, html[data-theme="dark"] .doc-list a { background:var(--bg-alt); }
+    html[data-theme="dark"] .cs-col { background:var(--bg-alt) !important; }
+    html[data-theme="dark"] .lang-btn.active { background:#e5e5ea; color:#1c1c1e; }
+    html[data-theme="dark"] table.decision th { background:#111; }
+    html[data-theme="dark"] .disclosure { background:rgba(144,134,230,0.1); }
+    html[data-theme="dark"] .bug-extra { background:var(--bg-alt); }
+
+    /* Responsive */
+    @media (max-width:800px) {
+      .stats-grid { grid-template-columns:repeat(3,1fr); gap:26px; }
+      .stat { border-left:none !important; padding:0; }
+      .two-col, .compare-split { grid-template-columns:1fr; }
+      .density-grid { grid-template-columns:repeat(2,1fr); }
+      .bug-grid { grid-template-columns:1fr; }
+      .lesson-cards { grid-template-columns:1fr; }
+      .doc-list { grid-template-columns:1fr; }
+      .fw-flow { flex-direction:column; }
+    }
+    @media (max-width:600px) {
+      .stats-grid { grid-template-columns:repeat(2,1fr); }
+      .density-grid { grid-template-columns:repeat(2,1fr); }
+      .wrap { padding:0 20px; }
+      .nav-inner { padding:14px 20px; }
+      .hero { padding:52px 0 36px; }
+      .mobile-nav-toggle { display:block; }
+      .nav-pills { display:none; position:absolute; top:56px; left:0; width:100%; background:rgba(255,255,255,0.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); flex-direction:column; padding:1rem 1.5rem; gap:0.4rem; }
+      nav.nav-open .nav-pills { display:flex; }
+    }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } html { scroll-behavior:auto; } }
+  </style>
+  <script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+  <a href="#why" class="skip-link">Skip to main content</a>
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a href="/" class="nav-pill back" data-i18n="navBack">← All projects</a>
+          <a href="/#projects" class="nav-pill" data-i18n="navProjects">Projects</a>
+          <a href="/#contact" class="nav-pill" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-kicker">
+        <span class="kicker-tag" data-i18n="kickerTag">QA Automation Portfolio</span>
+        <span class="kicker-text">SauceDemo E-Commerce Demo · Login, Cart, Sort &amp; Checkout · live site</span>
+      </div>
+      <h1 class="title" data-i18n="heroTitle">29 tests, three frameworks. <em>Two of them disagreed on the same bug.</em></h1>
+      <p class="hero-lede" data-i18n="heroLede">
+        A regression suite for SauceDemo's login, cart, sort, and checkout flows — written three times over in
+        <strong>Playwright, Cypress, and Selenium</strong>, and run against the real live site, not a mock. Same 29 test
+        cases, same day — and two of the seven bugs SauceDemo seeds on purpose came back with a different verdict
+        depending on which framework asked.
+      </p>
+      <div class="hero-meta">
+        <span data-i18n="heroMetaPlan"><strong>Plan</strong> scope · test accounts · 3-framework strategy</span>
+        <span data-i18n="heroMetaDesign"><strong>Design</strong> 29 test cases · Login / Cart / Sort / Checkout / Known Issues</span>
+        <span data-i18n="heroMetaExecute"><strong>Execute</strong> Playwright · Cypress · Selenium, against the live site</span>
+        <span data-i18n="heroMetaVerify"><strong>Verify</strong> cross-framework diffs · CI regression · re-checked over time</span>
+      </div>
+      <div class="tags">
+        <span class="tag">Playwright</span><span class="tag">Cypress</span><span class="tag">Selenium</span>
+        <span class="tag">TypeScript</span><span class="tag">Python / pytest</span><span class="tag">GitHub Actions CI</span>
+        <span class="tag">Regression Testing</span><span class="tag">Cross-Framework QA</span>
+      </div>
+      <div class="disclosure" data-i18n="disclosure">
+        <strong>Full disclosure:</strong> SauceDemo is a public demo site built by Sauce Labs specifically for QA
+        practice — its "bugs" are seeded on purpose, not defects in a product I own. What's real is the automation:
+        every test case, every result, and every framework disagreement below came from suites actually written and
+        actually run against the live saucedemo.com, not simulated.
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-strip">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat"><div class="num">29</div><div class="label" data-i18n="stat1">Test cases<br>× 3 frameworks</div></div>
+        <div class="stat"><div class="num">3</div><div class="label" data-i18n="stat2">Frameworks, one suite<br>Playwright · Cypress · Selenium</div></div>
+        <div class="stat"><div class="num">90<small>%</small></div><div class="label" data-i18n="stat3">Playwright pass rate<br>3 fails = bugs caught on purpose</div></div>
+        <div class="stat"><div class="num">2</div><div class="label" data-i18n="stat4">Bugs with<br>framework-dependent results</div></div>
+        <div class="stat"><div class="num">0</div><div class="label" data-i18n="stat5">Staging environments used<br>every run hits the live site</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 WHY -->
+  <section class="content" id="why">
+    <div class="wrap">
+      <div class="section-num" data-i18n="whyNum">01 · Why This Project</div>
+      <h2 data-i18n="whyTitle">Automation postings ask for proof. <em>Not a tool list.</em></h2>
+      <p class="lede" data-i18n="whyLede">Automation QA postings ask for the same concrete things, over and over: Playwright or Cypress, Selenium as a fallback, CI/CD, and the judgment to tell a genuine bug from a flaky test. Rather than claim all three as buzzwords, I wrote the identical 29-case regression suite in Playwright, Cypress, and Selenium and ran it against SauceDemo's real, public demo site — so every claim on this page is something I can walk through, not recite.</p>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="stlcColPhase">STLC Phase</th><th data-i18n="stlcColActivity">What I Did</th><th data-i18n="stlcColArtifact">Artifact</th></tr></thead>
+        <tbody>
+          <tr><td>01 · Requirement Analysis</td><td data-i18n="stlc1">No BRD here — SauceDemo is a live third-party site, so requirements were reverse-engineered by exploring it directly: 6 test accounts with different seeded behaviors, a cart, sort, and a 3-step checkout.</td><td><a class="doclink" href="docs/01-Test_Plan_SauceDemo.md" target="_blank" rel="noopener">01-Test_Plan_SauceDemo.md ↗</a></td></tr>
+          <tr><td>02 · Test Planning</td><td data-i18n="stlc2">Defined scope, a 3-framework strategy, environment, and wrote down what's explicitly out of scope — and why — instead of leaving it implicit.</td><td><a class="doclink" href="docs/01-Test_Plan_SauceDemo.md" target="_blank" rel="noopener">01-Test_Plan_SauceDemo.md ↗</a></td></tr>
+          <tr><td>03 · Test Case Design</td><td data-i18n="stlc3">29 test cases across Login, Cart, Sort, Checkout, and known-issue regression — implemented as code in all three frameworks, not just documented.</td><td><a class="doclink" href="docs/03-Test_Case_SauceDemo.csv" target="_blank" rel="noopener">03-Test_Case_SauceDemo.csv ↗</a></td></tr>
+          <tr><td>04 · Test Environment Setup</td><td data-i18n="stlc4">Three parallel runners — Playwright (Chromium headless), Cypress (Electron + Chrome), Selenium (Chrome via webdriver-manager) — sharing one <code>.env</code> for test credentials.</td><td></td></tr>
+          <tr><td>05 · Test Execution</td><td data-i18n="stlc5">Run for real against the live site: Playwright 26/29, Selenium 7/7 (smoke subset), Cypress 23/26 on the prior case set — run directly by me in the Cypress Test Runner.</td><td><a class="doclink" href="docs/04-Test_Execution_Report.md" target="_blank" rel="noopener">04-Test_Execution_Report.md ↗</a></td></tr>
+          <tr><td>06 · Test Cycle Closure</td><td data-i18n="stlc6">Coverage gaps and recommendations written down, not left implicit — including which framework needs a re-run and which threshold needs loosening.</td><td><a class="doclink" href="docs/08-Test_Summary_Report.md" target="_blank" rel="noopener">08-Test_Summary_Report.md ↗</a></td></tr>
+        </tbody>
+      </table>
+
+      <h3 data-i18n="levelsTitle">Which testing levels actually apply here</h3>
+      <div class="pill-list">
+        <span class="pill dim"><strong>Unit</strong> <span data-i18n="lvl1">Not applicable — third-party app, no code access</span></span>
+        <span class="pill dim"><strong>SIT</strong> <span data-i18n="lvl2">Not applicable — monolithic client-side demo</span></span>
+        <span class="pill"><strong>System / E2E</strong> <span data-i18n="lvl3">Primary level of this project</span></span>
+        <span class="pill"><strong>Regression</strong> <span data-i18n="lvl4">The core of this project</span></span>
+        <span class="pill"><strong>UAT-like</strong> <span data-i18n="lvl5">The known-issues suite acts as one</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 SCOPE -->
+  <section class="content alt" id="scope">
+    <div class="wrap">
+      <div class="section-num" data-i18n="scopeNum">02 · Scope &amp; Test Accounts</div>
+      <h2 data-i18n="scopeTitle">Scoped around what's actually there. <em>Not a generic checklist.</em></h2>
+      <p class="lede" data-i18n="scopeLede">SauceDemo doesn't have a real backend, a payment gateway, or a registration flow — so scope was drawn around what's actually there, not a generic e-commerce checklist copied from somewhere else.</p>
+
+      <div class="compare-split">
+        <div class="cs-col good">
+          <span class="cs-header" data-i18n="inScopeLabel">In Scope</span>
+          <ul class="cs-list" data-i18n-html="inScopeList">
+            <li>Login: 6 test accounts — valid, invalid, case-sensitive, empty fields, locked-out, logout</li>
+            <li>Cart: add, remove from 2 different pages, Continue Shopping</li>
+            <li>Sort: all 4 options (Name A–Z/Z–A, Price low–high/high–low)</li>
+            <li>Checkout: single &amp; multi-item, required-field validation, special characters, total calculation</li>
+            <li>Regression against 7 seeded bugs across 4 special test accounts</li>
+          </ul>
+        </div>
+        <div class="cs-col bad">
+          <span class="cs-header" data-i18n="outScopeLabel">Out of Scope</span>
+          <ul class="cs-list" data-i18n-html="outScopeList">
+            <li>Register — the site has no registration feature at all</li>
+            <li>Payment processing — no real payment gateway; checkout uses fixed dummy data</li>
+            <li>Address validation — only required-field checks exist, no real format validation</li>
+            <li>API testing — SauceDemo is 100% client-rendered with no public API to test</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="criteriaTitle">Entry &amp; exit criteria</h3>
+          <table class="decision">
+            <tbody>
+              <tr><td data-i18n="entryLabel">Entry</td><td data-i18n="entryVal">Site reachable at saucedemo.com; all 6 test accounts confirmed still active</td></tr>
+              <tr><td data-i18n="exitLabel">Exit</td><td data-i18n="exitVal">All 29 cases executed in Playwright; every "failure" classified as a genuine seeded bug or a cross-framework anomaly traced to a root cause</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3 data-i18n="envTitle">Test environment</h3>
+          <table class="decision">
+            <tbody>
+              <tr><td data-i18n="envAppLabel">App</td><td>saucedemo.com — live, public site</td></tr>
+              <tr><td data-i18n="envBrowserLabel">Browsers</td><td>Chromium (Playwright) · Electron+Chrome (Cypress) · Chrome (Selenium)</td></tr>
+              <tr><td data-i18n="envCiLabel">CI</td><td>GitHub Actions — 3 parallel jobs per push/PR</td></tr>
+              <tr><td data-i18n="envToolsLabel">Tools</td><td>npm · pip · webdriver-manager · virtualenv</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 data-i18n="acctTitle">Test accounts — six personalities, one password</h3>
+      <p class="data-note" data-i18n="acctNote">All published directly by SauceDemo on its own login page — nothing here is secret; they're just collected in <code>.env</code> so tests don't repeat the same strings everywhere.</p>
+      <table class="decision">
+        <thead><tr><th data-i18n="acctColUser">Account</th><th data-i18n="acctColBehavior">Behavior</th></tr></thead>
+        <tbody>
+          <tr><td><code>standard_user</code></td><td data-i18n="acct1">Normal flow, no seeded bugs</td></tr>
+          <tr><td><code>locked_out_user</code></td><td data-i18n="acct2">Login always rejected</td></tr>
+          <tr><td><code>problem_user</code></td><td data-i18n="acct3">Seeded UI/image bug — see BUG-001</td></tr>
+          <tr><td><code>performance_glitch_user</code></td><td data-i18n="acct4">Seeded slow-dashboard bug — see BUG-007</td></tr>
+          <tr><td><code>error_user</code></td><td data-i18n="acct5">Seeded bugs across sort/cart/checkout — see BUG-003 to BUG-006</td></tr>
+          <tr><td><code>visual_user</code></td><td data-i18n="acct6">Seeded layout bug — see BUG-002</td></tr>
+        </tbody>
+      </table>
+
+      <div class="pullquote" data-i18n="acctPullquote">"Six test accounts, six different personalities. <code>error_user</code> alone seeds four separate bugs across sort, cart, and checkout — figuring out which account maps to which bug was itself part of requirement analysis, not something handed to me on a ticket."</div>
+    </div>
+  </section>
+
+  <!-- 03 DESIGN & TRIAGE -->
+  <section class="content" id="design">
+    <div class="wrap">
+      <div class="section-num" data-i18n="designNum">03 · Test Design &amp; Case Triage</div>
+      <h2 data-i18n="designTitle">29 test cases. <em>Plus five I had to verify before trusting them.</em></h2>
+      <p class="lede" data-i18n="designLede">Requirements broke down into 29 detailed test cases with steps, test data, and expected results — implemented directly as code, not left as a document nobody automates.</p>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="covColArea">Area</th><th data-i18n="covColCount">Test Cases</th><th data-i18n="covColRange">ID Range</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="covLogin">Login</td><td class="num">8</td><td>LOGIN-01 – LOGIN-08</td></tr>
+          <tr><td data-i18n="covCart">Cart</td><td class="num">4</td><td>CART-01 – CART-04</td></tr>
+          <tr><td data-i18n="covSort">Sort</td><td class="num">4</td><td>SORT-01 – SORT-04</td></tr>
+          <tr><td data-i18n="covCheckout">Checkout</td><td class="num">7</td><td>CHK-01 – CHK-05</td></tr>
+          <tr><td data-i18n="covKnown">Known-Issue Regression</td><td class="num">6</td><td>BUG-001, 003–007</td></tr>
+          <tr><td data-i18n="covTotal"><strong>Total</strong></td><td class="num"><strong>29</strong></td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <h3 data-i18n="triageTitle">Triage: validating someone else's test cases before merging them</h3>
+      <p data-i18n="triageLede">On a later date, I received 5 manual test cases written by another QA (Checkout area) to check for validity against this project. Before adding any of them, I verified each claim directly against the live site with a throwaway Playwright script — run once, then deleted, never committed.</p>
+      <table class="decision">
+        <thead><tr><th data-i18n="triageColSource">Source</th><th data-i18n="triageColClaim">Claim</th><th data-i18n="triageColResult">Verified Against Live Site</th><th data-i18n="triageColAction">Outcome</th></tr></thead>
+        <tbody>
+          <tr><td>TC-1</td><td data-i18n="tr1">Checkout with valid data succeeds</td><td class="status-pass" data-i18n="tr1v">✅ Valid</td><td data-i18n="tr1o">Not added — already covered by CHK-01</td></tr>
+          <tr><td>TC-2</td><td data-i18n="tr2">Empty First Name shows a required-field error</td><td class="status-pass" data-i18n="tr2v">✅ Valid</td><td data-i18n="tr2o">Not added — already covered by CHK-03</td></tr>
+          <tr><td>TC-3</td><td data-i18n="tr3">Special characters should be rejected by validation</td><td class="status-warn" data-i18n="tr3v">⚠️ Claim was backwards — SauceDemo accepts them with no validation</td><td data-i18n="tr3o">Added as CHK-04, to document the real (unvalidated) behavior</td></tr>
+          <tr><td>TC-4</td><td data-i18n="tr4">Total = subtotal + tax</td><td class="status-pass" data-i18n="tr4v">✅ Confirmed ($39.98 + $3.20 = $43.18)</td><td data-i18n="tr4o">Added as CHK-05</td></tr>
+          <tr><td>TC-5</td><td data-i18n="tr5">Cart access without login redirects to the login page</td><td class="status-pass" data-i18n="tr5v">✅ Confirmed</td><td data-i18n="tr5o">Added as LOGIN-08</td></tr>
+        </tbody>
+      </table>
+      <p class="data-note" data-i18n="triageNote">3 of 5 claims were added as new cases; 2 were rejected as duplicates of existing coverage. Adding LOGIN-08 is exactly what surfaced the cross-framework bug in Section 05.</p>
+    </div>
+  </section>
+
+  <!-- 04 THREE FRAMEWORKS -->
+  <section class="content alt" id="frameworks">
+    <div class="wrap">
+      <div class="section-num" data-i18n="fwNum">04 · Three Frameworks, One Suite</div>
+      <h2 data-i18n="fwTitle">The same 29 cases. <em>Written three times over, on purpose.</em></h2>
+      <p class="lede" data-i18n="fwLede">Most teams standardize on one automation tool. Writing the identical suite in three was a deliberate comparison exercise — so a question like "why Playwright over Selenium?" gets answered from direct experience, not an article I read once.</p>
+
+      <div class="folder-tree">
+<span class="dir">automation/</span>
+├── <span class="dir">playwright/</span>  <span class="c">// TypeScript · 29 cases</span>
+│   └── <span class="dir">tests/</span> auth · cart · sort · checkout · <span class="key-file">known-issues</span>
+├── <span class="dir">cypress/</span>     <span class="c">// TypeScript · 29 cases</span>
+│   └── <span class="dir">e2e/</span> auth · cart · sort · checkout · <span class="key-file">known-issues</span>
+├── <span class="dir">selenium/</span>    <span class="c">// Python (pytest) · 7-case smoke subset</span>
+│   └── <span class="dir">tests/</span> test_saucedemo.py
+└── <span class="dir">katalon/</span>     <span class="c">// GUI/low-code · guide only, not run</span>
+    └── README.md
+      </div>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="resColFw">Framework</th><th data-i18n="resColBrowser">Browser</th><th data-i18n="resColTotal">Total</th><th data-i18n="resColPass">Pass</th><th data-i18n="resColFail">Fail</th><th data-i18n="resColRate">Pass Rate</th><th data-i18n="resColNotes">Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Playwright</td><td>Chromium headless</td><td class="num">29</td><td class="num">26</td><td class="num">3</td><td class="num">90%</td><td data-i18n="resNote1">3 fails are intentional — the known-issue checks below. Includes 3 new cases (LOGIN-08, CHK-04, CHK-05), all passing.</td></tr>
+          <tr><td>Cypress</td><td>Chrome (Test Runner GUI)</td><td class="num">26 <span data-i18n="resExecuted">executed</span></td><td class="num">23</td><td class="num">3</td><td class="num">88%</td><td data-i18n="resNote2">Needs a re-run to cover the 3 newest cases, which are written and type-check clean but not yet executed.</td></tr>
+          <tr><td>Selenium</td><td>Chrome headless</td><td class="num">7</td><td class="num">7</td><td class="num">0</td><td class="num">100%</td><td data-i18n="resNote3">Smoke subset only — deliberately not extended to the 3 newest cases.</td></tr>
+        </tbody>
+      </table>
+
+      <h3 data-i18n="toolsTitle">Playwright vs. Cypress vs. Selenium, from actually using all three</h3>
+      <table class="decision">
+        <thead><tr><th data-i18n="toolColAspect">Aspect</th><th>Playwright</th><th>Cypress</th><th>Selenium</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="toolLang">Language here</td><td>TypeScript</td><td>TypeScript</td><td>Python</td></tr>
+          <tr><td data-i18n="toolExec">Execution model</td><td data-i18n="toolExecPw">Node.js, browser engines bundled in</td><td data-i18n="toolExecCy">Electron as the runner, bundled browser driver</td><td data-i18n="toolExecSe">WebDriver protocol, needs an external driver (via webdriver-manager)</td></tr>
+          <tr><td data-i18n="toolWait">Auto-wait</td><td data-i18n="toolWaitPw">Built into every assertion</td><td data-i18n="toolWaitCy">Built into every <code>cy.</code> command</td><td data-i18n="toolWaitSe">Needs explicit <code>WebDriverWait</code></td></tr>
+          <tr><td data-i18n="toolSetup">Setup speed here</td><td data-i18n="toolSetupPw">Fast — one <code>npx playwright install</code></td><td data-i18n="toolSetupCy">Fast for the code, but the Electron binary is large (~600MB)</td><td data-i18n="toolSetupSe">Needs a separate venv + ChromeDriverManager</td></tr>
+          <tr><td data-i18n="toolImpression">Impression after using it</td><td data-i18n="toolImpPw">Leanest config &amp; assertions</td><td data-i18n="toolImpCy">Nicest-reading API, but its Electron runner is less sandbox/headless-friendly</td><td data-i18n="toolImpSe">Most verbose, but the widest browser/language support industry-wide</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 05 WHEN FRAMEWORKS DISAGREE -->
+  <section class="content" id="disagree">
+    <div class="wrap">
+      <div class="section-num" data-i18n="disNum">05 · When Frameworks Disagree</div>
+      <h2 data-i18n="disTitle">Same claim, same site. <em>Opposite verdict.</em></h2>
+      <p class="lede" data-i18n="disLede">For the 26 cases run in both Playwright and Cypress, the overall pass rate matched exactly. But 2 of the 6 known-issue checks disagreed on the same day's run — which turned out to be the single most useful finding of this whole cycle.</p>
+
+      <div class="fw-flow">
+        <div class="fw-box warn">
+          <div class="fw-label">BUG-003 · Sort</div>
+          <div class="fw-rate" style="font-size:20px;" data-i18n="bugFwPw">Playwright: FAIL</div>
+          <div class="fw-detail" data-i18n="bugFwCy">Cypress: PASS — same day</div>
+        </div>
+        <div class="fw-box warn">
+          <div class="fw-label">BUG-007 · Dashboard speed</div>
+          <div class="fw-rate" style="font-size:20px;" data-i18n="bugFwPw2">Playwright: PASS</div>
+          <div class="fw-detail" data-i18n="bugFwCy2">Cypress: FAIL — same day</div>
+        </div>
+      </div>
+
+      <p data-i18n="dis003">BUG-003 (sort throws a JS error for <code>error_user</code>): Playwright always caught the "Sorting is broken!" alert; Cypress never did, on the same run. Most likely cause — Playwright and Cypress dispatch a <code>change</code> event on a <code>&lt;select&gt;</code> differently: Cypress simulates it in JavaScript, Playwright emulates input closer to real browser behavior via Chrome DevTools Protocol. The broken-sort logic in <code>error_user</code> is probably sensitive to exactly that difference — meaning the bug doesn't show up in every interaction style, which is more useful to know than a flat yes/no.</p>
+      <p data-i18n="dis007">BUG-007 (slow dashboard for <code>performance_glitch_user</code>): the check's threshold is 5 seconds — tight enough that Cypress's interactive Test Runner (more rendering overhead than Playwright's headless run) tipped it over the line while Playwright stayed under. Likely a threshold that's too tight for a stable pass/fail across tools, not a delay that actually changed.</p>
+
+      <h3 data-i18n="loginTitle">A cross-framework bug that wasn't SauceDemo's fault</h3>
+      <p data-i18n="loginLede">Adding LOGIN-08 (cart access without login redirects to the login page — one of the 3 cases from the triage table above) turned up a genuine tooling difference, not an app bug. Here's the actual chain, not a guess.</p>
+      <pre class="code"><span class="c">// Cypress, running LOGIN-08</span>
+cy.visit() failed trying to load: https://www.saucedemo.com/cart.html
+
+The response we received from your web server was: &gt; <span class="s">404: Not Found</span></pre>
+      <p data-i18n="loginInvestigate">Checked via Playwright's <code>response.status()</code>: saucedemo.com's server genuinely returns HTTP 404 for a direct hit on <code>/cart.html</code>. It isn't a real redirect — <code>/cart.html</code> is a client-side route (React Router), not something the server recognizes. But that 404 response body still ships the same React bundle, so the app boots anyway, and with no active session, client-side routing sends it to <code>/</code> within about 2 seconds.</p>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="behColFw">Framework</th><th data-i18n="behColDefault">Default behavior on a non-2xx status</th></tr></thead>
+        <tbody>
+          <tr><td>Playwright (<code>page.goto()</code>)</td><td data-i18n="behPw">Doesn't care about the status code — continues, lets the page's JS run. <code>toHaveURL()</code> auto-retries until the client-side redirect lands.</td></tr>
+          <tr><td>Cypress (<code>cy.visit()</code>)</td><td data-i18n="behCy">Fails hard on any non-2xx status, before the page's JS gets a chance to run — needs an explicit <code>{ failOnStatusCode: false }</code> to get past it.</td></tr>
+        </tbody>
+      </table>
+      <pre class="code"><span class="c">// The fix, in auth.cy.ts</span>
+cy.visit(<span class="s">'/cart.html'</span>, { failOnStatusCode: <span class="k">false</span> });</pre>
+      <p data-i18n="loginNote">LOGIN-08's test case description was also corrected in the CSV — it originally just said "redirects to login," which undersold how much more is actually going on. This was a bug in test assumptions, not a change in SauceDemo's behavior, so it stayed out of the Bug Report.</p>
+
+      <div class="pullquote" data-i18n="disPullquote">"Two frameworks reporting different results isn't automatically a bug in one of them — sometimes it's a real signal that a behavior is sensitive to exactly how you interact with the page, which is more useful information than a single tool's yes/no."</div>
+    </div>
+  </section>
+
+  <!-- 06 DEFECTS -->
+  <section class="content alt" id="defects">
+    <div class="wrap">
+      <div class="section-num" data-i18n="defectsNum">06 · Defect Regression, Verified Over Time</div>
+      <h2 data-i18n="defectsTitle">7 seeded bugs. <em>3 of them had already changed status.</em></h2>
+      <p class="lede" data-i18n="defectsLede">Every bug below is one SauceDemo seeds on purpose for QA practice, re-verified against the live site and dated — not a static list copied once and never rechecked.</p>
+
+      <div class="bug-grid">
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-001</span><span class="sev medium" data-i18n="sevMedium">Medium</span></div>
+          <h4 data-i18n="bug1Title">Product images don't match the product (<code>problem_user</code>)</h4>
+          <div class="bug-field"><strong data-i18n="fExpected">Expected</strong><span data-i18n="bug1Exp">Every product card shows its own correct image.</span></div>
+          <div class="bug-field"><strong data-i18n="fActual">Actual</strong><span data-i18n="bug1Act">All product cards show the same wrong image.</span></div>
+          <div class="bug-status still">✕ <span data-i18n="status1">Still reproduces — consistent across Playwright &amp; Cypress</span></div>
+        </div>
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-002</span><span class="sev medium" data-i18n="sevMedium">Medium</span></div>
+          <h4 data-i18n="bug2Title">Dashboard has several UI component issues (<code>visual_user</code>)</h4>
+          <div class="bug-field"><strong data-i18n="fExpected">Expected</strong><span data-i18n="bug2Exp">Every UI component renders at its correct position and value.</span></div>
+          <div class="bug-field"><strong data-i18n="fActual">Actual</strong><span data-i18n="bug2Act">Several components shift position or show wrong values — e.g. inflated prices, misplaced icons or buttons.</span></div>
+          <div class="bug-status manual">— <span data-i18n="status2">Not automated — layout drift needs a manual or visual-regression check</span></div>
+        </div>
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-003</span><span class="sev high" data-i18n="sevHigh">High</span></div>
+          <h4 data-i18n="bug3Title">Sort throws a JavaScript error (<code>error_user</code>)</h4>
+          <div class="bug-field"><strong data-i18n="fExpected">Expected</strong><span data-i18n="bug3Exp">The list re-sorts according to the selected option.</span></div>
+          <div class="bug-field"><strong data-i18n="fActual">Actual</strong><span data-i18n="bug3Act">Playwright: the list doesn't update and a "Sorting is broken!" alert fires. Cypress: no alert at all, same day.</span></div>
+          <div class="bug-status diverge">⚠ <span data-i18n="status3">Framework-dependent — occurs in Playwright, not in Cypress</span></div>
+        </div>
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-004</span><span class="sev high" data-i18n="sevHigh">High</span></div>
+          <h4 data-i18n="bug4Title">Add to Cart fails for some products (<code>error_user</code>)</h4>
+          <div class="bug-field"><strong data-i18n="fExpected">Expected</strong><span data-i18n="bug4Exp">Every "Add to cart" button is clickable and adds its item.</span></div>
+          <div class="bug-field"><strong data-i18n="fActual">Actual</strong><span data-i18n="bug4Act">Historically, some buttons worked and some didn't — no longer the case as of this cycle.</span></div>
+          <div class="bug-status fixed">✓ <span data-i18n="status4">No longer reproduces — consistent across Playwright, Cypress &amp; Selenium</span></div>
+        </div>
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-005</span><span class="sev high" data-i18n="sevHigh">High</span></div>
+          <h4 data-i18n="bug5Title">Last Name field rejects input during checkout (<code>error_user</code>)</h4>
+          <div class="bug-field"><strong data-i18n="fExpected">Expected</strong><span data-i18n="bug5Exp">The Last Name field accepts input.</span></div>
+          <div class="bug-field"><strong data-i18n="fActual">Actual</strong><span data-i18n="bug5Act">The field accepts no input at all.</span></div>
+          <div class="bug-status still">✕ <span data-i18n="status5">Still reproduces — consistent across Playwright &amp; Cypress</span></div>
+        </div>
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-006</span><span class="sev high" data-i18n="sevHigh">High</span></div>
+          <h4 data-i18n="bug6Title">Checkout can't be completed (<code>error_user</code>)</h4>
+          <div class="bug-field"><strong data-i18n="fExpected">Expected</strong><span data-i18n="bug6Exp">The order completes and the user reaches the confirmation page.</span></div>
+          <div class="bug-field"><strong data-i18n="fActual">Actual</strong><span data-i18n="bug6Act">Historically, the "Finish" button couldn't be clicked — no longer the case as of this cycle.</span></div>
+          <div class="bug-status fixed">✓ <span data-i18n="status6">No longer reproduces — consistent across Playwright &amp; Cypress</span></div>
+        </div>
+        <div class="bug-card">
+          <div class="bug-top"><span class="bug-id">BUG-007</span><span class="sev medium" data-i18n="sevMedium">Medium</span></div>
+          <h4 data-i18n="bug7Title">Dashboard responds slowly (<code>performance_glitch_user</code>)</h4>
+          <div class="bug-field"><strong data-i18n="fExpected">Expected</strong><span data-i18n="bug7Exp">Redirect to the inventory page with no noticeable delay.</span></div>
+          <div class="bug-field"><strong data-i18n="fActual">Actual</strong><span data-i18n="bug7Act">A seeded delay sits right at the 5-second threshold this check uses — close enough that pass/fail flips with runner overhead.</span></div>
+          <div class="bug-status diverge">⚠ <span data-i18n="status7">Framework-dependent — likely a too-tight threshold, not a changed delay</span></div>
+        </div>
+      </div>
+
+      <div class="bug-extra" data-i18n="bugExtraNote">
+        <strong>The honest headline of this cycle:</strong> re-running the suite found that 2 of 7 previously-recorded bugs (BUG-004, BUG-006) had already stopped reproducing, and 2 more (BUG-003, BUG-007) only reproduce depending on which framework asks. Only BUG-001 and BUG-005 are unambiguously, consistently still active. None of that would have surfaced without actually re-running the checks and comparing tools — not from trusting the last write-up.
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 CI/CD -->
+  <section class="content" id="cicd">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ciNum">07 · CI/CD &amp; Regression Discipline</div>
+      <h2 data-i18n="ciTitle">A checklist that gets reused. <em>Not written once and filed away.</em></h2>
+      <p class="lede" data-i18n="ciLede">GitHub Actions runs Playwright, Cypress, and Selenium in parallel on every push and pull request to <code>main</code>. Playwright and Cypress upload their reports as artifacts (7-day retention) so a failure can be inspected without re-running it locally first.</p>
+
+      <h3 data-i18n="checklistTitle">Regression checklist — 27 items across 5 areas</h3>
+      <div class="pill-list">
+        <span class="pill"><strong>8</strong> <span data-i18n="regCat1">Login</span></span>
+        <span class="pill"><strong>4</strong> <span data-i18n="regCat2">Cart</span></span>
+        <span class="pill"><strong>4</strong> <span data-i18n="regCat3">Sort</span></span>
+        <span class="pill"><strong>5</strong> <span data-i18n="regCat4">Checkout</span></span>
+        <span class="pill"><strong>6</strong> <span data-i18n="regCat5">Known-Issue Regression</span></span>
+      </div>
+      <p><a class="doclink" style="font-family:'JetBrains Mono',monospace" href="docs/09-Regression_Test_Checklist.md" target="_blank" rel="noopener" data-i18n="regFullLink">→ Full checklist (Markdown)</a></p>
+
+      <h3 data-i18n="katalonTitle">Katalon Studio — the honest fourth option</h3>
+      <p data-i18n="katalonP">A ready-to-paste Groovy script and setup guide exist for Katalon Studio (GUI/low-code) as a fourth framework option — but no <code>.prj</code> has actually been created or run, and GitHub-hosted runners don't ship the Katalon Runtime Engine. It's listed on the CV as "familiar with, ready to onboard," not "hands-on" — the same honesty rule applied to every tool across this portfolio.</p>
+
+      <h3 data-i18n="gapsTitle">What's covered, and what's an acknowledged gap</h3>
+      <table class="decision">
+        <thead><tr><th data-i18n="gapsColCovered">Covered</th><th data-i18n="gapsColGap">Acknowledged Gap</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="gap1a">Login, Cart, Sort, Checkout — positive, negative &amp; edge cases</td><td data-i18n="gap1b">Multi-browser — Chromium/Chrome only so far, not yet Firefox/WebKit/Safari</td></tr>
+          <tr><td data-i18n="gap2a">Regression across all 7 seeded bugs, run in both Playwright &amp; Cypress</td><td data-i18n="gap2b">No automated visual-regression check for BUG-002</td></tr>
+          <tr><td data-i18n="gap3a">Cross-framework validation — 2 bugs found to be framework-dependent</td><td data-i18n="gap3b">No mobile/responsive viewport testing</td></tr>
+          <tr><td data-i18n="gap4a">CI running all 3 frameworks in parallel on every push/PR</td><td data-i18n="gap4b">Cypress hasn't executed the 3 newest cases yet</td></tr>
+          <tr><td data-i18n="gap5a">Access-control basics — session-gated pages can't be reached directly</td><td data-i18n="gap5b">BUG-003 / BUG-007 root causes are informed theories, not yet debugged to 100% certainty</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 08 CLOSURE -->
+  <section class="content alt" id="closure">
+    <div class="wrap">
+      <div class="section-num" data-i18n="closureNum">08 · Closure &amp; Recommendations</div>
+      <h2 data-i18n="closureTitle">Ready as a regression baseline. <em>With four items still open.</em></h2>
+
+      <div class="density-grid">
+        <div class="density-card">
+          <div class="density-label" data-i18n="densStill">Still Active · 29%</div>
+          <div class="density-pct" style="color:var(--high)">2</div>
+          <div class="density-bar-track"><div class="density-bar" style="width:29%;background:var(--high)"></div></div>
+        </div>
+        <div class="density-card">
+          <div class="density-label" data-i18n="densFixed">No Longer Occurs · 29%</div>
+          <div class="density-pct" style="color:var(--green)">2</div>
+          <div class="density-bar-track"><div class="density-bar" style="width:29%;background:var(--green)"></div></div>
+        </div>
+        <div class="density-card">
+          <div class="density-label" data-i18n="densDiverge">Framework-Dependent · 29%</div>
+          <div class="density-pct" style="color:var(--medium)">2</div>
+          <div class="density-bar-track"><div class="density-bar" style="width:29%;background:var(--medium)"></div></div>
+        </div>
+        <div class="density-card">
+          <div class="density-label" data-i18n="densManual">Not Automated · 14%</div>
+          <div class="density-pct" style="color:var(--minor)">1</div>
+          <div class="density-bar-track"><div class="density-bar" style="width:14%;background:var(--minor)"></div></div>
+        </div>
+      </div>
+      <p class="data-note" data-i18n="densNote">Since SauceDemo isn't a product I own, this isn't a release go/no-go — it's a readiness check for using this suite as a regression baseline.</p>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="recColItem">Recommendation</th><th data-i18n="recColWhy">Why</th></tr></thead>
+        <tbody>
+          <tr><td class="status-pass" data-i18n="rec1">✅ Ready as a regression baseline</td><td data-i18n="rec1w">Core coverage (login/cart/sort/checkout) is solid — 100% passing across the full 29-case Playwright run, plus a 100%-passing Selenium smoke subset.</td></tr>
+          <tr><td class="status-warn" data-i18n="rec2">⚠️ Re-run Cypress</td><td data-i18n="rec2w">3 new cases (LOGIN-08, CHK-04, CHK-05) are written and type-check clean but haven't actually executed yet.</td></tr>
+          <tr><td class="status-warn" data-i18n="rec3">⚠️ Loosen the BUG-007 threshold</td><td data-i18n="rec3w">5 seconds is too tight, proven by a same-day cross-framework split result — move to 8–10s or measure delta against <code>standard_user</code> instead of an absolute number.</td></tr>
+          <tr><td data-i18n="rec4">🔍 Dig further into BUG-003</td><td data-i18n="rec4w">Try triggering sort via keyboard instead of <code>.select()</code> in both frameworks, or inspect SauceDemo's code in DevTools when the alert fires, to confirm the event-dispatch theory.</td></tr>
+          <tr><td data-i18n="rec5">📌 Make it a habit, not a one-off</td><td data-i18n="rec5w">This single cycle caught 2 stale bug statuses and 2 framework-dependent results — value that only shows up on repeat runs, via the CI pipeline that's already wired up.</td></tr>
+        </tbody>
+      </table>
+
+      <p class="data-note" data-i18n="signoff">Sign-off: QA Automation — self-executed portfolio project, 2026-08-10. Not a team project with a formal approval chain, so this line is kept as-is rather than inventing fictional names or roles — the same honesty principle applied throughout every document in this project.</p>
+    </div>
+  </section>
+
+  <!-- 09 LESSONS -->
+  <section class="content" id="lessons" style="background:var(--bg-dark);">
+    <div class="wrap">
+      <div class="section-num" style="color:var(--accent);" data-i18n="lessonsNum">09 · Lessons Learned</div>
+      <h2 style="color:white;" data-i18n="lessonsTitle">Automation doesn't replace judgment. <em style="color:var(--accent);">It just gives judgment better evidence.</em></h2>
+      <div class="lesson-cards">
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson1Label">Never trust old bug docs without re-verifying</div>
+          <p data-i18n="lesson1P">3 of 7 previously-recorded bugs turned out to have already changed status. <strong>Regression testing exists to catch drift, not just to confirm what's already written down</strong> — a lesson this cycle proved directly, not in theory.</p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson2Label">Two tools, two answers — and that's data, not noise</div>
+          <p data-i18n="lesson2P">BUG-003 and BUG-007 disagreed between Playwright and Cypress on the same day. <strong>Understanding why they disagreed mattered more than picking a "correct" tool</strong> — the disagreement itself was the finding.</p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson3Label">Debug the environment, not just the code</div>
+          <p data-i18n="lesson3P">When Cypress's Electron binary was blocked by a sandboxed dev environment, the fix wasn't reinstalling repeatedly. <strong>Checking <code>codesign</code>/<code>spctl</code> first</strong> confirmed it was an environment issue, not broken code.</p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson4Label">Triage before you add</div>
+          <p data-i18n="lesson4P">5 externally-written test cases were checked against the live site before merging — 3 added, 2 rejected as duplicates. <strong>Validating a claim is not the same as accepting it</strong>, and that difference is most of what a test-case review actually is.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ctaNum">Run It Yourself</div>
+      <h2 data-i18n="ctaTitle">The suite is real. <em>So is the site it runs against.</em></h2>
+      <p data-i18n="ctaP">No staging environment, no mock server — every command below hits the live saucedemo.com, the same way the results on this page were produced.</p>
+      <pre class="code"><span class="c"># Playwright — full 29-case suite</span>
+npm install
+npx playwright install chromium
+npm test
+
+<span class="c"># Cypress</span>
+npm run cypress:run
+
+<span class="c"># Selenium — smoke subset</span>
+cd automation/selenium &amp;&amp; pip install -r requirements.txt &amp;&amp; cd ../..
+npm run test:selenium</pre>
+      <div class="cta-buttons">
+        <a href="https://www.saucedemo.com/" target="_blank" rel="noopener" class="btn" data-i18n="ctaTarget">View Target App ↗</a>
+        <a href="/" class="btn ghost" data-i18n="ctaBack">← Back to portfolio</a>
+      </div>
+
+      <h3 style="color:white;margin-top:48px;" data-i18n="docsTitle">Full documentation set</h3>
+      <div class="doc-list">
+        <a href="docs/00-SDLC_STLC_Concept.md" target="_blank" rel="noopener">00 · SDLC_STLC_Concept.md</a>
+        <a href="docs/00-Testing_Types_Taxonomy.md" target="_blank" rel="noopener">00 · Testing_Types_Taxonomy.md</a>
+        <a href="docs/00-STLC_Tools_Mapping.md" target="_blank" rel="noopener">00 · STLC_Tools_Mapping.md</a>
+        <a href="docs/01-Test_Plan_SauceDemo.md" target="_blank" rel="noopener">01 · Test_Plan_SauceDemo.md</a>
+        <a href="docs/02-Test_Scenario_SauceDemo.md" target="_blank" rel="noopener">02 · Test_Scenario_SauceDemo.md</a>
+        <a href="docs/03-Test_Case_SauceDemo.csv" target="_blank" rel="noopener">03 · Test_Case_SauceDemo.csv</a>
+        <a href="docs/04-Test_Execution_Report.md" target="_blank" rel="noopener">04 · Test_Execution_Report.md</a>
+        <a href="docs/05-Bug_Report_SauceDemo.md" target="_blank" rel="noopener">05 · Bug_Report_SauceDemo.md</a>
+        <a href="docs/06-API_Testing_Not_Applicable.md" target="_blank" rel="noopener">06 · API_Testing_Not_Applicable.md</a>
+        <a href="docs/07-SQL_Validation_Not_Applicable.md" target="_blank" rel="noopener">07 · SQL_Validation_Not_Applicable.md</a>
+        <a href="docs/08-Test_Summary_Report.md" target="_blank" rel="noopener">08 · Test_Summary_Report.md</a>
+        <a href="docs/09-Regression_Test_Checklist.md" target="_blank" rel="noopener">09 · Regression_Test_Checklist.md</a>
+        <a href="docs/10-Panduan_Kerja_QA_Automation.md" target="_blank" rel="noopener">10 · Panduan_Kerja_QA_Automation.md</a>
+        <a href="docs/README.md" target="_blank" rel="noopener">README.md</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span data-i18n="footerLeft">© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a></span>
+      <span><a href="/#contact" data-i18n="footerContact">Get in touch</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        navBack:`← All projects`,
+        navProjects:`Projects`,
+        navContact:`Contact`,
+        kickerTag:`QA Automation Portfolio`,
+        heroTitle:`29 tests, three frameworks. <em>Two of them disagreed on the same bug.</em>`,
+        heroLede:`A regression suite for SauceDemo's login, cart, sort, and checkout flows — written three times over in
+        <strong>Playwright, Cypress, and Selenium</strong>, and run against the real live site, not a mock. Same 29 test
+        cases, same day — and two of the seven bugs SauceDemo seeds on purpose came back with a different verdict
+        depending on which framework asked.`,
+        heroMetaPlan:`<strong>Plan</strong> scope · test accounts · 3-framework strategy`,
+        heroMetaDesign:`<strong>Design</strong> 29 test cases · Login / Cart / Sort / Checkout / Known Issues`,
+        heroMetaExecute:`<strong>Execute</strong> Playwright · Cypress · Selenium, against the live site`,
+        heroMetaVerify:`<strong>Verify</strong> cross-framework diffs · CI regression · re-checked over time`,
+        disclosure:`<strong>Full disclosure:</strong> SauceDemo is a public demo site built by Sauce Labs specifically for QA
+        practice — its "bugs" are seeded on purpose, not defects in a product I own. What's real is the automation:
+        every test case, every result, and every framework disagreement below came from suites actually written and
+        actually run against the live saucedemo.com, not simulated.`,
+        stat1:`Test cases<br>× 3 frameworks`,
+        stat2:`Frameworks, one suite<br>Playwright · Cypress · Selenium`,
+        stat3:`Playwright pass rate<br>3 fails = bugs caught on purpose`,
+        stat4:`Bugs with<br>framework-dependent results`,
+        stat5:`Staging environments used<br>every run hits the live site`,
+        whyNum:`01 · Why This Project`,
+        whyTitle:`Automation postings ask for proof. <em>Not a tool list.</em>`,
+        whyLede:`Automation QA postings ask for the same concrete things, over and over: Playwright or Cypress, Selenium as a fallback, CI/CD, and the judgment to tell a genuine bug from a flaky test. Rather than claim all three as buzzwords, I wrote the identical 29-case regression suite in Playwright, Cypress, and Selenium and ran it against SauceDemo's real, public demo site — so every claim on this page is something I can walk through, not recite.`,
+        stlcColPhase:`STLC Phase`,
+        stlcColActivity:`What I Did`,
+        stlcColArtifact:`Artifact`,
+        stlc1:`No BRD here — SauceDemo is a live third-party site, so requirements were reverse-engineered by exploring it directly: 6 test accounts with different seeded behaviors, a cart, sort, and a 3-step checkout.`,
+        stlc2:`Defined scope, a 3-framework strategy, environment, and wrote down what's explicitly out of scope — and why — instead of leaving it implicit.`,
+        stlc3:`29 test cases across Login, Cart, Sort, Checkout, and known-issue regression — implemented as code in all three frameworks, not just documented.`,
+        stlc4:`Three parallel runners — Playwright (Chromium headless), Cypress (Electron + Chrome), Selenium (Chrome via webdriver-manager) — sharing one <code>.env</code> for test credentials.`,
+        stlc5:`Run for real against the live site: Playwright 26/29, Selenium 7/7 (smoke subset), Cypress 23/26 on the prior case set — run directly by me in the Cypress Test Runner.`,
+        stlc6:`Coverage gaps and recommendations written down, not left implicit — including which framework needs a re-run and which threshold needs loosening.`,
+        levelsTitle:`Which testing levels actually apply here`,
+        lvl1:`Not applicable — third-party app, no code access`,
+        lvl2:`Not applicable — monolithic client-side demo`,
+        lvl3:`Primary level of this project`,
+        lvl4:`The core of this project`,
+        lvl5:`The known-issues suite acts as one`,
+        scopeNum:`02 · Scope &amp; Test Accounts`,
+        scopeTitle:`Scoped around what's actually there. <em>Not a generic checklist.</em>`,
+        scopeLede:`SauceDemo doesn't have a real backend, a payment gateway, or a registration flow — so scope was drawn around what's actually there, not a generic e-commerce checklist copied from somewhere else.`,
+        inScopeLabel:`In Scope`,
+        inScopeList:`<li>Login: 6 test accounts — valid, invalid, case-sensitive, empty fields, locked-out, logout</li>
+            <li>Cart: add, remove from 2 different pages, Continue Shopping</li>
+            <li>Sort: all 4 options (Name A–Z/Z–A, Price low–high/high–low)</li>
+            <li>Checkout: single &amp; multi-item, required-field validation, special characters, total calculation</li>
+            <li>Regression against 7 seeded bugs across 4 special test accounts</li>`,
+        outScopeLabel:`Out of Scope`,
+        outScopeList:`<li>Register — the site has no registration feature at all</li>
+            <li>Payment processing — no real payment gateway; checkout uses fixed dummy data</li>
+            <li>Address validation — only required-field checks exist, no real format validation</li>
+            <li>API testing — SauceDemo is 100% client-rendered with no public API to test</li>`,
+        criteriaTitle:`Entry &amp; exit criteria`,
+        entryLabel:`Entry`,
+        entryVal:`Site reachable at saucedemo.com; all 6 test accounts confirmed still active`,
+        exitLabel:`Exit`,
+        exitVal:`All 29 cases executed in Playwright; every "failure" classified as a genuine seeded bug or a cross-framework anomaly traced to a root cause`,
+        envTitle:`Test environment`,
+        envAppLabel:`App`,
+        envBrowserLabel:`Browsers`,
+        envCiLabel:`CI`,
+        envToolsLabel:`Tools`,
+        acctTitle:`Test accounts — six personalities, one password`,
+        acctNote:`All published directly by SauceDemo on its own login page — nothing here is secret; they're just collected in <code>.env</code> so tests don't repeat the same strings everywhere.`,
+        acctColUser:`Account`,
+        acctColBehavior:`Behavior`,
+        acct1:`Normal flow, no seeded bugs`,
+        acct2:`Login always rejected`,
+        acct3:`Seeded UI/image bug — see BUG-001`,
+        acct4:`Seeded slow-dashboard bug — see BUG-007`,
+        acct5:`Seeded bugs across sort/cart/checkout — see BUG-003 to BUG-006`,
+        acct6:`Seeded layout bug — see BUG-002`,
+        acctPullquote:`"Six test accounts, six different personalities. <code>error_user</code> alone seeds four separate bugs across sort, cart, and checkout — figuring out which account maps to which bug was itself part of requirement analysis, not something handed to me on a ticket."`,
+        designNum:`03 · Test Design &amp; Case Triage`,
+        designTitle:`29 test cases. <em>Plus five I had to verify before trusting them.</em>`,
+        designLede:`Requirements broke down into 29 detailed test cases with steps, test data, and expected results — implemented directly as code, not left as a document nobody automates.`,
+        covColArea:`Area`,
+        covColCount:`Test Cases`,
+        covColRange:`ID Range`,
+        covLogin:`Login`,
+        covCart:`Cart`,
+        covSort:`Sort`,
+        covCheckout:`Checkout`,
+        covKnown:`Known-Issue Regression`,
+        covTotal:`<strong>Total</strong>`,
+        triageTitle:`Triage: validating someone else's test cases before merging them`,
+        triageLede:`On a later date, I received 5 manual test cases written by another QA (Checkout area) to check for validity against this project. Before adding any of them, I verified each claim directly against the live site with a throwaway Playwright script — run once, then deleted, never committed.`,
+        triageColSource:`Source`,
+        triageColClaim:`Claim`,
+        triageColResult:`Verified Against Live Site`,
+        triageColAction:`Outcome`,
+        tr1:`Checkout with valid data succeeds`,
+        tr1v:`✅ Valid`,
+        tr1o:`Not added — already covered by CHK-01`,
+        tr2:`Empty First Name shows a required-field error`,
+        tr2v:`✅ Valid`,
+        tr2o:`Not added — already covered by CHK-03`,
+        tr3:`Special characters should be rejected by validation`,
+        tr3v:`⚠️ Claim was backwards — SauceDemo accepts them with no validation`,
+        tr3o:`Added as CHK-04, to document the real (unvalidated) behavior`,
+        tr4:`Total = subtotal + tax`,
+        tr4v:`✅ Confirmed ($39.98 + $3.20 = $43.18)`,
+        tr4o:`Added as CHK-05`,
+        tr5:`Cart access without login redirects to the login page`,
+        tr5v:`✅ Confirmed`,
+        tr5o:`Added as LOGIN-08`,
+        triageNote:`3 of 5 claims were added as new cases; 2 were rejected as duplicates of existing coverage. Adding LOGIN-08 is exactly what surfaced the cross-framework bug in Section 05.`,
+        fwNum:`04 · Three Frameworks, One Suite`,
+        fwTitle:`The same 29 cases. <em>Written three times over, on purpose.</em>`,
+        fwLede:`Most teams standardize on one automation tool. Writing the identical suite in three was a deliberate comparison exercise — so a question like "why Playwright over Selenium?" gets answered from direct experience, not an article I read once.`,
+        resColFw:`Framework`,
+        resColBrowser:`Browser`,
+        resColTotal:`Total`,
+        resColPass:`Pass`,
+        resColFail:`Fail`,
+        resColRate:`Pass Rate`,
+        resColNotes:`Notes`,
+        resNote1:`3 fails are intentional — the known-issue checks below. Includes 3 new cases (LOGIN-08, CHK-04, CHK-05), all passing.`,
+        resExecuted:`executed`,
+        resNote2:`Needs a re-run to cover the 3 newest cases, which are written and type-check clean but not yet executed.`,
+        resNote3:`Smoke subset only — deliberately not extended to the 3 newest cases.`,
+        toolsTitle:`Playwright vs. Cypress vs. Selenium, from actually using all three`,
+        toolColAspect:`Aspect`,
+        toolLang:`Language here`,
+        toolExec:`Execution model`,
+        toolExecPw:`Node.js, browser engines bundled in`,
+        toolExecCy:`Electron as the runner, bundled browser driver`,
+        toolExecSe:`WebDriver protocol, needs an external driver (via webdriver-manager)`,
+        toolWait:`Auto-wait`,
+        toolWaitPw:`Built into every assertion`,
+        toolWaitCy:`Built into every <code>cy.</code> command`,
+        toolWaitSe:`Needs explicit <code>WebDriverWait</code>`,
+        toolSetup:`Setup speed here`,
+        toolSetupPw:`Fast — one <code>npx playwright install</code>`,
+        toolSetupCy:`Fast for the code, but the Electron binary is large (~600MB)`,
+        toolSetupSe:`Needs a separate venv + ChromeDriverManager`,
+        toolImpression:`Impression after using it`,
+        toolImpPw:`Leanest config &amp; assertions`,
+        toolImpCy:`Nicest-reading API, but its Electron runner is less sandbox/headless-friendly`,
+        toolImpSe:`Most verbose, but the widest browser/language support industry-wide`,
+        disNum:`05 · When Frameworks Disagree`,
+        disTitle:`Same claim, same site. <em>Opposite verdict.</em>`,
+        disLede:`For the 26 cases run in both Playwright and Cypress, the overall pass rate matched exactly. But 2 of the 6 known-issue checks disagreed on the same day's run — which turned out to be the single most useful finding of this whole cycle.`,
+        bugFwPw:`Playwright: FAIL`,
+        bugFwCy:`Cypress: PASS — same day`,
+        bugFwPw2:`Playwright: PASS`,
+        bugFwCy2:`Cypress: FAIL — same day`,
+        dis003:`BUG-003 (sort throws a JS error for <code>error_user</code>): Playwright always caught the "Sorting is broken!" alert; Cypress never did, on the same run. Most likely cause — Playwright and Cypress dispatch a <code>change</code> event on a <code>&lt;select&gt;</code> differently: Cypress simulates it in JavaScript, Playwright emulates input closer to real browser behavior via Chrome DevTools Protocol. The broken-sort logic in <code>error_user</code> is probably sensitive to exactly that difference — meaning the bug doesn't show up in every interaction style, which is more useful to know than a flat yes/no.`,
+        dis007:`BUG-007 (slow dashboard for <code>performance_glitch_user</code>): the check's threshold is 5 seconds — tight enough that Cypress's interactive Test Runner (more rendering overhead than Playwright's headless run) tipped it over the line while Playwright stayed under. Likely a threshold that's too tight for a stable pass/fail across tools, not a delay that actually changed.`,
+        loginTitle:`A cross-framework bug that wasn't SauceDemo's fault`,
+        loginLede:`Adding LOGIN-08 (cart access without login redirects to the login page — one of the 3 cases from the triage table above) turned up a genuine tooling difference, not an app bug. Here's the actual chain, not a guess.`,
+        loginInvestigate:`Checked via Playwright's <code>response.status()</code>: saucedemo.com's server genuinely returns HTTP 404 for a direct hit on <code>/cart.html</code>. It isn't a real redirect — <code>/cart.html</code> is a client-side route (React Router), not something the server recognizes. But that 404 response body still ships the same React bundle, so the app boots anyway, and with no active session, client-side routing sends it to <code>/</code> within about 2 seconds.`,
+        behColFw:`Framework`,
+        behColDefault:`Default behavior on a non-2xx status`,
+        behPw:`Doesn't care about the status code — continues, lets the page's JS run. <code>toHaveURL()</code> auto-retries until the client-side redirect lands.`,
+        behCy:`Fails hard on any non-2xx status, before the page's JS gets a chance to run — needs an explicit <code>{ failOnStatusCode: false }</code> to get past it.`,
+        loginNote:`LOGIN-08's test case description was also corrected in the CSV — it originally just said "redirects to login," which undersold how much more is actually going on. This was a bug in test assumptions, not a change in SauceDemo's behavior, so it stayed out of the Bug Report.`,
+        disPullquote:`"Two frameworks reporting different results isn't automatically a bug in one of them — sometimes it's a real signal that a behavior is sensitive to exactly how you interact with the page, which is more useful information than a single tool's yes/no."`,
+        defectsNum:`06 · Defect Regression, Verified Over Time`,
+        defectsTitle:`7 seeded bugs. <em>3 of them had already changed status.</em>`,
+        defectsLede:`Every bug below is one SauceDemo seeds on purpose for QA practice, re-verified against the live site and dated — not a static list copied once and never rechecked.`,
+        sevMedium:`Medium`,
+        bug1Title:`Product images don't match the product (<code>problem_user</code>)`,
+        fExpected:`Expected`,
+        bug1Exp:`Every product card shows its own correct image.`,
+        fActual:`Actual`,
+        bug1Act:`All product cards show the same wrong image.`,
+        status1:`Still reproduces — consistent across Playwright &amp; Cypress`,
+        bug2Title:`Dashboard has several UI component issues (<code>visual_user</code>)`,
+        bug2Exp:`Every UI component renders at its correct position and value.`,
+        bug2Act:`Several components shift position or show wrong values — e.g. inflated prices, misplaced icons or buttons.`,
+        status2:`Not automated — layout drift needs a manual or visual-regression check`,
+        sevHigh:`High`,
+        bug3Title:`Sort throws a JavaScript error (<code>error_user</code>)`,
+        bug3Exp:`The list re-sorts according to the selected option.`,
+        bug3Act:`Playwright: the list doesn't update and a "Sorting is broken!" alert fires. Cypress: no alert at all, same day.`,
+        status3:`Framework-dependent — occurs in Playwright, not in Cypress`,
+        bug4Title:`Add to Cart fails for some products (<code>error_user</code>)`,
+        bug4Exp:`Every "Add to cart" button is clickable and adds its item.`,
+        bug4Act:`Historically, some buttons worked and some didn't — no longer the case as of this cycle.`,
+        status4:`No longer reproduces — consistent across Playwright, Cypress &amp; Selenium`,
+        bug5Title:`Last Name field rejects input during checkout (<code>error_user</code>)`,
+        bug5Exp:`The Last Name field accepts input.`,
+        bug5Act:`The field accepts no input at all.`,
+        status5:`Still reproduces — consistent across Playwright &amp; Cypress`,
+        bug6Title:`Checkout can't be completed (<code>error_user</code>)`,
+        bug6Exp:`The order completes and the user reaches the confirmation page.`,
+        bug6Act:`Historically, the "Finish" button couldn't be clicked — no longer the case as of this cycle.`,
+        status6:`No longer reproduces — consistent across Playwright &amp; Cypress`,
+        bug7Title:`Dashboard responds slowly (<code>performance_glitch_user</code>)`,
+        bug7Exp:`Redirect to the inventory page with no noticeable delay.`,
+        bug7Act:`A seeded delay sits right at the 5-second threshold this check uses — close enough that pass/fail flips with runner overhead.`,
+        status7:`Framework-dependent — likely a too-tight threshold, not a changed delay`,
+        bugExtraNote:`<strong>The honest headline of this cycle:</strong> re-running the suite found that 2 of 7 previously-recorded bugs (BUG-004, BUG-006) had already stopped reproducing, and 2 more (BUG-003, BUG-007) only reproduce depending on which framework asks. Only BUG-001 and BUG-005 are unambiguously, consistently still active. None of that would have surfaced without actually re-running the checks and comparing tools — not from trusting the last write-up.`,
+        ciNum:`07 · CI/CD &amp; Regression Discipline`,
+        ciTitle:`A checklist that gets reused. <em>Not written once and filed away.</em>`,
+        ciLede:`GitHub Actions runs Playwright, Cypress, and Selenium in parallel on every push and pull request to <code>main</code>. Playwright and Cypress upload their reports as artifacts (7-day retention) so a failure can be inspected without re-running it locally first.`,
+        checklistTitle:`Regression checklist — 27 items across 5 areas`,
+        regCat1:`Login`,
+        regCat2:`Cart`,
+        regCat3:`Sort`,
+        regCat4:`Checkout`,
+        regCat5:`Known-Issue Regression`,
+        regFullLink:`→ Full checklist (Markdown)`,
+        katalonTitle:`Katalon Studio — the honest fourth option`,
+        katalonP:`A ready-to-paste Groovy script and setup guide exist for Katalon Studio (GUI/low-code) as a fourth framework option — but no <code>.prj</code> has actually been created or run, and GitHub-hosted runners don't ship the Katalon Runtime Engine. It's listed on the CV as "familiar with, ready to onboard," not "hands-on" — the same honesty rule applied to every tool across this portfolio.`,
+        gapsTitle:`What's covered, and what's an acknowledged gap`,
+        gapsColCovered:`Covered`,
+        gapsColGap:`Acknowledged Gap`,
+        gap1a:`Login, Cart, Sort, Checkout — positive, negative &amp; edge cases`,
+        gap1b:`Multi-browser — Chromium/Chrome only so far, not yet Firefox/WebKit/Safari`,
+        gap2a:`Regression across all 7 seeded bugs, run in both Playwright &amp; Cypress`,
+        gap2b:`No automated visual-regression check for BUG-002`,
+        gap3a:`Cross-framework validation — 2 bugs found to be framework-dependent`,
+        gap3b:`No mobile/responsive viewport testing`,
+        gap4a:`CI running all 3 frameworks in parallel on every push/PR`,
+        gap4b:`Cypress hasn't executed the 3 newest cases yet`,
+        gap5a:`Access-control basics — session-gated pages can't be reached directly`,
+        gap5b:`BUG-003 / BUG-007 root causes are informed theories, not yet debugged to 100% certainty`,
+        closureNum:`08 · Closure &amp; Recommendations`,
+        closureTitle:`Ready as a regression baseline. <em>With four items still open.</em>`,
+        densStill:`Still Active · 29%`,
+        densFixed:`No Longer Occurs · 29%`,
+        densDiverge:`Framework-Dependent · 29%`,
+        densManual:`Not Automated · 14%`,
+        densNote:`Since SauceDemo isn't a product I own, this isn't a release go/no-go — it's a readiness check for using this suite as a regression baseline.`,
+        recColItem:`Recommendation`,
+        recColWhy:`Why`,
+        rec1:`✅ Ready as a regression baseline`,
+        rec1w:`Core coverage (login/cart/sort/checkout) is solid — 100% passing across the full 29-case Playwright run, plus a 100%-passing Selenium smoke subset.`,
+        rec2:`⚠️ Re-run Cypress`,
+        rec2w:`3 new cases (LOGIN-08, CHK-04, CHK-05) are written and type-check clean but haven't actually executed yet.`,
+        rec3:`⚠️ Loosen the BUG-007 threshold`,
+        rec3w:`5 seconds is too tight, proven by a same-day cross-framework split result — move to 8–10s or measure delta against <code>standard_user</code> instead of an absolute number.`,
+        rec4:`🔍 Dig further into BUG-003`,
+        rec4w:`Try triggering sort via keyboard instead of <code>.select()</code> in both frameworks, or inspect SauceDemo's code in DevTools when the alert fires, to confirm the event-dispatch theory.`,
+        rec5:`📌 Make it a habit, not a one-off`,
+        rec5w:`This single cycle caught 2 stale bug statuses and 2 framework-dependent results — value that only shows up on repeat runs, via the CI pipeline that's already wired up.`,
+        signoff:`Sign-off: QA Automation — self-executed portfolio project, 2026-08-10. Not a team project with a formal approval chain, so this line is kept as-is rather than inventing fictional names or roles — the same honesty principle applied throughout every document in this project.`,
+        lessonsNum:`09 · Lessons Learned`,
+        lessonsTitle:`Automation doesn't replace judgment. <em style="color:var(--accent);">It just gives judgment better evidence.</em>`,
+        lesson1Label:`Never trust old bug docs without re-verifying`,
+        lesson1P:`3 of 7 previously-recorded bugs turned out to have already changed status. <strong>Regression testing exists to catch drift, not just to confirm what's already written down</strong> — a lesson this cycle proved directly, not in theory.`,
+        lesson2Label:`Two tools, two answers — and that's data, not noise`,
+        lesson2P:`BUG-003 and BUG-007 disagreed between Playwright and Cypress on the same day. <strong>Understanding why they disagreed mattered more than picking a "correct" tool</strong> — the disagreement itself was the finding.`,
+        lesson3Label:`Debug the environment, not just the code`,
+        lesson3P:`When Cypress's Electron binary was blocked by a sandboxed dev environment, the fix wasn't reinstalling repeatedly. <strong>Checking <code>codesign</code>/<code>spctl</code> first</strong> confirmed it was an environment issue, not broken code.`,
+        lesson4Label:`Triage before you add`,
+        lesson4P:`5 externally-written test cases were checked against the live site before merging — 3 added, 2 rejected as duplicates. <strong>Validating a claim is not the same as accepting it</strong>, and that difference is most of what a test-case review actually is.`,
+        ctaNum:`Run It Yourself`,
+        ctaTitle:`The suite is real. <em>So is the site it runs against.</em>`,
+        ctaP:`No staging environment, no mock server — every command below hits the live saucedemo.com, the same way the results on this page were produced.`,
+        ctaTarget:`View Target App ↗`,
+        ctaBack:`← Back to portfolio`,
+        docsTitle:`Full documentation set`,
+        footerLeft:`© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a>`,
+        footerContact:`Get in touch`,
+      },
+      id: {
+        navBack:`← Semua project`, navProjects:`Projects`, navContact:`Kontak`,
+        kickerTag:`Portofolio QA Automation`,
+        heroTitle:`29 test, tiga framework. <em>Dua di antaranya beda hasil untuk bug yang sama.</em>`,
+        heroLede:`Regression suite untuk alur login, cart, sort, dan checkout SauceDemo — ditulis tiga kali sekaligus di <strong>Playwright, Cypress, dan Selenium</strong>, dijalankan ke situs live sungguhan, bukan mock. 29 test case yang sama, di hari yang sama — dan dua dari tujuh bug yang memang sengaja disiapkan SauceDemo memberi hasil berbeda tergantung framework mana yang bertanya.`,
+        heroMetaPlan:`<strong>Plan</strong> scope · akun uji · strategi 3 framework`,
+        heroMetaDesign:`<strong>Design</strong> 29 test case · Login / Cart / Sort / Checkout / Known Issues`,
+        heroMetaExecute:`<strong>Execute</strong> Playwright · Cypress · Selenium, ke situs live`,
+        heroMetaVerify:`<strong>Verify</strong> beda hasil lintas framework · regresi CI · dicek ulang dari waktu ke waktu`,
+        disclosure:`<strong>Full disclosure:</strong> SauceDemo adalah situs demo publik milik Sauce Labs, dibuat khusus untuk latihan QA — "bug"-nya memang disiapkan sengaja, bukan defect dari produk milik saya. Yang nyata adalah automation-nya: setiap test case, setiap hasil, dan setiap perbedaan hasil antar framework di bawah ini benar-benar ditulis dan dijalankan ke saucedemo.com yang live, bukan simulasi.`,
+        stat1:`Test case<br>× 3 framework`, stat2:`Framework, satu suite<br>Playwright · Cypress · Selenium`, stat3:`Pass rate Playwright<br>3 gagal = bug yang memang dicari`, stat4:`Bug dengan<br>hasil beda antar framework`, stat5:`Environment staging dipakai<br>semua run ke situs live`,
+        whyNum:`01 · Kenapa Project Ini`,
+        whyTitle:`Lowongan automation minta bukti. <em>Bukan daftar tool.</em>`,
+        whyLede:`Lowongan QA automation selalu minta hal konkret yang sama: Playwright atau Cypress, Selenium sebagai cadangan, CI/CD, dan kemampuan membedakan bug sungguhan dari test yang flaky. Daripada sekadar menyebut ketiganya sebagai buzzword, saya menulis 29 test case yang identik di Playwright, Cypress, dan Selenium lalu menjalankannya ke situs demo publik SauceDemo — jadi setiap klaim di halaman ini bisa saya jelaskan detail, bukan dihafal.`,
+        stlcColPhase:`Fase STLC`, stlcColActivity:`Yang Saya Lakukan`, stlcColArtifact:`Artefak`,
+        stlc1:`Tidak ada BRD di sini — SauceDemo adalah situs pihak ketiga yang live, jadi requirement direkonstruksi lewat eksplorasi langsung: 6 akun uji dengan perilaku beda-beda, cart, sort, dan checkout 3 langkah.`,
+        stlc2:`Menentukan scope, strategi 3 framework, environment, dan menuliskan eksplisit apa yang di luar scope — beserta alasannya — bukan dibiarkan implisit.`,
+        stlc3:`29 test case mencakup Login, Cart, Sort, Checkout, dan regresi bug bawaan — langsung diimplementasikan sebagai kode di ketiga framework, bukan cuma didokumentasikan.`,
+        stlc4:`Tiga runner paralel — Playwright (Chromium headless), Cypress (Electron + Chrome), Selenium (Chrome via webdriver-manager) — berbagi satu <code>.env</code> untuk kredensial uji.`,
+        stlc5:`Dijalankan sungguhan ke situs live: Playwright 26/29, Selenium 7/7 (subset smoke test), Cypress 23/26 untuk set test sebelumnya — dijalankan langsung oleh saya di Cypress Test Runner.`,
+        stlc6:`Gap coverage dan rekomendasi dituliskan, bukan dibiarkan implisit — termasuk framework mana yang perlu dijalankan ulang dan ambang batas mana yang perlu dilonggarkan.`,
+        levelsTitle:`Level testing mana yang benar-benar berlaku di sini`,
+        lvl1:`Tidak berlaku — aplikasi pihak ketiga, tidak ada akses ke kode`,
+        lvl2:`Tidak berlaku — demo client-side yang monolitik`,
+        lvl3:`Level utama project ini`,
+        lvl4:`Inti dari project ini`,
+        lvl5:`Suite known-issues berfungsi seperti ini`,
+        scopeNum:`02 · Scope &amp; Akun Uji`,
+        scopeTitle:`Scope mengikuti yang benar-benar ada. <em>Bukan checklist generik.</em>`,
+        scopeLede:`SauceDemo tidak punya backend sungguhan, payment gateway, atau fitur registrasi — jadi scope ditentukan mengikuti yang benar-benar ada, bukan checklist e-commerce generik yang ditempel begitu saja.`,
+        inScopeLabel:`In Scope`, outScopeLabel:`Out of Scope`,
+        inScopeList:`<li>Login: 6 akun uji — valid, tidak valid, case-sensitive, field kosong, terkunci, logout</li><li>Cart: tambah, hapus dari 2 halaman berbeda, Continue Shopping</li><li>Sort: keempat opsi (Name A–Z/Z–A, Price low–high/high–low)</li><li>Checkout: satu &amp; banyak item, validasi field wajib, karakter spesial, perhitungan total</li><li>Regresi terhadap 7 bug bawaan di 4 akun uji khusus</li>`,
+        outScopeList:`<li>Register — situs ini memang tidak punya fitur registrasi</li><li>Proses pembayaran — tidak ada payment gateway sungguhan; checkout pakai data dummy tetap</li><li>Validasi alamat — hanya ada pengecekan field wajib, tidak ada validasi format sungguhan</li><li>API testing — SauceDemo 100% client-rendered, tidak ada API publik untuk diuji</li>`,
+        criteriaTitle:`Entry &amp; exit criteria`, entryLabel:`Entry`, entryVal:`Situs bisa diakses di saucedemo.com; keenam akun uji dikonfirmasi masih aktif`,
+        exitLabel:`Exit`, exitVal:`Seluruh 29 test case tereksekusi di Playwright; setiap "kegagalan" diklasifikasi sebagai bug bawaan sungguhan atau anomali lintas-framework yang sudah ditelusuri akar masalahnya`,
+        envTitle:`Environment pengujian`, envAppLabel:`App`, envBrowserLabel:`Browser`, envCiLabel:`CI`, envToolsLabel:`Tools`,
+        acctTitle:`Akun uji — enam kepribadian, satu password`,
+        acctNote:`Semuanya dipublikasikan langsung oleh SauceDemo di halaman login-nya — tidak ada yang rahasia di sini; hanya dikumpulkan di <code>.env</code> supaya test tidak mengulang string yang sama di banyak tempat.`,
+        acctColUser:`Akun`, acctColBehavior:`Perilaku`,
+        acct1:`Alur normal, tanpa bug bawaan`, acct2:`Login selalu ditolak`, acct3:`Bug UI/gambar bawaan — lihat BUG-001`, acct4:`Bug dashboard lambat bawaan — lihat BUG-007`, acct5:`Bug bawaan di sort/cart/checkout — lihat BUG-003 s.d. BUG-006`, acct6:`Bug tampilan bawaan — lihat BUG-002`,
+        acctPullquote:`"Enam akun uji, enam kepribadian berbeda. <code>error_user</code> sendirian menyimpan empat bug berbeda di sort, cart, dan checkout — mencari tahu akun mana memetakan ke bug mana itu sendiri sudah jadi bagian dari requirement analysis, bukan sesuatu yang sudah tertulis di tiket."`,
+        designNum:`03 · Desain Test &amp; Triase Case`,
+        designTitle:`29 test case. <em>Plus lima yang harus saya verifikasi dulu sebelum dipercaya.</em>`,
+        designLede:`Requirement diturunkan jadi 29 test case detail lengkap dengan langkah, data uji, dan hasil yang diharapkan — langsung diimplementasikan sebagai kode, bukan cuma dokumen yang tidak pernah diotomasi.`,
+        covColArea:`Area`, covColCount:`Jumlah Test Case`, covColRange:`Rentang ID`,
+        covLogin:`Login`, covCart:`Cart`, covSort:`Sort`, covCheckout:`Checkout`, covKnown:`Regresi Bug Bawaan`, covTotal:`Total`,
+        triageTitle:`Triase: memvalidasi test case orang lain sebelum digabungkan`,
+        triageLede:`Di tanggal berikutnya, saya menerima 5 test case manual (dibuat QA lain, area Checkout) untuk dicek validitasnya terhadap project ini. Sebelum ditambahkan, setiap klaimnya saya verifikasi langsung ke situs live pakai script Playwright sekali-pakai — dijalankan sekali, lalu dihapus, tidak pernah dikomit.`,
+        triageColSource:`Asal`, triageColClaim:`Klaim`, triageColResult:`Hasil Verifikasi ke Situs Live`, triageColAction:`Tindak Lanjut`,
+        tr1:`Checkout dengan data valid berhasil`, tr1v:`✅ Valid`, tr1o:`Tidak ditambahkan — sudah tercakup di CHK-01`,
+        tr2:`First Name kosong menampilkan error field wajib`, tr2v:`✅ Valid`, tr2o:`Tidak ditambahkan — sudah tercakup di CHK-03`,
+        tr3:`Karakter spesial seharusnya ditolak validasi`, tr3v:`⚠️ Klaimnya justru terbalik — SauceDemo menerimanya tanpa validasi sama sekali`, tr3o:`Ditambahkan sebagai CHK-04, untuk mendokumentasikan perilaku nyata (yang memang tidak divalidasi)`,
+        tr4:`Total = subtotal + tax`, tr4v:`✅ Terbukti benar ($39.98 + $3.20 = $43.18)`, tr4o:`Ditambahkan sebagai CHK-05`,
+        tr5:`Akses cart tanpa login diarahkan ke halaman login`, tr5v:`✅ Terbukti benar`, tr5o:`Ditambahkan sebagai LOGIN-08`,
+        triageNote:`3 dari 5 klaim ditambahkan sebagai case baru; 2 ditolak karena duplikat dari coverage yang sudah ada. Menambahkan LOGIN-08 inilah yang justru memunculkan bug lintas-framework di Bagian 05.`,
+        fwNum:`04 · Tiga Framework, Satu Suite`,
+        fwTitle:`29 case yang sama. <em>Ditulis tiga kali sekaligus, sengaja.</em>`,
+        fwLede:`Kebanyakan tim menstandarkan satu tool automation. Menulis suite yang identik di tiga sekaligus adalah latihan perbandingan yang sengaja dilakukan — supaya pertanyaan seperti "kenapa Playwright dibanding Selenium?" bisa dijawab dari pengalaman langsung, bukan dari artikel yang pernah dibaca.`,
+        resColFw:`Framework`, resColBrowser:`Browser`, resColTotal:`Total`, resColPass:`Lulus`, resColFail:`Gagal`, resColRate:`Pass Rate`, resColNotes:`Catatan`,
+        resExecuted:`tereksekusi`,
+        resNote1:`3 gagal memang disengaja — pengecekan known-issue di bawah. Termasuk 3 test case baru (LOGIN-08, CHK-04, CHK-05), semuanya lulus.`,
+        resNote2:`Perlu dijalankan ulang untuk melengkapi 3 test case terbaru, yang sudah ditulis dan lolos type-check tapi belum dieksekusi.`,
+        resNote3:`Subset smoke test saja — sengaja tidak diperluas ke 3 test case terbaru.`,
+        toolsTitle:`Playwright vs. Cypress vs. Selenium, dari benar-benar memakai ketiganya`,
+        toolColAspect:`Aspek`,
+        toolLang:`Bahasa di sini`, toolExec:`Model eksekusi`, toolWait:`Auto-wait`, toolSetup:`Kecepatan setup di sini`, toolImpression:`Kesan setelah dipakai`,
+        toolExecPw:`Node.js, browser engine sudah terbundel`, toolExecCy:`Electron sebagai runner, driver browser bawaan`, toolExecSe:`Protokol WebDriver, butuh driver eksternal (via webdriver-manager)`,
+        toolWaitPw:`Bawaan di setiap assertion`, toolWaitCy:`Bawaan di setiap perintah <code>cy.</code>`, toolWaitSe:`Butuh <code>WebDriverWait</code> eksplisit`,
+        toolSetupPw:`Cepat — satu <code>npx playwright install</code>`, toolSetupCy:`Cepat untuk kodenya, tapi binary Electron-nya besar (~600MB)`, toolSetupSe:`Butuh venv terpisah + ChromeDriverManager`,
+        toolImpPw:`Config &amp; assertion paling ringkas`, toolImpCy:`API paling enak dibaca, tapi runner Electron-nya kurang ramah sandbox/headless`, toolImpSe:`Paling verbose, tapi dukungan browser/bahasa paling luas di industri`,
+        disNum:`05 · Saat Framework Beda Pendapat`,
+        disTitle:`Klaim sama, situs sama. <em>Hasil berlawanan.</em>`,
+        disLede:`Untuk 26 case yang dijalankan di Playwright maupun Cypress, pass rate keseluruhannya sama persis. Tapi 2 dari 6 pengecekan known-issue beda hasil di hari yang sama — dan itu justru jadi temuan paling berguna dari seluruh siklus ini.`,
+        bugFwPw:`Playwright: GAGAL`, bugFwCy:`Cypress: LULUS — hari yang sama`,
+        bugFwPw2:`Playwright: LULUS`, bugFwCy2:`Cypress: GAGAL — hari yang sama`,
+        dis003:`BUG-003 (sort memicu error JS untuk <code>error_user</code>): Playwright selalu menangkap alert "Sorting is broken!"; Cypress tidak sama sekali, di run yang sama. Dugaan penyebab paling masuk akal — Playwright dan Cypress men-dispatch event <code>change</code> pada elemen <code>&lt;select&gt;</code> dengan cara berbeda: Cypress mensimulasikannya lewat JavaScript, Playwright mengemulasi input lebih dekat ke perilaku browser asli lewat Chrome DevTools Protocol. Logika broken-sort di <code>error_user</code> kemungkinan sensitif persis terhadap perbedaan itu — artinya bug ini tidak muncul di semua cara interaksi, informasi yang lebih berguna daripada sekadar ya/tidak.`,
+        dis007:`BUG-007 (dashboard lambat untuk <code>performance_glitch_user</code>): ambang batas pengecekan ini 5 detik — cukup ketat sehingga Cypress Test Runner (overhead render lebih besar daripada Playwright headless) membuatnya melewati batas, sementara Playwright tetap di bawahnya. Kemungkinan besar ambang batasnya yang terlalu ketat untuk pass/fail stabil lintas tool, bukan delay yang benar-benar berubah.`,
+        loginTitle:`Bug lintas-framework yang bukan salah SauceDemo`,
+        loginLede:`Menambahkan LOGIN-08 (akses cart tanpa login diarahkan ke halaman login — satu dari 3 case hasil triase di tabel atas) justru memunculkan perbedaan tooling sungguhan, bukan bug aplikasi. Berikut alur sebenarnya, bukan dugaan.`,
+        loginInvestigate:`Diverifikasi lewat <code>response.status()</code> milik Playwright: server saucedemo.com benar-benar membalas HTTP 404 untuk akses langsung ke <code>/cart.html</code>. Ini bukan redirect sungguhan — <code>/cart.html</code> adalah route client-side (React Router), bukan sesuatu yang dikenal server. Tapi body respons 404 itu tetap memuat bundel React yang sama, jadi aplikasinya tetap boot, dan karena tidak ada sesi aktif, routing client-side mengarahkan ke <code>/</code> dalam ±2 detik.`,
+        behColFw:`Framework`, behColDefault:`Perilaku default terhadap status non-2xx`,
+        behPw:`Tidak peduli status code — tetap lanjut, membiarkan JS halaman jalan. <code>toHaveURL()</code> auto-retry sampai redirect client-side-nya muncul.`,
+        behCy:`Gagal keras untuk status non-2xx apa pun, sebelum JS halaman sempat jalan — butuh <code>{ failOnStatusCode: false }</code> secara eksplisit untuk melewatinya.`,
+        loginNote:`Deskripsi test case LOGIN-08 juga diperbaiki di CSV — sebelumnya cuma bilang "diarahkan ke halaman login", padahal mekanismenya jauh lebih rumit dari itu. Ini murni bug di asumsi test, bukan perubahan perilaku SauceDemo, jadi tidak dimasukkan ke Bug Report.`,
+        disPullquote:`"Dua framework memberi hasil berbeda bukan otomatis berarti ada bug di salah satunya — kadang itu sinyal nyata bahwa suatu perilaku sensitif terhadap cara berinteraksi dengan halaman, informasi yang lebih berguna daripada sekadar ya/tidak dari satu tool saja."`,
+        defectsNum:`06 · Regresi Defect, Diverifikasi dari Waktu ke Waktu`,
+        defectsTitle:`7 bug bawaan. <em>3 di antaranya ternyata sudah berubah status.</em>`,
+        defectsLede:`Setiap bug di bawah memang sengaja disiapkan SauceDemo untuk latihan QA, diverifikasi ulang ke situs live dan diberi tanggal — bukan daftar statis yang disalin sekali lalu tidak pernah dicek ulang.`,
+        sevMedium:`Sedang`, sevHigh:`Tinggi`,
+        bug1Title:`Gambar produk tidak sesuai (<code>problem_user</code>)`,
+        bug2Title:`Dashboard punya beberapa masalah komponen UI (<code>visual_user</code>)`,
+        bug3Title:`Sort memicu error JavaScript (<code>error_user</code>)`,
+        bug4Title:`Add to Cart gagal di sebagian produk (<code>error_user</code>)`,
+        bug5Title:`Field Last Name menolak input saat checkout (<code>error_user</code>)`,
+        bug6Title:`Checkout tidak bisa diselesaikan (<code>error_user</code>)`,
+        bug7Title:`Dashboard merespons lambat (<code>performance_glitch_user</code>)`,
+        fExpected:`Diharapkan`, fActual:`Kenyataan`,
+        bug1Exp:`Setiap kartu produk menampilkan gambarnya masing-masing yang benar.`, bug1Act:`Semua kartu produk menampilkan gambar yang sama dan salah.`,
+        bug2Exp:`Semua komponen UI tampil di posisi dan nilai yang benar.`, bug2Act:`Beberapa komponen bergeser posisi atau menampilkan nilai salah — mis. harga membengkak, ikon/tombol bergeser.`,
+        bug3Exp:`Daftar item terurut ulang sesuai pilihan yang dipilih.`, bug3Act:`Playwright: daftar tidak berubah dan alert "Sorting is broken!" muncul. Cypress: alert sama sekali tidak muncul, di hari yang sama.`,
+        bug4Exp:`Semua tombol "Add to cart" bisa diklik dan menambahkan itemnya.`, bug4Act:`Sebelumnya sebagian tombol berfungsi, sebagian tidak — sudah tidak terjadi lagi per siklus ini.`,
+        bug5Exp:`Field Last Name menerima input.`, bug5Act:`Field tidak menerima input apa pun.`,
+        bug6Exp:`Pesanan selesai; pengguna sampai di halaman konfirmasi.`, bug6Act:`Sebelumnya tombol "Finish" tidak bisa diklik — sudah tidak terjadi lagi per siklus ini.`,
+        bug7Exp:`Pengalihan ke halaman inventory tanpa delay yang terasa.`, bug7Act:`Delay bawaan berada tepat di ambang batas 5 detik yang dipakai pengecekan ini — cukup dekat sehingga pass/fail berpindah tergantung overhead runner.`,
+        status1:`Masih terjadi — konsisten di Playwright &amp; Cypress`,
+        status2:`Tidak diotomasi — pergeseran layout perlu pengecekan manual atau visual-regression`,
+        status3:`Framework-dependent — terjadi di Playwright, tidak di Cypress`,
+        status4:`Sudah tidak terjadi lagi — konsisten di Playwright, Cypress &amp; Selenium`,
+        status5:`Masih terjadi — konsisten di Playwright &amp; Cypress`,
+        status6:`Sudah tidak terjadi lagi — konsisten di Playwright &amp; Cypress`,
+        status7:`Framework-dependent — kemungkinan besar ambang batas terlalu ketat, bukan delay yang berubah`,
+        bugExtraNote:`<strong>Headline jujur dari siklus ini:</strong> menjalankan ulang suite menemukan bahwa 2 dari 7 bug yang sebelumnya tercatat (BUG-004, BUG-006) ternyata sudah tidak terjadi lagi, dan 2 lagi (BUG-003, BUG-007) hanya terjadi tergantung framework mana yang bertanya. Hanya BUG-001 dan BUG-005 yang jelas dan konsisten masih aktif. Semua ini tidak akan ketahuan tanpa benar-benar menjalankan ulang pengecekan dan membandingkan tool — bukan dari sekadar percaya catatan terakhir.`,
+        ciNum:`07 · CI/CD &amp; Disiplin Regresi`,
+        ciTitle:`Checklist yang dipakai ulang. <em>Bukan ditulis sekali lalu disimpan begitu saja.</em>`,
+        ciLede:`GitHub Actions menjalankan Playwright, Cypress, dan Selenium secara paralel di setiap push dan pull request ke <code>main</code>. Playwright dan Cypress mengunggah laporannya sebagai artifact (retensi 7 hari) supaya kegagalan bisa diperiksa tanpa harus menjalankan ulang secara lokal dulu.`,
+        checklistTitle:`Regression checklist — 27 item di 5 area`,
+        regCat1:`Login`, regCat2:`Cart`, regCat3:`Sort`, regCat4:`Checkout`, regCat5:`Regresi Bug Bawaan`,
+        regFullLink:`→ Lihat checklist lengkap (Markdown)`,
+        katalonTitle:`Katalon Studio — opsi keempat yang jujur`,
+        katalonP:`Panduan setup dan script Groovy siap-pakai sudah ada untuk Katalon Studio (GUI/low-code) sebagai opsi framework keempat — tapi belum ada <code>.prj</code> yang benar-benar dibuat atau dijalankan, dan GitHub-hosted runner tidak menyertakan Katalon Runtime Engine. Di CV dicantumkan sebagai "familiar dengan, siap onboarding", bukan "hands-on" — prinsip kejujuran yang sama dipakai untuk setiap tool di seluruh portofolio ini.`,
+        gapsTitle:`Apa yang sudah tercakup, dan apa yang jujur diakui sebagai gap`,
+        gapsColCovered:`Sudah Tercakup`, gapsColGap:`Gap yang Diakui`,
+        gap1a:`Login, Cart, Sort, Checkout — kasus positive, negative &amp; edge`, gap1b:`Multi-browser — baru Chromium/Chrome, belum Firefox/WebKit/Safari`,
+        gap2a:`Regresi terhadap ketujuh bug bawaan, dijalankan di Playwright &amp; Cypress`, gap2b:`Belum ada pengecekan visual-regression otomatis untuk BUG-002`,
+        gap3a:`Validasi lintas-framework — 2 bug ditemukan framework-dependent`, gap3b:`Belum ada pengujian viewport mobile/responsive`,
+        gap4a:`CI menjalankan ketiga framework paralel di setiap push/PR`, gap4b:`Cypress belum mengeksekusi 3 test case terbaru`,
+        gap5a:`Access-control dasar — halaman ber-sesi tidak bisa diakses langsung`, gap5b:`Akar penyebab BUG-003/BUG-007 masih dugaan teknis, belum di-debug sampai 100% pasti`,
+        closureNum:`08 · Penutupan &amp; Rekomendasi`,
+        closureTitle:`Siap jadi baseline regresi. <em>Dengan empat catatan yang masih terbuka.</em>`,
+        densStill:`Masih Aktif · 29%`, densFixed:`Sudah Tidak Terjadi · 29%`, densDiverge:`Framework-Dependent · 29%`, densManual:`Tidak Diotomasi · 14%`,
+        densNote:`Karena SauceDemo bukan produk yang saya miliki, ini bukan keputusan go/no-go rilis — ini pengecekan kesiapan suite ini dipakai sebagai baseline regresi.`,
+        recColItem:`Rekomendasi`, recColWhy:`Alasan`,
+        rec1:`✅ Layak dipakai sebagai baseline regresi`, rec1w:`Cakupan inti (login/cart/sort/checkout) solid — 100% lulus di seluruh 29 test case Playwright, plus subset smoke Selenium yang 100% lulus juga.`,
+        rec2:`⚠️ Jalankan ulang Cypress`, rec2w:`3 test case baru (LOGIN-08, CHK-04, CHK-05) sudah ditulis dan lolos type-check tapi belum benar-benar dieksekusi.`,
+        rec3:`⚠️ Longgarkan ambang batas BUG-007`, rec3w:`5 detik terlalu ketat, terbukti dari hasil yang beda antar framework di hari yang sama — naikkan ke 8–10 detik atau ukur delta relatif terhadap <code>standard_user</code> alih-alih angka absolut.`,
+        rec4:`🔍 Investigasi BUG-003 lebih lanjut`, rec4w:`Coba trigger sort lewat keyboard alih-alih <code>.select()</code> di kedua framework, atau inspeksi kode SauceDemo lewat DevTools saat alert muncul, untuk mengonfirmasi dugaan soal event dispatch.`,
+        rec5:`📌 Jadikan kebiasaan, bukan sekali jalan`, rec5w:`Satu siklus ini saja menangkap 2 status bug yang basi dan 2 hasil framework-dependent — nilai yang hanya muncul dari run berulang, lewat pipeline CI yang sudah tersedia.`,
+        signoff:`Sign-off: QA Automation — project portofolio yang dijalankan sendiri, 2026-08-10. Bukan project tim dengan rantai approval formal, jadi baris ini dibiarkan apa adanya, bukan dibuat-buat nama/peran fiktif — prinsip kejujuran yang sama dipegang di seluruh dokumen project ini.`,
+        lessonsNum:`09 · Pelajaran`,
+        lessonsTitle:`Automation tidak menggantikan penilaian. <em style="color:var(--accent);">Cuma memberi penilaian bukti yang lebih baik.</em>`,
+        lesson1Label:`Jangan pernah percaya dokumentasi bug lama tanpa verifikasi ulang`,
+        lesson1P:`3 dari 7 bug yang sebelumnya tercatat ternyata sudah berubah status. <strong>Regression testing ada untuk menangkap drift, bukan cuma mengonfirmasi yang sudah tertulis</strong> — pelajaran yang dibuktikan langsung oleh siklus ini, bukan cuma teori.`,
+        lesson2Label:`Dua tool, dua jawaban — dan itu data, bukan noise`,
+        lesson2P:`BUG-003 dan BUG-007 beda hasil antara Playwright dan Cypress di hari yang sama. <strong>Memahami kenapa keduanya beda lebih penting daripada memilih tool yang "benar"</strong> — perbedaan itu sendiri yang jadi temuannya.`,
+        lesson3Label:`Debug environment-nya, bukan cuma kodenya`,
+        lesson3P:`Saat binary Electron milik Cypress diblokir sandbox development environment, solusinya bukan install ulang berkali-kali. <strong>Mengecek <code>codesign</code>/<code>spctl</code> dulu</strong> memastikan itu masalah environment, bukan kode yang rusak.`,
+        lesson4Label:`Triase dulu sebelum menambahkan`,
+        lesson4P:`5 test case buatan orang lain dicek dulu ke situs live sebelum digabungkan — 3 ditambahkan, 2 ditolak karena duplikat. <strong>Memvalidasi klaim itu tidak sama dengan menerimanya begitu saja</strong>, dan perbedaan itulah inti dari review test case sesungguhnya.`,
+        ctaNum:`Coba Jalankan Sendiri`,
+        ctaTitle:`Suite-nya nyata. <em>Situsnya pun nyata.</em>`,
+        ctaP:`Tidak ada environment staging, tidak ada mock server — setiap perintah di bawah ini mengenai saucedemo.com yang live, persis seperti cara hasil di halaman ini diproduksi.`,
+        ctaTarget:`Lihat Aplikasi Target ↗`, ctaBack:`← Kembali ke portfolio`,
+        docsTitle:`Set dokumentasi lengkap`,
+        footerLeft:`© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a>`, footerContact:`Hubungi saya`,
+      }
+    };
+
+    let currentLang = 'en';
+    function applyTranslations(lang) {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang]?.[key] !== undefined) el.innerHTML = translations[lang][key];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (translations[lang]?.[key] !== undefined) el.innerHTML = translations[lang][key];
+      });
+      document.documentElement.lang = lang;
+    }
+    document.querySelectorAll('[data-lang-target]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-lang-target');
+        if (target === currentLang) return;
+        currentLang = target;
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-lang-target') === target));
+        applyTranslations(target);
+      });
+    });
+
+    // Theme toggle
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      function update(t){ btn.textContent = t==='dark'?'☀':'🌙'; btn.setAttribute('aria-label', t==='dark'?'Switch to light mode':'Switch to dark mode'); }
+      update(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click', function(){
+        const next = html.getAttribute('data-theme')==='dark'?'light':'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        update(next);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+ID Test,Area,Judul,Prasyarat,Langkah,Data Uji,Hasil yang Diharapkan,Prioritas,Diotomasi Di
+LOGIN-01,Login,Login dengan username dan password yang benar,Berada di halaman login,"1. Isi username
+2. Isi password
+3. Klik Login",username=standard_user;password=secret_sauce,Diarahkan ke /inventory.html; judul Products terlihat,Tinggi,auth.spec.ts / auth.cy.ts / test_saucedemo.py
+LOGIN-02,Login,Login dengan username dan password yang salah,Berada di halaman login,"1. Isi username
+2. Isi password
+3. Klik Login",username=invalid_user;password=wrong_password,"Muncul pesan error ""Epic sadface: Username and password do not match any user in this service""; tetap berada di halaman login",Tinggi,auth.spec.ts / auth.cy.ts / test_saucedemo.py
+LOGIN-03,Login,Login dengan username benar tapi beda huruf besar/kecil,Berada di halaman login,"1. Isi STANDARD_USER
+2. Isi secret_sauce
+3. Klik Login",username=STANDARD_USER;password=secret_sauce,"Muncul pesan error ""Epic sadface: Username and password do not match any user in this service"" (username bersifat case-sensitive)",Sedang,auth.spec.ts / auth.cy.ts
+LOGIN-04,Login,Login dengan username kosong,Berada di halaman login,"1. Biarkan username kosong
+2. Isi password
+3. Klik Login",password=secret_sauce,"Muncul pesan error ""Epic sadface: Username is required""",Tinggi,auth.spec.ts / auth.cy.ts
+LOGIN-05,Login,Login dengan password kosong,Berada di halaman login,"1. Isi username
+2. Biarkan password kosong
+3. Klik Login",username=standard_user,"Muncul pesan error ""Epic sadface: Password is required""",Tinggi,auth.spec.ts / auth.cy.ts
+LOGIN-06,Login,Login dengan akun yang terkunci,Berada di halaman login,"1. Isi locked_out_user
+2. Isi secret_sauce
+3. Klik Login",username=locked_out_user;password=secret_sauce,"Muncul pesan error ""Epic sadface: Sorry, this user has been locked out.""",Tinggi,auth.spec.ts / auth.cy.ts / test_saucedemo.py
+LOGIN-07,Login,Logout kembali ke halaman login,Sudah login,"1. Buka menu hamburger
+2. Klik Logout",—,Diarahkan kembali ke / dengan form login terlihat,Sedang,auth.spec.ts / auth.cy.ts
+LOGIN-08,Login,Akses halaman cart tanpa login akhirnya menampilkan halaman login,Belum login (tidak ada sesi aktif),1. Akses langsung URL /cart.html tanpa login terlebih dahulu,url=https://www.saucedemo.com/cart.html,"Server membalas HTTP 404 (bukan redirect HTTP sungguhan, /cart.html hanya route client-side), tapi app tetap boot dari body 404-nya dan redirect ke / lewat client-side routing dalam ±2 detik; halaman cart tidak pernah benar-benar tampil",Sedang,auth.spec.ts / auth.cy.ts
+CART-01,Keranjang,Add to cart mengubah tombol dan badge,Sudah login,1. Klik Add to cart pada sebuah item,—,Tombol berubah jadi Remove; badge keranjang menunjukkan angka 1,Tinggi,cart.spec.ts / cart.cy.ts / test_saucedemo.py
+CART-02,Keranjang,Hapus item dari halaman inventory menghilangkan badge,Item sudah ada di keranjang,1. Klik Remove pada kartu item,—,Badge keranjang hilang,Sedang,cart.spec.ts / cart.cy.ts
+CART-03,Keranjang,Hapus item dari halaman keranjang,Item sudah ada di keranjang; berada di halaman keranjang,1. Klik Remove pada daftar keranjang,—,Item tidak lagi tercantum di keranjang,Sedang,cart.spec.ts / cart.cy.ts
+CART-04,Keranjang,Continue Shopping kembali ke halaman inventory,Berada di halaman keranjang,1. Klik Continue Shopping,—,Diarahkan ke /inventory.html,Rendah,cart.spec.ts / cart.cy.ts
+SORT-01,Pengurutan,Name (A to Z),Sudah login,1. Pilih Name (A to Z) di dropdown sort,—,Item tampil terurut alfabet dari A ke Z,Sedang,sort.spec.ts / sort.cy.ts
+SORT-02,Pengurutan,Name (Z to A),Sudah login,1. Pilih Name (Z to A) di dropdown sort,—,Item tampil terurut alfabet dari Z ke A,Sedang,sort.spec.ts / sort.cy.ts
+SORT-03,Pengurutan,Price (low to high),Sudah login,1. Pilih Price (low to high) di dropdown sort,—,Item tampil terurut harga dari termurah ke termahal,Sedang,sort.spec.ts / sort.cy.ts / test_saucedemo.py
+SORT-04,Pengurutan,Price (high to low),Sudah login,1. Pilih Price (high to low) di dropdown sort,—,Item tampil terurut harga dari termahal ke termurah,Sedang,sort.spec.ts / sort.cy.ts
+CHK-01,Checkout,Checkout satu item,Sudah login,"1. Tambahkan item ke keranjang
+2. Buka keranjang, klik Checkout
+3. Isi First/Last Name + Postal Code
+4. Klik Continue, lalu Finish",firstName=John;lastName=Doe;zip=12345,"Muncul konfirmasi ""Thank you for your order!""",Tinggi,checkout.spec.ts / checkout.cy.ts / test_saucedemo.py
+CHK-02,Checkout,Checkout beberapa item sekaligus,Sudah login,"1. Tambahkan 3 item ke keranjang
+2. Buka keranjang, klik Checkout
+3. Isi semua field wajib
+4. Klik Continue, lalu Finish",firstName=Jane;lastName=Smith;zip=54321,"Muncul konfirmasi ""Thank you for your order!""",Tinggi,checkout.spec.ts / checkout.cy.ts
+CHK-03,Checkout,Checkout diblokir jika ada field wajib yang kosong,Item sudah ada di keranjang; berada di halaman Checkout: Your Information,"1. Kosongkan salah satu dari First Name / Last Name / Postal Code
+2. Isi dua field lainnya
+3. Klik Continue","kasus 1: First Name kosong
+kasus 2: Last Name kosong
+kasus 3: Postal Code kosong","Muncul pesan ""Error: <field> is required""; tetap berada di halaman Checkout: Your Information",Tinggi,checkout.spec.ts / checkout.cy.ts
+CHK-04,Checkout,Checkout menerima karakter spesial tanpa validasi format,Item sudah ada di keranjang; berada di halaman Checkout: Your Information,"1. Isi First Name/Last Name/Postal Code dengan karakter spesial
+2. Klik Continue",firstName=!@#$%;lastName=09876;zip=ASD!!,"Karakter diterima tanpa validasi format, lanjut ke Checkout: Overview — bukan bug, demo site memang hanya mengecek field wajib diisi, tidak memvalidasi format karakter",Rendah,checkout.spec.ts / checkout.cy.ts
+CHK-05,Checkout,Verifikasi perhitungan total harga di checkout overview,Beberapa item ada di keranjang; berada di halaman Checkout: Overview,1. Bandingkan Item total + Tax dengan Total yang ditampilkan,—,Total = Item total + Tax (perhitungan matematis benar),Sedang,checkout.spec.ts / checkout.cy.ts
+BUG-001,Bug bawaan,problem_user menampilkan gambar produk yang tidak sesuai,Sudah login sebagai problem_user,1. Periksa gambar produk di halaman inventory,username=problem_user,Setiap produk seharusnya menampilkan gambarnya masing-masing yang berbeda,Sedang,known-issues.spec.ts / known-issues.cy.ts
+BUG-003,Bug bawaan,Sort milik error_user seharusnya tidak menampilkan error JavaScript,Sudah login sebagai error_user,1. Ubah pilihan sort,username=error_user,"Tidak muncul dialog alert ""Sorting is broken!""",Tinggi,known-issues.spec.ts / known-issues.cy.ts
+BUG-004,Bug bawaan,Add to cart milik error_user seharusnya berfungsi di semua item,Sudah login sebagai error_user,1. Periksa semua tombol Add to cart,username=error_user,Semua tombol Add to cart aktif dan bisa diklik,Tinggi,known-issues.spec.ts / known-issues.cy.ts / test_saucedemo.py
+BUG-005,Bug bawaan,Field Last Name milik error_user seharusnya bisa diisi,Sudah login sebagai error_user; berada di halaman checkout,1. Isi field Last Name,username=error_user,Field menyimpan nilai yang diketik,Tinggi,known-issues.spec.ts / known-issues.cy.ts
+BUG-006,Bug bawaan,Tombol Finish milik error_user seharusnya bisa diklik,Sudah login sebagai error_user; berada di halaman checkout overview,1. Periksa tombol Finish,username=error_user,Tombol Finish dalam kondisi aktif,Tinggi,known-issues.spec.ts / known-issues.cy.ts
+BUG-007,Bug bawaan,Dashboard performance_glitch_user termuat dalam batas waktu wajar,Sudah login sebagai performance_glitch_user,1. Ukur waktu sampai daftar inventory tampil,username=performance_glitch_user,Dashboard termuat dalam waktu kurang dari 5 detik,Sedang,known-issues.spec.ts / known-issues.cy.ts
