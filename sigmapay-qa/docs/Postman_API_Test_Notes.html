@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Testing Notes — Postman (Transfer & QRIS) · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>API Testing Notes — Postman (Transfer & QRIS)</h1>
+  <div class="doc-meta">Postman_API_Test_Notes.md &middot; API Testing Notes</div>
+  <div class="doc-body">
+<p>Dokumentasi ini merepresentasikan struktur <strong>Postman Collection</strong> yang dipakai untuk menguji API di balik UI. Ini bagian yang membedakan kandidat "hanya bisa klik UI" dengan kandidat berpengalaman 3-5 tahun yang diminta di loker.</p>
+<h2 id="1-struktur-collection">1. Struktur Collection</h2>
+<pre><code>SigmaPay QA Collection
+├── Auth
+│   └── POST /auth/login          → generate token untuk request selanjutnya
+├── Transfer
+│   ├── POST /transfer/inquiry    → cek nama pemilik rekening tujuan
+│   ├── POST /transfer            → eksekusi transfer
+│   └── GET  /transaction/status  → cek status transaksi by transactionId
+├── QRIS
+│   ├── POST /qris/decode         → decode isi QR (merchant id, nominal, expiry)
+│   └── POST /qris/pay            → eksekusi pembayaran QRIS
+└── Environment Variables
+    ├── base_url = https://api-qa.sigmapay.dummy
+    ├── token     = {{auto-set dari response login}}
+    └── device_id = QA-DEVICE-001
+</code></pre>
+<h2 id="2-contoh-requestresponse-post-transfer">2. Contoh Request/Response — POST /transfer</h2>
+<p><strong>Request</strong></p>
+<pre><code class="language-http">POST {{base_url}}/v1/transfer
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  &quot;sourceAccount&quot;: &quot;1010101010&quot;,
+  &quot;destinationAccount&quot;: &quot;2020202020&quot;,
+  &quot;destinationBankCode&quot;: &quot;SGMA&quot;,
+  &quot;amount&quot;: 500000,
+  &quot;note&quot;: &quot;Bayar patungan&quot;,
+  &quot;idempotencyKey&quot;: &quot;TRX-QA-0001&quot;
+}
+</code></pre>
+<p><strong>Response — Sukses (200)</strong></p>
+<pre><code class="language-json">{
+  &quot;status&quot;: &quot;SUCCESS&quot;,
+  &quot;transactionId&quot;: &quot;TRX20260803000123&quot;,
+  &quot;amount&quot;: 500000,
+  &quot;adminFee&quot;: 0,
+  &quot;timestamp&quot;: &quot;2026-08-03T10:15:00+07:00&quot;
+}
+</code></pre>
+<p><strong>Response — Saldo Tidak Cukup (400)</strong></p>
+<pre><code class="language-json">{
+  &quot;status&quot;: &quot;FAILED&quot;,
+  &quot;errorCode&quot;: &quot;INSUFFICIENT_BALANCE&quot;,
+  &quot;message&quot;: &quot;Saldo tidak mencukupi untuk melakukan transaksi ini&quot;
+}
+</code></pre>
+<h2 id="3-test-script-postman-tests-tab-contoh-assertion">3. Test Script (Postman "Tests" tab) — Contoh Assertion</h2>
+<pre><code class="language-javascript">// Dijalankan otomatis setelah request POST /transfer terkirim
+
+pm.test(&quot;Status code harus 200 untuk transfer valid&quot;, function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test(&quot;Response memiliki transactionId&quot;, function () {
+    const body = pm.response.json();
+    pm.expect(body).to.have.property(&quot;transactionId&quot;);
+    pm.expect(body.transactionId).to.match(/^TRX/);
+});
+
+pm.test(&quot;Amount pada response sesuai request&quot;, function () {
+    const req = JSON.parse(pm.request.body.raw);
+    const body = pm.response.json();
+    pm.expect(body.amount).to.eql(req.amount);
+});
+
+pm.test(&quot;Response time di bawah 3 detik (sanity check)&quot;, function () {
+    pm.expect(pm.response.responseTime).to.be.below(3000);
+});
+
+// Simpan transactionId ke environment variable untuk dipakai di request GET /transaction/status
+if (pm.response.code === 200) {
+    pm.environment.set(&quot;last_transaction_id&quot;, pm.response.json().transactionId);
+}
+</code></pre>
+<h2 id="4-skenario-negative-testing-di-level-api-sering-terlewat-kalau-hanya-test-via-ui">4. Skenario Negative Testing di Level API (Sering Terlewat kalau Hanya Test via UI)</h2>
+<table>
+<thead>
+<tr>
+<th>Skenario</th>
+<th>Cara Uji di Postman</th>
+<th>Expected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Token expired/invalid</td>
+<td>Ganti header <code>Authorization</code> dengan token acak/expired</td>
+<td>HTTP 401 Unauthorized</td>
+</tr>
+<tr>
+<td>Field wajib tidak dikirim (<code>amount</code> dihapus dari body)</td>
+<td>Hapus field dari JSON body</td>
+<td>HTTP 400 dengan pesan validasi jelas, bukan 500</td>
+</tr>
+<tr>
+<td>Tipe data salah (<code>amount</code> dikirim sebagai string <code>"lima ratus ribu"</code>)</td>
+<td>Ubah tipe data di body</td>
+<td>HTTP 400, bukan crash/500</td>
+</tr>
+<tr>
+<td>Idempotency key sama dikirim 2x (simulasi double submit dari UI)</td>
+<td>Kirim request <code>POST /transfer</code> 2x dengan <code>idempotencyKey</code> sama</td>
+<td>Request kedua ditolak/mengembalikan response transaksi pertama, <strong>bukan</strong> transaksi baru — ini validasi otomatis untuk BUG-SGP-001</td>
+</tr>
+<tr>
+<td>SQL Injection payload di field <code>note</code></td>
+<td><code>"note": "' OR '1'='1"</code></td>
+<td>Tidak menyebabkan error 500 / data corruption; input di-treat sebagai string biasa</td>
+</tr>
+<tr>
+<td>Request tanpa <code>Content-Type: application/json</code></td>
+<td>Hapus header</td>
+<td>HTTP 400/415, bukan crash</td>
+</tr>
+<tr>
+<td>Test endpoint <code>GET /transaction/status</code> dengan <code>transactionId</code> milik user lain (IDOR check)</td>
+<td>Ganti <code>transactionId</code> ke milik user lain menggunakan token user A</td>
+<td>HTTP 403 Forbidden — user A tidak boleh bisa lihat transaksi user B</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-contoh-test-script-post-qrispay-validasi-expiry-terkait-bug-sgp-004">5. Contoh Test Script — POST /qris/pay (Validasi Expiry, terkait BUG-SGP-004)</h2>
+<pre><code class="language-javascript">pm.test(&quot;QR expired harus ditolak backend, bukan hanya di UI&quot;, function () {
+    pm.response.to.have.status(400);
+    const body = pm.response.json();
+    pm.expect(body.errorCode).to.eql(&quot;QR_EXPIRED&quot;);
+});
+</code></pre>
+<blockquote>
+<p>Test script ini dibuat khusus setelah menemukan BUG-SGP-004 di UI, untuk memastikan <strong>root cause</strong>-nya ada di backend (bukan cuma validasi client yang bisa dilewati).</p>
+</blockquote>
+<h2 id="6-kenapa-api-testing-penting-di-konteks-banking">6. Kenapa API Testing Penting di Konteks Banking</h2>
+<ul>
+<li>Lebih cepat dieksekusi &amp; di-otomasi dibanding UI testing (baik untuk regression suite ke depannya).</li>
+<li>Bisa menguji skenario yang <strong>tidak bisa</strong> direproduksi lewat UI (misal: request tanpa field wajib, header token diubah manual, IDOR).</li>
+<li>Memisahkan <strong>bug UI</strong> (misal tombol tidak disable) dari <strong>bug backend</strong> (misal validasi expiry tidak ada) — penting untuk laporan defect yang akurat ke developer.</li>
+</ul>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="Postman_API_Test_Notes.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

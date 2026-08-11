@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taksonomi Jenis Testing — Dilengkapi & Dipetakan ke Studi Kasus SigmaPay · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>Taksonomi Jenis Testing — Dilengkapi & Dipetakan ke Studi Kasus SigmaPay</h1>
+  <div class="doc-meta">Testing_Types_Taxonomy.md &middot; Taksonomi testing</div>
+  <div class="doc-body">
+<p>Catatan awal kamu sudah benar sebagai kerangka. Di bawah ini dilengkapi bagian yang sering ditanyakan saat interview tapi belum ada di catatan (Smoke, Regression, Sanity, sub-jenis Performance, dll), plus contoh konkret dari project <a href="README.html">SigmaPay</a> supaya tidak sekadar hafalan.</p>
+<h2 id="1-berdasarkan-tujuan">1. Berdasarkan Tujuan</h2>
+<h3 id="functional-testing">Functional Testing</h3>
+<p>Menguji <strong>apakah fitur bekerja sesuai requirement</strong> — fokus ke "what", bukan "how".
+- Contoh umum: checkout berhasil, validasi form.
+- Contoh SigmaPay: transfer dengan saldo cukup berhasil (<a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-001</a>), field nominal negatif ditolak (<a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-012</a>).</p>
+<h3 id="non-functional-testing">Non-Functional Testing</h3>
+<p>Menguji <strong>kualitas sistem</strong>, bukan fitur itu sendiri:</p>
+<table>
+<thead>
+<tr>
+<th>Jenis</th>
+<th>Definisi</th>
+<th>Contoh SigmaPay</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Performance — Load Testing</strong></td>
+<td>Sistem diuji pada beban normal-hingga-puncak sesuai ekspektasi</td>
+<td>1.000 user transfer bersamaan saat jam gajian</td>
+</tr>
+<tr>
+<td><strong>Performance — Stress Testing</strong></td>
+<td>Beban di luar kapasitas, untuk menemukan <em>breaking point</em></td>
+<td>10.000 transaksi QRIS/detik saat event diskon merchant</td>
+</tr>
+<tr>
+<td><strong>Performance — Spike/Soak Testing</strong></td>
+<td>Lonjakan mendadak / beban berkelanjutan dalam waktu lama</td>
+<td>Lonjakan transaksi menjelang tengah malam awal bulan (gajian)</td>
+</tr>
+<tr>
+<td><strong>Security Testing</strong></td>
+<td>Cek celah dasar sebelum masuk ke pentest formal</td>
+<td>SQL injection di field catatan transfer (<a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-020</a>), IDOR di endpoint status transaksi (lihat <a href="Postman_API_Test_Notes.html">API Testing Notes</a> poin 4)</td>
+</tr>
+<tr>
+<td><strong>Usability Testing</strong></td>
+<td>Apakah user awam mudah memahami alur &amp; pesan error</td>
+<td>Apakah pesan "Saldo tidak mencukupi" jelas dibaca nasabah non-teknis</td>
+</tr>
+<tr>
+<td><strong>Compatibility Testing</strong></td>
+<td>Aplikasi berjalan normal di berbagai <strong>browser</strong> (untuk versi Web) dan <strong>device/OS/versi</strong> (untuk versi Mobile)</td>
+<td>Relevan karena loker minta <em>Web, Mobile, dan API testing</em> — cek SigmaPay Web di Chrome/Safari/Edge, dan SigmaPay Mobile di Android/iOS versi lama vs baru</td>
+</tr>
+<tr>
+<td><strong>Reliability/Recovery Testing</strong></td>
+<td>Sistem pulih dengan baik setelah gangguan</td>
+<td>Berkaitan langsung dengan <a href="Bug_Report_Sample.html">BUG-SGP-002 &amp; BUG-SGP-003</a> — koneksi putus &amp; timeout switching BI-FAST</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Catatan: Performance &amp; Security formal biasanya tim terpisah (lihat "Out of Scope" di <a href="Test_Plan_MobileBanking.html">Test Plan</a>), tapi manual tester tetap wajib paham konsepnya dan melakukan <em>sanity check</em> dasarnya sendiri.</p>
+</blockquote>
+<h2 id="2-berdasarkan-level-v-model">2. Berdasarkan Level (V-Model)</h2>
+<p>Sudah dibahas detail di <a href="SDLC_STLC_Concept.html">SDLC_STLC_Concept.md</a> §4. Ringkas + relasinya ke V-Model:</p>
+<pre><code>Requirement  ⟷  Acceptance Testing (UAT)
+Design       ⟷  System Testing
+Arsitektur   ⟷  Integration Testing (SIT)
+Code         ⟷  Unit Testing
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Siapa</th>
+<th>Fokus</th>
+<th>Contoh SigmaPay</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit</td>
+<td>Developer</td>
+<td>Function/class/module individual</td>
+<td>Fungsi hitung biaya admin BI-FAST</td>
+</tr>
+<tr>
+<td>Integration (SIT)</td>
+<td>QA</td>
+<td>Aliran data antar modul/sistem eksternal</td>
+<td>SigmaPay → core banking → switching BI-FAST → bank tujuan</td>
+</tr>
+<tr>
+<td>System</td>
+<td>QA</td>
+<td>Sistem utuh, functional + non-functional</td>
+<td>Seluruh alur transfer dari login s.d. e-receipt</td>
+</tr>
+<tr>
+<td>Acceptance (UAT)</td>
+<td>User/Business</td>
+<td>Validasi sesuai kebutuhan bisnis</td>
+<td>Business banking verifikasi flow transfer sesuai kebutuhan nasabah</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-berdasarkan-teknik">3. Berdasarkan Teknik</h2>
+<table>
+<thead>
+<tr>
+<th>Teknik</th>
+<th>Definisi</th>
+<th>Relevansi untuk Role Manual Tester</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Black Box</strong></td>
+<td>Fokus input-output, tidak peduli source code</td>
+<td>Ini yang <strong>paling sering dipakai</strong> manual tester — sesuai loker "Manual Testing"</td>
+</tr>
+<tr>
+<td><strong>White Box</strong></td>
+<td>Menguji logika di dalam code, lihat coverage (branch, path)</td>
+<td>Biasanya dev/SDET; tester cukup paham dasarnya untuk diskusi root cause dengan dev</td>
+</tr>
+<tr>
+<td><strong>Gray Box</strong></td>
+<td>Kombinasi — tester tahu sedikit "isi dalam" sistem (skema DB, API contract) tanpa baca full source code</td>
+<td><strong>Paling representatif untuk loker ini</strong> — kamu diminta bisa SQL &amp; API testing meski tidak baca source code aplikasi. Lihat <a href="../07-SQL-Validation/SQL_Queries_Validation.sql">SQL Validation</a> &amp; <a href="Postman_API_Test_Notes.html">API Testing Notes</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-kategori-tambahan-sering-ditanyakan-saat-interview-eksplisit-diminta-di-loker">4. Kategori Tambahan — Sering Ditanyakan Saat Interview, Eksplisit Diminta di Loker</h2>
+<table>
+<thead>
+<tr>
+<th>Jenis</th>
+<th>Definisi</th>
+<th>Beda dengan yang Mirip</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Smoke Testing</strong></td>
+<td>Cek cepat: build baru layak diuji lanjut atau tidak (contoh: bisa login, buka menu transfer, buka scan QRIS)</td>
+<td>Dangkal tapi luas cakupannya — lihat <a href="Test_Execution_Report.html">Test Execution Report §2</a></td>
+</tr>
+<tr>
+<td><strong>Sanity Testing</strong></td>
+<td>Cek sempit &amp; dalam pada satu area yang baru saja di-fix</td>
+<td>Beda dari Smoke: Sanity fokus ke 1 fitur spesifik, bukan seluruh aplikasi</td>
+</tr>
+<tr>
+<td><strong>Regression Testing</strong></td>
+<td>Pastikan fitur lama tidak rusak akibat perubahan di area lain</td>
+<td>Lihat <a href="Regression_Test_Checklist.html">Regression Checklist</a></td>
+</tr>
+<tr>
+<td><strong>Retesting</strong></td>
+<td>Menguji ulang <strong>defect yang sama</strong> setelah di-fix developer</td>
+<td>Beda dari Regression: Retesting hanya cek bug itu sendiri, Regression cek area sekitarnya yang mungkin ikut terdampak</td>
+</tr>
+<tr>
+<td><strong>Exploratory Testing</strong></td>
+<td>Testing tanpa script formal, mengandalkan pengalaman &amp; intuisi tester untuk mencari bug tak terduga</td>
+<td>Cara BUG-SGP-001 (double debit) &amp; BUG-SGP-011 semacamnya sering ditemukan di dunia nyata — bukan dari test case yang sudah ditulis, tapi dari "insting" mencoba tap dua kali</td>
+</tr>
+<tr>
+<td><strong>Ad-hoc Testing</strong></td>
+<td>Testing random tanpa dokumentasi formal</td>
+<td>Informal, biasanya dilakukan saat waktu sempit menjelang rilis</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-ringkasan-jenis-testing-apa-yang-menemukan-bug-apa-sigmapay">5. Ringkasan: Jenis Testing Apa yang Menemukan Bug Apa (SigmaPay)</h2>
+<p>Tabel ini bagus untuk dijelaskan saat interview — menunjukkan kamu paham <strong>kapan pakai teknik apa</strong>, bukan cuma hafal definisi.</p>
+<table>
+<thead>
+<tr>
+<th>Bug</th>
+<th>Ditemukan Lewat Jenis Testing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="Bug_Report_Sample.html">BUG-SGP-001</a> — Double debit</td>
+<td>Edge case functional testing (bisa juga lewat exploratory testing)</td>
+</tr>
+<tr>
+<td><a href="Bug_Report_Sample.html">BUG-SGP-002</a> — Status ambigu saat koneksi putus</td>
+<td>Non-functional: Reliability/Recovery Testing</td>
+</tr>
+<tr>
+<td><a href="Bug_Report_Sample.html">BUG-SGP-003</a> — Tidak ada reversal otomatis</td>
+<td>SIT (Integration Testing) — gagal di titik integrasi ke switching eksternal</td>
+</tr>
+<tr>
+<td><a href="Bug_Report_Sample.html">BUG-SGP-004</a> — QR expired tetap diproses</td>
+<td>Negative functional testing + Gray Box (validasi API, bukan cuma UI)</td>
+</tr>
+<tr>
+<td><a href="Bug_Report_Sample.html">BUG-SGP-005</a> — Merchant ID tidak divalidasi</td>
+<td>Gray Box Testing (butuh paham skema data merchant) + Integration Testing</td>
+</tr>
+<tr>
+<td><a href="Bug_Report_Sample.html">BUG-SGP-006</a> — Validasi nominal negatif</td>
+<td>Black Box functional testing (basic input validation)</td>
+</tr>
+</tbody>
+</table>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="Testing_Types_Taxonomy.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

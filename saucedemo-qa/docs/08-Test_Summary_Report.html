@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Summary Report — SauceDemo (Login & Checkout) · SauceDemo QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f4f4f8; --bg-dark:#13131e;
+  --ink:#1c1c26; --ink-soft:#54566b; --muted:#9395a8;
+  --line:#dcdce6; --line-strong:#adaec2;
+  --primary:#473c93; --accent:#d9622b; --accent-soft:#eeecf9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#15151f; --bg-alt:#1d1d2b; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.62); --muted:rgba(235,235,245,0.32); --line:rgba(140,140,170,0.28); --line-strong:rgba(140,140,170,0.45); --primary:#9086e6; --accent:#f0925a; --accent-soft:rgba(144,134,230,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SauceDemo QA &middot; QA Documentation</div>
+  <h1>Test Summary Report — SauceDemo (Login & Checkout)</h1>
+  <div class="doc-meta">08-Test_Summary_Report.md &middot; Dokumen QA</div>
+  <div class="doc-body">
+<p><strong>Periode pengujian:</strong> 2026-08-10 (siklus regresi pertama)
+<strong>Target:</strong> https://www.saucedemo.com/
+<strong>Disusun oleh:</strong> QA Automation — project <a href="README.html">Tester-Sauce.com</a></p>
+<h2 id="1-ringkasan-cakupan">1. Ringkasan Cakupan</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Jumlah Test Case</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Login</td>
+<td>8</td>
+<td>✅ Seluruhnya lulus di Playwright &amp; Selenium (subset); Cypress 7/7 data lama + LOGIN-08 baru belum dieksekusi</td>
+</tr>
+<tr>
+<td>Keranjang Belanja</td>
+<td>4</td>
+<td>✅ Seluruhnya lulus (Playwright &amp; Cypress)</td>
+</tr>
+<tr>
+<td>Pengurutan</td>
+<td>4</td>
+<td>✅ Seluruhnya lulus (Playwright &amp; Cypress)</td>
+</tr>
+<tr>
+<td>Checkout</td>
+<td>7</td>
+<td>✅ Seluruhnya lulus di Playwright; Cypress 5/5 data lama + CHK-04/CHK-05 baru belum dieksekusi</td>
+</tr>
+<tr>
+<td>Verifikasi Bug Bawaan</td>
+<td>6</td>
+<td>⚠️ Hasilnya sama persis (3 lulus, 3 gagal) di Playwright &amp; Cypress, tapi <em>bug yang menyebabkan gagal berbeda</em> — lihat §3</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>29</strong></td>
+<td><strong>Playwright: 26/29 (90%) lulus. Cypress: 23/26 (88%) untuk test lama, 3 test baru (LOGIN-08, CHK-04, CHK-05) menyusul. 3 "gagal" adalah temuan bug yang valid, bukan defect suite</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Detail lengkap ada di <a href="04-Test_Execution_Report.html">Test Execution Report</a>,
+termasuk provenance 3 test case baru (§7 — divalidasi dari test case manual eksternal sebelum
+ditambahkan).</p>
+<h2 id="2-ringkasan-eksekusi-per-framework">2. Ringkasan Eksekusi per Framework</h2>
+<table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>Hasil</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Playwright</td>
+<td>26/29 passed (90%) — dijalankan nyata ke situs live, termasuk 3 test baru</td>
+</tr>
+<tr>
+<td>Cypress</td>
+<td>23/26 passed (88%) untuk test lama — dijalankan nyata di Cypress Test Runner (GUI) milik pemilik project. 3 test baru sudah lolos type-check, <strong>belum dieksekusi</strong></td>
+</tr>
+<tr>
+<td>Selenium</td>
+<td>7/7 passed (100%) — subset smoke test, sengaja tidak diperluas ke 3 test baru</td>
+</tr>
+</tbody>
+</table>
+<p>Untuk test yang sudah dieksekusi di kedua framework (26 test lama), pass rate Playwright dan
+Cypress sama persis, tapi 2 dari 6 hasil <code>known-issues</code> berbeda antar keduanya (BUG-003,
+BUG-007) — lihat
+<a href="04-Test_Execution_Report.html">Test Execution Report §4</a>
+untuk analisis penyebabnya.</p>
+<h2 id="3-ringkasan-defect">3. Ringkasan Defect</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Ringkasan</th>
+<th>Severity</th>
+<th>Status per 2026-08-10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BUG-001</td>
+<td>Gambar produk salah (<code>problem_user</code>)</td>
+<td>Sedang</td>
+<td>✅ Masih terjadi — konsisten Playwright &amp; Cypress</td>
+</tr>
+<tr>
+<td>BUG-002</td>
+<td>Komponen UI bergeser (<code>visual_user</code>)</td>
+<td>Sedang</td>
+<td>Belum diotomasi (manual/visual)</td>
+</tr>
+<tr>
+<td>BUG-003</td>
+<td>Sort memicu alert JS (<code>error_user</code>)</td>
+<td>Tinggi</td>
+<td>⚠️ Framework-dependent — terjadi di Playwright, tidak di Cypress</td>
+</tr>
+<tr>
+<td>BUG-004</td>
+<td>Add to cart gagal sebagian (<code>error_user</code>)</td>
+<td>Tinggi</td>
+<td>❌ Sudah tidak terjadi — konsisten di 3 framework</td>
+</tr>
+<tr>
+<td>BUG-005</td>
+<td>Field Last Name tidak bisa diisi (<code>error_user</code>)</td>
+<td>Tinggi</td>
+<td>✅ Masih terjadi — konsisten Playwright &amp; Cypress</td>
+</tr>
+<tr>
+<td>BUG-006</td>
+<td>Tombol Finish tidak bisa diklik (<code>error_user</code>)</td>
+<td>Tinggi</td>
+<td>❌ Sudah tidak terjadi — konsisten Playwright &amp; Cypress</td>
+</tr>
+<tr>
+<td>BUG-007</td>
+<td>Dashboard lambat (<code>performance_glitch_user</code>)</td>
+<td>Sedang</td>
+<td>⚠️ Framework-dependent — dalam batas waktu di Playwright, melewati di Cypress (kemungkinan ambang batas terlalu ketat, bukan delay yang berubah)</td>
+</tr>
+</tbody>
+</table>
+<p>Detail lengkap tiap bug (langkah reproduksi, area, evidence, analisis framework-dependent) ada di
+<a href="05-Bug_Report_SauceDemo.html">Bug Report</a>.</p>
+<p><strong>Defect density (sisa):</strong>
+- <strong>2 dari 7 (29%)</strong> confirmed masih terjadi, konsisten di 2 framework (BUG-001, BUG-005).
+- <strong>2 dari 7 (29%)</strong> confirmed sudah tidak terjadi, konsisten di 2-3 framework (BUG-004, BUG-006).
+- <strong>2 dari 7 (29%)</strong> hasilnya <strong>framework-dependent</strong> (BUG-003, BUG-007) — bukan berarti "tidak
+  jelas statusnya", tapi temuan bahwa hasil deteksi bug bisa bergantung pada cara automation
+  berinteraksi dengan halaman (lihat analisis di Bug Report).
+- <strong>1 dari 7 (14%)</strong> di luar cakupan automation, butuh review visual manual (BUG-002).</p>
+<h2 id="4-analisis-coverage-gap">4. Analisis Coverage &amp; Gap</h2>
+<table>
+<thead>
+<tr>
+<th>Sudah Dicakup</th>
+<th>Belum Dicakup (Gap Diakui)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Login (positive, negative, case-sensitivity, locked-out, logout)</td>
+<td>Multi-browser (baru Chromium/Chrome — belum Firefox/WebKit/Safari)</td>
+</tr>
+<tr>
+<td>Cart (add, remove dari 2 halaman, continue shopping)</td>
+<td>Subset test yang ditandai eksplisit sebagai "smoke suite" (tag/label khusus)</td>
+</tr>
+<tr>
+<td>Sort (4 opsi)</td>
+<td>Visual regression testing otomatis untuk BUG-002 (<code>visual_user</code>)</td>
+</tr>
+<tr>
+<td>Checkout (single/multi item, 3 variasi field kosong, karakter spesial, perhitungan total)</td>
+<td>Mobile/responsive viewport testing</td>
+</tr>
+<tr>
+<td>Access control dasar (halaman ber-sesi tidak bisa diakses langsung tanpa login — LOGIN-08)</td>
+<td>Eksekusi Cypress untuk 3 test case terbaru (LOGIN-08, CHK-04, CHK-05)</td>
+</tr>
+<tr>
+<td>Regresi 7 bug bawaan, tereksekusi nyata di Playwright &amp; Cypress (Selenium: subset)</td>
+<td>Load/stress/performance testing skala besar (di luar scope demo site)</td>
+</tr>
+<tr>
+<td>Validasi silang lintas framework (2 bug ditemukan framework-dependent — nilai tambah dari memakai &gt;1 tool)</td>
+<td>Investigasi akar penyebab BUG-003/BUG-007 framework-dependent belum dikonfirmasi 100% (baru dugaan teknis, belum di-debug langsung)</td>
+</tr>
+<tr>
+<td>—</td>
+<td>API &amp; Database validation (memang tidak berlaku — lihat <a href="06-API_Testing_Not_Applicable.html"><code>06-API-Testing</code></a>, <a href="07-SQL_Validation_Not_Applicable.html"><code>07-SQL-Validation</code></a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-rekomendasi">5. Rekomendasi</h2>
+<p>Karena SauceDemo bukan produk yang kita rilis, rekomendasi di sini bukan keputusan "go/no-go
+rilis produk", melainkan <strong>kesiapan suite ini dipakai sebagai baseline regresi</strong>:</p>
+<ul>
+<li>✅ <strong>Layak dipakai sebagai baseline regresi</strong> — cakupan fungsional inti (login, cart, sort,
+  checkout) solid dan 100% lulus di Playwright (29 test lengkap), plus subset smoke test 100%
+  lulus di Selenium.</li>
+<li>⚠️ <strong>Jalankan ulang Cypress</strong>: 3 test case baru (LOGIN-08, CHK-04, CHK-05) sudah ditulis &amp; lolos
+  type-check tapi belum dieksekusi — jalankan <code>npm run cypress:run</code> untuk melengkapi data 29/29.</li>
+<li>⚠️ <strong>Longgarkan ambang batas BUG-007</strong>: threshold 5 detik di <code>known-issues.spec.ts</code>/<code>.cy.ts</code>
+  terlalu mepet, terbukti dari hasil yang berbeda antar framework pada hari yang sama. Naikkan ke
+  8-10 detik atau ukur delta relatif terhadap <code>standard_user</code>.</li>
+<li>🔍 <strong>Investigasi BUG-003 lebih lanjut</strong>: kalau butuh kepastian, coba trigger sort dengan
+  keyboard (bukan <code>.select()</code>) di kedua framework, atau inspeksi kode SauceDemo lewat DevTools
+  saat alert muncul, untuk konfirmasi dugaan penyebab (perbedaan cara dispatch event <code>change</code>).</li>
+<li>⚠️ <strong>Masih perlu</strong>: tambah browser project Firefox/WebKit di
+  <code>automation/playwright/playwright.config.ts</code> untuk cakupan compatibility yang lebih luas.</li>
+<li>📌 <strong>Jadikan kebiasaan, bukan sekali jalan</strong>: jalankan ulang suite secara berkala (idealnya via
+  CI di setiap push, sudah tersedia di <a href="../../.github/workflows/ci.yml"><code>ci.yml</code></a>) — terbukti
+  berguna dua kali di siklus ini: pertama saat 3 dari 7 status bug ternyata sudah berubah sejak
+  terakhir dicatat, kedua saat menjalankan framework kedua (Cypress) mengungkap 2 bug lagi yang
+  hasilnya ternyata tidak sesederhana "ya/tidak".</li>
+</ul>
+<h2 id="6-sign-off">6. Sign-off</h2>
+<table>
+<thead>
+<tr>
+<th>Peran</th>
+<th>Nama</th>
+<th>Tanggal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QA Automation</td>
+<td>(diri sendiri — self-executed project)</td>
+<td>2026-08-10</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Catatan: project ini adalah latihan/portofolio individu, bukan proyek tim dengan struktur
+approval formal — baris sign-off di atas dijaga apa adanya (bukan dibuat-buat nama/peran fiktif
+lain) supaya konsisten dengan prinsip kejujuran yang dipegang di seluruh dokumen <code>00</code>–<code>10</code>.</p>
+</blockquote>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="08-Test_Summary_Report.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

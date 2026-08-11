@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regression Test Checklist — SigmaPay Mobile Banking · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>Regression Test Checklist — SigmaPay Mobile Banking</h1>
+  <div class="doc-meta">Regression_Test_Checklist.md &middot; Regression Checklist</div>
+  <div class="doc-body">
+<p>Checklist ringkas untuk dieksekusi <strong>setiap ada bug fix atau rilis baru</strong>, memastikan fitur yang sudah berjalan tidak rusak akibat perubahan di modul lain. Dipetakan ke fase <strong>Maintenance (SDLC)</strong> / <strong>regresi berulang tiap sprint (STLC)</strong>.</p>
+<h2 id="cara-pakai">Cara Pakai</h2>
+<ul>
+<li>Jalankan checklist ini <strong>sebelum</strong> setiap rilis ke production, dan setiap kali ada hotfix defect Critical/Major.</li>
+<li>Jika modul yang di-fix menyentuh Ledger/Saldo, wajib jalankan seluruh section <strong>Fund Transfer</strong> + <strong>Saldo &amp; Mutasi</strong>, bukan cuma modul yang di-fix.</li>
+<li>Tandai ✅ Pass / ❌ Fail / ⏭️ Skip (dengan alasan) di kolom Status.</li>
+<li>Kolom <strong>ID</strong> memakai skema <code>REG-XX</code> yang sama dengan yang direferensikan di <a href="../SigmaPay%20Prototype%20Scope/SigmaPay%20QA%20Workbench.dc.html">SigmaPay Prototype Scope</a> — item bertanda ✅ di kolom "Live di Prototype" bisa langsung dieksekusi interaktif di sana; sisanya perlu environment SIT/UAT sesungguhnya.</li>
+</ul>
+<h2 id="1-login-autentikasi">1. Login &amp; Autentikasi</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Live di Prototype</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REG-01</td>
+<td>Login dengan kredensial valid berhasil</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-02</td>
+<td>Login dengan PIN/password salah ditolak</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-03</td>
+<td>Biometric login (jika tersedia) tetap berfungsi</td>
+<td>N/A — belum diimplementasikan di build ini (lihat Profil: "Biometric login: Nonaktif")</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-04</td>
+<td>Sesi otomatis logout setelah idle sesuai kebijakan</td>
+<td>✅ (tombol "Paksa sesi timeout" di panel kiri)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-saldo-riwayat-mutasi">2. Saldo &amp; Riwayat Mutasi</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Live di Prototype</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REG-05</td>
+<td>Saldo yang tampil di Home sesuai dengan database</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-06</td>
+<td>Riwayat mutasi menampilkan transaksi terbaru dengan urutan tanggal benar</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-07</td>
+<td>Detail transaksi pada mutasi dapat dibuka &amp; datanya lengkap</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-08</td>
+<td>Filter mutasi (per tanggal/jenis transaksi) berfungsi normal</td>
+<td>— (belum ada fitur filter di prototype)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-fund-transfer">3. Fund Transfer</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Live di Prototype</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REG-09</td>
+<td>Transfer intrabank normal tetap berhasil</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-10</td>
+<td>Transfer interbank (BI-FAST) normal tetap berhasil</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-11</td>
+<td>Transfer ke Virtual Account tetap berhasil</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-12</td>
+<td>Validasi saldo tidak cukup tetap berfungsi</td>
+<td>✅ (pakai akun Citra Dewi, saldo Rp 0)</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-13</td>
+<td>Validasi limit transaksi harian tetap berfungsi</td>
+<td>✅ (toggle "Akumulasi hari ini Rp 49.000.000" di panel kiri)</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-14</td>
+<td>Tidak ada double debit saat tap cepat berulang (regresi BUG-SGP-001)</td>
+<td>✅ (toggle build v1.5.0-FIX, tap 2x cepat di S11)</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-15</td>
+<td>Status transaksi tetap konsisten saat simulasi koneksi terputus (regresi BUG-SGP-002)</td>
+<td>✅ (toggle kondisi jaringan "Koneksi putus setelah submit")</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-qris-payment">4. QRIS Payment</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Live di Prototype</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REG-16</td>
+<td>Scan &amp; bayar QRIS statis tetap berhasil</td>
+<td>✅ ("Kopi Kalibrata")</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-17</td>
+<td>Scan &amp; bayar QRIS dinamis tetap berhasil</td>
+<td>✅ ("Toko Serba Ada")</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-18</td>
+<td>QR expired tetap ditolak backend (regresi BUG-SGP-004)</td>
+<td>✅ ("Warung Sate Pak Har", build v1.5.0-FIX)</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-19</td>
+<td>Validasi Merchant ID tetap berjalan (regresi BUG-SGP-005)</td>
+<td>✅ ("Laundry Ekspress", build v1.5.0-FIX)</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-20</td>
+<td>Bukti pembayaran QRIS tetap dapat diunduh</td>
+<td>✅ (tombol "Unduh/bagikan bukti" di layar e-receipt)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-api-layer-sanity-check-via-postman-collection">5. API Layer (Sanity Check via Postman Collection)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Live di Prototype</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REG-21</td>
+<td><code>POST /transfer</code> mengembalikan response sesuai kontrak (status code &amp; schema)</td>
+<td>✅ (lihat tab "API" di panel kanan)</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-22</td>
+<td><code>POST /qris/pay</code> menolak QR expired dengan errorCode <code>QR_EXPIRED</code></td>
+<td>✅ (build v1.5.0-FIX, lihat tab API)</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-23</td>
+<td><code>GET /transaction/status</code> tidak bisa diakses lintas user (IDOR check)</td>
+<td>— (endpoint ini tidak dimodelkan penuh di prototype, tetap wajib diuji manual via Postman)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-database-sanity-check">6. Database Sanity Check</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Live di Prototype</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REG-24</td>
+<td>Tidak ada transaksi duplikat (jalankan <a href="../07-SQL-Validation/SQL_Queries_Validation.sql">SQL Query A.3</a>)</td>
+<td>✅ (tab "SQL" di panel kanan, baris "Query #3")</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-25</td>
+<td>Tidak ada transaksi "Pending" yang melewati SLA (jalankan <a href="../07-SQL-Validation/SQL_Queries_Validation.sql">SQL Query B.5</a>)</td>
+<td>Sebagian — prototype hanya menampilkan simulasi status, query lengkap dijalankan manual</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-26</td>
+<td>Ledger debit = kredit untuk seluruh transaksi hari berjalan (jalankan <a href="../07-SQL-Validation/SQL_Queries_Validation.sql">SQL Query B.8</a>)</td>
+<td>Sebagian — prototype pakai heuristik sederhana ("ada PENDING = tidak seimbang"), bukan double-entry penuh</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="ringkasan-hasil">Ringkasan Hasil</h2>
+<table>
+<thead>
+<tr>
+<th>Total Item</th>
+<th>Pass</th>
+<th>Fail</th>
+<th>Skip</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>26</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Keputusan:</strong> Rilis dapat dilanjutkan jika seluruh item <strong>Critical path</strong> (REG-09 s.d. REG-15, REG-24 s.d. REG-26) berstatus Pass. Kegagalan pada item tersebut = <strong>blocker rilis</strong>.</p>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="Regression_Test_Checklist.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

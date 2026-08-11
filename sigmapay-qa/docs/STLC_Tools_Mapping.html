@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tools & Aplikasi per Tahap STLC — Dipetakan ke Project SigmaPay + Panduan CV/Interview · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>Tools & Aplikasi per Tahap STLC — Dipetakan ke Project SigmaPay + Panduan CV/Interview</h1>
+  <div class="doc-meta">STLC_Tools_Mapping.md &middot; Tools & CV mapping</div>
+  <div class="doc-body">
+<p>Melengkapi <a href="SDLC_STLC_Concept.html">SDLC_STLC_Concept.md</a> (6 tahap STLC) dengan <strong>tools yang umum dipakai di industri</strong> pada tiap tahap, dan <strong>jujur menandai</strong> mana yang benar-benar dipakai/disimulasikan di project SigmaPay ini vs mana yang sekadar perlu kamu pahami konsepnya.</p>
+<blockquote>
+<p>Kenapa kolom "status" penting: interviewer sering minta bukti konkret ("coba tunjukkan board Jira-nya", "boleh lihat collection Postman-nya?"). Lebih aman bilang <em>"familiar dengan tools X"</em> daripada mengklaim pernah pakai production kalau kenyataannya belum — sesuai insight yang kamu bawa sendiri di bawah.</p>
+</blockquote>
+<h2 id="1-tools-per-tahap-stlc-6-tahap-konsisten-dengan-sdlc_stlc_conceptmd">1. Tools per Tahap STLC (6 Tahap, konsisten dengan SDLC_STLC_Concept.md)</h2>
+<table>
+<thead>
+<tr>
+<th>Tahap STLC</th>
+<th>Aktivitas</th>
+<th>Tools Umum di Industri</th>
+<th>Status di Project SigmaPay Ini</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Requirement Analysis</strong></td>
+<td>Review User Story, acceptance criteria, susun RTM</td>
+<td>Jira, Confluence, Notion, Google Docs</td>
+<td>Disimulasikan via markdown (requirement diwakili narasi di <a href="README.html">README</a> &amp; <a href="Test_Plan_MobileBanking.html">Test Plan</a>)</td>
+</tr>
+<tr>
+<td><strong>2. Test Planning</strong></td>
+<td>Scope, strategy, resource, timeline, risk</td>
+<td>Jira, Confluence, Excel/Google Sheets</td>
+<td>✅ Dibuat nyata: <a href="Test_Plan_MobileBanking.html">Test_Plan_MobileBanking.md</a></td>
+</tr>
+<tr>
+<td><strong>3. Test Case Design</strong></td>
+<td>Test scenario &amp; test case</td>
+<td>TestRail, Zephyr/Xray, Jira, Excel</td>
+<td>✅ Dibuat nyata dalam format CSV (setara Excel/Sheets): <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">Test_Case_Transfer_QRIS.csv</a>. TestRail/Zephyr/Xray = tools yang sama fungsinya, belum dipakai hands-on</td>
+</tr>
+<tr>
+<td><strong>4. Test Environment Setup</strong></td>
+<td>Siapkan environment, akses sandbox, test data</td>
+<td>Docker, Postman, Swagger, Git, Jenkins</td>
+<td>Sebagian: struktur environment &amp; test data didokumentasikan di Test Plan §7-8. Docker/Jenkins di luar tanggung jawab manual tester sehari-hari (biasanya disiapkan DevOps) — cukup paham konsepnya</td>
+</tr>
+<tr>
+<td><strong>5. Test Execution</strong></td>
+<td>Jalankan test case manual, API testing, (opsional) automation</td>
+<td>Postman, Swagger, Selenium, Playwright, Katalon, Appium, Browser DevTools</td>
+<td>✅ Manual execution: <a href="Test_Execution_Report.html">Test_Execution_Report.md</a>. ✅ API testing: <a href="Postman_API_Test_Notes.html">Postman_API_Test_Notes.md</a>. Automation (Selenium/Playwright/Katalon/Appium) <strong>belum</strong> — masih level "paham konsep"</td>
+</tr>
+<tr>
+<td>↳ <em>Defect Reporting (bagian dari Execution)</em></td>
+<td>Log bug, severity/priority, retest</td>
+<td>Jira, Azure DevOps, ClickUp, Bugzilla</td>
+<td>✅ Disimulasikan gaya Jira: <a href="Bug_Report_Sample.html">Bug_Report_Sample.md</a></td>
+</tr>
+<tr>
+<td>↳ <em>Database Validation (bagian dari Execution)</em></td>
+<td>Validasi data backend</td>
+<td>SQL (PostgreSQL/MySQL), DBeaver</td>
+<td>✅ Dibuat nyata: <a href="../07-SQL-Validation/SQL_Queries_Validation.sql">SQL_Queries_Validation.sql</a></td>
+</tr>
+<tr>
+<td><strong>6. Test Cycle Closure</strong></td>
+<td>Test summary, defect metrics, sign-off, go/no-go</td>
+<td>Jira, Excel, Confluence</td>
+<td>✅ Dibuat nyata: <a href="Test_Summary_Report.html">Test_Summary_Report.md</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-tools-dikelompokkan-per-kategori-untuk-cv">2. Tools Dikelompokkan per Kategori (untuk CV)</h2>
+<table>
+<thead>
+<tr>
+<th>Kategori</th>
+<th>Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Test Management</strong></td>
+<td>Jira, TestRail, Zephyr/Xray, Azure DevOps</td>
+</tr>
+<tr>
+<td><strong>API Testing</strong></td>
+<td>Postman, Swagger/OpenAPI</td>
+</tr>
+<tr>
+<td><strong>Automation</strong></td>
+<td>Selenium, Playwright, Katalon, Appium</td>
+</tr>
+<tr>
+<td><strong>Database Validation</strong></td>
+<td>SQL, PostgreSQL, MySQL</td>
+</tr>
+<tr>
+<td><strong>CI/CD &amp; Version Control</strong></td>
+<td>Git, GitHub/GitLab, Jenkins</td>
+</tr>
+<tr>
+<td><strong>Documentation</strong></td>
+<td>Confluence, Google Sheets/Excel, Notion</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Aturan main untuk CV:</strong> cantumkan hanya tools yang benar-benar bisa kamu jelaskan alurnya kalau ditanya detail saat interview. Untuk QA Analyst/Manual Tester, tidak perlu daftar semua — pilih yang relevan dan bisa dipertanggungjawabkan.</p>
+<p>Berdasarkan apa yang <strong>sudah nyata kamu praktikkan lewat project SigmaPay</strong> ini, kombinasi paling jujur dan tetap kuat untuk dicantumkan:</p>
+<blockquote>
+<p><strong>STLC, Test Planning, Test Case Design, SIT, UAT, Smoke Testing, Regression Testing, API Testing (Postman), Defect Management (gaya Jira), Database Validation (SQL)</strong></p>
+</blockquote>
+<p>Selenium/Playwright/Katalon boleh disebut sebagai <strong>"familiar with the concept, siap onboarding"</strong> — bukan "hands-on production experience" — kecuali kamu memang sudah pernah pakai langsung.</p>
+<h2 id="3-posisi-katalon-dalam-stlc-termasuk-konteks-mobile-banking">3. Posisi Katalon dalam STLC (Termasuk Konteks Mobile Banking)</h2>
+<p>Katalon relevan terutama di tahap <strong>Test Execution</strong>, mencakup Web UI automation, API testing, dan Mobile testing sekaligus (satu tool untuk tiga jenis testing — ini nilai jual utamanya dibanding Selenium yang web-only atau Appium yang mobile-only).</p>
+<table>
+<thead>
+<tr>
+<th>Tahap STLC</th>
+<th>Peran Katalon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirement Analysis</td>
+<td>Tidak langsung — hanya jadi input untuk desain automated test case</td>
+</tr>
+<tr>
+<td>Test Planning</td>
+<td>Menentukan scope mana yang layak diotomasi (biasanya: regression suite berulang, bukan fitur yang masih sering berubah)</td>
+</tr>
+<tr>
+<td>Test Case Design</td>
+<td>Membuat test case &amp; test script di dalam Katalon</td>
+</tr>
+<tr>
+<td>Environment Setup</td>
+<td>Konfigurasi target browser/device/API endpoint</td>
+</tr>
+<tr>
+<td><strong>Test Execution</strong></td>
+<td><strong>Menjalankan automated test</strong> — ini peran utamanya</td>
+</tr>
+<tr>
+<td>Defect Reporting</td>
+<td>Bisa diintegrasikan ke Jira untuk auto-log hasil gagal</td>
+</tr>
+<tr>
+<td>Test Closure</td>
+<td>Menghasilkan execution report &amp; pass/fail metrics otomatis</td>
+</tr>
+</tbody>
+</table>
+<h3 id="khusus-konteks-mobile-banking">Khusus konteks Mobile Banking</h3>
+<p>Untuk mobile banking, Katalon <strong>bukan satu-satunya tools</strong> — kombinasi realistis: <strong>UI/Mobile automation (Katalon/Appium) + API testing (Postman) + Database validation (SQL) + device coverage (Android Studio/Xcode/BrowserStack)</strong>.</p>
+<p>Contoh alur automated test yang relevan untuk modul di project ini:</p>
+<pre><code>Login → OTP → Cek Saldo → Transfer/Scan QRIS → Konfirmasi → Cek Riwayat Mutasi
+</code></pre>
+<p>Katalon menjalankan alur UI-nya, sementara Postman tetap dipakai terpisah untuk memvalidasi API di baliknya (<code>POST /transfer</code>, <code>POST /qris/pay</code> — lihat <a href="Postman_API_Test_Notes.html">API Testing Notes</a>).</p>
+<blockquote>
+<p>Catatan implementasi di project ini: seluruh test case di <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">03-Test-Case</a> saat ini masih <strong>manual</strong>. Kandidat kuat untuk diotomasi lebih dulu dengan Katalon/Selenium/Playwright adalah suite di <a href="Regression_Test_Checklist.html">09-Regression-Checklist</a>, karena regression test paling sering diulang tiap rilis — nilai ROI automation paling tinggi di situ. Ini bisa jadi pengembangan lanjutan project kalau kamu mau praktik hands-on beneran.</p>
+</blockquote>
+<h2 id="4-template-jawaban-interview-versi-jujur-berbasis-project-ini">4. Template Jawaban Interview (Versi Jujur, Berbasis Project Ini)</h2>
+<p>Kalau ditanya <em>"Tools apa yang kamu pakai dalam STLC?"</em>:</p>
+<blockquote>
+<p>"Saya membangun sendiri sebuah project simulasi QA manual testing untuk aplikasi mobile banking, mencakup seluruh siklus STLC — mulai dari Test Plan, Test Scenario, dan Test Case, eksekusi manual dengan pencatatan hasil dan evidence, defect reporting dengan format menyerupai Jira, API testing menggunakan Postman untuk endpoint transfer dan QRIS, sampai validasi data di level database pakai SQL, dan ditutup dengan Test Summary Report untuk keputusan go/no-go. Untuk automation tools seperti Katalon atau Selenium, saya paham konsep dan alurnya dalam STLC, dan siap onboarding cepat kalau tim menggunakan tools tersebut."</p>
+</blockquote>
+<p>Kalimat ini <strong>aman</strong> karena tidak mengklaim pengalaman production yang tidak kamu miliki, tapi tetap menunjukkan pemahaman menyeluruh + bukti konkret (project ini) yang bisa langsung kamu tunjukkan kalau diminta.</p>
+<p><strong>Prinsip yang perlu terus dipegang:</strong> jangan klaim pernah testing aplikasi mobile banking <em>production</em> kalau yang kamu punya adalah project simulasi/latihan seperti SigmaPay ini. Selalu jelas bedanya: <em>"saya latihan lewat project sendiri"</em> vs <em>"saya pernah kerjakan di production"</em> — interviewer berpengalaman biasanya menggali lebih dalam dan ketidakjujuran di titik ini gampang ketahuan.</p>
+<hr />
+<p><em>Catatan: beberapa gambar tangkapan layar Katalon yang kamu lampirkan berasal dari link sesi ChatGPT (<code>images.openai.com</code>) yang bersifat sementara/tidak persisten, jadi tidak saya sertakan di file ini — kalau butuh visual Katalon di portfolio, lebih baik pakai screenshot dari instalasi Katalon kamu sendiri saat benar-benar mencobanya.</em></p>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="STLC_Tools_Mapping.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

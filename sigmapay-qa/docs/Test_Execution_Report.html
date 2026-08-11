@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Execution Report — Cycle 1 (SIT) · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>Test Execution Report — Cycle 1 (SIT)</h1>
+  <div class="doc-meta">Test_Execution_Report.md &middot; Test Execution Report</div>
+  <div class="doc-body">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Project</td>
+<td>SigmaPay Mobile Banking</td>
+</tr>
+<tr>
+<td>Modul</td>
+<td>Fund Transfer &amp; QRIS Payment</td>
+</tr>
+<tr>
+<td>Build</td>
+<td>v1.4.0-QA</td>
+</tr>
+<tr>
+<td>Tanggal Eksekusi</td>
+<td>03 – 05 Agustus 2026</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>QA (api-qa.sigmapay.dummy)</td>
+</tr>
+<tr>
+<td>Executor</td>
+<td>QA Engineer</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-ringkasan-eksekusi">1. Ringkasan Eksekusi</h2>
+<table>
+<thead>
+<tr>
+<th>Total TC</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Blocked</th>
+<th>Not Executed</th>
+<th>Pass Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30</td>
+<td>24</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>80%</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Catatan: Pass rate 80% pada Cycle 1 masih di bawah exit criteria (95%). Diperlukan <strong>Cycle 2 (Retest)</strong> setelah 6 defect di bawah ini diperbaiki developer.</p>
+</blockquote>
+<h2 id="2-smoke-test-pre-condition-sebelum-cycle-1">2. Smoke Test (Pre-condition sebelum Cycle 1)</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Login berhasil</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Menu Transfer dapat diakses</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Menu Scan QRIS dapat diakses</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Saldo tampil dengan benar</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>Riwayat mutasi dapat diakses</td>
+<td>Pass</td>
+</tr>
+</tbody>
+</table>
+<p>Smoke test <strong>Pass</strong> → build dilanjutkan ke Functional Testing.</p>
+<h2 id="3-hasil-eksekusi-per-test-case">3. Hasil Eksekusi per Test Case</h2>
+<table>
+<thead>
+<tr>
+<th>Test Case ID</th>
+<th>Judul Singkat</th>
+<th>Status</th>
+<th>Defect Terkait</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC-TRF-001</td>
+<td>Transfer intrabank saldo cukup</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-001.png</td>
+</tr>
+<tr>
+<td>TC-TRF-002</td>
+<td>Transfer interbank BI-FAST</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-002.png</td>
+</tr>
+<tr>
+<td>TC-TRF-003</td>
+<td>Transfer ke Virtual Account</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-003.png</td>
+</tr>
+<tr>
+<td>TC-TRF-004</td>
+<td>Rincian biaya admin tampil</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-004.png</td>
+</tr>
+<tr>
+<td>TC-TRF-005</td>
+<td>Notifikasi &amp; e-receipt</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-005.png</td>
+</tr>
+<tr>
+<td>TC-TRF-006</td>
+<td>Saldo tidak cukup ditolak</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-006.png</td>
+</tr>
+<tr>
+<td>TC-TRF-007</td>
+<td>Melebihi limit harian ditolak</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-007.png</td>
+</tr>
+<tr>
+<td>TC-TRF-008</td>
+<td>Rekening tujuan tidak valid</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-008.png</td>
+</tr>
+<tr>
+<td>TC-TRF-009</td>
+<td>Rekening tujuan diblokir</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-009.png</td>
+</tr>
+<tr>
+<td>TC-TRF-010</td>
+<td>OTP salah 3x terkunci</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-010.png</td>
+</tr>
+<tr>
+<td>TC-TRF-011</td>
+<td>Sesi timeout saat konfirmasi</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-011.png</td>
+</tr>
+<tr>
+<td>TC-TRF-012</td>
+<td>Validasi nominal negatif/nol</td>
+<td><strong>Fail</strong></td>
+<td>BUG-SGP-006</td>
+<td>evidence/TC-TRF-012.png</td>
+</tr>
+<tr>
+<td>TC-TRF-013</td>
+<td>Validasi nominal non-numerik</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-013.png</td>
+</tr>
+<tr>
+<td>TC-TRF-014</td>
+<td>Transfer ke rekening sendiri</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-014.png</td>
+</tr>
+<tr>
+<td>TC-TRF-015</td>
+<td>Cegah double debit</td>
+<td><strong>Fail</strong></td>
+<td>BUG-SGP-001</td>
+<td>evidence/TC-TRF-015.png</td>
+</tr>
+<tr>
+<td>TC-TRF-016</td>
+<td>Status ambigu saat koneksi putus</td>
+<td><strong>Fail</strong></td>
+<td>BUG-SGP-002</td>
+<td>evidence/TC-TRF-016.png</td>
+</tr>
+<tr>
+<td>TC-TRF-017</td>
+<td>Reversal otomatis timeout BI-FAST</td>
+<td><strong>Fail</strong></td>
+<td>BUG-SGP-003</td>
+<td>evidence/TC-TRF-017.png</td>
+</tr>
+<tr>
+<td>TC-TRF-018</td>
+<td>Boundary waktu cut-off limit</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-018.png</td>
+</tr>
+<tr>
+<td>TC-TRF-019</td>
+<td>Validasi nominal ekstrem besar</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-019.png</td>
+</tr>
+<tr>
+<td>TC-TRF-020</td>
+<td>Input berbahaya field catatan</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-TRF-020.png</td>
+</tr>
+<tr>
+<td>TC-QRIS-001</td>
+<td>Bayar QRIS statis</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-QRIS-001.png</td>
+</tr>
+<tr>
+<td>TC-QRIS-002</td>
+<td>Bayar QRIS dinamis</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-QRIS-002.png</td>
+</tr>
+<tr>
+<td>TC-QRIS-003</td>
+<td>Status sukses konsisten</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-QRIS-003.png</td>
+</tr>
+<tr>
+<td>TC-QRIS-004</td>
+<td>QR expired ditolak</td>
+<td><strong>Fail</strong></td>
+<td>BUG-SGP-004</td>
+<td>evidence/TC-QRIS-004.png</td>
+</tr>
+<tr>
+<td>TC-QRIS-005</td>
+<td>QR rusak ditolak</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-QRIS-005.png</td>
+</tr>
+<tr>
+<td>TC-QRIS-006</td>
+<td>Saldo tidak cukup ditolak</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-QRIS-006.png</td>
+</tr>
+<tr>
+<td>TC-QRIS-007</td>
+<td>Melebihi limit QRIS harian</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-QRIS-007.png</td>
+</tr>
+<tr>
+<td>TC-QRIS-008</td>
+<td>Saldo aman jika app ditutup paksa</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-QRIS-008.png</td>
+</tr>
+<tr>
+<td>TC-QRIS-009</td>
+<td>Validasi Merchant ID saat settlement</td>
+<td><strong>Fail</strong></td>
+<td>BUG-SGP-005</td>
+<td>evidence/TC-QRIS-009.png</td>
+</tr>
+<tr>
+<td>TC-QRIS-010</td>
+<td>Concurrent payment QR sama</td>
+<td>Pass</td>
+<td>-</td>
+<td>evidence/TC-QRIS-010.png</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Folder <code>evidence/</code> bersifat placeholder — pada praktik nyata berisi screenshot/screen-recording/log request-response sebagai bukti eksekusi (test evidence) yang dilampirkan ke tiket JIRA &amp; laporan.</p>
+</blockquote>
+<h2 id="4-defect-summary-ringkas-detail-di-05-bug-report">4. Defect Summary (Ringkas — detail di <a href="Bug_Report_Sample.html">05-Bug-Report</a>)</h2>
+<table>
+<thead>
+<tr>
+<th>Defect ID</th>
+<th>Severity</th>
+<th>Modul</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BUG-SGP-001</td>
+<td>Critical</td>
+<td>Transfer</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>BUG-SGP-002</td>
+<td>Critical</td>
+<td>Transfer</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>BUG-SGP-003</td>
+<td>Major</td>
+<td>Transfer</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>BUG-SGP-004</td>
+<td>Critical</td>
+<td>QRIS</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>BUG-SGP-005</td>
+<td>Major</td>
+<td>QRIS</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>BUG-SGP-006</td>
+<td>Minor</td>
+<td>Transfer</td>
+<td>Open</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-rekomendasi">5. Rekomendasi</h2>
+<ul>
+<li><strong>Blocker untuk rilis</strong>: BUG-SGP-001, 002, 004 (Critical, berhubungan langsung dengan integritas dana nasabah) — wajib fix sebelum lanjut ke UAT.</li>
+<li>BUG-SGP-003 &amp; 005 (Major) — disarankan fix sebelum rilis, atau minimal mitigasi + monitoring manual di production.</li>
+<li>BUG-SGP-006 (Minor) — dapat masuk backlog rilis berikutnya jika disetujui Product Owner (risk acceptance), tidak memblok rilis.</li>
+<li>Setelah fix, lanjutkan ke <strong>Cycle 2: Retest defect + Regression Test</strong> (lihat <a href="Regression_Test_Checklist.html">Regression Checklist</a>).</li>
+</ul>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="Test_Execution_Report.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

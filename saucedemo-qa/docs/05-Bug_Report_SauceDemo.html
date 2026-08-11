@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Bug — Paket Pengujian QA SauceDemo · SauceDemo QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f4f4f8; --bg-dark:#13131e;
+  --ink:#1c1c26; --ink-soft:#54566b; --muted:#9395a8;
+  --line:#dcdce6; --line-strong:#adaec2;
+  --primary:#473c93; --accent:#d9622b; --accent-soft:#eeecf9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#15151f; --bg-alt:#1d1d2b; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.62); --muted:rgba(235,235,245,0.32); --line:rgba(140,140,170,0.28); --line-strong:rgba(140,140,170,0.45); --primary:#9086e6; --accent:#f0925a; --accent-soft:rgba(144,134,230,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SauceDemo QA &middot; QA Documentation</div>
+  <h1>Laporan Bug — Paket Pengujian QA SauceDemo</h1>
+  <div class="doc-meta">05-Bug_Report_SauceDemo.md &middot; Dokumen QA</div>
+  <div class="doc-body">
+<p><strong>Aplikasi:</strong> https://www.saucedemo.com/
+<strong>Catatan:</strong> SauceDemo memang sengaja menyiapkan setiap bug di bawah ini pada akun uji tertentu
+supaya orang yang belajar QA punya bug sungguhan untuk ditemukan. Setiap bug diverifikasi ulang
+lewat test otomatis di <code>known-issues.spec.ts</code>
+(Playwright) dan <code>known-issues.cy.ts</code> (Cypress) —
+dan, jika disebutkan, juga di paket Selenium — sehingga setiap kali dijalankan ulang, perubahan
+perilaku SauceDemo akan langsung ketahuan. Karena sekarang ada hasil nyata dari dua framework
+sekaligus, tabel di bawah membedakan status <strong>konsisten</strong> (sama di kedua framework — sinyal
+kuat/bisa dipercaya) dari status <strong>framework-dependent</strong> (beda hasil — perlu dibaca catatannya).</p>
+<p><strong>Terakhir diverifikasi:</strong> 2026-08-10, dijalankan otomatis langsung ke situs live (Playwright dari
+sesi development, Cypress dari Cypress Test Runner milik pemilik project — lihat
+<a href="04-Test_Execution_Report.html">Test_Execution_Report.md §4</a>
+untuk detail lengkapnya).</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Playwright</th>
+<th>Cypress</th>
+<th>Kesimpulan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BUG-001</td>
+<td>✅ Ya</td>
+<td>✅ Ya</td>
+<td><strong>Konsisten</strong> — masih terjadi</td>
+</tr>
+<tr>
+<td>BUG-002</td>
+<td>Belum diotomasi (hanya bisa dicek visual)</td>
+<td>Belum diotomasi</td>
+<td>—</td>
+</tr>
+<tr>
+<td>BUG-003</td>
+<td>✅ Ya</td>
+<td>❌ Tidak</td>
+<td>⚠️ <strong>Framework-dependent</strong> — lihat catatan di bawah</td>
+</tr>
+<tr>
+<td>BUG-004</td>
+<td>❌ Tidak</td>
+<td>❌ Tidak</td>
+<td><strong>Konsisten</strong> — sudah tidak terjadi lagi</td>
+</tr>
+<tr>
+<td>BUG-005</td>
+<td>✅ Ya</td>
+<td>✅ Ya</td>
+<td><strong>Konsisten</strong> — masih terjadi</td>
+</tr>
+<tr>
+<td>BUG-006</td>
+<td>❌ Tidak</td>
+<td>❌ Tidak</td>
+<td><strong>Konsisten</strong> — sudah tidak terjadi lagi</td>
+</tr>
+<tr>
+<td>BUG-007</td>
+<td>❌ Tidak</td>
+<td>✅ Ya</td>
+<td>⚠️ <strong>Framework-dependent</strong> — kemungkinan besar ambang batas waktu yang terlalu ketat, lihat catatan di bawah</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="bug-001-gambar-produk-tidak-menampilkan-gambar-yang-benar-problem_user">BUG-001 — Gambar Produk Tidak Menampilkan Gambar yang Benar (<code>problem_user</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Kolom</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Area</strong></td>
+<td>Katalog produk</td>
+</tr>
+<tr>
+<td><strong>Severity</strong></td>
+<td>Sedang</td>
+</tr>
+<tr>
+<td><strong>Akun</strong></td>
+<td><code>problem_user</code> / <code>secret_sauce</code></td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Masih terjadi per 2026-08-10 — <strong>konsisten di Playwright dan Cypress</strong></td>
+</tr>
+<tr>
+<td><strong>Pengecekan otomatis</strong></td>
+<td><code>known-issues.spec.ts</code> (Playwright) — BUG-001; <code>known-issues.cy.ts</code> (Cypress) — BUG-001</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Langkah Reproduksi:</strong>
+1. Login sebagai <code>problem_user</code>.
+2. Periksa gambar produk di halaman inventory.</p>
+<p><strong>Diharapkan:</strong> Setiap kartu produk menampilkan gambarnya masing-masing yang benar.
+<strong>Kenyataan:</strong> Semua kartu produk menampilkan gambar yang sama dan salah.</p>
+<hr />
+<h2 id="bug-002-halaman-dashboard-memiliki-beberapa-masalah-komponen-ui-visual_user">BUG-002 — Halaman Dashboard Memiliki Beberapa Masalah Komponen UI (<code>visual_user</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Kolom</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Area</strong></td>
+<td>UI / Tampilan</td>
+</tr>
+<tr>
+<td><strong>Severity</strong></td>
+<td>Sedang</td>
+</tr>
+<tr>
+<td><strong>Akun</strong></td>
+<td><code>visual_user</code> / <code>secret_sauce</code></td>
+</tr>
+<tr>
+<td><strong>Pengecekan otomatis</strong></td>
+<td>Tidak ada — pergeseran tampilan (visual drift) tidak bisa dicek lewat assertion berbasis DOM biasa; perlu ditinjau manual atau lewat visual-regression testing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Langkah Reproduksi:</strong>
+1. Login sebagai <code>visual_user</code>.
+2. Periksa komponen-komponen halaman (ikon hamburger, ikon keranjang, harga item, posisi tombol
+   "Add to cart").</p>
+<p><strong>Diharapkan:</strong> Semua komponen UI tampil di posisi dan nilai yang benar.
+<strong>Kenyataan:</strong> Beberapa komponen bergeser posisinya atau menampilkan nilai yang salah (misalnya
+harga yang membengkak, ikon/tombol yang posisinya bergeser).</p>
+<hr />
+<h2 id="bug-003-fitur-sort-menampilkan-error-javascript-error_user">BUG-003 — Fitur Sort Menampilkan Error JavaScript (<code>error_user</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Kolom</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Area</strong></td>
+<td>Katalog produk / Pengurutan</td>
+</tr>
+<tr>
+<td><strong>Severity</strong></td>
+<td>Tinggi</td>
+</tr>
+<tr>
+<td><strong>Akun</strong></td>
+<td><code>error_user</code> / <code>secret_sauce</code></td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>⚠️ Framework-dependent per 2026-08-10 — terjadi di Playwright, <strong>tidak</strong> terjadi di Cypress pada run yang sama harinya</td>
+</tr>
+<tr>
+<td><strong>Pengecekan otomatis</strong></td>
+<td><code>known-issues.spec.ts</code> — BUG-003 (Playwright, FAIL/bug terdeteksi); <code>known-issues.cy.ts</code> — BUG-003 (Cypress, PASS/bug tidak terdeteksi)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Langkah Reproduksi:</strong>
+1. Login sebagai <code>error_user</code>.
+2. Ubah pilihan di dropdown sort.</p>
+<p><strong>Diharapkan:</strong> Daftar item terurut ulang sesuai pilihan yang dipilih.
+<strong>Kenyataan (Playwright):</strong> Sort tidak memperbarui daftar; muncul dialog alert: "Sorting is
+broken! This error has been reported to Backtrace."
+<strong>Kenyataan (Cypress):</strong> Alert tidak muncul sama sekali pada run yang sama harinya.</p>
+<p><strong>Catatan analisis:</strong> dugaan penyebab paling masuk akal adalah perbedaan cara Playwright dan
+Cypress men-trigger event <code>change</code> pada elemen <code>&lt;select&gt;</code> — Playwright mengemulasi input lebih
+dekat ke perilaku browser asli (lewat Chrome DevTools Protocol), Cypress mensimulasikan event
+lewat JavaScript. Kemungkinan logika broken-sort di <code>error_user</code> hanya terpicu oleh salah satu
+jenis event tersebut. Ini bukan bug di test-nya — kedua framework melaporkan yang benar-benar
+terjadi di sesinya masing-masing; kesimpulannya, bug ini <strong>tidak konsisten muncul di semua cara
+interaksi</strong>, bukan benar-benar hilang.</p>
+<hr />
+<h2 id="bug-004-tombol-add-to-cart-tidak-berfungsi-di-sebagian-item-error_user">BUG-004 — Tombol Add to Cart Tidak Berfungsi di Sebagian Item (<code>error_user</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Kolom</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Area</strong></td>
+<td>Keranjang belanja</td>
+</tr>
+<tr>
+<td><strong>Severity</strong></td>
+<td>Tinggi</td>
+</tr>
+<tr>
+<td><strong>Akun</strong></td>
+<td><code>error_user</code> / <code>secret_sauce</code></td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Sudah tidak terjadi lagi per 2026-08-10 — semua tombol Add to cart dalam kondisi aktif, <strong>konsisten di Playwright, Cypress, dan Selenium</strong></td>
+</tr>
+<tr>
+<td><strong>Pengecekan otomatis</strong></td>
+<td><code>known-issues.spec.ts</code> (Playwright) — BUG-004; <code>known-issues.cy.ts</code> (Cypress) — BUG-004; <code>test_saucedemo.py::test_error_user_add_to_cart_all_items</code> (Selenium)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Langkah Reproduksi:</strong>
+1. Login sebagai <code>error_user</code>.
+2. Klik "Add to cart" pada beberapa item.</p>
+<p><strong>Diharapkan:</strong> Semua tombol "Add to cart" bisa diklik dan menambahkan itemnya.
+<strong>Kenyataan:</strong> Sebagian tombol berfungsi; sebagian lagi tidak bisa diklik.</p>
+<hr />
+<h2 id="bug-005-field-last-name-tidak-bisa-diisi-saat-checkout-error_user">BUG-005 — Field Last Name Tidak Bisa Diisi Saat Checkout (<code>error_user</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Kolom</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Area</strong></td>
+<td>Checkout: Your Information</td>
+</tr>
+<tr>
+<td><strong>Severity</strong></td>
+<td>Tinggi</td>
+</tr>
+<tr>
+<td><strong>Akun</strong></td>
+<td><code>error_user</code> / <code>secret_sauce</code></td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Masih terjadi per 2026-08-10 — <strong>konsisten di Playwright dan Cypress</strong></td>
+</tr>
+<tr>
+<td><strong>Pengecekan otomatis</strong></td>
+<td><code>known-issues.spec.ts</code> (Playwright) — BUG-005; <code>known-issues.cy.ts</code> (Cypress) — BUG-005</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Langkah Reproduksi:</strong>
+1. Login sebagai <code>error_user</code>, tambahkan item, lanjut ke checkout.
+2. Coba isi field Last Name.</p>
+<p><strong>Diharapkan:</strong> Field Last Name menerima input.
+<strong>Kenyataan:</strong> Field tidak menerima input apa pun.</p>
+<hr />
+<h2 id="bug-006-tidak-bisa-menyelesaikan-alur-checkout-error_user">BUG-006 — Tidak Bisa Menyelesaikan Alur Checkout (<code>error_user</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Kolom</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Area</strong></td>
+<td>Checkout: Overview</td>
+</tr>
+<tr>
+<td><strong>Severity</strong></td>
+<td>Tinggi</td>
+</tr>
+<tr>
+<td><strong>Akun</strong></td>
+<td><code>error_user</code> / <code>secret_sauce</code></td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Sudah tidak terjadi lagi per 2026-08-10 — tombol Finish dalam kondisi aktif dan bisa diklik, <strong>konsisten di Playwright dan Cypress</strong></td>
+</tr>
+<tr>
+<td><strong>Pengecekan otomatis</strong></td>
+<td><code>known-issues.spec.ts</code> (Playwright) — BUG-006; <code>known-issues.cy.ts</code> (Cypress) — BUG-006</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Langkah Reproduksi:</strong>
+1. Login sebagai <code>error_user</code>, tambahkan item, lanjutkan checkout sampai ke langkah Overview.
+2. Klik "Finish".</p>
+<p><strong>Diharapkan:</strong> Pesanan selesai; pengguna sampai di halaman konfirmasi.
+<strong>Kenyataan:</strong> Tombol "Finish" tidak bisa diklik.</p>
+<hr />
+<h2 id="bug-007-dashboard-memiliki-respons-yang-lambat-performance_glitch_user">BUG-007 — Dashboard Memiliki Respons yang Lambat (<code>performance_glitch_user</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Kolom</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Area</strong></td>
+<td>Performa</td>
+</tr>
+<tr>
+<td><strong>Severity</strong></td>
+<td>Sedang</td>
+</tr>
+<tr>
+<td><strong>Akun</strong></td>
+<td><code>performance_glitch_user</code> / <code>secret_sauce</code></td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>⚠️ Framework-dependent per 2026-08-10 — dashboard termuat <strong>dalam</strong> batas waktu 5 detik di Playwright, tapi <strong>melewati</strong> batas waktu di Cypress pada run yang sama harinya</td>
+</tr>
+<tr>
+<td><strong>Pengecekan otomatis</strong></td>
+<td><code>known-issues.spec.ts</code> (Playwright, PASS/&lt; 5 detik); <code>known-issues.cy.ts</code> (Cypress, FAIL/&gt; 5 detik) — BUG-007</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Langkah Reproduksi:</strong>
+1. Login sebagai <code>performance_glitch_user</code>.</p>
+<p><strong>Diharapkan:</strong> Pengalihan ke halaman inventory berjalan mulus tanpa delay yang terasa.
+<strong>Kenyataan:</strong> Delay bawaan <code>performance_glitch_user</code> masih ada, dan durasinya berada <strong>tepat di
+sekitar ambang batas 5 detik</strong> yang dipakai test ini — cukup dekat sehingga hasilnya bisa
+berpindah pass/fail tergantung overhead runner yang dipakai (Cypress Test Runner mode GUI/
+interaktif punya overhead lebih besar daripada Playwright headless, jadi lebih rentan melewati
+ambang batas).</p>
+<p><strong>Catatan analisis:</strong> ini kemungkinan besar bukan berarti delay-nya "berubah", melainkan ambang
+batas 5 detik di test ini <strong>terlalu ketat/mepet</strong> untuk dijadikan pass/fail biner yang stabil
+lintas framework. Rekomendasi: naikkan ambang batas (mis. 8-10 detik) atau ukur delta relatif
+terhadap waktu load <code>standard_user</code> alih-alih angka absolut.</p>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="05-Bug_Report_SauceDemo.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

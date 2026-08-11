@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konsep SDLC & STLC — Dipetakan ke Studi Kasus "SigmaPay" (Transfer & QRIS) · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>Konsep SDLC & STLC — Dipetakan ke Studi Kasus "SigmaPay" (Transfer & QRIS)</h1>
+  <div class="doc-meta">SDLC_STLC_Concept.md &middot; Konsep dasar</div>
+  <div class="doc-body">
+<h2 id="1-sdlc-software-development-life-cycle">1. SDLC (Software Development Life Cycle)</h2>
+<p>SDLC adalah siklus hidup <strong>pengembangan</strong> software secara keseluruhan (dev, QA, business, ops terlibat semua). QA punya peran di <strong>setiap</strong> fase, bukan cuma pas testing.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Fase SDLC</th>
+<th>Yang Terjadi</th>
+<th>Peran QA di Fase Ini (Studi Kasus SigmaPay)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Requirement Analysis</strong></td>
+<td>BA/PO mengumpulkan kebutuhan bisnis: "User bisa transfer antar bank via BI-FAST" &amp; "User bisa bayar merchant via scan QRIS"</td>
+<td>QA review BRD/User Story, cari requirement yang ambigu (misal: "limit transfer harian" — berapa nominalnya? beda per tier user?). Ajukan pertanyaan sebelum development mulai (<strong>shift-left testing</strong>)</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Design (System &amp; UI/UX)</strong></td>
+<td>Tim membuat wireframe, API contract (Swagger/OpenAPI), skema database</td>
+<td>QA review design: apakah error state sudah didesain (saldo kurang, QR expired, koneksi timeout)? Mulai siapkan <strong>Test Plan</strong> &amp; <strong>Traceability Matrix</strong> dari sini</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Development (Coding)</strong></td>
+<td>Developer coding fitur transfer &amp; QRIS, termasuk unit test</td>
+<td>QA mulai menulis <strong>Test Scenario &amp; Test Case</strong> secara paralel (tidak menunggu development selesai 100%). Setup <strong>test environment</strong> &amp; <strong>test data</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Testing</strong></td>
+<td>Build pertama masuk ke QA environment</td>
+<td>QA melakukan <strong>Smoke Test</strong> → <strong>Functional Test</strong> → <strong>SIT (System Integration Testing)</strong> → regresi → serahkan ke user untuk <strong>UAT</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Deployment/Release</strong></td>
+<td>Fitur transfer &amp; QRIS naik ke production (biasanya lewat CI/CD, dengan approval)</td>
+<td>QA melakukan <strong>smoke test di production</strong> (post-deployment verification) — pastikan transaksi real (nominal kecil) berhasil end-to-end</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Maintenance</strong></td>
+<td>Fitur sudah live, ada bug report dari user, ada fitur tambahan (misal: QRIS cross-border)</td>
+<td>QA menangani <strong>regression testing</strong> setiap ada hotfix, serta <strong>monitoring defect trend</strong> dari production</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Model pengembangan yang relevan:</strong> Karena kedua loker menyebut "Agile/Scrum", asumsikan SDLC berjalan dalam <strong>sprint 2 minggu</strong>, di mana STLC di bawah ini terjadi <strong>berulang setiap sprint</strong>, bukan cuma sekali di akhir project (waterfall).</p>
+<hr />
+<h2 id="2-stlc-software-testing-life-cycle">2. STLC (Software Testing Life Cycle)</h2>
+<p>STLC adalah siklus kerja <strong>QA secara spesifik</strong>, biasanya berjalan paralel/nested di dalam fase "Testing" pada SDLC (dan idealnya dimulai sejak fase Requirement).</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Fase STLC</th>
+<th>Aktivitas</th>
+<th>Entry Criteria</th>
+<th>Exit Criteria</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Requirement Analysis</strong></td>
+<td>QA pelajari User Story: <em>"Sebagai nasabah, saya ingin transfer ke bank lain via BI-FAST agar dana diterima real-time"</em> dan <em>"Sebagai nasabah, saya ingin bayar merchant dengan scan QRIS"</em>. Identifikasi <strong>testable requirement</strong> vs requirement yang tidak jelas</td>
+<td>Requirement/User Story tersedia (walau belum final)</td>
+<td>Requirement Traceability Matrix (RTM) awal selesai, semua open question sudah dijawab BA</td>
+<td>RTM, daftar clarification question</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Test Planning</strong></td>
+<td>Tentukan scope, strategy, jenis testing (functional, API, SIT, regression), tools, effort estimation, resource, risk</td>
+<td>RTM tersedia</td>
+<td>Test Plan disetujui Lead/PM</td>
+<td><strong>Test Plan</strong> (<a href="Test_Plan_MobileBanking.html">lihat</a>)</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Test Case Design</strong></td>
+<td>Breakdown requirement jadi <strong>Test Scenario</strong> → detail jadi <strong>Test Case</strong> (step, data, expected result), termasuk kasus negatif &amp; edge case</td>
+<td>Test Plan disetujui</td>
+<td>Test case sudah direview &amp; disetujui</td>
+<td><strong>Test Scenario</strong> &amp; <strong>Test Case</strong> (<a href="Test_Scenario_Transfer_QRIS.html">lihat</a>, <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">lihat</a>)</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Test Environment Setup</strong></td>
+<td>Siapkan environment SIT/UAT, dummy account dengan berbagai kondisi saldo, koneksi ke sandbox BI-FAST/QRIS switching, tools (Postman collection, SQL client, JIRA project)</td>
+<td>Environment checklist siap</td>
+<td>Smoke test environment lolos</td>
+<td>Environment ready + smoke test checklist</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Test Execution</strong></td>
+<td>Jalankan test case satu per satu, catat Pass/Fail, ambil <strong>evidence</strong> (screenshot/log), log bug ke JIRA untuk yang Fail, lakukan <strong>retest</strong> setelah fix, lalu <strong>regression test</strong></td>
+<td>Environment siap, build sudah smoke-test</td>
+<td>Semua test case dieksekusi, defect kritikal sudah closed/mitigated</td>
+<td><strong>Execution Report</strong>, <strong>Bug Report</strong> (<a href="Test_Execution_Report.html">lihat</a>, <a href="Bug_Report_Sample.html">lihat</a>)</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Test Cycle Closure</strong></td>
+<td>Evaluasi hasil testing: coverage, defect density, defect yang masih open (risk acceptance), keputusan go/no-go</td>
+<td>Eksekusi selesai</td>
+<td>Sign-off dari QA Lead/stakeholder</td>
+<td><strong>Test Summary Report</strong> (<a href="Test_Summary_Report.html">lihat</a>)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-alur-visual-sdlc-stlc">3. Alur Visual (SDLC ⟷ STLC)</h2>
+<pre><code>SDLC:  Requirement → Design → Development → Testing ─────────────→ Deployment → Maintenance
+                                              │
+STLC:                          Req. Analysis → Test Planning → Test Case Design →
+                                Test Env Setup → Test Execution → Test Cycle Closure
+                                                    │
+                                        (loop tiap sprint / tiap regression)
+</code></pre>
+<p><strong>Poin penting untuk interview:</strong> SDLC = payung besar seluruh project. STLC = zoom-in ke proses kerja QA. Kandidat yang cuma bisa jawab "STLC itu test planning, design, execution, closure" tanpa bisa mengaitkan ke SDLC &amp; konteks bisnis biasanya dianggap junior. Level 3-5 tahun diharapkan bisa cerita <strong>trade-off</strong>: misal kenapa smoke test dilakukan sebelum functional test, atau kenapa regression test wajib sebelum UAT sign-off.</p>
+<hr />
+<h2 id="4-level-testing-yang-relevan-dengan-loker">4. Level Testing yang Relevan dengan Loker</h2>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Siapa yang Uji</th>
+<th>Tujuan</th>
+<th>Contoh di SigmaPay</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Unit Testing</strong></td>
+<td>Developer</td>
+<td>Validasi fungsi/method individual</td>
+<td>Fungsi hitung biaya admin BI-FAST</td>
+</tr>
+<tr>
+<td><strong>SIT (System Integration Testing)</strong></td>
+<td>QA</td>
+<td>Validasi integrasi antar modul/sistem — termasuk ke switching QRIS &amp; BI-FAST eksternal</td>
+<td>Transfer dari SigmaPay → core banking → BI-FAST switching → bank tujuan</td>
+</tr>
+<tr>
+<td><strong>Functional Testing</strong></td>
+<td>QA</td>
+<td>Validasi fitur sesuai requirement</td>
+<td>Form transfer menerima input benar, menolak input salah</td>
+</tr>
+<tr>
+<td><strong>Regression Testing</strong></td>
+<td>QA</td>
+<td>Pastikan fitur lama tidak rusak setelah ada perubahan</td>
+<td>Setelah fix bug QRIS, pastikan fitur transfer &amp; mutasi tetap normal</td>
+</tr>
+<tr>
+<td><strong>Smoke Testing</strong></td>
+<td>QA</td>
+<td>Cek cepat build baru "layak diuji lebih lanjut" atau tidak</td>
+<td>Setelah deploy build baru, cek: bisa login, bisa buka menu transfer, bisa scan QR</td>
+</tr>
+<tr>
+<td><strong>UAT (User Acceptance Testing)</strong></td>
+<td>User/Business (didampingi QA)</td>
+<td>Validasi dari sudut pandang bisnis/user akhir</td>
+<td>Business banking memverifikasi flow transfer sesuai kebutuhan nasabah</td>
+</tr>
+</tbody>
+</table>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="SDLC_STLC_Concept.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

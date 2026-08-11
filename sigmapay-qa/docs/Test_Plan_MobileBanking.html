@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Plan — SigmaPay Mobile Banking: Modul Fund Transfer & QRIS Payment · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>Test Plan — SigmaPay Mobile Banking: Modul Fund Transfer & QRIS Payment</h1>
+  <div class="doc-meta">Test_Plan_MobileBanking.md &middot; Test Plan</div>
+  <div class="doc-body">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dokumen</td>
+<td>Test Plan</td>
+</tr>
+<tr>
+<td>Versi</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Project</td>
+<td>SigmaPay Mobile Banking</td>
+</tr>
+<tr>
+<td>Modul</td>
+<td>Fund Transfer (Intrabank, Interbank/BI-FAST, Virtual Account) &amp; QRIS Payment</td>
+</tr>
+<tr>
+<td>Disusun oleh</td>
+<td>QA Engineer</td>
+</tr>
+<tr>
+<td>Sprint</td>
+<td>Sprint 14 (Simulasi)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-pendahuluan">1. Pendahuluan</h2>
+<p>Dokumen ini menjelaskan pendekatan pengujian untuk fitur <strong>Fund Transfer</strong> dan <strong>QRIS Payment</strong> pada aplikasi SigmaPay Mobile Banking, sebelum dirilis ke production.</p>
+<h2 id="2-tujuan-testing">2. Tujuan Testing</h2>
+<ul>
+<li>Memastikan seluruh alur transfer dana (intrabank, interbank via BI-FAST, ke Virtual Account) berjalan sesuai requirement.</li>
+<li>Memastikan alur pembayaran QRIS (statis &amp; dinamis) berjalan sesuai requirement, termasuk validasi merchant.</li>
+<li>Memastikan data transaksi konsisten antara <strong>aplikasi (UI)</strong>, <strong>API/backend</strong>, dan <strong>database</strong>.</li>
+<li>Memastikan tidak ada regresi pada fitur existing (login, saldo, mutasi) akibat perubahan di modul ini.</li>
+</ul>
+<h2 id="3-scope">3. Scope</h2>
+<h3 id="in-scope">In Scope</h3>
+<ul>
+<li>Functional Testing: Transfer Intrabank, Transfer Interbank (BI-FAST), Transfer ke Virtual Account, QRIS Payment (scan &amp; pay)</li>
+<li>Negative Testing: saldo tidak cukup, limit transaksi, input tidak valid, sesi timeout</li>
+<li>API Testing: endpoint <code>POST /transfer</code>, <code>POST /qris/pay</code>, <code>GET /transaction/status</code></li>
+<li>Database Validation: mutasi saldo, log transaksi, status settlement</li>
+<li>Regression Testing: modul Login, Cek Saldo, Riwayat Mutasi</li>
+<li>SIT: integrasi ke simulator/sandbox BI-FAST &amp; QRIS Switching</li>
+<li>Smoke Testing: setiap build baru masuk QA environment</li>
+<li>UAT Support: pendampingan business user saat UAT</li>
+</ul>
+<h3 id="out-of-scope">Out of Scope</h3>
+<ul>
+<li>Performance/Load Testing (ditangani tim Performance terpisah)</li>
+<li>Security Penetration Testing (ditangani tim Security)</li>
+<li>Automation Testing (fase ini manual — automation candidate untuk regression suite di sprint berikutnya)</li>
+</ul>
+<h2 id="4-test-strategy">4. Test Strategy</h2>
+<table>
+<thead>
+<tr>
+<th>Jenis Testing</th>
+<th>Kapan Dilakukan</th>
+<th>Metode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Smoke Testing</td>
+<td>Setiap build baru diterima QA</td>
+<td>Manual, checklist 10 kasus kritikal</td>
+</tr>
+<tr>
+<td>Functional Testing</td>
+<td>Setelah smoke test lolos</td>
+<td>Manual, mengacu ke Test Case</td>
+</tr>
+<tr>
+<td>API Testing</td>
+<td>Paralel dengan functional testing UI</td>
+<td>Postman</td>
+</tr>
+<tr>
+<td>Database Validation</td>
+<td>Setelah transaksi dieksekusi</td>
+<td>SQL query manual via DB client</td>
+</tr>
+<tr>
+<td>SIT</td>
+<td>Setelah functional testing modul selesai</td>
+<td>Manual, environment terhubung sandbox eksternal</td>
+</tr>
+<tr>
+<td>Regression Testing</td>
+<td>Setelah bug fix / sebelum rilis</td>
+<td>Manual, mengacu ke Regression Checklist</td>
+</tr>
+<tr>
+<td>UAT</td>
+<td>Setelah SIT selesai &amp; defect kritikal closed</td>
+<td>Business user, didampingi QA</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-entry-criteria">5. Entry Criteria</h2>
+<ul>
+<li>Build sudah di-deploy ke QA environment tanpa error deployment.</li>
+<li>Smoke test 10 kasus kritikal <strong>Pass</strong>.</li>
+<li>Test Case sudah direview &amp; disetujui.</li>
+<li>Test data (dummy account, dummy merchant QRIS) sudah tersedia.</li>
+</ul>
+<h2 id="6-exit-criteria">6. Exit Criteria</h2>
+<ul>
+<li>Minimal 95% test case telah dieksekusi.</li>
+<li>Tidak ada defect <strong>Critical/Blocker</strong> yang masih Open.</li>
+<li>Defect <strong>Major</strong> yang open sudah mendapat persetujuan risk acceptance dari Product Owner.</li>
+<li>Test Summary Report sudah disetujui QA Lead.</li>
+</ul>
+<h2 id="7-test-environment">7. Test Environment</h2>
+<table>
+<thead>
+<tr>
+<th>Komponen</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aplikasi</td>
+<td>SigmaPay Mobile (Android/iOS) versi QA build</td>
+</tr>
+<tr>
+<td>API</td>
+<td><code>https://api-qa.sigmapay.dummy</code> (dummy)</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>PostgreSQL — schema <code>sigmapay_qa</code> (dummy)</td>
+</tr>
+<tr>
+<td>Sandbox eksternal</td>
+<td>BI-FAST Simulator, QRIS Switching Simulator</td>
+</tr>
+<tr>
+<td>Tools</td>
+<td>JIRA (defect tracking), Postman (API testing), DBeaver (SQL client), Excel/Sheets (test case management)</td>
+</tr>
+<tr>
+<td>Device</td>
+<td>Min. 1 Android real device, 1 iOS real device/simulator</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-test-data">8. Test Data</h2>
+<blockquote>
+<p>Sinkron dengan <a href="../SigmaPay%20Prototype%20Scope/SigmaPay%20QA%20Workbench.dc.html">SigmaPay Prototype Scope</a> — prototype interaktif yang mengimplementasikan persis data di bawah ini, sehingga jadi acuan tunggal (single source of truth) untuk seluruh dokumen di project ini.</p>
+</blockquote>
+<h3 id="akun-uji">Akun Uji</h3>
+<table>
+<thead>
+<tr>
+<th>Akun</th>
+<th>Nama</th>
+<th>No. Rekening</th>
+<th>Saldo</th>
+<th>Bisa Login?</th>
+<th>Catatan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>User A</td>
+<td>Andi Prasetyo</td>
+<td>8801 2345 6789</td>
+<td>Rp 5.000.000</td>
+<td>Ya</td>
+<td>Akun utama untuk skenario transfer normal</td>
+</tr>
+<tr>
+<td>User B</td>
+<td>Budi Santoso</td>
+<td>8801 9988 7766</td>
+<td>Rp 1.000.000</td>
+<td>Tidak</td>
+<td>Hanya sebagai rekening tujuan (penerima)</td>
+</tr>
+<tr>
+<td>User C</td>
+<td>Citra Dewi</td>
+<td>8801 5544 3322</td>
+<td>Rp 0</td>
+<td>Ya</td>
+<td>Skenario saldo tidak cukup</td>
+</tr>
+<tr>
+<td>User D</td>
+<td>Dian Kusuma</td>
+<td>8801 1122 3344</td>
+<td>Rp 750.000</td>
+<td>Tidak (diblokir)</td>
+<td>Skenario rekening tujuan tidak aktif/diblokir</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>PIN</strong> untuk semua akun uji: <code>123456</code> (6 digit). PIN salah ditolak (REG-02).</li>
+<li><strong>OTP</strong> sandbox: <code>246810</code> (6 digit). Salah 3x → transaksi terkunci sementara (<a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-010</a>).</li>
+<li><strong>Batas idle sesi</strong>: 5 menit → auto logout (REG-04).</li>
+</ul>
+<h3 id="bank-tujuan-bi-fast">Bank Tujuan (BI-FAST)</h3>
+<table>
+<thead>
+<tr>
+<th>Nama Bank</th>
+<th>Kode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bank XYZ</td>
+<td>014</td>
+</tr>
+<tr>
+<td>Bank ABC</td>
+<td>008</td>
+</tr>
+<tr>
+<td>Bank Nusantara</td>
+<td>451</td>
+</tr>
+</tbody>
+</table>
+<h3 id="virtual-account">Virtual Account</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Nilai</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nomor VA valid</td>
+<td>88081234567890</td>
+</tr>
+<tr>
+<td>Penyedia</td>
+<td>PLN Prabayar</td>
+</tr>
+<tr>
+<td>Tagihan</td>
+<td>Rp 250.000</td>
+</tr>
+<tr>
+<td>Biaya admin</td>
+<td>Rp 0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="qr-uji-qris">QR Uji QRIS</h3>
+<table>
+<thead>
+<tr>
+<th>Merchant</th>
+<th>Jenis</th>
+<th>Nominal</th>
+<th>Kondisi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kopi Kalibrata</td>
+<td>Statis, NMID ID1023456789012</td>
+<td>Input manual</td>
+<td>Valid</td>
+</tr>
+<tr>
+<td>Toko Serba Ada</td>
+<td>Dinamis</td>
+<td>Rp 75.000</td>
+<td>Valid</td>
+</tr>
+<tr>
+<td>Warung Sate Pak Har</td>
+<td>Dinamis</td>
+<td>Rp 45.000</td>
+<td><strong>Expired</strong> (5 menit lalu) → <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-QRIS-004</a></td>
+</tr>
+<tr>
+<td>Laundry Ekspress</td>
+<td>Dinamis</td>
+<td>Rp 120.000</td>
+<td><strong>Merchant ID mismatch</strong> → <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-QRIS-009</a></td>
+</tr>
+<tr>
+<td>QR tidak dikenali</td>
+<td>-</td>
+<td>-</td>
+<td>Format rusak/bukan QRIS nasional → <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-QRIS-005</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="biaya-limit">Biaya &amp; Limit</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Nilai</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Biaya admin — Intrabank</td>
+<td>Rp 1.000</td>
+</tr>
+<tr>
+<td>Biaya admin — BI-FAST (interbank)</td>
+<td>Rp 2.500</td>
+</tr>
+<tr>
+<td>Biaya admin — Virtual Account</td>
+<td>Rp 0</td>
+</tr>
+<tr>
+<td>Biaya admin — QRIS</td>
+<td>Rp 0</td>
+</tr>
+<tr>
+<td>Limit transfer harian (akumulasi)</td>
+<td>Rp 50.000.000</td>
+</tr>
+<tr>
+<td>Limit QRIS <strong>per transaksi</strong> (bukan akumulasi harian)</td>
+<td>Rp 10.000.000</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payload-uji-keamanan-dasar-field-berita-transfer">Payload Uji Keamanan Dasar (field Berita Transfer)</h3>
+<table>
+<thead>
+<tr>
+<th>Payload</th>
+<th>Kegunaan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></td>
+<td>Uji XSS — lihat <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-020</a></td>
+</tr>
+<tr>
+<td><code>' OR '1'='1</code></td>
+<td>Uji SQL Injection — lihat <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-020</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="9-roles-responsibilities">9. Roles &amp; Responsibilities</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Tanggung Jawab</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QA Engineer</td>
+<td>Design test case, eksekusi testing, log &amp; retest defect, buat laporan</td>
+</tr>
+<tr>
+<td>Developer</td>
+<td>Fix defect, deploy build ke QA environment</td>
+</tr>
+<tr>
+<td>Product Owner</td>
+<td>Klarifikasi requirement, approve risk acceptance</td>
+</tr>
+<tr>
+<td>Business User</td>
+<td>UAT</td>
+</tr>
+</tbody>
+</table>
+<h2 id="10-risk-mitigation">10. Risk &amp; Mitigation</h2>
+<table>
+<thead>
+<tr>
+<th>Risiko</th>
+<th>Dampak</th>
+<th>Mitigasi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sandbox BI-FAST/QRIS tidak stabil</td>
+<td>SIT tertunda</td>
+<td>Siapkan mock response sebagai fallback, koordinasi H-1 dengan tim eksternal</td>
+</tr>
+<tr>
+<td>Requirement limit transaksi belum final</td>
+<td>Test case salah asumsi</td>
+<td>Freeze requirement sebelum test case design dimulai, minta sign-off BA</td>
+</tr>
+<tr>
+<td>Waktu testing mepet (rilis ASAP)</td>
+<td>Coverage tidak maksimal</td>
+<td>Prioritaskan test case berdasarkan <strong>risk-based testing</strong> — modul uang keluar (debit) diprioritaskan dari modul kosmetik UI</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-deliverables">11. Deliverables</h2>
+<ul>
+<li>Test Plan (dokumen ini)</li>
+<li>Test Scenario &amp; Test Case</li>
+<li>Test Execution Report + Evidence</li>
+<li>Bug Report</li>
+<li>Test Summary Report</li>
+</ul>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="Test_Plan_MobileBanking.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

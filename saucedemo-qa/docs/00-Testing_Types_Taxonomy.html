@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taksonomi Jenis Testing — Dipetakan ke Project SauceDemo · SauceDemo QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f4f4f8; --bg-dark:#13131e;
+  --ink:#1c1c26; --ink-soft:#54566b; --muted:#9395a8;
+  --line:#dcdce6; --line-strong:#adaec2;
+  --primary:#473c93; --accent:#d9622b; --accent-soft:#eeecf9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#15151f; --bg-alt:#1d1d2b; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.62); --muted:rgba(235,235,245,0.32); --line:rgba(140,140,170,0.28); --line-strong:rgba(140,140,170,0.45); --primary:#9086e6; --accent:#f0925a; --accent-soft:rgba(144,134,230,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SauceDemo QA &middot; QA Documentation</div>
+  <h1>Taksonomi Jenis Testing — Dipetakan ke Project SauceDemo</h1>
+  <div class="doc-meta">00-Testing_Types_Taxonomy.md &middot; Dokumen QA</div>
+  <div class="doc-body">
+<p>Melengkapi <a href="00-SDLC_STLC_Concept.html">SDLC_STLC_Concept.md</a> dengan definisi tiap jenis testing, plus
+contoh konkret dari test case &amp; bug nyata di project ini — supaya tidak sekadar hafalan definisi.</p>
+<h2 id="1-berdasarkan-tujuan">1. Berdasarkan Tujuan</h2>
+<h3 id="functional-testing">Functional Testing</h3>
+<p>Menguji <strong>apakah fitur bekerja sesuai requirement</strong> — fokus ke "what", bukan "how".
+- Positive case: login berhasil dengan kredensial benar (<a href="../03-Test-Case/Test_Case_SauceDemo.csv">LOGIN-01</a>),
+  checkout satu/banyak item berhasil sampai konfirmasi (<a href="../03-Test-Case/Test_Case_SauceDemo.csv">CHK-01, CHK-02</a>).
+- Negative case: username/password kosong (<a href="../03-Test-Case/Test_Case_SauceDemo.csv">LOGIN-04, LOGIN-05</a>), field
+  checkout wajib kosong (<a href="../03-Test-Case/Test_Case_SauceDemo.csv">CHK-03</a>), akun terkunci ditolak
+  (<a href="../03-Test-Case/Test_Case_SauceDemo.csv">LOGIN-06</a>).</p>
+<h3 id="non-functional-testing">Non-Functional Testing</h3>
+<p>Menguji <strong>kualitas sistem</strong>, bukan fitur itu sendiri:</p>
+<table>
+<thead>
+<tr>
+<th>Jenis</th>
+<th>Definisi</th>
+<th>Contoh di Project Ini</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Waktu respons sistem dalam batas wajar</td>
+<td><a href="05-Bug_Report_SauceDemo.html">BUG-007</a> — dashboard <code>performance_glitch_user</code> diuji harus termuat &lt; 5 detik. Ini satu-satunya sisi performa yang diuji; load/stress testing skala besar tidak relevan untuk demo site statis</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Cek celah dasar akses</td>
+<td>Sebagian besar <strong>tidak berlaku</strong> — tidak ada API/backend untuk diserang (lihat Out of Scope di <a href="01-Test_Plan_SauceDemo.html">Test_Plan_SauceDemo.md</a>). Yang paling dekat: <a href="../03-Test-Case/Test_Case_SauceDemo.csv">LOGIN-06</a> memverifikasi akun terkunci benar-benar tidak bisa login meski kredensialnya valid — access control dasar, bukan security testing formal</td>
+</tr>
+<tr>
+<td><strong>Usability</strong></td>
+<td>Apakah tampilan &amp; pesan error mudah dipahami</td>
+<td><a href="05-Bug_Report_SauceDemo.html">BUG-002</a> — <code>visual_user</code> menampilkan komponen UI yang bergeser/salah (harga membengkak, ikon bergeser). Sengaja <strong>tidak diotomasi</strong> karena drift tampilan lebih tepat dicek visual/manual, bukan lewat assertion DOM biasa</td>
+</tr>
+<tr>
+<td><strong>Compatibility</strong></td>
+<td>Aplikasi berjalan normal di berbagai browser</td>
+<td><strong>Gap yang jujur diakui</strong>: saat ini hanya Chromium (Playwright) dan Chrome (Selenium/Cypress) yang dijalankan — <code>automation/playwright/playwright.config.ts</code> cuma punya satu project <code>chromium</code>. Menambah Firefox/WebKit adalah pengembangan lanjutan paling mudah dari sini</td>
+</tr>
+<tr>
+<td><strong>Reliability/Recovery</strong></td>
+<td>Sistem tidak crash &amp; pulih dengan baik dari error</td>
+<td><a href="05-Bug_Report_SauceDemo.html">BUG-003</a> — sort di akun <code>error_user</code> memicu dialog alert JavaScript "Sorting is broken!" alih-alih gagal dengan baik (graceful degradation)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-berdasarkan-level">2. Berdasarkan Level</h2>
+<p>Sudah dibahas di <a href="00-SDLC_STLC_Concept.html#4-level-testing-yang-relevan-dengan-project-ini">SDLC_STLC_Concept.md §4</a>.
+Ringkasnya: project ini murni di level <strong>System/E2E</strong> dan <strong>Regression</strong>, karena SauceDemo adalah
+target uji pihak ketiga tanpa akses ke unit/integration layer-nya.</p>
+<h2 id="3-berdasarkan-teknik">3. Berdasarkan Teknik</h2>
+<table>
+<thead>
+<tr>
+<th>Teknik</th>
+<th>Definisi</th>
+<th>Relevansi di Project Ini</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Black Box</strong></td>
+<td>Fokus input-output, tidak peduli source code</td>
+<td><strong>Satu-satunya teknik yang dipakai di sini</strong> — semua test case ditulis murni dari observasi perilaku aplikasi (klik, isi form, baca hasil), tanpa pernah melihat source code SauceDemo</td>
+</tr>
+<tr>
+<td><strong>White Box</strong></td>
+<td>Menguji logika internal, code coverage</td>
+<td>❌ Tidak berlaku — tidak ada akses ke source code SauceDemo</td>
+</tr>
+<tr>
+<td><strong>Gray Box</strong></td>
+<td>Tahu sedikit "isi dalam" (skema DB, API contract) tanpa baca full source</td>
+<td>❌ Tidak berlaku di sini — beda dengan project QA manual berbasis backend (SQL/API), SauceDemo tidak expose lapisan itu sama sekali</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-kategori-tambahan-sering-ditanyakan-saat-interview">4. Kategori Tambahan — Sering Ditanyakan Saat Interview</h2>
+<table>
+<thead>
+<tr>
+<th>Jenis</th>
+<th>Definisi</th>
+<th>Contoh/Status di Project Ini</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Smoke Testing</strong></td>
+<td>Cek cepat: build/situs layak diuji lanjut atau tidak</td>
+<td>Secara konsep, <a href="../03-Test-Case/Test_Case_SauceDemo.csv">LOGIN-01</a> (login standar berhasil) berfungsi sebagai smoke check dasar. Belum ada subset yang ditandai eksplisit sebagai "smoke suite" terpisah (mis. lewat tag) — pengembangan lanjutan yang gampang ditambahkan</td>
+</tr>
+<tr>
+<td><strong>Sanity Testing</strong></td>
+<td>Cek sempit &amp; dalam pada satu area yang baru saja berubah</td>
+<td>Ini persis yang terjadi saat memverifikasi ulang <a href="05-Bug_Report_SauceDemo.html">BUG-004, BUG-006, BUG-007</a> satu per satu setelah dicurigai perilakunya berubah, tanpa perlu menjalankan seluruh suite</td>
+</tr>
+<tr>
+<td><strong>Regression Testing</strong></td>
+<td>Pastikan fitur lama tidak rusak setelah ada perubahan</td>
+<td>Inti dari <code>known-issues.spec.ts</code> / <code>known-issues.cy.ts</code> — dijalankan ulang untuk memastikan bug bawaan masih (atau sudah tidak) muncul</td>
+</tr>
+<tr>
+<td><strong>Retesting</strong></td>
+<td>Menguji ulang temuan yang sama setelah "diperbaiki"</td>
+<td>Bukan retest atas fix kita sendiri (SauceDemo bukan kode kita), tapi prinsipnya sama: retest berkala terhadap <a href="05-Bug_Report_SauceDemo.html">BUG-001 s.d. BUG-007</a> untuk memastikan statusnya masih akurat — dan terbukti berguna, karena 3 di antaranya sudah berubah status</td>
+</tr>
+<tr>
+<td><strong>Exploratory Testing</strong></td>
+<td>Testing tanpa script formal, mengandalkan pengalaman tester</td>
+<td>Tahap awal sebelum test case ditulis: eksplorasi manual struktur halaman SauceDemo (id/class selector, pesan error persis, URL tiap step checkout) sebelum dituangkan jadi kode test terstruktur</td>
+</tr>
+<tr>
+<td><strong>Ad-hoc Testing</strong></td>
+<td>Testing random tanpa dokumentasi formal</td>
+<td>Tidak diterapkan formal di project ini — semua temuan langsung didokumentasikan, bukan dibiarkan ad-hoc</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-ringkasan-bug-apa-ditemukandiverifikasi-lewat-jenis-testing-apa">5. Ringkasan: Bug Apa Ditemukan/Diverifikasi Lewat Jenis Testing Apa</h2>
+<table>
+<thead>
+<tr>
+<th>Bug</th>
+<th>Jenis Testing</th>
+<th>Status Reproduksi (2026-08-10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="05-Bug_Report_SauceDemo.html">BUG-001</a> — Gambar produk salah (<code>problem_user</code>)</td>
+<td>Functional Testing (negative/visual assertion pada <code>src</code> gambar)</td>
+<td>✅ Masih terjadi</td>
+</tr>
+<tr>
+<td><a href="05-Bug_Report_SauceDemo.html">BUG-002</a> — Komponen UI bergeser (<code>visual_user</code>)</td>
+<td>Usability Testing (manual/visual, belum diotomasi)</td>
+<td>Tidak dicek otomatis</td>
+</tr>
+<tr>
+<td><a href="05-Bug_Report_SauceDemo.html">BUG-003</a> — Sort memicu alert JS (<code>error_user</code>)</td>
+<td>Reliability/Recovery Testing</td>
+<td>✅ Masih terjadi</td>
+</tr>
+<tr>
+<td><a href="05-Bug_Report_SauceDemo.html">BUG-004</a> — Add to cart gagal sebagian (<code>error_user</code>)</td>
+<td>Functional Testing</td>
+<td>❌ Sudah tidak terjadi</td>
+</tr>
+<tr>
+<td><a href="05-Bug_Report_SauceDemo.html">BUG-005</a> — Field Last Name tidak bisa diisi (<code>error_user</code>)</td>
+<td>Functional Testing</td>
+<td>✅ Masih terjadi</td>
+</tr>
+<tr>
+<td><a href="05-Bug_Report_SauceDemo.html">BUG-006</a> — Tombol Finish tidak bisa diklik (<code>error_user</code>)</td>
+<td>Functional Testing</td>
+<td>❌ Sudah tidak terjadi</td>
+</tr>
+<tr>
+<td><a href="05-Bug_Report_SauceDemo.html">BUG-007</a> — Dashboard lambat (<code>performance_glitch_user</code>)</td>
+<td>Performance Testing</td>
+<td>❌ Sudah tidak terjadi (di ambang batas 5 detik)</td>
+</tr>
+</tbody>
+</table>
+<p>Tabel ini bagus dijelaskan saat interview karena menunjukkan bukan cuma "saya tahu jenis-jenis
+testing", tapi <strong>kapan tiap jenis itu benar-benar dipakai dan apa hasilnya</strong> — termasuk jujur soal
+temuan yang berubah dari waktu ke waktu, bukan status statis yang dihafal sekali lalu tidak
+pernah dicek ulang.</p>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="00-Testing_Types_Taxonomy.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

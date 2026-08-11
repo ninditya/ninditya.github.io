@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Scenario — Fund Transfer & QRIS Payment · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>Test Scenario — Fund Transfer & QRIS Payment</h1>
+  <div class="doc-meta">Test_Scenario_Transfer_QRIS.md &middot; Test Scenario</div>
+  <div class="doc-body">
+<p>Test Scenario adalah level "high-level" sebelum di-breakdown jadi Test Case detail. Dikelompokkan per modul, mencakup <strong>Positive</strong>, <strong>Negative</strong>, dan <strong>Edge Case</strong> — ini bagian yang paling sering ditanyakan saat interview: <em>"kemungkinan-kemungkinan apa saja yang bisa terjadi?"</em></p>
+<blockquote>
+<p>Skenario di bawah ini sudah disinkronkan dengan <a href="../SigmaPay%20Prototype%20Scope/SigmaPay%20QA%20Workbench.dc.html">SigmaPay Prototype Scope</a> — prototype interaktif 30 layar yang mengimplementasikan skenario-skenario ini secara nyata, termasuk toggle build buggy/fixed untuk tiap bug.</p>
+</blockquote>
+<h2 id="modul-1-fund-transfer-intrabank-interbankbi-fast">Modul 1: Fund Transfer (Intrabank &amp; Interbank/BI-FAST)</h2>
+<h3 id="positive-scenario">Positive Scenario</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Skenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TS-TRF-01</td>
+<td>Transfer intrabank dengan saldo cukup berhasil, saldo pengirim berkurang &amp; penerima bertambah sesuai nominal</td>
+</tr>
+<tr>
+<td>TS-TRF-02</td>
+<td>Transfer interbank via BI-FAST dengan saldo cukup berhasil, dana diterima real-time</td>
+</tr>
+<tr>
+<td>TS-TRF-03</td>
+<td>Transfer ke Virtual Account berhasil, status settlement sesuai</td>
+</tr>
+<tr>
+<td>TS-TRF-04</td>
+<td>User dapat melihat rincian biaya admin sebelum konfirmasi transfer</td>
+</tr>
+<tr>
+<td>TS-TRF-05</td>
+<td>User menerima notifikasi &amp; bukti transfer (e-receipt) setelah transaksi sukses</td>
+</tr>
+<tr>
+<td>TS-TRF-06</td>
+<td>User dapat melakukan transfer terjadwal (scheduled transfer)</td>
+</tr>
+<tr>
+<td>TS-TRF-07</td>
+<td>Riwayat transfer tersimpan dan muncul di menu mutasi</td>
+</tr>
+</tbody>
+</table>
+<h3 id="negative-scenario">Negative Scenario</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Skenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TS-TRF-08</td>
+<td>Transfer ditolak saat saldo tidak mencukupi</td>
+</tr>
+<tr>
+<td>TS-TRF-09</td>
+<td>Transfer ditolak saat nominal melebihi limit transaksi harian</td>
+</tr>
+<tr>
+<td>TS-TRF-10</td>
+<td>Transfer ditolak saat nomor rekening tujuan tidak valid/tidak ditemukan</td>
+</tr>
+<tr>
+<td>TS-TRF-11</td>
+<td>Transfer ditolak saat rekening tujuan dalam status diblokir/dormant</td>
+</tr>
+<tr>
+<td>TS-TRF-12</td>
+<td>Transfer gagal ditangani dengan baik saat OTP salah 3x (akun terkunci sementara)</td>
+</tr>
+<tr>
+<td>TS-TRF-13</td>
+<td>Transfer gagal saat sesi aplikasi timeout di tengah proses konfirmasi</td>
+</tr>
+<tr>
+<td>TS-TRF-14</td>
+<td>Sistem menolak input nominal negatif atau nol</td>
+</tr>
+<tr>
+<td>TS-TRF-15</td>
+<td>Sistem menolak input karakter non-numerik pada field nominal</td>
+</tr>
+<tr>
+<td>TS-TRF-16</td>
+<td>Transfer ke rekening sendiri (nomor sama) <strong>ditolak</strong> dengan pesan "Rekening tujuan sama dengan rekening Anda. Gunakan menu Pindah Buku." — business rule ini sudah final (dikonfirmasi lewat <a href="../SigmaPay%20Prototype%20Scope/SigmaPay%20QA%20Workbench.dc.html">SigmaPay Prototype Scope</a>), fitur "Pindah Buku" sendiri belum ada di scope sprint ini</td>
+</tr>
+</tbody>
+</table>
+<h3 id="edge-case-kemungkinan-kritis-khas-banking">Edge Case / Kemungkinan Kritis (khas Banking)</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Skenario</th>
+<th>Kenapa Penting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TS-TRF-17</td>
+<td><strong>Double debit</strong>: user tap tombol "Transfer" dua kali cepat (double click) — pastikan hanya 1 transaksi tereksekusi</td>
+<td>Bug klasik yang menyebabkan kerugian finansial nasabah</td>
+</tr>
+<tr>
+<td>TS-TRF-18</td>
+<td><strong>Status ambigu</strong>: koneksi terputus setelah request transfer terkirim ke server tapi sebelum response diterima user — cek apakah saldo terdebit tapi UI menampilkan "gagal" (perlu rekonsiliasi)</td>
+<td>Menyebabkan komplain nasabah "uang hilang"</td>
+</tr>
+<tr>
+<td>TS-TRF-19</td>
+<td>Transfer ke BI-FAST saat sandbox/switching eksternal timeout — pastikan sistem melakukan <strong>reversal otomatis</strong> atau status "pending" yang jelas</td>
+<td>Uang keluar tapi tidak sampai ke tujuan</td>
+</tr>
+<tr>
+<td>TS-TRF-20</td>
+<td>Transfer dilakukan tepat saat pukul 23:59:59 mendekati cut-off harian — cek perhitungan limit harian tidak reset di tengah transaksi</td>
+<td>Bug boundary/waktu</td>
+</tr>
+<tr>
+<td>TS-TRF-21</td>
+<td>Input nominal dengan banyak digit desimal / nominal sangat besar (misal Rp 999.999.999.999) — cek validasi &amp; tidak overflow</td>
+<td>Data validation &amp; security</td>
+</tr>
+<tr>
+<td>TS-TRF-22</td>
+<td>Field "Berita Transfer/Catatan" diisi dengan script/SQL injection payload (<code>' OR '1'='1</code>, <code>&lt;script&gt;alert(1)&lt;/script&gt;</code>)</td>
+<td>Basic security hygiene yang QA wajib cek meski bukan pentest formal</td>
+</tr>
+</tbody>
+</table>
+<h2 id="modul-2-qris-payment">Modul 2: QRIS Payment</h2>
+<h3 id="positive-scenario_1">Positive Scenario</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Skenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TS-QRIS-01</td>
+<td>Scan QRIS statis milik merchant valid, input nominal, bayar berhasil</td>
+</tr>
+<tr>
+<td>TS-QRIS-02</td>
+<td>Scan QRIS dinamis (nominal sudah tertera dari merchant), bayar berhasil tanpa input manual</td>
+</tr>
+<tr>
+<td>TS-QRIS-03</td>
+<td>Setelah bayar, status "Berhasil" muncul di app &amp; merchant menerima notifikasi pembayaran</td>
+</tr>
+<tr>
+<td>TS-QRIS-04</td>
+<td>User dapat melihat &amp; mengunduh bukti pembayaran QRIS</td>
+</tr>
+</tbody>
+</table>
+<h3 id="negative-scenario_1">Negative Scenario</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Skenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TS-QRIS-05</td>
+<td>Pembayaran ditolak saat QR code sudah kedaluwarsa (expired)</td>
+</tr>
+<tr>
+<td>TS-QRIS-06</td>
+<td>Pembayaran ditolak saat QR code rusak/tidak terbaca (invalid format)</td>
+</tr>
+<tr>
+<td>TS-QRIS-07</td>
+<td>Pembayaran ditolak saat saldo tidak cukup</td>
+</tr>
+<tr>
+<td>TS-QRIS-08</td>
+<td>Pembayaran ditolak saat nominal melebihi <strong>Rp 10.000.000 per transaksi</strong> — ini limit <strong>per transaksi</strong>, bukan akumulasi harian seperti limit transfer (beda mekanisme, jangan disamakan saat design test case)</td>
+</tr>
+<tr>
+<td>TS-QRIS-09</td>
+<td>Sistem menolak scan QR dari sumber yang tidak dikenali/bukan format QRIS nasional</td>
+</tr>
+</tbody>
+</table>
+<h3 id="edge-case">Edge Case</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Skenario</th>
+<th>Kenapa Penting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TS-QRIS-10</td>
+<td>User scan QRIS tapi menutup aplikasi sebelum konfirmasi final — cek saldo tidak terpotong</td>
+<td>Kegagalan transaksi harus fail-safe (tidak merugikan nasabah)</td>
+</tr>
+<tr>
+<td>TS-QRIS-11</td>
+<td>Merchant ID pada QR tidak match dengan Merchant ID di sistem backend saat settlement</td>
+<td>Uang terbayar tapi salah merchant — kasus nyata di industri</td>
+</tr>
+<tr>
+<td>TS-QRIS-12</td>
+<td>Dua device melakukan scan QR statis yang sama secara bersamaan (concurrent payment) — pastikan tidak terjadi race condition pada saldo</td>
+<td>Concurrency bug</td>
+</tr>
+<tr>
+<td>TS-QRIS-13</td>
+<td>Pembayaran QRIS lintas bank/switching berbeda — cek waktu settlement dan status "pending" ditampilkan dengan jelas ke user</td>
+<td>UX kejelasan status, bukan cuma fungsi</td>
+</tr>
+</tbody>
+</table>
+<h2 id="modul-3-non-fungsional-ringan-tetap-bagian-tanggung-jawab-manual-qa">Modul 3: Non-Fungsional Ringan (tetap bagian tanggung jawab manual QA)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Skenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TS-NFR-01</td>
+<td>Waktu respons transfer intrabank tidak lebih dari 5 detik (sanity check, bukan load test formal)</td>
+</tr>
+<tr>
+<td>TS-NFR-02</td>
+<td>Data sensitif (nomor rekening, saldo) tidak muncul di log aplikasi/API response yang tidak perlu</td>
+</tr>
+<tr>
+<td>TS-NFR-03</td>
+<td>Aplikasi tetap dapat digunakan (graceful degradation) saat koneksi lambat/berpindah dari WiFi ke seluler di tengah transaksi</td>
+</tr>
+</tbody>
+</table>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="Test_Scenario_Transfer_QRIS.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

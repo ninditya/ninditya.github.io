@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panduan Kerja QA Automation Engineer — Berbasis Pengalaman Project Ini · SauceDemo QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f4f4f8; --bg-dark:#13131e;
+  --ink:#1c1c26; --ink-soft:#54566b; --muted:#9395a8;
+  --line:#dcdce6; --line-strong:#adaec2;
+  --primary:#473c93; --accent:#d9622b; --accent-soft:#eeecf9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#15151f; --bg-alt:#1d1d2b; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.62); --muted:rgba(235,235,245,0.32); --line:rgba(140,140,170,0.28); --line-strong:rgba(140,140,170,0.45); --primary:#9086e6; --accent:#f0925a; --accent-soft:rgba(144,134,230,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SauceDemo QA &middot; QA Documentation</div>
+  <h1>Panduan Kerja QA Automation Engineer — Berbasis Pengalaman Project Ini</h1>
+  <div class="doc-meta">10-Panduan_Kerja_QA_Automation.md &middot; Dokumen QA</div>
+  <div class="doc-body">
+<p><strong>Bukan simulasi teori</strong> — gambaran nyata ritme kerja kalau berperan sebagai QA
+Automation/SDET yang memaintain suite seperti <a href="README.html">Tester-Sauce.com</a> ini, ditulis dari
+pengalaman langsung membangun &amp; menjalankannya, termasuk hambatan nyata yang muncul (bukan
+skenario ideal di atas kertas).</p>
+<h2 id="1-onboarding-ke-project-automation-baru-minggu-pertama">1. Onboarding ke Project Automation Baru (Minggu Pertama)</h2>
+<p>Kalau baru gabung ke tim dan diberi akses ke repo seperti ini, urutan wajar untuk cepat paham:</p>
+<ol>
+<li><strong>Baca <a href="00-SDLC_STLC_Concept.html"><code>00-SDLC-STLC-Overview</code></a> dulu</strong> —
+   pahami <em>kenapa</em> struktur project-nya begini sebelum baca kode.</li>
+<li><strong>Baca <a href="01-Test_Plan_SauceDemo.html"><code>01-Test-Plan</code></a></strong> — scope, out-of-scope, dan
+   environment yang dipakai.</li>
+<li><strong>Clone, install, dan jalankan sendiri</strong> sebelum menyentuh kode:
+   <code>bash
+   npm install
+   npx playwright install chromium
+   npx playwright test</code>
+   Kalau langkah ini gagal di mesin sendiri, itu sinyal paling awal ada masalah environment yang
+   harus diselesaikan duluan — jangan mulai nulis test baru di atas fondasi yang belum jalan.</li>
+<li><strong>Baca 2-3 file spec yang sudah ada</strong> (mis. <code>auth.spec.ts</code>)
+   sebelum menulis test case baru, supaya pola penamaan/struktur konsisten.</li>
+</ol>
+<h2 id="2-ritme-kerja-reguler">2. Ritme Kerja Reguler</h2>
+<table>
+<thead>
+<tr>
+<th>Ritme</th>
+<th>Aktivitas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Setiap ada perubahan kode/push</strong></td>
+<td>CI (<a href="../../.github/workflows/ci.yml"><code>ci.yml</code></a>) jalan otomatis — cek hasilnya, jangan tunggu ditanya orang lain</td>
+</tr>
+<tr>
+<td><strong>Mingguan/berkala</strong></td>
+<td>Jalankan <a href="09-Regression_Test_Checklist.html">Regression Checklist</a> secara sadar, bukan cuma percaya CI hijau — kadang perlu dicek manual detail perubahan status bug seperti di siklus 2026-08-10</td>
+</tr>
+<tr>
+<td><strong>Setiap ada fitur/area baru untuk diuji</strong></td>
+<td>Mulai dari Test Scenario dulu (<a href="02-Test_Scenario_SauceDemo.html"><code>02-Test-Scenario</code></a>), baru turun ke Test Case detail — jangan langsung nulis kode tanpa breakdown</td>
+</tr>
+<tr>
+<td><strong>Setiap CI merah</strong></td>
+<td>Triase dulu sebelum panik: apakah ini bug aplikasi (baik), test flaky (perlu diperbaiki), atau memang perubahan yang disengaja di <code>known-issues.spec.ts</code> (lihat §3 di bawah)?</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-skill-paling-sering-dipakai-sehari-hari-bukan-yang-paling-sering-disebut-di-textbook">3. Skill Paling Sering Dipakai Sehari-hari (Bukan yang Paling Sering Disebut di Textbook)</h2>
+<p>Dari pengalaman langsung membangun project ini, yang paling sering benar-benar dipakai:</p>
+<ul>
+<li><strong>Triase kegagalan test</strong>: dari 3 kegagalan Playwright di suite ini, semuanya harus dicek satu
+  per satu — apakah itu defect aplikasi (BUG-001, 003, 005 — memang masih terjadi) atau justru
+  kabar baik (BUG-004, 006, 007 — ternyata sudah tidak terjadi). Tanpa investigasi ini, "3 test
+  gagal" gampang disalahartikan sebagai automation yang rusak.</li>
+<li><strong>Baca error message Playwright/Cypress/pytest dengan teliti</strong> — locator yang tidak ditemukan,
+  timeout, vs assertion mismatch itu tiga penyebab berbeda dengan cara debug berbeda.</li>
+<li><strong>Menjaga 3 framework tetap sinkron</strong>: kalau selector SauceDemo berubah, ketiganya
+  (<code>automation/playwright/</code>, <code>automation/cypress/</code>, <code>automation/selenium/</code>) harus diupdate bareng — gampang lupa salah satu kalau
+  tidak disiplin.</li>
+<li><strong>Debugging environment, bukan cuma kode test</strong>: contoh nyata dari project ini — <code>cypress run</code>
+  sempat gagal bukan karena kode salah, tapi karena binary Electron-nya diblokir sandbox
+  lingkungan development. Skill mendiagnosis "ini kode atau ini environment?" penting dan jarang
+  diajarkan eksplisit.</li>
+</ul>
+<h2 id="4-jalur-eskalasi-kapan-lapor-ke-siapa">4. Jalur Eskalasi (Kapan Lapor, ke Siapa)</h2>
+<table>
+<thead>
+<tr>
+<th>Situasi</th>
+<th>Eskalasi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Test gagal karena bug aplikasi yang genuine baru</td>
+<td>Laporkan sebagai defect baru — update <a href="05-Bug_Report_SauceDemo.html">Bug Report</a> dengan format yang sama</td>
+</tr>
+<tr>
+<td>Test gagal karena selector berubah (bukan bug)</td>
+<td>Perbaiki kode test, bukan laporkan sebagai bug — tapi catat kalau perubahannya cukup besar (indikasi UI di-redesign)</td>
+</tr>
+<tr>
+<td>CI gagal terus-menerus tanpa jelas sebabnya (flaky)</td>
+<td>Jangan langsung tambah <code>retry</code>/<code>timeout</code> lebih besar sebagai solusi instan — cari akar masalahnya dulu (race condition? elemen animasi? network lambat?)</td>
+</tr>
+<tr>
+<td>Framework/tool baru mau ditambahkan</td>
+<td>Diskusikan dulu apakah benar-benar perlu — project ini sengaja pakai 3 framework untuk <em>latihan perbandingan</em>, bukan pola yang disarankan untuk project produksi (lihat <a href="00-STLC_Tools_Mapping.html">STLC_Tools_Mapping.md §3</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-tantangan-nyata-yang-muncul-di-project-ini-bukan-skenario-rekaan">5. Tantangan Nyata yang Muncul di Project Ini (Bukan Skenario Rekaan)</h2>
+<ul>
+<li><strong>Binary Electron diblokir sandbox</strong> saat mencoba menjalankan Cypress — solusinya bukan
+  memaksakan install ulang berkali-kali, tapi investigasi akar masalah (cek <code>codesign</code>, <code>spctl</code>,
+  coba jalankan binary langsung dengan <code>--version</code>) sampai ketemu bahwa masalahnya di level
+  environment, bukan instalasi.</li>
+<li><strong>Data bug bawaan yang "basi"</strong>: dokumentasi awal (dari referensi bug report lama) mencatat 7
+  bug aktif, tapi setelah dijalankan ulang, 3 di antaranya sudah tidak reproduksi. Pelajarannya:
+  <strong>jangan pernah percaya dokumentasi lama tanpa verifikasi ulang</strong> — ini persis kenapa
+  regression testing itu penting, bukan basa-basi teori.</li>
+<li><strong>CSV dengan koma &amp; kutip di dalam sel</strong> — <a href="../03-Test-Case/Test_Case_SauceDemo.csv"><code>Test_Case_SauceDemo.csv</code></a>
+  perlu escaping yang benar (RFC 4180) supaya tidak rusak saat dibuka di Excel/Google Sheets;
+  divalidasi dengan <code>python3 -m csv</code> sebelum dianggap selesai, bukan cuma "keliatannya benar".</li>
+</ul>
+<h2 id="6-ekspektasi-306090-hari-kalau-ini-project-kerja-sungguhan">6. Ekspektasi 30/60/90 Hari (Kalau Ini Project Kerja Sungguhan)</h2>
+<table>
+<thead>
+<tr>
+<th>Periode</th>
+<th>Ekspektasi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>30 hari</strong></td>
+<td>Bisa menjalankan &amp; membaca hasil ketiga framework tanpa bantuan, paham struktur <code>00</code>-<code>10</code>, mulai kontribusi test case kecil (mis. tambah kasus edge case baru di area yang sudah ada)</td>
+</tr>
+<tr>
+<td><strong>60 hari</strong></td>
+<td>Bisa triase kegagalan CI secara mandiri, tahu kapan sesuatu itu bug vs flaky vs environment issue, mulai usulkan perbaikan struktur (mis. multi-browser project, smoke tag)</td>
+</tr>
+<tr>
+<td><strong>90 hari</strong></td>
+<td>Bisa onboarding orang baru lain ke project ini, punya opini berdasar soal trade-off Playwright vs Cypress vs Selenium dari pengalaman langsung (bukan cuma baca artikel), dan proaktif menutup gap yang sudah diakui di <a href="08-Test_Summary_Report.html">Test Summary Report §4</a></td>
+</tr>
+</tbody>
+</table>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="10-Panduan_Kerja_QA_Automation.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

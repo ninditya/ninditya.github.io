@@ -306,12 +306,12 @@
       <table class="decision">
         <thead><tr><th data-i18n="stlcColPhase">STLC Phase</th><th data-i18n="stlcColActivity">What I Did</th><th data-i18n="stlcColArtifact">Artifact</th></tr></thead>
         <tbody>
-          <tr><td>01 · Requirement Analysis</td><td data-i18n="stlc1">No BRD here — SauceDemo is a live third-party site, so requirements were reverse-engineered by exploring it directly: 6 test accounts with different seeded behaviors, a cart, sort, and a 3-step checkout.</td><td><a class="doclink" href="docs/01-Test_Plan_SauceDemo.md" target="_blank" rel="noopener">01-Test_Plan_SauceDemo.md ↗</a></td></tr>
-          <tr><td>02 · Test Planning</td><td data-i18n="stlc2">Defined scope, a 3-framework strategy, environment, and wrote down what's explicitly out of scope — and why — instead of leaving it implicit.</td><td><a class="doclink" href="docs/01-Test_Plan_SauceDemo.md" target="_blank" rel="noopener">01-Test_Plan_SauceDemo.md ↗</a></td></tr>
+          <tr><td>01 · Requirement Analysis</td><td data-i18n="stlc1">No BRD here — SauceDemo is a live third-party site, so requirements were reverse-engineered by exploring it directly: 6 test accounts with different seeded behaviors, a cart, sort, and a 3-step checkout.</td><td><a class="doclink" href="docs/01-Test_Plan_SauceDemo.html" target="_blank" rel="noopener">01-Test_Plan_SauceDemo.md ↗</a></td></tr>
+          <tr><td>02 · Test Planning</td><td data-i18n="stlc2">Defined scope, a 3-framework strategy, environment, and wrote down what's explicitly out of scope — and why — instead of leaving it implicit.</td><td><a class="doclink" href="docs/01-Test_Plan_SauceDemo.html" target="_blank" rel="noopener">01-Test_Plan_SauceDemo.md ↗</a></td></tr>
           <tr><td>03 · Test Case Design</td><td data-i18n="stlc3">29 test cases across Login, Cart, Sort, Checkout, and known-issue regression — implemented as code in all three frameworks, not just documented.</td><td><a class="doclink" href="docs/03-Test_Case_SauceDemo.csv" target="_blank" rel="noopener">03-Test_Case_SauceDemo.csv ↗</a></td></tr>
           <tr><td>04 · Test Environment Setup</td><td data-i18n="stlc4">Three parallel runners — Playwright (Chromium headless), Cypress (Electron + Chrome), Selenium (Chrome via webdriver-manager) — sharing one <code>.env</code> for test credentials.</td><td></td></tr>
-          <tr><td>05 · Test Execution</td><td data-i18n="stlc5">Run for real against the live site: Playwright 26/29, Selenium 7/7 (smoke subset), Cypress 23/26 on the prior case set — run directly by me in the Cypress Test Runner.</td><td><a class="doclink" href="docs/04-Test_Execution_Report.md" target="_blank" rel="noopener">04-Test_Execution_Report.md ↗</a></td></tr>
-          <tr><td>06 · Test Cycle Closure</td><td data-i18n="stlc6">Coverage gaps and recommendations written down, not left implicit — including which framework needs a re-run and which threshold needs loosening.</td><td><a class="doclink" href="docs/08-Test_Summary_Report.md" target="_blank" rel="noopener">08-Test_Summary_Report.md ↗</a></td></tr>
+          <tr><td>05 · Test Execution</td><td data-i18n="stlc5">Run for real against the live site: Playwright 26/29, Selenium 7/7 (smoke subset), Cypress 23/26 on the prior case set — run directly by me in the Cypress Test Runner.</td><td><a class="doclink" href="docs/04-Test_Execution_Report.html" target="_blank" rel="noopener">04-Test_Execution_Report.md ↗</a></td></tr>
+          <tr><td>06 · Test Cycle Closure</td><td data-i18n="stlc6">Coverage gaps and recommendations written down, not left implicit — including which framework needs a re-run and which threshold needs loosening.</td><td><a class="doclink" href="docs/08-Test_Summary_Report.html" target="_blank" rel="noopener">08-Test_Summary_Report.md ↗</a></td></tr>
         </tbody>
       </table>
 
@@ -599,7 +599,7 @@ cy.visit(<span class="s">'/cart.html'</span>, { failOnStatusCode: <span class="k
         <span class="pill"><strong>5</strong> <span data-i18n="regCat4">Checkout</span></span>
         <span class="pill"><strong>6</strong> <span data-i18n="regCat5">Known-Issue Regression</span></span>
       </div>
-      <p><a class="doclink" style="font-family:'JetBrains Mono',monospace" href="docs/09-Regression_Test_Checklist.md" target="_blank" rel="noopener" data-i18n="regFullLink">→ Full checklist (Markdown)</a></p>
+      <p><a class="doclink" style="font-family:'JetBrains Mono',monospace" href="docs/09-Regression_Test_Checklist.html" target="_blank" rel="noopener" data-i18n="regFullLink">→ Full checklist (Markdown)</a></p>
 
       <h3 data-i18n="katalonTitle">Katalon Studio — the honest fourth option</h3>
       <p data-i18n="katalonP">A ready-to-paste Groovy script and setup guide exist for Katalon Studio (GUI/low-code) as a fourth framework option — but no <code>.prj</code> has actually been created or run, and GitHub-hosted runners don't ship the Katalon Runtime Engine. It's listed on the CV as "familiar with, ready to onboard," not "hands-on" — the same honesty rule applied to every tool across this portfolio.</p>
@@ -722,20 +722,20 @@ npm run test:selenium</pre>
 
       <h3 style="color:white;margin-top:48px;" data-i18n="docsTitle">Full documentation set</h3>
       <div class="doc-list">
-        <a href="docs/00-SDLC_STLC_Concept.md" target="_blank" rel="noopener">00 · SDLC_STLC_Concept.md</a>
-        <a href="docs/00-Testing_Types_Taxonomy.md" target="_blank" rel="noopener">00 · Testing_Types_Taxonomy.md</a>
-        <a href="docs/00-STLC_Tools_Mapping.md" target="_blank" rel="noopener">00 · STLC_Tools_Mapping.md</a>
-        <a href="docs/01-Test_Plan_SauceDemo.md" target="_blank" rel="noopener">01 · Test_Plan_SauceDemo.md</a>
-        <a href="docs/02-Test_Scenario_SauceDemo.md" target="_blank" rel="noopener">02 · Test_Scenario_SauceDemo.md</a>
+        <a href="docs/00-SDLC_STLC_Concept.html" target="_blank" rel="noopener">00 · SDLC_STLC_Concept.md</a>
+        <a href="docs/00-Testing_Types_Taxonomy.html" target="_blank" rel="noopener">00 · Testing_Types_Taxonomy.md</a>
+        <a href="docs/00-STLC_Tools_Mapping.html" target="_blank" rel="noopener">00 · STLC_Tools_Mapping.md</a>
+        <a href="docs/01-Test_Plan_SauceDemo.html" target="_blank" rel="noopener">01 · Test_Plan_SauceDemo.md</a>
+        <a href="docs/02-Test_Scenario_SauceDemo.html" target="_blank" rel="noopener">02 · Test_Scenario_SauceDemo.md</a>
         <a href="docs/03-Test_Case_SauceDemo.csv" target="_blank" rel="noopener">03 · Test_Case_SauceDemo.csv</a>
-        <a href="docs/04-Test_Execution_Report.md" target="_blank" rel="noopener">04 · Test_Execution_Report.md</a>
-        <a href="docs/05-Bug_Report_SauceDemo.md" target="_blank" rel="noopener">05 · Bug_Report_SauceDemo.md</a>
-        <a href="docs/06-API_Testing_Not_Applicable.md" target="_blank" rel="noopener">06 · API_Testing_Not_Applicable.md</a>
-        <a href="docs/07-SQL_Validation_Not_Applicable.md" target="_blank" rel="noopener">07 · SQL_Validation_Not_Applicable.md</a>
-        <a href="docs/08-Test_Summary_Report.md" target="_blank" rel="noopener">08 · Test_Summary_Report.md</a>
-        <a href="docs/09-Regression_Test_Checklist.md" target="_blank" rel="noopener">09 · Regression_Test_Checklist.md</a>
-        <a href="docs/10-Panduan_Kerja_QA_Automation.md" target="_blank" rel="noopener">10 · Panduan_Kerja_QA_Automation.md</a>
-        <a href="docs/README.md" target="_blank" rel="noopener">README.md</a>
+        <a href="docs/04-Test_Execution_Report.html" target="_blank" rel="noopener">04 · Test_Execution_Report.md</a>
+        <a href="docs/05-Bug_Report_SauceDemo.html" target="_blank" rel="noopener">05 · Bug_Report_SauceDemo.md</a>
+        <a href="docs/06-API_Testing_Not_Applicable.html" target="_blank" rel="noopener">06 · API_Testing_Not_Applicable.md</a>
+        <a href="docs/07-SQL_Validation_Not_Applicable.html" target="_blank" rel="noopener">07 · SQL_Validation_Not_Applicable.md</a>
+        <a href="docs/08-Test_Summary_Report.html" target="_blank" rel="noopener">08 · Test_Summary_Report.md</a>
+        <a href="docs/09-Regression_Test_Checklist.html" target="_blank" rel="noopener">09 · Regression_Test_Checklist.md</a>
+        <a href="docs/10-Panduan_Kerja_QA_Automation.html" target="_blank" rel="noopener">10 · Panduan_Kerja_QA_Automation.md</a>
+        <a href="docs/README.html" target="_blank" rel="noopener">README.md</a>
       </div>
     </div>
   </section>

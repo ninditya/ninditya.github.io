@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tools & Aplikasi per Tahap STLC — Dipetakan ke Project SauceDemo + Panduan CV/Interview · SauceDemo QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f4f4f8; --bg-dark:#13131e;
+  --ink:#1c1c26; --ink-soft:#54566b; --muted:#9395a8;
+  --line:#dcdce6; --line-strong:#adaec2;
+  --primary:#473c93; --accent:#d9622b; --accent-soft:#eeecf9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#15151f; --bg-alt:#1d1d2b; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.62); --muted:rgba(235,235,245,0.32); --line:rgba(140,140,170,0.28); --line-strong:rgba(140,140,170,0.45); --primary:#9086e6; --accent:#f0925a; --accent-soft:rgba(144,134,230,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SauceDemo QA &middot; QA Documentation</div>
+  <h1>Tools & Aplikasi per Tahap STLC — Dipetakan ke Project SauceDemo + Panduan CV/Interview</h1>
+  <div class="doc-meta">00-STLC_Tools_Mapping.md &middot; Dokumen QA</div>
+  <div class="doc-body">
+<p>Melengkapi <a href="00-SDLC_STLC_Concept.html">SDLC_STLC_Concept.md</a> (6 tahap STLC) dengan tools yang benar-benar
+dipakai di project ini. Beda dengan portofolio manual-testing yang biasanya menandai automation
+sebagai "familiar with the concept", <strong>di project ini automation-nya nyata ditulis dan dijalankan</strong>
+— jadi kolom status di bawah kebanyakan ✅, bukan "belum".</p>
+<h2 id="1-tools-per-tahap-stlc">1. Tools per Tahap STLC</h2>
+<table>
+<thead>
+<tr>
+<th>Tahap STLC</th>
+<th>Aktivitas</th>
+<th>Tools Umum di Industri</th>
+<th>Status di Project SauceDemo Ini</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Requirement Analysis</strong></td>
+<td>Eksplorasi aplikasi, susun requirement dari observasi</td>
+<td>Jira, Confluence, Notion, browser DevTools</td>
+<td>✅ Nyata: requirement direkonstruksi lewat eksplorasi manual &amp; dicatat di <a href="01-Test_Plan_SauceDemo.html">Test_Plan_SauceDemo.md</a> §1-2</td>
+</tr>
+<tr>
+<td><strong>2. Test Planning</strong></td>
+<td>Scope, strategy, environment, exit criteria</td>
+<td>Jira, Confluence, Excel</td>
+<td>✅ Nyata: <a href="01-Test_Plan_SauceDemo.html">Test_Plan_SauceDemo.md</a> lengkap</td>
+</tr>
+<tr>
+<td><strong>3. Test Case Design</strong></td>
+<td>Test case + langsung jadi test script</td>
+<td>TestRail, Zephyr/Xray, Jira, Excel</td>
+<td>✅ Nyata, dua lapis: dokumen <a href="../03-Test-Case/Test_Case_SauceDemo.csv">Test_Case_SauceDemo.csv</a> (setara Excel/Sheets) <strong>dan</strong> implementasi kodenya langsung di 3 framework</td>
+</tr>
+<tr>
+<td><strong>4. Test Environment Setup</strong></td>
+<td>Config runner, browser, dependency, env var</td>
+<td>Docker, Git, Jenkins/GitHub Actions</td>
+<td>✅ Nyata: automation/playwright/playwright.config.ts, automation/cypress/cypress.config.ts, automation/selenium/requirements.txt, <a href="../../.env.example">.env.example</a></td>
+</tr>
+<tr>
+<td><strong>5. Test Execution</strong></td>
+<td>Jalankan test, otomasi UI</td>
+<td>Selenium, Playwright, Cypress, Katalon, Appium</td>
+<td>✅ <strong>Playwright</strong>: dijalankan nyata ke situs live, 26/29 lulus (3 kegagalan disengaja — verifikasi bug bawaan; termasuk 3 test case baru hasil validasi test case manual eksternal). ✅ <strong>Selenium</strong>: dijalankan nyata, 7/7 lulus (subset smoke test). ⚠️ <strong>Cypress</strong>: 23/26 lulus untuk test lama (dijalankan nyata di Cypress Test Runner) — pass rate sama persis dengan Playwright untuk test yang sama, tapi 2 dari 6 hasil <code>known-issues</code> berbeda antar keduanya; 3 test case terbaru sudah lolos type-check tapi belum dieksekusi (lihat <a href="04-Test_Execution_Report.html">Test_Execution_Report.md §4 &amp; §7</a>). ⚠️ <strong>Katalon</strong>: panduan + script Groovy siap-pakai ada di <code>automation/katalon/README.md</code>, tapi belum ada project <code>.prj</code> yang dibuat/dijalankan — Katalon Studio adalah aplikasi desktop GUI yang tidak bisa dijalankan dari sesi development (CLI, tersandbox) yang dipakai membangun repo ini</td>
+</tr>
+<tr>
+<td>↳ <em>Defect Reporting</em></td>
+<td>Log bug, severity, status, retest</td>
+<td>Jira, Azure DevOps</td>
+<td>✅ Nyata, gaya laporan bug: <a href="05-Bug_Report_SauceDemo.html">Bug_Report_SauceDemo.md</a> — termasuk status "reproduksi ulang" per tanggal, bukan cuma daftar statis</td>
+</tr>
+<tr>
+<td>↳ <em>API Testing</em></td>
+<td>Validasi endpoint backend</td>
+<td>Postman, Swagger</td>
+<td>❌ Tidak berlaku — SauceDemo tidak punya API publik untuk diuji (lihat Out of Scope di <a href="01-Test_Plan_SauceDemo.html">Test_Plan_SauceDemo.md</a> §4)</td>
+</tr>
+<tr>
+<td>↳ <em>Database Validation</em></td>
+<td>Validasi data backend</td>
+<td>SQL, DBeaver</td>
+<td>❌ Tidak berlaku — aplikasi client-side murni, tidak ada akses database</td>
+</tr>
+<tr>
+<td><strong>6. Test Cycle Closure</strong></td>
+<td>Summary, defect metrics, sign-off</td>
+<td>Jira, Excel, Confluence</td>
+<td>⚠️ Sebagian: ringkasan status defect ada di bagian atas <a href="05-Bug_Report_SauceDemo.html">Bug_Report_SauceDemo.md</a>, tapi laporan closure formal (coverage %, rekomendasi) belum dibuat terpisah</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Catatan jujur soal Cypress (sudah selesai):</strong> selama proses membangun project ini, <code>cypress
+run</code> sempat dicoba dijalankan di sesi development yang tersandbox dan gagal start — bukan
+karena kode testnya salah, tapi karena lingkungan sandbox tersebut mengganti proses binary
+Electron (yang dipakai Cypress sebagai test runner) dengan stub lain. Kode divalidasi lewat
+type-check saat itu (lolos, 0 error), lalu <strong>dijalankan sungguhan oleh pemilik project di
+Cypress Test Runner miliknya sendiri</strong> — hasilnya 23/26 lulus, pass rate identik dengan
+Playwright. Detail lengkap termasuk 2 hasil yang berbeda dari Playwright (BUG-003, BUG-007) ada
+di <a href="04-Test_Execution_Report.html">Test_Execution_Report.md §4</a>.
+Setelahnya, 3 test case baru ditambahkan (LOGIN-08, CHK-04, CHK-05, lihat
+<a href="04-Test_Execution_Report.html">Test_Execution_Report.md §7</a>) — sudah lolos
+type-check, menunggu dijalankan ulang di Cypress untuk melengkapi datanya jadi 29/29.</p>
+</blockquote>
+<h2 id="2-tools-dikelompokkan-per-kategori-untuk-cv">2. Tools Dikelompokkan per Kategori (untuk CV)</h2>
+<table>
+<thead>
+<tr>
+<th>Kategori</th>
+<th>Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Automation (Web E2E, code-first)</strong></td>
+<td>Playwright, Cypress, Selenium (WebDriver)</td>
+</tr>
+<tr>
+<td><strong>Automation (Web E2E, GUI/low-code)</strong></td>
+<td>Katalon Studio — lihat <code>automation/katalon/README.md</code></td>
+</tr>
+<tr>
+<td><strong>Bahasa &amp; Runtime</strong></td>
+<td>TypeScript, Python (pytest), Groovy (Katalon)</td>
+</tr>
+<tr>
+<td><strong>Test Management / Dokumentasi</strong></td>
+<td>Markdown, CSV (setara Excel/Sheets), GitHub</td>
+</tr>
+<tr>
+<td><strong>CI/CD</strong></td>
+<td>GitHub Actions</td>
+</tr>
+<tr>
+<td><strong>Dependency &amp; Environment</strong></td>
+<td>npm, pip, <code>webdriver-manager</code>, virtualenv</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tidak relevan untuk project ini</strong> (bukan berarti tidak dikuasai secara umum, hanya tidak
+dipakai di sini karena scope-nya): API testing (Postman), SQL/database validation, mobile
+testing (Appium) — SauceDemo adalah aplikasi web murni tanpa backend yang bisa diakses dan tidak
+punya versi mobile.</p>
+<p><strong>Aturan main untuk CV:</strong> karena automation di project ini benar-benar dijalankan dan hasilnya
+bisa ditunjukkan (bukan cuma diklaim), aman mencantumkan Playwright, Cypress, dan Selenium
+sebagai <strong>hands-on</strong>, bukan sekadar "familiar with the concept". Ini melengkapi portofolio QA
+manual (kalau ada) yang biasanya lebih kuat di sisi Test Planning/Test Case Design/Defect
+Management gaya Jira tapi automation-nya masih level konsep — dua jenis project ini saling
+menutupi kekurangan satu sama lain kalau ditunjukkan bersamaan.</p>
+<p><strong>Khusus Katalon:</strong> karena project-nya belum benar-benar dibuat &amp; dijalankan di Katalon Studio
+(baru panduan + script Groovy), yang jujur dicantumkan di CV adalah <strong>"familiar with Katalon
+Studio, siap onboarding"</strong> — persis prinsip yang sama dipakai di portofolio QA manual lain milik
+penulis untuk tools yang belum sempat dipraktikkan hands-on. Statusnya bisa naik jadi "hands-on"
+begitu project-nya benar-benar dibuat &amp; dijalankan mengikuti panduan
+tersebut.</p>
+<h2 id="3-kenapa-3-framework-sekaligus-bukan-1-saja">3. Kenapa 3 Framework Sekaligus (Bukan 1 Saja)?</h2>
+<p>Umumnya di industri, tim hanya memakai <strong>satu</strong> framework automation utama. Menulis di tiga
+sekaligus (Playwright, Cypress, Selenium) untuk test case yang identik bukan praktik industri
+standar — ini sengaja dilakukan di project ini sebagai <strong>latihan perbandingan tool</strong>, supaya bisa
+menjawab pertanyaan interview seperti "kenapa pilih Playwright dibanding Selenium?" dengan
+pengalaman langsung, bukan hafalan dari artikel:</p>
+<table>
+<thead>
+<tr>
+<th>Aspek</th>
+<th>Playwright</th>
+<th>Cypress</th>
+<th>Selenium</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bahasa di project ini</td>
+<td>TypeScript</td>
+<td>TypeScript</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>Model eksekusi</td>
+<td>Node.js, multi-browser engine bawaan</td>
+<td>Electron sebagai test runner, driver browser bawaan</td>
+<td>WebDriver protocol, butuh driver eksternal (di sini via <code>webdriver-manager</code>)</td>
+</tr>
+<tr>
+<td>Auto-wait</td>
+<td>Bawaan di setiap assertion</td>
+<td>Bawaan di setiap <code>cy.</code> command</td>
+<td>Perlu <code>WebDriverWait</code> eksplisit (terlihat jelas di test_saucedemo.py)</td>
+</tr>
+<tr>
+<td>Kecepatan setup di project ini</td>
+<td>Cepat — satu <code>npx playwright install</code></td>
+<td>Cepat untuk kode, tapi binary Electron-nya besar (~600MB)</td>
+<td>Perlu venv + <code>ChromeDriverManager</code> terpisah</td>
+</tr>
+<tr>
+<td>Kesan setelah dipakai di project ini</td>
+<td>Config &amp; assertion paling ringkas</td>
+<td>API paling "enak dibaca", tapi runner-nya Electron jadi kurang ramah lingkungan headless/sandbox tertentu</td>
+<td>Paling verbose tapi paling universal (dukungan browser/bahasa terluas di industri)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-template-jawaban-interview-versi-jujur-berbasis-project-ini">4. Template Jawaban Interview (Versi Jujur, Berbasis Project Ini)</h2>
+<p>Kalau ditanya <em>"Pengalaman automation testing kamu apa?"</em>:</p>
+<blockquote>
+<p>"Saya membangun test automation suite untuk aplikasi e-commerce demo SauceDemo, mencakup
+login (termasuk 6 akun uji dengan perilaku berbeda), keranjang belanja, pengurutan produk, dan
+alur checkout 3 langkah — saya implementasikan di tiga framework berbeda sekaligus: Playwright,
+Cypress, dan Selenium, dengan test case yang sama supaya bisa membandingkan langsung
+trade-off-nya. Saya juga membangun test khusus untuk memverifikasi ulang bug-bug bawaan yang
+memang sengaja disiapkan situs ini untuk latihan QA, dan dari situ saya menemukan bahwa
+beberapa bug yang sebelumnya tercatat aktif ternyata sudah tidak reproduksi lagi — jadi suite
+ini bukan cuma menjalankan test yang lolos, tapi juga aktif mendeteksi perubahan perilaku
+aplikasi dari waktu ke waktu. Saya juga menemukan bahwa Playwright dan Cypress memberi hasil
+berbeda untuk satu bug spesifik (satu framework menangkap alert JavaScript, satu lagi tidak) —
+dari situ saya belajar kalau dua tool automation bisa berinteraksi dengan halaman yang sama
+secara teknis berbeda (simulasi event JS vs kontrol browser native), yang penting dipahami
+supaya tidak salah menyimpulkan 'bug hilang' padahal itu keterbatasan tool-nya. Semua terhubung
+ke pipeline CI di GitHub Actions supaya jalan otomatis setiap ada perubahan."</p>
+</blockquote>
+<p>Kalimat ini aman karena semuanya bisa langsung ditunjukkan (hasil run, kode, CI config) kalau
+diminta bukti konkret saat interview.</p>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="00-STLC_Tools_Mapping.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

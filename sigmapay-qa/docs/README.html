@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA Portfolio Project — Mobile Banking "SigmaPay" (Fund Transfer & QRIS Payment) · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>QA Portfolio Project — Mobile Banking "SigmaPay" (Fund Transfer & QRIS Payment)</h1>
+  <div class="doc-meta">README.md &middot; Project README</div>
+  <div class="doc-body">
+<p>Project simulasi kerja QA Manual Tester untuk aplikasi <strong>Mobile Banking dummy bernama "SigmaPay"</strong>, fokus pada modul <strong>Fund Transfer (Intrabank/Interbank/BI-FAST)</strong> dan <strong>QRIS Payment</strong>. Dibuat untuk melatih &amp; mendemonstrasikan skill set yang diminta di lowongan QA Engineer domain Banking:</p>
+<ul>
+<li>Manual Testing (Web, Mobile, API)</li>
+<li>Test Plan, Test Scenario, Test Case, Test Script, Test Evidence, Test Report</li>
+<li>Functional Testing, SIT, UAT, Regression Testing, Smoke Testing</li>
+<li>Defect Management (gaya JIRA)</li>
+<li>API Testing (gaya Postman)</li>
+<li>Basic SQL untuk validasi database</li>
+<li>Agile/Scrum</li>
+</ul>
+<h2 id="kenapa-domain-ini">Kenapa domain ini?</h2>
+<p>Loker "Tester Manual – Can Join Immediately" dan "QA Manual (ASAP/Banking)" secara eksplisit memprioritaskan pengalaman di <strong>Digital Banking, Internet/Mobile Banking, Core Banking, Payment, Transfer, QRIS, Virtual Account, Loan, CASA</strong>. Project ini dibuat supaya langsung "nyambung" saat dibahas di interview — kamu bisa cerita end-to-end proses testing-nya, bukan cuma teori.</p>
+<h2 id="struktur-project">Struktur Project</h2>
+<table>
+<thead>
+<tr>
+<th>Folder</th>
+<th>Isi</th>
+<th>Fase STLC Terkait</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="SDLC_STLC_Concept.html">00-SDLC-STLC-Overview</a></td>
+<td>Penjelasan konsep SDLC &amp; STLC, dipetakan ke aktivitas QA nyata di studi kasus ini. Termasuk <a href="Testing_Types_Taxonomy.html">Taksonomi Jenis Testing</a> dan <a href="STLC_Tools_Mapping.html">Tools per Tahap STLC + Panduan CV/Interview</a></td>
+<td>— (konsep dasar)</td>
+</tr>
+<tr>
+<td><a href="Test_Plan_MobileBanking.html">01-Test-Plan</a></td>
+<td>Test Plan lengkap (scope, strategy, environment, risk)</td>
+<td>Test Planning</td>
+</tr>
+<tr>
+<td><a href="Test_Scenario_Transfer_QRIS.html">02-Test-Scenario</a></td>
+<td>Daftar skenario uji level tinggi, termasuk edge case &amp; negative case</td>
+<td>Test Case Design</td>
+</tr>
+<tr>
+<td><a href="03-Test-Case/Test_Case_Transfer_QRIS.csv">03-Test-Case</a></td>
+<td>27 Test Case detail (langkah, data uji, expected result) — bisa dibuka di Excel/Google Sheets</td>
+<td>Test Case Design</td>
+</tr>
+<tr>
+<td><a href="Test_Execution_Report.html">04-Test-Execution</a></td>
+<td>Simulasi hasil eksekusi test case (Pass/Fail) + test evidence</td>
+<td>Test Execution</td>
+</tr>
+<tr>
+<td><a href="Bug_Report_Sample.html">05-Bug-Report</a></td>
+<td>6 sample bug report gaya JIRA, lengkap severity/priority</td>
+<td>Test Execution → Defect Management</td>
+</tr>
+<tr>
+<td><a href="Postman_API_Test_Notes.html">06-API-Testing</a></td>
+<td>Dokumentasi API testing (Postman) untuk endpoint Transfer &amp; QRIS</td>
+<td>Test Execution (API layer)</td>
+</tr>
+<tr>
+<td><a href="07-SQL-Validation/SQL_Queries_Validation.sql">07-SQL-Validation</a></td>
+<td>Query SQL untuk validasi data backend setelah transaksi</td>
+<td>Test Execution (DB layer)</td>
+</tr>
+<tr>
+<td><a href="Test_Summary_Report.html">08-Test-Summary-Report</a></td>
+<td>Laporan akhir siklus testing + rekomendasi go-live</td>
+<td>Test Cycle Closure</td>
+</tr>
+<tr>
+<td><a href="Regression_Test_Checklist.html">09-Regression-Checklist</a></td>
+<td>Checklist regresi ringkas untuk dipakai tiap ada bug fix/release baru</td>
+<td>Regression Testing</td>
+</tr>
+<tr>
+<td><a href="Panduan_Kerja_QA_Manual_Banking.html">10-Panduan-Kerja-Harian</a></td>
+<td><strong>Bukan simulasi</strong> — gambaran nyata kerja harian/mingguan/per-sprint kalau kamu diterima di posisi ini: onboarding, ritme sprint, deliverable, jalur eskalasi, tantangan lapangan, ekspektasi 30/60/90 hari</td>
+<td>— (panduan operasional, di luar STLC)</td>
+</tr>
+<tr>
+<td><a href="../prototype.html">SigmaPay Prototype Scope</a></td>
+<td><strong>Sumber kebenaran tunggal (source of truth)</strong> — prototype interaktif 30 layar yang mengimplementasikan app SigmaPay + workbench QA di sampingnya (test case per layar, log API, tab SQL, tab Defect), dengan toggle build <strong>v1.4.0-QA (buggy)</strong> vs <strong>v1.5.0-FIX</strong>. Semua dokumen 00-09 di atas sudah disinkronkan terhadap data &amp; business rule konkret di file ini</td>
+<td>— (living scope, bukan deliverable STLC)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tentang-folder-sigmapay-prototype-scope">Tentang folder "SigmaPay Prototype Scope"</h2>
+<p>Folder ini berisi prototype interaktif (<code>SigmaPay QA Workbench.dc.html</code> + <code>ios-frame.jsx</code> + <code>support.js</code> + design system di <code>_ds/</code>) yang dibangun dengan tooling prototyping khusus (terlihat dari struktur <code>x-dc</code>/<code>dc-runtime</code>-nya) — <strong>bukan format HTML statis biasa</strong>, jadi kemungkinan besar perlu dibuka lewat tool yang sama yang membuatnya, bukan sekadar double-click di browser.</p>
+<p>Fungsinya di project ini: jadi <strong>spesifikasi hidup</strong>. Semua nama akun, nomor rekening, nominal, business rule (mis. limit QRIS per transaksi vs limit transfer harian, pesan error "Pindah Buku" untuk transfer ke rekening sendiri), dan logika ke-6 bug (BUG-SGP-001 s.d. 006) diambil dari sana dan disinkronkan ke seluruh dokumen <code>01</code> s.d. <code>09</code>. Kalau ke depan prototype-nya berubah, dokumen di sini perlu di-sync ulang mengikuti — bilang saja kalau butuh sinkronisasi ulang.</p>
+<h2 id="cara-pakai-project-ini-saat-interview">Cara pakai project ini saat interview</h2>
+<ol>
+<li>Mulai dari <code>00-SDLC-STLC-Overview</code> untuk menjelaskan <strong>kenapa</strong> kamu melakukan tahapan tersebut (interviewer suka nanya "kamu ngapain aja dari requirement sampai release?").</li>
+<li>Tunjukkan <code>01-Test-Plan</code> sebagai bukti kamu bisa <strong>merencanakan</strong> testing, bukan cuma eksekusi.</li>
+<li>Tunjukkan alur <code>02 → 03 → 04 → 05</code> sebagai bukti siklus <strong>design case → eksekusi → temukan bug → laporkan bug</strong>.</li>
+<li>Tunjukkan <code>06</code> dan <code>07</code> sebagai bukti kamu bisa testing di luar UI (API &amp; Database) — ini pembeda kandidat junior vs kandidat 3-5 tahun pengalaman.</li>
+<li>Tutup dengan <code>08</code> sebagai bukti kamu paham <strong>exit criteria</strong> dan bisa membuat keputusan/rekomendasi rilis (soft skill yang dicari untuk level "3-5 tahun pengalaman").</li>
+</ol>
+<h2 id="catatan">Catatan</h2>
+<p>Semua data (nomor rekening, nominal, ID transaksi) adalah <strong>dummy/fiktif</strong>, dibuat murni untuk simulasi latihan, tidak merepresentasikan sistem bank sungguhan manapun.</p>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="README.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

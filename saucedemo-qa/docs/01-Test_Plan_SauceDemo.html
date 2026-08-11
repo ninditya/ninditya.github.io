@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Plan — SauceDemo (Login & Checkout) · SauceDemo QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f4f4f8; --bg-dark:#13131e;
+  --ink:#1c1c26; --ink-soft:#54566b; --muted:#9395a8;
+  --line:#dcdce6; --line-strong:#adaec2;
+  --primary:#473c93; --accent:#d9622b; --accent-soft:#eeecf9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#15151f; --bg-alt:#1d1d2b; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.62); --muted:rgba(235,235,245,0.32); --line:rgba(140,140,170,0.28); --line-strong:rgba(140,140,170,0.45); --primary:#9086e6; --accent:#f0925a; --accent-soft:rgba(144,134,230,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SauceDemo QA &middot; QA Documentation</div>
+  <h1>Test Plan — SauceDemo (Login & Checkout)</h1>
+  <div class="doc-meta">01-Test_Plan_SauceDemo.md &middot; Dokumen QA</div>
+  <div class="doc-body">
+<p><strong>Aplikasi:</strong> https://www.saucedemo.com/
+<strong>Status:</strong> Aktif</p>
+<h2 id="1-pendahuluan">1. Pendahuluan</h2>
+<h3 id="a-gambaran-umum">a. Gambaran Umum</h3>
+<p>SauceDemo adalah situs e-commerce demo yang digunakan untuk latihan QA. Situs ini memiliki alur
+login yang dibatasi oleh enam akun uji khusus (masing-masing sudah disiapkan dengan
+perilaku/bug yang berbeda), katalog produk dengan fitur pengurutan, alur tambah/hapus item ke
+keranjang, dan checkout tiga langkah (Your Information → Overview → Complete).</p>
+<h3 id="b-tujuan">b. Tujuan</h3>
+<p>Memastikan login, keranjang belanja, pengurutan, dan checkout berjalan dengan benar untuk alur
+normal (positive case), memastikan skenario negatif/edge case (kredensial salah, field kosong,
+data checkout tidak lengkap, akun terkunci) ditangani dengan pesan error yang sesuai, serta
+memastikan bug bawaan yang memang sengaja disiapkan oleh situs ini (lihat
+<a href="05-Bug_Report_SauceDemo.html">Bug Report</a>) tetap terdokumentasi dan bisa
+diverifikasi ulang lewat automation.</p>
+<h2 id="2-item-pengujian">2. Item Pengujian</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Fitur</th>
+<th>Item Uji</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Login</td>
+<td>Kredensial valid, kredensial tidak valid, username case-sensitive, username kosong, password kosong, akun terkunci, logout</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Keranjang</td>
+<td>Tambah ke keranjang, hapus dari halaman inventory, hapus dari halaman keranjang, tombol continue shopping</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Pengurutan</td>
+<td>Name (A–Z), Name (Z–A), Price (low–high), Price (high–low)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Checkout</td>
+<td>Satu item, beberapa item, field wajib kosong (First Name / Last Name / Postal Code)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Bug bawaan</td>
+<td>Bug yang sudah disiapkan pada akun <code>problem_user</code>, <code>error_user</code>, <code>visual_user</code>, <code>performance_glitch_user</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-in-scope-testing">3. In Scope Testing</h2>
+<p>Login, Keranjang Belanja, Pengurutan, Checkout (Your Information / Overview / Complete), serta
+pengecekan regresi terhadap akun-akun bug bawaan milik SauceDemo.</p>
+<h2 id="4-out-of-scope-testing">4. Out of Scope Testing</h2>
+<table>
+<thead>
+<tr>
+<th>Fitur</th>
+<th>Alasan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Register</td>
+<td>Situs ini tidak memiliki fitur registrasi</td>
+</tr>
+<tr>
+<td>Proses pembayaran</td>
+<td>SauceDemo tidak memiliki payment gateway sungguhan — checkout menggunakan data pembayaran/pengiriman dummy yang tetap</td>
+</tr>
+<tr>
+<td>Validasi alamat</td>
+<td>Tidak ada validasi alamat sungguhan; hanya pengecekan field wajib diisi</td>
+</tr>
+<tr>
+<td>Pengujian API</td>
+<td>SauceDemo adalah demo yang seluruhnya berjalan di sisi client (client-rendered) dan tidak memiliki API publik untuk diuji</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-pendekatan-pengujian">5. Pendekatan Pengujian</h2>
+<p>Regresi otomatis diimplementasikan di tiga framework — Playwright (utama), Cypress, dan Selenium
+(subset smoke test) — dengan cakupan test case yang sama, dijalankan pada Chromium/Chrome
+headless. Keenam akun uji bawaan SauceDemo masing-masing diuji minimal satu kali supaya bug yang
+sudah diketahui/disiapkan tetap bisa terus diverifikasi ulang, tidak hanya ditemukan lewat
+pengujian manual.</p>
+<h2 id="6-lingkungan-pengujian">6. Lingkungan Pengujian</h2>
+<ul>
+<li>Website: https://www.saucedemo.com/</li>
+<li>Browser: Chromium (dikelola Playwright) / Electron+Chrome (Cypress) / Chrome (Selenium via
+  webdriver-manager)</li>
+<li>Akun uji: <code>standard_user</code>, <code>locked_out_user</code>, <code>problem_user</code>, <code>performance_glitch_user</code>,
+  <code>error_user</code>, <code>visual_user</code> — password <code>secret_sauce</code> untuk semua akun</li>
+</ul>
+<h2 id="7-deliverable-pengujian">7. Deliverable Pengujian</h2>
+<ul>
+<li>Test Plan (dokumen ini)</li>
+<li>Test Scenario: <a href="02-Test_Scenario_SauceDemo.html"><code>02-Test-Scenario/Test_Scenario_SauceDemo.md</code></a></li>
+<li>Paket test otomatis: <code>automation/playwright/</code> (Playwright), <code>automation/cypress/</code> (Cypress),
+  <code>automation/selenium/</code> (Selenium)</li>
+<li>Katalog test case: <a href="../03-Test-Case/Test_Case_SauceDemo.csv"><code>03-Test-Case/Test_Case_SauceDemo.csv</code></a></li>
+<li>Laporan eksekusi: <a href="04-Test_Execution_Report.html"><code>04-Test-Execution/Test_Execution_Report.md</code></a></li>
+<li>Laporan bug: <a href="05-Bug_Report_SauceDemo.html"><code>05-Bug-Report/Bug_Report_SauceDemo.md</code></a></li>
+<li>Test Summary &amp; Regression Checklist: <a href="08-Test_Summary_Report.html"><code>08-Test-Summary-Report/</code></a>, <a href="09-Regression_Test_Checklist.html"><code>09-Regression-Checklist/</code></a></li>
+<li>Pipeline CI: <a href="../../.github/workflows/ci.yml"><code>.github/workflows/ci.yml</code></a></li>
+</ul>
+<h2 id="8-referensi">8. Referensi</h2>
+<p>Perilaku bug bawaan dikonfirmasi langsung terhadap akun-akun uji yang didokumentasikan oleh
+SauceDemo sendiri, serta telah dicek ulang dari hasil latihan test plan/bug report manual
+sebelumnya untuk situs yang sama.</p>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="01-Test_Plan_SauceDemo.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

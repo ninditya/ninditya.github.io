@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SauceDemo — Paket Pengujian QA & Otomasi · SauceDemo QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f4f4f8; --bg-dark:#13131e;
+  --ink:#1c1c26; --ink-soft:#54566b; --muted:#9395a8;
+  --line:#dcdce6; --line-strong:#adaec2;
+  --primary:#473c93; --accent:#d9622b; --accent-soft:#eeecf9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#15151f; --bg-alt:#1d1d2b; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.62); --muted:rgba(235,235,245,0.32); --line:rgba(140,140,170,0.28); --line-strong:rgba(140,140,170,0.45); --primary:#9086e6; --accent:#f0925a; --accent-soft:rgba(144,134,230,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SauceDemo QA &middot; QA Documentation</div>
+  <h1>SauceDemo — Paket Pengujian QA & Otomasi</h1>
+  <div class="doc-meta">README.md &middot; Project README</div>
+  <div class="doc-body">
+<p>Paket pengujian yang mencakup login, keranjang belanja, pengurutan produk, dan checkout untuk
+situs demo e-commerce SauceDemo, lengkap dengan pengecekan regresi terhadap bug bawaan yang
+sudah disiapkan oleh SauceDemo sendiri. Cakupan test yang sama diimplementasikan di tiga
+framework automation code-first — Playwright, Cypress, dan Selenium — supaya bisa dipakai
+sebagai bahan latihan/perbandingan antar tool, plus panduan untuk Katalon Studio (GUI/low-code)
+sebagai opsi ke-4.</p>
+<p><strong>URL Aplikasi:</strong> https://www.saucedemo.com/</p>
+<p>Baru pertama kali buka repo ini? Mulai dari
+<a href="00-SDLC_STLC_Concept.html"><strong>docs/00-SDLC-STLC-Overview</strong></a> untuk memahami
+<strong>kenapa</strong> project ini disusun seperti ini — pemetaan SDLC/STLC, taksonomi jenis testing, dan
+tools yang dipakai, semuanya ditautkan langsung ke artefak nyata (Test Plan, test case, hasil
+eksekusi, laporan bug) di <code>docs/00</code> sampai <code>docs/10</code>.</p>
+<hr />
+<h2 id="struktur-repository">Struktur Repository</h2>
+<p>Dua akar utama: <strong><code>automation/</code></strong> (kode test — satu subfolder per framework) dan <strong><code>docs/</code></strong>
+(siklus STLC lengkap <code>00</code>–<code>10</code>, mengikuti pola project QA lain milik penulis). Konfigurasi shared
+(Node/<code>package.json</code>) tetap di root supaya <code>node_modules</code> tidak terduplikasi tiga kali.</p>
+<pre><code>Tester-Sauce.com/
+├── automation/
+│   ├── playwright/
+│   │   ├── playwright.config.ts
+│   │   └── tests/
+│   │       ├── helpers/auth.ts
+│   │       ├── auth.spec.ts          # LOGIN-01 s.d. LOGIN-08
+│   │       ├── cart.spec.ts          # CART-01 s.d. CART-04
+│   │       ├── sort.spec.ts          # SORT-01 s.d. SORT-04
+│   │       ├── checkout.spec.ts      # CHK-01 s.d. CHK-05
+│   │       └── known-issues.spec.ts  # BUG-001, 003–007
+│   ├── cypress/
+│   │   ├── cypress.config.ts
+│   │   ├── tsconfig.json
+│   │   ├── e2e/                      # struktur spec sama persis dengan playwright/tests
+│   │   └── support/{e2e.ts,commands.ts}
+│   ├── selenium/
+│   │   ├── requirements.txt
+│   │   └── tests/test_saucedemo.py
+│   └── katalon/
+│       └── README.md                 # panduan + script Groovy siap-pakai (belum ada project .prj — lihat isinya)
+├── docs/
+│   ├── 00-SDLC-STLC-Overview/
+│   ├── 01-Test-Plan/
+│   ├── 02-Test-Scenario/
+│   ├── 03-Test-Case/
+│   ├── 04-Test-Execution/
+│   ├── 05-Bug-Report/
+│   ├── 06-API-Testing/           # tidak berlaku untuk project ini — dijelaskan kenapa
+│   ├── 07-SQL-Validation/        # tidak berlaku untuk project ini — dijelaskan kenapa
+│   ├── 08-Test-Summary-Report/
+│   ├── 09-Regression-Checklist/
+│   └── 10-Panduan-Kerja-Harian/
+├── .github/workflows/ci.yml      # Pipeline CI: job Playwright, Cypress, Selenium paralel
+├── .env.example
+├── package.json                  # Shared devDependencies (Playwright, Cypress, TypeScript)
+└── README.md
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Folder docs/</th>
+<th>Isi</th>
+<th>Fase STLC Terkait</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="00-SDLC_STLC_Concept.html">00-SDLC-STLC-Overview</a></td>
+<td>Konsep SDLC &amp; STLC dipetakan ke project ini, taksonomi jenis testing, tools &amp; perbandingan Playwright/Cypress/Selenium</td>
+<td>— (konsep dasar)</td>
+</tr>
+<tr>
+<td><a href="01-Test_Plan_SauceDemo.html">01-Test-Plan</a></td>
+<td>Scope, in/out of scope, pendekatan, environment, deliverable</td>
+<td>Test Planning</td>
+</tr>
+<tr>
+<td><a href="02-Test_Scenario_SauceDemo.html">02-Test-Scenario</a></td>
+<td>Skenario uji level tinggi per fitur, jembatan antara Test Plan dan Test Case</td>
+<td>Test Case Design</td>
+</tr>
+<tr>
+<td><a href="docs/03-Test-Case/Test_Case_SauceDemo.csv">03-Test-Case</a></td>
+<td>27 test case detail (langkah, data uji, expected result) — bisa dibuka di Excel/Google Sheets</td>
+<td>Test Case Design</td>
+</tr>
+<tr>
+<td><a href="04-Test_Execution_Report.html">04-Test-Execution</a></td>
+<td>Hasil eksekusi <strong>nyata</strong> (bukan simulasi) per framework, termasuk breakdown test yang disengaja gagal</td>
+<td>Test Execution</td>
+</tr>
+<tr>
+<td><a href="05-Bug_Report_SauceDemo.html">05-Bug-Report</a></td>
+<td>7 bug bawaan SauceDemo, lengkap status reproduksi per tanggal verifikasi</td>
+<td>Test Execution → Defect Management</td>
+</tr>
+<tr>
+<td><a href="06-API_Testing_Not_Applicable.html">06-API-Testing</a></td>
+<td><strong>Tidak berlaku</strong> untuk project ini — dijelaskan kenapa, bukan dilewati diam-diam</td>
+<td>Test Execution (API layer)</td>
+</tr>
+<tr>
+<td><a href="07-SQL_Validation_Not_Applicable.html">07-SQL-Validation</a></td>
+<td><strong>Tidak berlaku</strong> untuk project ini — dijelaskan kenapa</td>
+<td>Test Execution (DB layer)</td>
+</tr>
+<tr>
+<td><a href="08-Test_Summary_Report.html">08-Test-Summary-Report</a></td>
+<td>Ringkasan siklus testing, defect density, coverage gap, dan rekomendasi</td>
+<td>Test Cycle Closure</td>
+</tr>
+<tr>
+<td><a href="09-Regression_Test_Checklist.html">09-Regression-Checklist</a></td>
+<td>Checklist ringkas untuk dipakai tiap kali suite dijalankan ulang</td>
+<td>Regression Testing</td>
+</tr>
+<tr>
+<td><a href="10-Panduan_Kerja_QA_Automation.html">10-Panduan-Kerja-Harian</a></td>
+<td><strong>Bukan simulasi</strong> — ritme kerja nyata memaintain suite automation seperti ini, termasuk hambatan nyata yang ditemukan saat membangunnya</td>
+<td>— (panduan operasional, di luar STLC)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="akun-uji">Akun Uji</h2>
+<p>Akun-akun ini sudah dipublikasikan langsung oleh SauceDemo di halaman login-nya, jadi tidak ada
+yang bersifat rahasia di sini — data ini hanya dikumpulkan di <code>.env</code> supaya test tidak
+menuliskan string yang sama berulang-ulang di banyak tempat.</p>
+<table>
+<thead>
+<tr>
+<th>Username</th>
+<th>Perilaku</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>standard_user</code></td>
+<td>Alur normal, tanpa bug</td>
+</tr>
+<tr>
+<td><code>locked_out_user</code></td>
+<td>Login selalu ditolak</td>
+</tr>
+<tr>
+<td><code>problem_user</code></td>
+<td>Ada bug UI/gambar bawaan — lihat <a href="05-Bug_Report_SauceDemo.html">BUG-001</a></td>
+</tr>
+<tr>
+<td><code>performance_glitch_user</code></td>
+<td>Ada bug dashboard lambat bawaan — lihat <a href="05-Bug_Report_SauceDemo.html">BUG-007</a></td>
+</tr>
+<tr>
+<td><code>error_user</code></td>
+<td>Ada bug bawaan pada sort/keranjang/checkout — lihat <a href="05-Bug_Report_SauceDemo.html">BUG-003 sampai BUG-006</a></td>
+</tr>
+<tr>
+<td><code>visual_user</code></td>
+<td>Ada bug tampilan (layout) bawaan — lihat <a href="05-Bug_Report_SauceDemo.html">BUG-002</a></td>
+</tr>
+</tbody>
+</table>
+<p>Password untuk semua akun: <code>secret_sauce</code></p>
+<h3 id="setup-lokal">Setup Lokal</h3>
+<pre><code class="language-bash">cp .env.example .env
+npm install
+</code></pre>
+<p>Playwright/Cypress tidak otomatis membaca file <code>.env</code>. Export variabel-variabel berikut sebelum
+menjalankan test jika ingin mengganti nilai default:</p>
+<pre><code class="language-bash">export TEST_USERNAME=&quot;standard_user&quot;
+export TEST_PASSWORD=&quot;secret_sauce&quot;
+</code></pre>
+<p>Cypress hanya membaca env var berawalan <code>CYPRESS_</code> (prefix-nya otomatis dibuang), jadi untuk
+mengganti password khusus di Cypress gunakan <code>CYPRESS_TEST_PASSWORD</code> sebagai gantinya.</p>
+<hr />
+<h2 id="cakupan-pengujian">Cakupan Pengujian</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Area</th>
+<th>Deskripsi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LOGIN-01</td>
+<td>Login</td>
+<td>Kredensial valid berhasil masuk ke halaman inventory</td>
+</tr>
+<tr>
+<td>LOGIN-02</td>
+<td>Login</td>
+<td>Kredensial tidak valid menampilkan pesan error yang sesuai</td>
+</tr>
+<tr>
+<td>LOGIN-03</td>
+<td>Login</td>
+<td>Username bersifat case-sensitive (peka huruf besar/kecil)</td>
+</tr>
+<tr>
+<td>LOGIN-04</td>
+<td>Login</td>
+<td>Username kosong diblokir dengan pesan error wajib diisi</td>
+</tr>
+<tr>
+<td>LOGIN-05</td>
+<td>Login</td>
+<td>Password kosong diblokir dengan pesan error wajib diisi</td>
+</tr>
+<tr>
+<td>LOGIN-06</td>
+<td>Login</td>
+<td>Akun yang terkunci (locked-out) selalu ditolak</td>
+</tr>
+<tr>
+<td>LOGIN-07</td>
+<td>Login</td>
+<td>Logout mengembalikan pengguna ke halaman login</td>
+</tr>
+<tr>
+<td>LOGIN-08</td>
+<td>Login</td>
+<td>Akses halaman cart tanpa login diarahkan ke halaman login</td>
+</tr>
+<tr>
+<td>CART-01</td>
+<td>Keranjang</td>
+<td>Add to cart mengubah status tombol dan memperbarui badge</td>
+</tr>
+<tr>
+<td>CART-02</td>
+<td>Keranjang</td>
+<td>Remove dari halaman inventory menghapus badge</td>
+</tr>
+<tr>
+<td>CART-03</td>
+<td>Keranjang</td>
+<td>Remove dari halaman keranjang menghapus item dari daftar</td>
+</tr>
+<tr>
+<td>CART-04</td>
+<td>Keranjang</td>
+<td>Continue Shopping kembali ke halaman inventory</td>
+</tr>
+<tr>
+<td>SORT-01</td>
+<td>Pengurutan</td>
+<td>Name (A to Z)</td>
+</tr>
+<tr>
+<td>SORT-02</td>
+<td>Pengurutan</td>
+<td>Name (Z to A)</td>
+</tr>
+<tr>
+<td>SORT-03</td>
+<td>Pengurutan</td>
+<td>Price (low to high)</td>
+</tr>
+<tr>
+<td>SORT-04</td>
+<td>Pengurutan</td>
+<td>Price (high to low)</td>
+</tr>
+<tr>
+<td>CHK-01</td>
+<td>Checkout</td>
+<td>Satu item, alur lengkap sampai selesai</td>
+</tr>
+<tr>
+<td>CHK-02</td>
+<td>Checkout</td>
+<td>Beberapa item, alur lengkap sampai selesai</td>
+</tr>
+<tr>
+<td>CHK-03</td>
+<td>Checkout</td>
+<td>First Name / Last Name / Postal Code kosong masing-masing diblokir</td>
+</tr>
+<tr>
+<td>CHK-04</td>
+<td>Checkout</td>
+<td>Karakter spesial diterima tanpa validasi format (karakteristik demo site)</td>
+</tr>
+<tr>
+<td>CHK-05</td>
+<td>Checkout</td>
+<td>Perhitungan total harga (subtotal + tax) di checkout overview benar</td>
+</tr>
+<tr>
+<td>BUG-001</td>
+<td>Bug bawaan</td>
+<td><code>problem_user</code> — gambar produk tidak sesuai</td>
+</tr>
+<tr>
+<td>BUG-003</td>
+<td>Bug bawaan</td>
+<td><code>error_user</code> — sort menampilkan error JavaScript</td>
+</tr>
+<tr>
+<td>BUG-004</td>
+<td>Bug bawaan</td>
+<td><code>error_user</code> — tombol Add to cart tidak berfungsi di sebagian item</td>
+</tr>
+<tr>
+<td>BUG-005</td>
+<td>Bug bawaan</td>
+<td><code>error_user</code> — field Last Name tidak bisa diisi</td>
+</tr>
+<tr>
+<td>BUG-006</td>
+<td>Bug bawaan</td>
+<td><code>error_user</code> — tombol Finish tidak bisa diklik</td>
+</tr>
+<tr>
+<td>BUG-007</td>
+<td>Bug bawaan</td>
+<td><code>performance_glitch_user</code> — dashboard lambat</td>
+</tr>
+</tbody>
+</table>
+<p>Katalog lengkap manual/otomatis: <a href="docs/03-Test-Case/Test_Case_SauceDemo.csv">docs/03-Test-Case/Test_Case_SauceDemo.csv</a></p>
+<hr />
+<h2 id="menjalankan-test">Menjalankan Test</h2>
+<h3 id="prasyarat">Prasyarat</h3>
+<ul>
+<li>Node.js 18+ dan npm</li>
+<li>Python 3.11+ dan pip</li>
+</ul>
+<p>Semua perintah <code>npm</code>/<code>npx</code> di bawah dijalankan dari <strong>root repo</strong> — <code>package.json</code> dan
+<code>node_modules</code> sengaja hanya ada satu set di root, dipakai bersama oleh Playwright dan Cypress.</p>
+<h3 id="1-playwright">1. Playwright</h3>
+<pre><code class="language-bash">npm install
+npx playwright install chromium
+npm test
+</code></pre>
+<p><code>npm test</code> setara dengan <code>npx playwright test --config=automation/playwright/playwright.config.ts</code>.</p>
+<p>Menjalankan satu file test tertentu:</p>
+<pre><code class="language-bash">npx playwright test --config=automation/playwright/playwright.config.ts automation/playwright/tests/checkout.spec.ts
+</code></pre>
+<p>Melihat laporan HTML:</p>
+<pre><code class="language-bash">npm run test:report
+</code></pre>
+<h3 id="2-cypress">2. Cypress</h3>
+<pre><code class="language-bash">npm install
+npm run cypress:run
+</code></pre>
+<p><code>npm run cypress:run</code> setara dengan <code>npx cypress run --project automation/cypress</code>.</p>
+<p>Membuka Cypress dalam mode interaktif (Test Runner GUI):</p>
+<pre><code class="language-bash">npm run cypress:open
+</code></pre>
+<p>Menjalankan satu file test tertentu:</p>
+<pre><code class="language-bash">npx cypress run --project automation/cypress --spec automation/cypress/e2e/checkout.cy.ts
+</code></pre>
+<blockquote>
+<p>Cypress Test Runner adalah aplikasi Electron (butuh tampilan GUI). Jika dijalankan di
+lingkungan headless/sandbox yang tidak mendukung peluncuran binary Electron, <code>cypress run</code>
+tidak akan bisa start — jalankan dari terminal biasa di mesin lokal, bukan dari lingkungan
+tersandbox.</p>
+</blockquote>
+<h3 id="3-selenium">3. Selenium</h3>
+<pre><code class="language-bash">cd automation/selenium
+python3 -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+cd ../..
+npm run test:selenium
+</code></pre>
+<p><code>npm run test:selenium</code> setara dengan <code>pytest automation/selenium/tests --disable-warnings -v</code>.</p>
+<blockquote>
+<p>Virtualenv Python bersifat <strong>spesifik ke path absolut tempat ia dibuat</strong> — kalau folder
+<code>automation/selenium/</code> dipindah lagi di kemudian hari, buat ulang venv-nya (<code>rm -rf venv &amp;&amp;
+python3 -m venv venv</code>) alih-alih memindahkannya, supaya tidak muncul <code>ModuleNotFoundError</code>.</p>
+</blockquote>
+<h3 id="4-katalon-studio-opsional-gui">4. Katalon Studio (opsional, GUI)</h3>
+<p>Berbeda dari 3 framework di atas: Katalon Studio adalah aplikasi desktop, bukan <code>npm</code>/<code>pip</code>
+package, jadi tidak ada satu perintah CLI untuk "menjalankan semuanya". Ikuti panduan lengkap +
+script Groovy siap-tempel di <code>automation/katalon/README.md</code>.</p>
+<hr />
+<h2 id="cicd">CI/CD</h2>
+<p>GitHub Actions menjalankan Playwright, Cypress, dan Selenium secara paralel pada setiap push/PR
+ke <code>main</code> — masing-masing mengarah ke path <code>automation/&lt;framework&gt;/</code> yang sesuai. Job Playwright
+dan Cypress mengunggah laporan/artifact-nya (retensi 7 hari). Detail: <a href=".github/workflows/ci.yml"><code>.github/workflows/ci.yml</code></a>.
+Katalon <strong>belum</strong> masuk CI — GitHub-hosted runner tidak punya Katalon Runtime Engine terinstall,
+dan <code>katalonc</code> sendiri belum pernah diverifikasi jalan di project ini (lihat
+<code>automation/katalon/README.md</code> §7).</p>
+<hr />
+<h2 id="dokumentasi">Dokumentasi</h2>
+<p>Lihat tabel folder <code>docs/</code> di atas untuk daftar lengkap <code>00-SDLC-STLC-Overview</code> sampai
+<code>10-Panduan-Kerja-Harian</code>. Yang paling sering dibuka:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Isi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="00-SDLC_STLC_Concept.html">docs/00-SDLC-STLC-Overview/SDLC_STLC_Concept.md</a></td>
+<td>Pemetaan SDLC &amp; 6 tahap STLC ke project ini, termasuk level testing yang relevan</td>
+</tr>
+<tr>
+<td><a href="01-Test_Plan_SauceDemo.html">docs/01-Test-Plan/Test_Plan_SauceDemo.md</a></td>
+<td>Ruang lingkup, pendekatan, lingkungan, dan deliverable pengujian</td>
+</tr>
+<tr>
+<td><a href="docs/03-Test-Case/Test_Case_SauceDemo.csv">docs/03-Test-Case/Test_Case_SauceDemo.csv</a></td>
+<td>Katalog lengkap test case</td>
+</tr>
+<tr>
+<td><a href="04-Test_Execution_Report.html">docs/04-Test-Execution/Test_Execution_Report.md</a></td>
+<td>Hasil eksekusi nyata per framework</td>
+</tr>
+<tr>
+<td><a href="05-Bug_Report_SauceDemo.html">docs/05-Bug-Report/Bug_Report_SauceDemo.md</a></td>
+<td>Bug bawaan SauceDemo, satu per akun uji, dipetakan ke pengecekan otomatis yang memverifikasinya</td>
+</tr>
+<tr>
+<td><a href="08-Test_Summary_Report.html">docs/08-Test-Summary-Report/Test_Summary_Report.md</a></td>
+<td>Ringkasan akhir siklus testing &amp; rekomendasi</td>
+</tr>
+<tr>
+<td># test-plan-sauce-demo-qa-automation-suite</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="README.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>
