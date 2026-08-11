@@ -162,6 +162,14 @@
     .doc-list a { display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink-soft); text-decoration:none; padding:9px 12px; border:1px solid var(--line); border-radius:6px; background:var(--bg); transition:all .15s; }
     .doc-list a:hover { border-color:var(--primary); color:var(--primary); }
 
+    /* Doc feature (PDF download) */
+    .doc-feature { display:flex; align-items:center; gap:20px; margin:32px 0; padding:22px 26px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-radius:10px; flex-wrap:wrap; }
+    .doc-feature-icon { font-size:32px; line-height:1; flex-shrink:0; }
+    .doc-feature-text { flex:1; min-width:240px; }
+    .doc-feature-text h4 { font-family:'Fraunces',serif; font-weight:400; font-size:18px; color:white; margin-bottom:6px; }
+    .doc-feature-text p { font-size:13.5px; color:rgba(255,255,255,0.65); margin:0; max-width:520px; }
+    .doc-feature .btn { flex-shrink:0; }
+
     /* Lessons */
     .lesson-cards { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:32px 0; }
     .lesson-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:20px; }
@@ -703,6 +711,15 @@ npm run test:selenium</pre>
         <a href="/" class="btn ghost" data-i18n="ctaBack">← Back to portfolio</a>
       </div>
 
+      <div class="doc-feature">
+        <div class="doc-feature-icon">📄</div>
+        <div class="doc-feature-text">
+          <h4 data-i18n="pdfFeatureTitle">Formatted Test Plan, ready to hand over</h4>
+          <p data-i18n="pdfFeatureP">The same Test Plan as the Markdown below, laid out as an actual print-ready document — 23 pages, cover block, scope, test accounts, and the full scenario breakdown.</p>
+        </div>
+        <a href="docs/01-Test_Plan_SauceDemo.pdf" download class="btn" data-i18n="pdfFeatureBtn">Download PDF ↓</a>
+      </div>
+
       <h3 style="color:white;margin-top:48px;" data-i18n="docsTitle">Full documentation set</h3>
       <div class="doc-list">
         <a href="docs/00-SDLC_STLC_Concept.md" target="_blank" rel="noopener">00 · SDLC_STLC_Concept.md</a>
@@ -989,6 +1006,9 @@ npm run test:selenium</pre>
         ctaP:`No staging environment, no mock server — every command below hits the live saucedemo.com, the same way the results on this page were produced.`,
         ctaTarget:`View Target App ↗`,
         ctaBack:`← Back to portfolio`,
+        pdfFeatureTitle:`Formatted Test Plan, ready to hand over`,
+        pdfFeatureP:`The same Test Plan as the Markdown below, laid out as an actual print-ready document — 23 pages, cover block, scope, test accounts, and the full scenario breakdown.`,
+        pdfFeatureBtn:`Download PDF ↓`,
         docsTitle:`Full documentation set`,
         footerLeft:`© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a>`,
         footerContact:`Get in touch`,
@@ -1145,6 +1165,9 @@ npm run test:selenium</pre>
         ctaTitle:`Suite-nya nyata. <em>Situsnya pun nyata.</em>`,
         ctaP:`Tidak ada environment staging, tidak ada mock server — setiap perintah di bawah ini mengenai saucedemo.com yang live, persis seperti cara hasil di halaman ini diproduksi.`,
         ctaTarget:`Lihat Aplikasi Target ↗`, ctaBack:`← Kembali ke portfolio`,
+        pdfFeatureTitle:`Test Plan versi formatted, siap diserahkan`,
+        pdfFeatureP:`Test Plan yang sama dengan versi Markdown di bawah, ditata sebagai dokumen siap-cetak sungguhan — 23 halaman, blok cover, scope, akun uji, dan breakdown skenario lengkap.`,
+        pdfFeatureBtn:`Download PDF ↓`,
         docsTitle:`Set dokumentasi lengkap`,
         footerLeft:`© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a>`, footerContact:`Hubungi saya`,
       }
