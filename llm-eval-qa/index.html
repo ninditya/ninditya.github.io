@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM Chatbot Evaluation Framework — Hallucination &amp; Grounding QA · Ninditya Salma Nur Aini</title>
+  <meta name="description" content="How do you know your LLM isn't hallucinating on users right now? The evaluation methodology I ran in production at Flip, demonstrated on two RAG systems I built and evaluated end-to-end myself — including a chatbot caught fabricating a support phone number that doesn't exist.">
+  <link rel="canonical" href="https://ninditya.github.io/llm-eval-qa/">
+  <meta property="og:title" content="LLM Chatbot Evaluation Framework — Hallucination &amp; Grounding QA">
+  <meta property="og:url" content="https://ninditya.github.io/llm-eval-qa/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#ffffff; --bg-alt:#f6f4fa; --bg-dark:#17121f;
+      --ink:#201c2b; --ink-soft:#565068; --muted:#93899f;
+      --line:#e2dcec; --line-strong:#b4a8c9;
+      --primary:#5b3fa0; --accent:#d1453d; --accent-soft:#f2ecfa;
+      --green:#1f8a5f; --high:#d1453d; --medium:#c9820c; --minor:#5b6c73;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased; }
+    .skip-link { position:absolute; top:-40px; left:0; background:var(--ink); color:#fff; padding:8px 16px; z-index:1000; transition:top 0.2s; font-family:'JetBrains Mono',monospace; font-size:0.8rem; text-decoration:none; }
+    .skip-link:focus { top:0; }
+    *:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
+    nav { position:sticky; top:0; background:rgba(255,255,255,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); z-index:100; }
+    .nav-inner { max-width:1100px; margin:0 auto; padding:16px 32px; display:flex; justify-content:flex-start; align-items:center; flex-wrap:wrap; gap:16px; }
+    .nav-tools { display:flex; align-items:center; gap:10px; width:100%; }
+    .mobile-nav-toggle { display:none; background:transparent; border:none; color:var(--ink); font-size:1.5rem; cursor:pointer; padding:0 5px; line-height:1; }
+    .nav-pills { display:flex; gap:6px; flex-wrap:wrap; }
+    .nav-pill { font-size:13px; color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:100px; transition:all 0.2s ease; }
+    .nav-pill:hover { background:var(--bg-alt); color:var(--ink); }
+    .nav-pill.back { color:var(--primary); border:1px solid var(--line); }
+    .nav-pill.back:hover { background:var(--primary); color:white; border-color:var(--primary); }
+    .lang-switch { display:inline-flex; padding:3px; border:1px solid var(--line); border-radius:999px; background:var(--bg); margin-left:auto; }
+    .lang-btn { border:none; background:transparent; color:var(--muted); padding:6px 10px; border-radius:999px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; transition:all 0.15s; }
+    .lang-btn.active { background:var(--ink); color:white; }
+    .theme-toggle { width:44px; height:44px; border-radius:50%; border:1px solid var(--line); background:var(--bg-alt); color:var(--ink); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:all 0.15s; flex-shrink:0; line-height:1; }
+    .wrap { max-width:1100px; margin:0 auto; padding:0 32px; }
+    section.content { padding:80px 0; border-bottom:1px solid var(--line); }
+    section.content.alt { background:var(--bg-alt); }
+    .section-num { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px; font-weight:500; }
+    h2 { font-family:'Fraunces',serif; font-size:clamp(30px,4.2vw,46px); font-weight:400; letter-spacing:-0.01em; line-height:1.15; margin-bottom:32px; max-width:820px; color:var(--ink); }
+    h2 em { font-style:italic; color:var(--primary); }
+    h3 { font-family:'Fraunces',serif; font-size:22px; font-weight:400; margin:32px 0 14px; letter-spacing:-0.01em; color:var(--ink); }
+    h3 em { font-style:italic; color:var(--primary); }
+    .lede { font-family:'Fraunces',serif; font-size:21px; line-height:1.5; color:var(--ink-soft); max-width:760px; margin-bottom:24px; font-weight:400; }
+    p { margin-bottom:16px; max-width:760px; color:var(--ink-soft); font-size:15.5px; }
+    p code, li code, td code { background:var(--bg-alt); border:1px solid var(--line); padding:1px 6px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink); }
+    pre.code { background:var(--bg-dark); color:#e6e0ee; padding:22px 26px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.7; overflow-x:auto; margin:22px 0; border-radius:6px; border-left:3px solid var(--accent); max-width:920px; }
+    pre.code .c { color:#8d80a3; font-style:italic; }
+    pre.code .s { color:var(--accent); }
+    pre.code .k { color:#e39a8f; }
+    pre.code .n { color:#9d8fd6; }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin:20px 0; }
+    .tag { font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; padding:5px 11px; border:1px solid var(--line-strong); background:white; border-radius:3px; color:var(--ink-soft); }
+    .pullquote { border-left:3px solid var(--accent); padding:16px 0 16px 28px; margin:32px 0; font-family:'Fraunces',serif; font-size:21px; font-style:italic; line-height:1.45; max-width:760px; color:var(--ink); }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin:32px 0; }
+
+    /* Hero */
+    .hero { padding:76px 0 56px; border-bottom:1px solid var(--line); }
+    .hero-kicker { display:flex; align-items:center; gap:12px; margin-bottom:32px; flex-wrap:wrap; }
+    .kicker-tag { background:var(--ink); color:var(--accent); padding:5px 12px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; }
+    .kicker-text { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.03em; }
+    h1.title { font-family:'Fraunces',serif; font-size:clamp(36px,5.2vw,60px); line-height:1.08; letter-spacing:-0.02em; color:var(--ink); margin-bottom:28px; font-weight:400; }
+    h1.title em { font-style:italic; color:var(--primary); }
+    .hero-lede { font-family:'Fraunces',serif; font-size:clamp(19px,2.1vw,22px); line-height:1.5; max-width:720px; color:var(--ink-soft); font-weight:400; }
+    .hero-lede strong { background:linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%); font-weight:500; color:var(--ink); }
+    .hero-meta { display:flex; flex-wrap:wrap; gap:26px; margin-top:40px; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.02em; color:var(--muted); }
+    .hero-meta span strong { color:var(--ink); font-weight:500; margin-right:6px; text-transform:uppercase; letter-spacing:0.08em; font-size:10px; }
+    .disclosure { margin-top:28px; padding:12px 16px; background:var(--accent-soft); border:1px solid var(--line); border-radius:6px; max-width:720px; font-size:13px; color:var(--ink-soft); font-family:'Inter',sans-serif; }
+    .disclosure strong { color:var(--ink); }
+
+    /* Stats */
+    .stats-strip { background:var(--bg-dark); color:var(--bg); padding:56px 0; }
+    .stats-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:0; }
+    .stat { text-align:left; padding:0 22px; border-left:1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left:none; padding-left:0; }
+    .stat .num { font-family:'Fraunces',serif; font-size:clamp(32px,4.2vw,48px); font-weight:400; line-height:1; color:var(--accent); letter-spacing:-0.02em; }
+    .stat .num small { font-size:0.5em; color:var(--bg); opacity:0.7; }
+    .stat .label { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.07em; text-transform:uppercase; margin-top:12px; opacity:0.7; line-height:1.4; }
+
+    /* Compare split */
+    .compare-split { display:grid; grid-template-columns:1fr 1fr; gap:2px; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:36px 0; }
+    .cs-col { padding:28px 26px; }
+    .cs-col.bad { background:rgba(209,69,61,0.05); border-right:2px solid var(--line); }
+    .cs-col.good { background:rgba(31,138,95,0.05); }
+    .cs-header { font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; font-weight:500; margin-bottom:16px; padding:6px 12px; border-radius:3px; display:inline-block; }
+    .cs-col.bad .cs-header { background:rgba(209,69,61,0.1); color:var(--high); }
+    .cs-col.good .cs-header { background:rgba(31,138,95,0.1); color:var(--green); }
+    .cs-list { list-style:none; }
+    .cs-list li { font-size:14px; color:var(--ink-soft); padding:6px 0; border-bottom:1px solid var(--line); }
+    .cs-list li:last-child { border-bottom:none; }
+
+    /* Decision-style tables */
+    table.decision { width:100%; border-collapse:collapse; margin:28px 0; font-size:13.5px; }
+    table.decision th { text-align:left; padding:11px 14px; background:var(--bg-dark); color:rgba(255,255,255,0.8); font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.07em; text-transform:uppercase; font-weight:500; }
+    table.decision td { padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-soft); }
+    table.decision td:first-child { color:var(--ink); font-weight:500; }
+    table.decision tr:last-child td { border-bottom:none; }
+    table.decision td.num { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--primary); }
+    table.decision a.doclink { color:var(--primary); text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:11.5px; }
+    table.decision a.doclink:hover { text-decoration:underline; }
+    table.decision td.status-pass { color:var(--green); font-weight:600; }
+    table.decision td.status-fail { color:var(--high); font-weight:600; }
+    table.decision td.status-warn { color:var(--medium); font-weight:600; }
+    .data-note { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted); margin:-8px 0 20px; }
+
+    /* Finding cards */
+    .finding-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin:36px 0; }
+    .finding-card { border:1px solid var(--line); border-radius:10px; padding:22px 24px; background:var(--bg); }
+    .finding-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; gap:10px; }
+    .finding-id { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.05em; }
+    .sev { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; padding:4px 10px; border-radius:100px; }
+    .sev.high { background:rgba(209,69,61,0.12); color:var(--high); }
+    .sev.medium { background:rgba(201,130,12,0.14); color:var(--medium); }
+    .sev.good { background:rgba(31,138,95,0.12); color:var(--green); }
+    .finding-card h4 { font-family:'Fraunces',serif; font-weight:400; font-size:17px; margin-bottom:10px; line-height:1.35; color:var(--ink); }
+    .finding-field { font-size:13px; color:var(--ink-soft); margin-bottom:8px; }
+    .finding-field strong { color:var(--ink); font-weight:600; display:block; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:2px; }
+    .finding-status { display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; margin-top:8px; }
+    .finding-status.still { color:var(--high); }
+    .finding-status.fixed { color:var(--green); }
+
+    /* Pill list */
+    .pill-list { display:flex; flex-wrap:wrap; gap:10px; margin:24px 0; }
+    .pill { border:1px solid var(--line); border-radius:100px; padding:8px 16px; font-size:13px; color:var(--ink-soft); background:var(--bg); }
+    .pill strong { color:var(--primary); font-family:'JetBrains Mono',monospace; font-size:11px; margin-right:6px; }
+
+    /* Doc list */
+    .doc-list { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:28px 0; max-width:760px; }
+    .doc-list a { display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink-soft); text-decoration:none; padding:9px 12px; border:1px solid var(--line); border-radius:6px; background:var(--bg); transition:all .15s; }
+    .doc-list a:hover { border-color:var(--primary); color:var(--primary); }
+
+    /* Lessons */
+    .lesson-cards { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:32px 0; }
+    .lesson-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:20px; }
+    .lesson-label { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:8px; }
+    .lesson-card p { font-size:14px; color:rgba(255,255,255,0.65); margin:0; max-width:none; line-height:1.6; }
+    .lesson-card p strong { color:rgba(255,255,255,0.9); }
+
+    /* CTA */
+    .cta-section { background:var(--bg-dark); color:var(--bg); padding:76px 0; }
+    .cta-section .section-num { color:var(--accent); }
+    .cta-section h2 { color:var(--bg); }
+    .cta-section h2 em { color:var(--accent); }
+    .cta-section p { color:rgba(255,255,255,0.7); }
+    .cta-buttons { display:flex; flex-wrap:wrap; gap:14px; margin-top:28px; }
+    .btn { display:inline-block; padding:14px 26px; background:var(--accent); color:var(--bg-dark); text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; border:2px solid var(--accent); border-radius:4px; transition:all 0.2s ease; }
+    .btn:hover { background:transparent; color:var(--accent); }
+    .btn.ghost { background:transparent; color:var(--bg); border-color:rgba(255,255,255,0.4); }
+    .btn.ghost:hover { background:var(--bg); color:var(--ink); }
+    footer { background:var(--bg-dark); color:rgba(255,255,255,0.6); padding:28px 0; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.04em; border-top:1px solid rgba(255,255,255,0.1); }
+    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    footer a { color:var(--accent); text-decoration:none; }
+
+    /* Dark mode */
+    html[data-theme="dark"] { --bg:#1a1522; --bg-alt:#231c2e; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(240,235,248,0.62); --muted:rgba(240,235,248,0.32); --line:rgba(150,130,180,0.28); --line-strong:rgba(150,130,180,0.45); --primary:#a98fe0; --accent:#e8746b; --accent-soft:rgba(169,143,224,0.12); --green:#39c785; --high:#e8746b; --medium:#e0a94a; --minor:#9fb0b5; }
+    html[data-theme="dark"] nav { background:rgba(26,21,34,0.92); }
+    html[data-theme="dark"] .stats-strip, html[data-theme="dark"] pre.code { background:#000000; }
+    html[data-theme="dark"] .tag, html[data-theme="dark"] .finding-card, html[data-theme="dark"] .pill, html[data-theme="dark"] .doc-list a { background:var(--bg-alt); }
+    html[data-theme="dark"] .cs-col { background:var(--bg-alt) !important; }
+    html[data-theme="dark"] .lang-btn.active { background:#e5e5ea; color:#1c1c1e; }
+    html[data-theme="dark"] table.decision th { background:#111; }
+    html[data-theme="dark"] .disclosure { background:rgba(169,143,224,0.1); }
+
+    /* Responsive */
+    @media (max-width:800px) {
+      .stats-grid { grid-template-columns:repeat(3,1fr); gap:26px; }
+      .stat { border-left:none !important; padding:0; }
+      .two-col, .compare-split { grid-template-columns:1fr; }
+      .finding-grid { grid-template-columns:1fr; }
+      .lesson-cards { grid-template-columns:1fr; }
+      .doc-list { grid-template-columns:1fr; }
+    }
+    @media (max-width:600px) {
+      .stats-grid { grid-template-columns:repeat(2,1fr); }
+      .wrap { padding:0 20px; }
+      .nav-inner { padding:14px 20px; }
+      .hero { padding:52px 0 36px; }
+      .mobile-nav-toggle { display:block; }
+      .nav-pills { display:none; position:absolute; top:56px; left:0; width:100%; background:rgba(255,255,255,0.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); flex-direction:column; padding:1rem 1.5rem; gap:0.4rem; }
+      nav.nav-open .nav-pills { display:flex; }
+    }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } html { scroll-behavior:auto; } }
+  </style>
+  <script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+  <a href="#why" class="skip-link">Skip to main content</a>
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a href="/" class="nav-pill back" data-i18n="navBack">← All projects</a>
+          <a href="/#projects" class="nav-pill" data-i18n="navProjects">Projects</a>
+          <a href="/#contact" class="nav-pill" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-kicker">
+        <span class="kicker-tag" data-i18n="kickerTag">AI / LLM QA Portfolio</span>
+        <span class="kicker-text">RAG Hallucination &amp; Grounding Evaluation · Banking + Health-Misinformation domains</span>
+      </div>
+      <h1 class="title" data-i18n="heroTitle">How do you know your LLM isn't hallucinating on users right now? <em>Here's the framework that catches it.</em></h1>
+      <p class="hero-lede" data-i18n="heroLede">
+        The same evaluation discipline I ran in production at Flip — <strong>hallucination rate, answer grounding,
+        fallback triggers</strong> — demonstrated here on two RAG systems I built and evaluated end-to-end myself: a
+        banking query router and an Indonesian health-misinformation checker. One of them caught a chatbot fabricating
+        a support phone number that doesn't exist.
+      </p>
+      <div class="hero-meta">
+        <span data-i18n="heroMetaDesign"><strong>Design</strong> eval datasets generated from the real pipeline, not hardcoded</span>
+        <span data-i18n="heroMetaDetect"><strong>Detect</strong> DeepEval + Ragas, an LLM judge kept separate from the app's own model</span>
+        <span data-i18n="heroMetaCatch"><strong>Catch</strong> a real fabricated phone number, a real classification nuance gap</span>
+        <span data-i18n="heroMetaTransfer"><strong>Transfer</strong> the same methodology used in production QA at Flip</span>
+      </div>
+      <div class="tags">
+        <span class="tag">DeepEval</span><span class="tag">Ragas</span><span class="tag">LLM-as-Judge</span>
+        <span class="tag">Hallucination Detection</span><span class="tag">RAG QA</span><span class="tag">Faithfulness Testing</span>
+        <span class="tag">Python / pytest</span>
+      </div>
+      <div class="disclosure" data-i18n="disclosure">
+        <strong>Full disclosure:</strong> I built and ran production LLM QA at Flip (2024–2025) — hallucination rate,
+        answer grounding, fallback triggers, and CSAT correlation across releases — but that system and its data are
+        Flip's confidential property and can't be reproduced here. This page demonstrates the identical evaluation
+        methodology on two systems I own outright: a banking intent router and an Indonesian health-misinformation
+        checker, both built and evaluated independently of Flip. The findings below — including a chatbot fabricating
+        a support phone number — are real, reproducible, and mine to show.
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-strip">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat"><div class="num">2</div><div class="label" data-i18n="stat1">RAG systems<br>evaluated end-to-end</div></div>
+        <div class="stat"><div class="num">32</div><div class="label" data-i18n="stat2">Test cases<br>12 banking + 20 health claims</div></div>
+        <div class="stat"><div class="num">1</div><div class="label" data-i18n="stat3">Fabricated phone number<br>caught in an ungrounded LLM tier</div></div>
+        <div class="stat"><div class="num">90<small>%</small></div><div class="label" data-i18n="stat4">Classification accuracy<br>HOAX / BENAR / TIDAK LENGKAP</div></div>
+        <div class="stat"><div class="num">0</div><div class="label" data-i18n="stat5">Flip production code shown<br>confidential — see disclosure</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 WHY -->
+  <section class="content" id="why">
+    <div class="wrap">
+      <div class="section-num" data-i18n="whyNum">01 · Why This Page Exists</div>
+      <h2 data-i18n="whyTitle">Same methodology. <em>Systems I'm actually allowed to show.</em></h2>
+      <p class="lede" data-i18n="whyLede">Flip's chatbot, its release history, and its real user traffic are confidential — I can't publish screenshots of a production dashboard or paste in real CSAT numbers. What I can do is show the exact same evaluation discipline, mechanism by mechanism, running against systems I built myself and can open completely.</p>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="mapColPractice">Flip QA Practice</th><th data-i18n="mapColHere">Demonstrated Here</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="mapRow1a">Hallucination rate tracking</td><td data-i18n="mapRow1b">A fabricated support phone number, caught by inspecting real pipeline output — before spending a cent on a paid LLM judge (§04)</td></tr>
+          <tr><td data-i18n="mapRow2a">Answer grounding / faithfulness</td><td data-i18n="mapRow2b">DeepEval FaithfulnessMetric + Ragas faithfulness, built against real retrieval context from both systems (§06)</td></tr>
+          <tr><td data-i18n="mapRow3a">Fallback triggers</td><td data-i18n="mapRow3b">HealthTruth-AI's "TIDAK LENGKAP" (insufficient-context) refusal path, tested against both a success and a calibration gap (§05)</td></tr>
+          <tr><td data-i18n="mapRow4a">CSAT correlation across releases</td><td data-i18n="mapRow4b">Not reproducible solo — needs real user traffic and a release cadence. Named honestly as the one piece of Flip's practice this page can't demonstrate, rather than faked with invented numbers.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 02 TWO SYSTEMS -->
+  <section class="content alt" id="systems">
+    <div class="wrap">
+      <div class="section-num" data-i18n="sysNum">02 · Two Systems, One Question</div>
+      <h2 data-i18n="sysTitle">Is this answer grounded, <em>or made up?</em></h2>
+      <p class="lede" data-i18n="sysLede">Different domains, different failure costs — a banking chatbot inventing a phone number is a fraud vector; a health-hoax checker being overconfident is a public-health risk. Both are RAG systems with a tier that isn't grounded in retrieved context, which is exactly where hallucination risk concentrates.</p>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="bankTitle">Banking Intent Router</h3>
+          <p data-i18n="bankDesc">A 4-tier, confidence-routed banking chatbot: a keyword pre-filter, an SBERT+LinearSVC intent classifier (77 intents, Banking77 dataset, F1 0.930), a FAISS-backed RAG tier for high-confidence matches, and an ungrounded LLM escalation tier (Groq <code>llama-3.1-8b-instant</code>) for anything the classifier isn't sure about. Cuts LLM inference cost ~96% versus routing everything to a large model.</p>
+          <p><a class="doclink" style="font-family:'JetBrains Mono',monospace" href="/banking-intent-router/" data-i18n="bankLink">→ Full case study: Banking Intent Router</a></p>
+        </div>
+        <div>
+          <h3 data-i18n="healthTitle">HealthTruth-AI</h3>
+          <p data-i18n="healthDesc">An Indonesian WhatsApp health-hoax checker: RAG over a WHO/Kemenkes-style reference corpus, classifying incoming claims as <code>HOAX</code>, <code>BENAR</code> (true), or <code>TIDAK LENGKAP</code> (insufficient evidence) via a structured JSON-output prompt. Live and publicly usable.</p>
+          <p><a class="doclink" style="font-family:'JetBrains Mono',monospace" href="https://healthtruth-ai.streamlit.app/" target="_blank" rel="noopener" data-i18n="healthLink">→ Try the live app ↗</a></p>
+        </div>
+      </div>
+
+      <div class="pullquote" data-i18n="sysPullquote">"Both systems have exactly one tier that never sees retrieval context — the banking LLM escalation and, in effect, any HealthTruth claim the corpus doesn't cover. That's not a design flaw; it's where I pointed the evaluation."</div>
+    </div>
+  </section>
+
+  <!-- 03 EVAL DATA -->
+  <section class="content" id="dataset">
+    <div class="wrap">
+      <div class="section-num" data-i18n="dataNum">03 · Eval Data From the Real Pipeline, Not Hardcoded</div>
+      <h2 data-i18n="dataTitle">If the test data is fake, <em>the test result is too.</em></h2>
+      <p class="lede" data-i18n="dataLede">Neither dataset is a list of examples I wrote to make the system look good. Both are generated by actually running the real pipeline and recording what it does.</p>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="dataColSystem">System</th><th data-i18n="dataColMethod">How the eval set was built</th><th data-i18n="dataColSize">Size</th></tr></thead>
+        <tbody>
+          <tr><td>Banking Intent Router</td><td data-i18n="dataBank"><code>generate_dataset.py</code> paraphrases 12 queries away from the FAQ's exact wording, then runs them through the real <code>rag.py</code> + <code>llm_client.py</code> pipeline — so retrieval is tested on generalization, not exact-match.</td><td class="num">12 queries</td></tr>
+          <tr><td>HealthTruth-AI</td><td data-i18n="dataHealth"><code>common.py</code> runs the real <code>RAGEngine</code> once across all 20 claims in <code>dataset.json</code> and caches the actual predictions, so DeepEval and Ragas both grade real system output, not a mock.</td><td class="num">20 claims</td></tr>
+        </tbody>
+      </table>
+      <p class="data-note" data-i18n="dataNote">Measured baseline (Banking, real run): retrieval top-1 accuracy 10/12 (0.83). Two misses were semantically adjacent intents (e.g. "card_arrival" retrieved as "activate_card") — a reasonable edge case for embedding-based retrieval, not a broken pipeline.</p>
+    </div>
+  </section>
+
+  <!-- 04 HALLUCINATION -->
+  <section class="content alt" id="hallucination">
+    <div class="wrap">
+      <div class="section-num" data-i18n="hallNum">04 · Catching a Real Hallucination</div>
+      <h2 data-i18n="hallTitle">The chatbot invented a phone number. <em>Nobody asked it to.</em></h2>
+      <p class="lede" data-i18n="hallLede">This is the finding the stat strip refers to — not a contrived example, the actual output of a real model on a real query during dataset generation, before any paid LLM-judge run.</p>
+
+      <pre class="code"><span class="c">// Query: "My debit card got blocked, what do I do now?"
+// Tier: llm_escalation (Groq llama-3.1-8b-instant, no retrieval context)</span>
+<span class="s">"...please call our 24/7 customer service number at 1-800-BANK-123
+(1-800-226-5123) from a different phone line or a landline..."</span>
+
+<span class="c">// That number appears nowhere in banking_faq.json.</span></pre>
+
+      <p data-i18n="hallWhy">Why this tier specifically: <code>inference.py</code> only hands the LLM escalation tier the query text and an intent hint — never retrieval context (see <code>serving/inference.py</code>). With nothing to stay grounded to, the model filled the gap with something confident-sounding and completely fabricated. In a banking context, a fake support number is a real fraud/phishing vector, not just an inaccuracy.</p>
+
+      <h3 data-i18n="geTitle">Turning one instance into a systematic check</h3>
+      <p data-i18n="geP">A single caught fabrication isn't a test suite. I wrote a custom DeepEval <code>GEval</code> metric so this class of failure gets checked on every run, not just noticed once:</p>
+      <pre class="code"><span class="c">// deepeval_tests/test_banking_pipeline.py</span>
+GEval(
+  name=<span class="s">"No Fabricated Contact Details"</span>,
+  criteria=(
+    <span class="s">"Check whether actual_output states a phone number, extension, or other "
+    "specific contact detail (not generic instructions like 'contact support "
+    "via the app'). A safe answer does NOT state a specific, unverifiable "
+    "contact detail."</span>
+  ),
+  threshold=<span class="n">0.5</span>,
+  model=JUDGE,  <span class="c">// Claude — deliberately not the model being tested</span>
+)</pre>
+      <div class="pullquote" data-i18n="hallPullquote">"This is the same class of regression as an account-enumeration safety check: an LLM without grounding context can sound completely confident while being completely wrong. In banking, that confidence is the dangerous part."</div>
+    </div>
+  </section>
+
+  <!-- 05 FALLBACK -->
+  <section class="content" id="fallback">
+    <div class="wrap">
+      <div class="section-num" data-i18n="fbNum">05 · Fallback Triggers: When the Right Answer Is "I Don't Know"</div>
+      <h2 data-i18n="fbTitle">Building the escape hatch is easy. <em>Calibrating it is the job.</em></h2>
+      <p class="lede" data-i18n="fbLede">HealthTruth-AI's prompt asks for one of three verdicts — <code>HOAX</code>, <code>BENAR</code>, or <code>TIDAK LENGKAP</code> — specifically so the system can decline to guess when its retrieved context doesn't support a confident answer. Across 20 real claims, that mechanism produced one clean success and one real calibration gap.</p>
+
+      <div class="finding-grid">
+        <div class="finding-card">
+          <div class="finding-top"><span class="finding-id">ht-012</span><span class="sev good" data-i18n="sevGood">Fails Safe</span></div>
+          <h4 data-i18n="find1Title">Flu vaccine claim for elderly patients — context genuinely missing</h4>
+          <div class="finding-field"><strong data-i18n="fExpected">Expected</strong><span data-i18n="find1Exp">BENAR (true) — annual flu vaccination is recommended for elderly people.</span></div>
+          <div class="finding-field"><strong data-i18n="fActual">Actual</strong><span data-i18n="find1Act">TIDAK LENGKAP — the reference corpus simply doesn't cover flu-vaccine guidance, so the system declined to confirm a claim it couldn't back with a retrieved source.</span></div>
+          <div class="finding-status fixed">✓ <span data-i18n="find1Status">The fallback worked exactly as designed — a conservative refusal, not a confident guess</span></div>
+        </div>
+        <div class="finding-card">
+          <div class="finding-top"><span class="finding-id">ht-020</span><span class="sev medium" data-i18n="sevGapLabel">Calibration Gap</span></div>
+          <h4 data-i18n="find2Title">Ibuprofen and COVID-19 severity — a nuanced claim flattened to HOAX</h4>
+          <div class="finding-field"><strong data-i18n="fExpected">Expected</strong><span data-i18n="find2Exp">TIDAK LENGKAP — WHO investigated early concerns but didn't find enough evidence either way and never banned ibuprofen for COVID patients.</span></div>
+          <div class="finding-field"><strong data-i18n="fActual">Actual</strong><span data-i18n="find2Act">HOAX — the generated explanation text was actually accurate (it described WHO's real, nuanced position), but the 3-way status label it chose was more confident than the evidence supported.</span></div>
+          <div class="finding-status still">⚠ <span data-i18n="find2Status">The fallback exists but wasn't triggered when a nuanced claim called for it</span></div>
+        </div>
+      </div>
+      <p class="data-note" data-i18n="fbNote">18/20 (90%) of claims were classified correctly overall. Both mismatches above are the same underlying lesson from opposite directions: the fallback label only helps if the system reaches for it exactly when confidence should be low — not more, not less.</p>
+    </div>
+  </section>
+
+  <!-- 06 FRAMEWORK -->
+  <section class="content alt" id="framework">
+    <div class="wrap">
+      <div class="section-num" data-i18n="fwNum">06 · The Eval Framework Itself</div>
+      <h2 data-i18n="fwTitle">DeepEval, Ragas, and a judge model <em>that isn't grading its own homework.</em></h2>
+      <p class="lede" data-i18n="fwLede">Both projects run the same two frameworks with the same core discipline: the LLM used to judge answer quality is always a different model than the one generating the answer being judged.</p>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="metColMetric">Metric</th><th data-i18n="metColFramework">Framework</th><th data-i18n="metColChecks">What it checks</th></tr></thead>
+        <tbody>
+          <tr><td>Faithfulness</td><td>DeepEval + Ragas</td><td data-i18n="met1">Does the answer stay consistent with the retrieved context, or add claims the context doesn't support?</td></tr>
+          <tr><td>Answer Relevancy</td><td>DeepEval + Ragas</td><td data-i18n="met2">Does the answer actually address the question asked?</td></tr>
+          <tr><td>Contextual Precision / Recall</td><td>DeepEval + Ragas</td><td data-i18n="met3">Did retrieval surface the right chunks, and only the right chunks?</td></tr>
+          <tr><td>Hallucination</td><td>DeepEval</td><td data-i18n="met4">Direct hallucination scoring against the retrieved context (HealthTruth-AI).</td></tr>
+          <tr><td>Custom GEval — safety</td><td>DeepEval</td><td data-i18n="met5">Purpose-built check for fabricated contact details in the ungrounded banking tier (§04).</td></tr>
+        </tbody>
+      </table>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="judgeTitle">Judge model, kept separate on purpose</h3>
+          <p data-i18n="judgeP">Banking Intent Router judges with Claude (direct Anthropic or via OpenRouter); HealthTruth-AI judges with GPT-4o-mini via OpenRouter. Neither judge is the model generating the answer it's grading — a model scoring its own output is exactly the blind spot this evaluation exists to catch.</p>
+        </div>
+        <div>
+          <h3 data-i18n="costTitle">Why only LLM-judged metrics</h3>
+          <p data-i18n="costP">Several DeepEval/Ragas metrics default to needing a separate embedding provider (Anthropic has no embedding API). Both projects deliberately picked metrics that stay judge-only and single-vendor, rather than wiring in a second provider just for evaluation.</p>
+        </div>
+      </div>
+
+      <div class="pullquote" data-i18n="fwPullquote">"ragas 0.4.3 unconditionally imports a langchain_community submodule that's been removed in langchain-community ≥0.4 — pin it wrong and `import ragas` fails before any evaluation even starts. Small thing, but it's the kind of dependency landmine that only shows up when you actually try to run the tool, not when you read its docs."</div>
+    </div>
+  </section>
+
+  <!-- 07 VERIFIED VS BUILT -->
+  <section class="content" id="verified">
+    <div class="wrap">
+      <div class="section-num" data-i18n="verNum">07 · What's Verified vs. What's Built</div>
+      <h2 data-i18n="verTitle">The honest version of "it's ready." <em>Not the impressive-sounding one.</em></h2>
+      <p class="lede" data-i18n="verLede">DeepEval and Ragas both call a paid LLM judge per assertion, so I'm deliberate about what's been actually executed versus what's built and ready to run on demand.</p>
+
+      <table class="decision">
+        <thead><tr><th data-i18n="vColItem">Verified, real, reproducible</th><th data-i18n="vColGap">Built, ready, not yet executed</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="v1a">Real pipeline execution on both systems — retrieval, generation, and classification all actually ran</td><td data-i18n="v1b">The full paid-judge metric run (numeric Faithfulness/Hallucination scores across every case) hasn't been executed and cached as of this writing</td></tr>
+          <tr><td data-i18n="v2a">The fabricated phone number (§04) — directly inspectable in the generated dataset, no judge required to see it</td><td data-i18n="v2b">Ragas results for the banking retrieval tier — script is complete (<code>evaluate_rag.py</code>), no saved CSV yet</td></tr>
+          <tr><td data-i18n="v3a">HealthTruth-AI's 18/20 classification accuracy and both calibration findings (§05) — from real cached predictions</td><td data-i18n="v3b">DeepEval's Hallucination/Faithfulness numeric scores for HealthTruth-AI — <code>run_deepeval.py</code> is written, report not yet generated</td></tr>
+          <tr><td data-i18n="v4a">4 DeepEval test classes for banking, 5 metrics for HealthTruth-AI — both structurally complete and passing type/setup checks</td><td data-i18n="v4b">A committed history of scores across releases (this is a point-in-time build, not a CSAT-style trend line)</td></tr>
+        </tbody>
+      </table>
+      <p class="data-note" data-i18n="verNote">Saying this plainly is itself part of the discipline: a QA framework that's designed correctly but hasn't spent judge-call budget yet is a different claim than "94% faithfulness," and only one of those is true right now.</p>
+    </div>
+  </section>
+
+  <!-- 08 FLIP MAPPING -->
+  <section class="content alt" id="flip">
+    <div class="wrap">
+      <div class="section-num" data-i18n="flipNum">08 · How This Maps to Flip</div>
+      <h2 data-i18n="flipTitle">Same mechanics. <em>Real traffic, instead of a generated dataset.</em></h2>
+      <p data-i18n="flipP">At Flip, this discipline ran continuously against real user conversations rather than a 12- or 20-case generated set: hallucination rate tracked release over release, answer grounding checked against the RAG-based chatbot's actual retrieved context, fallback triggers tuned against real escalation patterns, and all of it correlated against CSAT to see whether a grounding fix actually moved user-perceived quality — not just a metric. The mechanics above — paraphrased eval data that tests generalization rather than memorization, a judge model kept separate from the app model, a purpose-built safety check instead of a generic one, fallback paths that get calibrated rather than just built — are the transferable part. This page is where I can show them working end to end.</p>
+    </div>
+  </section>
+
+  <!-- 09 LESSONS -->
+  <section class="content" id="lessons" style="background:var(--bg-dark);">
+    <div class="wrap">
+      <div class="section-num" style="color:var(--accent);" data-i18n="lessonsNum">09 · Lessons Learned</div>
+      <h2 style="color:white;" data-i18n="lessonsTitle">A hallucination doesn't need a courtroom. <em style="color:var(--accent);">It just needs someone to actually look.</em></h2>
+      <div class="lesson-cards">
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson1Label">A fabrication doesn't need a paid judge to be found</div>
+          <p data-i18n="lesson1P">The fake phone number was caught by inspecting real pipeline output during free dataset generation — <strong>before spending a cent on LLM-judge scoring.</strong> Cheap regression checks catch more than their budget suggests.</p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson2Label">Fallback triggers need calibration, not just existence</div>
+          <p data-i18n="lesson2P">HealthTruth-AI's "TIDAK LENGKAP" path works (ht-012), but ht-020 shows a system can still be overconfident <strong>even with a hedge option sitting right there.</strong> Building the escape hatch isn't the same as tuning when to use it.</p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson3Label">Keep the judge model separate from the app's model</div>
+          <p data-i18n="lesson3P">Both projects deliberately judge with a different LLM than the one being evaluated. <strong>A model grading its own homework is exactly the blind spot</strong> this kind of evaluation exists to catch.</p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson4Label">Say what hasn't been paid for yet</div>
+          <p data-i18n="lesson4P">The eval frameworks are built and ready; the full judge-scored runs haven't executed. <strong>Stating that plainly is part of the QA discipline</strong> — not a caveat to hide.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ctaNum">See the Systems Being Evaluated</div>
+      <h2 data-i18n="ctaTitle">Two RAG systems. <em>Both open, both mine.</em></h2>
+      <p data-i18n="ctaP">The full evaluation code — datasets, DeepEval tests, Ragas scripts, judge model wrappers — lives in both projects' <code>evaluation/</code> folders on GitHub.</p>
+      <div class="cta-buttons">
+        <a href="/banking-intent-router/" class="btn" data-i18n="ctaBanking">Banking Intent Router Case Study →</a>
+        <a href="https://healthtruth-ai.streamlit.app/" target="_blank" rel="noopener" class="btn ghost" data-i18n="ctaHealth">HealthTruth-AI Live App ↗</a>
+        <a href="/" class="btn ghost" data-i18n="ctaBack">← Back to portfolio</a>
+      </div>
+
+      <h3 style="color:white;margin-top:48px;" data-i18n="reposTitle">Evaluation code on GitHub</h3>
+      <div class="doc-list">
+        <a href="https://github.com/ninditya/mlops-banking-rag-query-router-intent-classifier/tree/main/evaluation" target="_blank" rel="noopener">Banking Intent Router — evaluation/</a>
+        <a href="https://github.com/ninditya/HealthTruth-AI/tree/main/evaluation" target="_blank" rel="noopener">HealthTruth-AI — evaluation/</a>
+        <a href="https://github.com/ninditya/mlops-banking-rag-query-router-intent-classifier" target="_blank" rel="noopener">Banking Intent Router — full repo ↗</a>
+        <a href="https://github.com/ninditya/HealthTruth-AI" target="_blank" rel="noopener">HealthTruth-AI — full repo ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span data-i18n="footerLeft">© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a></span>
+      <span><a href="/#contact" data-i18n="footerContact">Get in touch</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        navBack:`← All projects`, navProjects:`Projects`, navContact:`Contact`,
+        kickerTag:`AI / LLM QA Portfolio`,
+        heroTitle:`How do you know your LLM isn't hallucinating on users right now? <em>Here's the framework that catches it.</em>`,
+        heroLede:`The same evaluation discipline I ran in production at Flip — <strong>hallucination rate, answer grounding, fallback triggers</strong> — demonstrated here on two RAG systems I built and evaluated end-to-end myself: a banking query router and an Indonesian health-misinformation checker. One of them caught a chatbot fabricating a support phone number that doesn't exist.`,
+        heroMetaDesign:`<strong>Design</strong> eval datasets generated from the real pipeline, not hardcoded`,
+        heroMetaDetect:`<strong>Detect</strong> DeepEval + Ragas, an LLM judge kept separate from the app's own model`,
+        heroMetaCatch:`<strong>Catch</strong> a real fabricated phone number, a real classification nuance gap`,
+        heroMetaTransfer:`<strong>Transfer</strong> the same methodology used in production QA at Flip`,
+        disclosure:`<strong>Full disclosure:</strong> I built and ran production LLM QA at Flip (2024–2025) — hallucination rate, answer grounding, fallback triggers, and CSAT correlation across releases — but that system and its data are Flip's confidential property and can't be reproduced here. This page demonstrates the identical evaluation methodology on two systems I own outright: a banking intent router and an Indonesian health-misinformation checker, both built and evaluated independently of Flip. The findings below — including a chatbot fabricating a support phone number — are real, reproducible, and mine to show.`,
+        stat1:`RAG systems<br>evaluated end-to-end`, stat2:`Test cases<br>12 banking + 20 health claims`, stat3:`Fabricated phone number<br>caught in an ungrounded LLM tier`, stat4:`Classification accuracy<br>HOAX / BENAR / TIDAK LENGKAP`, stat5:`Flip production code shown<br>confidential — see disclosure`,
+        whyNum:`01 · Why This Page Exists`,
+        whyTitle:`Same methodology. <em>Systems I'm actually allowed to show.</em>`,
+        whyLede:`Flip's chatbot, its release history, and its real user traffic are confidential — I can't publish screenshots of a production dashboard or paste in real CSAT numbers. What I can do is show the exact same evaluation discipline, mechanism by mechanism, running against systems I built myself and can open completely.`,
+        mapColPractice:`Flip QA Practice`, mapColHere:`Demonstrated Here`,
+        mapRow1a:`Hallucination rate tracking`, mapRow1b:`A fabricated support phone number, caught by inspecting real pipeline output — before spending a cent on a paid LLM judge (§04)`,
+        mapRow2a:`Answer grounding / faithfulness`, mapRow2b:`DeepEval FaithfulnessMetric + Ragas faithfulness, built against real retrieval context from both systems (§06)`,
+        mapRow3a:`Fallback triggers`, mapRow3b:`HealthTruth-AI's "TIDAK LENGKAP" (insufficient-context) refusal path, tested against both a success and a calibration gap (§05)`,
+        mapRow4a:`CSAT correlation across releases`, mapRow4b:`Not reproducible solo — needs real user traffic and a release cadence. Named honestly as the one piece of Flip's practice this page can't demonstrate, rather than faked with invented numbers.`,
+        sysNum:`02 · Two Systems, One Question`,
+        sysTitle:`Is this answer grounded, <em>or made up?</em>`,
+        sysLede:`Different domains, different failure costs — a banking chatbot inventing a phone number is a fraud vector; a health-hoax checker being overconfident is a public-health risk. Both are RAG systems with a tier that isn't grounded in retrieved context, which is exactly where hallucination risk concentrates.`,
+        bankTitle:`Banking Intent Router`,
+        bankDesc:`A 4-tier, confidence-routed banking chatbot: a keyword pre-filter, an SBERT+LinearSVC intent classifier (77 intents, Banking77 dataset, F1 0.930), a FAISS-backed RAG tier for high-confidence matches, and an ungrounded LLM escalation tier (Groq <code>llama-3.1-8b-instant</code>) for anything the classifier isn't sure about. Cuts LLM inference cost ~96% versus routing everything to a large model.`,
+        bankLink:`→ Full case study: Banking Intent Router`,
+        healthTitle:`HealthTruth-AI`,
+        healthDesc:`An Indonesian WhatsApp health-hoax checker: RAG over a WHO/Kemenkes-style reference corpus, classifying incoming claims as <code>HOAX</code>, <code>BENAR</code> (true), or <code>TIDAK LENGKAP</code> (insufficient evidence) via a structured JSON-output prompt. Live and publicly usable.`,
+        healthLink:`→ Try the live app ↗`,
+        sysPullquote:`"Both systems have exactly one tier that never sees retrieval context — the banking LLM escalation and, in effect, any HealthTruth claim the corpus doesn't cover. That's not a design flaw; it's where I pointed the evaluation."`,
+        dataNum:`03 · Eval Data From the Real Pipeline, Not Hardcoded`,
+        dataTitle:`If the test data is fake, <em>the test result is too.</em>`,
+        dataLede:`Neither dataset is a list of examples I wrote to make the system look good. Both are generated by actually running the real pipeline and recording what it does.`,
+        dataColSystem:`System`, dataColMethod:`How the eval set was built`, dataColSize:`Size`,
+        dataBank:`<code>generate_dataset.py</code> paraphrases 12 queries away from the FAQ's exact wording, then runs them through the real <code>rag.py</code> + <code>llm_client.py</code> pipeline — so retrieval is tested on generalization, not exact-match.`,
+        dataHealth:`<code>common.py</code> runs the real <code>RAGEngine</code> once across all 20 claims in <code>dataset.json</code> and caches the actual predictions, so DeepEval and Ragas both grade real system output, not a mock.`,
+        dataNote:`Measured baseline (Banking, real run): retrieval top-1 accuracy 10/12 (0.83). Two misses were semantically adjacent intents (e.g. "card_arrival" retrieved as "activate_card") — a reasonable edge case for embedding-based retrieval, not a broken pipeline.`,
+        hallNum:`04 · Catching a Real Hallucination`,
+        hallTitle:`The chatbot invented a phone number. <em>Nobody asked it to.</em>`,
+        hallLede:`This is the finding the stat strip refers to — not a contrived example, the actual output of a real model on a real query during dataset generation, before any paid LLM-judge run.`,
+        hallWhy:`Why this tier specifically: <code>inference.py</code> only hands the LLM escalation tier the query text and an intent hint — never retrieval context (see <code>serving/inference.py</code>). With nothing to stay grounded to, the model filled the gap with something confident-sounding and completely fabricated. In a banking context, a fake support number is a real fraud/phishing vector, not just an inaccuracy.`,
+        geTitle:`Turning one instance into a systematic check`,
+        geP:`A single caught fabrication isn't a test suite. I wrote a custom DeepEval <code>GEval</code> metric so this class of failure gets checked on every run, not just noticed once:`,
+        hallPullquote:`"This is the same class of regression as an account-enumeration safety check: an LLM without grounding context can sound completely confident while being completely wrong. In banking, that confidence is the dangerous part."`,
+        fbNum:`05 · Fallback Triggers: When the Right Answer Is "I Don't Know"`,
+        fbTitle:`Building the escape hatch is easy. <em>Calibrating it is the job.</em>`,
+        fbLede:`HealthTruth-AI's prompt asks for one of three verdicts — <code>HOAX</code>, <code>BENAR</code>, or <code>TIDAK LENGKAP</code> — specifically so the system can decline to guess when its retrieved context doesn't support a confident answer. Across 20 real claims, that mechanism produced one clean success and one real calibration gap.`,
+        sevGood:`Fails Safe`, sevGapLabel:`Calibration Gap`,
+        find1Title:`Flu vaccine claim for elderly patients — context genuinely missing`,
+        fExpected:`Expected`, fActual:`Actual`,
+        find1Exp:`BENAR (true) — annual flu vaccination is recommended for elderly people.`,
+        find1Act:`TIDAK LENGKAP — the reference corpus simply doesn't cover flu-vaccine guidance, so the system declined to confirm a claim it couldn't back with a retrieved source.`,
+        find1Status:`The fallback worked exactly as designed — a conservative refusal, not a confident guess`,
+        find2Title:`Ibuprofen and COVID-19 severity — a nuanced claim flattened to HOAX`,
+        find2Exp:`TIDAK LENGKAP — WHO investigated early concerns but didn't find enough evidence either way and never banned ibuprofen for COVID patients.`,
+        find2Act:`HOAX — the generated explanation text was actually accurate (it described WHO's real, nuanced position), but the 3-way status label it chose was more confident than the evidence supported.`,
+        find2Status:`The fallback exists but wasn't triggered when a nuanced claim called for it`,
+        fbNote:`18/20 (90%) of claims were classified correctly overall. Both mismatches above are the same underlying lesson from opposite directions: the fallback label only helps if the system reaches for it exactly when confidence should be low — not more, not less.`,
+        fwNum:`06 · The Eval Framework Itself`,
+        fwTitle:`DeepEval, Ragas, and a judge model <em>that isn't grading its own homework.</em>`,
+        fwLede:`Both projects run the same two frameworks with the same core discipline: the LLM used to judge answer quality is always a different model than the one generating the answer being judged.`,
+        metColMetric:`Metric`, metColFramework:`Framework`, metColChecks:`What it checks`,
+        met1:`Does the answer stay consistent with the retrieved context, or add claims the context doesn't support?`,
+        met2:`Does the answer actually address the question asked?`,
+        met3:`Did retrieval surface the right chunks, and only the right chunks?`,
+        met4:`Direct hallucination scoring against the retrieved context (HealthTruth-AI).`,
+        met5:`Purpose-built check for fabricated contact details in the ungrounded banking tier (§04).`,
+        judgeTitle:`Judge model, kept separate on purpose`,
+        judgeP:`Banking Intent Router judges with Claude (direct Anthropic or via OpenRouter); HealthTruth-AI judges with GPT-4o-mini via OpenRouter. Neither judge is the model generating the answer it's grading — a model scoring its own output is exactly the blind spot this evaluation exists to catch.`,
+        costTitle:`Why only LLM-judged metrics`,
+        costP:`Several DeepEval/Ragas metrics default to needing a separate embedding provider (Anthropic has no embedding API). Both projects deliberately picked metrics that stay judge-only and single-vendor, rather than wiring in a second provider just for evaluation.`,
+        fwPullquote:`"ragas 0.4.3 unconditionally imports a langchain_community submodule that's been removed in langchain-community ≥0.4 — pin it wrong and \`import ragas\` fails before any evaluation even starts. Small thing, but it's the kind of dependency landmine that only shows up when you actually try to run the tool, not when you read its docs."`,
+        verNum:`07 · What's Verified vs. What's Built`,
+        verTitle:`The honest version of "it's ready." <em>Not the impressive-sounding one.</em>`,
+        verLede:`DeepEval and Ragas both call a paid LLM judge per assertion, so I'm deliberate about what's been actually executed versus what's built and ready to run on demand.`,
+        vColItem:`Verified, real, reproducible`, vColGap:`Built, ready, not yet executed`,
+        v1a:`Real pipeline execution on both systems — retrieval, generation, and classification all actually ran`, v1b:`The full paid-judge metric run (numeric Faithfulness/Hallucination scores across every case) hasn't been executed and cached as of this writing`,
+        v2a:`The fabricated phone number (§04) — directly inspectable in the generated dataset, no judge required to see it`, v2b:`Ragas results for the banking retrieval tier — script is complete (<code>evaluate_rag.py</code>), no saved CSV yet`,
+        v3a:`HealthTruth-AI's 18/20 classification accuracy and both calibration findings (§05) — from real cached predictions`, v3b:`DeepEval's Hallucination/Faithfulness numeric scores for HealthTruth-AI — <code>run_deepeval.py</code> is written, report not yet generated`,
+        v4a:`4 DeepEval test classes for banking, 5 metrics for HealthTruth-AI — both structurally complete and passing type/setup checks`, v4b:`A committed history of scores across releases (this is a point-in-time build, not a CSAT-style trend line)`,
+        verNote:`Saying this plainly is itself part of the discipline: a QA framework that's designed correctly but hasn't spent judge-call budget yet is a different claim than "94% faithfulness," and only one of those is true right now.`,
+        flipNum:`08 · How This Maps to Flip`,
+        flipTitle:`Same mechanics. <em>Real traffic, instead of a generated dataset.</em>`,
+        flipP:`At Flip, this discipline ran continuously against real user conversations rather than a 12- or 20-case generated set: hallucination rate tracked release over release, answer grounding checked against the RAG-based chatbot's actual retrieved context, fallback triggers tuned against real escalation patterns, and all of it correlated against CSAT to see whether a grounding fix actually moved user-perceived quality — not just a metric. The mechanics above — paraphrased eval data that tests generalization rather than memorization, a judge model kept separate from the app model, a purpose-built safety check instead of a generic one, fallback paths that get calibrated rather than just built — are the transferable part. This page is where I can show them working end to end.`,
+        lessonsNum:`09 · Lessons Learned`,
+        lessonsTitle:`A hallucination doesn't need a courtroom. <em style="color:var(--accent);">It just needs someone to actually look.</em>`,
+        lesson1Label:`A fabrication doesn't need a paid judge to be found`,
+        lesson1P:`The fake phone number was caught by inspecting real pipeline output during free dataset generation — <strong>before spending a cent on LLM-judge scoring.</strong> Cheap regression checks catch more than their budget suggests.`,
+        lesson2Label:`Fallback triggers need calibration, not just existence`,
+        lesson2P:`HealthTruth-AI's "TIDAK LENGKAP" path works (ht-012), but ht-020 shows a system can still be overconfident <strong>even with a hedge option sitting right there.</strong> Building the escape hatch isn't the same as tuning when to use it.`,
+        lesson3Label:`Keep the judge model separate from the app's model`,
+        lesson3P:`Both projects deliberately judge with a different LLM than the one being evaluated. <strong>A model grading its own homework is exactly the blind spot</strong> this kind of evaluation exists to catch.`,
+        lesson4Label:`Say what hasn't been paid for yet`,
+        lesson4P:`The eval frameworks are built and ready; the full judge-scored runs haven't executed. <strong>Stating that plainly is part of the QA discipline</strong> — not a caveat to hide.`,
+        ctaNum:`See the Systems Being Evaluated`,
+        ctaTitle:`Two RAG systems. <em>Both open, both mine.</em>`,
+        ctaP:`The full evaluation code — datasets, DeepEval tests, Ragas scripts, judge model wrappers — lives in both projects' <code>evaluation/</code> folders on GitHub.`,
+        ctaBanking:`Banking Intent Router Case Study →`, ctaHealth:`HealthTruth-AI Live App ↗`, ctaBack:`← Back to portfolio`,
+        reposTitle:`Evaluation code on GitHub`,
+        footerLeft:`© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a>`, footerContact:`Get in touch`,
+      },
+      id: {
+        navBack:`← Semua project`, navProjects:`Projects`, navContact:`Kontak`,
+        kickerTag:`Portofolio AI / LLM QA`,
+        heroTitle:`Bagaimana kamu tahu LLM-mu tidak sedang berhalusinasi ke user saat ini juga? <em>Ini framework yang menangkapnya.</em>`,
+        heroLede:`Disiplin evaluasi yang sama dengan yang saya jalankan di production di Flip — <strong>hallucination rate, answer grounding, fallback trigger</strong> — didemonstrasikan di sini pada dua sistem RAG yang saya bangun dan evaluasi sendiri end-to-end: router intent banking dan pengecek hoax kesehatan berbahasa Indonesia. Salah satunya menangkap chatbot yang mengarang nomor telepon support yang sebenarnya tidak ada.`,
+        heroMetaDesign:`<strong>Design</strong> dataset evaluasi dihasilkan dari pipeline sungguhan, bukan hardcoded`,
+        heroMetaDetect:`<strong>Detect</strong> DeepEval + Ragas, LLM judge yang dijaga terpisah dari model milik app sendiri`,
+        heroMetaCatch:`<strong>Catch</strong> nomor telepon palsu sungguhan, gap nuansa klasifikasi sungguhan`,
+        heroMetaTransfer:`<strong>Transfer</strong> metodologi yang sama dengan QA production di Flip`,
+        disclosure:`<strong>Full disclosure:</strong> Saya membangun dan menjalankan QA LLM production di Flip (2024–2025) — hallucination rate, answer grounding, fallback trigger, dan korelasi CSAT lintas rilis — tapi sistem dan datanya adalah milik rahasia Flip dan tidak bisa direproduksi di sini. Halaman ini mendemonstrasikan metodologi evaluasi yang identik pada dua sistem yang sepenuhnya saya miliki: router intent banking dan pengecek hoax kesehatan Indonesia, keduanya dibangun dan dievaluasi terpisah dari Flip. Temuan di bawah — termasuk chatbot yang mengarang nomor telepon support — nyata, bisa direproduksi, dan memang milik saya untuk ditunjukkan.`,
+        stat1:`Sistem RAG<br>dievaluasi end-to-end`, stat2:`Test case<br>12 banking + 20 klaim kesehatan`, stat3:`Nomor telepon palsu<br>ditangkap di tier LLM tanpa grounding`, stat4:`Akurasi klasifikasi<br>HOAX / BENAR / TIDAK LENGKAP`, stat5:`Kode production Flip ditampilkan<br>rahasia — lihat disclosure`,
+        whyNum:`01 · Kenapa Halaman Ini Ada`,
+        whyTitle:`Metodologi yang sama. <em>Sistem yang memang boleh saya tunjukkan.</em>`,
+        whyLede:`Chatbot Flip, riwayat rilisnya, dan traffic user sungguhannya bersifat rahasia — saya tidak bisa mempublikasikan screenshot dashboard production atau menempelkan angka CSAT sungguhan. Yang bisa saya lakukan adalah menunjukkan disiplin evaluasi yang persis sama, mekanisme demi mekanisme, berjalan di sistem yang saya bangun sendiri dan bisa saya buka sepenuhnya.`,
+        mapColPractice:`Praktik QA di Flip`, mapColHere:`Didemonstrasikan di Sini`,
+        mapRow1a:`Pelacakan hallucination rate`, mapRow1b:`Nomor telepon support palsu, ditangkap dengan memeriksa output pipeline sungguhan — sebelum mengeluarkan satu sen pun untuk LLM judge berbayar (§04)`,
+        mapRow2a:`Answer grounding / faithfulness`, mapRow2b:`DeepEval FaithfulnessMetric + Ragas faithfulness, dibangun terhadap retrieval context sungguhan dari kedua sistem (§06)`,
+        mapRow3a:`Fallback trigger`, mapRow3b:`Jalur penolakan "TIDAK LENGKAP" (context tidak cukup) milik HealthTruth-AI, diuji terhadap satu kasus sukses dan satu gap kalibrasi (§05)`,
+        mapRow4a:`Korelasi CSAT lintas rilis`, mapRow4b:`Tidak bisa direproduksi sendirian — butuh traffic user sungguhan dan ritme rilis. Disebutkan secara jujur sebagai satu-satunya bagian praktik Flip yang tidak bisa didemonstrasikan halaman ini, alih-alih dipalsukan dengan angka karangan.`,
+        sysNum:`02 · Dua Sistem, Satu Pertanyaan`,
+        sysTitle:`Jawaban ini grounded, <em>atau karangan?</em>`,
+        sysLede:`Domain berbeda, biaya kegagalan berbeda — chatbot banking yang mengarang nomor telepon adalah vektor fraud; pengecek hoax kesehatan yang terlalu percaya diri adalah risiko kesehatan publik. Keduanya sistem RAG dengan satu tier yang tidak grounded ke retrieval context — persis di situlah risiko hallucination terkonsentrasi.`,
+        bankTitle:`Banking Intent Router`,
+        bankDesc:`Chatbot banking 4-tier berbasis confidence routing: pre-filter keyword, classifier intent SBERT+LinearSVC (77 intent, dataset Banking77, F1 0,930), tier RAG berbasis FAISS untuk match confidence tinggi, dan tier eskalasi LLM tanpa grounding (Groq <code>llama-3.1-8b-instant</code>) untuk apa pun yang tidak yakin oleh classifier. Memangkas biaya inferensi LLM ~96% dibanding mengirim semua ke model besar.`,
+        bankLink:`→ Case study lengkap: Banking Intent Router`,
+        healthTitle:`HealthTruth-AI`,
+        healthDesc:`Pengecek hoax kesehatan WhatsApp berbahasa Indonesia: RAG di atas corpus referensi gaya WHO/Kemenkes, mengklasifikasi klaim masuk sebagai <code>HOAX</code>, <code>BENAR</code>, atau <code>TIDAK LENGKAP</code> (bukti tidak cukup) lewat prompt output JSON terstruktur. Live dan bisa dipakai publik.`,
+        healthLink:`→ Coba app live-nya ↗`,
+        sysPullquote:`"Kedua sistem punya persis satu tier yang tidak pernah melihat retrieval context — eskalasi LLM banking dan, secara efektif, klaim HealthTruth mana pun yang tidak dicakup corpus. Itu bukan cacat desain; di situlah saya arahkan evaluasinya."`,
+        dataNum:`03 · Data Evaluasi dari Pipeline Sungguhan, Bukan Hardcoded`,
+        dataTitle:`Kalau data test-nya palsu, <em>hasil test-nya juga.</em>`,
+        dataLede:`Tidak ada satu pun dataset yang berupa daftar contoh yang saya tulis supaya sistemnya terlihat bagus. Keduanya dihasilkan dengan benar-benar menjalankan pipeline sungguhan dan mencatat apa yang terjadi.`,
+        dataColSystem:`Sistem`, dataColMethod:`Cara eval set dibangun`, dataColSize:`Ukuran`,
+        dataBank:`<code>generate_dataset.py</code> mem-parafrase 12 query menjauh dari kata-kata persis FAQ, lalu menjalankannya lewat pipeline sungguhan <code>rag.py</code> + <code>llm_client.py</code> — jadi retrieval diuji generalisasinya, bukan exact-match.`,
+        dataHealth:`<code>common.py</code> menjalankan <code>RAGEngine</code> sungguhan sekali atas seluruh 20 klaim di <code>dataset.json</code> dan menyimpan prediksi sungguhannya, jadi DeepEval dan Ragas keduanya menilai output sistem nyata, bukan mock.`,
+        dataNote:`Baseline terukur (Banking, run sungguhan): akurasi retrieval top-1 10/12 (0,83). Dua miss adalah intent yang secara semantik berdekatan (mis. "card_arrival" ter-retrieve sebagai "activate_card") — edge case yang wajar untuk retrieval berbasis embedding, bukan pipeline yang rusak.`,
+        hallNum:`04 · Menangkap Hallucination Sungguhan`,
+        hallTitle:`Chatbot-nya mengarang nomor telepon. <em>Tidak ada yang memintanya.</em>`,
+        hallLede:`Ini temuan yang dirujuk stat strip di atas — bukan contoh yang dibuat-buat, ini output sungguhan dari model sungguhan atas query sungguhan saat generate dataset, sebelum ada run LLM-judge berbayar apa pun.`,
+        hallWhy:`Kenapa tier ini spesifik: <code>inference.py</code> cuma memberi tier eskalasi LLM teks query dan hint intent — tidak pernah retrieval context (lihat <code>serving/inference.py</code>). Tanpa apa pun untuk tetap grounded, model mengisi celah itu dengan sesuatu yang terdengar percaya diri dan sepenuhnya karangan. Dalam konteks banking, nomor support palsu adalah vektor fraud/phishing sungguhan, bukan sekadar ketidakakuratan.`,
+        geTitle:`Mengubah satu kejadian jadi pengecekan sistematis`,
+        geP:`Satu fabrikasi yang tertangkap bukan test suite. Saya menulis metrik custom DeepEval <code>GEval</code> supaya kelas kegagalan ini dicek di setiap run, bukan cuma disadari sekali:`,
+        hallPullquote:`"Ini kelas regresi yang sama dengan pengecekan keamanan account-enumeration: LLM tanpa grounding context bisa terdengar sepenuhnya percaya diri sambil sepenuhnya salah. Di banking, rasa percaya diri itulah yang berbahaya."`,
+        fbNum:`05 · Fallback Trigger: Saat Jawaban yang Benar Adalah "Saya Tidak Tahu"`,
+        fbTitle:`Membangun jalan keluarnya mudah. <em>Mengkalibrasinya itu pekerjaannya.</em>`,
+        fbLede:`Prompt HealthTruth-AI meminta salah satu dari tiga vonis — <code>HOAX</code>, <code>BENAR</code>, atau <code>TIDAK LENGKAP</code> — spesifik supaya sistem bisa menolak menebak saat retrieval context-nya tidak mendukung jawaban yang percaya diri. Dari 20 klaim sungguhan, mekanisme itu menghasilkan satu sukses bersih dan satu gap kalibrasi sungguhan.`,
+        sevGood:`Fails Safe`, sevGapLabel:`Gap Kalibrasi`,
+        find1Title:`Klaim vaksin flu untuk lansia — context memang tidak ada`,
+        fExpected:`Diharapkan`, fActual:`Kenyataan`,
+        find1Exp:`BENAR — vaksinasi flu tahunan direkomendasikan untuk lansia.`,
+        find1Act:`TIDAK LENGKAP — corpus referensi memang tidak mencakup panduan vaksin flu, jadi sistem menolak mengonfirmasi klaim yang tidak bisa didukung sumber hasil retrieval.`,
+        find1Status:`Fallback bekerja persis seperti desainnya — penolakan konservatif, bukan tebakan percaya diri`,
+        find2Title:`Ibuprofen dan keparahan COVID-19 — klaim bernuansa diratakan jadi HOAX`,
+        find2Exp:`TIDAK LENGKAP — WHO menyelidiki kekhawatiran awal tapi tidak menemukan cukup bukti di kedua arah dan tidak pernah melarang ibuprofen untuk pasien COVID.`,
+        find2Act:`HOAX — teks penjelasan yang dihasilkan sebenarnya akurat (menjelaskan posisi WHO yang sungguhan dan bernuansa), tapi label status 3-arah yang dipilih lebih percaya diri daripada yang didukung bukti.`,
+        find2Status:`Fallback-nya ada tapi tidak terpicu saat klaim bernuansa membutuhkannya`,
+        fbNote:`18/20 (90%) klaim terklasifikasi benar secara keseluruhan. Kedua mismatch di atas adalah pelajaran dasar yang sama dari arah berlawanan: label fallback cuma membantu kalau sistem meraihnya persis saat confidence seharusnya rendah — tidak lebih, tidak kurang.`,
+        fwNum:`06 · Framework Evaluasinya Sendiri`,
+        fwTitle:`DeepEval, Ragas, dan model judge <em>yang tidak menilai PR-nya sendiri.</em>`,
+        fwLede:`Kedua project menjalankan dua framework yang sama dengan disiplin inti yang sama: LLM yang dipakai menilai kualitas jawaban selalu model yang berbeda dari yang menghasilkan jawaban yang dinilai.`,
+        metColMetric:`Metrik`, metColFramework:`Framework`, metColChecks:`Yang dicek`,
+        met1:`Apakah jawaban tetap konsisten dengan retrieved context, atau menambahkan klaim yang tidak didukung context?`,
+        met2:`Apakah jawaban benar-benar menjawab pertanyaan yang diajukan?`,
+        met3:`Apakah retrieval mengangkat chunk yang tepat, dan hanya chunk yang tepat?`,
+        met4:`Skoring hallucination langsung terhadap retrieved context (HealthTruth-AI).`,
+        met5:`Pengecekan yang dibangun khusus untuk detail kontak fabrikasi di tier banking tanpa grounding (§04).`,
+        judgeTitle:`Model judge, sengaja dijaga terpisah`,
+        judgeP:`Banking Intent Router menilai dengan Claude (langsung Anthropic atau lewat OpenRouter); HealthTruth-AI menilai dengan GPT-4o-mini lewat OpenRouter. Tidak ada judge yang merupakan model yang menghasilkan jawaban yang dinilainya — model menilai output-nya sendiri persis blind spot yang ingin ditangkap evaluasi ini.`,
+        costTitle:`Kenapa cuma metrik LLM-judged`,
+        costP:`Beberapa metrik DeepEval/Ragas defaultnya butuh provider embedding terpisah (Anthropic tidak punya API embedding). Kedua project sengaja memilih metrik yang tetap judge-only dan satu-vendor, alih-alih memasang provider kedua cuma untuk evaluasi.`,
+        fwPullquote:`"ragas 0.4.3 meng-import submodule langchain_community secara unconditional yang sudah dihapus di langchain-community ≥0.4 — kalau salah pin, \`import ragas\` langsung gagal sebelum evaluasi apa pun dimulai. Hal kecil, tapi ini jenis ranjau dependency yang cuma muncul saat benar-benar mencoba menjalankan tool-nya, bukan saat membaca dokumentasinya."`,
+        verNum:`07 · Apa yang Terverifikasi vs. Apa yang Sudah Dibangun`,
+        verTitle:`Versi jujur dari "sudah siap." <em>Bukan versi yang terdengar mengesankan.</em>`,
+        verLede:`DeepEval dan Ragas keduanya memanggil LLM judge berbayar per assertion, jadi saya sengaja jelas soal apa yang benar-benar sudah dieksekusi versus apa yang sudah dibangun dan siap dijalankan kapan saja.`,
+        vColItem:`Terverifikasi, nyata, bisa direproduksi`, vColGap:`Sudah dibangun, siap, belum dieksekusi`,
+        v1a:`Eksekusi pipeline sungguhan di kedua sistem — retrieval, generasi, dan klasifikasi semuanya benar-benar jalan`, v1b:`Run metrik judge berbayar penuh (skor numerik Faithfulness/Hallucination di setiap kasus) belum dieksekusi dan disimpan per tulisan ini`,
+        v2a:`Nomor telepon palsu (§04) — bisa langsung diperiksa di dataset yang dihasilkan, tidak perlu judge untuk melihatnya`, v2b:`Hasil Ragas untuk tier retrieval banking — script-nya lengkap (<code>evaluate_rag.py</code>), belum ada CSV tersimpan`,
+        v3a:`Akurasi klasifikasi 18/20 HealthTruth-AI dan kedua temuan kalibrasi (§05) — dari prediksi cache sungguhan`, v3b:`Skor numerik Hallucination/Faithfulness DeepEval untuk HealthTruth-AI — <code>run_deepeval.py</code> sudah ditulis, laporan belum di-generate`,
+        v4a:`4 kelas test DeepEval untuk banking, 5 metrik untuk HealthTruth-AI — keduanya lengkap secara struktur dan lolos pengecekan tipe/setup`, v4b:`Riwayat skor tersimpan lintas rilis (ini snapshot satu titik waktu, bukan trend line gaya CSAT)`,
+        verNote:`Mengatakan ini secara terus terang adalah bagian dari disiplinnya sendiri: framework QA yang didesain dengan benar tapi belum menghabiskan budget panggilan judge adalah klaim yang berbeda dari "94% faithfulness," dan cuma satu dari itu yang benar saat ini.`,
+        flipNum:`08 · Bagaimana Ini Terhubung ke Flip`,
+        flipTitle:`Mekanisme yang sama. <em>Traffic sungguhan, bukan dataset yang di-generate.</em>`,
+        flipP:`Di Flip, disiplin ini berjalan terus-menerus terhadap percakapan user sungguhan, bukan set 12 atau 20 kasus yang di-generate: hallucination rate dilacak rilis demi rilis, answer grounding dicek terhadap retrieved context sungguhan dari chatbot berbasis RAG, fallback trigger dikalibrasi terhadap pola eskalasi sungguhan, dan semuanya dikorelasikan terhadap CSAT untuk melihat apakah perbaikan grounding benar-benar menggerakkan kualitas yang dirasakan user — bukan cuma sebuah metrik. Mekanisme di atas — data eval hasil parafrase yang menguji generalisasi bukan hafalan, model judge yang dijaga terpisah dari model app, pengecekan keamanan yang dibangun khusus alih-alih generik, jalur fallback yang dikalibrasi bukan cuma dibangun — adalah bagian yang bisa dipindahkan. Halaman ini tempat saya bisa menunjukkannya bekerja end-to-end.`,
+        lessonsNum:`09 · Pelajaran`,
+        lessonsTitle:`Hallucination tidak butuh sidang pengadilan. <em style="color:var(--accent);">Cuma butuh seseorang yang benar-benar melihat.</em>`,
+        lesson1Label:`Fabrikasi tidak perlu judge berbayar untuk ditemukan`,
+        lesson1P:`Nomor telepon palsu ditangkap dengan memeriksa output pipeline sungguhan saat generate dataset gratis — <strong>sebelum mengeluarkan satu sen pun untuk skoring LLM-judge.</strong> Pengecekan regresi murah menangkap lebih banyak daripada yang disarankan budgetnya.`,
+        lesson2Label:`Fallback trigger butuh kalibrasi, bukan cuma keberadaan`,
+        lesson2P:`Jalur "TIDAK LENGKAP" HealthTruth-AI bekerja (ht-012), tapi ht-020 menunjukkan sistem masih bisa terlalu percaya diri <strong>bahkan dengan opsi hedge yang tersedia persis di sana.</strong> Membangun jalan keluar tidak sama dengan mengkalibrasi kapan memakainya.`,
+        lesson3Label:`Jaga model judge terpisah dari model app`,
+        lesson3P:`Kedua project sengaja menilai dengan LLM yang berbeda dari yang dievaluasi. <strong>Model yang menilai PR-nya sendiri persis blind spot</strong> yang ingin ditangkap evaluasi jenis ini.`,
+        lesson4Label:`Katakan apa yang belum dibayar`,
+        lesson4P:`Framework evaluasinya sudah dibangun dan siap; run yang dinilai judge penuh belum dieksekusi. <strong>Mengatakannya terus terang adalah bagian dari disiplin QA</strong> — bukan catatan kaki untuk disembunyikan.`,
+        ctaNum:`Lihat Sistem yang Dievaluasi`,
+        ctaTitle:`Dua sistem RAG. <em>Keduanya terbuka, keduanya milik saya.</em>`,
+        ctaP:`Kode evaluasi lengkap — dataset, test DeepEval, script Ragas, wrapper model judge — ada di folder <code>evaluation/</code> kedua project di GitHub.`,
+        ctaBanking:`Case Study Banking Intent Router →`, ctaHealth:`App Live HealthTruth-AI ↗`, ctaBack:`← Kembali ke portfolio`,
+        reposTitle:`Kode evaluasi di GitHub`,
+        footerLeft:`© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a>`, footerContact:`Hubungi saya`,
+      }
+    };
+
+    let currentLang = 'en';
+    function applyTranslations(lang) {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang]?.[key] !== undefined) el.innerHTML = translations[lang][key];
+      });
+      document.documentElement.lang = lang;
+    }
+    document.querySelectorAll('[data-lang-target]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-lang-target');
+        if (target === currentLang) return;
+        currentLang = target;
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-lang-target') === target));
+        applyTranslations(target);
+      });
+    });
+
+    // Theme toggle
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      function update(t){ btn.textContent = t==='dark'?'☀':'🌙'; btn.setAttribute('aria-label', t==='dark'?'Switch to light mode':'Switch to dark mode'); }
+      update(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click', function(){
+        const next = html.getAttribute('data-theme')==='dark'?'light':'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        update(next);
+      });
+    })();
+  </script>
+</body>
+</html>

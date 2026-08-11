@@ -70,7 +70,85 @@
   <p style="margin:0;font-size:14px;line-height:1.6;color:var(--color-accent-900)"><strong style="font-family:var(--font-heading);text-transform:uppercase;letter-spacing:.08em;font-weight:600">Recommendation.</strong> Do not add features. Spend the next quarter making the three existing loops real: a live delivery catalogue, a real wearable connection, and a reminder that actually fires. Monetise on the Pro subscription plus delivery commission; defer fulfilment and B2B until the data-governance story exists.</p>
 </div>
 
-<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">2 · Problem statement and background</h2>
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">2 · Business requirements (BRD)</h2>
+<p style="font-size:14.5px;line-height:1.65;margin:0 0 12px">Everything from here forward — the problem statement, the fifteen functional requirements, the roadmap — traces back to a small number of decisions made at the business level. This section states them explicitly so a reviewer does not have to reconstruct them from the rest of the document.</p>
+<div style="border:1px solid var(--color-accent);background:var(--color-accent-100);padding:14px 16px;margin:0 0 16px;break-inside:avoid">
+  <p style="margin:0 0 4px;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-accent-900)">Business objective</p>
+  <p style="margin:0;font-size:14px;line-height:1.6;color:var(--color-accent-900)">Capture a defensible position in Indonesia's food-logging market before a global incumbent localises for it, by making the one thing a generic tracker cannot do — recognise an Indonesian dish from a photo and turn that recognition directly into an order — the reason a member opens the app daily, not the reason they abandon it in a week like the last two trackers they tried.</p>
+</div>
+
+<p style="margin:0 0 6px;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-accent)">Stakeholders</p>
+<table style="width:100%;border-collapse:collapse;font-size:13.5px;margin:0 0 16px">
+  <thead>
+    <tr>
+      <th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:12px;text-transform:uppercase;letter-spacing:.1em;width:190px">Stakeholder</th>
+      <th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:12px;text-transform:uppercase;letter-spacing:.1em">Interest</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider);font-weight:600">Product, Engineering &amp; Design</td><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider)">Primary audience of this document; owns the Phase 1–3 roadmap in §12.</td></tr>
+    <tr><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider);font-weight:600">End members</td><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider)">Rina, Pak Budi and Dimas (§4) consume the product; their retention is the leading indicator every phase below is judged against.</td></tr>
+    <tr><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider);font-weight:600">Delivery platforms</td><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider)">GoFood/GrabFood are an external dependency for FR-07; a formal partnership or a public-catalogue fallback decides whether the commission stream in §10 is real.</td></tr>
+    <tr><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider);font-weight:600">Regulator (PDP Law)</td><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider)">Sets the compliance floor for health-data handling — see NFR Privacy, §8, and R-03, §11.</td></tr>
+    <tr><td style="padding:8px 10px;font-weight:600">Reviewer / hiring audience</td><td style="padding:8px 10px">Reads this document as evidence of product judgement, not as an internal artifact — which is why gaps are stated plainly rather than smoothed over.</td></tr>
+  </tbody>
+</table>
+
+<p style="margin:0 0 6px;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-accent)">Scope of this phase</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px">
+  <div style="border:1px solid var(--color-divider);padding:14px 16px;break-inside:avoid">
+    <p style="margin:0 0 8px;font-family:var(--font-heading);font-size:15px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-accent)">In scope</p>
+    <ul style="margin:0;padding-left:18px;font-size:13.5px;line-height:1.65">
+      <li>Real authentication with an anonymous-session upgrade path (FR-14).</li>
+      <li>A live delivery catalogue replacing the four-item fixture (FR-07).</li>
+      <li>Scheduled-meal reminders actually delivered (FR-12).</li>
+      <li>Bahasa Indonesia localisation across every surface.</li>
+      <li>PDP-compliant consent, retention, export and delete (FR-15).</li>
+    </ul>
+  </div>
+  <div style="border:1px solid var(--color-divider);padding:14px 16px;break-inside:avoid">
+    <p style="margin:0 0 8px;font-family:var(--font-heading);font-size:15px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-accent)">Out of scope (deferred)</p>
+    <ul style="margin:0;padding-left:18px;font-size:13.5px;line-height:1.65">
+      <li>CookBuddy meal fulfilment — deferred until delivery commission proves the demand.</li>
+      <li>B2B / insurer adherence reporting — deferred until governance and scale exist.</li>
+      <li>A nutritionist review tier — a candidate for a later premium layer, not this phase.</li>
+    </ul>
+  </div>
+</div>
+
+<p style="margin:0 0 6px;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-accent)">Business rules &amp; constraints</p>
+<ul style="font-size:14.5px;line-height:1.7;margin:0 0 16px;padding-left:20px">
+  <li>All health-data handling must satisfy Indonesia's PDP Law before any public launch — explicit consent, stated retention, export and deletion on request.</li>
+  <li>The product may not carry diagnostic or medical-claim language; if that ever changes, mandatory clinical review becomes a hard release gate (Open question 4, §13).</li>
+  <li>Every AI-generated nutrition value must pass schema validation before reaching a user-facing surface — no free-text fallback is permitted (enforced by the system design in §6).</li>
+  <li>The free tier must stay generous enough to sustain the acquisition funnel; no Pro price is announced until the inference-cost-per-member model closes.</li>
+</ul>
+
+<p style="margin:0 0 6px;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-accent)">Assumptions</p>
+<ul style="font-size:14.5px;line-height:1.7;margin:0 0 16px;padding-left:20px">
+  <li>Gemini's free-tier quota and pricing stay viable long enough to reach Phase 3 monetisation.</li>
+  <li>At least one delivery platform supports a deep-link or formal integration; §11 (R-05) tracks the fallback if none does.</li>
+  <li>Indonesia's digital-health app market continues to grow near the ~18% CAGR Statista projects, sustaining willingness to pay for a Pro tier.</li>
+</ul>
+
+<p style="margin:0 0 6px;font-family:var(--font-heading);font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-accent)">Success metrics</p>
+<table style="width:100%;border-collapse:collapse;font-size:13.5px;margin:0 0 16px">
+  <thead>
+    <tr>
+      <th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:12px;text-transform:uppercase;letter-spacing:.1em">Metric</th>
+      <th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:12px;text-transform:uppercase;letter-spacing:.1em">Target</th>
+      <th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--color-text);font-family:var(--font-heading);font-size:12px;text-transform:uppercase;letter-spacing:.1em;width:150px">Tied to</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider);font-weight:600">Day-30 retention</td><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider)">Baseline established at Phase 1 exit; used to judge Phase 2.</td><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider)">R-06, Open Q3</td></tr>
+    <tr><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider);font-weight:600">Meals logged / member / week</td><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider)">&ge;5 by week four, matching Rina's persona success definition (§4).</td><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider)">FR-03, FR-05</td></tr>
+    <tr><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider);font-weight:600">Pro conversion</td><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider)">Modelled once inference cost per active member is known — not set today.</td><td style="padding:8px 10px;border-bottom:1px solid var(--color-divider)">§10, Open Q1</td></tr>
+    <tr><td style="padding:8px 10px;font-weight:600">Delivery-commission attach rate</td><td style="padding:8px 10px">Tracked once FR-07 moves off fixture data onto a live catalogue.</td><td style="padding:8px 10px">FR-07, §10</td></tr>
+  </tbody>
+</table>
+
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px;break-before:page">3 · Problem statement and background</h2>
 <p style="font-size:14.5px;line-height:1.65;margin:0 0 12px">Indonesia's nutrition problem is measurable and getting worse. The 2023 Survei Kesehatan Indonesia put overweight and obesity among adults over 18 at 37.8 per cent, up from 35.4 per cent in 2018; obesity alone rose from 21.8 to 23.4 per cent over the same period, and central obesity — measured by waist circumference — climbed from 31 to 36.8 per cent. Roughly one adult in three is now above a healthy weight. Prevalence is highest exactly where smartphone use and food delivery are densest: DKI Jakarta leads the country on both obesity (31.8 per cent) and combined overweight-plus-obesity (48 per cent).</p>
 <p style="font-size:14.5px;line-height:1.65;margin:0 0 12px">The behavioural driver is convenience. Cheap, fast, energy-dense food arrives in twenty minutes; the nutritional consequence of that order is invisible at the moment of ordering. Existing trackers do not help much here, for three reasons that are specific to this market:</p>
 <ul style="font-size:14.5px;line-height:1.7;margin:0 0 12px;padding-left:20px">
@@ -84,7 +162,7 @@
   <p style="margin:0;font-size:15px;line-height:1.6">Urban Indonesians who order most of their food cannot see the nutritional consequence of a meal at the moment they choose it, and the effort of logging what they ate afterwards is high enough that they stop within a week.</p>
 </div>
 
-<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">3 · Target users</h2>
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">4 · Target users</h2>
 <p style="font-size:14.5px;line-height:1.65;margin:0 0 14px">Three segments are addressable with the product as built. They differ less in demographics than in why they open the app.</p>
 
 <div style="border:1px solid var(--color-divider);padding:14px 16px;margin:0 0 12px;break-inside:avoid">
@@ -106,7 +184,7 @@
   <p style="margin:0;font-size:14px;line-height:1.6"><strong style="font-weight:600">Needs:</strong> accurate protein numbers and a recovery plan after a hard session. <strong style="font-weight:600">Success looks like:</strong> he converts to Pro in month one.</p>
 </div>
 
-<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px;break-before:page">4 · What the product does today</h2>
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px;break-before:page">5 · What the product does today</h2>
 <p style="font-size:14.5px;line-height:1.65;margin:0 0 14px">The inventory below is taken from the shipped routes, not from the roadmap. Status is judged against what a paying member would consider finished.</p>
 <table style="width:100%;border-collapse:collapse;font-size:13.5px;margin:0 0 16px">
   <thead>
@@ -131,12 +209,12 @@
   </tbody>
 </table>
 
-<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">5 · System and data model</h2>
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">6 · System and data model</h2>
 <p style="font-size:14.5px;line-height:1.65;margin:0 0 12px">The architecture is three tiers. The browser holds the Next.js App Router client and talks to Postgres directly through the Supabase client, with row-level security scoped to <code style="font-family:ui-monospace,monospace;font-size:13px">auth.uid()</code> doing the isolation work. AI calls run as server actions, so the four Gemini keys never reach the client. Google AI and Supabase form the third tier. Five custom hooks — <code style="font-family:ui-monospace,monospace;font-size:13px">useUser</code>, <code style="font-family:ui-monospace,monospace;font-size:13px">useProfile</code>, <code style="font-family:ui-monospace,monospace;font-size:13px">useDailyLog</code>, <code style="font-family:ui-monospace,monospace;font-size:13px">useDailyLogs</code>, <code style="font-family:ui-monospace,monospace;font-size:13px">useMeals</code> — subscribe to realtime channels, which is why a meal logged on a phone appears on a laptop without a refresh.</p>
 <p style="font-size:14.5px;line-height:1.65;margin:0 0 12px">Four tables carry everything: <code style="font-family:ui-monospace,monospace;font-size:13px">users</code>, <code style="font-family:ui-monospace,monospace;font-size:13px">user_profiles</code>, <code style="font-family:ui-monospace,monospace;font-size:13px">daily_logs</code> and <code style="font-family:ui-monospace,monospace;font-size:13px">meals</code>. Two design decisions are worth keeping. Daily totals are only ever changed through the <code style="font-family:ui-monospace,monospace;font-size:13px">increment_daily_log</code> RPC, so two devices logging at once cannot clobber each other's numbers. And every AI flow is bound to a Zod output schema, so a flow either returns a fully typed object or throws — the UI never parses free text and never renders a half-formed response.</p>
 <div style="border:1px dashed var(--color-divider);padding:12px 14px;margin:0 0 16px;font-size:13.5px;line-height:1.6;break-inside:avoid">The seven diagrams that accompany this document — sitemap, use cases, architecture, ERD, journey map, the Snap sequence and the business model canvas — are in the separate diagram sheet, <em>NutriPal Diagrams</em>.</div>
 
-<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">6 · Functional requirements</h2>
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">7 · Functional requirements</h2>
 <p style="font-size:14.5px;line-height:1.65;margin:0 0 14px">Numbered for traceability. Priority follows MoSCoW; status reflects the shipped build.</p>
 <table style="width:100%;border-collapse:collapse;font-size:13.5px;margin:0 0 16px">
   <thead>
@@ -166,7 +244,7 @@
   </tbody>
 </table>
 
-<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px;break-before:page">7 · Non-functional requirements</h2>
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px;break-before:page">8 · Non-functional requirements</h2>
 <table style="width:100%;border-collapse:collapse;font-size:13.5px;margin:0 0 16px">
   <thead>
     <tr>
@@ -188,7 +266,7 @@
   </tbody>
 </table>
 
-<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">8 · SWOT</h2>
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">9 · SWOT</h2>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px">
   <div style="border:1px solid var(--color-divider);padding:14px 16px;break-inside:avoid">
     <p style="margin:0 0 8px;font-family:var(--font-heading);font-size:15px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-accent)">Strengths</p>
@@ -233,7 +311,7 @@
   </div>
 </div>
 
-<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">9 · Business model and monetisation</h2>
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">10 · Business model and monetisation</h2>
 <p style="font-size:14.5px;line-height:1.65;margin:0 0 12px">Monetisation is undecided, so four options were assessed against a single question: can it be tested with the build that exists today? Two can.</p>
 <table style="width:100%;border-collapse:collapse;font-size:13.5px;margin:0 0 14px">
   <thead>
@@ -254,7 +332,7 @@
 <p style="font-size:14.5px;line-height:1.65;margin:0 0 12px">The pairing matters. Subscription revenue is predictable but caps the free experience, which is the acquisition engine; commission revenue grows with usage and costs the member nothing. Running both means the free tier can stay generous enough to build the habit while the highest-intent moment in the product — choosing what to order — carries the revenue.</p>
 <p style="font-size:14.5px;line-height:1.65;margin:0 0 12px">One number decides whether this works: inference cost per active member per month against the Pro price. Until that is modelled, no price should be announced.</p>
 
-<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px;break-before:page">10 · Risk analysis</h2>
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px;break-before:page">11 · Risk analysis</h2>
 <table style="width:100%;border-collapse:collapse;font-size:13.5px;margin:0 0 16px">
   <thead>
     <tr>
@@ -277,7 +355,7 @@
   </tbody>
 </table>
 
-<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">11 · Roadmap</h2>
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">12 · Roadmap</h2>
 <p style="font-size:14.5px;line-height:1.65;margin:0 0 14px">Sequenced so that each phase makes the next one measurable. Nothing in phase one is a new feature; it is finishing what already exists.</p>
 
 <div style="border-left:2px solid var(--color-accent);padding:0 0 0 16px;margin:0 0 14px;break-inside:avoid">
@@ -317,7 +395,7 @@
   </ul>
 </div>
 
-<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">12 · Open questions</h2>
+<h2 style="font-size:24px;text-transform:uppercase;margin:26px 0 10px">13 · Open questions</h2>
 <ol style="font-size:14.5px;line-height:1.7;margin:0 0 16px;padding-left:20px">
   <li>What is the actual inference cost per active member per month? Every pricing decision waits on this.</li>
   <li>Is a formal partnership with GrabFood or GoFood achievable, or should curation be built on public catalogue data?</li>
