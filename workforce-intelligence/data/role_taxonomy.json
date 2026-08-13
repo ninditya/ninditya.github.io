@@ -1,0 +1,213 @@
+{
+  "version": "0.1",
+  "skills": [
+    "CDOB Compliance",
+    "Cold Chain Handling",
+    "Inventory Management",
+    "SAP Navigation",
+    "Distributor Negotiation",
+    "Medical Product Knowledge",
+    "Route Planning",
+    "Advanced Excel",
+    "Customer Relationship Management",
+    "Regulatory Documentation",
+    "Warehouse Safety",
+    "Data Entry Accuracy",
+    "Team Leadership",
+    "Demand Forecasting"
+  ],
+  "roles": {
+    "SALES_JR": {
+      "canonical_title": "Sales Representative",
+      "family": "Commercial",
+      "level": 1,
+      "required_skills": [
+        "Medical Product Knowledge",
+        "Customer Relationship Management",
+        "Route Planning",
+        "Data Entry Accuracy"
+      ],
+      "variants": [
+        "Sales Rep",
+        "Sales 1",
+        "Sales Junior",
+        "Jr. Sales",
+        "Sales Executive",
+        "Medical Representative",
+        "Salesman",
+        "Staff Sales"
+      ]
+    },
+    "SALES_SR": {
+      "canonical_title": "Senior Sales Representative",
+      "family": "Commercial",
+      "level": 2,
+      "required_skills": [
+        "Medical Product Knowledge",
+        "Customer Relationship Management",
+        "Distributor Negotiation",
+        "Demand Forecasting",
+        "Advanced Excel"
+      ],
+      "variants": [
+        "Senior Sales",
+        "Sales 2",
+        "Sales Senior",
+        "SR. SALES",
+        "Senior Sales Exec",
+        "Sr Medical Rep",
+        "Sales Executive Senior"
+      ]
+    },
+    "SALES_MGR": {
+      "canonical_title": "Branch Sales Manager",
+      "family": "Commercial",
+      "level": 4,
+      "required_skills": [
+        "Team Leadership",
+        "Demand Forecasting",
+        "Distributor Negotiation",
+        "Advanced Excel",
+        "Customer Relationship Management"
+      ],
+      "variants": [
+        "Sales Manager",
+        "Kepala Sales",
+        "Branch Sales Head",
+        "Manager Penjualan",
+        "Sales Mgr",
+        "Koordinator Sales"
+      ]
+    },
+    "WHS_STAFF": {
+      "canonical_title": "Warehouse Staff",
+      "family": "Supply Chain",
+      "level": 1,
+      "required_skills": [
+        "Warehouse Safety",
+        "Inventory Management",
+        "Cold Chain Handling",
+        "Data Entry Accuracy"
+      ],
+      "variants": [
+        "Staff Gudang",
+        "Warehouse Operator",
+        "Gudang",
+        "WH Staff",
+        "Petugas Gudang",
+        "Warehouse Admin"
+      ]
+    },
+    "WHS_SPV": {
+      "canonical_title": "Warehouse Supervisor",
+      "family": "Supply Chain",
+      "level": 3,
+      "required_skills": [
+        "Warehouse Safety",
+        "Inventory Management",
+        "Cold Chain Handling",
+        "Team Leadership",
+        "CDOB Compliance"
+      ],
+      "variants": [
+        "Spv Gudang",
+        "Supervisor Warehouse",
+        "WH Supervisor",
+        "Kepala Gudang",
+        "Warehouse Spv",
+        "Koordinator Gudang"
+      ]
+    },
+    "LOG_COORD": {
+      "canonical_title": "Logistics Coordinator",
+      "family": "Supply Chain",
+      "level": 2,
+      "required_skills": [
+        "Route Planning",
+        "Cold Chain Handling",
+        "Inventory Management",
+        "SAP Navigation"
+      ],
+      "variants": [
+        "Koordinator Logistik",
+        "Logistic Coord",
+        "Logistics Staff",
+        "Staff Logistik",
+        "Distribution Coordinator"
+      ]
+    },
+    "PHARM_SPEC": {
+      "canonical_title": "Product Specialist (Pharma)",
+      "family": "Technical",
+      "level": 2,
+      "required_skills": [
+        "Medical Product Knowledge",
+        "CDOB Compliance",
+        "Regulatory Documentation",
+        "Cold Chain Handling"
+      ],
+      "variants": [
+        "Product Specialist",
+        "Spesialis Produk",
+        "Apoteker Pendamping",
+        "Pharmacy Assistant",
+        "Asisten Apoteker",
+        "Product Spec"
+      ]
+    },
+    "QA_REG": {
+      "canonical_title": "Regulatory & QA Officer",
+      "family": "Technical",
+      "level": 3,
+      "required_skills": [
+        "CDOB Compliance",
+        "Regulatory Documentation",
+        "Medical Product Knowledge",
+        "Data Entry Accuracy"
+      ],
+      "variants": [
+        "QA Officer",
+        "Regulatory Officer",
+        "Staff QA",
+        "QA/RA",
+        "Petugas Regulasi",
+        "Quality Assurance"
+      ]
+    },
+    "FIN_ADMIN": {
+      "canonical_title": "Finance & Admin Staff",
+      "family": "Corporate",
+      "level": 1,
+      "required_skills": [
+        "Advanced Excel",
+        "Data Entry Accuracy",
+        "SAP Navigation"
+      ],
+      "variants": [
+        "Staff Finance",
+        "Admin Keuangan",
+        "Finance Admin",
+        "Staff Adm & Keu",
+        "Accounting Staff",
+        "Admin"
+      ]
+    },
+    "IT_SUPPORT": {
+      "canonical_title": "IT Support Officer",
+      "family": "Corporate",
+      "level": 2,
+      "required_skills": [
+        "SAP Navigation",
+        "Data Entry Accuracy",
+        "Advanced Excel"
+      ],
+      "variants": [
+        "IT Support",
+        "Helpdesk",
+        "Staff IT",
+        "IT Officer",
+        "Teknisi IT"
+      ]
+    }
+  }
+}

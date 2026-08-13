@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workforce Intelligence PoC — Product Manager Case Study · Ninditya Salma Nur Aini</title>
+<meta name="description" content="A 90-day workforce-intelligence PoC for a 15,000-employee healthcare distributor: identity resolution across three disconnected HR systems, confidence-scored skill gaps, and a decision surface that shows the exact 20 people a naive read of the data gets wrong.">
+<link rel="canonical" href="https://ninditya.github.io/workforce-intelligence/">
+<meta property="og:title" content="Workforce Intelligence PoC — Product Manager Case Study">
+<meta property="og:description" content="Identity resolution across three disconnected HR systems, confidence-scored skill gaps, and a decision surface that shows exactly where a naive read of the data misleads.">
+<meta property="og:url" content="https://ninditya.github.io/workforce-intelligence/">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="_ds/industry-c228a97a-2435-47a9-bfa6-483ccde83b39/styles.css">
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+<style>
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .section { padding-top: var(--space-8); padding-bottom: var(--space-8); }
+  .section + .section { border-top: 1px solid var(--color-divider); }
+  .eyebrow { color: var(--color-accent-700); margin-bottom: var(--space-2); }
+
+  /* — hero — */
+  .hero { padding-top: var(--space-8); padding-bottom: var(--space-6); }
+  .hero h1 { font-size: 46px; max-width: 15ch; }
+  .hero h1 em { font-style: italic; font-weight: 400; color: color-mix(in srgb, var(--color-text) 60%, transparent); }
+  .hook { font-family: var(--font-heading); font-weight: 600; font-size: 22px; line-height: 1.35; max-width: 42ch; margin-top: var(--space-3); }
+  .taglist { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-4) 0; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
+  .meta-line { font-size: 13px; color: color-mix(in srgb, var(--color-text) 60%, transparent); margin-top: var(--space-2); }
+
+  /* — blueprint plate — */
+  .blueprint { padding: var(--space-4); margin: var(--space-2) 0; }
+  .stat-plate { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .stat-cell { padding: var(--space-3); border-right: 1px solid var(--color-divider); border-bottom: 1px solid var(--color-divider); }
+  .stat-cell:nth-child(3n) { border-right: none; }
+  .stat-cell:nth-last-child(-n+3) { border-bottom: none; }
+  .stat-num { font-family: var(--font-heading); font-weight: 600; font-size: 30px; line-height: 1; color: var(--color-accent-800); }
+  .stat-label { font-size: 12.5px; margin-top: var(--space-1); color: color-mix(in srgb, var(--color-text) 68%, transparent); }
+
+  /* — grids — */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); align-items: start; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); align-items: stretch; }
+  @media (max-width: 760px) { .grid-2, .grid-3, .stat-plate { grid-template-columns: 1fr; } .stat-cell { border-right: none !important; border-bottom: 1px solid var(--color-divider) !important; } }
+
+  /* — decision card / pipeline — */
+  .pipe { display: flex; flex-direction: column; gap: 0; }
+  .pipe-step { display: flex; gap: var(--space-3); align-items: flex-start; }
+  .pipe-badge { font-family: var(--font-heading); font-weight: 600; font-size: 12px; color: var(--color-bg); background: var(--color-accent); width: 26px; height: 26px; flex: none; display: flex; align-items: center; justify-content: center; }
+  .pipe-connector { width: 26px; display: flex; justify-content: center; }
+  .pipe-connector::before { content: ""; width: 1px; height: var(--space-4); background: var(--color-divider); }
+  .pipe-body h4 { margin-bottom: var(--space-1); }
+  .pipe-body p { font-size: 14px; margin-bottom: 0; }
+
+  .callout { border-left: 3px solid var(--color-accent); padding: var(--space-3) var(--space-4); background: color-mix(in srgb, var(--color-accent) 6%, transparent); }
+  .callout h4 { margin-bottom: var(--space-1); }
+  .callout p:last-child { margin-bottom: 0; }
+
+  .screen-card .card-title { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); }
+  .screen-num { font-family: var(--font-heading); font-size: 12px; color: var(--color-accent-700); }
+
+  ul.plain { margin: 0 0 var(--space-3); padding-left: 1.15em; font-size: 14px; }
+  ul.plain li { margin-bottom: var(--space-1); }
+  ol.steps { margin: 0 0 var(--space-3); padding-left: 1.3em; font-size: 14px; }
+  ol.steps li { margin-bottom: var(--space-2); }
+
+  .table-wrap { overflow-x: auto; }
+  .table td, .table th { vertical-align: top; }
+
+  footer.site-footer { padding: var(--space-8) 0; text-align: center; font-size: 13px; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+  footer.site-footer a { color: var(--color-accent-700); }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <div class="site-nav-tools">
+      <button class="site-nav-toggle" type="button" aria-label="Menu" onclick="this.closest('.site-nav').classList.toggle('nav-open')">☰</button>
+      <div class="site-nav-pills">
+        <a class="site-nav-pill back" href="../index.html">← Portfolio</a>
+        <a class="site-nav-pill" href="#brief">The scenario</a>
+        <a class="site-nav-pill" href="#data">Data &amp; identity</a>
+        <a class="site-nav-pill" href="#ai">AI system design</a>
+        <a class="site-nav-pill" href="#product">Product &amp; UX</a>
+        <a class="site-nav-pill" href="#roadmap">Roadmap</a>
+        <a class="site-nav-pill" href="prototype.html" target="_blank" rel="noopener">Open prototype ↗</a>
+      </div>
+      <button class="site-theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">🌙</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="wrap hero">
+    <div class="eyebrow card-kicker">Case study · Product Manager (AI-Native) · Workforce Intelligence Platform</div>
+    <h1>A skill-gap PoC for a company whose <em>data layer lies to it</em></h1>
+    <p class="hook">"20 of the 30 people a naive read of the HR data would send to reskilling have zero actual skill gap — their record is just empty. 20 different people with a real, evidenced gap never show up at all."</p>
+    <div class="taglist">
+      <span class="tag tag-accent">Product strategy</span>
+      <span class="tag tag-accent">Data architecture</span>
+      <span class="tag tag-accent-2">Identity resolution</span>
+      <span class="tag tag-neutral">Confidence-scored AI</span>
+      <span class="tag tag-outline">Decision-surface UX</span>
+    </div>
+    <p class="meta-line">Solo submission · document, working prototype, and 200-person synthetic dataset, generated end to end with Claude Code</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="prototype.html" target="_blank" rel="noopener">Open the working prototype →</a>
+      <a class="btn btn-secondary" href="#deliverables">Browse the synthetic data →</a>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="blueprint stat-plate">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div class="stat-cell"><div class="stat-num">820 → 200</div><div class="stat-label">raw HR records collapse to 200 real people once identity is resolved</div></div>
+      <div class="stat-cell"><div class="stat-num">55.5%</div><div class="stat-label">of HRIS skill fields are blank — and not at random</div></div>
+      <div class="stat-cell"><div class="stat-num">219</div><div class="stat-label">groups a naive title match forms, from 200 people and 10 real roles</div></div>
+      <div class="stat-cell"><div class="stat-num">103</div><div class="stat-label">of 232 resolved records (44.4%) route to a human review queue, not a score</div></div>
+      <div class="stat-cell"><div class="stat-num">0.461 → 0.067</div><div class="stat-label">spread in branch gap-scores, naive vs. resolved — an 85% reduction on identical underlying skill</div></div>
+      <div class="stat-cell"><div class="stat-num">10/30</div><div class="stat-label">agreement between the naive top-30 "needs training" list and the resolved one</div></div>
+    </div>
+  </section>
+
+  <section id="brief" class="wrap section">
+    <h6 class="eyebrow">The scenario</h6>
+    <h2>A healthcare distributor, five HR systems, and a payroll wall</h2>
+    <p>The client is a nationwide healthcare distribution company with roughly 15,000 employees across 90 branches. Six months ago its CEO announced a digital-transformation mandate; the CHRO now needs to show AI-driven workforce decisions — who to reskill, which teams are at risk, which roles are heading toward obsolescence — without touching any of the underlying systems. She won't replace SAP SuccessFactors (HRIS), Workable (ATS), Moodle (LMS), or the branch-run performance tool, and she can't: they're what 90 branches already run on.</p>
+    <p>Those systems don't share an employee ID, don't agree on job titles, and — the complication that reshaped the whole plan — thirty days into the engagement, Legal blocked HR's own access to Oracle Payroll under the company's data-governance policy. Payroll was the one system with an unambiguous, complete roster. Losing it meant there was no longer an authoritative source of truth to resolve identity against, and the plan had to say so out loud rather than quietly assume one.</p>
+    <div class="callout blueprint">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <h4>What I built to answer it</h4>
+      <p>Rather than write the strategy in the abstract, I generated a seeded, deterministic 200-person dataset that reproduces this mess on purpose — missingness correlated with branch HRIS adoption rather than random, 70 raw job-title strings for 10 real roles, name variants, date conflicts, transfers mislabeled as terminations — then built the identity-resolution and confidence-scoring pipeline against it, and a prototype that makes the before/after difference something an HR manager can click through rather than take on faith.</p>
+    </div>
+  </section>
+
+  <section id="framing" class="wrap section">
+    <h6 class="eyebrow">Problem framing</h6>
+    <h2>Why skill-gap analysis, and not attrition prediction</h2>
+    <p>"AI-driven workforce decisions" is a mandate, not a product. I scoped it down to one buildable thing by scoring three candidate PoCs against what the data could actually support in 90 days.</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Candidate PoC</th><th>Data availability</th><th>Feasibility in 90 days</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Attrition / productivity risk prediction</strong></td>
+            <td>Needs a clean historical outcome label. Ten transfers are recorded as termination-then-rehire under a new employee ID, and pre-2022 performance ratings sit outside the scale that's supposed to apply to them.</td>
+            <td>Low. Training a classifier on a contaminated label is exactly the trap the brief's own "82% accuracy, three managers say it feels wrong" scenario describes — building it first means re-enacting that failure instead of explaining it.</td>
+            <td><span class="tag tag-outline">Deferred to Phase 2</span></td>
+          </tr>
+          <tr>
+            <td><strong>Internal mobility / workforce planning</strong></td>
+            <td>Presupposes a resolved, canonical view of who does what, where — which is precisely what none of the five systems currently agree on.</td>
+            <td>Low as a first PoC. Genuinely valuable, but it's a consumer of the identity-and-taxonomy layer, not a substitute for building it.</td>
+            <td><span class="tag tag-outline">Phase 2, after the data layer exists</span></td>
+          </tr>
+          <tr>
+            <td><strong>Skill-gap analysis</strong></td>
+            <td>Usable today: the HRIS skill field (44.5% filled) plus LMS course completions, against a 10-role, 14-skill taxonomy I can hand-build from the observed title variants.</td>
+            <td>High. Doesn't need a trustworthy historical label — only a defensible <em>current-state</em> read, which the confidence-provenance model can express honestly even where data is missing.</td>
+            <td><span class="tag tag-accent">Chosen for the 90-day PoC</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>It's also the smallest surface on which the actual argument — that the data layer changes the answer more than any model does — can be proven end to end in one quarter. That argument, not a specific algorithm, is the thing worth being right about first.</p>
+    <div class="grid-2">
+      <div>
+        <h4>Explicitly not solved in 90 days</h4>
+        <ul class="plain">
+          <li>Attrition and productivity-risk prediction — blocked on the transfer/termination label contamination above.</li>
+          <li>Role-obsolescence forecasting over a 2-year horizon — needs longitudinal skill-demand trend data this engagement doesn't yet have.</li>
+          <li>Anything payroll-linked — cost-to-fill, comp benchmarking — Oracle is off the table for the duration.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>What I'd spend the first two weeks learning</h4>
+        <ul class="plain">
+          <li>Real fill rate per branch and per system, pulled directly rather than assumed from the brief's headline "40%".</li>
+          <li>Which branches sit on which HRIS-adoption tier — the single variable that turned out to explain the entire naive-vs-resolved ranking gap.</li>
+          <li>Whether NIK or corporate email exists as a reliable join key between HRIS and ATS, since that governs whether high-confidence auto-merge is possible at all.</li>
+          <li>The exact scope of the Legal data-governance flag — payroll only, or anything payroll-adjacent mirrored elsewhere.</li>
+          <li>What "confidence" needs to mean to an HR manager in practice, from two or three short interviews, before the review-queue UI gets built rather than after.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="data" class="wrap section">
+    <h6 class="eyebrow">Data strategy</h6>
+    <h2>Three layers, and nothing imputed silently</h2>
+    <p>With Oracle gone, there's no authoritative roster left to arbitrate identity. I made HRIS the system of record by default — the only workable choice without payroll — and treated that as a named risk rather than a hidden one; it's the decision I'm least confident about, and I say why at the bottom of this page.</p>
+    <div class="pipe blueprint">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div class="pipe-step">
+        <div class="pipe-badge">1</div>
+        <div class="pipe-body"><h4>Ingestion</h4><p>Raw pulls from HRIS, ATS, LMS and the performance tool, kept in native shape. Blank fields stay explicit nulls, never silently dropped — a <code>payroll_id</code> column is even kept in the schema and left empty, so what's missing is visible, not implied.</p></div>
+      </div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-step">
+        <div class="pipe-badge">2</div>
+        <div class="pipe-body"><h4>Identity resolution</h4><p>A four-tier matching cascade (below) collapses 820 records into 232 resolved persons against a 200-person ground truth — a 16% over-split, which the resolution audit trail exists to make measurable instead of assumed.</p></div>
+      </div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-step">
+        <div class="pipe-badge">3</div>
+        <div class="pipe-body"><h4>Contextualization</h4><p>Titles normalize against a 10-role taxonomy; skills get a four-status provenance and confidence score; anything under threshold routes to a review queue instead of a number.</p></div>
+      </div>
+    </div>
+
+    <h4 style="margin-top:var(--space-6)">Identity resolution across the three remaining systems</h4>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Tier</th><th>Match rule</th><th>Confidence</th><th>Outcome</th></tr></thead>
+        <tbody>
+          <tr><td>T1</td><td>NIK or corporate email identical</td><td>1.00 / 0.98</td><td>Auto-merge</td></tr>
+          <tr><td>T2</td><td>Normalized name (token-sorted) + date of birth</td><td>0.92</td><td>Auto-merge</td></tr>
+          <tr><td>T3a</td><td>Fuzzy name ≥ 0.965, same branch</td><td>0.88</td><td>Auto-merge</td></tr>
+          <tr><td>T3b</td><td>Fuzzy name 0.86–0.965</td><td>0.70</td><td>Review queue</td></tr>
+          <tr><td>T4</td><td>HRIS-only, no corroborating system</td><td>0.85</td><td>Auto, flagged as uncorroborated</td></tr>
+          <tr><td>T4</td><td>ATS/LMS-only, no HRIS anchor</td><td>0.45</td><td>Review queue</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:14px">Name normalization uses token-sort so "Wijaya, Ahmad Budi" and "Ahmad Budi Wijaya" collide. Branch is used to block the comparison space, but a date-of-birth match overrides that block — that's exactly the pattern a branch transfer produces, and it's the case blocking would otherwise hide. A single HRIS-only record is treated as the normal condition for anyone who joined before ATS adoption, not an anomaly — flagging it would flood the review queue with cases that don't need a human.</p>
+  </section>
+
+  <section id="ai" class="wrap section">
+    <h6 class="eyebrow">AI system design</h6>
+    <h2>A scoring engine you can audit, not a classifier you have to trust</h2>
+    <p>For a first 90-day PoC where the data quality gap <em>is</em> the finding, I chose an auditable, rules-and-confidence scoring engine over an opaque classifier. Every gap score traces back to a per-skill status an HR manager can see, agree with, or contest — which is what a review queue is actually for.</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Status</th><th>Confidence</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td><code>declared</code></td><td>1.00</td><td>Written directly in the HRIS skill field</td></tr>
+          <tr><td><code>evidenced</code></td><td>0.90</td><td>An LMS course completion maps to the skill</td></tr>
+          <tr><td><code>inferred</code></td><td>0.55</td><td>Required by the person's role, and only asserted if they have at least one other real signal</td></tr>
+          <tr><td><code>unknown</code></td><td>0.00</td><td>No signal at all — left visibly blank, never imputed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:14px">That "at least one other signal" clause on <code>inferred</code> is deliberate, not an edge case I missed: imputing skills for people with zero footprint anywhere would make chronically under-recorded branches look normal, burying the exact problem this PoC exists to surface. The system says "I don't know" instead of guessing with confidence.</p>
+
+    <div class="callout blueprint" style="margin-top:var(--space-6)">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <h4>The Day-75 question: 82% accuracy, but it feels wrong to three HR managers</h4>
+      <p>Don't defend the metric — audit whether the model's top features correlate with something upstream of the outcome you're claiming to predict, rather than the outcome itself. In this dataset that variable is branch HRIS-adoption tier: the underlying skill reality is generated <em>identically</em> across every tier, yet a naive read produces a 0.461 spread in gap score across tiers, purely from record-keeping quality. The resolved, confidence-scored pipeline — same people, same skills — collapses that spread to 0.067, an 85% reduction.</p>
+      <p>Concretely: of the top 30 people a naive ranking would send to reskilling, only 10 also appear in the resolved ranking. The other 20 are people with zero recorded skills, not people with an actual gap — and 20 different people with a real, evidenced gap never surface at all. Three HR managers saying "these aren't the people I'd expect" are correctly detecting that mismatch before anyone can quantify it. The model learned branch record-keeping hygiene, not workforce risk, and 82% accuracy is the symptom, not the evidence.</p>
+    </div>
+  </section>
+
+  <section id="product" class="wrap section">
+    <h6 class="eyebrow">Product &amp; UX</h6>
+    <h2>Five screens, built so an HR manager never has to understand the model</h2>
+    <p>The prototype is the argument made physically manipulable: an A / B toggle on every screen switches the entire interface between the naive union of three systems and the output of the contextualization layer, so the difference is something you click through rather than take on faith.</p>
+    <div class="grid-3" style="margin-top:var(--space-4)">
+      <div class="card blueprint screen-card"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-title"><span>Decision Queue</span><span class="screen-num">01</span></div>
+        <p class="card-body">Teams ranked by gap, each row carrying a data-completeness badge and a one-click path to the person-level evidence behind it.</p>
+      </div>
+      <div class="card blueprint screen-card"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-title"><span>Needs Data</span><span class="screen-num">02</span></div>
+        <p class="card-body">Teams that can't be scored honestly yet, deliberately pulled out of the ranking — with what's missing and a prompt to complete the record, not send people to training.</p>
+      </div>
+      <div class="card blueprint screen-card"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-title"><span>Review Queue</span><span class="screen-num">03</span></div>
+        <p class="card-body">All 103 flagged records, filterable by five trigger reasons, so a data-ops person works the highest-impact category first, not chronologically.</p>
+      </div>
+      <div class="card blueprint screen-card"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-title"><span>Person Detail</span><span class="screen-num">04</span></div>
+        <p class="card-body">Every skill's status, confidence and source in one table, plus the full identity-resolution audit trail — tier, confidence, source systems, name variants observed.</p>
+      </div>
+      <div class="card blueprint screen-card"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-title"><span>Data Mirror</span><span class="screen-num">05</span></div>
+        <p class="card-body">A branch-by-branch HRIS fill-rate leaderboard — the Day-30 artifact, and the chart that turns "why is our score different" into something a CHRO can act on directly.</p>
+      </div>
+      <div class="card blueprint screen-card"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-title"><span>A / B toggle</span><span class="screen-num">—</span></div>
+        <p class="card-body">Present on every screen. On the naive dataset, Needs Data and Review Queue are disabled outright — a raw union of three systems has no confidence signal, so there's no honest basis for either.</p>
+      </div>
+    </div>
+    <h4 style="margin-top:var(--space-6)">Communicating uncertainty without wrecking trust</h4>
+    <p>Uncertainty is a first-class value everywhere a number appears — a badge on every row, a confidence column on every skill, "cannot be determined" instead of a plausible-looking placeholder. The one choice that matters most: <strong>Needs Data</strong> is a peer navigation item, sized and positioned exactly like every other queue, not a footnote. That tells the HR manager the system is willing to say "I don't know" as confidently as it says "act here" — which is what makes the times it does give a number worth trusting.</p>
+  </section>
+
+  <section id="roadmap" class="wrap section">
+    <h6 class="eyebrow">90-day roadmap</h6>
+    <h2>Three milestones, each one a demo, not a phase</h2>
+    <div class="grid-3">
+      <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-kicker">Day 30</div>
+        <div class="card-title">Data Mirror, live</div>
+        <p class="card-body">Branch-by-branch HRIS fill rate demoed to the CHRO, alongside the governance note that HRIS is now system-of-record by default and why that's a named risk, not a hidden one — the payroll-access loss absorbed into the plan rather than reopened as a surprise.</p>
+      </div>
+      <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-kicker">Day 60</div>
+        <div class="card-title">Pipeline on real extracts</div>
+        <p class="card-body">Identity resolution and skill-gap scoring running on real HRIS + ATS + LMS pulls for the pilot branches. Review queue live for a data-ops person to work; confidence badges visible end to end.</p>
+      </div>
+      <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-kicker">Day 90</div>
+        <div class="card-title">Full decision surface, C-suite demo</div>
+        <p class="card-body">All five screens across every sampled branch, naive vs. resolved shown side by side on real data — plus the non-goals named explicitly, so attrition and role-obsolescence work is a planned Phase 2, not a quiet omission.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="platform" class="wrap section">
+    <h6 class="eyebrow">Platform strategy</h6>
+    <h2>What survives past this one client</h2>
+    <div class="grid-2">
+      <div>
+        <h4>Reusable across the next five clients</h4>
+        <ul class="plain">
+          <li>The identity-resolution cascade as a config-driven service — tier rules and thresholds are parameters, not code.</li>
+          <li>The declared / evidenced / inferred / unknown provenance model, generalized to any workforce attribute, not just skills.</li>
+          <li>A configurable role/skill taxonomy — this client's 10 roles and 14 skills are one instance of a schema.</li>
+          <li>The Needs Data bucket and typed-trigger review queue as a reusable decision-surface primitive.</li>
+          <li>The Data Mirror fill-rate view as a zero-model, Day-30-ready deliverable for any new client — useful before any AI is built.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>What doesn't reuse</h4>
+        <ul class="plain">
+          <li>The specific taxonomy content — every client's roles and skills differ.</li>
+          <li>The specific messiness parameters — each client's systems will fail in their own way.</li>
+          <li>What travels is the <em>shape</em> of the pipeline, not its contents: ingest untouched, resolve identity with confidence, contextualize with provenance, never impute silently.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="deliverables" class="wrap section">
+    <h6 class="eyebrow">Deliverables</h6>
+    <h2>Prototype, data, and one honest doubt</h2>
+    <div class="grid-3">
+      <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-kicker">Working prototype</div>
+        <div class="card-title">Five-screen decision surface</div>
+        <p class="card-body">Single HTML file, no login, no dependencies. Loads both the messy and resolved datasets and toggles between them on every screen.</p>
+        <a class="btn btn-primary btn-block" href="prototype.html" target="_blank" rel="noopener">Open the prototype →</a>
+      </div>
+      <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-kicker">Synthetic data</div>
+        <div class="card-title">820 rows → 232 resolved persons</div>
+        <p class="card-body">Deterministic generator, seed <code>20260807</code>. No real employee data. CSV and JSON for both datasets, plus the ground truth and audit trail.</p>
+        <ul class="plain" style="margin-top:var(--space-2)">
+          <li><a href="data/dataset_a_messy.csv">dataset_a_messy.csv</a> / <a href="data/dataset_a_messy.json">.json</a> — raw union of 3 systems</li>
+          <li><a href="data/dataset_b_clean.csv">dataset_b_clean.csv</a> / <a href="data/dataset_b_clean.json">.json</a> — resolved, one row per person</li>
+          <li><a href="data/ground_truth.csv">ground_truth.csv</a> — the planted truth, never seen by the pipeline</li>
+          <li><a href="data/resolution_audit.csv">resolution_audit.csv</a> — identity-resolution audit trail</li>
+          <li><a href="data/role_taxonomy.json">role_taxonomy.json</a> — 10 roles, 14 skills, title-variant dictionary</li>
+          <li><a href="data/comparison_metrics.json">comparison_metrics.json</a> — every A-vs-B number on this page</li>
+          <li><a href="data/generate_medika_data.py">generate_medika_data.py</a> — the generator, and its own executable documentation</li>
+          <li><a href="data/README.md">README.md</a> — full dataset notes</li>
+        </ul>
+      </div>
+      <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-kicker">Least confident about</div>
+        <div class="card-title">HRIS as system-of-record by default</div>
+        <p class="card-body">It's the only workable default once Oracle is gone — but it means every downstream number inherits HRIS's own blind spots, including the low-adoption branches this whole case study is about. I'd validate it in week one by checking how often HRIS and ATS disagree on active/terminated status for the same person; frequent disagreement means the default is quietly wrong in a way no confidence score would catch.</p>
+      </div>
+    </div>
+    <p style="font-size:13px;color:color-mix(in srgb, var(--color-text) 60%, transparent);margin-top:var(--space-4)">Built with Claude Code end to end — the data generator, the resolution and scoring logic, the prototype, and this write-up all went through the same iterative process, grounded each time in the numbers the generator actually produced rather than assumed ones.</p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p><a href="../index.html">← Back to the full portfolio</a> · Ninditya Salma Nur Aini</p>
+</footer>
+
+<script>
+  var themeBtn = document.getElementById('themeToggle');
+  function updateThemeBtn(t) {
+    themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+    themeBtn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  updateThemeBtn(document.documentElement.getAttribute('data-theme') || 'light');
+  themeBtn.addEventListener('click', function () {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateThemeBtn(next);
+  });
+</script>
+
+</body>
+</html>

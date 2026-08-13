@@ -1,0 +1,233 @@
+person_id,resolved_name,n_source_records,identity_tier,identity_confidence,name_variants_observed,source_record_ids,action
+MN-R-0001,Hasan Nadia Safitri,4,T3a_fuzzy_high,0.88,Hasan Nadia Safitri,"EMP-5657,moodle_13400",auto_merged
+MN-R-0002,Erika  Permana,4,T3b_fuzzy_mid,0.7,E. Permana | Erika  Permana | L. Permana,"EMP-3494,EMP-8896,candidate_144,moodle_28770",queued_for_human_review
+MN-R-0003,Nadia Handayani,8,T3b_fuzzy_mid,0.7,B. Handayani | N. Handayani | NADIA HANDAYANI | Nadia Handayani,"EMP-3167,EMP-6189,candidate_401,moodle_76830",queued_for_human_review
+MN-R-0004,NADIA RAHAYU,3,T1_email,0.98,NADIA RAHAYU | Nadia Rahayu,"EMP-2856,candidate_926,moodle_72274",auto_merged
+MN-R-0005,NADIA PUSPITA,5,T1_email,0.98,NADIA PUSPITA | Nadia Puspita,"EMP-5508,candidate_439,moodle_85025",auto_merged
+MN-R-0006,Rahmat  Sanjaya,3,T1_email,0.98,RAHMAT SANJAYA | Rahmat  Sanjaya | Rahmat Sanjaya,"EMP-3233,candidate_477,moodle_84427",auto_merged
+MN-R-0007,Agus  Setiawan,6,T1_email,0.98,Agus  Setiawan | Agus Setiawan | Agus Setiyawan,"EMP-2186,EMP-3674,EMP-6488,moodle_36993,moodle_84849",auto_merged
+MN-R-0008,"Safitri, Sari",6,T1_email,0.98,"S. Safitri | Safitri, Sari | Sari Safitri","EMP-2024,moodle_33148",auto_merged
+MN-R-0009,GITA TANUJAYA,8,T3b_fuzzy_mid,0.7,G. Tanujaya | GITA TANUJAYA | Gita Tanujaya,"EMP-2488,EMP-7740,candidate_132,candidate_203,moodle_48044,moodle_89934",queued_for_human_review
+MN-R-0010,D. Wibowo,2,T3b_fuzzy_mid,0.7,D. Wibowo | N. Wibowo,"EMP-6726,moodle_64655",queued_for_human_review
+MN-R-0011,"Utami, Rina Gita",3,T3a_fuzzy_high,0.88,"RINA GITA UTAMI | Rina Gita Utami | Utami, Rina Gita",EMP-2994,auto_merged
+MN-R-0012,Tika  Eko  Situmorang,6,T3b_fuzzy_mid,0.7,"Situmorang, Tika Eko | Tika  Eko  Situmorang | Tika Eko Situmorang | Tika Situmorang","EMP-3206,EMP-9231,moodle_42939,moodle_96482",queued_for_human_review
+MN-R-0013,Jihan Puspita,4,T1_email,0.98,JIHAN PUSPITA | Jihan Puspita,"EMP-9874,candidate_875,moodle_38757",auto_merged
+MN-R-0014,Indah Setiyawan,4,T1_email,0.98,Indah Setiyawan,"EMP-4765,EMP-8015,candidate_876,moodle_49623",auto_merged
+MN-R-0015,A. Hutapea,2,T3a_fuzzy_high,0.88,A. Hutapea,EMP-5188,auto_merged
+MN-R-0016,"Halim, Novi",5,T1_email,0.98,"Halim, Novi | Novi Halim","EMP-9033,candidate_435,moodle_15040",auto_merged
+MN-R-0017,Fajar  Kusuma,5,T1_email,0.98,"Fajar  Kusuma | Fajar Kusuma | Kusuma, Fajar","EMP-6421,moodle_11267",auto_merged
+MN-R-0018,Eko Setiyawan,7,T3b_fuzzy_mid,0.7,Eko Setiyawan,"EMP-4696,EMP-9479,moodle_21916",queued_for_human_review
+MN-R-0019,"Maulana, Lukman",6,T1_email,0.98,"Lukman  Maulana | Lukman Maulana | Maulana, Lukman","EMP-5080,moodle_37399",auto_merged
+MN-R-0020,"Ramadhan, Dwi",7,T3b_fuzzy_mid,0.7,"D. Ramadhan | Dwi Ramadhan | F. Ramadhan | Ramadhan, Dwi","EMP-1331,candidate_997,moodle_63953,moodle_69232",queued_for_human_review
+MN-R-0021,Galih  Lestari,6,T1_email,0.98,GALIH LESTARI | Galih  Lestari | Galih Lestari,"EMP-4257,candidate_420,moodle_13306",auto_merged
+MN-R-0022,Rizki Utami,3,T1_email,0.98,Rizki Utami,"EMP-2316,moodle_97130",auto_merged
+MN-R-0023,Nanda Anggraini,3,T1_email,0.98,NANDA ANGGRAINI | Nanda Anggraini,"EMP-1174,moodle_80029",auto_merged
+MN-R-0024,Fitry Mardiana,5,T1_email,0.98,Fitri Mardiana | Fitry Mardiana,"EMP-6035,moodle_33254",auto_merged
+MN-R-0025,Maya Hidayah,3,T3b_fuzzy_mid,0.7,Maya Hidayah | Maya Hidayat,EMP-3846,queued_for_human_review
+MN-R-0026,TIKA WIBOWO,1,T4_single_hris,0.85,TIKA WIBOWO,EMP-4437,auto_merged
+MN-R-0027,I. Kurniawan,1,T4_single_hris,0.85,I. Kurniawan,EMP-8505,auto_merged
+MN-R-0028,Teguh Rahayu,3,T3a_fuzzy_high,0.88,TEGUH RAHAYU | Teguh Rahayu,"EMP-1239,moodle_89759",auto_merged
+MN-R-0029,"Permana, Mega",2,T3a_fuzzy_high,0.88,"Mega Permana | Permana, Mega","EMP-6896,candidate_443",auto_merged
+MN-R-0030,IMAM PERMANA,7,T1_email,0.98,I. Permana | IMAM PERMANA | Imam Permana,"EMP-4470,moodle_36311",auto_merged
+MN-R-0031,"Handayani, Teguh",6,T1_email,0.98,"Handayani, Teguh | T. Handayani | TEGUH HANDAYANI | Teguh Handayani","EMP-1857,candidate_761,moodle_24906",auto_merged
+MN-R-0032,I. Andi Permana,1,T4_single_hris,0.85,I. Andi Permana,EMP-6412,auto_merged
+MN-R-0033,ANDI SIMANJUNTAK,5,T3b_fuzzy_mid,0.7,A. Simanjuntak | ANDI SIMANJUNTAK | Andi Simanjuntak,"EMP-7715,candidate_608,moodle_75247",queued_for_human_review
+MN-R-0034,"Wibowo, Zainal Oktavianus",6,T1_email,0.98,"Wibowo, Zainal Oktavianus | Z. Oktavianus Wibowo | ZAINAL OKTAVIANUS WIBOWO | Zainal Oktavianus Wibowo","EMP-3376,candidate_807,moodle_92955",auto_merged
+MN-R-0035,Imam  Wijaya,7,T1_email,0.98,"I. Wijaya | IMAM WIJAYA | Imam  Wijaya | Imam Wijaya | Wijaya, Imam","EMP-6566,candidate_332,moodle_93703",auto_merged
+MN-R-0036,Rahmat Kartika Panjaitan,4,T1_email,0.98,R. Kartika Panjaitan | RAHMAT KARTIKA PANJAITAN | Rahmat Kartika Panjaitan,"EMP-3032,moodle_18841",auto_merged
+MN-R-0037,"Firmansyah, Krisna",4,T1_email,0.98,"Firmansyah, Krisna | K. Firmansyah | KRISNA FIRMANSYAH | Krisna Firmansyah","EMP-4106,candidate_209,moodle_56928",auto_merged
+MN-R-0038,Oktavianus  Joko  Simanjuntak,5,T1_email,0.98,"Oktavianus  Joko  Simanjuntak | Oktavianus Joko Simanjuntak | Simanjuntak, Oktavianus Joko","EMP-5078,candidate_314",auto_merged
+MN-R-0039,Andi  Pratama,7,T3b_fuzzy_mid,0.7,ANDI PRATAMA | Andi  Pratama | Andi Pratama,"EMP-1827,EMP-8625,moodle_10191,moodle_75333",queued_for_human_review
+MN-R-0040,Budi  Dwi  Safitri,8,T1_email,0.98,"BUDI DWI SAFITRI | Budi  Dwi  Safitri | Budi Dwi Safitri | Safitri, Budi Dwi","EMP-3395,candidate_675,moodle_33648",auto_merged
+MN-R-0041,"Halim, Wahyu Lukman",1,T4_single_hris,0.85,"Halim, Wahyu Lukman",EMP-9234,auto_merged
+MN-R-0042,Gita  Halim,7,T1_email,0.98,Gita  Halim | Gita Halim,"EMP-9660,candidate_478,moodle_79796",auto_merged
+MN-R-0043,Rahma  Mardiana,6,T3b_fuzzy_mid,0.7,"Mardiana, Rahma | Rahma  Mardiana | Rahma Mardiana","EMP-5387,EMP-5935,candidate_502,candidate_530,moodle_23569",queued_for_human_review
+MN-R-0044,Wulan Santoso,4,T3a_fuzzy_high,0.88,Wulan Santoso,EMP-3488,auto_merged
+MN-R-0045,Oktavia Mardiana,5,T3a_fuzzy_high,0.88,Oktavia Mardiana,"EMP-6261,moodle_90337",auto_merged
+MN-R-0046,Annisa Wibowo,8,T3b_fuzzy_mid,0.7,"A. Wibowo | Andi  Wibowo | Anisa Wibowo | Annisa Wibowo | Wibowo, Andi","EMP-5243,EMP-9358,candidate_981,moodle_22104,moodle_35126",queued_for_human_review
+MN-R-0047,Eko  Kusuma,4,T3a_fuzzy_high,0.88,"Eko  Kusuma | Eko Kusuma | Kusuma, Eko",EMP-5841,auto_merged
+MN-R-0048,Rina  Yulianti,7,T1_email,0.98,"R. Yulianti | Rina  Yulianti | Rina Yulianti | Yulianti, Rina","EMP-9720,candidate_567,moodle_42258",auto_merged
+MN-R-0049,Bayu Kurnianwan,5,T3a_fuzzy_high,0.88,Bayu Kurnianwan | Bayu Kurniawan,"EMP-9580,moodle_56528",auto_merged
+MN-R-0050,Imam Kurnianwan,6,T1_email,0.98,Imam Kurnianwan,"EMP-8505,candidate_741,moodle_45719",auto_merged
+MN-R-0051,"Panjaitan, Oktavianus",4,T3a_fuzzy_high,0.88,"Oktavianus  Panjaitan | Oktavianus Panjaitan | Panjaitan, Oktavianus","EMP-3931,moodle_22711",auto_merged
+MN-R-0052,Teguh Firmansyah,3,T1_email,0.98,T. Firmansyah | Teguh Firmansyah,"EMP-9472,candidate_163",auto_merged
+MN-R-0053,Nuur Safitri,3,T1_email,0.98,Nuur Safitri,"EMP-3014,candidate_611,moodle_17570",auto_merged
+MN-R-0054,Zainal Kusuma,2,T3a_fuzzy_high,0.88,Zainal Kusuma,EMP-4919,auto_merged
+MN-R-0055,Fajar Achmad Kusuma,3,T3a_fuzzy_high,0.88,Fajar Achmad Kusuma,"EMP-4953,candidate_523",auto_merged
+MN-R-0056,Surya Hidayah,3,T3b_fuzzy_mid,0.7,Surya Hidayah | Surya Hidayat,"EMP-1058,candidate_141",queued_for_human_review
+MN-R-0057,Achmad Lestari,4,T2_name_dob,0.92,Achmad Lestari,"EMP-6766,EMP-7827",auto_merged
+MN-R-0058,Erika  Irfan  Saputra,5,T1_email,0.98,"Erika  Irfan  Saputra | Erika Irfan Saputra | Saputra, Erika Irfan","EMP-3497,moodle_49835",auto_merged
+MN-R-0059,Maya  Saputra,2,T1_email,0.98,MAYA SAPUTRA | Maya  Saputra,"EMP-2401,moodle_99119",auto_merged
+MN-R-0060,Irfan  Simanjuntak,5,T1_email,0.98,Irfan  Simanjuntak | Irfan Simanjuntak,"EMP-9721,moodle_96006",auto_merged
+MN-R-0061,Zainal Mardiana,2,T3a_fuzzy_high,0.88,Zainal Mardiana,"EMP-5387,moodle_84702",auto_merged
+MN-R-0062,Rizki Santoso,4,T3a_fuzzy_high,0.88,Rizki Santoso,EMP-4879,auto_merged
+MN-R-0063,"Firmansyah, Zainal Siti",5,T1_email,0.98,"Firmansyah, Zainal Siti | ZAINAL SITI FIRMANSYAH | Zainal Siti Firmansyah","EMP-9801,moodle_12072",auto_merged
+MN-R-0064,WAHYU KARTIKA HALIM,5,T1_email,0.98,WAHYU KARTIKA HALIM | Wahyu Kartika Halim,"EMP-9689,moodle_12018",auto_merged
+MN-R-0065,Hasan Hidayah,4,T1_email,0.98,Hasan Hidayah | Hasan Hidayat,"EMP-8100,candidate_514,moodle_18376",auto_merged
+MN-R-0066,Rahma Nugraha,5,T1_email,0.98,Rahma Nugraha,"EMP-9458,candidate_235,moodle_91169",auto_merged
+MN-R-0067,"Hidayat, Sari Dinda",4,T3b_fuzzy_mid,0.7,"Hidayat, Sari Dinda | S. Dinda Hidayat | Sari Dinda Hidayah","EMP-3790,candidate_177",queued_for_human_review
+MN-R-0068,Dewie Safitri,6,T1_email,0.98,Dewi Safitri | Dewie Safitri,"EMP-1282,candidate_290,moodle_35843",auto_merged
+MN-R-0069,J. Mardiana,1,T4_single_hris,0.85,J. Mardiana,EMP-6762,auto_merged
+MN-R-0070,"Tanujaya, Tika Citra",4,T1_email,0.98,"T. Citra Tanujaya | Tanujaya, Tika Citra | Tika Citra Tanujaya","EMP-9656,candidate_181",auto_merged
+MN-R-0071,Muhamad Yulianti,2,T3a_fuzzy_high,0.88,Muhamad Yulianti,EMP-3317,auto_merged
+MN-R-0072,Annisa Panjaitan,5,T2_name_dob,0.92,"Anisa  Panjaitan | Annisa Panjaitan | Panjaitan, Anisa","EMP-8158,EMP-8742,moodle_40907",auto_merged
+MN-R-0073,Fitry Puspita,3,T3b_fuzzy_mid,0.7,Fitri Puspita | Fitry Puspita,EMP-6618,queued_for_human_review
+MN-R-0074,"Saputra, Yuni",5,T1_email,0.98,"Saputra, Yuni | Yuni Saputra","EMP-9829,candidate_712,moodle_78487",auto_merged
+MN-R-0075,"Hidayat, Jihan Dwi",4,T1_email,0.98,"Hidayat, Jihan Dwi | Jihan Dwi Hidayah | Jihan Dwi Hidayat","EMP-5850,candidate_466,moodle_48244",auto_merged
+MN-R-0076,"Panjaitan, Gita",4,T1_email,0.98,"Gita Panjaitan | Panjaitan, Gita","EMP-1971,moodle_19597",auto_merged
+MN-R-0077,Indah  Anisa  Simanjuntak,6,T1_email,0.98,Indah  Anisa  Simanjuntak | Indah Annisa Simanjuntak,"EMP-4151,moodle_88864",auto_merged
+MN-R-0078,Nuur Maulana,7,T1_email,0.98,Nur Maulana | Nuur Maulana,"EMP-6281,candidate_400,moodle_62137",auto_merged
+MN-R-0079,Eko Nugraha,1,T4_single_hris,0.85,Eko Nugraha,EMP-7000,auto_merged
+MN-R-0080,"Firmansyah, Joko Lukman",7,T1_email,0.98,"Firmansyah, Joko Lukman | J. Lukman Firmansyah | Joko Lukman Firmansyah","EMP-1455,moodle_13777",auto_merged
+MN-R-0081,"Firmansyah, Wahyu",8,T1_email,0.98,"Firmansyah, Wahyu | W. Firmansyah | Wahyu Firmansyah","EMP-1408,EMP-2360,moodle_29449,moodle_64729",auto_merged
+MN-R-0082,WULAN SANTOSO,2,T1_email,0.98,W. Santoso | WULAN SANTOSO,"candidate_570,moodle_99810",auto_merged
+MN-R-0083,"Setiawan, Nanda",5,T1_email,0.98,"Nanda Setiyawan | Setiawan, Nanda","EMP-9066,moodle_42274",auto_merged
+MN-R-0084,T. Citra Tanujaya,1,T4_single_hris,0.85,T. Citra Tanujaya,EMP-9656,auto_merged
+MN-R-0085,"Wibowo, Wahyu",3,T1_email,0.98,"W. Wibowo | Wahyu Wibowo | Wibowo, Wahyu","EMP-2280,moodle_32206",auto_merged
+MN-R-0086,Maya Lestari,3,T1_email,0.98,M. Lestari | Maya Lestari,"EMP-6684,candidate_909,moodle_18838",auto_merged
+MN-R-0087,Dedi  Wibowo,4,T3a_fuzzy_high,0.88,DEDI WIBOWO | Dedi  Wibowo | Dedi Wibowo,"EMP-6726,moodle_86529",auto_merged
+MN-R-0088,"Permana, Lestari",3,T3a_fuzzy_high,0.88,"Lestari Permana | Permana, Lestari",EMP-8896,auto_merged
+MN-R-0089,"Halim, Hasan",2,T3a_fuzzy_high,0.88,"HASAN HALIM | Halim, Hasan",EMP-4450,auto_merged
+MN-R-0090,Eko  Puspita,4,T1_email,0.98,Eko  Puspita | Eko Puspita,"EMP-6444,candidate_886,moodle_12940",auto_merged
+MN-R-0091,"Hutapea, Rahma",5,T1_email,0.98,"Hutapea, Rahma | RAHMA HUTAPEA | Rahma Hutapea","EMP-2322,candidate_343,moodle_69318",auto_merged
+MN-R-0092,Fitry Puspita,6,T3b_fuzzy_mid,0.7,E. Puspita | F. Puspita | Fitry Puspita | N. Puspita,"EMP-5508,EMP-6444,EMP-6618,candidate_424,moodle_12940,moodle_37522",queued_for_human_review
+MN-R-0093,Wahyu  Firmansyah,2,T3a_fuzzy_high,0.88,Wahyu  Firmansyah | Wahyu Firmansyah,"EMP-2360,moodle_64729",auto_merged
+MN-R-0094,"Tanujaya, Ratna",4,T2_name_dob,0.92,"Ratna  Tanujaya | Ratna Tanujaya | Tanujaya, Ratna","EMP-6197,EMP-8657",auto_merged
+MN-R-0095,Maya  Intan  Handayani,7,T3b_fuzzy_mid,0.7,"Handayani, Maya Intan | M. Intan Handayani | MAYA INTAN HANDAYANI | Maya  Intan  Handayani | Maya Intan Handayani","EMP-4398,candidate_337,moodle_91056",queued_for_human_review
+MN-R-0096,Dwi Utami,3,T3a_fuzzy_high,0.88,DWI UTAMI | Dwi Utami,EMP-9501,auto_merged
+MN-R-0097,Rahma  Anggraini,7,T1_email,0.98,"Anggraini, Rahma | R. Anggraini | RAHMA ANGGRAINI | Rahma  Anggraini | Rahma Anggraini","EMP-7047,candidate_675,moodle_25311",auto_merged
+MN-R-0098,"Saputra, Eko",7,T3b_fuzzy_mid,0.7,"E. Saputra | EKO SAPUTRA | Eko Saputra | Saputra, Eko | Y. Saputra","EMP-6483,candidate_110,moodle_26570,moodle_78487",queued_for_human_review
+MN-R-0099,Risky Nugroho,3,T1_email,0.98,Risky Nugroho | Rizki Nugroho,"EMP-7270,moodle_36540",auto_merged
+MN-R-0100,Siti Wijaya,5,T1_email,0.98,SITI WIJAYA | Siti Wijaya,"EMP-1600,moodle_35836",auto_merged
+MN-R-0101,Oktavianus Wijaya,1,T4_single_hris,0.85,Oktavianus Wijaya,EMP-6936,auto_merged
+MN-R-0102,BUDI TANUJAYA,7,T3b_fuzzy_mid,0.7,BUDI TANUJAYA | Budi Tanujaya,"EMP-7206,EMP-8441,moodle_11584,moodle_80257",queued_for_human_review
+MN-R-0103,Novi Kurnianwan,6,T1_email,0.98,Novi Kurnianwan,"EMP-5172,moodle_28286",auto_merged
+MN-R-0104,"Ramadhan, Fitri",2,T3a_fuzzy_high,0.88,"Fitri Ramadhan | Ramadhan, Fitri","EMP-5049,moodle_69232",auto_merged
+MN-R-0105,Fitry Saputra,4,T1_email,0.98,F. Saputra | Fitry Saputra,"EMP-9505,candidate_452,moodle_41632",auto_merged
+MN-R-0106,Novi  Wibowo,7,T2_name_dob,0.92,NOVI WIBOWO | Novi  Wibowo | Novi Wibowo,"EMP-7114,EMP-9007,candidate_602,moodle_64655",auto_merged
+MN-R-0107,"Ramadhan, Zainal",5,T3a_fuzzy_high,0.88,"Ramadhan, Zainal | Zainal  Ramadhan | Zainal Ramadhan","EMP-5846,moodle_11128",auto_merged
+MN-R-0108,P. Permana,1,T4_single_hris,0.85,P. Permana,EMP-8876,auto_merged
+MN-R-0109,D. Kurniawan,1,T4_single_hris,0.85,D. Kurniawan,EMP-9318,auto_merged
+MN-R-0110,Achmad Simanjuntak,4,T3a_fuzzy_high,0.88,Achmad Simanjuntak | Ahmad Simanjuntak,EMP-3589,auto_merged
+MN-R-0111,"Panjaitan, Tika",2,T3a_fuzzy_high,0.88,"Panjaitan, Tika | Tika Panjaitan",EMP-2253,auto_merged
+MN-R-0112,Lukman  Wijaya,7,T2_name_dob,0.92,"Lukman  Wijaya | Lukman Wijaya | Wijaya, Lukman","EMP-9453,candidate_677,moodle_16106",auto_merged
+MN-R-0113,"Wijaya, Nanda",5,T3a_fuzzy_high,0.88,"NANDA WIJAYA | Nanda Wijaya | Wijaya, Nanda","EMP-8190,moodle_12085",auto_merged
+MN-R-0114,WAHYU TANUJAYA,3,T1_email,0.98,W. Tanujaya | WAHYU TANUJAYA | Wahyu Tanujaya,"EMP-4845,candidate_124,moodle_84114",auto_merged
+MN-R-0115,"Anggraini, Bayu",3,T1_email,0.98,"Anggraini, Bayu | Bayu  Anggraini","EMP-9192,candidate_761",auto_merged
+MN-R-0116,"Maulana, Yusuf",6,T1_email,0.98,"Maulana, Yusuf | Y. Maulana | Yusuf  Maulana | Yusuf Maulana","EMP-9969,moodle_99705",auto_merged
+MN-R-0117,Lestari Galih Lestari,3,T1_email,0.98,L. Galih Lestari | Lestari Galih Lestari,"EMP-9462,moodle_92714",auto_merged
+MN-R-0118,Hasan Nugraha,6,T1_email,0.98,Hasan Nugraha,"EMP-4438,moodle_31167",auto_merged
+MN-R-0119,Lestari  Hana  Mardiana,6,T1_email,0.98,L. Hana Mardiana | Lestari  Hana  Mardiana | Lestari Hana Mardiana,"EMP-7809,candidate_572,moodle_53824",auto_merged
+MN-R-0120,Irfan  Pratama,5,T1_email,0.98,"Irfan  Pratama | Irfan Pratama | Pratama, Irfan","EMP-4904,candidate_163,moodle_33754",auto_merged
+MN-R-0121,Rizki Sanjaya,4,T1_email,0.98,Rizki Sanjaya,"EMP-6112,moodle_41847",auto_merged
+MN-R-0122,Surya  Indah  Firmansyah,6,T1_email,0.98,"Firmansyah, Surya Indah | SURYA INDAH FIRMANSYAH | Surya  Indah  Firmansyah | Surya Indah Firmansyah","EMP-2657,moodle_31984",auto_merged
+MN-R-0123,Gita  Wulan  Pratama,2,T1_email,0.98,G. Wulan Pratama | Gita  Wulan  Pratama,"EMP-2619,moodle_89430",auto_merged
+MN-R-0124,Gita  Budi  Maulana,3,T3a_fuzzy_high,0.88,"Gita  Budi  Maulana | Gita Budi Maulana | Maulana, Gita Budi","EMP-6089,moodle_35821",auto_merged
+MN-R-0125,"Santoso, Maya",5,T1_email,0.98,"M. Santoso | Maya Santoso | Santoso, Maya","EMP-8666,candidate_883,moodle_72974",auto_merged
+MN-R-0126,Maya  Safitri,4,T1_email,0.98,M. Safitri | Maya  Safitri,"EMP-4750,candidate_525,moodle_66948,moodle_70620",auto_merged
+MN-R-0127,JOKO MARDIANA,4,T1_email,0.98,JOKO MARDIANA | Joko Mardiana,"EMP-6762,candidate_287",auto_merged
+MN-R-0128,A. Wibowo,2,T3a_fuzzy_high,0.88,A. Wibowo,EMP-5243,auto_merged
+MN-R-0129,Rina  Irfan  Utami,6,T1_email,0.98,"Rina  Irfan  Utami | Rina Irfan Utami | Utami, Rina Irfan","EMP-2091,EMP-4651,moodle_41962",auto_merged
+MN-R-0130,RATNA WULAN SIMANJUNTAK,2,T1_email,0.98,RATNA WULAN SIMANJUNTAK | Ratna Wulan Simanjuntak,"EMP-6015,moodle_88371",auto_merged
+MN-R-0131,"Lestari, Dedi",5,T1_email,0.98,"D. Lestari | DEDI LESTARI | Dedi Lestari | Lestari, Dedi","EMP-8679,candidate_990,moodle_70555",auto_merged
+MN-R-0132,Dwi  Bayu  Handayani,7,T3b_fuzzy_mid,0.7,"Budi Handayani | D. Bayu Handayani | Dwi  Bayu  Handayani | Handayani, Dwi Bayu","EMP-9084,candidate_661,candidate_899,moodle_21809,moodle_87996",queued_for_human_review
+MN-R-0133,Rizki Rahayu,2,T1_email,0.98,Rizki Rahayu,"EMP-4035,moodle_78292",auto_merged
+MN-R-0134,Lestari  Galih  Lestari,4,T2_name_dob,0.92,LESTARI GALIH LESTARI | Lestari  Galih  Lestari | Lestari Galih Lestari,"EMP-9462,candidate_417,moodle_92714",auto_merged
+MN-R-0135,Oktavianus  Pratama,4,T1_email,0.98,O. Pratama | Oktavianus  Pratama | Oktavianus Pratama,"EMP-5794,moodle_39183",auto_merged
+MN-R-0136,"Halim, Citra",4,T1_email,0.98,"CITRA HALIM | Citra Halim | Halim, Citra","EMP-8394,moodle_79883",auto_merged
+MN-R-0137,"Handayani, Rina",4,T1_email,0.98,"Handayani, Rina | R. Handayani | Rina  Handayani | Rina Handayani","EMP-1955,moodle_22111",auto_merged
+MN-R-0138,H. Halim,3,T3b_fuzzy_mid,0.7,H. Halim | S. Halim,"EMP-1018,EMP-4450",queued_for_human_review
+MN-R-0139,Imam Hidayah,2,T1_email,0.98,Imam Hidayah,"EMP-3907,candidate_362",auto_merged
+MN-R-0140,Andi Rizki Maulana,5,T3b_fuzzy_mid,0.7,Andi Risky Maulana | Andi Rizki Maulana,"EMP-2803,moodle_11855",queued_for_human_review
+MN-R-0141,"Safitri, Maya",3,T3a_fuzzy_high,0.88,"Maya Safitri | Safitri, Maya",EMP-4750,auto_merged
+MN-R-0142,"Puspita, Budi",3,T3a_fuzzy_high,0.88,"Budi  Puspita | Puspita, Budi",EMP-7790,auto_merged
+MN-R-0143,Intan  Andi  Permana,3,T3a_fuzzy_high,0.88,Intan  Andi  Permana | Intan Andi Permana,EMP-6412,auto_merged
+MN-R-0144,Sari  Anggraini,3,T1_email,0.98,Sari  Anggraini | Sari Anggraini,"EMP-8224,candidate_937",auto_merged
+MN-R-0145,T. Panjaitan,2,T3a_fuzzy_high,0.88,T. Panjaitan,EMP-2253,auto_merged
+MN-R-0146,G. Ramadhan,1,T4_single_hris,0.85,G. Ramadhan,EMP-6437,auto_merged
+MN-R-0147,Y. Halim,1,T4_single_hris,0.85,Y. Halim,EMP-8798,auto_merged
+MN-R-0148,M. Lestari,3,T3b_fuzzy_mid,0.7,D. Lestari | M. Lestari,"EMP-1833,moodle_70555",queued_for_human_review
+MN-R-0149,Krisna Maulana,2,T3a_fuzzy_high,0.88,Krisna Maulana,EMP-9989,auto_merged
+MN-R-0150,RAHMAT RINA ANGGRAINI,5,T1_email,0.98,R. Rina Anggraini | RAHMAT RINA ANGGRAINI | Rahmat Rina Anggraini,"EMP-1625,candidate_286,moodle_27929",auto_merged
+MN-R-0151,I. Pratama,3,T3b_fuzzy_mid,0.7,I. Pratama | N. Pratama,"candidate_927,moodle_44617,moodle_95458",queued_for_human_review
+MN-R-0152,R. Hutapea,2,T3a_fuzzy_high,0.88,R. Hutapea,EMP-2322,auto_merged
+MN-R-0153,Muhamad Sari Ramadhan,7,T1_email,0.98,M. Sari Ramadhan | Muhamad Sari Ramadhan,"EMP-1958,moodle_78758",auto_merged
+MN-R-0154,Maya Hutapea,6,T3b_fuzzy_mid,0.7,Ayu Hutapea | MAYA HUTAPEA | Maya Hutapea,"EMP-4786,EMP-5188,candidate_946,moodle_99381",queued_for_human_review
+MN-R-0155,"Mardiana, Yuni",7,T3b_fuzzy_mid,0.7,"Mardiana, Yuni | YUNI MARDIANA | Yuni  Mardiana | Yuni Mardiana","EMP-4662,EMP-4989,EMP-5383,candidate_196",queued_for_human_review
+MN-R-0156,Achmad Hutapea,3,T3b_fuzzy_mid,0.7,Achmad Hutapea | Ahmad Hutapea,"EMP-1942,candidate_475",queued_for_human_review
+MN-R-0157,M. Hidayat,1,T4_orphan,0.45,M. Hidayat,moodle_10503,queued_for_human_review
+MN-R-0158,"Mardiana, Bagus",2,T1_email,0.98,"B. Mardiana | Mardiana, Bagus","EMP-3426,moodle_73725",auto_merged
+MN-R-0159,Agus  Dwi  Ramadhan,5,T2_name_dob,0.92,"AGUS DWI RAMADHAN | Agus  Dwi  Ramadhan | Agus Dwi Ramadhan | Ramadhan, Agus Dwi","EMP-6642,candidate_299",auto_merged
+MN-R-0160,PRASETYO KRISNA ANGGRAINI,4,T3b_fuzzy_mid,0.7,PRASETYO KRISNA ANGGRAINI | Prasetya Krisna Anggraini,"EMP-6941,candidate_149,moodle_80530",queued_for_human_review
+MN-R-0161,"Kusuma, Hana",3,T1_email,0.98,"Hana Kusuma | Kusuma, Hana","EMP-9342,candidate_681",auto_merged
+MN-R-0162,Lestari Puspita,3,T1_email,0.98,L. Puspita | Lestari Puspita,"EMP-3134,moodle_17899",auto_merged
+MN-R-0163,A. Pratama,1,T4_single_hris,0.85,A. Pratama,EMP-1827,auto_merged
+MN-R-0164,Dwi Rahayu,2,T1_email,0.98,Dwi Rahayu,"EMP-5176,moodle_10838",auto_merged
+MN-R-0165,R. Mardiana,1,T4_single_hris,0.85,R. Mardiana,EMP-5935,auto_merged
+MN-R-0166,Risky Rahma Utami,3,T3b_fuzzy_mid,0.7,Risky Rahma Utami | Rizki Rahma Utami,"EMP-7950,candidate_897",queued_for_human_review
+MN-R-0167,Laras Hidayah,5,T3b_fuzzy_mid,0.7,Laras Hidayah | Laras Hidayat,"EMP-3371,candidate_221",queued_for_human_review
+MN-R-0168,I. Lestari,3,T3a_fuzzy_high,0.88,I. Lestari,EMP-7956,auto_merged
+MN-R-0169,Hendra  Yusuf  Santoso,4,T3a_fuzzy_high,0.88,"Hendra  Yusuf  Santoso | Hendra Yusuf Santoso | Santoso, Hendra Yusuf",EMP-2144,auto_merged
+MN-R-0170,W. Wijaya,2,T1_email,0.98,W. Wijaya,"EMP-7406,candidate_760",auto_merged
+MN-R-0171,Intan Citra Wijaya,2,T1_email,0.98,I. Citra Wijaya | Intan Citra Wijaya,"candidate_460,moodle_50377",auto_merged
+MN-R-0172,"Wibowo, Mega Sari",5,T3b_fuzzy_mid,0.7,"M. Sari Wibowo | Mega Sari Wibowo | Wibowo, Mega Sari","EMP-8235,candidate_999",queued_for_human_review
+MN-R-0173,"Utami, Dwi",3,T1_email,0.98,"D. Utami | DWI UTAMI | Utami, Dwi","candidate_560,moodle_38210",auto_merged
+MN-R-0174,Yuni Situmorang,1,T4_single_hris,0.85,Yuni Situmorang,EMP-5276,auto_merged
+MN-R-0175,Sari Halim,2,T2_name_dob,0.92,Sari Halim,"EMP-1018,candidate_321",auto_merged
+MN-R-0176,Lukman  Rahayu,4,T3a_fuzzy_high,0.88,"Lukman  Rahayu | Rahayu, Lukman","EMP-6077,candidate_477",auto_merged
+MN-R-0177,Rahma  Nugroho,1,T4_single_hris,0.85,Rahma  Nugroho,EMP-9458,auto_merged
+MN-R-0178,"Puspita, Mega",3,T3a_fuzzy_high,0.88,"Mega Puspita | Puspita, Mega",EMP-7653,auto_merged
+MN-R-0179,J. Yuni Safitri,2,T3a_fuzzy_high,0.88,J. Yuni Safitri,EMP-4053,auto_merged
+MN-R-0180,"Firmansyah, Imam",4,T3b_fuzzy_mid,0.7,"Firmansyah, Imam | Imam  Firmansyah | TIKA FIRMANSYAH | Tika Firmansyah","EMP-1729,EMP-5068,EMP-9956,moodle_82189",queued_for_human_review
+MN-R-0181,Yuni Halim,3,T3a_fuzzy_high,0.88,YUNI HALIM | Yuni Halim,"EMP-8798,candidate_461",auto_merged
+MN-R-0182,"Santoso, Hendra",5,T1_email,0.98,"H. Santoso | HENDRA SANTOSO | Hendra Santoso | Santoso, Hendra","EMP-7700,candidate_475,moodle_50152",auto_merged
+MN-R-0183,GALIH RAMADHAN,4,T1_email,0.98,GALIH RAMADHAN | Galih Ramadhan,"EMP-6437,moodle_89549",auto_merged
+MN-R-0184,"Tanujaya, Yoga",4,T3a_fuzzy_high,0.88,"Tanujaya, Yoga | YOGA TANUJAYA | Yoga Tanujaya","EMP-3055,candidate_696",auto_merged
+MN-R-0185,Dewie Lestari,3,T1_email,0.98,"Dewie Lestari | Lestari, Dewi","EMP-8487,moodle_75010",auto_merged
+MN-R-0186,NUR KARTIKA HANDAYANI,2,T3a_fuzzy_high,0.88,NUR KARTIKA HANDAYANI | Nur Kartika Handayani,"EMP-6591,moodle_48870",auto_merged
+MN-R-0187,Tika Puspita,2,T1_email,0.98,T. Puspita | Tika Puspita,"EMP-8044,candidate_282",auto_merged
+MN-R-0188,"Lestari, Sari",3,T2_name_dob,0.92,"Lestari, Sari | Sari Lestari","EMP-1049,candidate_670",auto_merged
+MN-R-0189,Fitri Panjaitan,4,T3b_fuzzy_mid,0.7,Fitri Panjaitan | Fitry Panjaitan,"EMP-8643,moodle_51828",queued_for_human_review
+MN-R-0190,Agus Setiyawan,1,T4_single_hris,0.85,Agus Setiyawan,EMP-6488,auto_merged
+MN-R-0191,IRFAN LESTARI,1,T4_single_hris,0.85,IRFAN LESTARI,EMP-7956,auto_merged
+MN-R-0192,Zainal Maulana,2,T3a_fuzzy_high,0.88,Zainal Maulana,EMP-1385,auto_merged
+MN-R-0193,Bagus Nugraha,2,T3a_fuzzy_high,0.88,Bagus Nugraha,EMP-3740,auto_merged
+MN-R-0194,"Pratama, Novi",2,T3a_fuzzy_high,0.88,"Novi Pratama | Pratama, Novi",EMP-9121,auto_merged
+MN-R-0195,"Puspita, Hasan",2,T3a_fuzzy_high,0.88,"Hasan Puspita | Puspita, Hasan",EMP-6519,auto_merged
+MN-R-0196,R. Gita Utami,1,T4_single_hris,0.85,R. Gita Utami,EMP-2994,auto_merged
+MN-R-0197,"Safitri, Jihan Yuni",2,T3a_fuzzy_high,0.88,"JIHAN YUNI SAFITRI | Safitri, Jihan Yuni",EMP-4053,auto_merged
+MN-R-0198,Wahyu Yulianti,2,T3a_fuzzy_high,0.88,Wahyu Yulianti,EMP-5488,auto_merged
+MN-R-0199,L. Rahayu,1,T4_single_hris,0.85,L. Rahayu,EMP-6077,auto_merged
+MN-R-0200,Sari Muhamad Mardiana,2,T3a_fuzzy_high,0.88,Sari Muhamad Mardiana,EMP-3698,auto_merged
+MN-R-0201,F. Situmorang,1,T4_single_hris,0.85,F. Situmorang,EMP-8091,auto_merged
+MN-R-0202,H. Nadia Safitri,1,T4_single_hris,0.85,H. Nadia Safitri,EMP-5657,auto_merged
+MN-R-0203,G. Panjaitan,1,T4_single_hris,0.85,G. Panjaitan,EMP-1971,auto_merged
+MN-R-0204,H. Kusuma,3,T3b_fuzzy_mid,0.7,E. Kusuma | H. Kusuma,"EMP-9342,candidate_470",queued_for_human_review
+MN-R-0205,Wulan Annisa Saputra,1,T4_single_hris,0.85,Wulan Annisa Saputra,EMP-1920,auto_merged
+MN-R-0206,Oktavianus Anggraini,3,T3a_fuzzy_high,0.88,OKTAVIANUS ANGGRAINI | Oktavianus Anggraini,EMP-1345,auto_merged
+MN-R-0207,O. Panjaitan,1,T4_single_hris,0.85,O. Panjaitan,EMP-3931,auto_merged
+MN-R-0208,C. Halim,1,T4_single_hris,0.85,C. Halim,EMP-8394,auto_merged
+MN-R-0209,"Wijaya, Yuni",2,T1_email,0.98,"Wijaya, Yuni | Yuni  Wijaya","EMP-9023,candidate_472",auto_merged
+MN-R-0210,N. Anggraini,1,T4_single_hris,0.85,N. Anggraini,EMP-1174,auto_merged
+MN-R-0211,W. Lukman Halim,2,T1_email,0.98,W. Lukman Halim,"EMP-9234,moodle_17162",auto_merged
+MN-R-0212,Rizki Nugroho,2,T3a_fuzzy_high,0.88,Rizki Nugroho,EMP-7270,auto_merged
+MN-R-0213,Achmad Utami,1,T4_single_hris,0.85,Achmad Utami,EMP-3073,auto_merged
+MN-R-0214,Muhamad Safitri,2,T3a_fuzzy_high,0.88,Muhamad Safitri,"EMP-4919,candidate_121",auto_merged
+MN-R-0215,Hana Situmorang,2,T2_name_dob,0.92,Hana Situmorang,"EMP-7985,candidate_477",auto_merged
+MN-R-0216,I. Simanjuntak,1,T4_single_hris,0.85,I. Simanjuntak,EMP-9721,auto_merged
+MN-R-0217,"Halim, Fajar",2,T3a_fuzzy_high,0.88,"Fajar Halim | Halim, Fajar",EMP-8237,auto_merged
+MN-R-0218,"Permana, Irfan",4,T3a_fuzzy_high,0.88,"IRFAN PERMANA | Irfan Permana | Permana, Irfan",EMP-3131,auto_merged
+MN-R-0219,"Mardiana, Teguh",3,T1_email,0.98,"Mardiana, Teguh | TEGUH MARDIANA | Teguh Mardiana","EMP-6442,candidate_603,moodle_74032",auto_merged
+MN-R-0220,Intan Citra Wijaya,1,T4_single_hris,0.85,Intan Citra Wijaya,EMP-5632,auto_merged
+MN-R-0221,Mega Lestari,2,T3a_fuzzy_high,0.88,Mega Lestari,EMP-1833,auto_merged
+MN-R-0222,Risky Santoso,1,T4_orphan,0.45,Risky Santoso,moodle_93792,queued_for_human_review
+MN-R-0223,Annisa Situmorang,2,T3a_fuzzy_high,0.88,Annisa Situmorang,EMP-9489,auto_merged
+MN-R-0224,Nanda  Permana,1,T4_single_hris,0.85,Nanda  Permana,EMP-7154,auto_merged
+MN-R-0225,Sari Moh. Mardiana,2,T3b_fuzzy_mid,0.7,Sari M. Mardiana | Sari Moh. Mardiana,EMP-3698,queued_for_human_review
+MN-R-0226,"Anggraini, Ayu",1,T4_single_hris,0.85,"Anggraini, Ayu",EMP-8756,auto_merged
+MN-R-0227,Citra Pratama,1,T4_single_hris,0.85,Citra Pratama,EMP-7837,auto_merged
+MN-R-0228,"Pratama, Imam",1,T4_single_hris,0.85,"Pratama, Imam",EMP-7861,auto_merged
+MN-R-0229,Dewie Kurniawan,1,T4_single_hris,0.85,Dewie Kurniawan,EMP-9318,auto_merged
+MN-R-0230,C. Kurniawan,1,T4_single_hris,0.85,C. Kurniawan,EMP-8806,auto_merged
+MN-R-0231,F. Halim,1,T4_single_hris,0.85,F. Halim,EMP-8237,auto_merged
+MN-R-0232,Eko Nugroho,1,T4_single_hris,0.85,Eko Nugroho,EMP-7000,auto_merged

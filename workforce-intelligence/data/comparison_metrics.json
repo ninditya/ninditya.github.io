@@ -1,0 +1,449 @@
+{
+  "generated_at": "2026-08-07",
+  "seed": 20260807,
+  "dataset_a": {
+    "total_rows": 820,
+    "represents_persons": 200,
+    "distinct_raw_job_titles": 70,
+    "hris_skill_blank_rate": 0.555,
+    "naive_groups_formed": 219,
+    "conflicting_hire_dates": 88,
+    "transfer_recorded_as_termination": 10,
+    "unreliable_pre_2022_perf_rows": 0
+  },
+  "dataset_b": {
+    "resolved_persons": 232,
+    "ground_truth_persons": 200,
+    "over_split_records": 32,
+    "canonical_roles": 10,
+    "auto_approved": 129,
+    "flagged_for_review": 103,
+    "flag_rate": 0.444,
+    "titles_unmapped": 2,
+    "persons_with_no_skill_signal": 65
+  },
+  "headline_finding": {
+    "claim": "Analisis naif di atas Dataset A mengarahkan intervensi ke cabang dengan pencatatan HRIS terburuk, bukan ke cabang dengan gap skill sesungguhnya.",
+    "share_of_top10_from_low_adoption_branches_dataset_a": 0.5,
+    "share_of_top10_from_low_adoption_branches_dataset_b": 0.3,
+    "branches_in_top10_A_only": [
+      "Balikpapan",
+      "Bekasi",
+      "Palembang"
+    ],
+    "branches_in_top10_B_only": [
+      "Bandung",
+      "Denpasar",
+      "Jakarta Pusat",
+      "Makassar"
+    ],
+    "top10_branch_overlap": 4,
+    "implication": "Model attrition yang dilatih di atas Dataset A akan mempelajari higienitas pencatatan cabang, bukan risiko tenaga kerja. Inilah penjelasan mekanistik untuk skenario Day 75: 82 persen akurasi dengan hasil yang terasa salah bagi manajer HR."
+  },
+  "adoption_tier_effect": {
+    "mean_gap_score_dataset_a_by_adoption_tier": {
+      "low": 0.965,
+      "high": 0.504,
+      "mid": 0.647
+    },
+    "mean_gap_score_dataset_b_by_adoption_tier": {
+      "high": 0.486,
+      "low": 0.553,
+      "mid": 0.527
+    },
+    "spread_dataset_a": 0.461,
+    "spread_dataset_b": 0.067,
+    "spread_reduction": 0.394,
+    "claim": "Skill sebenarnya digenerate dari distribusi identik untuk semua tier adopsi HRIS. Karena itu seluruh rentang antar tier pada Dataset A adalah artefak pencatatan, bukan realitas tenaga kerja."
+  },
+  "individual_level_comparison": {
+    "top_k": 30,
+    "hris_id_collisions": 2,
+    "tied_at_max_naive_score": 111,
+    "agreement_count": 10,
+    "agreement_rate": 0.333,
+    "false_alarm_count": 20,
+    "missed_count": 20,
+    "false_alarms_sample": [
+      {
+        "record_id": "EMP-1018",
+        "name": "Sari Halim",
+        "branch": "Manado",
+        "skills_recorded": 0,
+        "naive_need_score": 1.0
+      },
+      {
+        "record_id": "EMP-1174",
+        "name": "Nanda Anggraini",
+        "branch": "Bekasi",
+        "skills_recorded": 0,
+        "naive_need_score": 1.0
+      },
+      {
+        "record_id": "EMP-1282",
+        "name": "Dewie Safitri",
+        "branch": "Bandung",
+        "skills_recorded": 0,
+        "naive_need_score": 1.0
+      },
+      {
+        "record_id": "EMP-1385",
+        "name": "Zainal Maulana",
+        "branch": "Makassar",
+        "skills_recorded": 0,
+        "naive_need_score": 1.0
+      },
+      {
+        "record_id": "EMP-1455",
+        "name": "Joko Lukman Firmansyah",
+        "branch": "Makassar",
+        "skills_recorded": 0,
+        "naive_need_score": 1.0
+      },
+      {
+        "record_id": "EMP-1600",
+        "name": "SITI WIJAYA",
+        "branch": "Yogyakarta",
+        "skills_recorded": 0,
+        "naive_need_score": 1.0
+      },
+      {
+        "record_id": "EMP-1625",
+        "name": "RAHMAT RINA ANGGRAINI",
+        "branch": "Medan",
+        "skills_recorded": 0,
+        "naive_need_score": 1.0
+      },
+      {
+        "record_id": "EMP-1857",
+        "name": "T. Handayani",
+        "branch": "Semarang",
+        "skills_recorded": 0,
+        "naive_need_score": 1.0
+      }
+    ],
+    "missed_sample": [
+      {
+        "person_id": "MN-R-0001",
+        "name": "Hasan Nadia Safitri",
+        "branch": "Bandung",
+        "canonical_title": "Warehouse Staff",
+        "gap": 1.0,
+        "skill_coverage": "0/4"
+      },
+      {
+        "person_id": "MN-R-0051",
+        "name": "Panjaitan, Oktavianus",
+        "branch": "Makassar",
+        "canonical_title": "Senior Sales Representative",
+        "gap": 1.0,
+        "skill_coverage": "0/5"
+      },
+      {
+        "person_id": "MN-R-0160",
+        "name": "PRASETYO KRISNA ANGGRAINI",
+        "branch": "Manado",
+        "canonical_title": "Finance & Admin Staff",
+        "gap": 1.0,
+        "skill_coverage": "0/3"
+      },
+      {
+        "person_id": "MN-R-0171",
+        "name": "Intan Citra Wijaya",
+        "branch": "Bandung",
+        "canonical_title": "Warehouse Staff",
+        "gap": 1.0,
+        "skill_coverage": "0/4"
+      },
+      {
+        "person_id": "MN-R-0188",
+        "name": "Lestari, Sari",
+        "branch": "Medan",
+        "canonical_title": "Finance & Admin Staff",
+        "gap": 1.0,
+        "skill_coverage": "0/3"
+      },
+      {
+        "person_id": "MN-R-0016",
+        "name": "Halim, Novi",
+        "branch": "Bekasi",
+        "canonical_title": "Branch Sales Manager",
+        "gap": 0.8,
+        "skill_coverage": "1/5"
+      },
+      {
+        "person_id": "MN-R-0052",
+        "name": "Teguh Firmansyah",
+        "branch": "Jakarta Pusat",
+        "canonical_title": "Branch Sales Manager",
+        "gap": 0.8,
+        "skill_coverage": "1/5"
+      },
+      {
+        "person_id": "MN-R-0174",
+        "name": "Yuni Situmorang",
+        "branch": "Bekasi",
+        "canonical_title": "Warehouse Supervisor",
+        "gap": 0.8,
+        "skill_coverage": "1/5"
+      }
+    ],
+    "interpretation": "Orang yang muncul di daftar A tapi hilang di daftar B umumnya bukan orang dengan gap skill, melainkan orang yang record HRIS-nya tidak diisi. Intervensi reskilling yang diarahkan ke mereka membakar anggaran pelatihan pada masalah pencatatan."
+  },
+  "team_ranking_dataset_a_top10": [
+    {
+      "branch": "Medan",
+      "group": "warehouse operator",
+      "headcount": 4,
+      "avg_skills_recorded": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Manado",
+      "group": "warehouse operator",
+      "headcount": 4,
+      "avg_skills_recorded": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Palembang",
+      "group": "sr medical rep",
+      "headcount": 3,
+      "avg_skills_recorded": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Surabaya",
+      "group": "asisten apoteker",
+      "headcount": 2,
+      "avg_skills_recorded": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Bekasi",
+      "group": "senior sales",
+      "headcount": 2,
+      "avg_skills_recorded": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Manado",
+      "group": "sales 1",
+      "headcount": 2,
+      "avg_skills_recorded": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Manado",
+      "group": "sales junior",
+      "headcount": 2,
+      "avg_skills_recorded": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Semarang",
+      "group": "qa officer",
+      "headcount": 2,
+      "avg_skills_recorded": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Surabaya",
+      "group": "distribution coordinator",
+      "headcount": 2,
+      "avg_skills_recorded": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Balikpapan",
+      "group": "admin",
+      "headcount": 2,
+      "avg_skills_recorded": 0.0,
+      "gap_score": 1.0
+    }
+  ],
+  "team_ranking_dataset_b_top10": [
+    {
+      "branch": "Bandung",
+      "group": "WHS_STAFF",
+      "canonical_title": "Warehouse Staff",
+      "headcount": 4,
+      "signal_ratio": 0.5,
+      "skill_coverage": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Surabaya",
+      "group": "WHS_STAFF",
+      "canonical_title": "Warehouse Staff",
+      "headcount": 2,
+      "signal_ratio": 0.5,
+      "skill_coverage": 0.125,
+      "gap_score": 0.875
+    },
+    {
+      "branch": "Makassar",
+      "group": "QA_REG",
+      "canonical_title": "Regulatory & QA Officer",
+      "headcount": 2,
+      "signal_ratio": 0.5,
+      "skill_coverage": 0.125,
+      "gap_score": 0.875
+    },
+    {
+      "branch": "Semarang",
+      "group": "SALES_JR",
+      "canonical_title": "Sales Representative",
+      "headcount": 2,
+      "signal_ratio": 1.0,
+      "skill_coverage": 0.125,
+      "gap_score": 0.875
+    },
+    {
+      "branch": "Makassar",
+      "group": "SALES_JR",
+      "canonical_title": "Sales Representative",
+      "headcount": 3,
+      "signal_ratio": 0.667,
+      "skill_coverage": 0.167,
+      "gap_score": 0.833
+    },
+    {
+      "branch": "Manado",
+      "group": "PHARM_SPEC",
+      "canonical_title": "Product Specialist (Pharma)",
+      "headcount": 3,
+      "signal_ratio": 0.667,
+      "skill_coverage": 0.167,
+      "gap_score": 0.833
+    },
+    {
+      "branch": "Denpasar",
+      "group": "LOG_COORD",
+      "canonical_title": "Logistics Coordinator",
+      "headcount": 3,
+      "signal_ratio": 0.667,
+      "skill_coverage": 0.167,
+      "gap_score": 0.833
+    },
+    {
+      "branch": "Bandung",
+      "group": "FIN_ADMIN",
+      "canonical_title": "Finance & Admin Staff",
+      "headcount": 2,
+      "signal_ratio": 0.5,
+      "skill_coverage": 0.167,
+      "gap_score": 0.833
+    },
+    {
+      "branch": "Jakarta Pusat",
+      "group": "FIN_ADMIN",
+      "canonical_title": "Finance & Admin Staff",
+      "headcount": 2,
+      "signal_ratio": 0.5,
+      "skill_coverage": 0.167,
+      "gap_score": 0.833
+    },
+    {
+      "branch": "Medan",
+      "group": "WHS_STAFF",
+      "canonical_title": "Warehouse Staff",
+      "headcount": 4,
+      "signal_ratio": 0.75,
+      "skill_coverage": 0.188,
+      "gap_score": 0.812
+    }
+  ],
+  "dataset_b_needs_data_bucket": [
+    {
+      "branch": "Yogyakarta",
+      "group": "SALES_JR",
+      "canonical_title": "Sales Representative",
+      "headcount": 5,
+      "signal_ratio": 0.4,
+      "skill_coverage": 0.25,
+      "gap_score": 0.75
+    },
+    {
+      "branch": "Manado",
+      "group": "SALES_SR",
+      "canonical_title": "Senior Sales Representative",
+      "headcount": 3,
+      "signal_ratio": 0.333,
+      "skill_coverage": 0.133,
+      "gap_score": 0.867
+    },
+    {
+      "branch": "Palembang",
+      "group": "SALES_SR",
+      "canonical_title": "Senior Sales Representative",
+      "headcount": 3,
+      "signal_ratio": 0.333,
+      "skill_coverage": 0.2,
+      "gap_score": 0.8
+    },
+    {
+      "branch": "Makassar",
+      "group": "SALES_SR",
+      "canonical_title": "Senior Sales Representative",
+      "headcount": 3,
+      "signal_ratio": 0.333,
+      "skill_coverage": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Yogyakarta",
+      "group": "QA_REG",
+      "canonical_title": "Regulatory & QA Officer",
+      "headcount": 3,
+      "signal_ratio": 0.333,
+      "skill_coverage": 0.333,
+      "gap_score": 0.667
+    },
+    {
+      "branch": "Palembang",
+      "group": "FIN_ADMIN",
+      "canonical_title": "Finance & Admin Staff",
+      "headcount": 3,
+      "signal_ratio": 0.333,
+      "skill_coverage": 0.111,
+      "gap_score": 0.889
+    },
+    {
+      "branch": "Balikpapan",
+      "group": "LOG_COORD",
+      "canonical_title": "Logistics Coordinator",
+      "headcount": 2,
+      "signal_ratio": 0.0,
+      "skill_coverage": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Semarang",
+      "group": "WHS_SPV",
+      "canonical_title": "Warehouse Supervisor",
+      "headcount": 2,
+      "signal_ratio": 0.0,
+      "skill_coverage": 0.0,
+      "gap_score": 1.0
+    },
+    {
+      "branch": "Surabaya",
+      "group": "QA_REG",
+      "canonical_title": "Regulatory & QA Officer",
+      "headcount": 2,
+      "signal_ratio": 0.0,
+      "skill_coverage": 0.0,
+      "gap_score": 1.0
+    }
+  ],
+  "assumptions": {
+    "A1_sample_scope": "200 record adalah sampel terstratifikasi dari 15.000 karyawan, diambil dari 12 cabang yang mewakili 90 cabang. Rasio kekosongan dan variasi title dipertahankan sesuai proporsi populasi.",
+    "A2_ats_coverage": "Workable diasumsikan diadopsi tahun 2023. Karyawan dengan tanggal masuk sebelum 2023 tidak punya record ATS. Coverage ATS efektif ~30 persen populasi aktif. Ini alasan ATS diposisikan sebagai enrichment, bukan sumber matching utama.",
+    "A3_payroll_absent": "Oracle Payroll tidak tersedia (diblok Legal per Day 30). Kolom payroll_id sengaja diikutsertakan dalam skema dan dibiarkan kosong untuk menunjukkan secara eksplisit apa yang hilang: roster otoritatif dan arbiter deduplikasi.",
+    "A4_pre_2022_performance": "Rating performa sebelum 2022 dinyatakan tidak reliable oleh klien. Digenerate dengan nilai di luar rentang skala yang berlaku agar alasan pembuangannya bisa dibuktikan, bukan diasumsikan.",
+    "A5_rating_scales": "Skala rating berbeda antar cabang (1-5 numerik, 1-4 numerik, A-D huruf). Ini menjadikan perbandingan performa lintas cabang tidak valid tanpa harmonisasi, dan harmonisasi tersebut berada di luar scope 90 hari.",
+    "A6_transfer_as_termination": "Sebagian mutasi antar cabang tercatat di HRIS sebagai terminasi lalu rehire dengan employee ID baru. Ini mengkontaminasi label attrition dan merupakan alasan utama attrition prediction ditunda ke Fase 2.",
+    "A7_skill_missingness_mechanism": "Kekosongan skill berkorelasi dengan adopsi HRIS per cabang, bukan acak. Skill sebenarnya diambil dari distribusi identik untuk semua cabang."
+  }
+}

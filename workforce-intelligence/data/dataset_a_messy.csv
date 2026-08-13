@@ -1,0 +1,821 @@
+source_system,source_record_id,employee_name,date_of_birth,email,national_id_nik,branch,raw_job_title,department,hire_date,employment_status,skills_raw,last_performance_rating,performance_years_available,rating_scale_used,lms_course,lms_category,lms_completion_date,payroll_id,record_notes
+LMS_Moodle,moodle_13400,Hasan Nadia Safitri,,,,,,,,,,,,,Forecasting Permintaan Dasar,Training,2024-12-29,,
+HRIS_SuccessFactors,EMP-3494,E. Permana,1977-01-10,erika.permana@medikanusantara.co.id,,Palembang,SUPERVISOR WAREHOUSE,Supply Chain,2024-12-04,Active,CDOB Compliance; Cold Chain Handling; Inventory Management,,,,,,,,
+HRIS_SuccessFactors,EMP-3167,Nadia Handayani,1993-12-22,nadia.handayani@medikanusantara.co.id,,Palembang,sales executive,Commercial,2026-03-25,Active,,,,,,,,,
+LMS_Moodle,moodle_72274,NADIA RAHAYU,,nadia.rahayu@medikanusantara.co.id,,,,,,,,,,,Teknik Negosiasi Distributor,Training,2026-06-01,,
+HRIS_SuccessFactors,EMP-5508,NADIA PUSPITA,1979-02-27,nadia.puspita@medikanusantara.co.id,32443481148318233,Bekasi,koordinator logistik,Supply Chain,2024-06-24,Active,Route Planning,,,,,,,,
+ATS_Workable,candidate_477,RAHMAT SANJAYA,,rahmat.sanjaya@medikanusantara.co.id,,Yogyakarta,Logistics Staff,,2023-09-01,Hired,,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_84849,Agus  Setiawan,,agus.setiawan@medikanusantara.co.id,,,,,,,,,,,Kepemimpinan Tim Cabang,Lain-lain,2025-11-13,,
+LMS_Moodle,moodle_33148,Sari Safitri,,sari.safitri@medikanusantara.co.id,,,,,,,,,,,Forecasting Permintaan Dasar,,2023-11-26,,
+HRIS_SuccessFactors,EMP-2488,GITA TANUJAYA,,,,Medan,Quality Assurance,Technical,,Active,,3,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6726,D. Wibowo,1995-12-19,dedi.wibowo@medikanusantara.co.id,,Denpasar,Helpdesk,Corporate,2021-05-17,Active,Advanced Excel; CDOB Compliance; SAP Navigation,,,,,,,,
+HRIS_SuccessFactors,EMP-2994,RINA GITA UTAMI,1989-12-14,rina.gita.utami@medikanusantara.co.id,,Bandung,manager penjualan,Commercial,2018-12-01,Active,CDOB Compliance; Customer Relationship Management; Demand Forecasting; Distributor Negotiation,,,,,,,,
+HRIS_SuccessFactors,EMP-3206,Tika Situmorang,,,,Medan,Warehouse Operator,Supply Chain,,Active,,5,2025,1-5,,,,,performance_history
+ATS_Workable,candidate_875,Jihan Puspita,,jihan.puspita@medikanusantara.co.id,,Jakarta Pusat,Sales  Executive  Senior,,2024-03-05,Hired,Distributor Negotiation; Customer Relationship Management; Regulatory Documentation,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-4765,Indah Setiyawan,1986-07-12,indah.setiawan@medikanusantara.co.id,,Makassar,Salesman,Commercial,2024-09-19,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-5188,A. Hutapea,,,,Medan,Sales Junior,Commercial,,Active,,2,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9033,"Halim, Novi",2001-10-25,novi.halim@medikanusantara.co.id,,BEKASI, Kepala Sales ,Commercial,2023-07-04,Active,Advanced Excel; SAP Navigation; Warehouse Safety,,,,,,,,
+HRIS_SuccessFactors,EMP-6421,Fajar Kusuma,1994-05-03,,32785036488488131,Bandung,Sales 2,Commercial,2025-05-17,Active,Demand Forecasting; Distributor Negotiation; Inventory Management; Medical Product Knowledge,,,,,,,,
+HRIS_SuccessFactors,EMP-4696,Eko Setiyawan,,eko.setiawan@medikanusantara.co.id,,Jakarta Pusat,Petugas Regulasi,Technical,2019-01-24,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-5080,"Maulana, Lukman",,,,Semarang,SR. SALES,Commercial,,Active,,4,2025,1-4,,,,,performance_history
+LMS_Moodle,moodle_69232,F. Ramadhan,,,,,,,,,,,,,Product Knowledge Farmasi 2025,Lain-lain,2025-12-31,,
+HRIS_SuccessFactors,EMP-5080,Lukman Maulana,,lukman.maulana@medikanusantara.co.id,,Semarang,SR. SALES,Commercial,2019-03-14,Active,Customer Relationship Management; Demand Forecasting; Distributor Negotiation; SAP Navigation,,,,,,,,
+HRIS_SuccessFactors,EMP-4257,Galih  Lestari,,,,Denpasar,it officer,Corporate,,Active,,5,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_97130,Rizki Utami,,rizky.utami@medikanusantara.co.id,,,,,,,,,,,Manajemen Inventori Gudang,,2026-07-29,,
+HRIS_SuccessFactors,EMP-1174,Nanda Anggraini,,,,Bekasi,Finance Admin,Corporate,,Active,,4,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6035,Fitry Mardiana,,,,Bandung,Senior Sales,Commercial,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3846,Maya Hidayah,2000-09-11,maya.hidayat@medikanusantara.co.id,,Makassar,QUALITY ASSURANCE,Technical,2022-09-08,Active,Advanced Excel; Data Entry Accuracy,,,,,,,,
+HRIS_SuccessFactors,EMP-4437,TIKA WIBOWO,,tika.wibowo@medikanusantara.co.id,,MAKASSAR,petugas regulasi,Technical,2023-11-26,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-8505,I. Kurniawan,,,,Manado,Staff Finance,Corporate,,Active,,A,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-1239,Teguh Rahayu,,,32424198661433882,Yogyakarta,SR. SALES,Commercial,2024-08-18,Active,,,,,,,,,
+ATS_Workable,candidate_443,"Permana, Mega",,mega.permana@medikanusantara.co.id,,Surabaya,Asisten Apoteker,,2024-09-10,Hired,,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_36311,IMAM PERMANA,,imam.permana@medikanusantara.co.id,,,,,,,,,,,SAP SuccessFactors untuk Staff,Lain-lain,2024-12-22,,
+LMS_Moodle,moodle_24906,TEGUH HANDAYANI,,teguh.handayani@medikanusantara.co.id,,,,,,,,,,,Optimasi Rute Distribusi,umum,2026-03-01,,
+LMS_Moodle,moodle_11267,Fajar  Kusuma,,fajar.kusuma@medikanusantara.co.id,,,,,,,,,,,Forecasting Permintaan Dasar,Lain-lain,2025-10-23,,
+LMS_Moodle,moodle_76830,N. Handayani,,nadia.handayani@medikanusantara.co.id,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,Compliance,2026-07-17,,
+HRIS_SuccessFactors,EMP-6412,I. Andi Permana,,,,Manado, SR. SALES ,Commercial,,Active,,C,2024,A-D,,,,,performance_history
+ATS_Workable,candidate_608,ANDI SIMANJUNTAK,,andi.simanjuntak@medikanusantara.co.id,,Medan,Warehouse Operator,,2026-02-01,Hired,,,,,,,,,ats_offer_date_not_hire_date
+ATS_Workable,candidate_807,Zainal Oktavianus Wibowo,,zainal.oktavianus.wibowo@medikanusantara.co.id,,Palembang,sales executive,,2025-12-18,Hired,Medical Product Knowledge; Route Planning; Inventory Management,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_93703,Imam Wijaya,,imam.wijaya@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,Lain-lain,2026-01-13,,
+LMS_Moodle,moodle_18841,R. Kartika Panjaitan,,rahmat.kartika.panjaitan@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,umum,2024-10-26,,
+ATS_Workable,candidate_209,KRISNA FIRMANSYAH,,krisna.firmansyah@medikanusantara.co.id,,Medan,Warehouse Operator,,2023-07-14,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-1857,"Handayani, Teguh",,,,Semarang,Logistics Staff,Supply Chain,,Active,,3,2025,1-4,,,,,performance_history
+ATS_Workable,candidate_314,"Simanjuntak, Oktavianus Joko",,oktavianus.joko.simanjuntak@medikanusantara.co.id,,Semarang,staff adm & keu,,2023-07-18,Hired,Customer Relationship Management; Advanced Excel; Cold Chain Handling,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_75333,ANDI PRATAMA,,andi.pratama@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,Umum,2024-04-23,,
+HRIS_SuccessFactors,EMP-5078,Oktavianus  Joko  Simanjuntak,,,,Semarang, Admin ,Corporate,,Active,,3,2025,1-4,,,,,performance_history
+LMS_Moodle,moodle_33648,Budi  Dwi  Safitri,,budi.dwi.safitri@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,TRAINING,2026-01-28,,
+HRIS_SuccessFactors,EMP-9234,"Halim, Wahyu Lukman",,,,Yogyakarta,Spv  Gudang,Supply Chain,,Active,,1,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-5078,Oktavianus Joko Simanjuntak,,,,Semarang, Admin ,Corporate,,Active,,1,2024,1-4,,,,,performance_history
+LMS_Moodle,moodle_79796,Gita Halim,,gita.halim@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,Training,2025-09-18,,
+HRIS_SuccessFactors,EMP-5935,Rahma Mardiana,,,,Medan,Apoteker Pendamping,Technical,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3488,Wulan Santoso,,,,Jakarta Pusat,Spesialis Produk,Technical,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6261,Oktavia Mardiana,1989-09-09,,,Jakarta Pusat,STAFF GUDANG,Supply Chain,2021-09-22,Active,Cold Chain Handling; Distributor Negotiation; Inventory Management; Route Planning,,,,,,,,
+HRIS_SuccessFactors,EMP-9358,Anisa Wibowo,,,,Bekasi,Senior Sales,Commercial,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-5841,Eko Kusuma,,,,Balikpapan,Staff Logistik,Supply Chain,,Active,,3,2023,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-9720,Rina  Yulianti,2000-12-16,rina.yulianti@medikanusantara.co.id,,Manado,Supervisor Warehouse,Supply Chain,2024-09-24,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-9580,Bayu Kurnianwan,,,,Manado,sales junior,Commercial,,Active,,A,2025,A-D,,,,,performance_history
+LMS_Moodle,moodle_45719,Imam Kurnianwan,,imam.kurniawan@medikanusantara.co.id,,,,,,,,,,,SAP SuccessFactors untuk Staff,umum,2026-05-29,,
+HRIS_SuccessFactors,EMP-4257,GALIH LESTARI,1977-04-13,galih.lestari@medikanusantara.co.id,,Denpasar,it officer,Corporate,2024-01-14,Active,Advanced Excel; CDOB Compliance; Data Entry Accuracy; SAP Navigation,,,,,,,,
+ATS_Workable,candidate_997,D. Ramadhan,,dwi.ramadhan@medikanusantara.co.id,,Palembang,QA Officer,,2024-06-16,Hired,Medical Product Knowledge; Inventory Management; Cold Chain Handling,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_22711,Oktavianus Panjaitan,,oktavianus.panjaitan@medikanusantara.co.id,,,,,,,,,,,Dokumentasi Regulasi BPOM,,2024-06-26,,
+ATS_Workable,candidate_163,Teguh Firmansyah,1993-10-14,teguh.firmansyah@medikanusantara.co.id,,Jakarta Pusat,branch sales head,,2024-03-22,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-2994,Rina Gita Utami,,,,Bandung,manager penjualan,Commercial,,Active,,3,2023,1-5,,,,,performance_history
+ATS_Workable,candidate_611,Nuur Safitri,,nur.safitri@medikanusantara.co.id,,Balikpapan,Senior Sales,,2024-08-24,Hired,Customer Relationship Management; Distributor Negotiation,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-4919,Zainal Kusuma,,,,Semarang,Koordinator Gudang,Supply Chain,,Active,,2,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-4953,Fajar Achmad Kusuma,,,,Yogyakarta,WAREHOUSE ADMIN,Supply Chain,2024-02-18,Active,Advanced Excel; Distributor Negotiation; Inventory Management; Warehouse Safety,,,,,,,,
+LMS_Moodle,moodle_33254,Fitry Mardiana,,fitri.mardiana@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,Compliance,2026-07-06,,
+ATS_Workable,candidate_141,Surya Hidayah,1982-01-06,surya.hidayat@medikanusantara.co.id,,Denpasar,LOGISTICS STAFF,,2024-05-12,Hired,Inventory Management; Warehouse Safety; Medical Product Knowledge,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-7827,Achmad Lestari,,,,Surabaya,Logistic Coord,Supply Chain,,Active,,3,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_49835,"Saputra, Erika Irfan",,erika.irfan.saputra@medikanusantara.co.id,,,,,,,,,,,Teknik Negosiasi Distributor,Compliance,2023-10-18,,
+LMS_Moodle,moodle_92955,"Wibowo, Zainal Oktavianus",,zainal.oktavianus.wibowo@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,umum,2026-02-20,,
+LMS_Moodle,moodle_99119,MAYA SAPUTRA,,maya.saputra@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,Compliance,2026-07-22,,
+HRIS_SuccessFactors,EMP-9721,Irfan  Simanjuntak,1985-05-24,irfan.simanjuntak@medikanusantara.co.id,,Bandung,Admin Keuangan,Corporate,2022-04-06,Active,Advanced Excel; Cold Chain Handling; Customer Relationship Management,,,,,,,,
+HRIS_SuccessFactors,EMP-5387,Zainal Mardiana,1985-08-13,,32686038586165831,Medan,Distribution Coordinator,Supply Chain,2022-09-16,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-4879,Rizki Santoso,1997-05-09,,,Denpasar,asisten apoteker,Technical,2021-12-03,Active,CDOB Compliance; Cold Chain Handling,,,,,,,,
+LMS_Moodle,moodle_12072,Zainal Siti Firmansyah,,zainal.siti.firmansyah@medikanusantara.co.id,,,,,,,,,,,K3 Gudang & Penanganan B3,Compliance,2025-07-31,,
+HRIS_SuccessFactors,EMP-9689,WAHYU KARTIKA HALIM,,,,Yogyakarta,Medical Representative,Commercial,,Active,,4,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-4106,"Firmansyah, Krisna",,,,Medan,GUDANG,Supply Chain,2023-09-03,Active,Cold Chain Handling; SAP Navigation; Team Leadership,,,,,,,,
+ATS_Workable,candidate_514,Hasan Hidayah,,hasan.hidayat@medikanusantara.co.id,,Manado,Accounting Staff,,2023-08-06,Hired,SAP Navigation; Medical Product Knowledge; Advanced Excel,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-9458,Rahma Nugraha,1979-09-19,,,Manado,Warehouse Operator,Supply Chain,2026-02-23,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-3790,"Hidayat, Sari Dinda",2000-06-03,sari.dinda.hidayat@medikanusantara.co.id,32326718431619567,Surabaya,Staff IT,Corporate,2023-05-23,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-9358,Annisa Wibowo,1990-06-03,,,Bekasi,Senior Sales,Commercial,2025-09-26,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-1282,Dewi Safitri,,,,Bandung,senior sales exec,Commercial,,Active,,4,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6762,J. Mardiana,,,,Balikpapan,Teknisi IT,Corporate,,Active,,3,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-4470,Imam Permana,,,,Semarang,Petugas Gudang,Supply Chain,,Active,,3,2024,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-9656,"Tanujaya, Tika Citra",,,,Bandung,Senior Sales,Commercial,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3317,Muhamad Yulianti,,,,Semarang,QA Officer,Technical,,Active,,4,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-8742,Annisa Panjaitan,,,,Semarang, Senior Sales ,Commercial,,Active,,3,2024,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-6618,Fitry Puspita,,,,Bekasi,koordinator logistik,Supply Chain,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9829,Yuni Saputra,,,,Makassar,PHARMACY ASSISTANT,Technical,,Active,,D,2025,A-D,,,,,performance_history
+LMS_Moodle,moodle_48244,Jihan Dwi Hidayat,,jihan.dwi.hidayat@medikanusantara.co.id,,,,,,,,,,,Forecasting Permintaan Dasar,,2024-08-17,,
+LMS_Moodle,moodle_19597,Gita Panjaitan,,gita.panjaitan@medikanusantara.co.id,,,,,,,,,,,Pelatihan CDOB Dasar,umum,2026-07-21,,
+HRIS_SuccessFactors,EMP-9580,Bayu Kurniawan,,,,Manado,sales junior,Commercial,,Active,,D,2023,A-D,,,,,performance_history
+LMS_Moodle,moodle_35843,Dewi Safitri,,dewi.safitri@medikanusantara.co.id,,,,,,,,,,,Forecasting Permintaan Dasar,umum,2025-11-14,,
+HRIS_SuccessFactors,EMP-4151,Indah  Anisa  Simanjuntak,,,,Bandung,Sr Medical Rep,Commercial,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6281,Nuur Maulana,,,,Bekasi,SR. SALES,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-7000,Eko Nugraha,,,,Yogyakarta,Staff QA,Technical,,Active,,2,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-1455,Joko Lukman Firmansyah,1991-03-06,joko.lukman.firmansyah@medikanusantara.co.id,,Makassar,WH Supervisor,Supply Chain,2016-10-11,Active,,,,,,,,,
+LMS_Moodle,moodle_29449,W. Firmansyah,,wahyu.firmansyah@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,umum,2026-05-21,,
+LMS_Moodle,moodle_99810,W. Santoso,,wulan.santoso@medikanusantara.co.id,,,,,,,,,,,SAP Modul Logistik,,2024-02-08,,
+LMS_Moodle,moodle_84702,Zainal Mardiana,,zainal.mardiana@medikanusantara.co.id,,,,,,,,,,,SAP SuccessFactors untuk Staff,Training,2025-07-27,,
+HRIS_SuccessFactors,EMP-9066,"Setiawan, Nanda",,,,Makassar,Warehouse Admin,Supply Chain,,Active,,A,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-2316,Rizki Utami,1991-12-24,rizky.utami@medikanusantara.co.id,32279647215277939,Palembang,WH Supervisor,Supply Chain,2023-10-17,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-5188,A. Hutapea,1986-06-09,,32200364755944105,MEDAN,Sales Junior,Commercial,2023-10-31,Active,Advanced Excel; Customer Relationship Management; Data Entry Accuracy,,,,,,,,
+HRIS_SuccessFactors,EMP-9656,T. Citra Tanujaya,,,,Bandung,Senior Sales,Commercial,,Active,,3,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-2280,W. Wibowo,1981-03-05,wahyu.wibowo@medikanusantara.co.id,,Semarang,Salesman,Commercial,2021-01-16,Active,,,,,,,,,
+LMS_Moodle,moodle_21916,Eko Setiyawan,,eko.setiawan@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,,2025-09-17,,
+LMS_Moodle,moodle_18838,Maya Lestari,,maya.lestari@medikanusantara.co.id,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,,2025-08-19,,
+LMS_Moodle,moodle_28770,E. Permana,,erika.permana@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,,2026-06-02,,
+HRIS_SuccessFactors,EMP-6726,Dedi  Wibowo,,,,Denpasar,Helpdesk,Corporate,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8896,L. Permana,1980-07-06,lestari.permana@medikanusantara.co.id,,Palembang,WAREHOUSE SPV,Supply Chain,2017-01-29,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-4106,Krisna Firmansyah,,,,Medan,GUDANG,Supply Chain,,Active,,2,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-5387,Rahma  Mardiana,1994-04-01,rahma.mardiana@medikanusantara.co.id,,Manado,Medical Representative,Commercial,2023-03-05,Active,,,,,,,,,
+LMS_Moodle,moodle_62137,Nuur Maulana,,,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,umum,2026-04-12,,
+HRIS_SuccessFactors,EMP-8896,Lestari Permana,,,,Palembang,WAREHOUSE SPV,Supply Chain,,Active,,A,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-4450,HASAN HALIM,,hasan.halim@medikanusantara.co.id,32375720851949547,Manado,SALES 1,Commercial,2022-05-14,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-3790,S. Dinda Hidayat,,,,Surabaya,Staff IT,Corporate,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6444,Eko Puspita,,,,Surabaya,Senior Sales Exec,Commercial,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_69318,Rahma Hutapea,,rahma.hutapea@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,Training,2026-02-08,,
+ATS_Workable,candidate_424,F. Puspita,,fitri.puspita@medikanusantara.co.id,,Bekasi,LOGISTIC COORD,,2024-03-03,Hired,Cold Chain Handling; Route Planning; SAP Navigation,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_64729,Wahyu Firmansyah,,,,,,,,,,,,,SAP SuccessFactors untuk Staff,Compliance,2024-02-17,,
+HRIS_SuccessFactors,EMP-8657,Ratna Tanujaya,1992-07-09,,,Makassar,Sales Junior,Commercial,2019-05-25,Terminated,,,,,,,,,status_terminated_prior_branch
+ATS_Workable,candidate_435,Novi Halim,2001-10-25,novi.halim@medikanusantara.co.id,,Bekasi, Kepala Sales ,,2023-05-17,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-6261,Oktavia Mardiana,,,,Jakarta Pusat,STAFF GUDANG,Supply Chain,,Active,,3,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4398,MAYA INTAN HANDAYANI,,,,Jakarta Pusat,Spesialis  Produk,Technical,,Active,,2,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9501,Dwi Utami,,,,Jakarta Pusat,Staff Gudang,Supply Chain,,Active,,2,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_25311,Rahma  Anggraini,,rahma.anggraini@medikanusantara.co.id,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,umum,2026-01-08,,
+LMS_Moodle,moodle_13777,J. Lukman Firmansyah,,joko.lukman.firmansyah@medikanusantara.co.id,,,,,,,,,,,Kepemimpinan Tim Cabang,Lain-lain,2023-04-13,,
+HRIS_SuccessFactors,EMP-7740,Gita Tanujaya,1995-11-20,gita.tanujaya@medikanusantara.co.id,32876986488488624,Palembang,jr. sales,Commercial,2025-03-07,Active,Data Entry Accuracy; Medical Product Knowledge,,,,,,,,
+HRIS_SuccessFactors,EMP-6483,Eko Saputra,,,,Balikpapan,Product Specialist,Technical,,Active,,4,2023,1-4,,,,,performance_history
+LMS_Moodle,moodle_36540,Risky Nugroho,,rizky.nugroho@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,Lain-lain,2024-08-17,,
+LMS_Moodle,moodle_35836,Siti Wijaya,,siti.wijaya@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,Training,2024-11-10,,
+HRIS_SuccessFactors,EMP-6936,Oktavianus Wijaya,1997-11-12,oktavianus.wijaya@medikanusantara.co.id,,Medan,Sales Manager,Commercial,2018-02-26,Active,,,,,,,,,
+ATS_Workable,candidate_567,R. Yulianti,,rina.yulianti@medikanusantara.co.id,,Manado,Supervisor Warehouse,,2024-07-22,Hired,Team Leadership; Customer Relationship Management; Inventory Management,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-7206,BUDI TANUJAYA,1980-05-17,,32207144189423203,Bekasi,Spesialis Produk,Technical,2019-01-21,Active,Cold Chain Handling; Medical Product Knowledge; Regulatory Documentation,,,,,,,,
+HRIS_SuccessFactors,EMP-5172,Novi Kurnianwan,,,,Balikpapan, Admin ,Corporate,,Active,,1,2025,1-4,,,,,performance_history
+ATS_Workable,candidate_886,Eko  Puspita,1976-07-31,eko.puspita@medikanusantara.co.id,,Surabaya,Sales Executive Senior,,2025-11-30,Hired,Medical Product Knowledge; Customer Relationship Management; Advanced Excel,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-9580,Bayu Kurnianwan,1977-06-13,bayu.kurniawan@medikanusantara.co.id,32815581390861812,Manado,sales junior,Commercial,2021-06-02,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-2322,RAHMA HUTAPEA,,,,Manado,Warehouse  Operator,Supply Chain,,Active,,B,2023,A-D,,,,,performance_history
+ATS_Workable,candidate_530,"Mardiana, Rahma",,rahma.mardiana@medikanusantara.co.id,,Medan,Pharmacy Assistant,,2025-04-09,Hired,Inventory Management; Regulatory Documentation; Medical Product Knowledge,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-2856,Nadia Rahayu,1979-05-03,nadia.rahayu@medikanusantara.co.id,32282531761963852,Semarang,qa officer,Technical,2023-12-11,Active,,,,,,,,,
+LMS_Moodle,moodle_13777,Joko Lukman Firmansyah,,joko.lukman.firmansyah@medikanusantara.co.id,,,,,,,,,,,Manajemen Inventori Gudang,Lain-lain,2024-10-27,,
+HRIS_SuccessFactors,EMP-6566,Imam Wijaya,1996-09-03,imam.wijaya@medikanusantara.co.id,32144765889046491,Jakarta Pusat,REGULATORY OFFICER,Technical,2025-12-11,Active,Advanced Excel; Medical Product Knowledge; Regulatory Documentation,,,,,,,,
+LMS_Moodle,moodle_69232,Fitri Ramadhan,,fitri.ramadhan@medikanusantara.co.id,,,,,,,,,,,Pelatihan CDOB Dasar,TRAINING,2026-05-14,,
+HRIS_SuccessFactors,EMP-9505,Fitry Saputra,,,,Jakarta Pusat, Koordinator Logistik ,Supply Chain,,Active,,3,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_64655,Novi Wibowo,,,,,,,,,,,,,Dokumentasi Regulasi BPOM,Lain-lain,2026-02-04,,
+HRIS_SuccessFactors,EMP-5846,Zainal Ramadhan,,,,Medan,WAREHOUSE ADMIN,Supply Chain,,Active,,3,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8876,P. Permana,1994-05-05,putri.permana@medikanusantara.co.id,,Balikpapan,LOGISTICS STAFF,Supply Chain,2022-10-20,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-9318,D. Kurniawan,1986-01-06,dewi.kurniawan@medikanusantara.co.id,,Jakarta Pusat,ADMIN KEUANGAN,Corporate,2022-07-23,Active,Data Entry Accuracy,,,,,,,,
+ATS_Workable,candidate_235,Rahma Nugraha,1979-09-19,rahma.nugroho@medikanusantara.co.id,,Manado,WAREHOUSE OPERATOR,,2026-02-06,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-3376,"Wibowo, Zainal Oktavianus",,,,Palembang,Medical Representative,Commercial,,Active,,B,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-9007,Novi  Wibowo,,,,Surabaya,Sales Junior,Commercial,,Active,,2,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4696,Eko Setiyawan,,,,Jakarta Pusat,Petugas Regulasi,Technical,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3589,Achmad Simanjuntak,1989-04-18,,32481652884111389,Bandung,Asisten Apoteker,Technical,2020-10-09,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-7827,Achmad Lestari,1995-09-08,ahmad.lestari@medikanusantara.co.id,32270235941710222,SURABAYA,Logistic Coord,Supply Chain,2019-04-28,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-2253,"Panjaitan, Tika",,,,Yogyakarta,koordinator logistik,Supply Chain,,Active,,1,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-9453,Lukman Wijaya,1984-01-01,,32952411710779550,Surabaya,Koordinator Logistik,Supply Chain,2025-09-02,Active,,,,,,,,,
+LMS_Moodle,moodle_11584,Budi Tanujaya,,budi.tanujaya@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,TRAINING,2023-08-20,,
+LMS_Moodle,moodle_12085,Nanda Wijaya,,,,,,,,,,,,,Product Knowledge Alkes 2024,Umum,2023-08-21,,
+HRIS_SuccessFactors,EMP-6197,"Tanujaya, Ratna",1992-07-09,,32772994482182811,Bekasi,Medical Representative,Commercial,2021-04-30,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-6035,Fitry Mardiana,,,,Bandung,Senior Sales,Commercial,,Active,,2,2024,1-5,,,,,performance_history
+ATS_Workable,candidate_124,WAHYU TANUJAYA,1989-10-21,wahyu.tanujaya@medikanusantara.co.id,,Surabaya,Staff  Logistik,,2023-04-09,Hired,Team Leadership; Cold Chain Handling; Inventory Management,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-9192,"Anggraini, Bayu",,,,Medan,Staff Adm & Keu,Corporate,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9969,"Maulana, Yusuf",2002-12-29,yusuf.maulana@medikanusantara.co.id,,Bekasi,LOGISTIC COORD,Supply Chain,2019-01-21,Active,Cold Chain Handling; Inventory Management; SAP Navigation,,,,,,,,
+HRIS_SuccessFactors,EMP-9462,L. Galih Lestari,,,,Surabaya,Senior Sales Exec,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_31167,Hasan Nugraha,,hasan.nugroho@medikanusantara.co.id,,,,,,,,,,,Optimasi Rute Distribusi,Umum,2024-11-25,,
+HRIS_SuccessFactors,EMP-7809,Lestari Hana Mardiana,,,,Balikpapan,Petugas Regulasi,Technical,,Active,,4,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-5172,Novi Kurnianwan,,,,Balikpapan, Admin ,Corporate,,Active,,1,2024,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-5846,"Ramadhan, Zainal",,,,Medan,WAREHOUSE ADMIN,Supply Chain,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9472,T. Firmansyah,1993-10-14,teguh.firmansyah@medikanusantara.co.id,32125814496839404,Jakarta Pusat,MANAGER PENJUALAN,Commercial,2024-05-10,Active,Team Leadership,,,,,,,,
+LMS_Moodle,moodle_33754,Irfan  Pratama,,,,,,,,,,,,,Kepemimpinan Tim Cabang,umum,2024-01-04,,
+HRIS_SuccessFactors,EMP-1331,"Ramadhan, Dwi",,,,Palembang,Staff QA,Technical,,Active,,C,2025,A-D,,,,,performance_history
+LMS_Moodle,moodle_31167,Hasan Nugraha,,,,,,,,,,,,,Excel untuk Analisis Penjualan,Compliance,2023-09-01,,
+LMS_Moodle,moodle_41847,Rizki Sanjaya,,rizky.sanjaya@medikanusantara.co.id,,,,,,,,,,,SAP Modul Logistik,,2025-02-28,,
+LMS_Moodle,moodle_42258,"Yulianti, Rina",,rina.yulianti@medikanusantara.co.id,,,,,,,,,,,CDOB Lanjutan & Audit Internal,,2026-05-08,,
+HRIS_SuccessFactors,EMP-2657,"Firmansyah, Surya Indah",1998-02-23,surya.indah.firmansyah@medikanusantara.co.id,32571281131956984,Jakarta Pusat,sr. sales,Commercial,2021-05-11,Active,Advanced Excel; Demand Forecasting,,,,,,,,
+LMS_Moodle,moodle_89430,Gita  Wulan  Pratama,,gita.wulan.pratama@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,TRAINING,2024-06-02,,
+HRIS_SuccessFactors,EMP-6089,Gita  Budi  Maulana,,,,Denpasar, Sales Rep ,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8666,Maya Santoso,1997-01-31,,32579964770864203,Bekasi,Admin Keuangan,Corporate,2024-04-11,Active,Data Entry Accuracy; Demand Forecasting; SAP Navigation,,,,,,,,
+LMS_Moodle,moodle_12940,E. Puspita,,,,,,,,,,,,,Product Knowledge Farmasi 2025,umum,2026-07-04,,
+HRIS_SuccessFactors,EMP-3488,Wulan Santoso,,,,Jakarta Pusat,Spesialis Produk,Technical,,Active,,4,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4450,"Halim, Hasan",,,,Manado,SALES 1,Commercial,,Active,,D,2025,A-D,,,,,performance_history
+ATS_Workable,candidate_525,M. Safitri,1995-09-08,maya.safitri@medikanusantara.co.id,,Yogyakarta,Medical Representative,,2024-02-26,Hired,Data Entry Accuracy; Medical Product Knowledge; Customer Relationship Management,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-6762,JOKO MARDIANA,,,,Balikpapan,Teknisi IT,Corporate,,Active,,2,2023,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-9453,Lukman  Wijaya,,,,Surabaya,Koordinator Logistik,Supply Chain,,Active,,2,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-5243,A. Wibowo,,,,Surabaya,Warehouse Operator,Supply Chain,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-5172,Novi Kurnianwan,,,,Balikpapan, Admin ,Corporate,,Active,,2,2023,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-8666,Maya Santoso,,,,Bekasi,Admin Keuangan,Corporate,,Active,,4,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4651,Rina Irfan Utami,1995-11-21,rina.irfan.utami@medikanusantara.co.id,32709086948463861,Makassar,Sales Rep,Commercial,2022-06-02,Active,,,,,,,,,
+LMS_Moodle,moodle_88371,RATNA WULAN SIMANJUNTAK,,ratna.wulan.simanjuntak@medikanusantara.co.id,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,Lain-lain,2026-03-08,,
+HRIS_SuccessFactors,EMP-8679,Dedi Lestari,,,,Yogyakarta,WH Staff,Supply Chain,,Active,,1,2025,1-4,,,,,performance_history
+LMS_Moodle,moodle_28286,Novi Kurnianwan,,novi.kurniawan@medikanusantara.co.id,,,,,,,,,,,SAP SuccessFactors untuk Staff,umum,2025-03-28,,
+HRIS_SuccessFactors,EMP-3395,"Safitri, Budi Dwi",,,,Palembang,Sr Medical Rep,Commercial,,Active,,B,2023,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-9084,D. Bayu Handayani,1996-09-18,dwi.bayu.handayani@medikanusantara.co.id,,Manado,Logistic Coord,Supply Chain,2025-08-18,Active,,,,,,,,,
+LMS_Moodle,moodle_12018,Wahyu Kartika Halim,,wahyu.kartika.halim@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,Lain-lain,2023-06-19,,
+LMS_Moodle,moodle_78292,Rizki Rahayu,,rizky.rahayu@medikanusantara.co.id,,,,,,,,,,,Optimasi Rute Distribusi,Compliance,2025-02-21,,
+ATS_Workable,candidate_417,Lestari Galih Lestari,1980-12-05,,,Surabaya, SR. SALES ,,2025-10-21,Hired,Demand Forecasting; Distributor Negotiation; Customer Relationship Management,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-8625,Andi  Pratama,,,,Bekasi,Jr.  Sales,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_39183,Oktavianus  Pratama,,oktavianus.pratama@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,,2025-07-28,,
+HRIS_SuccessFactors,EMP-3497,"Saputra, Erika Irfan",,erika.irfan.saputra@medikanusantara.co.id,,Bekasi,Manager Penjualan,Commercial,2014-08-13,Active,Advanced Excel; Customer Relationship Management; Distributor Negotiation; Warehouse Safety,,,,,,,,
+HRIS_SuccessFactors,EMP-7047,Rahma Anggraini,1988-07-20,,,Denpasar,Pharmacy Assistant,Technical,2025-08-29,Active,Distributor Negotiation; Medical Product Knowledge,,,,,,,,
+HRIS_SuccessFactors,EMP-5080,Lukman Maulana,,,,Semarang,SR. SALES,Commercial,,Active,,1,2023,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-6618,Fitri Puspita,,,,Bekasi,koordinator logistik,Supply Chain,,Active,,2,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-5657,Hasan Nadia Safitri,,hasan.nadia.safitri@medikanusantara.co.id,32113577116473088,Bandung,STAFF GUDANG,Supply Chain,2022-03-25,Active,,,,,,,,,
+LMS_Moodle,moodle_79883,"Halim, Citra",,citra.halim@medikanusantara.co.id,,,,,,,,,,,Kepemimpinan Tim Cabang,Lain-lain,2023-06-20,,
+HRIS_SuccessFactors,EMP-8394,Citra Halim,,,,Bandung,Sales Mgr,Commercial,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_32206,"Wibowo, Wahyu",,wahyu.wibowo@medikanusantara.co.id,,,,,,,,,,,SAP SuccessFactors untuk Staff,Umum,2024-02-10,,
+LMS_Moodle,moodle_41962,Rina Irfan Utami,,rina.irfan.utami@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,Compliance,2024-08-12,,
+HRIS_SuccessFactors,EMP-8441,Budi Tanujaya,,,,Jakarta Pusat,sales rep,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-1455,Joko Lukman Firmansyah,,,,Makassar,WH Supervisor,Supply Chain,,Active,,C,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-8190,NANDA WIJAYA,,,,Denpasar,Asisten Apoteker,Technical,,Active,,3,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9007,NOVI WIBOWO,,,,Surabaya,Sales Junior,Commercial,,Active,,3,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4651,"Utami, Rina Irfan",,,,Makassar,Sales Rep,Commercial,,Active,,C,2025,A-D,,,,,performance_history
+LMS_Moodle,moodle_13777,"Firmansyah, Joko Lukman",,joko.lukman.firmansyah@medikanusantara.co.id,,,,,,,,,,,K3 Gudang & Penanganan B3,Lain-lain,2024-02-24,,
+LMS_Moodle,moodle_70620,M. Safitri,,,,,,,,,,,,,Manajemen Inventori Gudang,Lain-lain,2026-04-07,,
+HRIS_SuccessFactors,EMP-3317,Muhamad Yulianti,1975-09-21,muhammad.yulianti@medikanusantara.co.id,32467797428089005,Semarang,QA Officer,Technical,2020-07-29,Active,,,,,,,,,
+LMS_Moodle,moodle_53824,Lestari  Hana  Mardiana,,lestari.hana.mardiana@medikanusantara.co.id,,,,,,,,,,,Dokumentasi Regulasi BPOM,umum,2024-08-21,,
+LMS_Moodle,moodle_25311,RAHMA ANGGRAINI,,rahma.anggraini@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,,2026-02-02,,
+HRIS_SuccessFactors,EMP-9801,Zainal Siti Firmansyah,1992-05-08,zainal.siti.firmansyah@medikanusantara.co.id,,Yogyakarta,Supervisor Warehouse,Supply Chain,2020-06-03,Active,Cold Chain Handling; Team Leadership,,,,,,,,
+HRIS_SuccessFactors,EMP-3846,Maya Hidayat,,,,Makassar,QUALITY ASSURANCE,Technical,,Active,,B,2025,A-D,,,,,performance_history
+LMS_Moodle,moodle_22111,"Handayani, Rina",,rina.handayani@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,Umum,2023-04-14,,
+HRIS_SuccessFactors,EMP-4879,Rizki Santoso,,,,Denpasar,asisten apoteker,Technical,,Active,,4,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4450,H. Halim,,,,Manado,SALES 1,Commercial,,Active,,B,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-9358,Annisa Wibowo,,,,Bekasi,Senior Sales,Commercial,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3907,Imam Hidayah,1997-08-19,imam.hidayat@medikanusantara.co.id,,Bandung,Sales Executive,Commercial,2025-02-17,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-2803,Andi Rizki Maulana,1977-05-31,andi.rizky.maulana@medikanusantara.co.id,,Jakarta Pusat,Sales Junior,Commercial,2022-11-26,Active,CDOB Compliance; Customer Relationship Management; Data Entry Accuracy; Inventory Management; Route Planning,,,,,,,,
+HRIS_SuccessFactors,EMP-2360,Wahyu  Firmansyah,,,,Denpasar,IT Support,Corporate,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4750,Maya Safitri,1995-09-08,,,Yogyakarta,Sales  Rep,Commercial,2024-03-13,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-8100,Hasan Hidayah,1981-11-23,hasan.hidayat@medikanusantara.co.id,32142711546330634,Manado,Admin Keuangan,Corporate,2023-08-23,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-4845,W. Tanujaya,1989-10-21,wahyu.tanujaya@medikanusantara.co.id,32452118825835358,Surabaya,DISTRIBUTION COORDINATOR,Supply Chain,2023-06-04,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-9656,Tika Citra Tanujaya,1997-04-05,tika.citra.tanujaya@medikanusantara.co.id,,Bandung,Senior Sales,Commercial,2025-03-19,Active,Advanced Excel; Demand Forecasting; Medical Product Knowledge; Regulatory Documentation,,,,,,,,
+HRIS_SuccessFactors,EMP-5794,Oktavianus Pratama,1976-04-28,oktavianus.pratama@medikanusantara.co.id,,Semarang,sales rep,Commercial,2021-11-10,Active,,,,,,,,,
+LMS_Moodle,moodle_18841,Rahmat Kartika Panjaitan,,rahmat.kartika.panjaitan@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,,2024-06-14,,
+HRIS_SuccessFactors,EMP-9689,WAHYU KARTIKA HALIM,1978-01-08,,,Yogyakarta,Medical Representative,Commercial,2021-09-13,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-4470,Imam Permana,1977-01-01,,,Semarang,Petugas Gudang,Supply Chain,2022-11-01,Active,,,,,,,,,
+LMS_Moodle,moodle_87996,Dwi  Bayu  Handayani,,dwi.bayu.handayani@medikanusantara.co.id,,,,,,,,,,,SAP SuccessFactors untuk Staff,umum,2026-04-06,,
+LMS_Moodle,moodle_37522,Fitry Puspita,,fitri.puspita@medikanusantara.co.id,,,,,,,,,,,Optimasi Rute Distribusi,umum,2025-09-24,,
+LMS_Moodle,moodle_33254,Fitri Mardiana,,fitri.mardiana@medikanusantara.co.id,,,,,,,,,,,Kepemimpinan Tim Cabang,Lain-lain,2023-07-02,,
+HRIS_SuccessFactors,EMP-7790,"Puspita, Budi",,,,Jakarta Pusat,Spesialis Produk,Technical,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3674,Agus Setiawan,1991-09-03,,,Makassar,spesialis produk,Technical,2018-05-15,Terminated,,,,,,,,,status_terminated_prior_branch
+HRIS_SuccessFactors,EMP-6412,Intan Andi Permana,1982-10-17,intan.andi.permana@medikanusantara.co.id,32561470072784536,Manado, SR. SALES ,Commercial,2019-08-02,Active,,,,,,,,,
+LMS_Moodle,moodle_21916,Eko Setiyawan,,eko.setiawan@medikanusantara.co.id,,,,,,,,,,,CDOB Lanjutan & Audit Internal,Umum,2023-10-17,,
+HRIS_SuccessFactors,EMP-8441,Budi Tanujaya,1978-08-14,,32221532086510281,Jakarta Pusat,sales rep,Commercial,2022-06-04,Active,Data Entry Accuracy,,,,,,,,
+HRIS_SuccessFactors,EMP-8224,Sari Anggraini,,,,Palembang,Admin,Corporate,,Active,,B,2025,A-D,,,,,performance_history
+ATS_Workable,candidate_337,M. Intan Handayani,1993-06-25,maya.intan.handayani@medikanusantara.co.id,,Jakarta Pusat,PHARMACY ASSISTANT,,2023-02-22,Hired,Regulatory Documentation; Customer Relationship Management,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-7809,Lestari Hana Mardiana,1997-04-17,,,BALIKPAPAN,Petugas Regulasi,Technical,2023-12-17,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-2253,T. Panjaitan,,,,Yogyakarta,koordinator logistik,Supply Chain,,Active,,3,2024,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-6762,Joko Mardiana,1999-06-21,joko.mardiana@medikanusantara.co.id,,Balikpapan,Teknisi IT,Corporate,2024-09-29,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-6437,G. Ramadhan,,,,Bekasi,senior sales exec,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8798,Y. Halim,,,,Semarang, Sales 2 ,Commercial,,Active,,2,2024,1-4,,,,,performance_history
+LMS_Moodle,moodle_31984,Surya Indah Firmansyah,,surya.indah.firmansyah@medikanusantara.co.id,,,,,,,,,,,Forecasting Permintaan Dasar,Lain-lain,2026-02-22,,
+ATS_Workable,candidate_177,Sari Dinda Hidayah,,sari.dinda.hidayat@medikanusantara.co.id,,Surabaya,Teknisi IT,,2023-03-16,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-1833,M. Lestari,,,,Manado,Apoteker Pendamping,Technical,,Active,,B,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-9989,Krisna Maulana,1998-03-09,krisna.maulana@medikanusantara.co.id,32716192225643283,Semarang,Asisten Apoteker,Technical,2022-02-21,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-1625,RAHMAT RINA ANGGRAINI,1990-04-06,rahmat.rina.anggraini@medikanusantara.co.id,32613647667773670,Medan,Staff IT,Corporate,2024-05-08,Active,,,,,,,,,
+ATS_Workable,candidate_927,I. Pratama,1995-06-30,imam.pratama@medikanusantara.co.id,,Semarang, Pharmacy Assistant ,,2023-03-08,Hired,Cold Chain Handling; SAP Navigation; Route Planning,,,,,,,,ats_offer_date_not_hire_date
+ATS_Workable,candidate_203,Gita Tanujaya,1987-05-19,gita.tanujaya@medikanusantara.co.id,,Medan,Quality Assurance,,2022-11-26,Hired,Regulatory Documentation; Medical Product Knowledge; Data Entry Accuracy,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-2322,R. Hutapea,,,,Manado,Warehouse  Operator,Supply Chain,,Active,,C,2025,A-D,,,,,performance_history
+ATS_Workable,candidate_478,Gita Halim,1990-04-05,gita.halim@medikanusantara.co.id,,Semarang,Sales Executive Senior,,2024-09-25,Hired,Medical Product Knowledge; Data Entry Accuracy; Customer Relationship Management,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_78758,Muhamad Sari Ramadhan,,muhammad.sari.ramadhan@medikanusantara.co.id,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,Training,2023-08-08,,
+LMS_Moodle,moodle_99381,Maya Hutapea,,maya.hutapea@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,Compliance,2025-08-13,,
+HRIS_SuccessFactors,EMP-2488,Gita Tanujaya,1987-05-19,gita.tanujaya@medikanusantara.co.id,,Medan,Quality Assurance,Technical,2023-01-10,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-9462,LESTARI GALIH LESTARI,,,,Surabaya,Senior Sales Exec,Commercial,,Active,,2,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_76830,N. Handayani,,nadia.handayani@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,Training,2026-05-15,,
+ATS_Workable,candidate_196,Yuni Mardiana,,yuni.mardiana@medikanusantara.co.id,,Manado,Gudang,,2024-03-28,Hired,Cold Chain Handling; Inventory Management; Data Entry Accuracy,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-1942,Ahmad Hutapea,,,,Palembang,REGULATORY OFFICER,Technical,,Active,,B,2025,A-D,,,,,performance_history
+LMS_Moodle,moodle_64729,"Firmansyah, Wahyu",,wahyu.firmansyah@medikanusantara.co.id,,,,,,,,,,,Teknik Negosiasi Distributor,Training,2026-01-06,,
+LMS_Moodle,moodle_10503,M. Hidayat,,,,,,,,,,,,,Excel untuk Analisis Penjualan,Compliance,2025-06-18,,
+HRIS_SuccessFactors,EMP-4398,Maya Intan Handayani,1993-06-25,,,Jakarta Pusat,Spesialis  Produk,Technical,2023-03-19,Active,Customer Relationship Management; Regulatory Documentation,,,,,,,,
+LMS_Moodle,moodle_73725,"Mardiana, Bagus",,bagus.mardiana@medikanusantara.co.id,,,,,,,,,,,Kepemimpinan Tim Cabang,,2024-12-19,,
+HRIS_SuccessFactors,EMP-6642,Agus  Dwi  Ramadhan,2002-09-25,,,Denpasar,Medical  Representative,Commercial,2025-03-30,Active,Customer Relationship Management; Data Entry Accuracy; Medical Product Knowledge; Route Planning,,,,,,,,
+HRIS_SuccessFactors,EMP-6941,PRASETYO KRISNA ANGGRAINI,,,,Manado, Admin ,Corporate,,Active,,B,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-3497,Erika  Irfan  Saputra,,,,Bekasi,Manager Penjualan,Commercial,,Active,,3,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9342,Hana Kusuma,1981-09-29,hana.kusuma@medikanusantara.co.id,,Balikpapan,Admin,Corporate,2023-05-14,Active,,,,,,,,,
+ATS_Workable,candidate_981,Annisa Wibowo,1990-06-03,anisa.wibowo@medikanusantara.co.id,,Bekasi,Senior Sales Exec,,2025-08-27,Hired,Customer Relationship Management; Distributor Negotiation; Data Entry Accuracy,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_33648,Budi Dwi Safitri,,budi.dwi.safitri@medikanusantara.co.id,,,,,,,,,,,Teknik Negosiasi Distributor,,2025-07-23,,
+HRIS_SuccessFactors,EMP-3376,ZAINAL OKTAVIANUS WIBOWO,1996-04-17,,,Palembang,Medical Representative,Commercial,2026-01-23,Active,,,,,,,,,
+LMS_Moodle,moodle_63953,"Ramadhan, Dwi",,,,,,,,,,,,,Manajemen Inventori Gudang,Lain-lain,2025-07-28,,
+LMS_Moodle,moodle_91056,"Handayani, Maya Intan",,,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,,2024-11-02,,
+LMS_Moodle,moodle_17899,Lestari Puspita,,lestari.puspita@medikanusantara.co.id,,,,,,,,,,,Forecasting Permintaan Dasar,Training,2026-08-07,,
+HRIS_SuccessFactors,EMP-1827,A. Pratama,1991-04-13,,32834861592798508,Jakarta Pusat,Sales Junior,Commercial,2022-07-26,Active,Data Entry Accuracy; Demand Forecasting; Route Planning,,,,,,,,
+HRIS_SuccessFactors,EMP-9874,JIHAN PUSPITA,1997-07-07,jihan.puspita@medikanusantara.co.id,32732545562324379,Jakarta Pusat,SR. SALES,Commercial,2024-05-12,Active,Customer Relationship Management; Distributor Negotiation; Regulatory Documentation,,,,,,,,
+HRIS_SuccessFactors,EMP-8224,Sari Anggraini,1992-04-13,sari.anggraini@medikanusantara.co.id,,PALEMBANG,Admin,Corporate,2025-08-31,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-9720,Rina Yulianti,,,,Manado,Supervisor Warehouse,Supply Chain,,Active,,B,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-5176,Dwi Rahayu,1999-12-29,dwi.rahayu@medikanusantara.co.id,,Medan,petugas regulasi,Technical,2018-08-05,Active,Data Entry Accuracy; Regulatory Documentation,,,,,,,,
+HRIS_SuccessFactors,EMP-5935,R. Mardiana,1990-10-10,,32826783706315227,Medan,Apoteker Pendamping,Technical,2025-04-22,Active,Advanced Excel; Customer Relationship Management; Inventory Management; Regulatory Documentation,,,,,,,,
+HRIS_SuccessFactors,EMP-6444,Eko Puspita,1976-07-31,eko.puspita@medikanusantara.co.id,,Surabaya,Senior Sales Exec,Commercial,2026-01-12,Active,Advanced Excel; Customer Relationship Management; Medical Product Knowledge,,,,,,,,
+HRIS_SuccessFactors,EMP-6766,Achmad Lestari,1995-09-08,,,Manado,Koordinator Logistik,Supply Chain,2016-08-22,Terminated,,,,,,,,,status_terminated_prior_branch
+HRIS_SuccessFactors,EMP-5188,Ayu Hutapea,,,,Medan,Sales Junior,Commercial,,Active,,3,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_86529,DEDI WIBOWO,,,,,,,,,,,,,Excel untuk Analisis Penjualan,Training,2025-10-31,,
+HRIS_SuccessFactors,EMP-9479,Eko Setiyawan,2000-10-18,,,Bandung,Staff QA,Technical,2015-10-12,Terminated,,,,,,,,,status_terminated_prior_branch
+ATS_Workable,candidate_897,Risky Rahma Utami,,rizky.rahma.utami@medikanusantara.co.id,,Surabaya,Sales Junior,,2023-03-11,Hired,Medical Product Knowledge; Customer Relationship Management; Data Entry Accuracy,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-3371,Laras Hidayah,,,,Yogyakarta,Pharmacy Assistant,Technical,,Active,,3,2025,1-4,,,,,performance_history
+LMS_Moodle,moodle_35821,Gita Budi Maulana,,,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,Compliance,2025-05-02,,
+LMS_Moodle,moodle_92714,Lestari Galih Lestari,,,,,,,,,,,,,Teknik Negosiasi Distributor,Umum,2026-04-22,,
+HRIS_SuccessFactors,EMP-7956,I. Lestari,,,,Bekasi,kepala sales,Commercial,,Active,,2,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9501,DWI UTAMI,,,,Jakarta Pusat,Staff Gudang,Supply Chain,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8742,Anisa  Panjaitan,1995-08-21,,,Semarang, Senior Sales ,Commercial,2025-09-14,Active,Demand Forecasting; Distributor Negotiation; Medical Product Knowledge,,,,,,,,
+HRIS_SuccessFactors,EMP-2144,"Santoso, Hendra Yusuf",1981-12-05,hendra.yusuf.santoso@medikanusantara.co.id,32554366195781308,Makassar,Sales Manager,Commercial,2020-08-31,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-1971,"Panjaitan, Gita",1982-09-07,,,Surabaya,Warehouse Spv,Supply Chain,2018-09-06,Active,CDOB Compliance; Distributor Negotiation; Inventory Management,,,,,,,,
+HRIS_SuccessFactors,EMP-9801,Zainal Siti Firmansyah,,,,Yogyakarta,Supervisor Warehouse,Supply Chain,,Active,,3,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-7406,W. Wijaya,1975-10-26,wulan.wijaya@medikanusantara.co.id,,Jakarta Pusat,Warehouse Admin,Supply Chain,2024-11-09,Active,Data Entry Accuracy; Inventory Management; Team Leadership; Warehouse Safety,,,,,,,,
+LMS_Moodle,moodle_11267,Fajar Kusuma,,fajar.kusuma@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,TRAINING,2026-08-05,,
+HRIS_SuccessFactors,EMP-2803,Andi Rizki Maulana,,,,Jakarta Pusat,Sales Junior,Commercial,,Active,,2,2023,1-5,,,,,performance_history
+ATS_Workable,candidate_460,I. Citra Wijaya,,intan.citra.wijaya@medikanusantara.co.id,,Bandung,Petugas Gudang,,2025-10-19,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-8235,"Wibowo, Mega Sari",,,,Bandung,Apoteker Pendamping,Technical,,Active,,4,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-2253,T. Panjaitan,,,,Yogyakarta,koordinator logistik,Supply Chain,,Active,,4,2023,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-4438,Hasan Nugraha,,,,Bekasi,Sales Executive Senior,Commercial,,Active,,3,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-5935,Rahma Mardiana,,,,Medan,Apoteker Pendamping,Technical,,Active,,4,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-2024,Sari Safitri,,,,Semarang,Staff Gudang,Supply Chain,,Active,,2,2024,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-7950,Risky Rahma Utami,1992-04-23,rizky.rahma.utami@medikanusantara.co.id,,Surabaya,Sales Junior,Commercial,2023-05-16,Active,,,,,,,,,
+LMS_Moodle,moodle_69318,Rahma Hutapea,,rahma.hutapea@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,Training,2024-09-29,,
+LMS_Moodle,moodle_38210,D. Utami,,dwi.utami@medikanusantara.co.id,,,,,,,,,,,Dokumentasi Regulasi BPOM,,2026-07-08,,
+HRIS_SuccessFactors,EMP-5276,Yuni Situmorang,2001-10-28,yuni.situmorang@medikanusantara.co.id,,Bekasi,Koordinator Gudang,Supply Chain,2019-12-29,Active,Warehouse Safety,,,,,,,,
+HRIS_SuccessFactors,EMP-7956,I. Lestari,,,,Bekasi,kepala sales,Commercial,,Active,,3,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-1018,Sari Halim,1995-07-22,sari.halim@medikanusantara.co.id,,Manado,Warehouse  Admin,Supply Chain,2024-06-17,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-8896,"Permana, Lestari",,,,Palembang,WAREHOUSE SPV,Supply Chain,,Active,,B,2023,A-D,,,,,performance_history
+LMS_Moodle,moodle_79796,Gita  Halim,,gita.halim@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,Lain-lain,2026-08-04,,
+HRIS_SuccessFactors,EMP-6077,Lukman  Rahayu,1980-11-29,,,Palembang,Sr Medical Rep,Commercial,2024-05-31,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-6566,Imam  Wijaya,,,,Jakarta Pusat,REGULATORY OFFICER,Technical,,Active,,5,2023,1-5,,,,,performance_history
+LMS_Moodle,moodle_64729,W. Firmansyah,,wahyu.firmansyah@medikanusantara.co.id,,,,,,,,,,,SAP Modul Logistik,Umum,2025-09-25,,
+HRIS_SuccessFactors,EMP-9458,Rahma  Nugroho,,,,Manado,Warehouse Operator,Supply Chain,,Active,,A,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-3488,Wulan Santoso,1987-12-22,,,Jakarta Pusat,Spesialis Produk,Technical,2023-12-11,Active,Medical Product Knowledge; SAP Navigation,,,,,,,,
+HRIS_SuccessFactors,EMP-7653,"Puspita, Mega",,,,Denpasar,Distribution Coordinator,Supply Chain,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4053,J. Yuni Safitri,1994-03-31,jihan.yuni.safitri@medikanusantara.co.id,,Palembang,Staff Finance,Corporate,2022-05-24,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-7956,I. Lestari,1988-09-07,irfan.lestari@medikanusantara.co.id,32248184835173943,Bekasi,kepala sales,Commercial,2020-05-30,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-5068,"Firmansyah, Imam",1980-09-08,,,Yogyakarta,WH Staff,Supply Chain,2018-06-10,Terminated,,,,,,,,,status_terminated_prior_branch
+HRIS_SuccessFactors,EMP-8505,Imam Kurnianwan,,,,Manado,Staff Finance,Corporate,,Active,,D,2023,A-D,,,,,performance_history
+LMS_Moodle,moodle_31167,Hasan Nugraha,,hasan.nugroho@medikanusantara.co.id,,,,,,,,,,,Teknik Negosiasi Distributor,Umum,2025-03-24,,
+HRIS_SuccessFactors,EMP-6618,Fitry Puspita,,,,Bekasi,koordinator logistik,Supply Chain,,Active,,3,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_36993,Agus  Setiawan,,agus.setiawan@medikanusantara.co.id,,,,,,,,,,,CDOB Lanjutan & Audit Internal,Lain-lain,2023-08-16,,
+ATS_Workable,candidate_477,Lukman  Rahayu,,lukman.rahayu@medikanusantara.co.id,,Palembang,Sr Medical Rep,,2024-04-26,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-9453,Lukman Wijaya,,,,Surabaya,Koordinator Logistik,Supply Chain,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4879,Rizki Santoso,,,,Denpasar,asisten apoteker,Technical,,Active,,5,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-1282,Dewie Safitri,1978-04-13,dewi.safitri@medikanusantara.co.id,,BANDUNG,senior sales exec,Commercial,2025-07-21,Active,,,,,,,,,
+LMS_Moodle,moodle_12072,ZAINAL SITI FIRMANSYAH,,zainal.siti.firmansyah@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,,2023-03-01,,
+HRIS_SuccessFactors,EMP-9501,Dwi Utami,1995-09-10,,32317356038704467,Jakarta Pusat,Staff Gudang,Supply Chain,2025-04-23,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-8798,Yuni Halim,,,,Semarang, Sales 2 ,Commercial,,Active,,3,2025,1-4,,,,,performance_history
+LMS_Moodle,moodle_45719,Imam Kurnianwan,,imam.kurniawan@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,,2026-06-04,,
+HRIS_SuccessFactors,EMP-1408,Wahyu Firmansyah,1975-09-03,,32812601905453073,BEKASI,Spesialis Produk,Technical,2018-09-19,Active,CDOB Compliance; Cold Chain Handling,,,,,,,,
+HRIS_SuccessFactors,EMP-7700,Hendra Santoso,1995-03-05,,,Bekasi,Salesman,Commercial,2024-04-29,Active,Data Entry Accuracy; Inventory Management,,,,,,,,
+HRIS_SuccessFactors,EMP-4662,Yuni Mardiana,,,,Manado,GUDANG,Supply Chain,,Active,,B,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-5508,Nadia Puspita,,,,Bekasi,koordinator logistik,Supply Chain,,Active,,2,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-5841,Eko Kusuma,1987-02-09,,,Balikpapan,Staff Logistik,Supply Chain,2024-01-22,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-6281,Nuur Maulana,1982-07-20,nur.maulana@medikanusantara.co.id,32449357413115636,Bekasi,SR. SALES,Commercial,2023-11-27,Active,Customer Relationship Management; Inventory Management,,,,,,,,
+HRIS_SuccessFactors,EMP-8742,Annisa Panjaitan,,,,Semarang, Senior Sales ,Commercial,,Active,,4,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-4450,H. Halim,,,,Manado,SALES 1,Commercial,,Active,,B,2023,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-7047,"Anggraini, Rahma",,,,Denpasar,Pharmacy Assistant,Technical,,Active,,3,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_12940,Eko Puspita,,eko.puspita@medikanusantara.co.id,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,Lain-lain,2026-07-23,,
+LMS_Moodle,moodle_33648,Budi Dwi Safitri,,budi.dwi.safitri@medikanusantara.co.id,,,,,,,,,,,Dokumentasi Regulasi BPOM,Lain-lain,2025-06-18,,
+ATS_Workable,candidate_926,Nadia Rahayu,1979-05-03,nadia.rahayu@medikanusantara.co.id,,Semarang,Petugas Regulasi,,2023-10-28,Hired,Medical Product Knowledge; CDOB Compliance; Distributor Negotiation,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_78758,M. Sari Ramadhan,,muhammad.sari.ramadhan@medikanusantara.co.id,,,,,,,,,,,Kepemimpinan Tim Cabang,umum,2025-08-18,,
+HRIS_SuccessFactors,EMP-1958,Muhamad Sari Ramadhan,,,,Manado,Sales Junior,Commercial,,Active,,B,2023,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-1971,Gita Panjaitan,,,,Surabaya,Warehouse Spv,Supply Chain,,Active,,3,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_56928,K. Firmansyah,,krisna.firmansyah@medikanusantara.co.id,,,,,,,,,,,Kepemimpinan Tim Cabang,Training,2023-11-14,,
+LMS_Moodle,moodle_89549,GALIH RAMADHAN,,galih.ramadhan@medikanusantara.co.id,,,,,,,,,,,Forecasting Permintaan Dasar,umum,2024-03-01,,
+HRIS_SuccessFactors,EMP-6197,Ratna  Tanujaya,,,,Bekasi,Medical Representative,Commercial,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4750,Maya Safitri,,,,Yogyakarta,Sales  Rep,Commercial,,Active,,2,2023,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-1827,Andi Pratama,,,,Jakarta Pusat,Sales Junior,Commercial,,Active,,2,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_10838,Dwi Rahayu,,dwi.rahayu@medikanusantara.co.id,,,,,,,,,,,Dokumentasi Regulasi BPOM,Umum,2026-06-06,,
+HRIS_SuccessFactors,EMP-6077,"Rahayu, Lukman",,,,Palembang,Sr Medical Rep,Commercial,,Active,,D,2023,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-9066,Nanda Setiyawan,,,,Makassar,Warehouse Admin,Supply Chain,,Active,,B,2023,A-D,,,,,performance_history
+LMS_Moodle,moodle_96482,"Situmorang, Tika Eko",,tika.eko.situmorang@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,Lain-lain,2023-04-20,,
+HRIS_SuccessFactors,EMP-3055,"Tanujaya, Yoga",,,,Palembang,Petugas Gudang,Supply Chain,,Active,,D,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-3167,Nadia Handayani,,,,Palembang,sales executive,Commercial,,Active,,C,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-9458,Rahma Nugraha,,,,Manado,Warehouse Operator,Supply Chain,,Active,,C,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-8487,Dewie Lestari,,dewi.lestari@medikanusantara.co.id,32350862390269366,Jakarta Pusat,QA Officer,Technical,2018-11-17,Active,Regulatory Documentation; Route Planning,,,,,,,,
+HRIS_SuccessFactors,EMP-2253,Tika Panjaitan,1985-12-07,,,Yogyakarta,koordinator logistik,Supply Chain,2019-07-24,Active,SAP Navigation,,,,,,,,
+HRIS_SuccessFactors,EMP-6591,NUR KARTIKA HANDAYANI,,,,Medan,Logistics Staff,Supply Chain,2024-08-26,Active,CDOB Compliance; Cold Chain Handling; SAP Navigation,,,,,,,,
+HRIS_SuccessFactors,EMP-4953,Fajar Achmad Kusuma,,,,Yogyakarta,WAREHOUSE ADMIN,Supply Chain,,Active,,1,2025,1-4,,,,,performance_history
+LMS_Moodle,moodle_70555,D. Lestari,,,,,,,,,,,,,SAP SuccessFactors untuk Staff,Training,2026-04-27,,
+LMS_Moodle,moodle_89934,G. Tanujaya,,gita.tanujaya@medikanusantara.co.id,,,,,,,,,,,Pelatihan CDOB Dasar,TRAINING,2025-06-22,,
+ATS_Workable,candidate_286,R. Rina Anggraini,1990-04-06,rahmat.rina.anggraini@medikanusantara.co.id,,Medan,Staff IT,,2024-04-25,Hired,Data Entry Accuracy; Advanced Excel; SAP Navigation,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_90337,Oktavia Mardiana,,oktavia.mardiana@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,,2023-03-14,,
+LMS_Moodle,moodle_17899,L. Puspita,,lestari.puspita@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,umum,2025-04-12,,
+HRIS_SuccessFactors,EMP-8044,T. Puspita,2002-07-02,tika.puspita@medikanusantara.co.id,,Jakarta Pusat,Staff Gudang,Supply Chain,2025-05-18,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-6089,"Maulana, Gita Budi",1985-02-27,gita.budi.maulana@medikanusantara.co.id,32234272820395698,Denpasar, Sales Rep ,Commercial,2022-01-19,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-1049,Sari Lestari,1988-10-28,,,Medan,Staff Adm & Keu,Corporate,2025-12-29,Active,Cold Chain Handling; Inventory Management; Warehouse Safety,,,,,,,,
+HRIS_SuccessFactors,EMP-9453,"Wijaya, Lukman",,,,Surabaya,Koordinator Logistik,Supply Chain,,Active,,5,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4053,J. Yuni Safitri,,,,Palembang,Staff Finance,Corporate,,Active,,D,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-6684,Maya Lestari,2000-06-08,,,Balikpapan, Sales 1 ,Commercial,2024-10-24,Active,,,,,,,,,
+LMS_Moodle,moodle_51828,Fitri Panjaitan,,fitri.panjaitan@medikanusantara.co.id,,,,,,,,,,,K3 Gudang & Penanganan B3,Lain-lain,2023-01-04,,
+LMS_Moodle,moodle_48870,Nur Kartika Handayani,,,,,,,,,,,,,SAP SuccessFactors untuk Staff,Lain-lain,2025-10-16,,
+ATS_Workable,candidate_287,Joko Mardiana,,joko.mardiana@medikanusantara.co.id,,Balikpapan,Teknisi IT,,2024-08-02,Hired,SAP Navigation; Data Entry Accuracy,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-6488,Agus Setiyawan,,,,Semarang,Warehouse Spv,Supply Chain,,Active,,4,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-1058,Surya Hidayat,,,,Denpasar,Koordinator Logistik,Supply Chain,,Active,,2,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_99381,Maya Hutapea,,maya.hutapea@medikanusantara.co.id,,,,,,,,,,,SAP SuccessFactors untuk Staff,,2023-10-17,,
+LMS_Moodle,moodle_50152,"Santoso, Hendra",,hendra.santoso@medikanusantara.co.id,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,,2025-04-29,,
+HRIS_SuccessFactors,EMP-9969,Yusuf Maulana,,,,Bekasi,LOGISTIC COORD,Supply Chain,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6642,Agus Dwi Ramadhan,,,,Denpasar,Medical  Representative,Commercial,,Active,,3,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_92714,L. Galih Lestari,,lestari.galih.lestari@medikanusantara.co.id,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,,2026-01-06,,
+HRIS_SuccessFactors,EMP-3371,Laras Hidayah,,,,Yogyakarta,Pharmacy Assistant,Technical,,Active,,1,2023,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-7956,IRFAN LESTARI,,,,Bekasi,kepala sales,Commercial,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-1729,Imam  Firmansyah,1980-09-08,imam.firmansyah@medikanusantara.co.id,,Medan,WH STAFF,Supply Chain,2020-09-29,Active,CDOB Compliance; Customer Relationship Management; Inventory Management,,,,,,,,
+HRIS_SuccessFactors,EMP-1385,Zainal Maulana,1996-11-01,,,Makassar,Product  Spec,Technical,2019-10-11,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-3740,Bagus Nugraha,,,,Medan,WH Staff,Supply Chain,,Active,,4,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3055,YOGA TANUJAYA,1978-09-17,,32572982426556386,Palembang,Petugas Gudang,Supply Chain,2023-03-18,Active,,,,,,,,,
+ATS_Workable,candidate_401,NADIA HANDAYANI,,nadia.handayani@medikanusantara.co.id,,Palembang,MEDICAL REPRESENTATIVE,,2026-01-21,Hired,Customer Relationship Management; Route Planning; Data Entry Accuracy,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-9121,Novi Pratama,,,,Makassar,senior sales exec,Commercial,,Active,,A,2025,A-D,,,,,performance_history
+LMS_Moodle,moodle_95458,N. Pratama,,novi.pratama@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,umum,2026-04-13,,
+HRIS_SuccessFactors,EMP-4696,Eko Setiyawan,,,,Jakarta Pusat,Petugas Regulasi,Technical,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6726,Dedi Wibowo,,,,Denpasar,Helpdesk,Corporate,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9660,Gita Halim,,,,Semarang,SR MEDICAL REP,Commercial,,Active,,1,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-1625,RAHMAT RINA ANGGRAINI,,,,Medan,Staff IT,Corporate,,Active,,3,2025,1-5,,,,,performance_history
+ATS_Workable,candidate_452,Fitry Saputra,1984-04-10,fitri.saputra@medikanusantara.co.id,,Jakarta Pusat,Koordinator Logistik,,2025-03-14,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-3589,Achmad Simanjuntak,,,,Bandung,Asisten Apoteker,Technical,,Active,,5,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_40907,Annisa Panjaitan,,anisa.panjaitan@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,Training,2026-08-01,,
+HRIS_SuccessFactors,EMP-9066,Nanda Setiyawan,1990-08-09,nanda.setiawan@medikanusantara.co.id,32135314774116150,Makassar,Warehouse Admin,Supply Chain,2020-12-14,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-8896,Lestari Permana,,,,Palembang,WAREHOUSE SPV,Supply Chain,,Active,,D,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-8505,Imam Kurnianwan,,imam.kurniawan@medikanusantara.co.id,,Manado,Staff Finance,Corporate,2025-12-05,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-6437,Galih Ramadhan,1994-09-23,galih.ramadhan@medikanusantara.co.id,,Bekasi,senior sales exec,Commercial,2020-11-30,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-5172,Novi Kurnianwan,,novi.kurniawan@medikanusantara.co.id,,Balikpapan, Admin ,Corporate,2022-08-12,Active,,,,,,,,,
+LMS_Moodle,moodle_27929,Rahmat Rina Anggraini,,,,,,,,,,,,,Excel untuk Analisis Penjualan,Lain-lain,2025-03-01,,
+ATS_Workable,candidate_282,Tika Puspita,2002-07-02,tika.puspita@medikanusantara.co.id,,Jakarta Pusat,Warehouse Operator,,2025-04-30,Hired,Advanced Excel; Cold Chain Handling; Warehouse Safety,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-3167,N. Handayani,,,,Palembang,sales executive,Commercial,,Active,,B,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-6896,Mega Permana,2002-11-19,,,Surabaya,ASISTEN APOTEKER,Technical,2024-11-23,Active,,,,,,,,,
+ATS_Workable,candidate_132,Gita Tanujaya,1995-11-20,gita.tanujaya@medikanusantara.co.id,,Palembang,Medical Representative,,2025-01-22,Hired,Medical Product Knowledge; Data Entry Accuracy,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-4989,"Mardiana, Yuni",,,,Makassar,Regulatory Officer,Technical,,Active,,B,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-9721,Irfan Simanjuntak,,,,Bandung,Admin Keuangan,Corporate,,Active,,2,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_80257,Budi Tanujaya,,budi.tanujaya@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,TRAINING,2026-01-03,,
+HRIS_SuccessFactors,EMP-9033,Novi Halim,,,,Bekasi, Kepala Sales ,Commercial,,Active,,4,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-2322,R. Hutapea,,,,Manado,Warehouse  Operator,Supply Chain,2023-07-25,Active,,,,,,,,,
+LMS_Moodle,moodle_36311,I. Permana,,imam.permana@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,umum,2024-12-17,,
+LMS_Moodle,moodle_11267,"Kusuma, Fajar",,,,,,,,,,,,,Manajemen Inventori Gudang,Training,2025-06-18,,
+LMS_Moodle,moodle_63953,"Ramadhan, Dwi",,,,,,,,,,,,,Product Knowledge Farmasi 2025,Training,2025-01-17,,
+LMS_Moodle,moodle_48244,"Hidayat, Jihan Dwi",,jihan.dwi.hidayat@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,,2025-06-27,,
+LMS_Moodle,moodle_33754,Irfan Pratama,,irfan.pratama@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,Umum,2025-05-21,,
+ATS_Workable,candidate_670,"Lestari, Sari",1988-10-28,sari.lestari@medikanusantara.co.id,,Medan,Accounting Staff,,2025-10-26,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-1955,Rina  Handayani,,,,Yogyakarta,Pharmacy Assistant,Technical,,Active,,1,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-8505,Imam Kurnianwan,,,,Manado,Staff Finance,Corporate,,Active,,B,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-6519,Hasan Puspita,1995-03-18,hasan.puspita@medikanusantara.co.id,,Yogyakarta,Staff Finance,Corporate,2021-05-08,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-5846,Zainal  Ramadhan,1978-01-23,,32147885373874645,MEDAN,WAREHOUSE ADMIN,Supply Chain,2021-12-11,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-6421,"Kusuma, Fajar",,,,Bandung,Sales 2,Commercial,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_29449,"Firmansyah, Wahyu",,wahyu.firmansyah@medikanusantara.co.id,,,,,,,,,,,Dokumentasi Regulasi BPOM,Umum,2024-05-23,,
+HRIS_SuccessFactors,EMP-6519,"Puspita, Hasan",,,,Yogyakarta,Staff Finance,Corporate,,Active,,1,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-2994,R. Gita Utami,,,,Bandung,manager penjualan,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_91169,Rahma Nugraha,,rahma.nugroho@medikanusantara.co.id,,,,,,,,,,,K3 Gudang & Penanganan B3,Lain-lain,2026-05-30,,
+HRIS_SuccessFactors,EMP-7790,Budi  Puspita,2000-06-19,budi.puspita@medikanusantara.co.id,32579632569017991,Jakarta Pusat,Spesialis Produk,Technical,2022-10-15,Active,CDOB Compliance; Cold Chain Handling; Medical Product Knowledge,,,,,,,,
+HRIS_SuccessFactors,EMP-4053,JIHAN YUNI SAFITRI,,,,Palembang,Staff Finance,Corporate,,Active,,B,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-5657,Hasan Nadia Safitri,,,,Bandung,STAFF GUDANG,Supply Chain,,Active,,5,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4750,"Safitri, Maya",,,,Yogyakarta,Sales  Rep,Commercial,,Active,,1,2024,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-5488,Wahyu Yulianti,1982-04-02,wahyu.yulianti@medikanusantara.co.id,,Palembang, Kepala Sales ,Commercial,2015-03-24,Active,,,,,,,,,
+LMS_Moodle,moodle_78487,Yuni Saputra,,yuni.saputra@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,,2024-06-02,,
+HRIS_SuccessFactors,EMP-6015,Ratna Wulan Simanjuntak,1976-03-05,ratna.wulan.simanjuntak@medikanusantara.co.id,,Bekasi,Sales Junior,Commercial,2021-08-11,Active,Customer Relationship Management; Medical Product Knowledge,,,,,,,,
+LMS_Moodle,moodle_38757,Jihan Puspita,,jihan.puspita@medikanusantara.co.id,,,,,,,,,,,Dokumentasi Regulasi BPOM,TRAINING,2026-08-01,,
+LMS_Moodle,moodle_56528,Bayu Kurniawan,,,,,,,,,,,,,Product Knowledge Farmasi 2025,,2026-03-12,,
+LMS_Moodle,moodle_99705,Yusuf  Maulana,,yusuf.maulana@medikanusantara.co.id,,,,,,,,,,,Manajemen Inventori Gudang,Umum,2025-10-27,,
+ATS_Workable,candidate_502,Rahma Mardiana,1994-04-01,rahma.mardiana@medikanusantara.co.id,,Manado,Sales 1,,2022-12-21,Hired,,,,,,,,,ats_offer_date_not_hire_date
+ATS_Workable,candidate_221,Laras Hidayat,1994-08-06,laras.hidayat@medikanusantara.co.id,,Yogyakarta,apoteker pendamping,,2023-10-17,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-6941,Prasetya Krisna Anggraini,1993-07-31,prasetyo.krisna.anggraini@medikanusantara.co.id,,Manado, Admin ,Corporate,2024-02-18,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-2657,Surya Indah Firmansyah,,,,Jakarta Pusat,sr. sales,Commercial,,Active,,5,2025,1-5,,,,,performance_history
+ATS_Workable,candidate_461,Yuni Halim,,yuni.halim@medikanusantara.co.id,,Semarang,Sales Senior,,2026-03-02,Hired,Distributor Negotiation; Team Leadership; Medical Product Knowledge,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-1833,M. Lestari,,,,Manado,Apoteker Pendamping,Technical,,Active,,A,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-5078,Oktavianus Joko Simanjuntak,1988-05-05,oktavianus.joko.simanjuntak@medikanusantara.co.id,,Semarang, Admin ,Corporate,2023-09-29,Active,Advanced Excel; Cold Chain Handling; Customer Relationship Management; Demand Forecasting; SAP Navigation,,,,,,,,
+LMS_Moodle,moodle_33148,"Safitri, Sari",,sari.safitri@medikanusantara.co.id,,,,,,,,,,,Teknik Negosiasi Distributor,TRAINING,2025-08-30,,
+LMS_Moodle,moodle_42939,Tika Situmorang,,,,,,,,,,,,,Manajemen Inventori Gudang,Umum,2025-04-18,,
+ATS_Workable,candidate_696,Yoga Tanujaya,,yoga.tanujaya@medikanusantara.co.id,,Palembang,Petugas Gudang,,2023-02-15,Hired,Cold Chain Handling; Warehouse Safety,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-8235,Mega Sari Wibowo,1982-12-13,,,Bandung,Apoteker Pendamping,Technical,2025-03-07,Active,CDOB Compliance; Cold Chain Handling,,,,,,,,
+LMS_Moodle,moodle_22104,"Wibowo, Andi",,,,,,,,,,,,,Kepemimpinan Tim Cabang,TRAINING,2023-10-23,,
+HRIS_SuccessFactors,EMP-6077,L. Rahayu,,,,Palembang,Sr Medical Rep,Commercial,,Active,,C,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-3698,Sari Muhamad Mardiana,,,,Surabaya,QA/RA,Technical,,Active,,4,2023,1-5,,,,,performance_history
+ATS_Workable,candidate_181,T. Citra Tanujaya,,tika.citra.tanujaya@medikanusantara.co.id,,Bandung, SR. SALES ,,2025-01-29,Hired,Demand Forecasting; Advanced Excel; Customer Relationship Management,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_99705,Y. Maulana,,yusuf.maulana@medikanusantara.co.id,,,,,,,,,,,SAP SuccessFactors untuk Staff,,2023-10-08,,
+HRIS_SuccessFactors,EMP-5243,Andi  Wibowo,1991-03-13,,,Surabaya,Warehouse Operator,Supply Chain,2021-01-08,Active,Cold Chain Handling; Data Entry Accuracy; Inventory Management; Team Leadership,,,,,,,,
+ATS_Workable,candidate_741,Imam Kurnianwan,1991-06-06,imam.kurniawan@medikanusantara.co.id,,Manado,Accounting Staff,,2025-11-09,Hired,,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_62137,Nuur Maulana,,,,,,,,,,,,,Manajemen Inventori Gudang,,2025-05-08,,
+HRIS_SuccessFactors,EMP-8091,F. Situmorang,1976-11-18,fajar.situmorang@medikanusantara.co.id,,Medan,Admin Keuangan,Corporate,2023-03-28,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-4151,Indah Annisa Simanjuntak,1988-03-18,indah.anisa.simanjuntak@medikanusantara.co.id,,Bandung,Sr Medical Rep,Commercial,2021-07-02,Active,,,,,,,,,
+LMS_Moodle,moodle_87996,D. Bayu Handayani,,dwi.bayu.handayani@medikanusantara.co.id,,,,,,,,,,,Optimasi Rute Distribusi,Lain-lain,2025-09-01,,
+HRIS_SuccessFactors,EMP-8679,Dedi Lestari,,,,Yogyakarta,WH Staff,Supply Chain,,Active,,3,2024,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-9231,Tika Eko Situmorang,,,,Surabaya,SR. SALES,Commercial,2019-02-25,Active,Advanced Excel; Medical Product Knowledge,,,,,,,,
+HRIS_SuccessFactors,EMP-5657,H. Nadia Safitri,,,,Bandung,STAFF GUDANG,Supply Chain,,Active,,3,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9472,Teguh Firmansyah,,,,Jakarta Pusat,MANAGER PENJUALAN,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-5846,Zainal Ramadhan,,,,Medan,WAREHOUSE ADMIN,Supply Chain,,Active,,4,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-1282,Dewie Safitri,,,,Bandung,senior sales exec,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-7715,Andi Simanjuntak,,,,Medan,warehouse operator,Supply Chain,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-2024,Sari Safitri,,,,Semarang,Staff Gudang,Supply Chain,,Active,,1,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-1971,G. Panjaitan,,,,Surabaya,Warehouse Spv,Supply Chain,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_50152,HENDRA SANTOSO,,hendra.santoso@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,Umum,2025-04-12,,
+HRIS_SuccessFactors,EMP-6261,Oktavia Mardiana,,,,Jakarta Pusat,STAFF GUDANG,Supply Chain,,Active,,4,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_37399,Lukman Maulana,,lukman.maulana@medikanusantara.co.id,,,,,,,,,,,Teknik Negosiasi Distributor,Umum,2025-02-10,,
+LMS_Moodle,moodle_13306,Galih Lestari,,galih.lestari@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,umum,2025-05-06,,
+ATS_Workable,candidate_290,Dewie Safitri,1978-04-13,dewi.safitri@medikanusantara.co.id,,Bandung,Sr Medical Rep,,2025-05-07,Hired,Customer Relationship Management; Demand Forecasting; Distributor Negotiation,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-9342,H. Kusuma,,,,Balikpapan,Admin,Corporate,,Active,,1,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-6566,Imam Wijaya,,,,Jakarta Pusat,REGULATORY OFFICER,Technical,,Active,,5,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_85025,Nadia Puspita,,nadia.puspita@medikanusantara.co.id,,,,,,,,,,,Optimasi Rute Distribusi,TRAINING,2025-03-27,,
+HRIS_SuccessFactors,EMP-1920,Wulan Annisa Saputra,1986-08-14,,32419129919865765,Denpasar,Distribution Coordinator,Supply Chain,2021-02-14,Active,CDOB Compliance; Cold Chain Handling,,,,,,,,
+HRIS_SuccessFactors,EMP-3740,Bagus Nugraha,,bagus.nugroho@medikanusantara.co.id,,MEDAN,WH Staff,Supply Chain,2022-04-19,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-1345,Oktavianus Anggraini,,,,Bekasi,qa officer,Technical,,Active,,4,2024,1-5,,,,,performance_history
+ATS_Workable,candidate_400,Nur Maulana,1982-07-20,nur.maulana@medikanusantara.co.id,,Bekasi,senior sales,,2023-10-13,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-4053,"Safitri, Jihan Yuni",,,,Palembang,Staff Finance,Corporate,,Active,,A,2023,A-D,,,,,performance_history
+ATS_Workable,candidate_420,GALIH LESTARI,,galih.lestari@medikanusantara.co.id,,Denpasar,Helpdesk,,2023-11-02,Hired,Data Entry Accuracy; SAP Navigation; CDOB Compliance,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-2657,Surya  Indah  Firmansyah,,,,Jakarta Pusat,sr. sales,Commercial,,Active,,4,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8015,Indah Setiyawan,1986-07-12,,,Yogyakarta,SALES 1,Commercial,2022-09-06,Terminated,,,,,,,,,status_terminated_prior_branch
+HRIS_SuccessFactors,EMP-3931,O. Panjaitan,,,,Makassar,Sales 2,Commercial,,Active,,B,2025,A-D,,,,,performance_history
+LMS_Moodle,moodle_26570,Eko Saputra,,eko.saputra@medikanusantara.co.id,,,,,,,,,,,Kepemimpinan Tim Cabang,,2025-10-22,,
+LMS_Moodle,moodle_18376,Hasan Hidayat,,hasan.hidayat@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,,2024-06-10,,
+HRIS_SuccessFactors,EMP-5383,YUNI MARDIANA,1990-08-09,,,Bekasi,warehouse operator,Supply Chain,2023-03-18,Terminated,,,,,,,,,status_terminated_prior_branch
+HRIS_SuccessFactors,EMP-8394,C. Halim,,,,Bandung,Sales Mgr,Commercial,,Active,,3,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_35126,Annisa Wibowo,,anisa.wibowo@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,TRAINING,2026-04-04,,
+HRIS_SuccessFactors,EMP-9023,"Wijaya, Yuni",,yuni.wijaya@medikanusantara.co.id,,Denpasar, Pharmacy Assistant ,Technical,2024-12-22,Active,,,,,,,,,
+ATS_Workable,candidate_909,M. Lestari,,maya.lestari@medikanusantara.co.id,,Balikpapan,MEDICAL REPRESENTATIVE,,2024-09-06,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-2091,Rina  Irfan  Utami,1995-11-21,,,Bekasi,Staff Sales,Commercial,2019-11-22,Terminated,,,,,,,,,status_terminated_prior_branch
+HRIS_SuccessFactors,EMP-1174,N. Anggraini,,,,Bekasi,Finance Admin,Corporate,,Active,,4,2025,1-5,,,,,performance_history
+ATS_Workable,candidate_946,Ayu Hutapea,,ayu.hutapea@medikanusantara.co.id,,Medan,JR. SALES,,2023-10-17,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-3014,Nuur Safitri,1983-04-04,nur.safitri@medikanusantara.co.id,32899175953442582,Balikpapan,SENIOR SALES,Commercial,2024-10-10,Active,,,,,,,,,
+LMS_Moodle,moodle_16106,Lukman Wijaya,,lukman.wijaya@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,umum,2026-05-30,,
+LMS_Moodle,moodle_22111,R. Handayani,,rina.handayani@medikanusantara.co.id,,,,,,,,,,,CDOB Lanjutan & Audit Internal,Training,2025-02-15,,
+ATS_Workable,candidate_677,Lukman Wijaya,1984-01-01,,,Surabaya, Staff Logistik ,,2025-08-22,Hired,Regulatory Documentation; Route Planning; Medical Product Knowledge,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-5508,Nadia Puspita,,,,Bekasi,koordinator logistik,Supply Chain,,Active,,2,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_13306,Galih Lestari,,galih.lestari@medikanusantara.co.id,,,,,,,,,,,CDOB Lanjutan & Audit Internal,Lain-lain,2025-02-06,,
+HRIS_SuccessFactors,EMP-2024,S. Safitri,,sari.safitri@medikanusantara.co.id,,Semarang,Staff Gudang,Supply Chain,2020-12-03,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-6112,Rizki Sanjaya,,rizky.sanjaya@medikanusantara.co.id,,Yogyakarta,Accounting  Staff,Corporate,2021-03-17,Active,Advanced Excel; SAP Navigation,,,,,,,,
+ATS_Workable,candidate_761,Bayu  Anggraini,,bayu.anggraini@medikanusantara.co.id,,Medan,STAFF ADM & KEU,,2024-10-22,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-1058,Surya Hidayah,1982-01-06,,,Denpasar,Koordinator Logistik,Supply Chain,2024-07-14,Active,,,,,,,,,
+LMS_Moodle,moodle_16106,Lukman Wijaya,,,,,,,,,,,,,Dokumentasi Regulasi BPOM,,2025-09-17,,
+HRIS_SuccessFactors,EMP-3426,B. Mardiana,1976-04-12,bagus.mardiana@medikanusantara.co.id,32687475740661535,Denpasar,Staff QA,Technical,2021-05-28,Active,CDOB Compliance; Data Entry Accuracy; Regulatory Documentation; Team Leadership,,,,,,,,
+HRIS_SuccessFactors,EMP-9462,Lestari  Galih  Lestari,1980-12-05,,,Surabaya,Senior Sales Exec,Commercial,2026-01-01,Active,Customer Relationship Management; Demand Forecasting; Distributor Negotiation,,,,,,,,
+HRIS_SuccessFactors,EMP-1625,R. Rina Anggraini,,,,Medan,Staff IT,Corporate,,Active,,5,2024,1-5,,,,,performance_history
+ATS_Workable,candidate_163,Irfan Pratama,,irfan.pratama@medikanusantara.co.id,,Bandung,product spec,,2023-11-18,Hired,CDOB Compliance; Regulatory Documentation; Team Leadership,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_17162,W. Lukman Halim,,wahyu.lukman.halim@medikanusantara.co.id,,,,,,,,,,,Pelatihan CDOB Dasar,Training,2026-01-20,,
+ATS_Workable,candidate_675,BUDI DWI SAFITRI,,budi.dwi.safitri@medikanusantara.co.id,,Palembang,Sales 2,,2025-06-07,Hired,Regulatory Documentation; SAP Navigation; Customer Relationship Management,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-6483,EKO SAPUTRA,,,,Balikpapan,Product Specialist,Technical,,Active,,3,2024,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-9234,W. Lukman Halim,1989-02-24,wahyu.lukman.halim@medikanusantara.co.id,,Yogyakarta,Spv  Gudang,Supply Chain,2021-10-18,Active,,,,,,,,,
+LMS_Moodle,moodle_82189,TIKA FIRMANSYAH,,tika.firmansyah@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,Umum,2026-03-20,,
+ATS_Workable,candidate_681,"Kusuma, Hana",,hana.kusuma@medikanusantara.co.id,,Balikpapan,Admin Keuangan,,2023-04-19,Hired,SAP Navigation; Data Entry Accuracy; Regulatory Documentation,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-5080,Lukman  Maulana,,,,Semarang,SR. SALES,Commercial,,Active,,2,2024,1-4,,,,,performance_history
+LMS_Moodle,moodle_10191,Andi Pratama,,andi.pratama@medikanusantara.co.id,,,,,,,,,,,Optimasi Rute Distribusi,,2026-01-23,,
+HRIS_SuccessFactors,EMP-6566,IMAM WIJAYA,,,,Jakarta Pusat,REGULATORY OFFICER,Technical,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-7270,Rizki Nugroho,,,,Bandung,Sales 2,Commercial,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3073,Achmad Utami,1994-05-12,,32160285342910438,Bekasi,Sales Junior,Commercial,2024-11-26,Active,CDOB Compliance; Customer Relationship Management; Data Entry Accuracy; Inventory Management; Medical Product Knowledge; Route Planning,,,,,,,,
+HRIS_SuccessFactors,EMP-1827,Andi Pratama,,,,Jakarta Pusat,Sales Junior,Commercial,,Active,,4,2025,1-5,,,,,performance_history
+ATS_Workable,candidate_760,W. Wijaya,,wulan.wijaya@medikanusantara.co.id,,Jakarta Pusat,STAFF GUDANG,,2024-09-26,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-1455,J. Lukman Firmansyah,,,,Makassar,WH Supervisor,Supply Chain,,Active,,C,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-4919,Muhamad Safitri,2000-10-03,,,DENPASAR,staff gudang,Supply Chain,2023-05-03,Active,Inventory Management,,,,,,,,
+HRIS_SuccessFactors,EMP-3589,Achmad Simanjuntak,,,,Bandung,Asisten Apoteker,Technical,,Active,,4,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9969,Yusuf Maulana,,,,Bekasi,LOGISTIC COORD,Supply Chain,,Active,,4,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8190,Nanda Wijaya,,,,Denpasar,Asisten Apoteker,Technical,,Active,,2,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_89549,Galih Ramadhan,,galih.ramadhan@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,Compliance,2025-02-26,,
+HRIS_SuccessFactors,EMP-1958,Muhamad Sari Ramadhan,,,,Manado,Sales Junior,Commercial,,Active,,B,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-6762,Joko Mardiana,,,,Balikpapan,Teknisi IT,Corporate,,Active,,1,2024,1-4,,,,,performance_history
+ATS_Workable,candidate_475,Achmad Hutapea,,ahmad.hutapea@medikanusantara.co.id,,Palembang,Regulatory Officer,,2022-10-28,Hired,CDOB Compliance; Data Entry Accuracy; Regulatory Documentation,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_78758,Muhamad Sari Ramadhan,,muhammad.sari.ramadhan@medikanusantara.co.id,,,,,,,,,,,Optimasi Rute Distribusi,,2024-11-03,,
+LMS_Moodle,moodle_88864,Indah Annisa Simanjuntak,,indah.anisa.simanjuntak@medikanusantara.co.id,,,,,,,,,,,Forecasting Permintaan Dasar,,2025-03-11,,
+HRIS_SuccessFactors,EMP-6642,Agus Dwi Ramadhan,,,,Denpasar,Medical  Representative,Commercial,,Active,,5,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3931,"Panjaitan, Oktavianus",,,,Makassar,Sales 2,Commercial,,Active,,B,2023,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-7715,A. Simanjuntak,1991-04-26,,,Medan,warehouse operator,Supply Chain,2026-02-26,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-4750,M. Safitri,,,,Yogyakarta,Sales  Rep,Commercial,,Active,,4,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-9066,Nanda Setiyawan,,,,Makassar,Warehouse Admin,Supply Chain,,Active,,C,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-5078,"Simanjuntak, Oktavianus Joko",,,,Semarang, Admin ,Corporate,,Active,,4,2023,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-5850,Jihan Dwi Hidayah,1991-02-18,jihan.dwi.hidayat@medikanusantara.co.id,32302141881347586,Manado,Sales Senior,Commercial,2024-08-16,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-9721,Irfan Simanjuntak,,,,Bandung,Admin Keuangan,Corporate,,Active,,5,2024,1-5,,,,,performance_history
+ATS_Workable,candidate_477,Hana Situmorang,1979-07-11,,,Surabaya,Logistics Staff,,2025-02-24,Hired,Cold Chain Handling; Warehouse Safety; Distributor Negotiation,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_33754,"Pratama, Irfan",,irfan.pratama@medikanusantara.co.id,,,,,,,,,,,Dokumentasi Regulasi BPOM,Compliance,2024-02-09,,
+HRIS_SuccessFactors,EMP-9721,I. Simanjuntak,,,,Bandung,Admin Keuangan,Corporate,,Active,,3,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-2322,Rahma Hutapea,,,,Manado,Warehouse  Operator,Supply Chain,,Active,,C,2024,A-D,,,,,performance_history
+ATS_Workable,candidate_570,WULAN SANTOSO,1987-12-22,wulan.santoso@medikanusantara.co.id,,Jakarta Pusat,Apoteker Pendamping,,2023-11-12,Hired,SAP Navigation; Medical Product Knowledge,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-9989,Krisna Maulana,,,,Semarang,Asisten Apoteker,Technical,,Active,,2,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-8625,Andi  Pratama,,,,Bekasi,Jr.  Sales,Commercial,2022-09-30,Active,Data Entry Accuracy; Medical Product Knowledge; Route Planning,,,,,,,,
+HRIS_SuccessFactors,EMP-4398,Maya Intan Handayani,,,,Jakarta Pusat,Spesialis  Produk,Technical,,Active,,5,2025,1-5,,,,,performance_history
+ATS_Workable,candidate_121,Muhamad Safitri,,,,Denpasar,Petugas Gudang,,2023-03-11,Hired,Inventory Management,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_88864,Indah Annisa Simanjuntak,,indah.anisa.simanjuntak@medikanusantara.co.id,,,,,,,,,,,Teknik Negosiasi Distributor,,2026-06-21,,
+ATS_Workable,candidate_883,"Santoso, Maya",1997-01-31,maya.santoso@medikanusantara.co.id,,Bekasi,Finance Admin,,2024-03-13,Hired,Demand Forecasting; Data Entry Accuracy; SAP Navigation,,,,,,,,ats_offer_date_not_hire_date
+ATS_Workable,candidate_675,Rahma Anggraini,,rahma.anggraini@medikanusantara.co.id,,Denpasar,ASISTEN APOTEKER,,2025-06-22,Hired,Medical Product Knowledge; Customer Relationship Management; Distributor Negotiation,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_39183,Oktavianus  Pratama,,oktavianus.pratama@medikanusantara.co.id,,,,,,,,,,,Kepemimpinan Tim Cabang,Lain-lain,2025-03-01,,
+HRIS_SuccessFactors,EMP-8237,"Halim, Fajar",,,,Yogyakarta,SALES JUNIOR,Commercial,,Active,,2,2024,1-4,,,,,performance_history
+LMS_Moodle,moodle_48044,Gita Tanujaya,,,,,,,,,,,,,Product Knowledge Farmasi 2025,,2026-02-01,,
+ATS_Workable,candidate_332,I. Wijaya,1996-09-03,imam.wijaya@medikanusantara.co.id,,Jakarta Pusat,Regulatory Officer,,2025-11-26,Hired,Regulatory Documentation; Advanced Excel; Medical Product Knowledge,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-1958,Muhamad Sari Ramadhan,,,,Manado,Sales Junior,Commercial,,Active,,B,2024,A-D,,,,,performance_history
+ATS_Workable,candidate_572,L. Hana Mardiana,,lestari.hana.mardiana@medikanusantara.co.id,,Balikpapan,Staff QA,,2023-10-23,Hired,Data Entry Accuracy; Regulatory Documentation; Medical Product Knowledge,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-9656,T. Citra Tanujaya,,,,Bandung,Senior Sales,Commercial,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-5243,A. Wibowo,,,,Surabaya,Warehouse Operator,Supply Chain,,Active,,2,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6077,"Rahayu, Lukman",,,,Palembang,Sr Medical Rep,Commercial,,Active,,C,2024,A-D,,,,,performance_history
+LMS_Moodle,moodle_92714,Lestari Galih Lestari,,lestari.galih.lestari@medikanusantara.co.id,,,,,,,,,,,Forecasting Permintaan Dasar,Compliance,2026-01-16,,
+HRIS_SuccessFactors,EMP-5049,"Ramadhan, Fitri",2001-09-21,,,Palembang, Pharmacy Assistant ,Technical,2025-12-10,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-6444,E. Puspita,,,,Surabaya,Senior Sales Exec,Commercial,,Active,,2,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8643,Fitry Panjaitan,,,,Yogyakarta,Koordinator Gudang,Supply Chain,,Active,,2,2025,1-4,,,,,performance_history
+LMS_Moodle,moodle_96006,Irfan Simanjuntak,,irfan.simanjuntak@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,,2023-10-02,,
+LMS_Moodle,moodle_42258,Rina  Yulianti,,,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,Compliance,2025-09-04,,
+ATS_Workable,candidate_761,Teguh Handayani,1985-08-01,teguh.handayani@medikanusantara.co.id,,Semarang,Logistics Staff,,2025-11-09,Hired,Route Planning; Inventory Management; Advanced Excel,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-6488,Agus Setiyawan,1989-10-01,agus.setiawan@medikanusantara.co.id,,Semarang,Warehouse Spv,Supply Chain,2022-04-21,Active,Advanced Excel; CDOB Compliance; Cold Chain Handling; Inventory Management; Regulatory Documentation; SAP Navigation; Warehouse Safety,,,,,,,,
+ATS_Workable,candidate_472,Yuni  Wijaya,,yuni.wijaya@medikanusantara.co.id,,Denpasar,ASISTEN APOTEKER,,2024-10-26,Hired,CDOB Compliance; Route Planning; Medical Product Knowledge,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-7715,Andi Simanjuntak,,,,Medan,warehouse operator,Supply Chain,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_91056,Maya  Intan  Handayani,,maya.intan.handayani@medikanusantara.co.id,,,,,,,,,,,Dokumentasi Regulasi BPOM,,2024-11-10,,
+HRIS_SuccessFactors,EMP-1049,Sari Lestari,,,,Medan,Staff Adm & Keu,Corporate,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-2360,W. Firmansyah,1988-04-17,wahyu.firmansyah@medikanusantara.co.id,,Denpasar,IT Support,Corporate,2021-01-05,Active,Distributor Negotiation; SAP Navigation,,,,,,,,
+HRIS_SuccessFactors,EMP-7653,Mega Puspita,1990-05-17,,,Denpasar,Distribution Coordinator,Supply Chain,2021-04-25,Active,,,,,,,,,
+LMS_Moodle,moodle_19597,Gita Panjaitan,,gita.panjaitan@medikanusantara.co.id,,,,,,,,,,,Teknik Negosiasi Distributor,Compliance,2023-09-26,,
+LMS_Moodle,moodle_84427,Rahmat  Sanjaya,,rahmat.sanjaya@medikanusantara.co.id,,,,,,,,,,,SAP SuccessFactors untuk Staff,TRAINING,2023-11-19,,
+HRIS_SuccessFactors,EMP-8643,Fitry Panjaitan,,,,Yogyakarta,Koordinator Gudang,Supply Chain,,Active,,2,2024,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-5488,Wahyu Yulianti,,,,Palembang, Kepala Sales ,Commercial,,Active,,C,2025,A-D,,,,,performance_history
+LMS_Moodle,moodle_89549,Galih Ramadhan,,,,,,,,,,,,,Teknik Negosiasi Distributor,umum,2024-05-28,,
+ATS_Workable,candidate_990,"Lestari, Dedi",1990-05-13,dedi.lestari@medikanusantara.co.id,,Yogyakarta,Petugas Gudang,,2023-05-30,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-3131,IRFAN PERMANA,,,,Jakarta Pusat,Medical Representative,Commercial,,Active,,5,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_37399,Lukman Maulana,,,,,,,,,,,,,SAP Modul Logistik,Training,2025-10-24,,
+HRIS_SuccessFactors,EMP-4919,Zainal Kusuma,2002-05-29,zainal.kusuma@medikanusantara.co.id,,Semarang,Koordinator Gudang,Supply Chain,2024-08-22,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-3131,Irfan Permana,1999-10-25,,,Jakarta Pusat,Medical Representative,Commercial,2020-09-24,Active,Customer Relationship Management; Medical Product Knowledge; Team Leadership,,,,,,,,
+LMS_Moodle,moodle_50152,H. Santoso,,hendra.santoso@medikanusantara.co.id,,,,,,,,,,,Optimasi Rute Distribusi,Training,2024-07-27,,
+HRIS_SuccessFactors,EMP-4879,Rizki Santoso,,,,Denpasar,asisten apoteker,Technical,,Active,,3,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9121,"Pratama, Novi",1983-06-01,,32643119685186768,Makassar,senior sales exec,Commercial,2026-03-04,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-6412,Intan Andi Permana,,,,Manado, SR. SALES ,Commercial,,Active,,D,2023,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-3698,Sari Muhamad Mardiana,1994-02-28,sari.muhammad.mardiana@medikanusantara.co.id,32530095401093705,Surabaya,QA/RA,Technical,2019-04-13,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-4470,Imam Permana,,,,Semarang,Petugas Gudang,Supply Chain,,Active,,4,2025,1-4,,,,,performance_history
+LMS_Moodle,moodle_21809,Budi Handayani,,,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,,2025-01-13,,
+HRIS_SuccessFactors,EMP-9231,Tika  Eko  Situmorang,,,,Surabaya,SR. SALES,Commercial,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_42274,Nanda Setiyawan,,nanda.setiawan@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,TRAINING,2025-12-12,,
+HRIS_SuccessFactors,EMP-1455,Joko Lukman Firmansyah,,,,Makassar,WH Supervisor,Supply Chain,,Active,,D,2023,A-D,,,,,performance_history
+LMS_Moodle,moodle_91169,Rahma Nugraha,,rahma.nugroho@medikanusantara.co.id,,,,,,,,,,,Optimasi Rute Distribusi,Compliance,2026-06-05,,
+LMS_Moodle,moodle_53824,Lestari Hana Mardiana,,lestari.hana.mardiana@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,TRAINING,2025-03-16,,
+HRIS_SuccessFactors,EMP-6112,Rizki Sanjaya,,,,Yogyakarta,Accounting  Staff,Corporate,,Active,,4,2025,1-4,,,,,performance_history
+ATS_Workable,candidate_362,Imam Hidayah,1997-08-19,imam.hidayat@medikanusantara.co.id,,Bandung,Medical Representative,,2024-12-11,Hired,,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_80530,Prasetya Krisna Anggraini,,prasetyo.krisna.anggraini@medikanusantara.co.id,,,,,,,,,,,K3 Gudang & Penanganan B3,Umum,2024-10-30,,
+HRIS_SuccessFactors,EMP-3055,Yoga Tanujaya,,,,Palembang,Petugas Gudang,Supply Chain,,Active,,D,2025,A-D,,,,,performance_history
+LMS_Moodle,moodle_32206,Wahyu Wibowo,,wahyu.wibowo@medikanusantara.co.id,,,,,,,,,,,SAP Modul Logistik,Lain-lain,2026-06-21,,
+ATS_Workable,candidate_560,"Utami, Dwi",,dwi.utami@medikanusantara.co.id,,Jakarta Pusat,Warehouse Admin,,2025-04-16,Hired,Data Entry Accuracy; Regulatory Documentation; Warehouse Safety,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_99705,Yusuf Maulana,,,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,Compliance,2023-03-04,,
+HRIS_SuccessFactors,EMP-8237,Fajar Halim,1980-07-01,,,Yogyakarta,SALES JUNIOR,Commercial,2021-01-27,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-4786,MAYA HUTAPEA,2001-11-13,maya.hutapea@medikanusantara.co.id,,Denpasar,Accounting Staff,Corporate,2022-05-01,Active,Cold Chain Handling; Data Entry Accuracy; Medical Product Knowledge,,,,,,,,
+HRIS_SuccessFactors,EMP-7270,Rizki Nugroho,,,,Bandung,Sales 2,Commercial,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8679,DEDI LESTARI,1990-05-13,,32116161369533884,Yogyakarta,WH Staff,Supply Chain,2023-07-15,Active,Data Entry Accuracy,,,,,,,,
+HRIS_SuccessFactors,EMP-3371,Laras Hidayah,,,,Yogyakarta,Pharmacy Assistant,Technical,,Active,,3,2024,1-4,,,,,performance_history
+ATS_Workable,candidate_343,"Hutapea, Rahma",1998-03-06,rahma.hutapea@medikanusantara.co.id,,Manado,Warehouse Operator,,2023-05-20,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-1600,SITI WIJAYA,1985-10-27,siti.wijaya@medikanusantara.co.id,,Yogyakarta,Staff Adm & Keu,Corporate,2022-07-04,Active,,,,,,,,,
+LMS_Moodle,moodle_23569,Rahma  Mardiana,,rahma.mardiana@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,,2025-08-30,,
+HRIS_SuccessFactors,EMP-1282,Dewie Safitri,,,,Bandung,senior sales exec,Commercial,,Active,,5,2023,1-5,,,,,performance_history
+LMS_Moodle,moodle_99381,Maya Hutapea,,maya.hutapea@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,TRAINING,2025-09-29,,
+HRIS_SuccessFactors,EMP-1174,Nanda Anggraini,2001-06-15,nanda.anggraini@medikanusantara.co.id,,Bekasi,Finance Admin,Corporate,2021-02-10,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-1385,Zainal Maulana,,,,Makassar,Product  Spec,Technical,,Active,,C,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-4398,"Handayani, Maya Intan",,,,Jakarta Pusat,Spesialis  Produk,Technical,,Active,,3,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3131,Irfan Permana,,,,Jakarta Pusat,Medical Representative,Commercial,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6189,B. Handayani,1983-12-16,,32116535637137625,Palembang,Senior Sales Exec,Commercial,2024-06-23,Active,,,,,,,,,
+LMS_Moodle,moodle_97130,Rizki Utami,,rizky.utami@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,,2024-04-19,,
+HRIS_SuccessFactors,EMP-9505,Fitry Saputra,1984-04-10,fitri.saputra@medikanusantara.co.id,,Jakarta Pusat, Koordinator Logistik ,Supply Chain,2025-03-21,Active,Inventory Management; SAP Navigation,,,,,,,,
+HRIS_SuccessFactors,EMP-6483,"Saputra, Eko",,,,Balikpapan,Product Specialist,Technical,,Active,,1,2025,1-4,,,,,performance_history
+LMS_Moodle,moodle_41847,Rizki Sanjaya,,rizky.sanjaya@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,TRAINING,2025-04-11,,
+HRIS_SuccessFactors,EMP-1827,Andi  Pratama,,,,Jakarta Pusat,Sales Junior,Commercial,,Active,,5,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9342,H. Kusuma,,,,Balikpapan,Admin,Corporate,,Active,,4,2024,1-4,,,,,performance_history
+LMS_Moodle,moodle_74032,"Mardiana, Teguh",,teguh.mardiana@medikanusantara.co.id,,,,,,,,,,,K3 Gudang & Penanganan B3,TRAINING,2026-04-07,,
+HRIS_SuccessFactors,EMP-5632,Intan Citra Wijaya,1996-02-22,,32808188305237867,Bandung, Warehouse Admin ,Supply Chain,2025-11-22,Active,,,,,,,,,
+ATS_Workable,candidate_899,Budi Handayani,1983-12-16,budi.handayani@medikanusantara.co.id,,Palembang,senior sales,,2024-06-05,Hired,CDOB Compliance; Inventory Management; Medical Product Knowledge,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-4989,Yuni  Mardiana,,,,Makassar,Regulatory Officer,Technical,,Active,,B,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-3134,Lestari Puspita,1987-03-10,lestari.puspita@medikanusantara.co.id,,Surabaya,Branch Sales Head,Commercial,2016-04-20,Active,Advanced Excel; Customer Relationship Management; Demand Forecasting; Distributor Negotiation; Team Leadership; Warehouse Safety,,,,,,,,
+LMS_Moodle,moodle_89759,TEGUH RAHAYU,,teguh.rahayu@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,umum,2025-03-05,,
+HRIS_SuccessFactors,EMP-2401,Maya  Saputra,2002-02-18,maya.saputra@medikanusantara.co.id,,Balikpapan,Branch  Sales  Head,Commercial,2018-05-21,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-7047,"Anggraini, Rahma",,,,Denpasar,Pharmacy Assistant,Technical,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_29449,W. Firmansyah,,wahyu.firmansyah@medikanusantara.co.id,,,,,,,,,,,CDOB Lanjutan & Audit Internal,Umum,2023-01-17,,
+LMS_Moodle,moodle_50377,Intan Citra Wijaya,,intan.citra.wijaya@medikanusantara.co.id,,,,,,,,,,,Pelatihan CDOB Dasar,Training,2026-03-16,,
+ATS_Workable,candidate_299,"Ramadhan, Agus Dwi",2002-09-25,agus.dwi.ramadhan@medikanusantara.co.id,,Denpasar, Salesman ,,2025-03-18,Hired,,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_84849,Agus Setiawan,,agus.setiawan@medikanusantara.co.id,,,,,,,,,,,Dokumentasi Regulasi BPOM,,2025-10-13,,
+LMS_Moodle,moodle_38210,DWI UTAMI,,dwi.utami@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,Compliance,2026-08-07,,
+HRIS_SuccessFactors,EMP-1833,Mega Lestari,,,,Manado,Apoteker Pendamping,Technical,,Active,,B,2023,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-2803,Andi Rizki Maulana,,,,Jakarta Pusat,Sales Junior,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9342,Hana Kusuma,,,,Balikpapan,Admin,Corporate,,Active,,4,2023,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-1857,T. Handayani,1985-08-01,teguh.handayani@medikanusantara.co.id,,Semarang,Logistics Staff,Supply Chain,2025-12-04,Active,,,,,,,,,
+LMS_Moodle,moodle_35126,A. Wibowo,,anisa.wibowo@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,Training,2026-07-10,,
+HRIS_SuccessFactors,EMP-7653,Mega Puspita,,,,Denpasar,Distribution Coordinator,Supply Chain,,Active,,2,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9660,Gita Halim,1990-04-05,gita.halim@medikanusantara.co.id,32695098329763354,Semarang,SR MEDICAL REP,Commercial,2024-11-04,Active,,,,,,,,,
+ATS_Workable,candidate_110,E. Saputra,1983-07-09,eko.saputra@medikanusantara.co.id,,Balikpapan, Pharmacy Assistant ,,2024-11-14,Hired,Team Leadership,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_72974,Maya Santoso,,maya.santoso@medikanusantara.co.id,,,,,,,,,,,SAP SuccessFactors untuk Staff,Umum,2026-06-25,,
+LMS_Moodle,moodle_75247,A. Simanjuntak,,andi.simanjuntak@medikanusantara.co.id,,,,,,,,,,,K3 Gudang & Penanganan B3,TRAINING,2026-05-25,,
+HRIS_SuccessFactors,EMP-4035,Rizki Rahayu,1977-05-02,rizky.rahayu@medikanusantara.co.id,,Denpasar,Staff Sales,Commercial,2021-08-18,Active,Data Entry Accuracy; Distributor Negotiation; Route Planning,,,,,,,,
+LMS_Moodle,moodle_92955,Z. Oktavianus Wibowo,,zainal.oktavianus.wibowo@medikanusantara.co.id,,,,,,,,,,,Manajemen Inventori Gudang,umum,2026-02-09,,
+LMS_Moodle,moodle_33148,Sari Safitri,,,,,,,,,,,,,Manajemen Inventori Gudang,umum,2024-03-28,,
+LMS_Moodle,moodle_53824,Lestari  Hana  Mardiana,,lestari.hana.mardiana@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,Umum,2024-08-17,,
+ATS_Workable,candidate_937,Sari  Anggraini,1992-04-13,sari.anggraini@medikanusantara.co.id,,Palembang, Admin Keuangan ,,2025-06-20,Hired,Customer Relationship Management; Route Planning; Advanced Excel,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_39183,O. Pratama,,oktavianus.pratama@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,,2025-08-20,,
+LMS_Moodle,moodle_49623,Indah Setiyawan,,,,,,,,,,,,,Akurasi Input Data Operasional,umum,2025-02-25,,
+HRIS_SuccessFactors,EMP-6197,"Tanujaya, Ratna",,,,Bekasi,Medical Representative,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+ATS_Workable,candidate_712,"Saputra, Yuni",,yuni.saputra@medikanusantara.co.id,,Makassar,Product Spec,,2023-07-11,Hired,Route Planning; CDOB Compliance; Cold Chain Handling,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-3395,Budi Dwi Safitri,2000-07-28,,,Palembang,Sr Medical Rep,Commercial,2025-06-15,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-4438,Hasan Nugraha,1975-07-27,,,BEKASI,Sales Executive Senior,Commercial,2021-08-21,Active,,,,,,,,,
+LMS_Moodle,moodle_36540,Risky Nugroho,,rizky.nugroho@medikanusantara.co.id,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,umum,2024-01-13,,
+LMS_Moodle,moodle_66948,Maya  Safitri,,maya.safitri@medikanusantara.co.id,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,Lain-lain,2025-10-08,,
+HRIS_SuccessFactors,EMP-5841,Eko  Kusuma,,,,Balikpapan,Staff Logistik,Supply Chain,,Active,,3,2024,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-6726,Dedi  Wibowo,,,,Denpasar,Helpdesk,Corporate,,Active,,2,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-2360,"Firmansyah, Wahyu",,,,Denpasar,IT Support,Corporate,,Active,,3,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4651,Rina Irfan Utami,,,,Makassar,Sales Rep,Commercial,,Active,,A,2023,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-3790,Sari Dinda Hidayah,,,,Surabaya,Staff IT,Corporate,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9660,Gita Halim,,,,Semarang,SR MEDICAL REP,Commercial,,Active,,3,2024,1-4,,,,,performance_history
+ATS_Workable,candidate_602,Novi Wibowo,,novi.wibowo@medikanusantara.co.id,,Surabaya,STAFF SALES,,2025-09-25,Hired,Medical Product Knowledge; Route Planning; Regulatory Documentation,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-7270,Rizki Nugroho,2001-02-16,rizky.nugroho@medikanusantara.co.id,32155125961850634,Bandung,Sales 2,Commercial,2018-12-01,Active,Advanced Excel; Demand Forecasting; Inventory Management; Warehouse Safety,,,,,,,,
+LMS_Moodle,moodle_44617,I. Pratama,,imam.pratama@medikanusantara.co.id,,,,,,,,,,,SAP Modul Logistik,Lain-lain,2023-12-27,,
+HRIS_SuccessFactors,EMP-7985,Hana Situmorang,1979-07-11,,,Surabaya,distribution coordinator,Supply Chain,2025-04-04,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-1857,"Handayani, Teguh",,,,Semarang,Logistics Staff,Supply Chain,,Active,,1,2024,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-6483,Eko Saputra,1983-07-09,eko.saputra@medikanusantara.co.id,,Balikpapan,Product Specialist,Technical,2024-12-29,Active,,,,,,,,,
+ATS_Workable,candidate_603,Teguh Mardiana,,teguh.mardiana@medikanusantara.co.id,,Manado,Jr. Sales,,2022-12-19,Hired,Warehouse Safety; Route Planning,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-5657,Hasan Nadia Safitri,,,,Bandung,STAFF GUDANG,Supply Chain,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_41632,F. Saputra,,fitri.saputra@medikanusantara.co.id,,,,,,,,,,,Dokumentasi Regulasi BPOM,umum,2026-04-13,,
+LMS_Moodle,moodle_75010,Dewie Lestari,,dewi.lestari@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,,2024-11-22,,
+HRIS_SuccessFactors,EMP-2994,"Utami, Rina Gita",,,,Bandung,manager penjualan,Commercial,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-1958,Muhamad Sari Ramadhan,1979-12-16,,32598897816526936,Manado,Sales Junior,Commercial,2020-10-29,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-8394,CITRA HALIM,,,,Bandung,Sales Mgr,Commercial,,Active,,3,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8235,Mega Sari Wibowo,,,,Bandung,Apoteker Pendamping,Technical,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4904,Irfan  Pratama,,,32899207523407278,Bandung,Spesialis  Produk,Technical,2024-01-03,Active,CDOB Compliance; Cold Chain Handling; Regulatory Documentation; Team Leadership,,,,,,,,
+ATS_Workable,candidate_523,Fajar Achmad Kusuma,,,,Yogyakarta,Warehouse Admin,,2024-01-18,Hired,Distributor Negotiation; Data Entry Accuracy; Inventory Management,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-3497,Erika Irfan Saputra,,,,Bekasi,Manager Penjualan,Commercial,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-2144,Hendra Yusuf Santoso,,,,Makassar,Sales Manager,Commercial,,Active,,B,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-6642,AGUS DWI RAMADHAN,,,,Denpasar,Medical  Representative,Commercial,,Active,,2,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3206,Tika Situmorang,1978-09-25,,,Medan,Warehouse Operator,Supply Chain,2022-11-16,Active,,,,,,,,,
+LMS_Moodle,moodle_12018,Wahyu Kartika Halim,,wahyu.kartika.halim@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,umum,2024-12-11,,
+HRIS_SuccessFactors,EMP-3395,Budi Dwi Safitri,,,,Palembang,Sr Medical Rep,Commercial,,Active,,B,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-2657,Surya Indah Firmansyah,,,,Jakarta Pusat,sr. sales,Commercial,,Active,,3,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_18376,Hasan Hidayah,,hasan.hidayat@medikanusantara.co.id,,,,,,,,,,,SAP SuccessFactors untuk Staff,Lain-lain,2023-12-24,,
+LMS_Moodle,moodle_62137,Nuur Maulana,,nur.maulana@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Farmasi 2025,TRAINING,2026-01-05,,
+LMS_Moodle,moodle_28286,Novi Kurnianwan,,,,,,,,,,,,,SAP Modul Logistik,Umum,2024-09-12,,
+HRIS_SuccessFactors,EMP-1600,SITI WIJAYA,,,,Yogyakarta,Staff Adm & Keu,Corporate,,Active,,1,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-7790,"Puspita, Budi",,,,Jakarta Pusat,Spesialis Produk,Technical,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9956,Tika Firmansyah,,tika.firmansyah@medikanusantara.co.id,,Semarang,Warehouse Spv,Supply Chain,2017-10-01,Active,,,,,,,,,
+LMS_Moodle,moodle_21809,Budi Handayani,,budi.handayani@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,umum,2025-04-13,,
+LMS_Moodle,moodle_93792,Risky Santoso,,rizky.santoso@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,,2023-01-31,,
+HRIS_SuccessFactors,EMP-8190,"Wijaya, Nanda",,,,Denpasar,Asisten Apoteker,Technical,,Active,,3,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_96006,Irfan Simanjuntak,,irfan.simanjuntak@medikanusantara.co.id,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,umum,2023-07-05,,
+HRIS_SuccessFactors,EMP-9689,Wahyu Kartika Halim,,,,Yogyakarta,Medical Representative,Commercial,,Active,,2,2024,1-4,,,,,performance_history
+LMS_Moodle,moodle_21916,Eko Setiyawan,,eko.setiawan@medikanusantara.co.id,,,,,,,,,,,Pelatihan CDOB Dasar,TRAINING,2025-05-02,,
+HRIS_SuccessFactors,EMP-3931,Oktavianus  Panjaitan,,,,Makassar,Sales 2,Commercial,,Active,,D,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-3589,Ahmad Simanjuntak,,,,Bandung,Asisten Apoteker,Technical,,Active,,2,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9580,Bayu Kurnianwan,,,,Manado,sales junior,Commercial,,Active,,B,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-6035,Fitry Mardiana,1986-10-27,fitri.mardiana@medikanusantara.co.id,,Bandung,Senior Sales,Commercial,2022-01-01,Active,Advanced Excel; Medical Product Knowledge,,,,,,,,
+HRIS_SuccessFactors,EMP-9489,Annisa Situmorang,,,,Bandung,Asisten Apoteker,Technical,,Active,,4,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-2144,Hendra  Yusuf  Santoso,,,,Makassar,Sales Manager,Commercial,,Active,,B,2024,A-D,,,,,performance_history
+LMS_Moodle,moodle_35836,Siti Wijaya,,siti.wijaya@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,umum,2025-04-21,,
+HRIS_SuccessFactors,EMP-3497,"Saputra, Erika Irfan",,,,Bekasi,Manager Penjualan,Commercial,,Active,,3,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6261,Oktavia Mardiana,,,,Jakarta Pusat,STAFF GUDANG,Supply Chain,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_64655,N. Wibowo,,,,,,,,,,,,,Dasar CRM & Retensi Pelanggan,Lain-lain,2026-06-21,,
+HRIS_SuccessFactors,EMP-4989,YUNI MARDIANA,1998-07-14,yuni.mardiana@medikanusantara.co.id,,Makassar,Regulatory Officer,Technical,2022-09-06,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-7206,Budi Tanujaya,,,,Bekasi,Spesialis Produk,Technical,,Active,,4,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-1345,OKTAVIANUS ANGGRAINI,,,,Bekasi,qa officer,Technical,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_17570,Nuur Safitri,,nur.safitri@medikanusantara.co.id,,,,,,,,,,,Teknik Negosiasi Distributor,TRAINING,2025-03-06,,
+HRIS_SuccessFactors,EMP-2803,Andi Rizki Maulana,,,,Jakarta Pusat,Sales Junior,Commercial,,Active,,4,2024,1-5,,,,,performance_history
+ATS_Workable,candidate_876,Indah Setiyawan,1986-07-12,indah.setiawan@medikanusantara.co.id,,Makassar,Staff Sales,,2024-08-30,Hired,CDOB Compliance; Regulatory Documentation; Cold Chain Handling,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-2619,G. Wulan Pratama,1997-09-04,gita.wulan.pratama@medikanusantara.co.id,,Balikpapan,Koordinator Gudang,Supply Chain,2017-01-12,Active,,,,,,,,,
+ATS_Workable,candidate_470,E. Kusuma,1987-02-09,eko.kusuma@medikanusantara.co.id,,Balikpapan,Logistic Coord,,2023-12-23,Hired,,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_84114,Wahyu Tanujaya,,,,,,,,,,,,,Manajemen Inventori Gudang,Training,2024-04-20,,
+LMS_Moodle,moodle_11128,"Ramadhan, Zainal",,,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,TRAINING,2026-05-26,,
+HRIS_SuccessFactors,EMP-9489,Annisa Situmorang,1976-02-26,,,Bandung,Asisten Apoteker,Technical,2020-06-13,Active,Cold Chain Handling,,,,,,,,
+HRIS_SuccessFactors,EMP-7154,Nanda  Permana,1993-04-21,nanda.permana@medikanusantara.co.id,,Semarang,Sales  Manager,Commercial,2024-11-11,Active,Customer Relationship Management; Data Entry Accuracy; Demand Forecasting,,,,,,,,
+HRIS_SuccessFactors,EMP-3846,Maya Hidayah,,,,Makassar,QUALITY ASSURANCE,Technical,,Active,,B,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-8441,Budi Tanujaya,,,,Jakarta Pusat,sales rep,Commercial,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6442,TEGUH MARDIANA,1981-06-02,teguh.mardiana@medikanusantara.co.id,,Manado,Medical Representative,Commercial,2023-01-01,Active,Warehouse Safety,,,,,,,,
+HRIS_SuccessFactors,EMP-3032,Rahmat Kartika Panjaitan,1978-04-12,rahmat.kartika.panjaitan@medikanusantara.co.id,32128682143298519,Denpasar,WH  Supervisor,Supply Chain,2021-07-03,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-8798,YUNI HALIM,1993-11-12,,32914574566553431,SEMARANG, Sales 2 ,Commercial,2026-03-15,Active,Distributor Negotiation; Medical Product Knowledge,,,,,,,,
+HRIS_SuccessFactors,EMP-4151,Indah Annisa Simanjuntak,,,,Bandung,Sr Medical Rep,Commercial,,Active,,2,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-1331,Dwi Ramadhan,,dwi.ramadhan@medikanusantara.co.id,32881949311889487,PALEMBANG,Staff QA,Technical,2024-07-23,Active,,,,,,,,,
+LMS_Moodle,moodle_25311,R. Anggraini,,rahma.anggraini@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,TRAINING,2026-06-02,,
+HRIS_SuccessFactors,EMP-9007,Novi Wibowo,1995-07-20,,,Surabaya,Sales Junior,Commercial,2025-10-08,Active,Customer Relationship Management; Medical Product Knowledge; Regulatory Documentation; Route Planning,,,,,,,,
+HRIS_SuccessFactors,EMP-1942,Achmad Hutapea,1989-12-18,ahmad.hutapea@medikanusantara.co.id,,Palembang,REGULATORY OFFICER,Technical,2023-01-02,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-1239,Teguh Rahayu,,,,Yogyakarta,SR. SALES,Commercial,,Active,,4,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-4151,Indah Annisa Simanjuntak,,,,Bandung,Sr Medical Rep,Commercial,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_18841,RAHMAT KARTIKA PANJAITAN,,rahmat.kartika.panjaitan@medikanusantara.co.id,,,,,,,,,,,K3 Gudang & Penanganan B3,,2024-12-03,,
+HRIS_SuccessFactors,EMP-1018,S. Halim,,,,Manado,Warehouse  Admin,Supply Chain,,Active,,A,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-3698,Sari M. Mardiana,,,,Surabaya,QA/RA,Technical,,Active,,4,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3371,Laras Hidayah,1994-08-06,,,Yogyakarta,Pharmacy Assistant,Technical,2023-11-18,Active,Advanced Excel; CDOB Compliance; Cold Chain Handling; Regulatory Documentation,,,,,,,,
+HRIS_SuccessFactors,EMP-2144,Hendra Yusuf Santoso,,,,Makassar,Sales Manager,Commercial,,Active,,B,2023,A-D,,,,,performance_history
+LMS_Moodle,moodle_80029,NANDA ANGGRAINI,,nanda.anggraini@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,TRAINING,2025-12-18,,
+ATS_Workable,candidate_321,Sari Halim,1995-07-22,,,Manado,STAFF GUDANG,,2024-04-10,Hired,Inventory Management; Warehouse Safety,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_92955,"Wibowo, Zainal Oktavianus",,zainal.oktavianus.wibowo@medikanusantara.co.id,,,,,,,,,,,Optimasi Rute Distribusi,Compliance,2026-02-08,,
+HRIS_SuccessFactors,EMP-1600,Siti Wijaya,,,,Yogyakarta,Staff Adm & Keu,Corporate,,Active,,3,2024,1-4,,,,,performance_history
+ATS_Workable,candidate_999,Mega Sari Wibowo,1982-12-13,mega.sari.wibowo@medikanusantara.co.id,,Bandung,Apoteker Pendamping,,2025-01-19,Hired,CDOB Compliance; Cold Chain Handling,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_11855,Andi Risky Maulana,,,,,,,,,,,,,Product Knowledge Farmasi 2025,Training,2023-07-15,,
+ATS_Workable,candidate_149,Prasetya Krisna Anggraini,,prasetyo.krisna.anggraini@medikanusantara.co.id,,Manado,accounting staff,,2024-01-05,Hired,,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-2186,Agus Setiawan,1991-09-03,,,Denpasar,PRODUCT SPEC,Technical,2020-04-24,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-1345,Oktavianus Anggraini,1993-09-21,oktavianus.anggraini@medikanusantara.co.id,32411975909788592,Bekasi,qa officer,Technical,2017-06-28,Active,CDOB Compliance; Inventory Management; Medical Product Knowledge; Regulatory Documentation,,,,,,,,
+HRIS_SuccessFactors,EMP-8756,"Anggraini, Ayu",1994-08-10,,32207008280109995,Palembang,Distribution Coordinator,Supply Chain,2020-08-10,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-3233,Rahmat Sanjaya,1999-06-06,,,Yogyakarta,KOORDINATOR LOGISTIK,Supply Chain,2023-11-09,Active,Inventory Management; Route Planning; SAP Navigation,,,,,,,,
+LMS_Moodle,moodle_15040,Novi Halim,,novi.halim@medikanusantara.co.id,,,,,,,,,,,K3 Gudang & Penanganan B3,Training,2025-11-05,,
+HRIS_SuccessFactors,EMP-1955,Rina Handayani,,,32975450348615596,YOGYAKARTA,Pharmacy Assistant,Technical,2020-02-03,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-9007,Novi Wibowo,,,,Surabaya,Sales Junior,Commercial,,Active,,5,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-6412,Intan  Andi  Permana,,,,Manado, SR. SALES ,Commercial,,Active,,A,2025,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-9829,"Saputra, Yuni",,,,Makassar,PHARMACY ASSISTANT,Technical,,Active,,B,2024,A-D,,,,,performance_history
+ATS_Workable,candidate_475,Hendra Santoso,,hendra.santoso@medikanusantara.co.id,,Bekasi,Staff Sales,,2024-03-20,Hired,Data Entry Accuracy; Route Planning; Inventory Management,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_12072,"Firmansyah, Zainal Siti",,zainal.siti.firmansyah@medikanusantara.co.id,,,,,,,,,,,Kepemimpinan Tim Cabang,,2023-04-30,,
+HRIS_SuccessFactors,EMP-8158,"Panjaitan, Anisa",1995-08-21,,,Medan,SR. SALES,Commercial,2023-05-22,Terminated,,,,,,,,,status_terminated_prior_branch
+LMS_Moodle,moodle_36311,Imam Permana,,imam.permana@medikanusantara.co.id,,,,,,,,,,,Cold Chain & Penanganan Produk Termolabil,Lain-lain,2023-09-30,,
+HRIS_SuccessFactors,EMP-7950,Rizki Rahma Utami,,,,Surabaya,Sales Junior,Commercial,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-5841,"Kusuma, Eko",,,,Balikpapan,Staff Logistik,Supply Chain,,Active,,1,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-1833,Mega Lestari,1982-05-04,,,Manado,Apoteker Pendamping,Technical,2021-09-21,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-4438,Hasan Nugraha,,,,Bekasi,Sales Executive Senior,Commercial,,Active,,2,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_93703,"Wijaya, Imam",,imam.wijaya@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,umum,2026-08-01,,
+HRIS_SuccessFactors,EMP-4662,Yuni Mardiana,1990-08-09,,32214993860583608,Manado,GUDANG,Supply Chain,2024-06-07,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-9192,Bayu  Anggraini,1980-09-13,bayu.anggraini@medikanusantara.co.id,32356083316905208,Medan,Staff Adm & Keu,Corporate,2024-12-05,Active,Advanced Excel; Data Entry Accuracy,,,,,,,,
+LMS_Moodle,moodle_70555,D. Lestari,,dedi.lestari@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,,2024-07-30,,
+HRIS_SuccessFactors,EMP-6618,Fitry Puspita,1981-12-30,fitri.puspita@medikanusantara.co.id,32398747251595705,Bekasi,koordinator logistik,Supply Chain,2024-03-19,Active,Cold Chain Handling; Route Planning; SAP Navigation,,,,,,,,
+HRIS_SuccessFactors,EMP-3395,Budi Dwi Safitri,,,,Palembang,Sr Medical Rep,Commercial,,Active,,D,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-5508,N. Puspita,,,,Bekasi,koordinator logistik,Supply Chain,,Active,,4,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_79796,Gita Halim,,gita.halim@medikanusantara.co.id,,,,,,,,,,,Akurasi Input Data Operasional,umum,2026-06-22,,
+HRIS_SuccessFactors,EMP-9874,Jihan Puspita,,,,Jakarta Pusat,SR. SALES,Commercial,,Active,,2,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8394,Citra Halim,1999-06-11,citra.halim@medikanusantara.co.id,,Bandung,Sales Mgr,Commercial,2016-08-05,Active,Advanced Excel; Demand Forecasting; Inventory Management,,,,,,,,
+LMS_Moodle,moodle_13306,Galih Lestari,,galih.lestari@medikanusantara.co.id,,,,,,,,,,,Pelatihan CDOB Dasar,,2024-02-05,,
+HRIS_SuccessFactors,EMP-3931,Oktavianus Panjaitan,2000-01-24,,32108033158719673,Makassar,Sales 2,Commercial,2019-11-09,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-7827,Achmad Lestari,,,,Surabaya,Logistic Coord,Supply Chain,,Active,,4,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8190,"Wijaya, Nanda",1986-06-17,nanda.wijaya@medikanusantara.co.id,32651899050333653,DENPASAR,Asisten Apoteker,Technical,2019-10-16,Active,Advanced Excel; CDOB Compliance,,,,,,,,
+HRIS_SuccessFactors,EMP-6281,Nuur Maulana,,,,Bekasi,SR. SALES,Commercial,,Active,,3,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-3167,Nadia Handayani,,,,Palembang,sales executive,Commercial,,Active,,B,2023,A-D,,,,,performance_history
+ATS_Workable,candidate_439,Nadia Puspita,1979-02-27,nadia.puspita@medikanusantara.co.id,,Bekasi,distribution coordinator,,2024-05-25,Hired,Route Planning,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-3131,"Permana, Irfan",,,,Jakarta Pusat,Medical Representative,Commercial,,Active,,5,2023,1-5,,,,,performance_history
+LMS_Moodle,moodle_75010,"Lestari, Dewi",,dewi.lestari@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,Compliance,2024-11-01,,
+LMS_Moodle,moodle_78487,Y. Saputra,,,,,,,,,,,,,CDOB Lanjutan & Audit Internal,umum,2023-08-02,,
+HRIS_SuccessFactors,EMP-9829,Yuni Saputra,,yuni.saputra@medikanusantara.co.id,32520967851495877,Makassar,PHARMACY ASSISTANT,Technical,2023-07-30,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-3488,Wulan Santoso,,,,Jakarta Pusat,Spesialis Produk,Technical,,Active,,5,2023,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-4651,"Utami, Rina Irfan",,,,Makassar,Sales Rep,Commercial,,Active,,A,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-7837,Citra Pratama,1976-01-24,citra.pratama@medikanusantara.co.id,32756700725157375,Denpasar, IT Officer ,Corporate,2020-09-08,Active,Data Entry Accuracy; SAP Navigation,,,,,,,,
+HRIS_SuccessFactors,EMP-3698,Sari Moh. Mardiana,,,,Surabaya,QA/RA,Technical,,Active,,2,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-9720,Rina Yulianti,,,,Manado,Supervisor Warehouse,Supply Chain,,Active,,A,2023,A-D,,,,,performance_history
+LMS_Moodle,moodle_72974,M. Santoso,,maya.santoso@medikanusantara.co.id,,,,,,,,,,,Forecasting Permintaan Dasar,,2025-01-02,,
+HRIS_SuccessFactors,EMP-7861,"Pratama, Imam",,,,Semarang,Product  Spec,Technical,2023-05-22,Active,Cold Chain Handling,,,,,,,,
+HRIS_SuccessFactors,EMP-8643,Fitri Panjaitan,1979-01-29,fitri.panjaitan@medikanusantara.co.id,,Yogyakarta,Koordinator Gudang,Supply Chain,2017-07-26,Active,Warehouse Safety,,,,,,,,
+HRIS_SuccessFactors,EMP-4470,Imam Permana,,,,Semarang,Petugas Gudang,Supply Chain,,Active,,3,2023,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-9720,Rina Yulianti,,,,Manado,Supervisor Warehouse,Supply Chain,,Active,,B,2024,A-D,,,,,performance_history
+HRIS_SuccessFactors,EMP-9033,Novi Halim,,,,Bekasi, Kepala Sales ,Commercial,,Active,,3,2024,1-5,,,,,performance_history
+LMS_Moodle,moodle_24906,Teguh Handayani,,,,,,,,,,,,,Manajemen Inventori Gudang,TRAINING,2025-12-25,,
+HRIS_SuccessFactors,EMP-9318,Dewie Kurniawan,,,,Jakarta Pusat,ADMIN KEUANGAN,Corporate,,Active,,3,2025,1-5,,,,,performance_history
+LMS_Moodle,moodle_31984,SURYA INDAH FIRMANSYAH,,surya.indah.firmansyah@medikanusantara.co.id,,,,,,,,,,,Excel untuk Analisis Penjualan,,2024-10-18,,
+ATS_Workable,candidate_466,Jihan Dwi Hidayah,,jihan.dwi.hidayat@medikanusantara.co.id,,Manado,Sales Senior,,2024-06-17,Hired,Advanced Excel; Demand Forecasting; Regulatory Documentation,,,,,,,,ats_offer_date_not_hire_date
+ATS_Workable,candidate_661,"Handayani, Dwi Bayu",1996-09-18,dwi.bayu.handayani@medikanusantara.co.id,,Manado,Staff Logistik,,2025-06-16,Hired,Route Planning; Regulatory Documentation; SAP Navigation,,,,,,,,ats_offer_date_not_hire_date
+LMS_Moodle,moodle_63953,D. Ramadhan,,dwi.ramadhan@medikanusantara.co.id,,,,,,,,,,,Product Knowledge Alkes 2024,Training,2026-01-21,,
+ATS_Workable,candidate_144,Erika  Permana,1977-01-10,erika.permana@medikanusantara.co.id,,Palembang, Warehouse Spv ,,2024-11-16,Hired,Cold Chain Handling; CDOB Compliance; Inventory Management,,,,,,,,ats_offer_date_not_hire_date
+HRIS_SuccessFactors,EMP-8806,C. Kurniawan,1989-09-29,citra.kurniawan@medikanusantara.co.id,,YOGYAKARTA,Quality Assurance,Technical,2016-10-31,Active,,,,,,,,,
+HRIS_SuccessFactors,EMP-8235,M. Sari Wibowo,,,,Bandung,Apoteker Pendamping,Technical,,Active,,5,2024,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-2488,Gita Tanujaya,,,,Medan,Quality Assurance,Technical,,Active,,3,2025,1-5,,,,,performance_history
+HRIS_SuccessFactors,EMP-8237,F. Halim,,,,Yogyakarta,SALES JUNIOR,Commercial,,Active,,3,2025,1-4,,,,,performance_history
+HRIS_SuccessFactors,EMP-7000,Eko Nugroho,,eko.nugroho@medikanusantara.co.id,,Yogyakarta,Staff QA,Technical,2022-09-06,Active,Advanced Excel; CDOB Compliance; Cold Chain Handling; Data Entry Accuracy; Medical Product Knowledge; Regulatory Documentation; Warehouse Safety,,,,,,,,
+HRIS_SuccessFactors,EMP-7114,Novi Wibowo,1995-07-20,,,Medan,Jr. Sales,Commercial,2024-08-10,Terminated,,,,,,,,,status_terminated_prior_branch
