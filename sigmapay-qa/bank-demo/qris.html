@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SigmaPay Bank Demo — QRIS</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div class="container">
+    <h2 class="page-title">Bayar QRIS</h2>
+    <p class="muted-note" style="margin-top:-8px">Tidak ada kamera di demo ini — pilih salah satu kode QR di bawah untuk mensimulasikan proses scan.</p>
+
+    <!-- STEP 1: pick a QR -->
+    <div id="qr-picker" data-testid="qr-picker" class="qr-grid"></div>
+
+    <!-- STEP 2: pay -->
+    <div class="card" id="pay-section" data-testid="pay-section" hidden style="margin-top:16px">
+      <h3 style="margin-top:0;font-size:14px" data-testid="pay-merchant-name"></h3>
+      <div id="qr-blocked-msg" data-testid="qr-blocked-msg" hidden></div>
+
+      <div id="pay-form" data-testid="pay-form">
+        <div class="row"><span class="k">Tipe QR</span><span class="v" data-testid="pay-qtype"></span></div>
+
+        <div id="nominal-row">
+          <label for="qris-nominal">Nominal (Rp)</label>
+          <input type="text" id="qris-nominal" data-testid="input-qris-nominal" placeholder="50000">
+        </div>
+        <div id="qris-nominal-error" data-testid="qris-nominal-error" class="error-msg" hidden></div>
+
+        <label for="qris-pin">PIN Transaksi (6 digit)</label>
+        <input type="password" id="qris-pin" data-testid="input-qris-pin" maxlength="6" placeholder="••••••">
+        <div id="qris-pin-error" data-testid="qris-pin-error" class="error-msg" hidden></div>
+
+        <button type="button" class="btn btn-primary" data-testid="btn-bayar-qris" onclick="bayarQris()">Bayar</button>
+        <button type="button" class="btn btn-secondary" data-testid="btn-batal-qris" onclick="batalQris()" style="margin-top:8px">Pilih QR Lain</button>
+
+        <div id="qris-spinner" data-testid="qris-spinner" class="spinner-wrap" hidden>
+          <div class="spinner"></div> Memproses pembayaran…
+        </div>
+      </div>
+    </div>
+
+    <div id="qris-result" data-testid="qris-result" hidden></div>
+  </div>
+
+<script src="assets/app.js"></script>
+<script>
+  const session = requireAuth();
+  if (session) renderTopbar("qris");
+
+  let selected = null; // merchant code
+  let qrisPinTries = 0;
+  let qrisLocked = false;
+
+  function renderPicker() {
+    const el = document.getElementById("qr-picker");
+    el.innerHTML = Object.keys(MERCHANTS).map((code) => {
+      const m = MERCHANTS[code];
+      const nominalLabel = m.type === "dinamis" ? formatRupiah(m.nominal) : "nominal diisi manual";
+      return `<button type="button" class="qr-item" data-testid="qr-item-${code}" onclick="pilihQr('${code}')">
+        <span>
+          <div class="qname">${m.name}</div>
+          <div class="qmeta">${code} · QR ${m.type} · ${nominalLabel}</div>
+        </span>
+        <span>›</span>
+      </button>`;
+    }).join("");
+  }
+  renderPicker();
+
+  function pilihQr(code) {
+    selected = code;
+    const m = MERCHANTS[code];
+    qrisPinTries = 0;
+    qrisLocked = false;
+
+    document.getElementById("qr-picker").hidden = true;
+    document.getElementById("pay-section").hidden = false;
+    document.getElementById("qris-result").hidden = true;
+    document.getElementById("pay-merchant-name").textContent = m.name;
+    document.getElementById("pay-qtype").textContent = m.type === "dinamis" ? "Dinamis (nominal dari merchant)" : "Statis (nominal diisi manual)";
+    document.getElementById("qris-nominal").value = m.type === "dinamis" ? m.nominal : "";
+    document.getElementById("nominal-row").hidden = m.type === "dinamis";
+    document.getElementById("qris-pin").value = "";
+    document.getElementById("qris-pin-error").hidden = true;
+    document.getElementById("qris-nominal-error").hidden = true;
+    document.querySelector('[data-testid="btn-bayar-qris"]').disabled = false;
+
+    const blockedBox = document.getElementById("qr-blocked-msg");
+    const payForm = document.getElementById("pay-form");
+
+    // Normal behavior: block expired / mismatched QR before it ever reaches
+    // payment. The two "qris_*" personas intentionally skip this guard so
+    // the underlying defect (BUG-DEMO-004 / BUG-DEMO-005) can be reproduced.
+    if (m.expired && session.bug !== "qris_expired") {
+      blockedBox.hidden = false;
+      blockedBox.innerHTML = '<div class="error-msg" data-testid="qr-expired-error">QR sudah kedaluwarsa. Minta merchant membuat kode QR baru.</div>';
+      payForm.hidden = true;
+      return;
+    }
+    if (m.merchantIdMismatch && session.bug !== "qris_merchant_mismatch") {
+      blockedBox.hidden = false;
+      blockedBox.innerHTML = '<div class="error-msg" data-testid="qr-mismatch-error">Merchant ID pada QR tidak sesuai data terdaftar. Transaksi dibatalkan demi keamanan.</div>';
+      payForm.hidden = true;
+      return;
+    }
+    blockedBox.hidden = true;
+    payForm.hidden = false;
+  }
+
+  function batalQris() {
+    document.getElementById("qr-picker").hidden = false;
+    document.getElementById("pay-section").hidden = true;
+  }
+
+  function bayarQris() {
+    if (qrisLocked || !selected) return;
+    const m = MERCHANTS[selected];
+    const nominal = Number(document.getElementById("qris-nominal").value);
+    const nomErr = document.getElementById("qris-nominal-error");
+    const pinBox = document.getElementById("qris-pin");
+    const pinErr = document.getElementById("qris-pin-error");
+
+    nomErr.hidden = true;
+    if (isNaN(nominal) || nominal <= 0) {
+      nomErr.textContent = "Nominal harus berupa angka lebih besar dari 0.";
+      nomErr.hidden = false;
+      return;
+    }
+    if (nominal > QRIS_LIMIT_PER_TRX) {
+      nomErr.textContent = "Melebihi limit QRIS Rp 10.000.000 per transaksi.";
+      nomErr.hidden = false;
+      return;
+    }
+    if (nominal > session.balance) {
+      nomErr.textContent = "Saldo tidak mencukupi.";
+      nomErr.hidden = false;
+      return;
+    }
+
+    if (pinBox.value !== PIN_VALID) {
+      qrisPinTries++;
+      if (qrisPinTries >= 3) {
+        qrisLocked = true;
+        pinErr.textContent = "PIN salah 3 kali. Transaksi dikunci sementara. Silakan mulai ulang.";
+        pinErr.hidden = false;
+        document.querySelector('[data-testid="btn-bayar-qris"]').disabled = true;
+        return;
+      }
+      pinErr.textContent = "PIN salah. Sisa percobaan: " + (3 - qrisPinTries);
+      pinErr.hidden = false;
+      return;
+    }
+    pinErr.hidden = true;
+
+    document.getElementById("qris-spinner").hidden = false;
+    document.querySelector('[data-testid="btn-bayar-qris"]').disabled = true;
+
+    setTimeout(() => {
+      document.getElementById("qris-spinner").hidden = true;
+      session.balance -= nominal;
+      addMutasi(session, {
+        desc: "QRIS — " + m.name, date: nowLabel(),
+        amount: nominal, type: "debit", status: "Berhasil", statusClass: "success",
+      });
+      setSession(session);
+
+      document.getElementById("pay-section").hidden = true;
+      const resultBox = document.getElementById("qris-result");
+      resultBox.hidden = false;
+      resultBox.innerHTML = '<div class="card"><div class="success-msg" data-testid="qris-result-success">Pembayaran ke ' + m.name + ' berhasil. Saldo baru: ' + formatRupiah(session.balance) + '</div><a href="dashboard.html" class="btn btn-secondary" data-testid="btn-kembali-beranda" style="display:inline-block;text-align:center;text-decoration:none;margin-top:10px">Kembali ke Beranda</a></div>';
+    }, session.slow ? 3000 : 400);
+  }
+</script>
+</body>
+</html>

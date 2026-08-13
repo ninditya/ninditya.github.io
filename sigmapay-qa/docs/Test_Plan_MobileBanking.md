@@ -13,6 +13,16 @@
 
 Dokumen ini menjelaskan pendekatan pengujian untuk fitur **Fund Transfer** dan **QRIS Payment** pada aplikasi SigmaPay Mobile Banking, sebelum dirilis ke production.
 
+### 1.1 Arsitektur Sistem (High-Level)
+
+```
+[Mobile App Android/iOS] ──► [API/Middleware Layer] ──► [Core Banking: IBM i / AS400 + DB2 for i]
+     (channel, UI)              (REST API, lihat            (system of record: ledger, rekening,
+                                  06-API-Testing)              batch EOD, interest accrual)
+```
+
+Mengikuti pola umum bank di Indonesia (BCA, Mandiri, BRI, BNI, dst.) yang menjalankan core banking di atas **IBM i (AS/400)** dengan **DB2 for i** sebagai database inti — mobile app & API adalah *channel layer* yang sudah dites lewat UI/Postman, sementara core banking di AS400 adalah *system of record* tempat saldo/ledger sebenarnya disimpan dan tempat batch job semalam (EOD) berjalan. Detail konsep, test case, dan checklist untuk lapisan ini ada di [11-AS400-Core-Banking](../11-AS400-Core-Banking/AS400_Concepts_Primer.md).
+
 ## 2. Tujuan Testing
 
 - Memastikan seluruh alur transfer dana (intrabank, interbank via BI-FAST, ke Virtual Account) berjalan sesuai requirement.
@@ -31,6 +41,7 @@ Dokumen ini menjelaskan pendekatan pengujian untuk fitur **Fund Transfer** dan *
 - SIT: integrasi ke simulator/sandbox BI-FAST & QRIS Switching
 - Smoke Testing: setiap build baru masuk QA environment
 - UAT Support: pendampingan business user saat UAT
+- Core Banking Batch Validation: verifikasi batch job EOD di AS400/IBM i (status job, job log, spool file, rekonsiliasi ledger) — lihat [11-AS400-Core-Banking](../11-AS400-Core-Banking/AS400_Concepts_Primer.md)
 
 ### Out of Scope
 - Performance/Load Testing (ditangani tim Performance terpisah)
@@ -69,9 +80,10 @@ Dokumen ini menjelaskan pendekatan pengujian untuk fitur **Fund Transfer** dan *
 |---|---|
 | Aplikasi | SigmaPay Mobile (Android/iOS) versi QA build |
 | API | `https://api-qa.sigmapay.dummy` (dummy) |
-| Database | PostgreSQL — schema `sigmapay_qa` (dummy) |
+| Database (channel layer) | PostgreSQL — schema `sigmapay_qa` (dummy) |
+| Core Banking (system of record) | IBM i / AS400 — LPAR simulasi QA, library `SIGMAPRD`, DB2 for i (dummy — lihat [11-AS400-Core-Banking](../11-AS400-Core-Banking/AS400_Concepts_Primer.md)) |
 | Sandbox eksternal | BI-FAST Simulator, QRIS Switching Simulator |
-| Tools | JIRA (defect tracking), Postman (API testing), DBeaver (SQL client), Excel/Sheets (test case management) |
+| Tools | JIRA (defect tracking), Postman (API testing), DBeaver (SQL client), Excel/Sheets (test case management), 5250 Emulator/IBM ACS + STRSQL (core banking AS400) |
 | Device | Min. 1 Android real device, 1 iOS real device/simulator |
 
 ## 8. Test Data

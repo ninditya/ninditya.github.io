@@ -62,7 +62,11 @@ Katalon menjalankan alur UI-nya, sementara Postman tetap dipakai terpisah untuk 
 
 > Catatan implementasi di project ini: seluruh test case di [03-Test-Case](../03-Test-Case/Test_Case_Transfer_QRIS.csv) saat ini masih **manual**. Kandidat kuat untuk diotomasi lebih dulu dengan Katalon/Selenium/Playwright adalah suite di [09-Regression-Checklist](../09-Regression-Checklist/Regression_Test_Checklist.md), karena regression test paling sering diulang tiap rilis — nilai ROI automation paling tinggi di situ. Ini bisa jadi pengembangan lanjutan project kalau kamu mau praktik hands-on beneran.
 
-## 4. Template Jawaban Interview (Versi Jujur, Berbasis Project Ini)
+## 4. AS400/IBM i sebagai Core Banking Backend
+
+Loker banking sering menyebut "pengalaman core banking" sebagai nilai plus — di banyak bank Indonesia, itu berarti **AS400/IBM i + DB2 for i**. Project SigmaPay ini menambahkan lapisan itu di [11-AS400-Core-Banking](../11-AS400-Core-Banking/AS400_Concepts_Primer.md): konsep dasar (job, batch, spool file, STRSQL), test case verifikasi batch EOD, query DB2 for i, dan checklist monitoring job — semuanya ditandai jujur sebagai **hasil belajar mandiri untuk portfolio**, bukan pengalaman hands-on production, mengikuti prinsip yang sama seperti tabel status di atas. Lihat status kejujuran lengkapnya di [AS400_Concepts_Primer.md §4](../11-AS400-Core-Banking/AS400_Concepts_Primer.md#4-status-kejujuran-mengikuti-pola-stlc_tools_mappingmd).
+
+## 5. Template Jawaban Interview (Versi Jujur, Berbasis Project Ini)
 
 Kalau ditanya *"Tools apa yang kamu pakai dalam STLC?"*:
 

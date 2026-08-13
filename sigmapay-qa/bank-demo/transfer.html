@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SigmaPay Bank Demo — Transfer</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div class="container">
+    <h2 class="page-title">Transfer Dana</h2>
+
+    <!-- STEP 1: form -->
+    <div class="card" id="form-section" data-testid="form-section">
+      <label for="jenis-transfer">Jenis Transfer</label>
+      <select id="jenis-transfer" data-testid="select-jenis-transfer">
+        <option value="intrabank">Intrabank (sesama SigmaPay)</option>
+        <option value="interbank">Interbank (BI-FAST)</option>
+      </select>
+
+      <label for="rekening-tujuan">Nomor Rekening Tujuan</label>
+      <input type="text" id="rekening-tujuan" data-testid="input-rekening-tujuan" placeholder="8802 xxxx xxxx">
+      <button type="button" class="btn btn-secondary" data-testid="btn-cek-rekening" onclick="cekRekening()" style="margin-top:8px">Cek Rekening</button>
+      <div id="inquiry-result" data-testid="inquiry-result" style="margin-top:8px"></div>
+
+      <label for="nominal">Nominal (Rp)</label>
+      <input type="text" id="nominal" data-testid="input-nominal" placeholder="500000">
+      <div id="nominal-error" data-testid="nominal-error" class="error-msg" hidden></div>
+
+      <button type="button" class="btn btn-primary" data-testid="btn-lanjut-transfer" onclick="lanjutTransfer()" disabled>Lanjut</button>
+    </div>
+
+    <!-- STEP 2: confirm -->
+    <div class="card" id="confirm-section" data-testid="confirm-section" hidden>
+      <h3 style="margin-top:0;font-size:14px">Konfirmasi Transfer</h3>
+      <div class="row"><span class="k">Jenis</span><span class="v" data-testid="confirm-jenis"></span></div>
+      <div class="row"><span class="k">Rekening Tujuan</span><span class="v" data-testid="confirm-rekening"></span></div>
+      <div class="row"><span class="k">Nama Penerima</span><span class="v" data-testid="confirm-nama"></span></div>
+      <div class="row"><span class="k">Nominal</span><span class="v" data-testid="confirm-nominal"></span></div>
+      <div class="row"><span class="k">Biaya Admin</span><span class="v" data-testid="confirm-biaya"></span></div>
+      <div class="row"><span class="k">Total Debit</span><span class="v" data-testid="confirm-total"></span></div>
+
+      <label for="pin">PIN Transaksi (6 digit)</label>
+      <input type="password" id="pin" data-testid="input-pin" maxlength="6" placeholder="••••••">
+      <div id="pin-error" data-testid="pin-error" class="error-msg" hidden></div>
+
+      <button type="button" class="btn btn-primary" data-testid="btn-kirim-transfer" onclick="kirimTransfer()">Kirim</button>
+      <button type="button" class="btn btn-secondary" data-testid="btn-batal-transfer" onclick="batalTransfer()" style="margin-top:8px">Batal</button>
+
+      <div id="transfer-spinner" data-testid="transfer-spinner" class="spinner-wrap" hidden>
+        <div class="spinner"></div> Memproses transaksi…
+      </div>
+    </div>
+
+    <!-- STEP 3: result -->
+    <div id="result-section" data-testid="result-section" hidden></div>
+  </div>
+
+<script src="assets/app.js"></script>
+<script>
+  const session = requireAuth();
+  if (session) renderTopbar("transfer");
+
+  let inquiry = null; // { norek, nama, status }
+  let pinTries = 0;
+  let locked = false;
+
+  function cekRekening() {
+    const norek = document.getElementById("rekening-tujuan").value.trim();
+    const box = document.getElementById("inquiry-result");
+    inquiry = null;
+    document.querySelector('[data-testid="btn-lanjut-transfer"]').disabled = true;
+
+    if (!norek) {
+      box.innerHTML = '<div class="error-msg" data-testid="inquiry-error">Masukkan nomor rekening tujuan.</div>';
+      return;
+    }
+    if (norek === session.accountNo) {
+      box.innerHTML = '<div class="error-msg" data-testid="inquiry-error">Rekening tujuan sama dengan rekening Anda. Gunakan menu Pindah Buku.</div>';
+      return;
+    }
+    const rec = RECIPIENTS[norek];
+    if (!rec) {
+      box.innerHTML = '<div class="error-msg" data-testid="inquiry-error">Rekening tidak ditemukan.</div>';
+      return;
+    }
+    if (rec.status === "blocked") {
+      box.innerHTML = '<div class="error-msg" data-testid="inquiry-error">Rekening tidak dapat menerima dana (status diblokir).</div>';
+      return;
+    }
+    inquiry = { norek: norek, nama: rec.name };
+    box.innerHTML = '<div class="success-msg" data-testid="inquiry-success">Rekening ditemukan: <strong data-testid="inquiry-nama">' + rec.name + '</strong></div>';
+    validateNominalState();
+  }
+
+  function currentNominal() {
+    const raw = document.getElementById("nominal").value.trim();
+    return raw === "" ? NaN : Number(raw);
+  }
+
+  function validateNominalState() {
+    const nominal = currentNominal();
+    const errBox = document.getElementById("nominal-error");
+    const lanjutBtn = document.querySelector('[data-testid="btn-lanjut-transfer"]');
+    errBox.hidden = true;
+    lanjutBtn.disabled = true;
+
+    if (!inquiry) return;
+
+    const bypassValidation = session.bug === "negative_nominal";
+
+    if (isNaN(nominal) || (nominal <= 0 && !bypassValidation)) {
+      errBox.textContent = "Nominal harus berupa angka lebih besar dari 0.";
+      errBox.hidden = false;
+      return;
+    }
+    if (!bypassValidation && nominal > session.balance) {
+      errBox.textContent = "Saldo tidak mencukupi.";
+      errBox.hidden = false;
+      return;
+    }
+    lanjutBtn.disabled = false;
+  }
+
+  document.getElementById("nominal").addEventListener("input", validateNominalState);
+
+  function lanjutTransfer() {
+    if (!inquiry) return;
+    const nominal = currentNominal();
+    const jenis = document.getElementById("jenis-transfer").value;
+    const biaya = jenis === "interbank" ? 2500 : 0;
+
+    document.getElementById("confirm-jenis").textContent = jenis === "interbank" ? "Interbank (BI-FAST)" : "Intrabank";
+    document.getElementById("confirm-rekening").textContent = inquiry.norek;
+    document.getElementById("confirm-nama").textContent = inquiry.nama;
+    document.getElementById("confirm-nominal").textContent = formatRupiah(nominal);
+    document.getElementById("confirm-biaya").textContent = formatRupiah(biaya);
+    document.getElementById("confirm-total").textContent = formatRupiah(nominal + biaya);
+
+    document.getElementById("form-section").hidden = true;
+    document.getElementById("confirm-section").hidden = false;
+    document.getElementById("pin").value = "";
+    document.getElementById("pin-error").hidden = true;
+    pinTries = 0;
+    locked = false;
+    document.querySelector('[data-testid="btn-kirim-transfer"]').disabled = false;
+  }
+
+  function batalTransfer() {
+    document.getElementById("confirm-section").hidden = true;
+    document.getElementById("form-section").hidden = false;
+  }
+
+  function kirimTransfer() {
+    if (locked) return;
+    const pinBox = document.getElementById("pin");
+    const pinErr = document.getElementById("pin-error");
+    const kirimBtn = document.querySelector('[data-testid="btn-kirim-transfer"]');
+
+    if (pinBox.value !== PIN_VALID) {
+      pinTries++;
+      if (pinTries >= 3) {
+        locked = true;
+        pinErr.textContent = "PIN salah 3 kali. Transaksi dikunci sementara. Silakan mulai ulang.";
+        pinErr.hidden = false;
+        kirimBtn.disabled = true;
+        return;
+      }
+      pinErr.textContent = "PIN salah. Sisa percobaan: " + (3 - pinTries);
+      pinErr.hidden = false;
+      return;
+    }
+    pinErr.hidden = true;
+
+    // Reproduces BUG-DEMO-001: for this persona the submit button is never
+    // disabled, so a fast double-click re-enters this function twice and
+    // executes the debit twice — an intentional, discoverable defect.
+    if (session.bug !== "double_debit") {
+      kirimBtn.disabled = true;
+    }
+
+    const nominal = currentNominal();
+    const jenis = document.getElementById("jenis-transfer").value;
+    const biaya = jenis === "interbank" ? 2500 : 0;
+    const total = nominal + biaya;
+
+    document.getElementById("transfer-spinner").hidden = false;
+
+    setTimeout(() => processTransfer(nominal, total, jenis), session.slow ? 3000 : 400);
+  }
+
+  function processTransfer(nominal, total, jenis) {
+    document.getElementById("transfer-spinner").hidden = true;
+    const resultBox = document.getElementById("result-section");
+    const confirmSection = document.getElementById("confirm-section");
+
+    if (session.bug === "status_ambigu") {
+      // Actual state: money moves and is recorded as success...
+      session.balance -= total;
+      addMutasi(session, {
+        desc: "Transfer ke " + inquiry.nama, date: nowLabel(),
+        amount: total, type: "debit", status: "Berhasil", statusClass: "success",
+      });
+      setSession(session);
+      // ...but the UI intentionally lies to the user.
+      confirmSection.hidden = true;
+      resultBox.hidden = false;
+      resultBox.innerHTML = '<div class="card"><div class="error-msg" data-testid="transfer-result-error">Transfer Gagal, silakan coba lagi.</div><div class="muted-note">Cek menu Mutasi — apakah saldo benar-benar tidak berubah seperti klaim pesan ini?</div></div>';
+      return;
+    }
+
+    if (session.bug === "interbank_macet" && jenis === "interbank") {
+      session.balance -= total;
+      addMutasi(session, {
+        desc: "Transfer BI-FAST ke " + inquiry.nama, date: nowLabel(),
+        amount: total, type: "debit", status: "Diproses", statusClass: "pending",
+      });
+      setSession(session);
+      confirmSection.hidden = true;
+      resultBox.hidden = false;
+      resultBox.innerHTML = '<div class="card"><div class="success-msg" data-testid="transfer-result-pending">Transaksi sedang diproses oleh switching BI-FAST. Cek status di menu Mutasi.</div></div>';
+      return;
+    }
+
+    // Normal path (also used by double_debit — each call still executes this fully)
+    session.balance -= total;
+    addMutasi(session, {
+      desc: (jenis === "interbank" ? "Transfer BI-FAST ke " : "Transfer ke ") + inquiry.nama,
+      date: nowLabel(), amount: total, type: "debit", status: "Berhasil", statusClass: "success",
+    });
+    setSession(session);
+    confirmSection.hidden = true;
+    resultBox.hidden = false;
+    resultBox.innerHTML = '<div class="card"><div class="success-msg" data-testid="transfer-result-success">Transfer berhasil. Saldo baru: ' + formatRupiah(session.balance) + '</div><a href="dashboard.html" class="btn btn-secondary" data-testid="btn-kembali-beranda" style="display:inline-block;text-align:center;text-decoration:none;margin-top:10px">Kembali ke Beranda</a></div>';
+  }
+</script>
+</body>
+</html>

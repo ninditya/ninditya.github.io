@@ -636,7 +636,7 @@ WHERE status = <span class="s">'PENDING'</span>
   <section class="content alt" id="regression">
     <div class="wrap">
       <div class="section-num" data-i18n="regNum">08 · Regression Discipline</div>
-      <h2 data-i18n="regTitle">26 checks, <em>reused every release.</em></h2>
+      <h2 data-i18n="regTitle">30 checks, <em>reused every release.</em></h2>
       <p class="lede" data-i18n="regLede">A living checklist run before every release and every Critical/Major hotfix — not a one-time artifact. It's what caught BUG-SGP-007 outside the original scope. Critical-path items (Fund Transfer + Database Sanity) block release on any failure.</p>
       <div class="pill-list">
         <span class="pill"><strong>6</strong> <span data-i18n="regCat1">Login &amp; Auth</span></span>
@@ -646,7 +646,7 @@ WHERE status = <span class="s">'PENDING'</span>
         <span class="pill"><strong>3</strong> <span data-i18n="regCat5">API Layer</span></span>
         <span class="pill"><strong>3</strong> <span data-i18n="regCat6">Database Sanity</span></span>
       </div>
-      <p><a class="doclink" style="font-family:'JetBrains Mono',monospace" href="docs/Regression_Test_Checklist.html" target="_blank" rel="noopener" data-i18n="regFullLink">→ Full 26-item checklist</a></p>
+      <p><a class="doclink" style="font-family:'JetBrains Mono',monospace" href="docs/Regression_Test_Checklist.html" target="_blank" rel="noopener" data-i18n="regFullLink">→ Full 30-item checklist</a></p>
     </div>
   </section>
 
@@ -666,7 +666,7 @@ WHERE status = <span class="s">'PENDING'</span>
         </div>
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson3Label">Regression discipline scales</div>
-          <p data-i18n="lesson3P">A 26-item checklist, reused every cycle, caught BUG-SGP-007 in a module that wasn't even part of the original release. <strong>That's the return on writing the checklist once.</strong></p>
+          <p data-i18n="lesson3P">A 30-item checklist, reused every cycle, caught BUG-SGP-007 in a module that wasn't even part of the original release. <strong>That's the return on writing the checklist once.</strong></p>
         </div>
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson4Label">Saying "simulation, not production" is a credibility move</div>
@@ -701,11 +701,24 @@ WHERE status = <span class="s">'PENDING'</span>
         <a href="docs/Test_Execution_Report.html" target="_blank" rel="noopener">04 · Test_Execution_Report.md</a>
         <a href="docs/Bug_Report_Sample.html" target="_blank" rel="noopener">05 · Bug_Report_Sample.md</a>
         <a href="docs/Postman_API_Test_Notes.html" target="_blank" rel="noopener">06 · Postman_API_Test_Notes.md</a>
+        <a href="docs/Public_Dummy_API_Practice_Notes.html" target="_blank" rel="noopener">06 · Public_Dummy_API_Practice_Notes.md</a>
         <a href="docs/SQL_Queries_Validation.sql" target="_blank" rel="noopener">07 · SQL_Queries_Validation.sql</a>
         <a href="docs/Test_Summary_Report.html" target="_blank" rel="noopener">08 · Test_Summary_Report.md</a>
         <a href="docs/Regression_Test_Checklist.html" target="_blank" rel="noopener">09 · Regression_Test_Checklist.md</a>
         <a href="docs/Panduan_Kerja_QA_Manual_Banking.html" target="_blank" rel="noopener">10 · Panduan_Kerja_QA_Manual_Banking.md</a>
+        <a href="docs/AS400_Concepts_Primer.html" target="_blank" rel="noopener">11 · AS400_Concepts_Primer.md</a>
+        <a href="docs/AS400_Job_Monitoring_Checklist.html" target="_blank" rel="noopener">11 · AS400_Job_Monitoring_Checklist.md</a>
+        <a href="docs/AS400_Batch_Test_Cases.csv" target="_blank" rel="noopener">11 · AS400_Batch_Test_Cases.csv</a>
+        <a href="docs/DB2_for_i_Validation_Queries.sql" target="_blank" rel="noopener">11 · DB2_for_i_Validation_Queries.sql</a>
+        <a href="docs/Automation_Appium_README.html" target="_blank" rel="noopener">12 · Automation_Appium_README.md</a>
         <a href="docs/README.html" target="_blank" rel="noopener">README.md</a>
+      </div>
+
+      <h3 style="color:white;margin-top:40px;">Beyond the docs — a live target &amp; a real automation suite</h3>
+      <p style="color:rgba(255,255,255,0.72);max-width:640px;margin:12px 0 20px;font-size:15px;">SigmaPay Bank Demo is a dependency-free static app (10 seeded test accounts, stable <code style="background:rgba(255,255,255,0.12);padding:1px 6px;border-radius:3px;">data-testid</code> locators) built as a real automation target — paired with a full Appium + WebdriverIO + Mocha + Chai suite (Page Object Model, 4 spec files) written against it.</p>
+      <div class="cta-buttons">
+        <a href="bank-demo/" class="btn ghost">Open SigmaPay Bank Demo →</a>
+        <a href="docs/Automation_Appium_README.html" class="btn ghost">View Automation Suite →</a>
       </div>
     </div>
   </section>
@@ -827,10 +840,10 @@ WHERE status = <span class="s">'PENDING'</span>
         exit4:'Summary report approved', exit4t:'Yes', exit4a:'Pending sign-off',
         goQuote:'"Recommendation: <strong>Proceed to simulated UAT</strong> — with focused monitoring on Transfer &amp; QRIS scenarios, a rollback plan for BI-FAST reversal cases specifically, and the regression suite flagged as the top automation candidate next sprint."',
         regNum:'08 · Regression Discipline',
-        regTitle:'26 checks, <em>reused every release.</em>',
+        regTitle:'30 checks, <em>reused every release.</em>',
         regLede:'A living checklist run before every release and every Critical/Major hotfix — not a one-time artifact. It\'s what caught BUG-SGP-007 outside the original scope. Critical-path items (Fund Transfer + Database Sanity) block release on any failure.',
         regCat1:'Login &amp; Auth', regCat2:'Balance &amp; History', regCat3:'Fund Transfer', regCat4:'QRIS Payment', regCat5:'API Layer', regCat6:'Database Sanity',
-        regFullLink:'→ Full 26-item checklist',
+        regFullLink:'→ Full 30-item checklist',
         lessonsNum:'09 · Lessons Learned',
         lessonsTitle:'QA in banking isn\'t about clicking buttons. <em style="color:var(--accent);">It\'s about protecting money that moves.</em>',
         lesson1Label:'Edge cases are where money bugs hide',
@@ -838,7 +851,7 @@ WHERE status = <span class="s">'PENDING'</span>
         lesson2Label:'Verify below the screen, not just on it',
         lesson2P:'BUG-SGP-002 and BUG-SGP-004\'s real root cause was in the backend, not the UI. <strong>A SQL query and a Postman assertion proved it</strong> — a screenshot alone would not have.',
         lesson3Label:'Regression discipline scales',
-        lesson3P:'A 26-item checklist, reused every cycle, caught BUG-SGP-007 in a module that wasn\'t even part of the original release. <strong>That\'s the return on writing the checklist once.</strong>',
+        lesson3P:'A 30-item checklist, reused every cycle, caught BUG-SGP-007 in a module that wasn\'t even part of the original release. <strong>That\'s the return on writing the checklist once.</strong>',
         lesson4Label:'Saying "simulation, not production" is a credibility move',
         lesson4P:'This project proves STLC discipline end-to-end. <strong>Overstating it as production banking experience would be the first thing a good interviewer catches</strong> — being precise about the difference is the more senior answer.',
         ctaNum:'Interactive Prototype · Live Demo',
@@ -956,10 +969,10 @@ WHERE status = <span class="s">'PENDING'</span>
         exit4:'Summary report disetujui', exit4t:'Ya', exit4a:'Menunggu sign-off',
         goQuote:'"Rekomendasi: <strong>Lanjutkan ke simulated UAT</strong> — dengan monitoring fokus pada skenario Transfer &amp; QRIS, rollback plan khusus untuk kasus reversal BI-FAST, dan regression suite ditandai sebagai kandidat automasi utama sprint berikutnya."',
         regNum:'08 · Disiplin Regresi',
-        regTitle:'26 pengecekan, <em>dipakai ulang tiap rilis.</em>',
+        regTitle:'30 pengecekan, <em>dipakai ulang tiap rilis.</em>',
         regLede:'Checklist hidup yang dijalankan sebelum setiap rilis dan setiap hotfix Critical/Major — bukan artifact sekali pakai. Inilah yang menangkap BUG-SGP-007 di luar scope awal. Item critical-path (Fund Transfer + Database Sanity) memblokir rilis kalau ada yang gagal.',
         regCat1:'Login &amp; Auth', regCat2:'Saldo &amp; Mutasi', regCat3:'Fund Transfer', regCat4:'QRIS Payment', regCat5:'API Layer', regCat6:'Database Sanity',
-        regFullLink:'→ Lihat 26 item checklist lengkap',
+        regFullLink:'→ Lihat 30 item checklist lengkap',
         lessonsNum:'09 · Pelajaran',
         lessonsTitle:'QA di banking bukan soal klik-klik tombol. <em style="color:var(--accent);">Ini soal menjaga uang yang bergerak.</em>',
         lesson1Label:'Bug yang menyangkut uang ada di edge case',
@@ -967,7 +980,7 @@ WHERE status = <span class="s">'PENDING'</span>
         lesson2Label:'Validasi di bawah layar, bukan cuma di layar',
         lesson2P:'Root cause asli BUG-SGP-002 dan BUG-SGP-004 ada di backend, bukan UI. <strong>Query SQL dan assertion Postman yang membuktikannya</strong> — screenshot saja tidak akan cukup.',
         lesson3Label:'Disiplin regresi itu scalable',
-        lesson3P:'Checklist 26 item, dipakai ulang tiap cycle, menangkap BUG-SGP-007 di modul yang bahkan bukan bagian dari rilis awal. <strong>Itulah return dari menulis checklist sekali saja.</strong>',
+        lesson3P:'Checklist 30 item, dipakai ulang tiap cycle, menangkap BUG-SGP-007 di modul yang bahkan bukan bagian dari rilis awal. <strong>Itulah return dari menulis checklist sekali saja.</strong>',
         lesson4Label:'Bilang "simulasi, bukan production" itu justru menambah kredibilitas',
         lesson4P:'Project ini membuktikan disiplin STLC end-to-end. <strong>Melebih-lebihkannya sebagai pengalaman banking production adalah hal pertama yang ditangkap interviewer yang baik</strong> — presisi soal perbedaan ini adalah jawaban yang lebih senior.',
         ctaNum:'Prototype Interaktif · Live Demo',

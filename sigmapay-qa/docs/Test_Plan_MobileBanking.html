@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test Plan — SigmaPay Mobile Banking: Modul Fund Transfer & QRIS Payment · SigmaPay QA QA Docs</title>
+<title>Test Plan — SigmaPay Mobile Banking: Modul Fund Transfer &amp; QRIS Payment · SigmaPay QA QA Docs</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,7 +73,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </div></nav>
 <div class="doc-wrap">
   <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
-  <h1>Test Plan — SigmaPay Mobile Banking: Modul Fund Transfer & QRIS Payment</h1>
+  <h1>Test Plan — SigmaPay Mobile Banking: Modul Fund Transfer &amp; QRIS Payment</h1>
   <div class="doc-meta">Test_Plan_MobileBanking.md &middot; Test Plan</div>
   <div class="doc-body">
 <table>
@@ -112,6 +112,12 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </table>
 <h2 id="1-pendahuluan">1. Pendahuluan</h2>
 <p>Dokumen ini menjelaskan pendekatan pengujian untuk fitur <strong>Fund Transfer</strong> dan <strong>QRIS Payment</strong> pada aplikasi SigmaPay Mobile Banking, sebelum dirilis ke production.</p>
+<h3 id="11-arsitektur-sistem-high-level">1.1 Arsitektur Sistem (High-Level)</h3>
+<pre><code>[Mobile App Android/iOS] ──► [API/Middleware Layer] ──► [Core Banking: IBM i / AS400 + DB2 for i]
+     (channel, UI)              (REST API, lihat            (system of record: ledger, rekening,
+                                  06-API-Testing)              batch EOD, interest accrual)
+</code></pre>
+<p>Mengikuti pola umum bank di Indonesia (BCA, Mandiri, BRI, BNI, dst.) yang menjalankan core banking di atas <strong>IBM i (AS/400)</strong> dengan <strong>DB2 for i</strong> sebagai database inti — mobile app &amp; API adalah <em>channel layer</em> yang sudah dites lewat UI/Postman, sementara core banking di AS400 adalah <em>system of record</em> tempat saldo/ledger sebenarnya disimpan dan tempat batch job semalam (EOD) berjalan. Detail konsep, test case, dan checklist untuk lapisan ini ada di <a href="AS400_Concepts_Primer.html">11-AS400-Core-Banking</a>.</p>
 <h2 id="2-tujuan-testing">2. Tujuan Testing</h2>
 <ul>
 <li>Memastikan seluruh alur transfer dana (intrabank, interbank via BI-FAST, ke Virtual Account) berjalan sesuai requirement.</li>
@@ -130,6 +136,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <li>SIT: integrasi ke simulator/sandbox BI-FAST &amp; QRIS Switching</li>
 <li>Smoke Testing: setiap build baru masuk QA environment</li>
 <li>UAT Support: pendampingan business user saat UAT</li>
+<li>Core Banking Batch Validation: verifikasi batch job EOD di AS400/IBM i (status job, job log, spool file, rekonsiliasi ledger) — lihat <a href="AS400_Concepts_Primer.html">11-AS400-Core-Banking</a></li>
 </ul>
 <h3 id="out-of-scope">Out of Scope</h3>
 <ul>
@@ -216,8 +223,12 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <td><code>https://api-qa.sigmapay.dummy</code> (dummy)</td>
 </tr>
 <tr>
-<td>Database</td>
+<td>Database (channel layer)</td>
 <td>PostgreSQL — schema <code>sigmapay_qa</code> (dummy)</td>
+</tr>
+<tr>
+<td>Core Banking (system of record)</td>
+<td>IBM i / AS400 — LPAR simulasi QA, library <code>SIGMAPRD</code>, DB2 for i (dummy — lihat <a href="AS400_Concepts_Primer.html">11-AS400-Core-Banking</a>)</td>
 </tr>
 <tr>
 <td>Sandbox eksternal</td>
@@ -225,7 +236,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </tr>
 <tr>
 <td>Tools</td>
-<td>JIRA (defect tracking), Postman (API testing), DBeaver (SQL client), Excel/Sheets (test case management)</td>
+<td>JIRA (defect tracking), Postman (API testing), DBeaver (SQL client), Excel/Sheets (test case management), 5250 Emulator/IBM ACS + STRSQL (core banking AS400)</td>
 </tr>
 <tr>
 <td>Device</td>
@@ -235,7 +246,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </table>
 <h2 id="8-test-data">8. Test Data</h2>
 <blockquote>
-<p>Sinkron dengan <a href="../SigmaPay%20Prototype%20Scope/SigmaPay%20QA%20Workbench.dc.html">SigmaPay Prototype Scope</a> — prototype interaktif yang mengimplementasikan persis data di bawah ini, sehingga jadi acuan tunggal (single source of truth) untuk seluruh dokumen di project ini.</p>
+<p>Sinkron dengan <a href="../prototype.html">SigmaPay Prototype Scope</a> — prototype interaktif yang mengimplementasikan persis data di bawah ini, sehingga jadi acuan tunggal (single source of truth) untuk seluruh dokumen di project ini.</p>
 </blockquote>
 <h3 id="akun-uji">Akun Uji</h3>
 <table>
@@ -286,7 +297,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </table>
 <ul>
 <li><strong>PIN</strong> untuk semua akun uji: <code>123456</code> (6 digit). PIN salah ditolak (REG-02).</li>
-<li><strong>OTP</strong> sandbox: <code>246810</code> (6 digit). Salah 3x → transaksi terkunci sementara (<a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-010</a>).</li>
+<li><strong>OTP</strong> sandbox: <code>246810</code> (6 digit). Salah 3x → transaksi terkunci sementara (<a href="Test_Case_Transfer_QRIS.csv">TC-TRF-010</a>).</li>
 <li><strong>Batas idle sesi</strong>: 5 menit → auto logout (REG-04).</li>
 </ul>
 <h3 id="bank-tujuan-bi-fast">Bank Tujuan (BI-FAST)</h3>
@@ -366,23 +377,23 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <td>Warung Sate Pak Har</td>
 <td>Dinamis</td>
 <td>Rp 45.000</td>
-<td><strong>Expired</strong> (5 menit lalu) → <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-QRIS-004</a></td>
+<td><strong>Expired</strong> (5 menit lalu) → <a href="Test_Case_Transfer_QRIS.csv">TC-QRIS-004</a></td>
 </tr>
 <tr>
 <td>Laundry Ekspress</td>
 <td>Dinamis</td>
 <td>Rp 120.000</td>
-<td><strong>Merchant ID mismatch</strong> → <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-QRIS-009</a></td>
+<td><strong>Merchant ID mismatch</strong> → <a href="Test_Case_Transfer_QRIS.csv">TC-QRIS-009</a></td>
 </tr>
 <tr>
 <td>QR tidak dikenali</td>
 <td>-</td>
 <td>-</td>
-<td>Format rusak/bukan QRIS nasional → <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-QRIS-005</a></td>
+<td>Format rusak/bukan QRIS nasional → <a href="Test_Case_Transfer_QRIS.csv">TC-QRIS-005</a></td>
 </tr>
 </tbody>
 </table>
-<h3 id="biaya-limit">Biaya &amp; Limit</h3>
+<h3 id="biaya-amp-limit">Biaya &amp; Limit</h3>
 <table>
 <thead>
 <tr>
@@ -428,15 +439,15 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <tbody>
 <tr>
 <td><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></td>
-<td>Uji XSS — lihat <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-020</a></td>
+<td>Uji XSS — lihat <a href="Test_Case_Transfer_QRIS.csv">TC-TRF-020</a></td>
 </tr>
 <tr>
 <td><code>' OR '1'='1</code></td>
-<td>Uji SQL Injection — lihat <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-020</a></td>
+<td>Uji SQL Injection — lihat <a href="Test_Case_Transfer_QRIS.csv">TC-TRF-020</a></td>
 </tr>
 </tbody>
 </table>
-<h2 id="9-roles-responsibilities">9. Roles &amp; Responsibilities</h2>
+<h2 id="9-roles-amp-responsibilities">9. Roles &amp; Responsibilities</h2>
 <table>
 <thead>
 <tr>
@@ -463,7 +474,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </tr>
 </tbody>
 </table>
-<h2 id="10-risk-mitigation">10. Risk &amp; Mitigation</h2>
+<h2 id="10-risk-amp-mitigation">10. Risk &amp; Mitigation</h2>
 <table>
 <thead>
 <tr>

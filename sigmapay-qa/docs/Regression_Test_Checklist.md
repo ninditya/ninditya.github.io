@@ -65,10 +65,19 @@ Checklist ringkas untuk dieksekusi **setiap ada bug fix atau rilis baru**, memas
 | REG-25 | Tidak ada transaksi "Pending" yang melewati SLA (jalankan [SQL Query B.5](../07-SQL-Validation/SQL_Queries_Validation.sql)) | Sebagian — prototype hanya menampilkan simulasi status, query lengkap dijalankan manual | |
 | REG-26 | Ledger debit = kredit untuk seluruh transaksi hari berjalan (jalankan [SQL Query B.8](../07-SQL-Validation/SQL_Queries_Validation.sql)) | Sebagian — prototype pakai heuristik sederhana ("ada PENDING = tidak seimbang"), bukan double-entry penuh | |
 
+## 7. Core Banking Batch (AS400)
+
+| ID | Item | Live di Prototype | Status |
+|---|---|---|---|
+| REG-27 | Batch job EOD (`SGPEOD01`) selesai tanpa abnormal end & job log bersih | — (di luar cakupan prototype; jalankan [AS4-01/AS4-02](../11-AS400-Core-Banking/AS400_Job_Monitoring_Checklist.md)) | |
+| REG-28 | Batch tidak boleh di-rerun dobel untuk tanggal proses yang sama (regresi BUG-SGP-008) | — (jalankan [Query #3](../11-AS400-Core-Banking/DB2_for_i_Validation_Queries.sql) / [TC-AS400-003](../11-AS400-Core-Banking/AS400_Batch_Test_Cases.csv)) | |
+| REG-29 | Saldo di DB2 for i (`ACCOUNTS`) cocok dengan tampilan aplikasi setelah batch EOD | — (jalankan [Query #1](../11-AS400-Core-Banking/DB2_for_i_Validation_Queries.sql)) | |
+| REG-30 | Setelah PTF/patch AS400 di-apply, smoke test core banking (login/saldo/transfer) tetap normal | — (jalankan [TC-AS400-008](../11-AS400-Core-Banking/AS400_Batch_Test_Cases.csv)) | |
+
 ## Ringkasan Hasil
 
 | Total Item | Pass | Fail | Skip |
 |---|---|---|---|
-| 26 | | | |
+| 30 | | | |
 
-**Keputusan:** Rilis dapat dilanjutkan jika seluruh item **Critical path** (REG-09 s.d. REG-15, REG-24 s.d. REG-26) berstatus Pass. Kegagalan pada item tersebut = **blocker rilis**.
+**Keputusan:** Rilis dapat dilanjutkan jika seluruh item **Critical path** (REG-09 s.d. REG-15, REG-24 s.d. REG-26, REG-27 s.d. REG-29) berstatus Pass. Kegagalan pada item tersebut = **blocker rilis**.

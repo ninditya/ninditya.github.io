@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tools & Aplikasi per Tahap STLC — Dipetakan ke Project SigmaPay + Panduan CV/Interview · SigmaPay QA QA Docs</title>
+<title>Tools &amp; Aplikasi per Tahap STLC — Dipetakan ke Project SigmaPay + Panduan CV/Interview · SigmaPay QA QA Docs</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,7 +73,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </div></nav>
 <div class="doc-wrap">
   <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
-  <h1>Tools & Aplikasi per Tahap STLC — Dipetakan ke Project SigmaPay + Panduan CV/Interview</h1>
+  <h1>Tools &amp; Aplikasi per Tahap STLC — Dipetakan ke Project SigmaPay + Panduan CV/Interview</h1>
   <div class="doc-meta">STLC_Tools_Mapping.md &middot; Tools & CV mapping</div>
   <div class="doc-body">
 <p>Melengkapi <a href="SDLC_STLC_Concept.html">SDLC_STLC_Concept.md</a> (6 tahap STLC) dengan <strong>tools yang umum dipakai di industri</strong> pada tiap tahap, dan <strong>jujur menandai</strong> mana yang benar-benar dipakai/disimulasikan di project SigmaPay ini vs mana yang sekadar perlu kamu pahami konsepnya.</p>
@@ -107,7 +107,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <td><strong>3. Test Case Design</strong></td>
 <td>Test scenario &amp; test case</td>
 <td>TestRail, Zephyr/Xray, Jira, Excel</td>
-<td>✅ Dibuat nyata dalam format CSV (setara Excel/Sheets): <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">Test_Case_Transfer_QRIS.csv</a>. TestRail/Zephyr/Xray = tools yang sama fungsinya, belum dipakai hands-on</td>
+<td>✅ Dibuat nyata dalam format CSV (setara Excel/Sheets): <a href="Test_Case_Transfer_QRIS.csv">Test_Case_Transfer_QRIS.csv</a>. TestRail/Zephyr/Xray = tools yang sama fungsinya, belum dipakai hands-on</td>
 </tr>
 <tr>
 <td><strong>4. Test Environment Setup</strong></td>
@@ -131,7 +131,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <td>↳ <em>Database Validation (bagian dari Execution)</em></td>
 <td>Validasi data backend</td>
 <td>SQL (PostgreSQL/MySQL), DBeaver</td>
-<td>✅ Dibuat nyata: <a href="../07-SQL-Validation/SQL_Queries_Validation.sql">SQL_Queries_Validation.sql</a></td>
+<td>✅ Dibuat nyata: <a href="SQL_Queries_Validation.sql">SQL_Queries_Validation.sql</a></td>
 </tr>
 <tr>
 <td><strong>6. Test Cycle Closure</strong></td>
@@ -229,9 +229,11 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </code></pre>
 <p>Katalon menjalankan alur UI-nya, sementara Postman tetap dipakai terpisah untuk memvalidasi API di baliknya (<code>POST /transfer</code>, <code>POST /qris/pay</code> — lihat <a href="Postman_API_Test_Notes.html">API Testing Notes</a>).</p>
 <blockquote>
-<p>Catatan implementasi di project ini: seluruh test case di <a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">03-Test-Case</a> saat ini masih <strong>manual</strong>. Kandidat kuat untuk diotomasi lebih dulu dengan Katalon/Selenium/Playwright adalah suite di <a href="Regression_Test_Checklist.html">09-Regression-Checklist</a>, karena regression test paling sering diulang tiap rilis — nilai ROI automation paling tinggi di situ. Ini bisa jadi pengembangan lanjutan project kalau kamu mau praktik hands-on beneran.</p>
+<p>Catatan implementasi di project ini: seluruh test case di <a href="Test_Case_Transfer_QRIS.csv">03-Test-Case</a> saat ini masih <strong>manual</strong>. Kandidat kuat untuk diotomasi lebih dulu dengan Katalon/Selenium/Playwright adalah suite di <a href="Regression_Test_Checklist.html">09-Regression-Checklist</a>, karena regression test paling sering diulang tiap rilis — nilai ROI automation paling tinggi di situ. Ini bisa jadi pengembangan lanjutan project kalau kamu mau praktik hands-on beneran.</p>
 </blockquote>
-<h2 id="4-template-jawaban-interview-versi-jujur-berbasis-project-ini">4. Template Jawaban Interview (Versi Jujur, Berbasis Project Ini)</h2>
+<h2 id="4-as400ibm-i-sebagai-core-banking-backend">4. AS400/IBM i sebagai Core Banking Backend</h2>
+<p>Loker banking sering menyebut "pengalaman core banking" sebagai nilai plus — di banyak bank Indonesia, itu berarti <strong>AS400/IBM i + DB2 for i</strong>. Project SigmaPay ini menambahkan lapisan itu di <a href="AS400_Concepts_Primer.html">11-AS400-Core-Banking</a>: konsep dasar (job, batch, spool file, STRSQL), test case verifikasi batch EOD, query DB2 for i, dan checklist monitoring job — semuanya ditandai jujur sebagai <strong>hasil belajar mandiri untuk portfolio</strong>, bukan pengalaman hands-on production, mengikuti prinsip yang sama seperti tabel status di atas. Lihat status kejujuran lengkapnya di <a href="AS400_Concepts_Primer.html#4-status-kejujuran-mengikuti-pola-stlc_tools_mappingmd">AS400_Concepts_Primer.md §4</a>.</p>
+<h2 id="5-template-jawaban-interview-versi-jujur-berbasis-project-ini">5. Template Jawaban Interview (Versi Jujur, Berbasis Project Ini)</h2>
 <p>Kalau ditanya <em>"Tools apa yang kamu pakai dalam STLC?"</em>:</p>
 <blockquote>
 <p>"Saya membangun sendiri sebuah project simulasi QA manual testing untuk aplikasi mobile banking, mencakup seluruh siklus STLC — mulai dari Test Plan, Test Scenario, dan Test Case, eksekusi manual dengan pencatatan hasil dan evidence, defect reporting dengan format menyerupai Jira, API testing menggunakan Postman untuk endpoint transfer dan QRIS, sampai validasi data di level database pakai SQL, dan ditutup dengan Test Summary Report untuk keputusan go/no-go. Untuk automation tools seperti Katalon atau Selenium, saya paham konsep dan alurnya dalam STLC, dan siap onboarding cepat kalau tim menggunakan tools tersebut."</p>

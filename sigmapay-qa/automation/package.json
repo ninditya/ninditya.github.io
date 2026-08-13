@@ -1,0 +1,18 @@
+{
+  "name": "sigmapay-appium-automation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Appium + WebdriverIO + Mocha + Chai automation suite for SigmaPay Bank Demo (mobile web, Chrome/Safari via Appium)",
+  "scripts": {
+    "appium": "appium",
+    "serve:app": "http-server \"../bank-demo\" -p 8080 -s",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "appium": "^2.11.2",
+    "chai": "^4.4.1",
+    "http-server": "^14.1.1",
+    "mocha": "^10.7.3",
+    "webdriverio": "^9.4.0"
+  }
+}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SigmaPay Bank Demo — Riwayat Mutasi</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div class="container">
+    <h2 class="page-title">Riwayat Mutasi</h2>
+    <div class="card">
+      <div id="mutasi-list" data-testid="mutasi-list"></div>
+    </div>
+  </div>
+
+<script src="assets/app.js"></script>
+<script>
+  const session = requireAuth();
+  if (session) {
+    renderTopbar("mutasi");
+    const list = session.mutasi || [];
+    const box = document.getElementById("mutasi-list");
+    if (list.length === 0) {
+      box.innerHTML = '<div class="empty-state" data-testid="mutasi-empty">Belum ada transaksi pada sesi ini. Lakukan transfer atau pembayaran QRIS terlebih dahulu.</div>';
+    } else {
+      const badgeClass = { success: "badge-success", pending: "badge-pending", failed: "badge-failed" };
+      box.innerHTML = list.map((m, i) => `
+        <div class="mutasi-item" data-testid="mutasi-item-${i}">
+          <div>
+            <div class="desc">${m.desc}</div>
+            <div class="meta">${m.date} · <span class="badge ${badgeClass[m.statusClass]}" data-testid="mutasi-status-${i}">${m.status}</span></div>
+          </div>
+          <div class="amt ${m.type}" data-testid="mutasi-amount-${i}">${m.type === "debit" ? "-" : "+"}${formatRupiah(m.amount)}</div>
+        </div>
+      `).join("");
+    }
+  }
+</script>
+</body>
+</html>

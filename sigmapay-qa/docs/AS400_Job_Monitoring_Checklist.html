@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>API Testing Notes — Postman (Transfer &amp; QRIS) · SigmaPay QA QA Docs</title>
+<title>AS400/IBM i Job Monitoring Checklist — SigmaPay Core Banking · SigmaPay QA QA Docs</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,152 +73,186 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </div></nav>
 <div class="doc-wrap">
   <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
-  <h1>API Testing Notes — Postman (Transfer &amp; QRIS)</h1>
-  <div class="doc-meta">Postman_API_Test_Notes.md &middot; API Testing Notes</div>
+  <h1>AS400/IBM i Job Monitoring Checklist — SigmaPay Core Banking</h1>
+  <div class="doc-meta">AS400_Job_Monitoring_Checklist.md &middot; AS400 Job Monitoring</div>
   <div class="doc-body">
-<p>Dokumentasi ini merepresentasikan struktur <strong>Postman Collection</strong> yang dipakai untuk menguji API di balik UI. Ini bagian yang membedakan kandidat "hanya bisa klik UI" dengan kandidat berpengalaman 3-5 tahun yang diminta di loker.</p>
-<h2 id="1-struktur-collection">1. Struktur Collection</h2>
-<pre><code>SigmaPay QA Collection
-├── Auth
-│   └── POST /auth/login          → generate token untuk request selanjutnya
-├── Transfer
-│   ├── POST /transfer/inquiry    → cek nama pemilik rekening tujuan
-│   ├── POST /transfer            → eksekusi transfer
-│   └── GET  /transaction/status  → cek status transaksi by transactionId
-├── QRIS
-│   ├── POST /qris/decode         → decode isi QR (merchant id, nominal, expiry)
-│   └── POST /qris/pay            → eksekusi pembayaran QRIS
-└── Environment Variables
-    ├── base_url = https://api-qa.sigmapay.dummy
-    ├── token     = {{auto-set dari response login}}
-    └── device_id = QA-DEVICE-001
-</code></pre>
-<h2 id="2-contoh-requestresponse--post-transfer">2. Contoh Request/Response — POST /transfer</h2>
-<p><strong>Request</strong></p>
-<pre><code class="language-http">POST {{base_url}}/v1/transfer
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  &quot;sourceAccount&quot;: &quot;1010101010&quot;,
-  &quot;destinationAccount&quot;: &quot;2020202020&quot;,
-  &quot;destinationBankCode&quot;: &quot;SGMA&quot;,
-  &quot;amount&quot;: 500000,
-  &quot;note&quot;: &quot;Bayar patungan&quot;,
-  &quot;idempotencyKey&quot;: &quot;TRX-QA-0001&quot;
-}
-</code></pre>
-<p><strong>Response — Sukses (200)</strong></p>
-<pre><code class="language-json">{
-  &quot;status&quot;: &quot;SUCCESS&quot;,
-  &quot;transactionId&quot;: &quot;TRX20260803000123&quot;,
-  &quot;amount&quot;: 500000,
-  &quot;adminFee&quot;: 0,
-  &quot;timestamp&quot;: &quot;2026-08-03T10:15:00+07:00&quot;
-}
-</code></pre>
-<p><strong>Response — Saldo Tidak Cukup (400)</strong></p>
-<pre><code class="language-json">{
-  &quot;status&quot;: &quot;FAILED&quot;,
-  &quot;errorCode&quot;: &quot;INSUFFICIENT_BALANCE&quot;,
-  &quot;message&quot;: &quot;Saldo tidak mencukupi untuk melakukan transaksi ini&quot;
-}
-</code></pre>
-<h2 id="3-test-script-postman-tests-tab--contoh-assertion">3. Test Script (Postman "Tests" tab) — Contoh Assertion</h2>
-<pre><code class="language-javascript">// Dijalankan otomatis setelah request POST /transfer terkirim
-
-pm.test(&quot;Status code harus 200 untuk transfer valid&quot;, function () {
-    pm.response.to.have.status(200);
-});
-
-pm.test(&quot;Response memiliki transactionId&quot;, function () {
-    const body = pm.response.json();
-    pm.expect(body).to.have.property(&quot;transactionId&quot;);
-    pm.expect(body.transactionId).to.match(/^TRX/);
-});
-
-pm.test(&quot;Amount pada response sesuai request&quot;, function () {
-    const req = JSON.parse(pm.request.body.raw);
-    const body = pm.response.json();
-    pm.expect(body.amount).to.eql(req.amount);
-});
-
-pm.test(&quot;Response time di bawah 3 detik (sanity check)&quot;, function () {
-    pm.expect(pm.response.responseTime).to.be.below(3000);
-});
-
-// Simpan transactionId ke environment variable untuk dipakai di request GET /transaction/status
-if (pm.response.code === 200) {
-    pm.environment.set(&quot;last_transaction_id&quot;, pm.response.json().transactionId);
-}
-</code></pre>
-<h2 id="4-skenario-negative-testing-di-level-api-sering-terlewat-kalau-hanya-test-via-ui">4. Skenario Negative Testing di Level API (Sering Terlewat kalau Hanya Test via UI)</h2>
+<p>Checklist untuk QA jalankan <strong>setiap pagi setelah batch EOD selesai</strong>, dan <strong>setiap kali ada PTF/patch</strong> di-apply ke library core banking. Mengikuti pola <a href="Regression_Test_Checklist.html">09-Regression-Checklist</a> — ✅ Pass / ❌ Fail / ⏭️ Skip.</p>
+<blockquote>
+<p>Command AS400 di bawah ini dikutip dari dokumentasi publik IBM i (bukan hasil praktik langsung) — lihat catatan kejujuran di <a href="AS400_Concepts_Primer.html#4-status-kejujuran-mengikuti-pola-stlc_tools_mappingmd">AS400_Concepts_Primer.md §4</a>.</p>
+</blockquote>
+<h2 id="1-status-job-batch-eod">1. Status Job Batch EOD</h2>
 <table>
 <thead>
 <tr>
-<th>Skenario</th>
-<th>Cara Uji di Postman</th>
-<th>Expected</th>
+<th>ID</th>
+<th>Item</th>
+<th>Command Referensi</th>
+<th>Status</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Token expired/invalid</td>
-<td>Ganti header <code>Authorization</code> dengan token acak/expired</td>
-<td>HTTP 401 Unauthorized</td>
+<td>AS4-01</td>
+<td>Job <code>SGPEOD01</code> selesai tanpa <em>abnormal end</em></td>
+<td><code>WRKACTJOB SBS(QBATCH)</code></td>
+<td></td>
 </tr>
 <tr>
-<td>Field wajib tidak dikirim (<code>amount</code> dihapus dari body)</td>
-<td>Hapus field dari JSON body</td>
-<td>HTTP 400 dengan pesan validasi jelas, bukan 500</td>
+<td>AS4-02</td>
+<td>Job log tidak berisi pesan severity tinggi (CPF/MCH)</td>
+<td><code>WRKJOBLOG</code> / <code>DSPJOBLOG JOB(SGPEOD01)</code></td>
+<td></td>
 </tr>
 <tr>
-<td>Tipe data salah (<code>amount</code> dikirim sebagai string <code>"lima ratus ribu"</code>)</td>
-<td>Ubah tipe data di body</td>
-<td>HTTP 400, bukan crash/500</td>
+<td>AS4-03</td>
+<td>Tidak ada job dalam status <code>*MSGW</code> (menunggu respons manual)</td>
+<td><code>WRKACTJOB</code> — kolom Status</td>
+<td></td>
 </tr>
 <tr>
-<td>Idempotency key sama dikirim 2x (simulasi double submit dari UI)</td>
-<td>Kirim request <code>POST /transfer</code> 2x dengan <code>idempotencyKey</code> sama</td>
-<td>Request kedua ditolak/mengembalikan response transaksi pertama, <strong>bukan</strong> transaksi baru — ini validasi otomatis untuk BUG-SGP-001</td>
-</tr>
-<tr>
-<td>SQL Injection payload di field <code>note</code></td>
-<td><code>"note": "' OR '1'='1"</code></td>
-<td>Tidak menyebabkan error 500 / data corruption; input di-treat sebagai string biasa</td>
-</tr>
-<tr>
-<td>Request tanpa <code>Content-Type: application/json</code></td>
-<td>Hapus header</td>
-<td>HTTP 400/415, bukan crash</td>
-</tr>
-<tr>
-<td>Test endpoint <code>GET /transaction/status</code> dengan <code>transactionId</code> milik user lain (IDOR check)</td>
-<td>Ganti <code>transactionId</code> ke milik user lain menggunakan token user A</td>
-<td>HTTP 403 Forbidden — user A tidak boleh bisa lihat transaksi user B</td>
+<td>AS4-04</td>
+<td>Job selesai dalam batas waktu SLA batch window (mis. sebelum jam 05:00)</td>
+<td>Bandingkan <code>start_time</code>/<code>end_time</code> di <code>BATCH_CTL</code> (<a href="DB2_for_i_Validation_Queries.sql">Query #2</a>)</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<h2 id="5-contoh-test-script--post-qrispay-validasi-expiry-terkait-bug-sgp-004">5. Contoh Test Script — POST /qris/pay (Validasi Expiry, terkait BUG-SGP-004)</h2>
-<pre><code class="language-javascript">pm.test(&quot;QR expired harus ditolak backend, bukan hanya di UI&quot;, function () {
-    pm.response.to.have.status(400);
-    const body = pm.response.json();
-    pm.expect(body.errorCode).to.eql(&quot;QR_EXPIRED&quot;);
-});
-</code></pre>
-<blockquote>
-<p>Test script ini dibuat khusus setelah menemukan BUG-SGP-004 di UI, untuk memastikan <strong>root cause</strong>-nya ada di backend (bukan cuma validasi client yang bisa dilewati).</p>
-</blockquote>
-<h2 id="6-kenapa-api-testing-penting-di-konteks-banking">6. Kenapa API Testing Penting di Konteks Banking</h2>
-<ul>
-<li>Lebih cepat dieksekusi &amp; di-otomasi dibanding UI testing (baik untuk regression suite ke depannya).</li>
-<li>Bisa menguji skenario yang <strong>tidak bisa</strong> direproduksi lewat UI (misal: request tanpa field wajib, header token diubah manual, IDOR).</li>
-<li>Memisahkan <strong>bug UI</strong> (misal tombol tidak disable) dari <strong>bug backend</strong> (misal validasi expiry tidak ada) — penting untuk laporan defect yang akurat ke developer.</li>
-</ul>
+<h2 id="2-job-queue-amp-antrian">2. Job Queue &amp; Antrian</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Command Referensi</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AS4-05</td>
+<td>Job queue <code>QBATCH</code> tidak menumpuk/backlog</td>
+<td><code>WRKJOBQ QBATCH</code></td>
+<td></td>
+</tr>
+<tr>
+<td>AS4-06</td>
+<td>Tidak ada job yang di-<em>hold</em> tanpa alasan jelas</td>
+<td><code>WRKJOBQ</code> — kolom Status (<code>HLD</code>)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-output-amp-laporan">3. Output &amp; Laporan</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Command Referensi</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AS4-07</td>
+<td>Spool file laporan EOD tersedia di output queue</td>
+<td><code>WRKOUTQ SGPEODRPT</code></td>
+<td></td>
+</tr>
+<tr>
+<td>AS4-08</td>
+<td>Isi laporan tidak kosong/corrupt, jumlah baris sesuai jumlah transaksi</td>
+<td>Buka spool file + <a href="DB2_for_i_Validation_Queries.sql">Query #4</a> untuk cross-check</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-integritas-data-pasca-batch">4. Integritas Data Pasca-Batch</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Command Referensi</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AS4-09</td>
+<td>Batch untuk tanggal proses hari ini berstatus <code>COMPLETE</code>, hanya 1 kali (bukan rerun)</td>
+<td><a href="DB2_for_i_Validation_Queries.sql">Query #2 &amp; #3</a> — regresi BUG-SGP-008</td>
+<td></td>
+</tr>
+<tr>
+<td>AS4-10</td>
+<td>Tidak ada entri LEDGER dobel (accrual/reconciliation)</td>
+<td><a href="DB2_for_i_Validation_Queries.sql">Query #3</a></td>
+<td></td>
+</tr>
+<tr>
+<td>AS4-11</td>
+<td>Saldo di <code>ACCOUNTS</code> cocok dengan tampilan aplikasi mobile</td>
+<td><a href="DB2_for_i_Validation_Queries.sql">Query #1</a> vs UI Home</td>
+<td></td>
+</tr>
+<tr>
+<td>AS4-12</td>
+<td>Tidak ada dua instance job batch dengan nama sama berstatus <code>RUNNING</code> bersamaan</td>
+<td><a href="DB2_for_i_Validation_Queries.sql">Query #7</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-setelah-ptfpatch-tambahan-tidak-rutin-harian">5. Setelah PTF/Patch (tambahan, tidak rutin harian)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Command Referensi</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AS4-13</td>
+<td>Smoke test fungsi dasar core banking (login, cek saldo, 1x transfer) tetap berjalan</td>
+<td>Lihat <a href="AS400_Batch_Test_Cases.csv">TC-AS400-008</a></td>
+<td></td>
+</tr>
+<tr>
+<td>AS4-14</td>
+<td>Versi PTF yang ter-apply sesuai rencana rilis (tidak ada PTF lain yang ikut ter-apply tanpa sepengetahuan QA)</td>
+<td><code>DSPPTF</code> (Display PTF)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="ringkasan-hasil">Ringkasan Hasil</h2>
+<table>
+<thead>
+<tr>
+<th>Total Item</th>
+<th>Pass</th>
+<th>Fail</th>
+<th>Skip</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Keputusan:</strong> Batch EOD dianggap sehat jika seluruh item section 1 dan 4 (AS4-01 s.d. AS4-04, AS4-09 s.d. AS4-12) <strong>Pass</strong>. Kegagalan pada item tersebut = <strong>blocker</strong> untuk membuka akses transaksi hari itu (channel bergantung pada saldo yang sudah final di-batch).</p>
   </div>
   <div class="doc-footer">
     <a href="../">&larr; Kembali ke case study</a>
-    <a href="Postman_API_Test_Notes.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+    <a href="AS400_Job_Monitoring_Checklist.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
   </div>
 </div>
 <script>

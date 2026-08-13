@@ -15,6 +15,11 @@
 -- Bagian B adalah skema lanjutan yang direkomendasikan untuk sistem
 -- production sesungguhnya (di luar apa yang dimodelkan prototype
 -- yang sengaja ringan) — dipakai untuk validasi yang lebih dalam.
+--
+-- Skema di file ini merepresentasikan lapisan CHANNEL/API (mis. Postgres
+-- di belakang mobile app). Untuk validasi di lapisan CORE BANKING
+-- (AS400/IBM i + DB2 for i — batch EOD, ledger, rekonsiliasi), lihat
+-- 11-AS400-Core-Banking/DB2_for_i_Validation_Queries.sql.
 -- ============================================================
 
 

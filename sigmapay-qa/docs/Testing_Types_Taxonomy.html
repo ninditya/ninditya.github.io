@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taksonomi Jenis Testing — Dilengkapi & Dipetakan ke Studi Kasus SigmaPay · SigmaPay QA QA Docs</title>
+<title>Taksonomi Jenis Testing — Dilengkapi &amp; Dipetakan ke Studi Kasus SigmaPay · SigmaPay QA QA Docs</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,7 +73,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </div></nav>
 <div class="doc-wrap">
   <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
-  <h1>Taksonomi Jenis Testing — Dilengkapi & Dipetakan ke Studi Kasus SigmaPay</h1>
+  <h1>Taksonomi Jenis Testing — Dilengkapi &amp; Dipetakan ke Studi Kasus SigmaPay</h1>
   <div class="doc-meta">Testing_Types_Taxonomy.md &middot; Taksonomi testing</div>
   <div class="doc-body">
 <p>Catatan awal kamu sudah benar sebagai kerangka. Di bawah ini dilengkapi bagian yang sering ditanyakan saat interview tapi belum ada di catatan (Smoke, Regression, Sanity, sub-jenis Performance, dll), plus contoh konkret dari project <a href="README.html">SigmaPay</a> supaya tidak sekadar hafalan.</p>
@@ -81,7 +81,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <h3 id="functional-testing">Functional Testing</h3>
 <p>Menguji <strong>apakah fitur bekerja sesuai requirement</strong> — fokus ke "what", bukan "how".
 - Contoh umum: checkout berhasil, validasi form.
-- Contoh SigmaPay: transfer dengan saldo cukup berhasil (<a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-001</a>), field nominal negatif ditolak (<a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-012</a>).</p>
+- Contoh SigmaPay: transfer dengan saldo cukup berhasil (<a href="Test_Case_Transfer_QRIS.csv">TC-TRF-001</a>), field nominal negatif ditolak (<a href="Test_Case_Transfer_QRIS.csv">TC-TRF-012</a>).</p>
 <h3 id="non-functional-testing">Non-Functional Testing</h3>
 <p>Menguji <strong>kualitas sistem</strong>, bukan fitur itu sendiri:</p>
 <table>
@@ -111,7 +111,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <tr>
 <td><strong>Security Testing</strong></td>
 <td>Cek celah dasar sebelum masuk ke pentest formal</td>
-<td>SQL injection di field catatan transfer (<a href="../03-Test-Case/Test_Case_Transfer_QRIS.csv">TC-TRF-020</a>), IDOR di endpoint status transaksi (lihat <a href="Postman_API_Test_Notes.html">API Testing Notes</a> poin 4)</td>
+<td>SQL injection di field catatan transfer (<a href="Test_Case_Transfer_QRIS.csv">TC-TRF-020</a>), IDOR di endpoint status transaksi (lihat <a href="Postman_API_Test_Notes.html">API Testing Notes</a> poin 4)</td>
 </tr>
 <tr>
 <td><strong>Usability Testing</strong></td>
@@ -199,11 +199,11 @@ Code         ⟷  Unit Testing
 <tr>
 <td><strong>Gray Box</strong></td>
 <td>Kombinasi — tester tahu sedikit "isi dalam" sistem (skema DB, API contract) tanpa baca full source code</td>
-<td><strong>Paling representatif untuk loker ini</strong> — kamu diminta bisa SQL &amp; API testing meski tidak baca source code aplikasi. Lihat <a href="../07-SQL-Validation/SQL_Queries_Validation.sql">SQL Validation</a> &amp; <a href="Postman_API_Test_Notes.html">API Testing Notes</a></td>
+<td><strong>Paling representatif untuk loker ini</strong> — kamu diminta bisa SQL &amp; API testing meski tidak baca source code aplikasi. Lihat <a href="SQL_Queries_Validation.sql">SQL Validation</a> &amp; <a href="Postman_API_Test_Notes.html">API Testing Notes</a></td>
 </tr>
 </tbody>
 </table>
-<h2 id="4-kategori-tambahan-sering-ditanyakan-saat-interview-eksplisit-diminta-di-loker">4. Kategori Tambahan — Sering Ditanyakan Saat Interview, Eksplisit Diminta di Loker</h2>
+<h2 id="4-kategori-tambahan--sering-ditanyakan-saat-interview-eksplisit-diminta-di-loker">4. Kategori Tambahan — Sering Ditanyakan Saat Interview, Eksplisit Diminta di Loker</h2>
 <table>
 <thead>
 <tr>

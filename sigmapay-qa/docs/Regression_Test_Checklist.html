@@ -82,9 +82,9 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <li>Jalankan checklist ini <strong>sebelum</strong> setiap rilis ke production, dan setiap kali ada hotfix defect Critical/Major.</li>
 <li>Jika modul yang di-fix menyentuh Ledger/Saldo, wajib jalankan seluruh section <strong>Fund Transfer</strong> + <strong>Saldo &amp; Mutasi</strong>, bukan cuma modul yang di-fix.</li>
 <li>Tandai ✅ Pass / ❌ Fail / ⏭️ Skip (dengan alasan) di kolom Status.</li>
-<li>Kolom <strong>ID</strong> memakai skema <code>REG-XX</code> yang sama dengan yang direferensikan di <a href="../SigmaPay%20Prototype%20Scope/SigmaPay%20QA%20Workbench.dc.html">SigmaPay Prototype Scope</a> — item bertanda ✅ di kolom "Live di Prototype" bisa langsung dieksekusi interaktif di sana; sisanya perlu environment SIT/UAT sesungguhnya.</li>
+<li>Kolom <strong>ID</strong> memakai skema <code>REG-XX</code> yang sama dengan yang direferensikan di <a href="../prototype.html">SigmaPay Prototype Scope</a> — item bertanda ✅ di kolom "Live di Prototype" bisa langsung dieksekusi interaktif di sana; sisanya perlu environment SIT/UAT sesungguhnya.</li>
 </ul>
-<h2 id="1-login-autentikasi">1. Login &amp; Autentikasi</h2>
+<h2 id="1-login-amp-autentikasi">1. Login &amp; Autentikasi</h2>
 <table>
 <thead>
 <tr>
@@ -121,7 +121,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </tr>
 </tbody>
 </table>
-<h2 id="2-saldo-riwayat-mutasi">2. Saldo &amp; Riwayat Mutasi</h2>
+<h2 id="2-saldo-amp-riwayat-mutasi">2. Saldo &amp; Riwayat Mutasi</h2>
 <table>
 <thead>
 <tr>
@@ -300,20 +300,57 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <tbody>
 <tr>
 <td>REG-24</td>
-<td>Tidak ada transaksi duplikat (jalankan <a href="../07-SQL-Validation/SQL_Queries_Validation.sql">SQL Query A.3</a>)</td>
+<td>Tidak ada transaksi duplikat (jalankan <a href="SQL_Queries_Validation.sql">SQL Query A.3</a>)</td>
 <td>✅ (tab "SQL" di panel kanan, baris "Query #3")</td>
 <td></td>
 </tr>
 <tr>
 <td>REG-25</td>
-<td>Tidak ada transaksi "Pending" yang melewati SLA (jalankan <a href="../07-SQL-Validation/SQL_Queries_Validation.sql">SQL Query B.5</a>)</td>
+<td>Tidak ada transaksi "Pending" yang melewati SLA (jalankan <a href="SQL_Queries_Validation.sql">SQL Query B.5</a>)</td>
 <td>Sebagian — prototype hanya menampilkan simulasi status, query lengkap dijalankan manual</td>
 <td></td>
 </tr>
 <tr>
 <td>REG-26</td>
-<td>Ledger debit = kredit untuk seluruh transaksi hari berjalan (jalankan <a href="../07-SQL-Validation/SQL_Queries_Validation.sql">SQL Query B.8</a>)</td>
+<td>Ledger debit = kredit untuk seluruh transaksi hari berjalan (jalankan <a href="SQL_Queries_Validation.sql">SQL Query B.8</a>)</td>
 <td>Sebagian — prototype pakai heuristik sederhana ("ada PENDING = tidak seimbang"), bukan double-entry penuh</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-core-banking-batch-as400">7. Core Banking Batch (AS400)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Live di Prototype</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REG-27</td>
+<td>Batch job EOD (<code>SGPEOD01</code>) selesai tanpa abnormal end &amp; job log bersih</td>
+<td>— (di luar cakupan prototype; jalankan <a href="AS400_Job_Monitoring_Checklist.html">AS4-01/AS4-02</a>)</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-28</td>
+<td>Batch tidak boleh di-rerun dobel untuk tanggal proses yang sama (regresi BUG-SGP-008)</td>
+<td>— (jalankan <a href="DB2_for_i_Validation_Queries.sql">Query #3</a> / <a href="AS400_Batch_Test_Cases.csv">TC-AS400-003</a>)</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-29</td>
+<td>Saldo di DB2 for i (<code>ACCOUNTS</code>) cocok dengan tampilan aplikasi setelah batch EOD</td>
+<td>— (jalankan <a href="DB2_for_i_Validation_Queries.sql">Query #1</a>)</td>
+<td></td>
+</tr>
+<tr>
+<td>REG-30</td>
+<td>Setelah PTF/patch AS400 di-apply, smoke test core banking (login/saldo/transfer) tetap normal</td>
+<td>— (jalankan <a href="AS400_Batch_Test_Cases.csv">TC-AS400-008</a>)</td>
 <td></td>
 </tr>
 </tbody>
@@ -330,14 +367,14 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </thead>
 <tbody>
 <tr>
-<td>26</td>
+<td>30</td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Keputusan:</strong> Rilis dapat dilanjutkan jika seluruh item <strong>Critical path</strong> (REG-09 s.d. REG-15, REG-24 s.d. REG-26) berstatus Pass. Kegagalan pada item tersebut = <strong>blocker rilis</strong>.</p>
+<p><strong>Keputusan:</strong> Rilis dapat dilanjutkan jika seluruh item <strong>Critical path</strong> (REG-09 s.d. REG-15, REG-24 s.d. REG-26, REG-27 s.d. REG-29) berstatus Pass. Kegagalan pada item tersebut = <strong>blocker rilis</strong>.</p>
   </div>
   <div class="doc-footer">
     <a href="../">&larr; Kembali ke case study</a>

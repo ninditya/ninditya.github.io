@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SigmaPay Bank Demo — Login</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="brand">SigmaPay <span>Bank Demo</span></div>
+      <div class="subtitle">Situs latihan QA — login &amp; perbankan simulasi. Data dummy, tidak terhubung ke bank sungguhan manapun.</div>
+
+      <form id="login-form" data-testid="login-form" autocomplete="off">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" data-testid="input-username" placeholder="contoh: nasabah_normal" autocomplete="off">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" data-testid="input-password" placeholder="Sigma123!" autocomplete="off">
+
+        <button type="submit" class="btn btn-primary" data-testid="btn-login">Masuk</button>
+
+        <div id="loading-spinner" data-testid="loading-spinner" class="spinner-wrap" hidden>
+          <div class="spinner"></div> Memproses login…
+        </div>
+
+        <div id="login-error" data-testid="login-error" class="error-msg" hidden></div>
+      </form>
+
+      <div class="hint-box">
+        <strong>Daftar akun uji</strong> (password sama untuk semua: <code>Sigma123!</code>) — setiap akun sengaja punya perilaku berbeda untuk latihan eksplorasi &amp; bug hunting, mirip pola <code>standard_user</code> / <code>problem_user</code> di saucedemo.com:
+        <ul style="margin:8px 0 0;padding-left:18px">
+          <li><code>nasabah_normal</code></li>
+          <li><code>nasabah_terkunci</code></li>
+          <li><code>nasabah_saldo_kosong</code></li>
+          <li><code>nasabah_lambat</code></li>
+          <li><code>nasabah_dobel_transaksi</code></li>
+          <li><code>nasabah_status_ambigu</code></li>
+          <li><code>nasabah_interbank_macet</code></li>
+          <li><code>nasabah_qris_kadaluwarsa</code></li>
+          <li><code>nasabah_qris_merchant_salah</code></li>
+          <li><code>nasabah_nominal_negatif</code></li>
+        </ul>
+        Lihat <a href="README.md">README.md</a> untuk penjelasan lengkap tiap akun (locator, langkah reproduksi bug, dan rekomendasi skenario uji).
+      </div>
+    </div>
+  </div>
+
+<script src="assets/app.js"></script>
+<script>
+  document.getElementById("login-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    const errorBox = document.getElementById("login-error");
+    const spinner = document.getElementById("loading-spinner");
+    const submitBtn = document.querySelector('[data-testid="btn-login"]');
+    errorBox.hidden = true;
+
+    const user = USERS[username];
+
+    function finish() {
+      if (!user || user.password !== password) {
+        errorBox.textContent = "Username atau password salah.";
+        errorBox.hidden = false;
+        submitBtn.disabled = false;
+        return;
+      }
+      if (user.locked) {
+        errorBox.textContent = "Akun terkunci. Hubungi Call Center 14045 untuk membuka kembali.";
+        errorBox.hidden = false;
+        submitBtn.disabled = false;
+        return;
+      }
+      setSession({
+        username: username,
+        name: user.name,
+        accountNo: user.accountNo,
+        balance: user.balance,
+        locked: user.locked,
+        slow: user.slow,
+        bug: user.bug,
+        mutasi: [],
+      });
+      window.location.href = "dashboard.html";
+    }
+
+    submitBtn.disabled = true;
+    if (user && user.slow) {
+      spinner.hidden = false;
+      setTimeout(() => { spinner.hidden = true; finish(); }, 3000);
+    } else {
+      finish();
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Testing Notes — Latihan di Public Dummy API (restful-booker &amp; Swagger Petstore) · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>API Testing Notes — Latihan di Public Dummy API (restful-booker &amp; Swagger Petstore)</h1>
+  <div class="doc-meta">Public_Dummy_API_Practice_Notes.md &middot; Public API Practice</div>
+  <div class="doc-body">
+<blockquote>
+<p><strong>Catatan kejujuran (penting, dibaca sebelum pakai file ini di interview):</strong> Berbeda dengan <a href="Postman_API_Test_Notes.html">Postman_API_Test_Notes.md</a> yang mendokumentasikan API <strong>fiktif</strong> SigmaPay (<code>api-qa.sigmapay.dummy</code>) sebagai simulasi, file ini mendokumentasikan latihan terhadap API <strong>publik sungguhan</strong> yang memang disediakan untuk latihan QA (restful-booker, Swagger Petstore). Endpoint dan response di bawah ini nyata dan bisa langsung kamu coba sendiri di Postman. Yang <strong>tidak boleh</strong> diklaim: ini bukan pengalaman "testing sistem banking production" — ini latihan skill Postman/API testing di API publik, lalu polanya diterapkan ke studi kasus SigmaPay. Bedakan jelas kalau ditanya interviewer, mengikuti prinsip yang sama seperti di <a href="STLC_Tools_Mapping.html">STLC_Tools_Mapping.md</a>.</p>
+</blockquote>
+<h2 id="0-kenapa-restful-booker-dipilih-jadi-latihan-utama">0. Kenapa restful-booker Dipilih Jadi Latihan Utama</h2>
+<p>Dari beberapa dummy API yang ada, <strong>restful-booker</strong> paling relevan untuk portfolio banking karena polanya sama dengan API transaksi finansial: <strong>auth berbasis token → operasi CRUD yang butuh otorisasi</strong>. Alurnya (<code>POST /auth</code> untuk dapat token → pakai token untuk create/update/delete) mirip pola <code>POST /auth/login</code> → <code>POST /transfer</code> di <a href="Postman_API_Test_Notes.html">Postman_API_Test_Notes.md</a>. Swagger Petstore dipakai sebagai latihan tambahan karena scope resource-nya lebih luas (pet/store/user) dan pakai skema auth berbeda (API key header).</p>
+<hr />
+<h2 id="1-restful-booker--struktur-collection">1. restful-booker — Struktur Collection</h2>
+<pre><code>Public API Practice — restful-booker
+├── Auth
+│   └── POST /auth                    → generate token (username/password)
+├── Booking
+│   ├── GET  /booking                 → list booking id (bisa filter firstname/lastname/checkin/checkout)
+│   ├── GET  /booking/{id}            → detail booking
+│   ├── POST /booking                 → create booking (tidak perlu auth)
+│   ├── PUT  /booking/{id}            → full update (butuh token)
+│   ├── PATCH /booking/{id}           → partial update (butuh token)
+│   └── DELETE /booking/{id}          → delete booking (butuh token)
+└── Environment Variables
+    ├── base_url = https://restful-booker.herokuapp.com
+    ├── token     = {{auto-set dari response /auth}}
+    └── booking_id = {{auto-set dari response create booking}}
+</code></pre>
+<h2 id="2-contoh-requestresponse--post-auth">2. Contoh Request/Response — POST /auth</h2>
+<p><strong>Request</strong></p>
+<pre><code class="language-http">POST {{base_url}}/auth
+Content-Type: application/json
+
+{
+  &quot;username&quot;: &quot;admin&quot;,
+  &quot;password&quot;: &quot;password123&quot;
+}
+</code></pre>
+<p><strong>Response — Sukses (200)</strong></p>
+<pre><code class="language-json">{
+  &quot;token&quot;: &quot;abc123def456&quot;
+}
+</code></pre>
+<p><strong>Test Script</strong></p>
+<pre><code class="language-javascript">pm.test(&quot;Status code 200 saat kredensial valid&quot;, function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test(&quot;Response mengandung token&quot;, function () {
+    const body = pm.response.json();
+    pm.expect(body).to.have.property(&quot;token&quot;);
+});
+
+if (pm.response.code === 200) {
+    pm.environment.set(&quot;token&quot;, pm.response.json().token);
+}
+</code></pre>
+<h2 id="3-contoh-requestresponse--post-booking-create">3. Contoh Request/Response — POST /booking (Create)</h2>
+<p><strong>Request</strong></p>
+<pre><code class="language-http">POST {{base_url}}/booking
+Content-Type: application/json
+
+{
+  &quot;firstname&quot;: &quot;Adrian&quot;,
+  &quot;lastname&quot;: &quot;Nindit&quot;,
+  &quot;totalprice&quot;: 150,
+  &quot;depositpaid&quot;: true,
+  &quot;bookingdates&quot;: {
+    &quot;checkin&quot;: &quot;2026-08-20&quot;,
+    &quot;checkout&quot;: &quot;2026-08-25&quot;
+  },
+  &quot;additionalneeds&quot;: &quot;Breakfast&quot;
+}
+</code></pre>
+<p><strong>Response — Sukses (200)</strong></p>
+<pre><code class="language-json">{
+  &quot;bookingid&quot;: 1,
+  &quot;booking&quot;: {
+    &quot;firstname&quot;: &quot;Adrian&quot;,
+    &quot;lastname&quot;: &quot;Nindit&quot;,
+    &quot;totalprice&quot;: 150,
+    &quot;depositpaid&quot;: true,
+    &quot;bookingdates&quot;: {
+      &quot;checkin&quot;: &quot;2026-08-20&quot;,
+      &quot;checkout&quot;: &quot;2026-08-25&quot;
+    },
+    &quot;additionalneeds&quot;: &quot;Breakfast&quot;
+  }
+}
+</code></pre>
+<p><strong>Test Script</strong></p>
+<pre><code class="language-javascript">pm.test(&quot;Status code 200 untuk create booking valid&quot;, function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test(&quot;Response memiliki bookingid&quot;, function () {
+    const body = pm.response.json();
+    pm.expect(body).to.have.property(&quot;bookingid&quot;);
+});
+
+pm.test(&quot;Data booking di response sesuai request&quot;, function () {
+    const req = JSON.parse(pm.request.body.raw);
+    const body = pm.response.json();
+    pm.expect(body.booking.firstname).to.eql(req.firstname);
+    pm.expect(body.booking.totalprice).to.eql(req.totalprice);
+});
+
+pm.environment.set(&quot;booking_id&quot;, pm.response.json().bookingid);
+</code></pre>
+<h2 id="4-skenario-negative-testing--restful-booker">4. Skenario Negative Testing — restful-booker</h2>
+<table>
+<thead>
+<tr>
+<th>Skenario</th>
+<th>Cara Uji di Postman</th>
+<th>Expected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Update booking tanpa token</td>
+<td>Kirim <code>PUT /booking/{id}</code> tanpa header <code>Cookie: token=...</code></td>
+<td>HTTP 403 Forbidden</td>
+</tr>
+<tr>
+<td>Update booking dengan token invalid/expired</td>
+<td>Ganti header token dengan string acak</td>
+<td>HTTP 403 Forbidden</td>
+</tr>
+<tr>
+<td>Create booking tanpa field wajib (<code>firstname</code> dihapus)</td>
+<td>Hapus field dari JSON body</td>
+<td>HTTP 400/500 — dicatat sebagai <strong>temuan kualitas API</strong>, bukan bug SigmaPay (bandingkan dengan SigmaPay yang diharapkan selalu 400 dengan pesan jelas, lihat §4 di Postman_API_Test_Notes.md)</td>
+</tr>
+<tr>
+<td><code>checkin</code> &gt; <code>checkout</code> (tanggal terbalik)</td>
+<td>Tukar posisi tanggal di <code>bookingdates</code></td>
+<td>Dicek apakah API benar-benar validasi logika tanggal atau tetap 200 (banyak dummy API tidak validasi ini — jadi bahan diskusi "kenapa validasi business rule penting di API production")</td>
+</tr>
+<tr>
+<td>Delete booking yang sudah dihapus (double delete)</td>
+<td><code>DELETE /booking/{id}</code> 2x berturut-turut</td>
+<td>Request kedua harus mengembalikan 404/405, bukan 200 lagi</td>
+</tr>
+<tr>
+<td>GET booking dengan id yang tidak ada</td>
+<td><code>GET /booking/999999</code></td>
+<td>HTTP 404 Not Found</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Insight untuk interview: dummy API publik seperti ini sering <strong>tidak</strong> memvalidasi semua business rule (contoh: <code>checkin &gt; checkout</code> kadang tetap diterima). Ini justru bahan bagus untuk menjelaskan ke interviewer <em>kenapa</em> validasi business rule di level API itu penting — kamu bisa bandingkan dengan bagaimana SigmaPay (di studi kasus utama) sengaja didesain untuk menolak input semacam itu.</p>
+</blockquote>
+<h2 id="5-swagger-petstore--ringkasan-latihan-tambahan">5. Swagger Petstore — Ringkasan Latihan Tambahan</h2>
+<p>Base URL: <code>https://petstore.swagger.io/v2</code></p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Fungsi</th>
+<th>Fokus Uji</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST /pet</code></td>
+<td>Tambah pet baru</td>
+<td>Validasi field required (<code>name</code>, <code>photoUrls</code>), response schema</td>
+</tr>
+<tr>
+<td><code>GET /pet/{petId}</code></td>
+<td>Cari pet by ID</td>
+<td>Positive case (id valid) vs negative case (id tidak ada → 404)</td>
+</tr>
+<tr>
+<td><code>PUT /pet</code></td>
+<td>Update pet</td>
+<td>Update dengan id tidak ada → expected 404, tapi Petstore sering balas 200 — bahan diskusi soal <em>API contract yang tidak konsisten</em></td>
+</tr>
+<tr>
+<td><code>DELETE /pet/{petId}</code></td>
+<td>Hapus pet</td>
+<td>Butuh header <code>api_key</code>; uji tanpa header untuk lihat perilaku auth</td>
+</tr>
+<tr>
+<td><code>GET /pet/findByStatus?status=available</code></td>
+<td>Filter by status</td>
+<td>Uji dengan value valid (<code>available</code>, <code>pending</code>, <code>sold</code>) vs invalid (<code>xxx</code>)</td>
+</tr>
+<tr>
+<td><code>POST /store/order</code></td>
+<td>Buat order</td>
+<td>Validasi <code>quantity</code> negatif/nol, <code>shipDate</code> format salah</td>
+</tr>
+<tr>
+<td><code>POST /user/login</code></td>
+<td>Login user</td>
+<td>Uji username/password kosong, cek response header <code>X-Rate-Limit</code>/<code>X-Expires-After</code></td>
+</tr>
+</tbody>
+</table>
+<p>Petstore dipakai lebih ringkas dibanding restful-booker karena tujuannya melengkapi eksposur ke <strong>auth via API key</strong> dan <strong>file upload (<code>POST /pet/{petId}/uploadImage</code>)</strong> — dua pola yang tidak ada di restful-booker maupun studi kasus SigmaPay.</p>
+<hr />
+<h2 id="6-pemetaan-ke-fase-stlc">6. Pemetaan ke Fase STLC</h2>
+<table>
+<thead>
+<tr>
+<th>Fase STLC</th>
+<th>Aktivitas dengan API Publik Ini</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Requirement Analysis</strong></td>
+<td>Reverse-analysis dari dokumentasi Swagger resmi (bukan user story bisnis) — identifikasi endpoint &amp; expected behavior dari spec</td>
+</tr>
+<tr>
+<td><strong>Test Planning</strong></td>
+<td>Scope: endpoint auth + CRUD booking (restful-booker), CRUD pet + auth API key (Petstore). Strategy: functional + negative + auth flow</td>
+</tr>
+<tr>
+<td><strong>Test Case Design</strong></td>
+<td>Test case per endpoint, mengikuti format yang sama seperti <a href="Test_Case_Transfer_QRIS.csv">Test_Case_Transfer_QRIS.csv</a></td>
+</tr>
+<tr>
+<td><strong>Test Environment Setup</strong></td>
+<td>Tidak perlu setup server (langsung API publik hidup) — cukup buat Postman environment (<code>base_url</code>, <code>token</code>)</td>
+</tr>
+<tr>
+<td><strong>Test Execution</strong></td>
+<td>Jalankan request, assertion <code>pm.test(...)</code>, capture response sebagai evidence, catat Pass/Fail/Finding</td>
+</tr>
+<tr>
+<td><strong>Test Cycle Closure</strong></td>
+<td>Rangkum coverage endpoint + temuan inkonsistensi API (contoh di §4 dan §5 di atas) sebagai lessons learned untuk diterapkan ke desain test case SigmaPay</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-template-jawaban-interview-versi-jujur">7. Template Jawaban Interview (Versi Jujur)</h2>
+<blockquote>
+<p>"Selain simulasi API SigmaPay, saya juga latihan langsung di public dummy API seperti restful-booker dan Swagger Petstore untuk mempertajam skill Postman assertion dan negative testing terhadap API yang benar-benar live — termasuk pola auth berbasis token yang mirip alur login banking. Dari situ saya juga belajar bahwa tidak semua API publik memvalidasi business rule dengan ketat, yang jadi bahan refleksi soal pentingnya validasi di level backend, bukan hanya di UI."</p>
+</blockquote>
+<p>Kalimat ini aman karena eksplisit membedakan <strong>latihan di API publik</strong> vs <strong>studi kasus simulasi SigmaPay</strong> vs <strong>pengalaman production sungguhan</strong> (yang tidak diklaim di titik manapun).</p>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="Public_Dummy_API_Practice_Notes.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

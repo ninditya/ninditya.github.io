@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AS400 / IBM i — Core Banking Layer SigmaPay + Panduan CV/Interview · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>AS400 / IBM i — Core Banking Layer SigmaPay + Panduan CV/Interview</h1>
+  <div class="doc-meta">AS400_Concepts_Primer.md &middot; AS400 Core Banking</div>
+  <div class="doc-body">
+<p>Melengkapi <a href="Test_Plan_MobileBanking.html">Test Plan §Arsitektur</a> dan <a href="STLC_Tools_Mapping.html">STLC Tools Mapping</a> dengan konteks <strong>core banking backend</strong>: banyak bank di Indonesia (BCA, Mandiri, BRI, BNI, dst.) menjalankan sistem inti (ledger, rekening, batch EOD) di atas <strong>IBM i (dulu disebut AS/400)</strong> dengan database <strong>DB2 for i</strong>. Loker QA Banking sering mensyaratkan familiaritas dengan platform ini, jadi folder ini menambahkan lapisan itu ke studi kasus SigmaPay.</p>
+<blockquote>
+<p><strong>Kejujuran dulu, sebelum apa pun:</strong> semua isi folder ini adalah <strong>hasil belajar mandiri untuk kebutuhan portfolio</strong>, disusun dari dokumentasi publik AS400/IBM i dan pengetahuan umum core banking — <strong>bukan pengalaman hands-on di lingkungan AS400 production sungguhan</strong>. Jangan pernah klaim ini sebagai pengalaman kerja nyata. Prinsip yang sama dengan <a href="STLC_Tools_Mapping.html#5-template-jawaban-interview-versi-jujur-berbasis-project-ini">STLC_Tools_Mapping.md §5</a> berlaku persis di sini.</p>
+</blockquote>
+<h2 id="1-kenapa-as400-masuk-ke-arsitektur-sigmapay">1. Kenapa AS400 masuk ke arsitektur SigmaPay</h2>
+<p>Narasi arsitektur SigmaPay (lihat update di <a href="Test_Plan_MobileBanking.html">Test Plan</a>):</p>
+<pre><code>[Mobile App Android/iOS] ──► [API/Middleware Layer] ──► [Core Banking: IBM i / AS400 + DB2 for i]
+     (channel, UI)              (REST API, lihat            (ledger, rekening, batch EOD,
+                                  06-API-Testing)              interest accrual, reconciliation)
+</code></pre>
+<ul>
+<li><strong>Mobile app &amp; API</strong> (sudah dibangun di <code>06-API-Testing</code>) adalah <em>channel layer</em> — apa yang dites lewat UI/Postman selama ini.</li>
+<li><strong>Core banking di AS400</strong> adalah <em>system of record</em> — tempat saldo &amp; ledger sebenarnya disimpan, dan tempat <strong>batch job semalam (EOD)</strong> berjalan: akrual bunga, rekonsiliasi transaksi harian, generate laporan mutasi.</li>
+<li>QA di lingkungan ini tidak cukup hanya cek UI — perlu memvalidasi <strong>hasil batch di sisi AS400</strong> cocok dengan yang ditampilkan di aplikasi. Ini pembeda level 3-5 tahun pengalaman yang sering ditanyakan interviewer banking.</li>
+</ul>
+<h2 id="2-konsep-dasar-as400ibm-i-untuk-qa-istilah-penting">2. Konsep Dasar AS400/IBM i untuk QA (Istilah Penting)</h2>
+<table>
+<thead>
+<tr>
+<th>Istilah</th>
+<th>Penjelasan Singkat</th>
+<th>Analogi/Konteks QA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IBM i</strong></td>
+<td>Nama modern sistem operasi AS/400 (istilah "AS400" masih dipakai luas di industri perbankan Indonesia)</td>
+<td>Platform tempat core banking SigmaPay berjalan</td>
+</tr>
+<tr>
+<td><strong>5250 Emulator / IBM ACS</strong> (Access Client Solutions)</td>
+<td>Terminal emulator untuk akses "green screen" ke AS400 — cara tradisional operator/QA berinteraksi dengan sistem</td>
+<td>Setara "connect ke server lewat SSH" di dunia Linux/Unix</td>
+</tr>
+<tr>
+<td><strong>Library (LIB)</strong></td>
+<td>Wadah objek (file, program, tabel) — mirip schema/database di dunia relasional modern</td>
+<td>Contoh: <code>SIGMAPRD</code> (library production simulasi), <code>SIGMAQA</code> (library QA)</td>
+</tr>
+<tr>
+<td><strong>Job</strong></td>
+<td>Satuan eksekusi program di AS400 — bisa <strong>interactive</strong> (user login langsung) atau <strong>batch</strong> (dijadwalkan, tanpa interaksi user)</td>
+<td>Batch job EOD SigmaPay = <code>SGPEOD01</code></td>
+</tr>
+<tr>
+<td><strong>Job Queue (JOBQ)</strong></td>
+<td>Antrian tempat batch job menunggu giliran dieksekusi subsystem</td>
+<td>Dicek QA saat curiga batch job "menggantung" / delay</td>
+</tr>
+<tr>
+<td><strong>Subsystem</strong></td>
+<td>Lingkungan runtime yang mengatur job (mis. <code>QBATCH</code> untuk batch, <code>QINTER</code> untuk interactive)</td>
+<td>Konteks environment saat troubleshooting job stuck</td>
+</tr>
+<tr>
+<td><strong>Spool File / Output Queue (OUTQ)</strong></td>
+<td>Output cetak/laporan dari job (mis. laporan EOD) yang bisa direview tanpa dicetak fisik</td>
+<td>QA review laporan rekonsiliasi EOD dari sini</td>
+</tr>
+<tr>
+<td><strong>Job Log</strong></td>
+<td>Riwayat pesan (informational, warning, error) selama job berjalan — kode pesan diawali <code>CPF</code>/<code>MCH</code></td>
+<td>QA cek di sini untuk root cause saat batch gagal</td>
+</tr>
+<tr>
+<td><strong>STRSQL / Run SQL Scripts (ACS)</strong></td>
+<td>Tool untuk menjalankan query SQL langsung ke DB2 for i, setara <code>psql</code>/DBeaver di dunia PostgreSQL</td>
+<td>Dipakai untuk <a href="DB2_for_i_Validation_Queries.sql">DB2_for_i_Validation_Queries.sql</a></td>
+</tr>
+<tr>
+<td><strong>DB2 for i</strong></td>
+<td>Database relasional bawaan IBM i tempat tabel core banking (<code>ACCOUNTS</code>, <code>LEDGER</code>, <code>BATCH_CTL</code>) disimpan</td>
+<td>Setara PostgreSQL di <a href="SQL_Queries_Validation.sql">07-SQL-Validation</a>, tapi versi legacy/production</td>
+</tr>
+<tr>
+<td><strong>CL (Control Language)</strong></td>
+<td>Bahasa scripting native AS400 untuk menjalankan/mengatur job, program, dan command sistem</td>
+<td>Program yang memicu job <code>SGPEOD01</code> ditulis dalam CL</td>
+</tr>
+<tr>
+<td><strong>PTF (Program Temporary Fix)</strong></td>
+<td>Setara "patch"/hotfix di dunia AS400 — di-apply ke OS atau aplikasi core banking</td>
+<td>Setelah PTF di-apply, QA wajib regression test (lihat <a href="AS400_Job_Monitoring_Checklist.html">Job Monitoring Checklist</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-tugas-qa-yang-realistis-di-lingkungan-as400-perbankan">3. Tugas QA yang Realistis di Lingkungan AS400 Perbankan</h2>
+<p>Berdasarkan pola umum QA manual tester banking yang bersinggungan dengan core banking legacy:</p>
+<ol>
+<li><strong>Verifikasi hasil batch job EOD</strong> — cek job selesai tanpa <em>abnormal end</em>, cek job log bersih dari pesan error, cek spool file laporan tersedia dan datanya benar → lihat <a href="AS400_Job_Monitoring_Checklist.html">AS400_Job_Monitoring_Checklist.md</a>.</li>
+<li><strong>Validasi data langsung di DB2 for i</strong> — pakai STRSQL untuk cek saldo/ledger akhir hari cocok dengan yang tampil di aplikasi mobile, tidak cuma percaya UI → lihat <a href="DB2_for_i_Validation_Queries.sql">DB2_for_i_Validation_Queries.sql</a>.</li>
+<li><strong>Cek konsistensi interface channel ↔ core banking</strong> — jumlah transaksi yang dikirim dari API/middleware harus sama dengan yang diterima &amp; diproses di AS400 (file interface/queue).</li>
+<li><strong>Regression test setelah PTF/patch</strong> — core banking legacy biasanya jarang di-deploy, tapi setiap PTF tetap wajib smoke + regression test karena risikonya tinggi (semua channel bergantung pada sistem ini).</li>
+<li><strong>Uji skenario batch/cut-off time</strong> — transaksi yang masuk mendekati/melewati jam cut-off (mis. 23:00) harus diproses di batch hari yang benar, bukan tertukar H vs H+1.</li>
+<li><strong>Uji idempotency batch (tidak boleh double-run)</strong> — lihat <a href="Bug_Report_Sample.html">BUG-SGP-008</a> sebagai contoh konkret bug kelas ini.</li>
+</ol>
+<p>Semua poin di atas dituangkan jadi test case konkret di <a href="AS400_Batch_Test_Cases.csv">AS400_Batch_Test_Cases.csv</a>.</p>
+<h2 id="4-status-kejujuran-mengikuti-pola-stlc_tools_mappingmd">4. Status Kejujuran (mengikuti pola STLC_Tools_Mapping.md)</h2>
+<table>
+<thead>
+<tr>
+<th>Skill/Konsep AS400</th>
+<th>Status di Project Ini</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Terminologi &amp; konsep dasar IBM i/DB2 for i (tabel di atas)</td>
+<td>Dipelajari mandiri untuk kebutuhan portfolio — <strong>konsep</strong>, bukan hands-on</td>
+</tr>
+<tr>
+<td>Test case verifikasi batch job EOD</td>
+<td>✅ Dibuat nyata (tertulis): <a href="AS400_Batch_Test_Cases.csv">AS400_Batch_Test_Cases.csv</a> — belum pernah dieksekusi di AS400 sungguhan</td>
+</tr>
+<tr>
+<td>Query validasi gaya DB2 for i</td>
+<td>✅ Dibuat nyata (tertulis, gaya sintaks DB2 for i): <a href="DB2_for_i_Validation_Queries.sql">DB2_for_i_Validation_Queries.sql</a> — belum pernah dijalankan lewat STRSQL/ACS sungguhan</td>
+</tr>
+<tr>
+<td>Checklist monitoring job (WRKACTJOB/WRKJOBQ/WRKOUTQ)</td>
+<td>✅ Dibuat nyata (tertulis): <a href="AS400_Job_Monitoring_Checklist.html">AS400_Job_Monitoring_Checklist.md</a> — command AS400 dikutip dari dokumentasi publik IBM, belum pernah dijalankan langsung</td>
+</tr>
+<tr>
+<td>Operasional 5250 emulator/IBM ACS sungguhan</td>
+<td>Belum pernah — sebatas paham fungsinya dari dokumentasi</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-template-jawaban-interview-versi-jujur">5. Template Jawaban Interview (Versi Jujur)</h2>
+<p>Kalau ditanya <em>"Ada pengalaman dengan AS400/core banking?"</em>:</p>
+<blockquote>
+<p>"Saya belum pernah kerja langsung di lingkungan AS400 production, tapi karena tahu banyak bank di Indonesia masih pakai IBM i untuk core banking, saya sengaja pelajari mandiri konsepnya — job, batch processing, DB2 for i, spool file — dan terapkan ke project portfolio saya sendiri: saya tulis test case untuk verifikasi batch job EOD, query validasi data ala DB2 for i, dan checklist monitoring job. Jadi saya paham <em>apa</em> yang perlu dicek dan <em>kenapa</em> pentingnya (misalnya risiko double-posting kalau batch di-rerun tanpa validasi), dan saya siap onboarding cepat begitu dikasih akses ke sistem sungguhan."</p>
+</blockquote>
+<p>Kalimat ini jujur (tidak mengklaim pengalaman production) tapi tetap menunjukkan inisiatif dan pemahaman konkret — sama seperti pola template di <a href="STLC_Tools_Mapping.html#5-template-jawaban-interview-versi-jujur-berbasis-project-ini">STLC_Tools_Mapping.md</a>.</p>
+<p><strong>Prinsip yang tetap dipegang:</strong> kalau interviewer menggali lebih dalam ("pernah pegang terminal AS400 langsung?"), jawab jujur "belum, ini hasil belajar mandiri lewat project portfolio" — bukan mengarang pengalaman.</p>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="AS400_Concepts_Primer.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>

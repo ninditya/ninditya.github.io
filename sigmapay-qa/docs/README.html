@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QA Portfolio Project — Mobile Banking "SigmaPay" (Fund Transfer & QRIS Payment) · SigmaPay QA QA Docs</title>
+<title>QA Portfolio Project — Mobile Banking "SigmaPay" (Fund Transfer &amp; QRIS Payment) · SigmaPay QA QA Docs</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,7 +73,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </div></nav>
 <div class="doc-wrap">
   <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
-  <h1>QA Portfolio Project — Mobile Banking "SigmaPay" (Fund Transfer & QRIS Payment)</h1>
+  <h1>QA Portfolio Project — Mobile Banking "SigmaPay" (Fund Transfer &amp; QRIS Payment)</h1>
   <div class="doc-meta">README.md &middot; Project README</div>
   <div class="doc-body">
 <p>Project simulasi kerja QA Manual Tester untuk aplikasi <strong>Mobile Banking dummy bernama "SigmaPay"</strong>, fokus pada modul <strong>Fund Transfer (Intrabank/Interbank/BI-FAST)</strong> dan <strong>QRIS Payment</strong>. Dibuat untuk melatih &amp; mendemonstrasikan skill set yang diminta di lowongan QA Engineer domain Banking:</p>
@@ -84,6 +84,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <li>Defect Management (gaya JIRA)</li>
 <li>API Testing (gaya Postman)</li>
 <li>Basic SQL untuk validasi database</li>
+<li>Core Banking Backend (AS400/IBM i + DB2 for i) — konsep &amp; pola verifikasi batch job</li>
 <li>Agile/Scrum</li>
 </ul>
 <h2 id="kenapa-domain-ini">Kenapa domain ini?</h2>
@@ -114,7 +115,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <td>Test Case Design</td>
 </tr>
 <tr>
-<td><a href="03-Test-Case/Test_Case_Transfer_QRIS.csv">03-Test-Case</a></td>
+<td><a href="Test_Case_Transfer_QRIS.csv">03-Test-Case</a></td>
 <td>27 Test Case detail (langkah, data uji, expected result) — bisa dibuka di Excel/Google Sheets</td>
 <td>Test Case Design</td>
 </tr>
@@ -125,16 +126,16 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 </tr>
 <tr>
 <td><a href="Bug_Report_Sample.html">05-Bug-Report</a></td>
-<td>6 sample bug report gaya JIRA, lengkap severity/priority</td>
+<td>7 sample bug report gaya JIRA, lengkap severity/priority (termasuk 1 bug di lapisan core banking AS400)</td>
 <td>Test Execution → Defect Management</td>
 </tr>
 <tr>
 <td><a href="Postman_API_Test_Notes.html">06-API-Testing</a></td>
-<td>Dokumentasi API testing (Postman) untuk endpoint Transfer &amp; QRIS</td>
+<td>Dokumentasi API testing (Postman) untuk endpoint Transfer &amp; QRIS. Dilengkapi <a href="Public_Dummy_API_Practice_Notes.html">latihan tambahan di public dummy API</a> (restful-booker, Swagger Petstore) — ditandai jujur terpisah dari simulasi SigmaPay</td>
 <td>Test Execution (API layer)</td>
 </tr>
 <tr>
-<td><a href="07-SQL-Validation/SQL_Queries_Validation.sql">07-SQL-Validation</a></td>
+<td><a href="SQL_Queries_Validation.sql">07-SQL-Validation</a></td>
 <td>Query SQL untuk validasi data backend setelah transaksi</td>
 <td>Test Execution (DB layer)</td>
 </tr>
@@ -154,15 +155,36 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <td>— (panduan operasional, di luar STLC)</td>
 </tr>
 <tr>
+<td><a href="AS400_Concepts_Primer.html">11-AS400-Core-Banking</a></td>
+<td>Lapisan <strong>core banking backend</strong> SigmaPay: konsep AS400/IBM i + DB2 for i, test case verifikasi batch job EOD, query validasi DB2 for i, checklist monitoring job — ditandai jujur sebagai belajar mandiri, bukan pengalaman production</td>
+<td>Test Execution (core banking layer)</td>
+</tr>
+<tr>
+<td><a href="Automation_Appium_README.html">12-Automation-Appium</a></td>
+<td>Automation suite (Appium + WebdriverIO + Mocha + Chai) yang menguji <a href="../bank-demo/README.md">SigmaPay Bank Demo</a> sebagai mobile web — Page Object Model, 4 spec file (login/transfer/QRIS/bug regression). Kode lengkap, <strong>belum pernah dieksekusi</strong> terhadap Appium/emulator sungguhan (lihat catatan jujur di README-nya)</td>
+<td>Test Execution (automation)</td>
+</tr>
+<tr>
 <td><a href="../prototype.html">SigmaPay Prototype Scope</a></td>
 <td><strong>Sumber kebenaran tunggal (source of truth)</strong> — prototype interaktif 30 layar yang mengimplementasikan app SigmaPay + workbench QA di sampingnya (test case per layar, log API, tab SQL, tab Defect), dengan toggle build <strong>v1.4.0-QA (buggy)</strong> vs <strong>v1.5.0-FIX</strong>. Semua dokumen 00-09 di atas sudah disinkronkan terhadap data &amp; business rule konkret di file ini</td>
 <td>— (living scope, bukan deliverable STLC)</td>
+</tr>
+<tr>
+<td><a href="../bank-demo/README.md">SigmaPay Bank Demo</a></td>
+<td><strong>Target automation</strong> — aplikasi web statis (HTML/CSS/JS murni, tanpa tooling khusus) dengan 10 akun uji ala saucedemo.com (happy path, akun terkunci, saldo kosong, delay buatan, &amp; 6 persona yang masing-masing mereproduksi satu bug dari <code>05-Bug-Report</code>), locator <code>data-testid</code> stabil di setiap elemen — siap dipakai latihan Selenium/Playwright/Cypress</td>
+<td>— (system-under-test, bukan deliverable STLC)</td>
 </tr>
 </tbody>
 </table>
 <h2 id="tentang-folder-sigmapay-prototype-scope">Tentang folder "SigmaPay Prototype Scope"</h2>
 <p>Folder ini berisi prototype interaktif (<code>SigmaPay QA Workbench.dc.html</code> + <code>ios-frame.jsx</code> + <code>support.js</code> + design system di <code>_ds/</code>) yang dibangun dengan tooling prototyping khusus (terlihat dari struktur <code>x-dc</code>/<code>dc-runtime</code>-nya) — <strong>bukan format HTML statis biasa</strong>, jadi kemungkinan besar perlu dibuka lewat tool yang sama yang membuatnya, bukan sekadar double-click di browser.</p>
 <p>Fungsinya di project ini: jadi <strong>spesifikasi hidup</strong>. Semua nama akun, nomor rekening, nominal, business rule (mis. limit QRIS per transaksi vs limit transfer harian, pesan error "Pindah Buku" untuk transfer ke rekening sendiri), dan logika ke-6 bug (BUG-SGP-001 s.d. 006) diambil dari sana dan disinkronkan ke seluruh dokumen <code>01</code> s.d. <code>09</code>. Kalau ke depan prototype-nya berubah, dokumen di sini perlu di-sync ulang mengikuti — bilang saja kalau butuh sinkronisasi ulang.</p>
+<h2 id="tentang-folder-sigmapay-bank-demo">Tentang folder "SigmaPay Bank Demo"</h2>
+<p>Ini pasangan dari "SigmaPay Prototype Scope" di atas, tapi dengan tujuan berbeda: kalau Prototype Scope adalah <em>spesifikasi hidup</em> yang perlu tooling khusus untuk dibuka, folder ini adalah <strong>HTML/CSS/JS statis biasa</strong> — tanpa dependency, langsung bisa dibuka di browser atau di-<em>serve</em> dengan static server apa pun, dan dirancang supaya <strong>bisa langsung dipakai jadi target automation</strong> (Selenium/Playwright/Cypress), mengikuti pola situs latihan seperti saucedemo.com: 10 akun login, masing-masing sengaja punya perilaku berbeda (lihat <a href="../bank-demo/README.md"><code>SigmaPay Bank Demo/README.md</code></a> untuk daftar lengkap &amp; referensi locator <code>data-testid</code>).</p>
+<h2 id="tentang-folder-11-as400-core-banking">Tentang folder "11-AS400-Core-Banking"</h2>
+<p>Banyak loker QA Banking mensyaratkan familiaritas dengan <strong>AS400/IBM i</strong> karena banyak bank di Indonesia menjalankan core banking (ledger, rekening, batch EOD) di platform ini. Folder ini menambahkan lapisan itu ke narasi arsitektur SigmaPay: mobile app + API (yang sudah dibangun di <code>06-API-Testing</code>) berperan sebagai <em>channel layer</em>, sementara AS400/DB2 for i berperan sebagai <em>system of record</em>. Isinya: primer konsep, test case verifikasi batch job, query gaya DB2 for i, dan checklist monitoring job — <strong>semuanya ditandai eksplisit sebagai hasil belajar mandiri untuk portfolio, bukan pengalaman hands-on production AS400 sungguhan</strong> (lihat tabel kejujuran di <a href="AS400_Concepts_Primer.html#4-status-kejujuran-mengikuti-pola-stlc_tools_mappingmd">AS400_Concepts_Primer.md §4</a>).</p>
+<h2 id="tentang-folder-12-automation-appium">Tentang folder "12-Automation-Appium"</h2>
+<p>Implementasi automation nyata (bukan cuma "familiar with the concept") untuk <code>SigmaPay Bank Demo</code>, pakai stack <strong>Appium + WebdriverIO + Mocha + Chai</strong> dalam mode <em>mobile web testing</em> (drive Chrome/Safari di emulator/simulator, tanpa APK/IPA karena target-nya web statis). Page Object Model per halaman, 4 spec file mencakup login, transfer, QRIS, dan regresi 6 persona "bug". <strong>Kode-nya lengkap dan sudah disinkronkan ke locator <code>data-testid</code> sungguhan di source Bank Demo, tapi belum pernah dijalankan end-to-end terhadap Appium server/emulator sungguhan</strong> — lihat <a href="Automation_Appium_README.html">README folder ini</a> untuk cara setup &amp; verifikasi sendiri, dan catatan kejujuran soal ini di interview.</p>
 <h2 id="cara-pakai-project-ini-saat-interview">Cara pakai project ini saat interview</h2>
 <ol>
 <li>Mulai dari <code>00-SDLC-STLC-Overview</code> untuk menjelaskan <strong>kenapa</strong> kamu melakukan tahapan tersebut (interviewer suka nanya "kamu ngapain aja dari requirement sampai release?").</li>
@@ -170,6 +192,8 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <li>Tunjukkan alur <code>02 → 03 → 04 → 05</code> sebagai bukti siklus <strong>design case → eksekusi → temukan bug → laporkan bug</strong>.</li>
 <li>Tunjukkan <code>06</code> dan <code>07</code> sebagai bukti kamu bisa testing di luar UI (API &amp; Database) — ini pembeda kandidat junior vs kandidat 3-5 tahun pengalaman.</li>
 <li>Tutup dengan <code>08</code> sebagai bukti kamu paham <strong>exit criteria</strong> dan bisa membuat keputusan/rekomendasi rilis (soft skill yang dicari untuk level "3-5 tahun pengalaman").</li>
+<li>Kalau ditanya soal automation, buka <code>SigmaPay Bank Demo</code> langsung di browser dan tunjukkan kamu bisa merancang <strong>test data &amp; test target-nya sendiri</strong> (bukan cuma jalankan skrip di aplikasi orang lain) — poin pembeda dibanding kandidat yang cuma pernah latihan di situs demo publik. Lanjutkan dengan <code>12-Automation-Appium</code> untuk menunjukkan kode automation-nya sendiri (Page Object Model, Appium + Mocha + Chai) — tapi jujur bilang kalau belum sempat eksekusi end-to-end di emulator sungguhan.</li>
+<li>Kalau ditanya soal core banking/AS400, buka <code>11-AS400-Core-Banking</code> untuk menunjukkan kamu paham <em>apa</em> yang perlu divalidasi di lapisan core banking (batch job, rekonsiliasi ledger, DB2 for i) dan <em>kenapa</em> — pakai template jawaban jujur di <a href="AS400_Concepts_Primer.html#5-template-jawaban-interview-versi-jujur">AS400_Concepts_Primer.md §5</a>, jangan klaim ini pengalaman production.</li>
 </ol>
 <h2 id="catatan">Catatan</h2>
 <p>Semua data (nomor rekening, nominal, ID transaksi) adalah <strong>dummy/fiktif</strong>, dibuat murni untuk simulasi latihan, tidak merepresentasikan sistem bank sungguhan manapun.</p>

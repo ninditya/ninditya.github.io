@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SigmaPay Bank Demo — Beranda</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div class="container">
+    <h2 class="page-title">Beranda</h2>
+
+    <div class="card saldo-card">
+      <div class="label">Saldo Anda</div>
+      <div class="value" data-testid="saldo-value">Rp 0</div>
+      <div class="accno" data-testid="account-no">-</div>
+    </div>
+
+    <div class="quick-actions">
+      <a href="transfer.html" data-testid="quick-transfer"><span class="icon">💸</span>Transfer</a>
+      <a href="qris.html" data-testid="quick-qris"><span class="icon">🔳</span>QRIS</a>
+      <a href="mutasi.html" data-testid="quick-mutasi"><span class="icon">📄</span>Mutasi</a>
+      <a href="profil.html" data-testid="quick-profil"><span class="icon">👤</span>Profil</a>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3 style="margin-top:0;font-size:14px">Transaksi Terbaru</h3>
+      <div id="recent-mutasi" data-testid="recent-mutasi"></div>
+    </div>
+  </div>
+
+<script src="assets/app.js"></script>
+<script>
+  const session = requireAuth();
+  if (session) {
+    renderTopbar("dashboard");
+    document.querySelector('[data-testid="saldo-value"]').textContent = formatRupiah(session.balance);
+    document.querySelector('[data-testid="account-no"]').textContent = session.accountNo;
+
+    const list = session.mutasi || [];
+    const box = document.getElementById("recent-mutasi");
+    if (list.length === 0) {
+      box.innerHTML = '<div class="empty-state" data-testid="mutasi-empty">Belum ada transaksi pada sesi ini.</div>';
+    } else {
+      box.innerHTML = list.slice(0, 3).map((m, i) => `
+        <div class="mutasi-item" data-testid="mutasi-item-${i}">
+          <div>
+            <div class="desc">${m.desc}</div>
+            <div class="meta">${m.date} · <span class="badge badge-${m.statusClass}">${m.status}</span></div>
+          </div>
+          <div class="amt ${m.type}">${m.type === "debit" ? "-" : "+"}${formatRupiah(m.amount)}</div>
+        </div>
+      `).join("");
+    }
+  }
+</script>
+</body>
+</html>

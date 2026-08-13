@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SigmaPay Bank Demo — Profil</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div id="topbar"></div>
+  <div class="container">
+    <h2 class="page-title">Profil</h2>
+
+    <div class="card">
+      <div class="row"><span class="k">Nama</span><span class="v" data-testid="profil-nama"></span></div>
+      <div class="row"><span class="k">Username</span><span class="v" data-testid="profil-username"></span></div>
+      <div class="row"><span class="k">No. Rekening</span><span class="v" data-testid="profil-rekening"></span></div>
+      <div class="row"><span class="k">Status Akun</span><span class="v">Aktif</span></div>
+      <div class="row"><span class="k">Biometric Login</span><span class="v">Nonaktif</span></div>
+      <div class="row"><span class="k">Batas Idle Sesi</span><span class="v">5 menit (disimulasikan)</span></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;font-size:14px">Reset Data Demo</h3>
+      <p class="muted-note">Mengembalikan saldo &amp; riwayat mutasi pada sesi ini ke kondisi awal — berguna untuk menjalankan ulang skenario uji/automation script dari kondisi bersih (idempotent test run).</p>
+      <button type="button" class="btn btn-secondary" data-testid="btn-reset-demo" onclick="resetDemo()">Reset Data Demo</button>
+    </div>
+
+    <div class="card">
+      <button type="button" class="btn btn-primary" data-testid="btn-logout-profil" onclick="doLogout()">Keluar</button>
+    </div>
+  </div>
+
+<script src="assets/app.js"></script>
+<script>
+  const session = requireAuth();
+  if (session) {
+    renderTopbar("profil");
+    document.querySelector('[data-testid="profil-nama"]').textContent = session.name;
+    document.querySelector('[data-testid="profil-username"]').textContent = session.username;
+    document.querySelector('[data-testid="profil-rekening"]').textContent = session.accountNo;
+  }
+
+  function resetDemo() {
+    const user = USERS[session.username];
+    setSession({
+      username: session.username, name: user.name, accountNo: user.accountNo,
+      balance: user.balance, locked: user.locked, slow: user.slow, bug: user.bug,
+      mutasi: [],
+    });
+    window.location.href = "dashboard.html";
+  }
+</script>
+</body>
+</html>

@@ -78,7 +78,8 @@ html[data-theme="dark"] .doc-body pre{background:#000}
   <div class="doc-body">
 <p>Format mengikuti field standar JIRA: Summary, Environment, Steps to Reproduce, Expected vs Actual, Severity, Priority, Attachment.</p>
 <blockquote>
-<p><strong>Semua 6 bug di bawah ini bisa direproduksi langsung</strong> di <a href="../SigmaPay%20Prototype%20Scope/SigmaPay%20QA%20Workbench.dc.html">SigmaPay Prototype Scope</a>: pastikan toggle build di kanan atas di-set ke <strong>v1.4.0-QA</strong> (kondisi buggy, default), jalankan steps to reproduce di perangkat simulasi, lalu cek tab <strong>Defect</strong> di panel kanan untuk melihat status "TEREPRODUKSI". Pindahkan toggle ke <strong>v1.5.0-FIX</strong> dan ulangi langkah yang sama untuk memverifikasi retest ("RETEST PASS") — ini setara dengan siklus retest Cycle 2 di <a href="Test_Execution_Report.html">Test Execution Report</a>. Untuk BUG-SGP-002 dan BUG-SGP-003, aktifkan dulu kondisi jaringan yang sesuai di panel kiri ("Koneksi putus setelah submit" / "Switching BI-FAST timeout") sebelum menjalankan transaksi.</p>
+<p><strong>BUG-SGP-001 s.d. 006 bisa direproduksi langsung</strong> di <a href="../prototype.html">SigmaPay Prototype Scope</a>: pastikan toggle build di kanan atas di-set ke <strong>v1.4.0-QA</strong> (kondisi buggy, default), jalankan steps to reproduce di perangkat simulasi, lalu cek tab <strong>Defect</strong> di panel kanan untuk melihat status "TEREPRODUKSI". Pindahkan toggle ke <strong>v1.5.0-FIX</strong> dan ulangi langkah yang sama untuk memverifikasi retest ("RETEST PASS") — ini setara dengan siklus retest Cycle 2 di <a href="Test_Execution_Report.html">Test Execution Report</a>. Untuk BUG-SGP-002 dan BUG-SGP-003, aktifkan dulu kondisi jaringan yang sesuai di panel kiri ("Koneksi putus setelah submit" / "Switching BI-FAST timeout") sebelum menjalankan transaksi.</p>
+<p><strong>BUG-SGP-008 berbeda</strong>: bug ini terjadi di lapisan <strong>core banking AS400/IBM i</strong> (lihat <a href="AS400_Concepts_Primer.html">11-AS400-Core-Banking</a>), di luar cakupan prototype yang hanya memodelkan channel mobile + API. Jadi <strong>tidak bisa direproduksi klik-klik di prototype</strong> — ditulis sebagai simulasi tertulis berdasarkan pola bug batch job yang umum terjadi di sistem core banking legacy, dilengkapi query reproduksi di <a href="DB2_for_i_Validation_Queries.sql">DB2_for_i_Validation_Queries.sql</a>.</p>
 </blockquote>
 <hr />
 <h3 id="bug-sgp-001">BUG-SGP-001</h3>
@@ -411,6 +412,64 @@ Sistem menolak input dan menampilkan pesan validasi.</p>
 Sistem menerima input, tombol "Lanjut" tetap aktif, dan error baru muncul di halaman konfirmasi dengan pesan yang tidak informatif ("Terjadi kesalahan").</p>
 <p><strong>Rekomendasi</strong>
 Tambahkan validasi input di level form (client-side) agar error lebih cepat &amp; jelas bagi user, tidak menunggu response API.</p>
+<hr />
+<h3 id="bug-sgp-008">BUG-SGP-008</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Summary</td>
+<td>[Core Banking – AS400] Batch job EOD reconciliation memposting ulang entri ledger (dobel) saat di-rerun manual tanpa validasi status</td>
+</tr>
+<tr>
+<td>Module</td>
+<td>Core Banking Batch – EOD Reconciliation &amp; Interest Accrual (AS400/IBM i)</td>
+</tr>
+<tr>
+<td>Severity</td>
+<td><strong>Critical</strong></td>
+</tr>
+<tr>
+<td>Priority</td>
+<td><strong>P1</strong></td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>QA – simulasi IBM i, subsystem <code>QBATCH</code>, job <code>SGPEOD01</code>, library <code>SIGMAPRD</code></td>
+</tr>
+<tr>
+<td>Reported By</td>
+<td>QA Engineer</td>
+</tr>
+<tr>
+<td>Related Test Case</td>
+<td><a href="AS400_Batch_Test_Cases.csv">TC-AS400-003</a></td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Open</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Steps to Reproduce</strong>
+1. Job batch <code>SGPEOD01</code> (EOD reconciliation &amp; interest accrual) berjalan normal pada window terjadwal, status tercatat <code>COMPLETE</code> di tabel <code>BATCH_CTL</code> untuk tanggal proses berjalan.
+2. Operator memicu ulang job <code>SGPEOD01</code> secara manual (mis. karena salah asumsi job gagal, tanpa mengecek job log/<code>BATCH_CTL</code> terlebih dahulu).
+3. Cek tabel <code>LEDGER</code> untuk tanggal proses yang sama setelah rerun (lihat <a href="DB2_for_i_Validation_Queries.sql">Query #3, DB2_for_i_Validation_Queries.sql</a>).</p>
+<p><strong>Expected Result</strong>
+Job menolak dijalankan ulang jika <code>BATCH_CTL.STATUS</code> untuk tanggal proses tersebut sudah <code>'C'</code> (COMPLETE) — menampilkan pesan error eksplisit ke operator, bukan lanjut jalan.</p>
+<p><strong>Actual Result</strong>
+Job berjalan ulang tanpa validasi status, memposting ulang entri akrual bunga &amp; ringkasan rekonsiliasi. Query <code>Ledger.GROUP BY ... HAVING COUNT(*) &gt; 1</code> menunjukkan baris dengan <code>jumlah_entri = 2</code> untuk akun yang terdampak — saldo/ledger dobel untuk seluruh akun yang tersentuh batch tersebut.</p>
+<p><strong>Dampak Bisnis</strong>
+Ketidaksesuaian saldo skala besar (berpotensi menyentuh seluruh akun aktif, bukan hanya satu nasabah), risiko finansial tinggi, dan butuh proses koreksi/reversal manual yang rawan kesalahan lanjutan.</p>
+<p><strong>Root Cause Analysis (dugaan awal QA)</strong>
+Program CL yang memicu job <code>SGPEOD01</code> tidak memiliki <em>guard clause</em> untuk mengecek <code>BATCH_CTL.STATUS</code> sebelum eksekusi — job dianggap selalu boleh dijalankan tanpa idempotency check di level batch.</p>
+<p><strong>Rekomendasi</strong>
+Tambahkan validasi status <code>BATCH_CTL</code> di awal program CL (jika status = <code>'C'</code> untuk tanggal proses, job harus <code>*EXIT*</code>dengan pesan error eksplisit, bukan lanjut jalan); wajib ada mekanisme <em>dual control</em>/approval terpisah untuk rerun manual batch yang menyentuh ledger finansial.</p>
   </div>
   <div class="doc-footer">
     <a href="../">&larr; Kembali ke case study</a>

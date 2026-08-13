@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automation Suite — Appium + WebdriverIO + Mocha + Chai · SigmaPay QA QA Docs</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff; --bg-alt:#f3f6f7; --bg-dark:#0e1a1f;
+  --ink:#16232a; --ink-soft:#4f6067; --muted:#8fa1a8;
+  --line:#d7e0e2; --line-strong:#a9bcc0;
+  --primary:#0c6e6e; --accent:#b8862c; --accent-soft:#e9f2f0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.docnav{position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:100}
+.docnav-inner{max-width:800px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.docnav a.back{font-size:13px;color:var(--primary);text-decoration:none;font-family:'JetBrains Mono',monospace;border:1px solid var(--line);padding:6px 12px;border-radius:100px;transition:all .15s}
+.docnav a.back:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.theme-toggle{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;line-height:1}
+.doc-wrap{max-width:800px;margin:0 auto;padding:56px 32px 80px}
+.doc-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.doc-wrap h1{font-family:'Fraunces',serif;font-size:clamp(30px,4.4vw,44px);font-weight:400;letter-spacing:-.01em;line-height:1.1;color:var(--ink);margin-bottom:10px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.doc-body h2{font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-.01em;color:var(--ink);margin:42px 0 16px}
+.doc-body h3{font-family:'Fraunces',serif;font-size:19px;font-weight:400;color:var(--ink);margin:32px 0 12px}
+.doc-body p{margin-bottom:16px;color:var(--ink-soft);font-size:15.5px;max-width:700px}
+.doc-body ul,.doc-body ol{margin:0 0 16px 22px;color:var(--ink-soft);font-size:15.5px}
+.doc-body li{margin-bottom:6px}
+.doc-body li>ul,.doc-body li>ol{margin-top:6px}
+.doc-body a{color:var(--primary);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
+.doc-body a:hover{text-decoration-color:var(--primary)}
+.doc-body a code{color:var(--primary);border-color:var(--primary)}
+.doc-body strong{color:var(--ink);font-weight:600}
+.doc-body em{font-style:italic}
+.doc-body code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink)}
+.doc-body pre{background:var(--bg-dark);color:#dcdce6;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;margin:20px 0;border-radius:6px;border-left:3px solid var(--accent)}
+.doc-body pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.doc-body blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;color:var(--ink-soft);font-style:italic}
+.doc-body blockquote p{margin-bottom:8px}
+.doc-body hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+.doc-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13.5px;display:block;overflow-x:auto;white-space:nowrap}
+.doc-body table thead{display:table-header-group}
+.doc-body table tbody{display:table-row-group}
+.doc-body table tr{display:table-row}
+.doc-body table th,.doc-body table td{display:table-cell}
+.doc-body th{text-align:left;padding:10px 14px;background:var(--bg-dark);color:rgba(255,255,255,0.8);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:normal}
+.doc-body td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);white-space:normal}
+.doc-body tr:last-child td{border-bottom:none}
+.doc-footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.doc-footer a{color:var(--primary);text-decoration:none}
+.doc-footer a:hover{text-decoration:underline}
+.doc-footer .muted{color:var(--muted)}
+html[data-theme="dark"]{
+  --bg:#12191b; --bg-alt:#1b2426; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,240,240,0.62); --muted:rgba(235,240,240,0.32); --line:rgba(120,140,140,0.28); --line-strong:rgba(120,140,140,0.45); --primary:#4fc3bc; --accent:#e0a94a; --accent-soft:rgba(79,195,188,0.12);
+}
+html[data-theme="dark"] .docnav{background:rgba(10,10,16,0.92)}
+html[data-theme="dark"] .doc-body pre{background:#000}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+<script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+<nav class="docnav"><div class="docnav-inner">
+  <a href="../" class="back">&larr; Kembali ke case study</a>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema">&#127769;</button>
+</div></nav>
+<div class="doc-wrap">
+  <div class="doc-kicker">SigmaPay QA &middot; QA Documentation</div>
+  <h1>Automation Suite — Appium + WebdriverIO + Mocha + Chai</h1>
+  <div class="doc-meta">README.md &middot; Appium Automation</div>
+  <div class="doc-body">
+<p>Suite automation UI untuk <a href="../bank-demo/README.md"><code>SigmaPay Bank Demo</code></a>, pakai stack yang sering diminta di loker QA banking: <strong>Appium</strong> (server automation), <strong>Mocha</strong> (test runner), <strong>Chai</strong> (assertion library). Client library yang bicara ke Appium adalah <strong>WebdriverIO</strong> (<code>webdriverio</code>, dipakai dalam mode <em>standalone/programmatic</em> — bukan lewat <code>@wdio/cli</code>) karena itu cara resmi Node.js berkomunikasi dengan Appium server; <code>wd</code> (client lama) sudah deprecated.</p>
+<blockquote>
+<p><strong>Catatan jujur:</strong> kode di folder ini <strong>sudah ditulis lengkap tapi belum pernah dijalankan</strong> terhadap Appium server/emulator sungguhan (lingkungan development saat ini tidak punya Android SDK/Xcode/Appium terpasang). Locator (<code>data-testid</code>) dan alur bisnis diverifikasi manual dengan membaca ulang source <code>SigmaPay Bank Demo/*.html</code> dan <code>assets/app.js</code> baris per baris supaya seakurat mungkin, tapi <strong>belum ada bukti hasil eksekusi (screenshot/report) yang bisa ditunjukkan</strong>. Kalau ditanya di interview, jawab jujur: "saya tulis test suite-nya lengkap dengan page object pattern, tapi belum sempat eksekusi end-to-end di emulator" — bukan "sudah saya jalankan dan semua pass". Ikuti <a href="#setup--run">Setup &amp; Run</a> untuk memverifikasi sendiri.</p>
+</blockquote>
+<h2 id="kenapa-appium-untuk-web-statis">Kenapa Appium untuk web statis?</h2>
+<p><code>SigmaPay Bank Demo</code> adalah HTML/CSS/JS statis, bukan app native — jadi Appium dipakai dalam mode <strong>Mobile Web Testing</strong> (fitur resmi Appium): mengarahkan <code>browserName</code> ke Chrome (Android) atau Safari (iOS) tanpa APK/IPA apa pun. Ini valid dan memang salah satu use case utama Appium, tapi kalau tujuannya murni web testing tanpa kebutuhan device/emulator, <code>WebdriverIO</code>/<code>Selenium</code>/<code>Playwright</code> langsung ke browser desktop jauh lebih ringan setup-nya — Appium baru bernilai tambah kalau memang butuh menguji perilaku di viewport/browser mobile sungguhan (device fragmentation, seperti yang biasanya jadi alasan tim banking pakai Appium).</p>
+<h2 id="arsitektur">Arsitektur</h2>
+<pre><code>Mocha (test runner) ─┬─ Page Objects (pageobjects/*.js)
+                      │        │
+                      │        ▼
+                      └─ WebdriverIO client ──WebDriver protocol──► Appium Server ──► Chrome/Safari (emulator/simulator)
+                                                                                              │
+Chai (assertion)  ◄── hasil getText()/isDisplayed()/dst.                                     ▼
+                                                                                     SigmaPay Bank Demo
+                                                                                   (http-server, localhost:8080)
+</code></pre>
+<h2 id="struktur-folder">Struktur Folder</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Isi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config/capabilities.js</code></td>
+<td>Koneksi ke Appium server + capabilities (Android/Chrome atau iOS/Safari, pilih via env var)</td>
+</tr>
+<tr>
+<td><code>helpers/driver.js</code></td>
+<td>Start/stop sesi WebdriverIO, base URL, reset state (<code>sessionStorage.clear()</code>)</td>
+</tr>
+<tr>
+<td><code>helpers/format.js</code></td>
+<td>Replika <code>formatRupiah()</code> dari app supaya assertion saldo tidak hardcode string</td>
+</tr>
+<tr>
+<td><code>pageobjects/*.js</code></td>
+<td>Page Object Model — satu class per halaman, locator berbasis <code>data-testid</code></td>
+</tr>
+<tr>
+<td><code>test/01-login.spec.js</code></td>
+<td>Login: normal, password salah, akun terkunci, akun lambat (loading state)</td>
+</tr>
+<tr>
+<td><code>test/02-transfer.spec.js</code></td>
+<td>Transfer: sukses, saldo tidak cukup, rekening sendiri, rekening diblokir, rekening tidak ditemukan</td>
+</tr>
+<tr>
+<td><code>test/03-qris.spec.js</code></td>
+<td>QRIS: bayar sukses, QR expired ditolak, Merchant ID mismatch ditolak, limit per transaksi</td>
+</tr>
+<tr>
+<td><code>test/04-bug-regression.spec.js</code></td>
+<td>Mendokumentasikan 6 persona "bug" (double debit, status ambigu, dst.) — assertion sengaja membuktikan bug-nya terjadi, bukan salah tulis</td>
+</tr>
+</tbody>
+</table>
+<h2 id="setup-amp-run">Setup &amp; Run</h2>
+<h3 id="prasyarat">Prasyarat</h3>
+<ol>
+<li>Node.js 18+</li>
+<li>Salah satu dari:
+   - <strong>Android</strong>: Android Studio + 1 AVD (emulator) yang sudah dijalankan, <code>ANDROID_HOME</code> ter-set
+   - <strong>iOS</strong> (khusus macOS): Xcode + 1 Simulator</li>
+<li>Appium 2.x + driver yang sesuai (belum termasuk otomatis di <code>npm install</code> — Appium driver di-install lewat CLI Appium sendiri, bukan npm package biasa)</li>
+</ol>
+<h3 id="langkah">Langkah</h3>
+<pre><code class="language-bash">cd &quot;12-Automation-Appium&quot;
+npm install
+
+# Sekali saja, install driver Appium sesuai platform:
+npx appium driver install uiautomator2   # untuk Android
+# atau
+npx appium driver install xcuitest       # untuk iOS
+
+# Terminal 1 — serve SigmaPay Bank Demo sebagai static server
+npm run serve:app
+
+# Terminal 2 — jalankan Appium server
+npm run appium
+
+# Terminal 3 — pastikan emulator/simulator sudah menyala, lalu jalankan test
+npm test
+</code></pre>
+<h3 id="environment-variables">Environment Variables</h3>
+<table>
+<thead>
+<tr>
+<th>Variabel</th>
+<th>Default</th>
+<th>Keterangan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MOBILE_PLATFORM</code></td>
+<td><code>android</code></td>
+<td><code>android</code> atau <code>ios</code></td>
+</tr>
+<tr>
+<td><code>APPIUM_HOST</code></td>
+<td><code>127.0.0.1</code></td>
+<td>Host Appium server</td>
+</tr>
+<tr>
+<td><code>APPIUM_PORT</code></td>
+<td><code>4723</code></td>
+<td>Port Appium server</td>
+</tr>
+<tr>
+<td><code>DEVICE_NAME</code></td>
+<td><code>Android Emulator</code> / <code>iPhone 15</code></td>
+<td>Nama device/AVD/simulator</td>
+</tr>
+<tr>
+<td><code>PLATFORM_VERSION</code></td>
+<td><code>13.0</code> / <code>17.0</code></td>
+<td>Versi OS emulator/simulator</td>
+</tr>
+<tr>
+<td><code>APP_BASE_URL</code></td>
+<td><code>http://10.0.2.2:8080</code> (Android) / <code>http://127.0.0.1:8080</code> (iOS)</td>
+<td>URL tempat <code>SigmaPay Bank Demo</code> di-serve</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Gotcha yang perlu diketahui:</strong> dari dalam Android emulator, <code>localhost</code> menunjuk ke emulator itu sendiri — harus pakai <code>10.0.2.2</code> untuk menjangkau mesin host (sudah di-default-kan di <code>helpers/driver.js</code>, tapi kalau pakai real device di jaringan yang sama, override <code>APP_BASE_URL</code> dengan IP LAN mesin host).</p>
+</blockquote>
+<h2 id="cakupan-test-vs-dokumen-lain">Cakupan Test vs Dokumen Lain</h2>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>Setara dengan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01-login.spec.js</code></td>
+<td>Prasyarat login di seluruh <code>TC-TRF-*</code> (<code>03-Test-Case</code>)</td>
+</tr>
+<tr>
+<td><code>02-transfer.spec.js</code></td>
+<td>TC-TRF-001 (transfer sukses), TC-TRF-014 (transfer ke rekening sendiri)</td>
+</tr>
+<tr>
+<td><code>03-qris.spec.js</code></td>
+<td>TC-QRIS-004 (QR expired), TC-QRIS-009 (Merchant ID mismatch)</td>
+</tr>
+<tr>
+<td><code>04-bug-regression.spec.js</code></td>
+<td>BUG-SGP-001, 002, 003, 004, 005, 006 (<code>05-Bug-Report/Bug_Report_Sample.md</code>) — versi implementasi standalone di Bank Demo, bukan reproduksi identik dari prototype <code>.dc.html</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="batasan-yang-perlu-disadari">Batasan yang Perlu Disadari</h2>
+<ul>
+<li><strong>Belum dieksekusi</strong> terhadap Appium/emulator sungguhan — lihat catatan jujur di atas.</li>
+<li>Test di <code>04-bug-regression.spec.js</code> yang melibatkan double-click cepat (<code>nasabah_dobel_transaksi</code>) bergantung pada timing race condition di sisi client — bisa jadi <em>flaky</em> tergantung kecepatan WebDriver round-trip vs <code>setTimeout</code> 400ms di kode aplikasi; kalau flaky, coba perbesar <code>getDriver().pause(...)</code> di spec tersebut atau jalankan ulang.</li>
+<li>Tidak ada backend/API sungguhan di baliknya (state di <code>sessionStorage</code>) — ini murni UI automation, bukan API automation. Untuk API testing, lihat <a href="Postman_API_Test_Notes.html"><code>06-API-Testing</code></a>.</li>
+<li>Sama seperti folder lain di project ini: <strong>jangan klaim ini sebagai pengalaman production Appium</strong> — posisikan sebagai "saya bangun sendiri test suite-nya dari nol, termasuk page object pattern &amp; reset state strategy", bukan "saya maintain automation suite ini di tempat kerja".</li>
+</ul>
+  </div>
+  <div class="doc-footer">
+    <a href="../">&larr; Kembali ke case study</a>
+    <a href="README.md" target="_blank" rel="noopener">Lihat Markdown mentah &#8599;</a>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('themeToggle');
+  var html = document.documentElement;
+  function upd(t){ btn.textContent = t==='dark' ? '\u2600' : '\ud83c\udf19'; }
+  upd(html.getAttribute('data-theme')||'light');
+  btn.addEventListener('click', function(){
+    var next = html.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    upd(next);
+  });
+})();
+</script>
+</body>
+</html>
