@@ -1037,6 +1037,22 @@
     .cost-arrow { font-family: 'DM Sans', sans-serif; font-size: 48px; color: var(--muted); flex-shrink: 0; }
     @media (max-width: 640px) { .cost-arrow { display: none; } .cost-compare { gap: 16px; } }
 
+    /* ─── Three-column card grid (glance strip) ─── */
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    @media (max-width: 760px) { .three-col { grid-template-columns: 1fr; } }
+    .sol-card { border: 1px solid var(--line); border-radius: 10px; padding: 24px 22px; background: var(--bg-alt); }
+    .sol-icon { font-size: 22px; margin-bottom: 14px; }
+    .sol-title { font-weight: 600; color: var(--ink); margin-bottom: 8px; font-size: 16px; }
+    .sol-desc { font-size: 14px; color: var(--ink-soft); margin: 0; max-width: none; }
+
+    /* ─── Backlog priority tags ─── */
+    .tag.now { background: var(--bg); border-color: var(--primary); color: var(--primary); font-weight: 600; }
+    .tag.next { background: var(--bg); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+    .tag.later { background: var(--bg); color: var(--ink-soft); }
+
+    table.compare.wide { max-width: 940px; }
+    table.compare td .story { color: var(--muted); font-size: 13px; margin-top: 4px; display: block; }
+
     /* ─── Screenshot slot ─── */
     .screenshot-slot {
       border: 2px dashed var(--line);
@@ -1163,6 +1179,30 @@
       <div class="hero-meta">
         <span data-i18n="heroMetaModel"><strong>Model</strong> SBERT + LinearSVC</span>
         <span data-i18n="heroMetaDataset"><strong>Dataset</strong> Banking77 · 13,083 samples · 77 intents</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="content" id="glance">
+    <div class="wrap">
+      <div class="section-num" data-i18n="glanceNum">At a glance</div>
+      <h2 data-i18n="glanceTitle">Problem, solution, impact — <em>in 30 seconds.</em></h2>
+      <div class="three-col">
+        <div class="sol-card">
+          <div class="sol-icon">❗</div>
+          <div class="sol-title" data-i18n="glance1Title">Problem</div>
+          <p class="sol-desc" data-i18n="glance1Desc">Banking chatbots route every query — a "lost card" request and a multi-turn edge case alike — through the same expensive LLM call, at $0.050 per query regardless of how simple the question actually is.</p>
+        </div>
+        <div class="sol-card">
+          <div class="sol-icon">🛠️</div>
+          <div class="sol-title" data-i18n="glance2Title">Solution</div>
+          <p class="sol-desc" data-i18n="glance2Desc">A 4-tier router — regex pre-filter → template → RAG → LLM — that uses an SBERT + LinearSVC confidence score to send each query to the cheapest tier that can actually answer it correctly.</p>
+        </div>
+        <div class="sol-card">
+          <div class="sol-icon">📈</div>
+          <div class="sol-title" data-i18n="glance3Title">Impact</div>
+          <p class="sol-desc" data-i18n="glance3Desc">Projected 88.8% cost reduction ($0.050 → $0.0056/query) at 0.9305 F1 and ~50ms latency on the Banking77 benchmark — with the honest caveat that this is simulated on assumed traffic, not yet validated on real production data.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1519,35 +1559,45 @@ confidence = proba.max()
         </tbody>
       </table>
 
-      <h3 data-i18n="ragMetricsTitle">RAG pipeline evaluation</h3>
-      <p data-i18n="ragMetricsIntro">The RAG tier uses FAISS IndexFlatIP over 59 banking FAQ entries, each embedded with the same SBERT encoder. Retrieval quality on the FAQ test set:</p>
+      <h3 data-i18n="ragMetricsTitle">Evaluation: DeepEval + Ragas, Claude as judge</h3>
+      <p data-i18n="ragMetricsIntro">The RAG tier retrieves over FAISS IndexFlatIP across 59 banking FAQ entries, embedded with the same SBERT encoder — but retrieval accuracy alone doesn't say whether the pipeline is safe to ship. A separate suite in <code>evaluation/</code> runs the real <code>serving/rag.py</code> and <code>serving/llm_client.py</code> code, not hardcoded examples, over 12 paraphrased queries, judged by Claude via DeepEval and Ragas.</p>
 
       <table class="compare">
         <thead>
           <tr>
-            <th data-i18n="ragMetricCol1">RAG Metric</th>
-            <th data-i18n="ragMetricCol2">Value</th>
+            <th data-i18n="ragMetricCol1">Test</th>
+            <th data-i18n="ragMetricCol2">Result</th>
             <th data-i18n="ragMetricCol3">What it means</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Recall@3</td>
-            <td class="num">91%</td>
-            <td data-i18n="ragR1">Correct answer appears in top-3 results</td>
+            <td>Retrieval top-1 accuracy</td>
+            <td class="num">10/12 (0.83)</td>
+            <td data-i18n="ragR1">Correct FAQ retrieved on paraphrased queries, not exact-match — free to run, no LLM judge</td>
           </tr>
           <tr>
-            <td>Hit Rate@1</td>
-            <td class="num">74%</td>
-            <td data-i18n="ragR2">Top-1 result matches ground truth</td>
+            <td>Faithfulness (DeepEval)</td>
+            <td class="num">12/12 passed</td>
+            <td data-i18n="ragR2">Template/RAG answers stay grounded in the retrieved FAQ context</td>
+          </tr>
+          <tr>
+            <td>Answer Relevancy (DeepEval)</td>
+            <td class="num">12/12 passed</td>
+            <td data-i18n="ragR3">LLM escalation answers stay on-topic for the question asked</td>
           </tr>
           <tr class="highlight">
-            <td>MRR</td>
-            <td class="num">0.82</td>
-            <td data-i18n="ragR3">Mean Reciprocal Rank — answer ranks consistently high</td>
+            <td>Fabricated Contact Details (DeepEval, custom GEval)</td>
+            <td class="num">1 caught</td>
+            <td data-i18n="ragR4">Safety check on the one tier with zero retrieval grounding — see finding below</td>
           </tr>
         </tbody>
       </table>
+
+      <div class="pullquote" data-i18n="ragFinding">
+        "For a card-blocked query, the ungrounded LLM escalation tier (Groq <code>llama-3.1-8b-instant</code>, no retrieval context) confidently invented the phone number <code>1-800-BANK-123</code> — it doesn't exist anywhere in <code>banking_faq.json</code>. The custom GEval safety check caught it. A fabricated contact number isn't just a wrong answer in banking — it's a phishing vector."
+        <span class="attr">— genuine model behavior, caught by the eval suite, not a staged failure</span>
+      </div>
 
       <h3 data-i18n="savingsTitle">Projected savings — how the math works</h3>
       <p data-i18n="savingsIntro">The 88–96% range is sensitive to traffic distribution. Representative banking traffic mix (10% conversational + 60% routine FAQs + 25% knowledge queries + 5% complex):</p>
@@ -1958,6 +2008,11 @@ confidence = proba.max()
         </div>
       </div>
 
+      <div>
+        <h3 data-i18n="lim5Title">Eval suite is 12 queries — enough to catch a fabrication, not to bound its rate</h3>
+        <p data-i18n="lim5Text">The DeepEval results above are measured on 12 paraphrased queries, and Ragas (context precision/recall for the retrieval tier) hasn't been run against the current pipeline yet. One caught fabrication is a real signal that the ungrounded LLM tier needs guardrails — it isn't a measured failure rate.</p>
+      </div>
+
       <div class="pullquote" data-i18n="limQuote">
         "Banking77 is a benchmark dataset and does not fully represent noisy production traffic. Future work includes evaluation on multilingual and real customer conversations."
         <span class="attr">— honest limitation, not a failure</span>
@@ -2070,6 +2125,61 @@ confidence = proba.max()
           <p>Pre-training deep bidirectional transformer representations from unlabelled text. The architectural foundation that SBERT extends for sentence-level embeddings.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="content alt" id="backlog">
+    <div class="wrap">
+      <div class="section-num" data-i18n="backlogNum">09 · Product Backlog</div>
+      <h2 data-i18n="backlogTitle">Six items, scored with ICE, sorted into <em>Now / Next / Later.</em></h2>
+      <p class="lede" data-i18n="backlogLede">The limitations above are gaps, not a todo list. Scoring them on Impact, Confidence and Ease (1–10 each, ICE = the average) turns "what this doesn't answer yet" into a sequenced plan for validating the router on real banking traffic.</p>
+
+      <table class="compare wide" aria-label="Product backlog, ICE-scored">
+        <thead>
+          <tr>
+            <th>Backlog item</th>
+            <th>Impact</th>
+            <th>Confidence</th>
+            <th>Ease</th>
+            <th>ICE</th>
+            <th>Priority</th>
+            <th>Milestone</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong data-i18n="item1Title">Shadow-mode production pilot</strong><span class="story" data-i18n="item1Story">As the business, I need the 88.8% savings number validated against real traffic before I put a dollar figure in front of anyone who can hold me to it.</span></td>
+            <td class="num">10</td><td class="num">8</td><td class="num">5</td><td class="num"><strong>7.7</strong></td>
+            <td><span class="tag now">Now</span></td><td>Pilot</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="item2Title">Confidence calibration validation</strong><span class="story" data-i18n="item2Story">As an engineer, I need to know a 0.55 confidence score actually means 55% correct before I trust the routing thresholds.</span></td>
+            <td class="num">7</td><td class="num">8</td><td class="num">7</td><td class="num"><strong>7.3</strong></td>
+            <td><span class="tag now">Now</span></td><td>Pilot</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="item3Title">Expand &amp; maintain the RAG knowledge base</strong><span class="story" data-i18n="item3Story">As a support lead, I need more than 59 FAQ entries, with a review process, before this covers real customer questions.</span></td>
+            <td class="num">6</td><td class="num">7</td><td class="num">6</td><td class="num"><strong>6.3</strong></td>
+            <td><span class="tag next">Next</span></td><td>Pilot</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="item4Title">Multilingual support (Indonesian-English code-switching)</strong><span class="story" data-i18n="item4Story">As a customer, I need the router to understand a question that mixes Indonesian and English, not just clean English Banking77 phrasing.</span></td>
+            <td class="num">8</td><td class="num">5</td><td class="num">3</td><td class="num"><strong>5.3</strong></td>
+            <td><span class="tag later">Later</span></td><td>Post-pilot</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="item5Title">Multi-intent &amp; ambiguous query handling</strong><span class="story" data-i18n="item5Story">As a customer, I need one message with two questions in it to get both answered, not routed as if it were one.</span></td>
+            <td class="num">7</td><td class="num">5</td><td class="num">4</td><td class="num"><strong>5.3</strong></td>
+            <td><span class="tag later">Later</span></td><td>Post-pilot</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="item6Title">Active-learning feedback loop</strong><span class="story" data-i18n="item6Story">As the model, I need low-confidence cases that get escalated to a human to come back as new training data, not disappear after the ticket closes.</span></td>
+            <td class="num">8</td><td class="num">4</td><td class="num">3</td><td class="num"><strong>5.0</strong></td>
+            <td><span class="tag later">Later</span></td><td>Post-pilot</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:14px" data-i18n="backlogNote">Confidence is lowest on the three <em>Later</em> items because each depends on data this project doesn't have yet — real multilingual traffic, real multi-intent examples, a working human-review loop — not because they matter less. The shadow-mode pilot (#1) is what would generate that data.</p>
     </div>
   </section>
 
@@ -2236,12 +2346,14 @@ confidence = proba.max()
         iterR1: 'Baseline 1', iterR1D: 'First interpretable baseline',
         iterR2: 'Baseline 2', iterR2D: 'SVM margin outperforms LR on short intent text',
         iterR3: 'Final', iterR3D: 'Dense embeddings close the synonym gap — chosen for serving',
-        ragMetricsTitle: 'RAG pipeline evaluation',
-        ragMetricsIntro: 'The RAG tier uses FAISS IndexFlatIP over 59 banking FAQ entries, each embedded with the same SBERT encoder.',
-        ragMetricCol1: 'RAG Metric', ragMetricCol2: 'Value', ragMetricCol3: 'What it means',
-        ragR1: 'Correct answer appears in top-3 results',
-        ragR2: 'Top-1 result matches ground truth',
-        ragR3: 'Mean Reciprocal Rank — answer ranks consistently high',
+        ragMetricsTitle: 'Evaluation: DeepEval + Ragas, Claude as judge',
+        ragMetricsIntro: 'The RAG tier retrieves over FAISS IndexFlatIP across 59 banking FAQ entries, embedded with the same SBERT encoder — but retrieval accuracy alone doesn\'t say whether the pipeline is safe to ship. A separate suite in <code>evaluation/</code> runs the real <code>serving/rag.py</code> and <code>serving/llm_client.py</code> code, not hardcoded examples, over 12 paraphrased queries, judged by Claude via DeepEval and Ragas.',
+        ragMetricCol1: 'Test', ragMetricCol2: 'Result', ragMetricCol3: 'What it means',
+        ragR1: 'Correct FAQ retrieved on paraphrased queries, not exact-match — free to run, no LLM judge',
+        ragR2: 'Template/RAG answers stay grounded in the retrieved FAQ context',
+        ragR3: 'LLM escalation answers stay on-topic for the question asked',
+        ragR4: 'Safety check on the one tier with zero retrieval grounding — see finding below',
+        ragFinding: '"For a card-blocked query, the ungrounded LLM escalation tier (Groq <code>llama-3.1-8b-instant</code>, no retrieval context) confidently invented the phone number <code>1-800-BANK-123</code> — it doesn\'t exist anywhere in <code>banking_faq.json</code>. The custom GEval safety check caught it. A fabricated contact number isn\'t just a wrong answer in banking — it\'s a phishing vector."<span class="attr">— genuine model behavior, caught by the eval suite, not a staged failure</span>',
         savingsTitle: 'Projected savings — how the math works',
         savingsIntro: 'The 88–96% range is sensitive to traffic distribution. Representative banking traffic mix (10% conversational + 60% routine FAQs + 25% knowledge queries + 5% complex):',
         savingsCode: `<span class="c"># All-LLM baseline (every query → GPT-4-class)</span>
@@ -2286,6 +2398,8 @@ confidence = proba.max()
         lim3Text: 'The 88–96% cost reduction is a simulation based on an assumed traffic mix. No production traffic was routed through the system. Actual savings depend on real query distribution, which may differ significantly from the assumed 60%/25%/5% split.',
         lim4Title: 'RAG limited to 59 FAQ entries',
         lim4Text: 'The knowledge base contains 59 manually curated entries. This is sufficient as a prototype but not representative of a real banking FAQ corpus, which may contain hundreds of entries, conflicting answers, and outdated information that requires regular maintenance.',
+        lim5Title: 'Eval suite is 12 queries — enough to catch a fabrication, not to bound its rate',
+        lim5Text: 'The DeepEval results above are measured on 12 paraphrased queries, and Ragas (context precision/recall for the retrieval tier) hasn\'t been run against the current pipeline yet. One caught fabrication is a real signal that the ungrounded LLM tier needs guardrails — it isn\'t a measured failure rate.',
         limQuote: '"Banking77 is a benchmark dataset and does not fully represent noisy production traffic. Future work includes evaluation on multilingual and real customer conversations."<span class="attr">— honest limitation, not a failure</span>',
         lessonsNum: '08 · What I Learned',
         lessonsTitle: 'Four lessons <em>I\'ll carry forward.</em>',
@@ -2298,6 +2412,30 @@ confidence = proba.max()
         lesson4Title: '4. Classical NLP clarifies what modern NLP is actually solving.',
         lesson4Text: 'Implementing LSA from scratch in 2021 — manually computing SVD, projecting into the latent space, measuring cosine similarity — made it immediately obvious what SBERT was doing when I picked it up in 2025. The mechanism changed; the problem didn\'t. Understanding the classical version makes you a sharper judge of when the modern version is overkill, when it\'s necessary, and what its failure modes look like.',
         lessonsQuote: '"Real engineering isn\'t about using the biggest model. It\'s about knowing when not to — and understanding the classical baseline is how you develop that judgment."<span class="attr">— Banking Intent Router case study</span>',
+        glanceNum: 'At a glance',
+        glanceTitle: 'Problem, solution, impact — <em>in 30 seconds.</em>',
+        glance1Title: 'Problem',
+        glance1Desc: 'Banking chatbots route every query — a "lost card" request and a multi-turn edge case alike — through the same expensive LLM call, at $0.050 per query regardless of how simple the question actually is.',
+        glance2Title: 'Solution',
+        glance2Desc: 'A 4-tier router — regex pre-filter → template → RAG → LLM — that uses an SBERT + LinearSVC confidence score to send each query to the cheapest tier that can actually answer it correctly.',
+        glance3Title: 'Impact',
+        glance3Desc: 'Projected 88.8% cost reduction ($0.050 → $0.0056/query) at 0.9305 F1 and ~50ms latency on the Banking77 benchmark — with the honest caveat that this is simulated on assumed traffic, not yet validated on real production data.',
+        backlogNum: '09 · Product Backlog',
+        backlogTitle: 'Six items, scored with ICE, sorted into <em>Now / Next / Later.</em>',
+        backlogLede: 'The limitations above are gaps, not a todo list. Scoring them on Impact, Confidence and Ease (1–10 each, ICE = the average) turns "what this doesn\'t answer yet" into a sequenced plan for validating the router on real banking traffic.',
+        item1Title: 'Shadow-mode production pilot',
+        item1Story: 'As the business, I need the 88.8% savings number validated against real traffic before I put a dollar figure in front of anyone who can hold me to it.',
+        item2Title: 'Confidence calibration validation',
+        item2Story: 'As an engineer, I need to know a 0.55 confidence score actually means 55% correct before I trust the routing thresholds.',
+        item3Title: 'Expand & maintain the RAG knowledge base',
+        item3Story: 'As a support lead, I need more than 59 FAQ entries, with a review process, before this covers real customer questions.',
+        item4Title: 'Multilingual support (Indonesian-English code-switching)',
+        item4Story: 'As a customer, I need the router to understand a question that mixes Indonesian and English, not just clean English Banking77 phrasing.',
+        item5Title: 'Multi-intent & ambiguous query handling',
+        item5Story: 'As a customer, I need one message with two questions in it to get both answered, not routed as if it were one.',
+        item6Title: 'Active-learning feedback loop',
+        item6Story: 'As the model, I need low-confidence cases that get escalated to a human to come back as new training data, not disappear after the ticket closes.',
+        backlogNote: 'Confidence is lowest on the three <em>Later</em> items because each depends on data this project doesn\'t have yet — real multilingual traffic, real multi-intent examples, a working human-review loop — not because they matter less. The shadow-mode pilot (#1) is what would generate that data.',
         ctaNum: 'Try it · See the code',
         ctaTitle: 'Live demo + full source <em>on Hugging Face.</em>',
         ctaText: 'Type any banking question — the UI shows which tier handled it, the confidence score, the latency, and the actual response. Click through the Files tab for the full FastAPI + Prometheus + RAG implementation.',
@@ -2430,12 +2568,14 @@ confidence = proba.max()
         iterR1: 'Baseline 1', iterR1D: 'Baseline pertama yang interpretable',
         iterR2: 'Baseline 2', iterR2D: 'Margin SVM mengalahkan LR pada teks intent pendek',
         iterR3: 'Final', iterR3D: 'Dense embedding menutup celah sinonim — dipilih untuk serving',
-        ragMetricsTitle: 'Evaluasi RAG pipeline',
-        ragMetricsIntro: 'Tier RAG menggunakan FAISS IndexFlatIP atas 59 entri FAQ banking, masing-masing di-embed dengan encoder SBERT yang sama.',
-        ragMetricCol1: 'Metrik RAG', ragMetricCol2: 'Nilai', ragMetricCol3: 'Artinya',
-        ragR1: 'Jawaban benar muncul di 3 hasil teratas',
-        ragR2: 'Hasil teratas cocok dengan ground truth',
-        ragR3: 'Mean Reciprocal Rank — jawaban konsisten di peringkat tinggi',
+        ragMetricsTitle: 'Evaluasi: DeepEval + Ragas, judge Claude',
+        ragMetricsIntro: 'Tier RAG melakukan retrieval lewat FAISS IndexFlatIP atas 59 entri FAQ banking, di-embed dengan encoder SBERT yang sama — tapi akurasi retrieval saja tidak menjawab apakah pipeline-nya aman untuk production. Suite terpisah di <code>evaluation/</code> menjalankan kode asli <code>serving/rag.py</code> dan <code>serving/llm_client.py</code>, bukan contoh hardcoded, atas 12 query yang di-paraphrase, dinilai oleh Claude lewat DeepEval dan Ragas.',
+        ragMetricCol1: 'Pengujian', ragMetricCol2: 'Hasil', ragMetricCol3: 'Artinya',
+        ragR1: 'Retrieval FAQ benar untuk query yang di-paraphrase, bukan exact-match — gratis, tanpa LLM judge',
+        ragR2: 'Jawaban template/RAG tetap grounded ke context FAQ yang diambil',
+        ragR3: 'Jawaban eskalasi LLM tetap relevan dengan pertanyaan yang diajukan',
+        ragR4: 'Safety check untuk satu-satunya tier tanpa grounding retrieval — lihat temuan di bawah',
+        ragFinding: '"Untuk query soal kartu diblokir, tier eskalasi LLM yang tanpa grounding (Groq <code>llama-3.1-8b-instant</code>, tidak menerima retrieval context) mengarang nomor telepon <code>1-800-BANK-123</code> dengan percaya diri — nomor itu tidak ada di manapun dalam <code>banking_faq.json</code>. Custom GEval safety check menangkapnya. Nomor kontak palsu bukan cuma jawaban salah di konteks banking — itu vektor phishing."<span class="attr">— perilaku model asli, ditangkap eval suite, bukan kegagalan yang direkayasa</span>',
         savingsTitle: 'Cara hitung penghematannya',
         savingsIntro: 'Rentang 88–96% sangat sensitif terhadap distribusi traffic. Berikut contoh traffic mix banking yang representatif (10% pure conversational + 60% FAQ rutin via template + 25% knowledge query + 5% kasus yang benar-benar kompleks):',
         savingsCode: `<span class="c"># Baseline all-LLM (setiap query → GPT-4-class)</span>
@@ -2497,6 +2637,8 @@ confidence = proba.max()
         lim3Text: 'Penghematan biaya 88–96% adalah simulasi berdasarkan traffic mix yang diasumsikan. Tidak ada traffic produksi yang pernah melewati sistem ini. Penghematan aktual bergantung pada distribusi query nyata, yang mungkin berbeda signifikan dari asumsi 60%/25%/5%.',
         lim4Title: 'RAG terbatas pada 59 entri FAQ',
         lim4Text: 'Knowledge base berisi 59 entri yang dikurasi secara manual. Ini cukup sebagai prototype tetapi tidak representatif untuk corpus FAQ banking nyata, yang mungkin berisi ratusan entri, jawaban yang saling bertentangan, dan informasi yang sudah usang yang memerlukan pemeliharaan rutin.',
+        lim5Title: 'Eval suite baru 12 query — cukup untuk menangkap 1 temuan, belum cukup untuk mengukur rate-nya',
+        lim5Text: 'Hasil DeepEval di atas diukur atas 12 query yang di-paraphrase, dan Ragas (context precision/recall untuk tier retrieval) belum dijalankan atas pipeline saat ini. Satu temuan fabrikasi yang tertangkap adalah sinyal nyata bahwa tier LLM tanpa grounding butuh guardrail — bukan rate kegagalan yang terukur.',
         limQuote: '"Banking77 adalah dataset benchmark dan tidak sepenuhnya merepresentasikan traffic produksi yang noisy. Pekerjaan selanjutnya mencakup evaluasi pada percakapan multibahasa dan nasabah nyata."<span class="attr">— keterbatasan yang jujur, bukan kegagalan</span>',
         lessonsNum: '08 · Yang Saya Pelajari',
         lessonsTitle: 'Empat pelajaran <em>yang saya bawa terus.</em>',
@@ -2509,6 +2651,30 @@ confidence = proba.max()
         lesson4Title: '4. NLP klasik memperjelas apa yang sebenarnya diselesaikan NLP modern.',
         lesson4Text: 'Mengimplementasikan LSA dari awal di 2021 — menghitung SVD secara manual, memproyeksikan ke ruang laten, mengukur cosine similarity — membuat saya langsung paham apa yang dilakukan SBERT saat saya menggunakannya di 2025. Mekanismenya berubah; masalahnya tidak. Memahami versi klasiknya membuat kamu lebih tajam dalam menilai kapan versi modernnya terlalu berlebihan, kapan memang diperlukan, dan apa failure mode-nya.',
         lessonsQuote: '"Engineering yang nyata bukan soal memakai model terbesar. Tapi soal tahu kapan tidak perlu — dan memahami baseline klasik adalah cara kamu membangun penilaian itu."<span class="attr">— Banking Intent Router case study</span>',
+        glanceNum: 'Sekilas',
+        glanceTitle: 'Masalah, solusi, dampak — <em>dalam 30 detik.</em>',
+        glance1Title: 'Masalah',
+        glance1Desc: 'Chatbot perbankan mengarahkan setiap query — permintaan "kartu hilang" maupun kasus multi-turn yang rumit — lewat LLM call yang sama mahalnya, $0.050 per query, tak peduli seberapa sederhana pertanyaannya.',
+        glance2Title: 'Solusi',
+        glance2Desc: 'Router 4-tier — regex pre-filter → template → RAG → LLM — yang memakai skor confidence dari SBERT + LinearSVC untuk mengirim tiap query ke tier termurah yang bisa menjawabnya dengan benar.',
+        glance3Title: 'Dampak',
+        glance3Desc: 'Proyeksi penghematan biaya 88,8% ($0.050 → $0.0056/query) dengan F1 0,9305 dan latency ~50ms pada benchmark Banking77 — dengan catatan jujur bahwa ini simulasi berdasarkan traffic asumsi, belum divalidasi dengan data produksi nyata.',
+        backlogNum: '09 · Backlog Produk',
+        backlogTitle: 'Enam item, diskor dengan ICE, diurutkan ke <em>Now / Next / Later.</em>',
+        backlogLede: 'Keterbatasan di atas adalah gap, bukan daftar tugas. Menyekornya dengan Impact, Confidence, dan Ease (1–10, ICE = rata-rata) mengubah "apa yang belum terjawab" menjadi rencana bertahap untuk memvalidasi router ini dengan traffic perbankan nyata.',
+        item1Title: 'Pilot produksi mode shadow',
+        item1Story: 'Sebagai bisnis, saya butuh angka penghematan 88,8% itu tervalidasi dengan traffic nyata sebelum saya pertaruhkan angka rupiah di depan orang yang bisa menagihnya kembali.',
+        item2Title: 'Validasi kalibrasi confidence',
+        item2Story: 'Sebagai engineer, saya butuh tahu bahwa skor confidence 0,55 benar-benar berarti 55% tepat, sebelum saya percaya pada threshold routing-nya.',
+        item3Title: 'Perluas & pelihara knowledge base RAG',
+        item3Story: 'Sebagai support lead, saya butuh lebih dari 59 entri FAQ, dengan proses review, sebelum ini bisa mencakup pertanyaan nasabah yang sesungguhnya.',
+        item4Title: 'Dukungan multibahasa (code-switching Indonesia-Inggris)',
+        item4Story: 'Sebagai nasabah, saya butuh router ini memahami pertanyaan yang campur Indonesia-Inggris, bukan cuma frasa Banking77 berbahasa Inggris yang rapi.',
+        item5Title: 'Penanganan query multi-intent & ambigu',
+        item5Story: 'Sebagai nasabah, saya butuh satu pesan berisi dua pertanyaan tetap terjawab keduanya, bukan dirutekan seolah cuma satu pertanyaan.',
+        item6Title: 'Loop active-learning',
+        item6Story: 'Sebagai model, saya butuh kasus berconfidence rendah yang dieskalasi ke manusia kembali sebagai data training baru, bukan hilang begitu tiket ditutup.',
+        backlogNote: 'Confidence paling rendah ada di tiga item <em>Later</em> karena masing-masing bergantung pada data yang belum dimiliki proyek ini — traffic multibahasa nyata, contoh multi-intent nyata, loop human-review yang berfungsi — bukan karena kurang penting. Pilot mode shadow (#1) adalah yang akan menghasilkan data itu.',
         ctaNum: 'Coba · Lihat kodenya',
         ctaTitle: 'Live demo + source code lengkap <em>di Hugging Face.</em>',
         ctaText: 'Ketik pertanyaan banking apa saja — UI akan menunjukkan tier mana yang menangani query, confidence score, latency, dan respons finalnya. Buka tab Files untuk melihat implementasi lengkap FastAPI + Prometheus + RAG.',

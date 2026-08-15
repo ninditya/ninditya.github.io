@@ -79,7 +79,7 @@ html[data-theme="dark"] .doc-body pre{background:#000}
 <p><strong>Tanggal eksekusi:</strong> 2026-08-10
 <strong>Target:</strong> https://www.saucedemo.com/ (situs live, bukan staging/mock)
 <strong>Dieksekusi oleh:</strong> Automation suite di <code>automation/playwright/</code>, <code>automation/cypress/</code>, <code>automation/selenium/</code>
-<strong>Acuan test case:</strong> <a href="../03-Test-Case/Test_Case_SauceDemo.csv"><code>03-Test-Case/Test_Case_SauceDemo.csv</code></a></p>
+<strong>Acuan test case:</strong> <a href="03-Test_Case_SauceDemo.csv"><code>03-Test-Case/Test_Case_SauceDemo.csv</code></a></p>
 <blockquote>
 <p>Semua angka di dokumen ini adalah <strong>hasil run sungguhan</strong>, bukan simulasi/asumsi. Playwright dan
 Selenium dijalankan dari sesi development; Cypress dijalankan terpisah oleh pemilik project di
@@ -424,7 +424,7 @@ situs live pakai spec Playwright sekali-pakai (dijalankan lalu dihapus, tidak di
 </table>
 <p>Ketiga test case baru sudah diimplementasikan di Playwright (dijalankan, semua lulus — lihat §2)
 dan Cypress (ditulis + lolos type-check, belum dieksekusi — lihat §3). Detail test case ada di
-<a href="../03-Test-Case/Test_Case_SauceDemo.csv"><code>03-Test-Case/Test_Case_SauceDemo.csv</code></a> dan skenario di
+<a href="03-Test_Case_SauceDemo.csv"><code>03-Test-Case/Test_Case_SauceDemo.csv</code></a> dan skenario di
 <a href="02-Test_Scenario_SauceDemo.html"><code>02-Test-Scenario/Test_Scenario_SauceDemo.md</code></a>
 (SCN-LOGIN-05, SCN-CHECKOUT-03).</p>
 <h3 id="update-login-08-sempat-gagal-di-cypress-akar-masalah-ditemukan">Update: LOGIN-08 Sempat Gagal di Cypress — Akar Masalah Ditemukan</h3>
@@ -461,7 +461,7 @@ jadi <code>/</code> setelah <code>waitForTimeout(2000)</code>).</p>
 <p><strong>Perbaikan yang diterapkan:</strong> tambahkan <code>{ failOnStatusCode: false }</code> di
 <code>auth.cy.ts</code> supaya <code>cy.visit()</code> tidak berhenti di
 404 dan sempat menunggu redirect client-side-nya, persis seperti Playwright. Deskripsi test case
-LOGIN-08 juga diperbarui di <a href="../03-Test-Case/Test_Case_SauceDemo.csv"><code>03-Test-Case/Test_Case_SauceDemo.csv</code></a>
+LOGIN-08 juga diperbarui di <a href="03-Test_Case_SauceDemo.csv"><code>03-Test-Case/Test_Case_SauceDemo.csv</code></a>
 supaya akurat (sebelumnya cuma bilang "diarahkan ke halaman login", padahal mekanismenya lebih
 rumit dari itu). Ini murni bug di asumsi/kode test — bukan status bug SauceDemo yang berubah,
 jadi tidak ditambahkan ke <a href="05-Bug_Report_SauceDemo.html">Bug Report</a>.</p>

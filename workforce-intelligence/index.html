@@ -77,10 +77,12 @@
       <button class="site-nav-toggle" type="button" aria-label="Menu" onclick="this.closest('.site-nav').classList.toggle('nav-open')">☰</button>
       <div class="site-nav-pills">
         <a class="site-nav-pill back" href="../index.html">← Portfolio</a>
+        <a class="site-nav-pill" href="#summary">Summary</a>
         <a class="site-nav-pill" href="#brief">The scenario</a>
         <a class="site-nav-pill" href="#data">Data &amp; identity</a>
         <a class="site-nav-pill" href="#ai">AI system design</a>
         <a class="site-nav-pill" href="#product">Product &amp; UX</a>
+        <a class="site-nav-pill" href="#backlog">Backlog</a>
         <a class="site-nav-pill" href="#roadmap">Roadmap</a>
         <a class="site-nav-pill" href="prototype.html" target="_blank" rel="noopener">Open prototype ↗</a>
       </div>
@@ -106,6 +108,23 @@
     <div class="hero-actions">
       <a class="btn btn-primary" href="prototype.html" target="_blank" rel="noopener">Open the working prototype →</a>
       <a class="btn btn-secondary" href="#deliverables">Browse the synthetic data →</a>
+    </div>
+  </section>
+
+  <section id="summary" class="wrap section" style="padding-top:0;border-top:none">
+    <div class="grid-3">
+      <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-title">Problem</div>
+        <p class="card-body">A CHRO needs AI-driven workforce decisions out of five HR systems that don't share an employee ID or agree on job titles — and thirty days in, Legal pulled the one system that could have arbitrated identity, Oracle Payroll, out of scope entirely.</p>
+      </div>
+      <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-title">Solution</div>
+        <p class="card-body">A four-tier identity-resolution cascade against HRIS as system-of-record, a confidence-scored skill taxonomy that says "I don't know" instead of guessing, and a five-screen decision surface with a naive-vs-resolved toggle so the difference is clickable, not asserted.</p>
+      </div>
+      <div class="card blueprint"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="card-title">Impact</div>
+        <p class="card-body">820 raw records resolve to 232 records against a 200-person ground truth (16% over-split); branch-level score spread drops 85% (0.461 → 0.067) on identical underlying skill. Only 10 of the naive top-30 "send to reskilling" list survive contact with resolved identity.</p>
+      </div>
     </div>
   </section>
 
@@ -281,6 +300,65 @@
     </div>
     <h4 style="margin-top:var(--space-6)">Communicating uncertainty without wrecking trust</h4>
     <p>Uncertainty is a first-class value everywhere a number appears — a badge on every row, a confidence column on every skill, "cannot be determined" instead of a plausible-looking placeholder. The one choice that matters most: <strong>Needs Data</strong> is a peer navigation item, sized and positioned exactly like every other queue, not a footnote. That tells the HR manager the system is willing to say "I don't know" as confidently as it says "act here" — which is what makes the times it does give a number worth trusting.</p>
+  </section>
+
+  <section id="backlog" class="wrap section">
+    <h6 class="eyebrow">Product backlog</h6>
+    <h2>Nine items, scored with ICE, sorted into Now / Next / Later</h2>
+    <p>The five-screen prototype and the roadmap below are the output of a backlog, not a checklist assembled after the fact. Each item is scored on Impact, Confidence and Ease (1–10 each, ICE = the average) so the Day-30/60/90 sequencing has a stated reason rather than an implied one — and so the "explicitly not solved" list from the framing section has a documented reason for sitting in <em>Later</em> instead of quietly dropping out of scope.</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Backlog item</th><th>Impact</th><th>Confidence</th><th>Ease</th><th>ICE</th><th>Priority</th><th>Milestone</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Identity-resolution cascade</strong><br><span style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">As HR, I need one person per record so a gap score means anything.</span></td>
+            <td>10</td><td>9</td><td>6</td><td><strong>8.3</strong></td>
+            <td><span class="tag tag-accent">Now</span></td><td>Day 30</td>
+          </tr>
+          <tr>
+            <td><strong>Data Mirror — branch fill-rate leaderboard</strong><br><span style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">As a CHRO, I need to see data quality before I trust any score built on it.</span></td>
+            <td>7</td><td>9</td><td>9</td><td><strong>8.3</strong></td>
+            <td><span class="tag tag-accent">Now</span></td><td>Day 30</td>
+          </tr>
+          <tr>
+            <td><strong>Confidence-scored skill taxonomy</strong><br><span style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">As HR, I need to see why a gap is claimed, not just that it is.</span></td>
+            <td>9</td><td>8</td><td>7</td><td><strong>8.0</strong></td>
+            <td><span class="tag tag-accent">Now</span></td><td>Day 60</td>
+          </tr>
+          <tr>
+            <td><strong>Review queue, 5 trigger reasons</strong><br><span style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">As data-ops, I need to work the highest-impact uncertain records first.</span></td>
+            <td>7</td><td>8</td><td>8</td><td><strong>7.7</strong></td>
+            <td><span class="tag tag-accent">Now</span></td><td>Day 60</td>
+          </tr>
+          <tr>
+            <td><strong>Decision Queue + naive/resolved toggle</strong><br><span style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">As a CHRO, I need to see both answers side by side, not take the better one on faith.</span></td>
+            <td>8</td><td>7</td><td>7</td><td><strong>7.3</strong></td>
+            <td><span class="tag tag-neutral">Next</span></td><td>Day 90</td>
+          </tr>
+          <tr>
+            <td><strong>Config-driven taxonomy service</strong><br><span style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">As the platform, I need this client's taxonomy to be data, not code, before client two.</span></td>
+            <td>6</td><td>6</td><td>4</td><td><strong>5.3</strong></td>
+            <td><span class="tag tag-outline">Later</span></td><td>Phase 2</td>
+          </tr>
+          <tr>
+            <td><strong>Internal mobility / workforce planning</strong><br><span style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">As HR leadership, I need to see where people could move, not just where they're short.</span></td>
+            <td>8</td><td>5</td><td>3</td><td><strong>5.3</strong></td>
+            <td><span class="tag tag-outline">Later</span></td><td>Phase 2</td>
+          </tr>
+          <tr>
+            <td><strong>Attrition / productivity-risk prediction</strong><br><span style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">As a CHRO, I need to know who's at risk of leaving before they do.</span></td>
+            <td>9</td><td>3</td><td>2</td><td><strong>4.7</strong></td>
+            <td><span class="tag tag-outline">Later</span></td><td>Phase 2</td>
+          </tr>
+          <tr>
+            <td><strong>Role-obsolescence forecasting</strong><br><span style="font-size:12.5px;color:color-mix(in srgb, var(--color-text) 60%, transparent)">As HR leadership, I need a 2-year view of which roles are shrinking.</span></td>
+            <td>7</td><td>3</td><td>2</td><td><strong>4.0</strong></td>
+            <td><span class="tag tag-outline">Later</span></td><td>Phase 2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:14px">Confidence is deliberately low on the three <em>Later</em> items that touch prediction — not because they're unimportant, but because the label-contamination and longitudinal-data problems named in the framing section above haven't been solved yet. Scoring them honestly low, instead of nudging Impact up to justify building them anyway, is the same discipline the confidence-scored skill engine applies to individual records.</p>
   </section>
 
   <section id="roadmap" class="wrap section">

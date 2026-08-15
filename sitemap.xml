@@ -36,6 +36,11 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://ninditya.github.io/credit-risk/</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://ninditya.github.io/employee-attrition/</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
@@ -52,6 +57,31 @@
   </url>
   <url>
     <loc>https://ninditya.github.io/nutripal-ai/</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://ninditya.github.io/office-lunch-catering/</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://ninditya.github.io/indobert-financial-sentiment/</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://ninditya.github.io/llm-eval-qa/</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://ninditya.github.io/sigmapay-qa/</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://ninditya.github.io/saucedemo-qa/</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>

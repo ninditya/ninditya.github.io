@@ -81,11 +81,11 @@ contoh konkret dari test case &amp; bug nyata di project ini — supaya tidak se
 <h2 id="1-berdasarkan-tujuan">1. Berdasarkan Tujuan</h2>
 <h3 id="functional-testing">Functional Testing</h3>
 <p>Menguji <strong>apakah fitur bekerja sesuai requirement</strong> — fokus ke "what", bukan "how".
-- Positive case: login berhasil dengan kredensial benar (<a href="../03-Test-Case/Test_Case_SauceDemo.csv">LOGIN-01</a>),
-  checkout satu/banyak item berhasil sampai konfirmasi (<a href="../03-Test-Case/Test_Case_SauceDemo.csv">CHK-01, CHK-02</a>).
-- Negative case: username/password kosong (<a href="../03-Test-Case/Test_Case_SauceDemo.csv">LOGIN-04, LOGIN-05</a>), field
-  checkout wajib kosong (<a href="../03-Test-Case/Test_Case_SauceDemo.csv">CHK-03</a>), akun terkunci ditolak
-  (<a href="../03-Test-Case/Test_Case_SauceDemo.csv">LOGIN-06</a>).</p>
+- Positive case: login berhasil dengan kredensial benar (<a href="03-Test_Case_SauceDemo.csv">LOGIN-01</a>),
+  checkout satu/banyak item berhasil sampai konfirmasi (<a href="03-Test_Case_SauceDemo.csv">CHK-01, CHK-02</a>).
+- Negative case: username/password kosong (<a href="03-Test_Case_SauceDemo.csv">LOGIN-04, LOGIN-05</a>), field
+  checkout wajib kosong (<a href="03-Test_Case_SauceDemo.csv">CHK-03</a>), akun terkunci ditolak
+  (<a href="03-Test_Case_SauceDemo.csv">LOGIN-06</a>).</p>
 <h3 id="non-functional-testing">Non-Functional Testing</h3>
 <p>Menguji <strong>kualitas sistem</strong>, bukan fitur itu sendiri:</p>
 <table>
@@ -105,7 +105,7 @@ contoh konkret dari test case &amp; bug nyata di project ini — supaya tidak se
 <tr>
 <td><strong>Security</strong></td>
 <td>Cek celah dasar akses</td>
-<td>Sebagian besar <strong>tidak berlaku</strong> — tidak ada API/backend untuk diserang (lihat Out of Scope di <a href="01-Test_Plan_SauceDemo.html">Test_Plan_SauceDemo.md</a>). Yang paling dekat: <a href="../03-Test-Case/Test_Case_SauceDemo.csv">LOGIN-06</a> memverifikasi akun terkunci benar-benar tidak bisa login meski kredensialnya valid — access control dasar, bukan security testing formal</td>
+<td>Sebagian besar <strong>tidak berlaku</strong> — tidak ada API/backend untuk diserang (lihat Out of Scope di <a href="01-Test_Plan_SauceDemo.html">Test_Plan_SauceDemo.md</a>). Yang paling dekat: <a href="03-Test_Case_SauceDemo.csv">LOGIN-06</a> memverifikasi akun terkunci benar-benar tidak bisa login meski kredensialnya valid — access control dasar, bukan security testing formal</td>
 </tr>
 <tr>
 <td><strong>Usability</strong></td>
@@ -168,7 +168,7 @@ target uji pihak ketiga tanpa akses ke unit/integration layer-nya.</p>
 <tr>
 <td><strong>Smoke Testing</strong></td>
 <td>Cek cepat: build/situs layak diuji lanjut atau tidak</td>
-<td>Secara konsep, <a href="../03-Test-Case/Test_Case_SauceDemo.csv">LOGIN-01</a> (login standar berhasil) berfungsi sebagai smoke check dasar. Belum ada subset yang ditandai eksplisit sebagai "smoke suite" terpisah (mis. lewat tag) — pengembangan lanjutan yang gampang ditambahkan</td>
+<td>Secara konsep, <a href="03-Test_Case_SauceDemo.csv">LOGIN-01</a> (login standar berhasil) berfungsi sebagai smoke check dasar. Belum ada subset yang ditandai eksplisit sebagai "smoke suite" terpisah (mis. lewat tag) — pengembangan lanjutan yang gampang ditambahkan</td>
 </tr>
 <tr>
 <td><strong>Sanity Testing</strong></td>

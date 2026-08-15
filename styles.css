@@ -186,7 +186,7 @@ nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .featured-visual{display:block;height:210px;border-radius:9px;overflow:hidden;border:1px solid var(--border);margin-bottom:1rem;background:var(--surface2)}
 .featured-visual img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.35s ease}
 .featured-card:hover .featured-visual img{transform:scale(1.035)}
-.visual-rag img,.visual-banking img{object-fit:contain;background:#fff;padding:0.6rem}
+.visual-rag img,.visual-banking img,.visual-credit img{object-fit:contain;background:#fff;padding:0.6rem}
 .featured-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
 .featured-label{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--primary)}
 .featured-live{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--success);background:var(--success-light);border:1px solid rgba(45,106,79,0.18);border-radius:999px;padding:0.22rem 0.55rem}
@@ -291,7 +291,7 @@ html[data-theme="dark"] .roadmap-card{background:var(--surface)}
 html[data-theme="dark"] .edu-block{background:var(--surface)}
 html[data-theme="dark"] .skills-block{background:var(--surface)}
 html[data-theme="dark"] .featured-card{background:var(--surface)}
-html[data-theme="dark"] .visual-rag img,html[data-theme="dark"] .visual-banking img{background:#f8fafc}
+html[data-theme="dark"] .visual-rag img,html[data-theme="dark"] .visual-banking img,html[data-theme="dark"] .visual-credit img{background:#f8fafc}
 
 /* ── Theme toggle button ── */
 .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}

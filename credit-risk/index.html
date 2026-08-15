@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credit Risk Modeling — Ninditya Salma Nur Aini</title>
+  <meta name="description" content="Leak-free GOOD/BAD credit model on 466,285 LendingClub loans. Logistic Regression baseline, XGBoost selected (ROC-AUC 0.694), stress-tested with a leakage proof, calibration check, out-of-time validation, and subgroup analysis. ID/X Partners x Rakamin Academy.">
+  <link rel="canonical" href="https://ninditya.github.io/credit-risk/">
+  <meta property="og:title" content="Credit Risk Modeling — Ninditya Salma Nur Aini">
+  <meta property="og:url" content="https://ninditya.github.io/credit-risk/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#ffffff; --bg-alt:#f5f5f5; --bg-dark:#2d2d2d;
+      --ink:#4d4d4d; --ink-soft:#6b6b6b; --muted:#a0a0a0;
+      --line:#d3d3d3; --line-strong:#a0a0a0;
+      --primary:#1a5276; --accent:#c4490c; --accent-soft:#eaf2fb;
+      --green:#2d6a4f; --red:#c4490c;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--ink); font-family:'DM Sans',sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased; }
+    .skip-link { position:absolute; top:-40px; left:0; background:var(--ink); color:#fff; padding:8px 16px; z-index:1000; transition:top 0.2s; font-family:'DM Mono',monospace; font-size:0.8rem; text-decoration:none; }
+    .skip-link:focus { top:0; }
+    *:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
+    nav { position:sticky; top:0; background:rgba(255,255,255,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); z-index:100; }
+    .nav-inner { max-width:1080px; margin:0 auto; padding:16px 32px; display:flex; justify-content:flex-start; align-items:center; flex-wrap:wrap; gap:16px; }
+    .nav-tools { display:flex; align-items:center; gap:10px; width:100%; }
+    .mobile-nav-toggle { display:none; background:transparent; border:none; color:var(--ink); font-size:1.5rem; cursor:pointer; padding:0 5px; line-height:1; }
+    .nav-pills { display:flex; gap:6px; flex-wrap:wrap; }
+    .nav-pill { font-size:13px; color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:100px; transition:all 0.2s ease; }
+    .nav-pill:hover { background:var(--bg-alt); color:var(--ink); }
+    .nav-pill.back { color:var(--primary); border:1px solid var(--line); }
+    .nav-pill.back:hover { background:var(--primary); color:white; border-color:var(--primary); }
+    .lang-switch { display:inline-flex; padding:3px; border:1px solid var(--line); border-radius:999px; background:var(--bg); margin-left:auto; }
+    .lang-btn { border:none; background:transparent; color:var(--muted); padding:6px 10px; border-radius:999px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; transition:all 0.15s; }
+    .lang-btn.active { background:var(--ink); color:white; }
+    .theme-toggle { width:44px; height:44px; border-radius:50%; border:1px solid var(--line); background:var(--bg-alt); color:var(--ink); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:all 0.15s; flex-shrink:0; line-height:1; }
+    .wrap { max-width:1080px; margin:0 auto; padding:0 32px; }
+    section.content { padding:80px 0; border-bottom:1px solid var(--line); }
+    section.content.alt { background:var(--bg-alt); }
+    .section-num { font-family:'DM Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px; font-weight:500; }
+    h2 { font-family:'Instrument Serif',serif; font-size:clamp(32px,4.5vw,48px); font-weight:400; letter-spacing:-0.01em; line-height:1.1; margin-bottom:36px; max-width:800px; color:var(--ink); }
+    h2 em { font-style:italic; color:var(--primary); }
+    h3 { font-family:'Instrument Serif',serif; font-size:24px; font-weight:400; margin:36px 0 14px; letter-spacing:-0.01em; color:var(--ink); }
+    h3 em { font-style:italic; color:var(--primary); }
+    .lede { font-family:'Instrument Serif',serif; font-size:22px; line-height:1.5; color:var(--ink-soft); max-width:760px; margin-bottom:22px; font-weight:400; }
+    p { margin-bottom:16px; max-width:760px; color:var(--ink-soft); font-size:16px; }
+    p code, li code { background:var(--bg-alt); border:1px solid var(--line); padding:1px 6px; border-radius:3px; font-family:'DM Mono',monospace; font-size:13px; color:var(--ink); }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:48px; margin:40px 0; }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin:20px 0; }
+    .tag { font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; padding:5px 11px; border:1px solid var(--line-strong); background:white; border-radius:3px; color:var(--ink-soft); }
+    .pullquote { border-left:3px solid var(--accent); padding:16px 0 16px 28px; margin:32px 0; font-family:'Instrument Serif',serif; font-size:22px; font-style:italic; line-height:1.45; max-width:760px; color:var(--ink); }
+    ul.checklist { list-style:none; padding:0; margin:24px 0; max-width:800px; }
+    ul.checklist li { padding:12px 0 12px 32px; position:relative; border-bottom:1px solid var(--line); font-size:15px; line-height:1.5; color:var(--ink-soft); }
+    ul.checklist li:last-child { border-bottom:none; }
+    ul.checklist li::before { content:'✓'; position:absolute; left:0; top:12px; color:var(--green); font-weight:700; font-size:15px; }
+    ul.checklist li strong { color:var(--ink); }
+    .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.in { opacity:1; transform:translateY(0); }
+
+    /* ── Hero ── */
+    .hero { padding:80px 0 60px; border-bottom:1px solid var(--line); }
+    .hero-kicker { display:flex; align-items:center; gap:12px; margin-bottom:36px; flex-wrap:wrap; }
+    .kicker-tag { background:var(--ink); color:var(--accent); padding:5px 12px; border-radius:4px; font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; }
+    .kicker-text { font-family:'DM Mono',monospace; font-size:12px; color:var(--primary); letter-spacing:0.05em; text-transform:uppercase; }
+    h1.title { font-family:'Instrument Serif',serif; font-size:clamp(44px,6.5vw,80px); line-height:1; letter-spacing:-0.02em; color:var(--ink); margin-bottom:32px; font-weight:400; }
+    h1.title em { font-style:italic; color:var(--primary); }
+    .hero-lede { font-family:'Instrument Serif',serif; font-size:clamp(20px,2.2vw,26px); line-height:1.45; max-width:760px; color:var(--ink-soft); font-weight:400; }
+    .hero-lede strong { background:linear-gradient(180deg,transparent 60%,var(--accent-soft) 60%); font-weight:500; color:var(--ink); }
+    .hero-meta { display:flex; flex-wrap:wrap; gap:28px; margin-top:44px; font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.02em; color:var(--muted); }
+    .hero-meta span strong { color:var(--ink); font-weight:500; margin-right:6px; text-transform:uppercase; letter-spacing:0.08em; font-size:10px; }
+
+    /* ── Stats ── */
+    .stats-strip { background:var(--bg-dark); color:var(--bg); padding:60px 0; }
+    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
+    .stat { text-align:left; padding:0 28px; border-left:1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left:none; padding-left:0; }
+    .stat .num { font-family:'Instrument Serif',serif; font-size:clamp(36px,5vw,54px); font-weight:400; line-height:1; color:var(--accent); letter-spacing:-0.02em; }
+    .stat .num small { font-size:0.5em; color:var(--bg); opacity:0.7; }
+    .stat .label { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; margin-top:16px; opacity:0.75; line-height:1.4; }
+
+    /* ── Problem infographic ── */
+    .problem-flow { display:flex; flex-direction:column; align-items:flex-start; max-width:300px; }
+    .pf-box { border:1px solid var(--line); border-radius:8px; padding:16px 22px; background:var(--bg); width:100%; }
+    .pf-box.danger { border-color:var(--accent); background:rgba(196,73,12,0.04); }
+    .pf-box.action { border-color:var(--primary); background:var(--accent-soft); }
+    .pf-num { font-family:'Instrument Serif',serif; font-size:32px; color:var(--accent); line-height:1; margin-bottom:2px; }
+    .pf-label { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+    .pf-arrow { padding:8px 0 8px 22px; font-family:'DM Mono',monospace; color:var(--muted); font-size:14px; }
+    .pf-action-label { font-family:'DM Mono',monospace; font-size:10px; color:var(--primary); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px; }
+    .pf-action-title { font-size:15px; font-weight:600; color:var(--ink); }
+
+    /* ── Architecture pipeline ── */
+    .arch-pipe { display:flex; flex-direction:column; align-items:center; max-width:380px; margin:40px 0; }
+    .ap-group { border:1px solid var(--line); border-radius:8px; overflow:hidden; width:100%; }
+    .ap-group-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); padding:8px 14px; background:var(--bg-alt); border-bottom:1px solid var(--line); }
+    .ap-step { display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--line); background:var(--bg); }
+    .ap-step:last-child { border-bottom:none; }
+    .ap-step-icon { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
+    .ap-step-name { font-size:13px; font-weight:500; color:var(--ink); }
+    .ap-step-sub { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+    .ap-arrow { padding:6px 0; font-family:'DM Mono',monospace; color:var(--muted); font-size:14px; align-self:center; }
+    .ap-group.output { border-color:var(--green); }
+    .ap-group.output .ap-group-label { background:rgba(45,106,79,0.06); color:var(--green); border-bottom-color:var(--green); }
+    .ap-group.output .ap-step { background:rgba(45,106,79,0.03); }
+
+    /* ── Model comparison cards ── */
+    .model-compare { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:40px 0; }
+    .model-card { border:1px solid var(--line); border-radius:10px; padding:28px 24px; background:var(--bg); }
+    .model-card.winner { border-color:var(--primary); background:var(--accent-soft); }
+    .model-card-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px; font-weight:500; }
+    .model-card .model-card-label { color:var(--muted); }
+    .model-card.winner .model-card-label { color:var(--primary); }
+    .model-card h3 { margin:0 0 20px; font-size:22px; }
+    .model-metrics { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:20px; }
+    .model-metric { text-align:center; }
+    .model-metric-val { font-family:'Instrument Serif',serif; font-size:28px; line-height:1; color:var(--ink); }
+    .model-card.winner .model-metric-val { color:var(--primary); }
+    .model-metric-lbl { font-family:'DM Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-top:4px; }
+    .model-verdict { font-family:'DM Mono',monospace; font-size:12px; padding:8px 12px; border-radius:4px; }
+    .model-card:not(.winner) .model-verdict { background:rgba(196,73,12,0.06); color:var(--accent); }
+    .model-card.winner .model-verdict { background:rgba(45,106,79,0.1); color:var(--green); }
+    .fn-box { border:1px solid var(--line); border-radius:8px; padding:24px; background:var(--bg-alt); margin:32px 0; max-width:760px; }
+    .fn-box-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); margin-bottom:12px; font-weight:500; }
+    .fn-flow { display:flex; gap:0; flex-wrap:wrap; }
+    .fn-step { text-align:center; padding:0 16px; flex:1; min-width:100px; }
+    .fn-step-box { font-family:'DM Mono',monospace; font-size:11px; padding:8px 10px; border-radius:4px; background:var(--bg); border:1px solid var(--line); color:var(--ink); }
+    .fn-step-box.bad { background:rgba(196,73,12,0.08); border-color:var(--accent); color:var(--accent); }
+    .fn-arrow-h { display:flex; align-items:center; padding:0 4px; font-family:'DM Mono',monospace; color:var(--muted); font-size:14px; align-self:center; }
+
+    /* ── Risk / stress-test ranking ── */
+    .risk-ranking { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:40px 0; }
+    .risk-card { border:1px solid var(--line); border-radius:8px; padding:20px 18px; background:var(--bg); }
+    .risk-rank { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
+    .risk-factor { font-size:15px; font-weight:600; color:var(--ink); margin-bottom:10px; }
+    .risk-rate { font-family:'Instrument Serif',serif; font-size:32px; color:var(--accent); line-height:1; }
+    .risk-rate-lbl { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-top:3px; }
+    .risk-multi { display:inline-block; font-family:'DM Mono',monospace; font-size:11px; font-weight:500; padding:3px 8px; background:rgba(196,73,12,0.08); color:var(--accent); border-radius:3px; margin-top:8px; }
+    .risk-desc { font-size:12.5px; color:var(--ink-soft); margin-top:10px; line-height:1.5; }
+    .feat-bars { margin:40px 0; max-width:640px; }
+    .feat-bar-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+    .feat-bar-lbl { font-family:'DM Mono',monospace; font-size:12px; color:var(--ink-soft); min-width:140px; text-align:right; }
+    .feat-bar-track { flex:1; height:20px; background:rgba(0,0,0,0.05); border-radius:3px; overflow:hidden; }
+    .feat-bar-fill { height:100%; background:var(--primary); border-radius:3px; }
+    .feat-bar-val { font-family:'DM Mono',monospace; font-size:11px; color:var(--ink-soft); min-width:36px; }
+
+    /* ── Business impact compare ── */
+    .impact-compare { display:grid; grid-template-columns:1fr 1fr; gap:2px; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:40px 0; }
+    .ic-col { padding:28px 24px; }
+    .ic-col.bad { background:rgba(196,73,12,0.03); border-right:2px solid var(--line); }
+    .ic-col.good { background:rgba(45,106,79,0.03); }
+    .ic-header { font-family:'DM Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; font-weight:500; margin-bottom:20px; padding:5px 10px; border-radius:3px; display:inline-block; }
+    .ic-col.bad .ic-header { background:rgba(196,73,12,0.1); color:var(--accent); }
+    .ic-col.good .ic-header { background:rgba(45,106,79,0.1); color:var(--green); }
+    .ic-stat-row { display:flex; justify-content:space-between; align-items:baseline; padding:10px 0; border-bottom:1px solid var(--line); }
+    .ic-stat-row:last-of-type { border-bottom:none; }
+    .ic-stat-lbl { font-family:'DM Mono',monospace; font-size:12px; color:var(--ink-soft); }
+    .ic-stat-val { font-family:'Instrument Serif',serif; font-size:22px; color:var(--ink); }
+    .ic-col.bad .ic-stat-val { color:var(--accent); }
+    .ic-col.good .ic-stat-val { color:var(--green); }
+    .impact-metric { margin-top:28px; padding-top:20px; border-top:1px solid var(--line); font-family:'Instrument Serif',serif; font-size:40px; color:var(--primary); line-height:1; }
+    .impact-metric-sub { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-top:6px; }
+
+    /* ── Dashboard / image grid ── */
+    .dash-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:36px 0; }
+    .dash-item { border-radius:8px; overflow:hidden; border:1px solid var(--line); background:var(--bg); }
+    .dash-item.full { grid-column:1/-1; }
+    .dash-item img { width:100%; display:block; background:#fff; }
+    .dash-caption { padding:10px 14px; background:var(--bg); border-top:1px solid var(--line); font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.03em; }
+    .dash-tab-num { font-weight:500; color:var(--primary); margin-right:6px; }
+
+    /* ── Data table ── */
+    .data-table-wrap { overflow-x:auto; margin:28px 0; border:1px solid var(--line); border-radius:8px; }
+    table.data-table { width:100%; border-collapse:collapse; font-size:13px; min-width:520px; }
+    .data-table th, .data-table td { padding:9px 14px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap; }
+    .data-table th { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); font-weight:500; background:var(--bg-alt); }
+    .data-table td { color:var(--ink-soft); }
+    .data-table tr:last-child td { border-bottom:none; }
+    .data-table tr.highlight td { color:var(--accent); font-weight:600; background:rgba(196,73,12,0.05); }
+
+    /* ── Tech stack ── */
+    .stack-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:40px 0; }
+    .stack-col { padding:24px 20px; border-right:1px solid var(--line); }
+    .stack-col:last-child { border-right:none; }
+    .stack-col-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--line); font-weight:500; }
+    .stack-item { font-size:13px; font-weight:500; color:var(--ink); padding:6px 0; border-bottom:1px solid var(--line); }
+    .stack-item:last-child { border-bottom:none; }
+    .stack-item sub { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); display:block; font-weight:400; }
+
+    /* ── Journey / limitations ── */
+    .journey-section { background:var(--bg-dark); color:var(--bg); padding:80px 0; }
+    .journey-section .section-num { color:var(--accent); }
+    .journey-section h2 { color:var(--bg); max-width:800px; }
+    .journey-section h2 em { color:var(--accent); }
+    .journey-section p { color:rgba(255,255,255,0.7); max-width:720px; }
+    .journey-section h3 { color:rgba(255,255,255,0.9); margin-top:40px; margin-bottom:12px; }
+    .lesson-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:24px 0; max-width:800px; }
+    .lesson-cell { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:20px; }
+    .lesson-cell-label { font-family:'DM Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:8px; }
+    .lesson-cell p { font-size:14px; color:rgba(255,255,255,0.65); margin:0; max-width:none; }
+    .lesson-cell p strong { color:rgba(255,255,255,0.9); }
+
+    /* ── CTA ── */
+    .cta-section { background:var(--bg-alt); padding:80px 0; }
+    .cta-section .section-num { color:var(--primary); }
+    .cta-buttons { display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
+    .btn { display:inline-block; padding:14px 26px; background:var(--accent); color:var(--ink); text-decoration:none; font-family:'DM Mono',monospace; font-size:13px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; border:2px solid var(--accent); border-radius:4px; transition:all 0.2s ease; }
+    .btn:hover { background:transparent; color:var(--accent); }
+    .btn.ghost { background:transparent; color:var(--ink); border-color:var(--line-strong); }
+    .btn.ghost:hover { background:var(--ink); color:white; border-color:var(--ink); }
+    footer { background:var(--bg-dark); color:rgba(255,255,255,0.7); padding:28px 0; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.04em; border-top:1px solid rgba(255,255,255,0.1); }
+    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    footer a { color:var(--accent); text-decoration:none; }
+
+    /* ── Dark mode ── */
+    html[data-theme="dark"] { --bg:#1c1c1e; --bg-alt:#2c2c2e; --bg-dark:#000000; --ink:#ffffff; --ink-soft:rgba(235,235,245,0.6); --muted:rgba(235,235,245,0.3); --line:rgba(84,84,88,0.65); --line-strong:rgba(84,84,88,0.9); --primary:#5bb8e8; --accent:#ff7043; --accent-soft:rgba(91,184,232,0.12); --green:#30d158; }
+    html[data-theme="dark"] nav { background:rgba(28,28,30,0.92); }
+    html[data-theme="dark"] .stats-strip { background:#000000; }
+    html[data-theme="dark"] .lang-btn.active { background:#e5e5ea; color:#1c1c1e; }
+    html[data-theme="dark"] .model-card, html[data-theme="dark"] .risk-card, html[data-theme="dark"] .pf-box, html[data-theme="dark"] .fn-box, html[data-theme="dark"] .tag { background:var(--bg-alt); }
+    html[data-theme="dark"] .ic-col.bad, html[data-theme="dark"] .ic-col.good { background:var(--bg-alt) !important; }
+    html[data-theme="dark"] .stack-grid { background:var(--bg-alt); }
+    html[data-theme="dark"] .ap-step, html[data-theme="dark"] .dash-item, html[data-theme="dark"] .data-table-wrap { background:var(--bg-alt); }
+    html[data-theme="dark"] .data-table th { background:rgba(255,255,255,0.04); }
+    html[data-theme="dark"] .dash-item img { background:#fff; }
+
+    /* ── Responsive ── */
+    @media (max-width:800px) {
+      .two-col, .model-compare, .impact-compare { grid-template-columns:1fr; }
+      .risk-ranking { grid-template-columns:1fr 1fr; }
+      .stack-grid { grid-template-columns:repeat(2,1fr); }
+      .stack-col:nth-child(2n) { border-right:none; }
+      .dash-grid { grid-template-columns:1fr; }
+      .dash-item.full { grid-column:auto; }
+    }
+    @media (max-width:600px) {
+      .stats-grid { grid-template-columns:repeat(2,1fr); gap:32px 0; }
+      .stat:nth-child(3) { border-left:none; }
+      .risk-ranking { grid-template-columns:1fr; }
+      .wrap { padding:0 20px; }
+      .nav-inner { padding:14px 20px; }
+      .hero { padding:56px 0 40px; }
+      .mobile-nav-toggle { display:block; }
+      .nav-pills { display:none; position:absolute; top:56px; left:0; width:100%; background:rgba(255,255,255,0.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); flex-direction:column; padding:1rem 1.5rem; gap:0.4rem; }
+      nav.nav-open .nav-pills { display:flex; }
+      .lesson-grid { grid-template-columns:1fr; }
+      .stack-grid { grid-template-columns:1fr; }
+      .ic-col.bad { border-right:none; border-bottom:2px solid var(--line); }
+    }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } html { scroll-behavior:auto; } }
+  </style>
+  <script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+</head>
+<body>
+  <a href="#problem" class="skip-link">Skip to main content</a>
+
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a href="/" class="nav-pill back" data-i18n="navBack">← Back to portfolio</a>
+          <a href="/#projects" class="nav-pill" data-i18n="navProjects">Projects</a>
+          <a href="/#contact" class="nav-pill" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-kicker">
+        <span class="kicker-tag" data-i18n="kickerTag">Applied Data Science</span>
+        <span class="kicker-text" data-i18n="kickerText">ID/X Partners × Rakamin · Credit Risk · XGBoost · Leak-Free Pipeline</span>
+      </div>
+      <h1 class="title" data-i18n="heroTitle">My model hit 95% accuracy.<br><em>That was the bug.</em></h1>
+      <p class="hero-lede" data-i18n="heroLede">
+        A leak-free GOOD/BAD credit model on <strong>466,285 LendingClub loans</strong> (2007–2014). Logistic Regression baseline, XGBoost selected — then four separate attempts to prove the result wasn't a fluke: a leakage proof, a calibration check, an out-of-time validation, and a subgroup check.
+      </p>
+      <div class="hero-meta">
+        <span data-i18n="heroMetaModel"><strong>Model</strong> XGBoost · ROC-AUC 0.694 test / 0.705 out-of-time</span>
+        <span data-i18n="heroMetaData"><strong>Dataset</strong> 466,285 loans · 373K train / 93K test · LendingClub 2007–2014</span>
+        <span data-i18n="heroMetaRigor"><strong>Rigor</strong> Leakage proof · calibration · OOT · PSI · subgroup check</span>
+        <span data-i18n="heroMetaLevel"><strong>Program</strong> ID/X Partners × Rakamin, Data Scientist Internship 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="num">0.694</div>
+          <div class="label" data-i18n="stat1">ROC-AUC, test set<br>leak-free, out-of-sample</div>
+        </div>
+        <div class="stat">
+          <div class="num">47.0<small>%</small></div>
+          <div class="label" data-i18n="stat2">Recall, BAD class<br>XGBoost, tuned threshold</div>
+        </div>
+        <div class="stat">
+          <div class="num">11.2<small>%</small></div>
+          <div class="label" data-i18n="stat3">Bad-loan rate<br>class imbalance, no oversampling</div>
+        </div>
+        <div class="stat">
+          <div class="num">0.955</div>
+          <div class="label" data-i18n="stat4">AUC if leakage re-added<br>proof, not assumption</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 01: BUSINESS PROBLEM -->
+  <section class="content" id="problem">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s1Num">01 · Business Problem</div>
+      <h2 data-i18n="s1Title">Approve a bad loan, lose the principal. <em>Reject a good one, lose the customer.</em></h2>
+
+      <div class="two-col" style="align-items:start;">
+        <div class="problem-flow" role="img" aria-label="Credit risk portfolio funnel">
+          <div class="pf-box">
+            <div class="pf-num">466,285</div>
+            <div class="pf-label" data-i18n="portfolioLabel">Loans, 2007–2014</div>
+          </div>
+          <div class="pf-arrow">↓</div>
+          <div class="pf-box danger">
+            <div class="pf-num">11.2<small style="font-size:0.5em;">%</small></div>
+            <div class="pf-label" data-i18n="badRateLabel">Bad-loan rate</div>
+          </div>
+          <div class="pf-arrow">↓</div>
+          <div class="pf-box danger">
+            <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--ink-soft);line-height:1.8;" data-i18n="mistakesList">
+              Approve BAD → principal loss<br>Reject GOOD → lost interest + customer
+            </div>
+          </div>
+          <div class="pf-arrow">↓</div>
+          <div class="pf-box action">
+            <div class="pf-action-label" data-i18n="solutionLabel">Solution Needed</div>
+            <div class="pf-action-title" data-i18n="solutionTitle">GOOD/BAD Classifier at Origination</div>
+          </div>
+        </div>
+        <div>
+          <p class="lede" data-i18n="s1Lede">No ready-made label, a leakage-prone dataset, and an 11.2% minority class — the modelling decisions matter as much as the model itself.</p>
+          <p data-i18n="s1P1">Credit risk cuts both ways: approving a loan that defaults loses the principal; rejecting a borrower who would have repaid loses interest income and a customer. Getting the trade-off wrong is expensive in both directions — and the traditional fix, manual scorecards and credit-officer judgment, doesn't scale or stay consistent across thousands of applications.</p>
+          <p data-i18n="s1P2">Five problem statements drove every modelling decision on this project:</p>
+          <ul class="checklist">
+            <li data-i18n="s1C1"><strong>Label definition</strong> — <code>loan_status</code> has 9 raw text categories and no ready-made GOOD/BAD column</li>
+            <li data-i18n="s1C2"><strong>Leakage-safe features</strong> — the raw data also stores many post-disbursement outcome columns</li>
+            <li data-i18n="s1C3"><strong>Class imbalance</strong> — only ~11.2% of loans are BAD, so accuracy alone is a misleading target</li>
+            <li data-i18n="s1C4"><strong>Model + threshold</strong> — chosen for a sensible business trade-off, not the highest headline number</li>
+            <li data-i18n="s1C5"><strong>Segment prioritization</strong> — which borrower segments disproportionately drive portfolio losses</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">XGBoost</span><span class="tag">Logistic Regression</span><span class="tag">LendingClub</span>
+            <span class="tag">Leak-Free ML</span><span class="tag">SHAP</span><span class="tag">Class Imbalance</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 02: DATA & LEAK-FREE DESIGN -->
+  <section class="content alt" id="architecture">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s2Num">02 · Data &amp; Leak-Free Design</div>
+      <h2 data-i18n="s2Title">Proof the model isn't cheating: <em>put the leaky columns back, watch AUC jump to 0.955.</em></h2>
+      <p class="lede" data-i18n="s2Lede">466,285 rows × 75 raw columns, audited one by one: used as-is, engineered into a new feature, kept only as the label source, or dropped — with a documented reason for each.</p>
+
+      <div class="two-col" style="align-items:start; margin-top:40px;">
+        <div class="arch-pipe" role="img" aria-label="Data preparation pipeline">
+          <div class="ap-group">
+            <div class="ap-group-label" data-i18n="archDataLabel">Raw Data</div>
+            <div class="ap-step">
+              <div class="ap-step-icon">📄</div>
+              <div><div class="ap-step-name">loan_data_2007_2014.csv</div><div class="ap-step-sub">466,285 rows · 75 columns</div></div>
+            </div>
+            <div class="ap-step">
+              <div class="ap-step-icon">🔍</div>
+              <div><div class="ap-step-name" data-i18n="archAudit">Column audit</div><div class="ap-step-sub" data-i18n="archAuditSub">used / engineered / label / dropped</div></div>
+            </div>
+            <div class="ap-step">
+              <div class="ap-step-icon">🚫</div>
+              <div><div class="ap-step-name" data-i18n="archLeak">Leakage removal</div><div class="ap-step-sub">total_pymnt, recoveries, out_prncp…</div></div>
+            </div>
+          </div>
+          <div class="ap-arrow">↓</div>
+          <div class="ap-group">
+            <div class="ap-group-label" data-i18n="archFeatLabel">Feature Engineering</div>
+            <div class="ap-step">
+              <div class="ap-step-icon">⚙️</div>
+              <div><div class="ap-step-name">PercentileCapper</div><div class="ap-step-sub" data-i18n="archCapSub">1st–99th pct, fit on train fold only</div></div>
+            </div>
+            <div class="ap-step">
+              <div class="ap-step-icon">📉</div>
+              <div><div class="ap-step-name" data-i18n="archLog">log1p transform</div><div class="ap-step-sub">annual_inc, revol_bal, tot_cur_bal…</div></div>
+            </div>
+            <div class="ap-step">
+              <div class="ap-step-icon">🚩</div>
+              <div><div class="ap-step-name" data-i18n="archFlags">Missing-is-informative flags</div><div class="ap-step-sub">has_delinq_history…</div></div>
+            </div>
+          </div>
+          <div class="ap-arrow">↓</div>
+          <div class="ap-group output">
+            <div class="ap-group-label" data-i18n="archSplitLabel">Split &amp; Encode</div>
+            <div class="ap-step">
+              <div class="ap-step-icon">✂️</div>
+              <div><div class="ap-step-name" data-i18n="archSplit">80/20 stratified split</div><div class="ap-step-sub" data-i18n="archSplitSub">before any transformer is fit</div></div>
+            </div>
+            <div class="ap-step">
+              <div class="ap-step-icon">🔢</div>
+              <div><div class="ap-step-name">ColumnTransformer</div><div class="ap-step-sub" data-i18n="archCtSub">impute, scale, one-hot — train only</div></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 data-i18n="archKeyTitle">Key engineering decisions</h3>
+          <ul class="checklist">
+            <li data-i18n="archK1"><strong>Leak-free by design</strong> — post-disbursement columns (<code>total_pymnt</code>, <code>recoveries</code>, <code>out_prncp</code>…) are dropped because they don't exist at the moment a loan is originated</li>
+            <li data-i18n="archK2"><strong>PercentileCapper fit per fold</strong> — outlier caps for skewed monetary features are learned from the training fold only, never from the full dataset before splitting</li>
+            <li data-i18n="archK3"><strong>Split before fit</strong> — the 80/20 stratified split happens before any transformer sees the data, so nothing from the test set leaks into preprocessing</li>
+            <li data-i18n="archK4"><strong>Missing-is-informative</strong> — high-missingness delinquency/derogatory-record columns become binary flags instead of being dropped or naively imputed</li>
+            <li data-i18n="archK5"><strong>Full column audit</strong> — all 75 raw columns documented as used / engineered / label source / dropped, with a reason for each</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fn-box">
+        <div class="fn-box-label" data-i18n="fnLabel">The Leakage Proof — Not an Assumption</div>
+        <div class="fn-flow">
+          <div class="fn-step">
+            <div class="fn-step-box" data-i18n="fnS1">Same Logistic Regression</div>
+          </div>
+          <div class="fn-arrow-h">→</div>
+          <div class="fn-step">
+            <div class="fn-step-box bad" data-i18n="fnS2">+ 4 post-disbursement columns</div>
+          </div>
+          <div class="fn-arrow-h">→</div>
+          <div class="fn-step">
+            <div class="fn-step-box bad" data-i18n="fnS3">Accuracy 0.954, AUC 0.955</div>
+          </div>
+          <div class="fn-arrow-h">→</div>
+          <div class="fn-step">
+            <div class="fn-step-box bad" data-i18n="fnS4">Not a better model — a leak</div>
+          </div>
+        </div>
+      </div>
+      <p data-i18n="s2P">To confirm the leak-free design actually matters, I retrained the identical Logistic Regression with four post-disbursement columns put back in. Accuracy jumped to 95.4% and ROC-AUC to 0.955 — instantly. That's not a better model; it's the model reading the answer key. It's the reason the "real" ROC-AUC on this problem tops out around 0.68–0.70, not 0.95 — and why that lower number is the trustworthy one.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 03: EDA -->
+  <section class="content" id="eda">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s3Num">03 · Exploratory Data Analysis</div>
+      <h2 data-i18n="s3Title">Bad rate climbs monotonically, grade A to G. <em>But no single feature predicts risk alone.</em></h2>
+
+      <div class="dash-grid">
+        <div class="dash-item full">
+          <img src="bad-rate-by-category.png" alt="Bar charts of bad-loan rate by grade (A–G), by term (36 vs 60 months), and by home ownership" loading="lazy">
+          <div class="dash-caption"><span class="dash-tab-num">EDA</span> Bad-loan rate by grade, term, and home ownership</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li data-i18n="edaC1"><strong>Grade signal</strong> — bad-loan rate rises from ~4% at grade A to ~28% at grade G; LendingClub's own grading already captures most of the risk signal</li>
+        <li data-i18n="edaC2"><strong>Term &amp; ownership</strong> — 60-month loans default roughly 1.5× more often than 36-month loans; renters and "other/none" home-ownership categories run hotter than mortgage holders</li>
+        <li data-i18n="edaC3"><strong>No dominant single feature</strong> — the strongest individual numeric correlation with the target is <code>int_rate</code>, and it's only ≈0.17; credit risk signal is nonlinear and interaction-driven, which is the argument for a tree model</li>
+        <li data-i18n="edaC4"><strong>Statistically confirmed</strong> — Chi-square confirms every categorical feature (grade, term, purpose, home_ownership, verification_status) associates significantly with the target; ANOVA confirms the same for the numeric features, with <code>int_rate</code>'s F-statistic (~14,670) dwarfing the rest</li>
+        <li data-i18n="edaC5"><strong>Unsupervised confirmation</strong> — K-Means + PCA segmentation finds 4 natural borrower clusters with 7%–15% bad rates, without ever seeing the label</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 04: MODELLING -->
+  <section class="content alt" id="modeling">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s4Num">04 · Model Selection</div>
+      <h2 data-i18n="s4Title">Logistic Regression baseline, XGBoost selected — <em>on ranking quality, not on one metric.</em></h2>
+
+      <div class="model-compare">
+        <div class="model-card">
+          <div class="model-card-label" data-i18n="baselineLabel">Baseline</div>
+          <h3>Logistic Regression</h3>
+          <div class="model-metrics">
+            <div class="model-metric">
+              <div class="model-metric-val">70.7<small style="font-size:0.5em;">%</small></div>
+              <div class="model-metric-lbl" data-i18n="accuracyLbl">Accuracy</div>
+            </div>
+            <div class="model-metric">
+              <div class="model-metric-val">52.5<small style="font-size:0.5em;">%</small></div>
+              <div class="model-metric-lbl" data-i18n="recallLbl">Recall, BAD</div>
+            </div>
+            <div class="model-metric">
+              <div class="model-metric-val">0.682</div>
+              <div class="model-metric-lbl">ROC-AUC</div>
+            </div>
+          </div>
+          <div class="model-verdict" data-i18n="baselineVerdict">Higher recall, weaker ranking &amp; calibration</div>
+        </div>
+        <div class="model-card winner">
+          <div class="model-card-label" data-i18n="selectedLabel">Selected</div>
+          <h3>XGBoost</h3>
+          <div class="model-metrics">
+            <div class="model-metric">
+              <div class="model-metric-val">74.4<small style="font-size:0.5em;">%</small></div>
+              <div class="model-metric-lbl" data-i18n="accuracyLbl">Accuracy</div>
+            </div>
+            <div class="model-metric">
+              <div class="model-metric-val">47.0<small style="font-size:0.5em;">%</small></div>
+              <div class="model-metric-lbl" data-i18n="recallLbl">Recall, BAD</div>
+            </div>
+            <div class="model-metric">
+              <div class="model-metric-val">0.694</div>
+              <div class="model-metric-lbl">ROC-AUC</div>
+            </div>
+          </div>
+          <div class="model-verdict" data-i18n="winnerVerdict">✓ Selected — better AUC/KS/Brier, SHAP-ready</div>
+        </div>
+      </div>
+
+      <p data-i18n="s4P1">XGBoost doesn't win on every metric — at its own F1-optimal threshold, Logistic Regression actually catches <em>more</em> bad loans (52.5% recall vs 47.0%). XGBoost is selected because it ranks borrowers better overall (higher ROC-AUC and KS statistic, lower Brier score) and because SHAP works natively on trees, which makes the explainability layer downstream more informative. Both thresholds are tuned separately via F1-optimal cutoffs found from out-of-fold cross-validation on the training data — never from the test set.</p>
+
+      <div class="fn-box">
+        <div class="fn-box-label" data-i18n="fn2Label">Why Accuracy Isn't the Headline Metric</div>
+        <div class="fn-flow">
+          <div class="fn-step">
+            <div class="fn-step-box" data-i18n="fn2S1">11.2% BAD loans</div>
+          </div>
+          <div class="fn-arrow-h">→</div>
+          <div class="fn-step">
+            <div class="fn-step-box bad" data-i18n="fn2S2">Always predict GOOD</div>
+          </div>
+          <div class="fn-arrow-h">→</div>
+          <div class="fn-step">
+            <div class="fn-step-box bad" data-i18n="fn2S3">88.8% accuracy</div>
+          </div>
+          <div class="fn-arrow-h">→</div>
+          <div class="fn-step">
+            <div class="fn-step-box bad" data-i18n="fn2S4">0 bad loans caught</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 data-i18n="expTitle">Three more experiments, reported honestly</h3>
+      <ul class="checklist">
+        <li data-i18n="expC1"><strong>SMOTE</strong> — oversampling instead of class-weighting lands within a rounding error (F1 0.283 vs 0.291) — confirms weighting was the cheaper, equally effective choice at 373K training rows</li>
+        <li data-i18n="expC2"><strong>RandomizedSearchCV</strong> — a wider hyperparameter search nudges ROC-AUC to 0.696 — a marginal gain, not worth the added complexity</li>
+        <li data-i18n="expC3"><strong>PCA</strong> — compressing 55 encoded features to 21 components brought no improvement, and was discarded</li>
+        <li data-i18n="expC4"><strong>Soft-voting ensemble</strong> — averaging Logistic Regression + XGBoost lands <em>between</em> the two (ROC-AUC 0.691) — a useful negative result: averaging pulls the stronger model down when the two aren't equally strong</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 05: EXPLAINABILITY -->
+  <section class="content" id="explainability">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s5Num">05 · Explainability</div>
+      <h2 data-i18n="s5Title"><code>int_rate</code> dominates. <code>annual_inc</code> protects. <em>SHAP explains one score, not just the aggregate.</em></h2>
+      <p class="lede" data-i18n="s5Lede">Gain-based feature importance ranks features in aggregate but can't explain a single prediction. SHAP adds per-prediction, additive attribution — and a direction, not just a magnitude.</p>
+
+      <div class="dash-grid">
+        <div class="dash-item">
+          <img src="shap-summary.png" alt="SHAP beeswarm summary plot — int_rate, annual_inc, and inq_last_6mths as the top features by impact on model output" loading="lazy">
+          <div class="dash-caption"><span class="dash-tab-num">Global</span> SHAP summary — XGBoost, test set</div>
+        </div>
+        <div class="dash-item">
+          <img src="shap-waterfall.png" alt="SHAP waterfall plot for a typical borrower, showing total_rev_hi_lim and tot_cur_bal pushing risk up, inq_last_6mths pulling it down" loading="lazy">
+          <div class="dash-caption"><span class="dash-tab-num">Local</span> Waterfall — a typical borrower</div>
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li data-i18n="shapC1"><strong>int_rate dominates</strong> every other feature, with a clean directional pattern — high values sharply raise risk, low values sharply lower it</li>
+        <li data-i18n="shapC2"><strong>annual_inc is protective</strong> and the second-strongest signal — higher income, lower predicted risk</li>
+        <li data-i18n="shapC3"><strong>inq_last_6mths consistently raises risk</strong> — more recent credit inquiries, higher predicted default probability</li>
+        <li data-i18n="shapC4"><strong>Local explanation answers a different question</strong> — for a typical borrower (median numeric, mode categorical features), a high revolving-credit limit and current balance (<code>total_rev_hi_lim</code>, <code>tot_cur_bal</code>) push their score up, while a low recent-inquiry count pulls it back down. That's what lets a credit officer explain <em>one</em> decision, not just the model in general</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 06: STRESS-TESTING -->
+  <section class="content alt" id="stress-test">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s6Num">06 · Stress-Testing the Model</div>
+      <h2 data-i18n="s6Title">Four ways I tried to break my own model — <em>and what survived.</em></h2>
+      <p class="lede" data-i18n="s6Lede">A single train/test split proves less than it looks like it proves. Four separate checks — chronology, distribution shift, feature dependency, and calibration — each tried to find where the model would fail.</p>
+
+      <div class="risk-ranking">
+        <div class="risk-card reveal">
+          <div class="risk-rank" data-i18n="stress1Rank">Check · Time</div>
+          <div class="risk-factor" data-i18n="stress1Factor">Out-of-Time Validation</div>
+          <div class="risk-rate">0.705</div>
+          <div class="risk-rate-lbl" data-i18n="stress1Lbl">ROC-AUC, chronological split</div>
+          <div class="risk-multi" data-i18n="stress1Multi">↑ from 0.694 random split</div>
+          <div class="risk-desc" data-i18n="stress1Desc">Trained on originations Jun 2007–Aug 2014, tested on Aug–Dec 2014 instead of a random split. AUC and KS both rose — the model generalizes forward in time, not just within-sample.</div>
+        </div>
+        <div class="risk-card reveal">
+          <div class="risk-rank" data-i18n="stress2Rank">Check · Drift</div>
+          <div class="risk-factor" data-i18n="stress2Factor">Population Stability Index</div>
+          <div class="risk-rate">0.111</div>
+          <div class="risk-rate-lbl" data-i18n="stress2Lbl">PSI, train vs. test scores</div>
+          <div class="risk-multi" data-i18n="stress2Multi">"Moderate shift" band</div>
+          <div class="risk-desc" data-i18n="stress2Desc">Score-distribution shift between older and newer originations is detectable but not alarming — consistent with a lower bad rate in the newer cohort (7.1% vs 12.2%).</div>
+        </div>
+        <div class="risk-card reveal">
+          <div class="risk-rank" data-i18n="stress3Rank">Check · Dependency</div>
+          <div class="risk-factor" data-i18n="stress3Factor">Grade Ablation</div>
+          <div class="risk-rate">0.6939</div>
+          <div class="risk-rate-lbl" data-i18n="stress3Lbl">ROC-AUC without <code>grade</code></div>
+          <div class="risk-multi" data-i18n="stress3Multi">vs 0.6940 with grade</div>
+          <div class="risk-desc" data-i18n="stress3Desc">Removing LendingClub's own underwriting grade barely moves ROC-AUC. The model isn't just re-deriving LendingClub's grade — <code>int_rate</code> already carries nearly the same signal.</div>
+        </div>
+        <div class="risk-card reveal">
+          <div class="risk-rank" data-i18n="stress4Rank">Check · Calibration</div>
+          <div class="risk-factor" data-i18n="stress4Factor">Probability Calibration</div>
+          <div class="risk-rate">0.223</div>
+          <div class="risk-rate-lbl" data-i18n="stress4Lbl">Brier score, XGBoost</div>
+          <div class="risk-multi" data-i18n="stress4Multi">predicted avg 46% vs actual 11.2%</div>
+          <div class="risk-desc" data-i18n="stress4Desc">Raw probabilities are NOT calibrated — class-weighting reweights the loss function, so predict_proba() runs hot. Ranking (AUC/KS) and the tuned threshold stay valid; the raw percentage does not.</div>
+        </div>
+        <div class="risk-card reveal">
+          <div class="risk-rank" data-i18n="stress5Rank">Check · Subgroup (proxy)</div>
+          <div class="risk-factor" data-i18n="stress5Factor">Subgroup Recall Gap</div>
+          <div class="risk-rate">15–20<small style="font-size:0.5em;font-family:'DM Mono',monospace;">pp</small></div>
+          <div class="risk-rate-lbl" data-i18n="stress5Lbl">RENT 54.2% vs MORTGAGE 39.7%</div>
+          <div class="risk-multi" data-i18n="stress5Multi">not a fair-lending audit</div>
+          <div class="risk-desc" data-i18n="stress5Desc">The dataset has no protected demographic attributes, so this is a proxy check, not a fairness audit — but the gap is real and worth flagging before any production use.</div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="dash-item">
+          <img src="roc-curves.png" alt="ROC curves on the test set — Logistic Regression AUC 0.682, XGBoost AUC 0.694" loading="lazy">
+          <div class="dash-caption"><span class="dash-tab-num">ROC</span> Test set — LR 0.682 vs XGBoost 0.694</div>
+        </div>
+        <div class="dash-item">
+          <img src="calibration-curve.png" alt="Calibration reliability diagram — both models track below the perfect-calibration diagonal, especially in the highest-risk bins" loading="lazy">
+          <div class="dash-caption"><span class="dash-tab-num">Calibration</span> Brier — LR 0.226, XGBoost 0.223</div>
+        </div>
+      </div>
+      <p data-i18n="s6P1">In the highest-risk bin, XGBoost predicts an average probability of ≈71% — but the actual bad rate in that same bin is only ≈26%. Both curves sit well below the perfect-calibration line for most of their range, and a naive model that always predicts the population base rate (≈10%) would actually score a lower Brier than either trained model. Ranking is not the same skill as calibration, and this project only had the first one going in.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 07: BUSINESS DECISIONS -->
+  <section class="content" id="business">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s7Num">07 · From Model to Business Decision</div>
+      <h2 data-i18n="s7Title">The F1-optimal threshold flags 1 in 5 loans. <em>The cost-optimal threshold flags 9 in 10 — and that's the point.</em></h2>
+      <p class="lede" data-i18n="s7Lede">F1 treats a $2,000 bad loan the same as a $35,000 one. A simplified expected-loss threshold (PD × LGD × EAD) doesn't.</p>
+
+      <div class="impact-compare">
+        <div class="ic-col bad">
+          <span class="ic-header" data-i18n="f1ThreshLabel">F1-Optimal — threshold 0.585</span>
+          <div class="ic-stat-row"><span class="ic-stat-lbl" data-i18n="fnCountLbl">Bad loans missed (FN)</span><span class="ic-stat-val">5,533</span></div>
+          <div class="ic-stat-row"><span class="ic-stat-lbl" data-i18n="reviewCountLbl">Flagged for review (FP)</span><span class="ic-stat-val">18,339<small style="font-size:0.55em;">·19.7%</small></span></div>
+          <div class="ic-stat-row"><span class="ic-stat-lbl" data-i18n="totalCostLbl">Total illustrative cost</span><span class="ic-stat-val">≈$62.9M</span></div>
+        </div>
+        <div class="ic-col good">
+          <span class="ic-header" data-i18n="costThreshLabel">Cost-Optimal — threshold 0.070</span>
+          <div class="ic-stat-row"><span class="ic-stat-lbl" data-i18n="fnCountLbl">Bad loans missed (FN)</span><span class="ic-stat-val">0</span></div>
+          <div class="ic-stat-row"><span class="ic-stat-lbl" data-i18n="reviewCountLbl">Flagged for review (FP)</span><span class="ic-stat-val">82,808<small style="font-size:0.55em;">·88.8%</small></span></div>
+          <div class="ic-stat-row"><span class="ic-stat-lbl" data-i18n="totalCostLbl">Total illustrative cost</span><span class="ic-stat-val">≈$4.1M</span></div>
+          <div class="impact-metric">≈15<small style="font-family:'DM Mono',monospace;font-size:0.4em;color:var(--muted);font-weight:400;">×</small></div>
+          <div class="impact-metric-sub" data-i18n="impactMetricSub">Lower total illustrative cost vs. F1-optimal</div>
+        </div>
+      </div>
+
+      <p data-i18n="s7P1"><strong>This isn't a bug — it's the direct consequence of the assumed cost ratio.</strong> The average loss on a bad loan that slips through (≈$14,000, at LGD=80%) is roughly 280× the assumed manual-review cost (≈$50/case). At that ratio, cost-minimization always tips toward reviewing almost everyone, which defeats the point of an automated filter and likely exceeds any real underwriting team's capacity. A production version needs an explicit capacity constraint (e.g. "the team can review 10–15% of volume") layered on top of the cost logic — a documented next step, not implemented here, because it needs real capacity numbers from an operations team. The LGD and review-cost figures themselves are illustrative too, not derived from the dataset — the post-disbursement recovery columns were never touched, by design.</p>
+
+      <h3 data-i18n="segTitle">Highest-risk segment: grade G, 60-month term</h3>
+      <p data-i18n="segP">2.8% of loan volume, 6.5% of all bad loans in the test set — a bad rate 2.4× the portfolio baseline.</p>
+
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th data-i18n="colGrade">Grade</th><th data-i18n="colTerm">Term</th><th data-i18n="colN">n</th><th data-i18n="colBadRate">Actual bad rate</th><th data-i18n="colPredProba">Mean predicted P(bad)</th></tr></thead>
+          <tbody>
+            <tr class="highlight"><td>G</td><td>60mo</td><td>620</td><td>26.61%</td><td>71.53%</td></tr>
+            <tr><td>F</td><td>60mo</td><td>2,023</td><td>25.21%</td><td>70.25%</td></tr>
+            <tr><td>F</td><td>36mo</td><td>618</td><td>22.33%</td><td>67.79%</td></tr>
+            <tr><td>E</td><td>60mo</td><td>4,812</td><td>20.32%</td><td>65.67%</td></tr>
+            <tr><td>E</td><td>36mo</td><td>2,463</td><td>18.43%</td><td>64.93%</td></tr>
+            <tr><td>D</td><td>36mo</td><td>8,684</td><td>16.86%</td><td>59.87%</td></tr>
+            <tr><td>D</td><td>60mo</td><td>6,754</td><td>14.38%</td><td>56.89%</td></tr>
+            <tr><td>C</td><td>36mo</td><td>16,999</td><td>11.97%</td><td>50.62%</td></tr>
+            <tr><td>C</td><td>60mo</td><td>8,056</td><td>10.63%</td><td>47.89%</td></tr>
+            <tr><td>B</td><td>36mo</td><td>23,918</td><td>8.37%</td><td>39.16%</td></tr>
+            <tr><td>B</td><td>60mo</td><td>3,346</td><td>7.68%</td><td>36.53%</td></tr>
+            <tr><td>A</td><td>60mo</td><td>390</td><td>5.90%</td><td>25.44%</td></tr>
+            <tr><td>A</td><td>36mo</td><td>14,485</td><td>3.90%</td><td>23.15%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 data-i18n="recTitle">Prioritized recommendations</h3>
+      <ul class="checklist">
+        <li data-i18n="recC1"><strong>Tenor-based risk premium</strong> (+2–3pp) for grade F/G loans at 60 months — current pricing doesn't fully separate tenor risk within the same grade</li>
+        <li data-i18n="recC2"><strong>Cap tenor at 36 months for grade G</strong>, or require an additional guarantor/collateral for 60-month grade-G loans</li>
+        <li data-i18n="recC3"><strong>Mandatory manual underwriting review</strong> for grade F/G at 60 months — low volume (&lt;3%) keeps added review cost small while this segment drives &gt;6% of portfolio losses</li>
+        <li data-i18n="recC4"><strong>Re-run segmentation and the model roughly every 6 months</strong> as portfolio composition shifts, consistent with the PSI drift already observed</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 08: TECH STACK -->
+  <section class="content alt" id="stack">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s8Num">08 · Technical Stack</div>
+      <h2 data-i18n="s8Title">From notebook <em>to a scoring pipeline and a demo app.</em></h2>
+
+      <div class="stack-grid">
+        <div class="stack-col">
+          <div class="stack-col-label" data-i18n="stackML">ML</div>
+          <div class="stack-item">XGBoost<sub data-i18n="stackXgbSub">selected model</sub></div>
+          <div class="stack-item">Logistic Regression<sub data-i18n="stackLrSub">baseline</sub></div>
+          <div class="stack-item">scikit-learn<sub data-i18n="stackSklearnSub">Pipeline + ColumnTransformer</sub></div>
+          <div class="stack-item">imbalanced-learn<sub data-i18n="stackImbSub">SMOTE experiment</sub></div>
+        </div>
+        <div class="stack-col">
+          <div class="stack-col-label" data-i18n="stackData">Data &amp; Stats</div>
+          <div class="stack-item">pandas<sub data-i18n="stackPandasSub">EDA + transform</sub></div>
+          <div class="stack-item">numpy<sub data-i18n="stackNumpySub">numerical ops</sub></div>
+          <div class="stack-item">SciPy<sub data-i18n="stackScipySub">Chi-square, ANOVA</sub></div>
+          <div class="stack-item">K-Means + PCA<sub data-i18n="stackKmeansSub">segmentation</sub></div>
+        </div>
+        <div class="stack-col">
+          <div class="stack-col-label" data-i18n="stackExplain">Explainability</div>
+          <div class="stack-item">SHAP<sub data-i18n="stackShapSub">global + local</sub></div>
+          <div class="stack-item" data-i18n="stackGainImp">Gain-based importance</div>
+        </div>
+        <div class="stack-col">
+          <div class="stack-col-label" data-i18n="stackDeploy">Deployment</div>
+          <div class="stack-item">Flask<sub data-i18n="stackFlaskSub">local demo app</sub></div>
+          <div class="stack-item">joblib<sub data-i18n="stackJoblibSub">model artifacts</sub></div>
+        </div>
+        <div class="stack-col">
+          <div class="stack-col-label" data-i18n="stackTools">Tools</div>
+          <div class="stack-item">Jupyter<sub data-i18n="stackJupyterSub">notebook + appendix</sub></div>
+          <div class="stack-item">GridSearchCV<sub data-i18n="stackGridSub">+ RandomizedSearchCV</sub></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 09: LIMITATIONS -->
+  <div class="journey-section" id="limitations">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s9Num">09 · Limitations &amp; Next Steps</div>
+      <h2 data-i18n="s9Title">What this model can't do yet — <em>said plainly, not buried in an appendix.</em></h2>
+      <p data-i18n="s9Desc">Every one of these was found and measured inside the project, not guessed at afterward.</p>
+
+      <div class="lesson-grid">
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l1Label">Origination-time features only</div>
+          <p data-i18n="l1Body">Deliberate, to avoid leakage — but it caps the achievable ROC-AUC around <strong>0.68–0.70</strong>. A production system could add external credit-bureau data to push past that ceiling.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l2Label">Right-censored label</div>
+          <p data-i18n="l2Body">GOOD includes loans still marked <code>Current</code> — not yet matured. A small share of those could still default later. An inherent limit of scoring from one historical snapshot, <strong>not a modelling mistake</strong>.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l3Label">Raw probabilities uncalibrated</div>
+          <p data-i18n="l3Body">Proven in §06, not assumed. Ranking and the tuned threshold stay valid, but <strong>a raw "P(bad)=55%" shouldn't be read literally</strong> without a calibration step — <code>CalibratedClassifierCV</code> is the top-priority next iteration.</p>
+        </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l4Label">Cost threshold needs a capacity constraint</div>
+          <p data-i18n="l4Body">Pure cost-minimization flags ≈89% of applicants — <strong>not operational</strong> without a real review-capacity limit and real LGD/cost numbers from an actual lender.</p>
+        </div>
+      </div>
+
+      <h3 data-i18n="s9NextTitle">Next iteration, in order</h3>
+      <p data-i18n="s9NextP">Probability calibration first (highest priority given §06's findings), then a capacity-constrained cost threshold with real numbers from an operations team, then a wider hyperparameter search. Also on the list: a full fair-lending audit if this were ever deployed with real demographic data attached.</p>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ctaNum">Read the notebook · See the code</div>
+      <h2 data-i18n="ctaTitle">Two notebooks, a pipeline module, and a Flask scoring demo <em>on GitHub.</em></h2>
+      <p data-i18n="ctaP">The main notebook (EDA → modelling → business recommendations), an appendix notebook (extended EDA stats + additional modelling experiments), a standalone <code>credit_risk_pipeline.py</code>, trained model artifacts, and a local Flask demo that scores a borrower profile end-to-end.</p>
+      <div class="cta-buttons">
+        <a href="https://github.com/ninditya/credit-risk" class="btn" target="_blank" rel="noopener" data-i18n="ctaSource">View source →</a>
+        <a href="/#projects" class="btn ghost" data-i18n="ctaBack">← All projects</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a></span>
+      <span><a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a> · <a href="https://linkedin.com/in/ninditya-salma-nur-aini" target="_blank" rel="noopener">LinkedIn</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const translations = {
+      en: {
+        navBack:'← Back to portfolio', navProjects:'Projects', navContact:'Contact',
+        kickerTag:'Applied Data Science',
+        kickerText:'ID/X Partners × Rakamin · Credit Risk · XGBoost · Leak-Free Pipeline',
+        heroTitle:'My model hit 95% accuracy.<br><em>That was the bug.</em>',
+        heroLede:'A leak-free GOOD/BAD credit model on <strong>466,285 LendingClub loans</strong> (2007–2014). Logistic Regression baseline, XGBoost selected — then four separate attempts to prove the result wasn\'t a fluke: a leakage proof, a calibration check, an out-of-time validation, and a subgroup check.',
+        heroMetaModel:'<strong>Model</strong> XGBoost · ROC-AUC 0.694 test / 0.705 out-of-time',
+        heroMetaData:'<strong>Dataset</strong> 466,285 loans · 373K train / 93K test · LendingClub 2007–2014',
+        heroMetaRigor:'<strong>Rigor</strong> Leakage proof · calibration · OOT · PSI · subgroup check',
+        heroMetaLevel:'<strong>Program</strong> ID/X Partners × Rakamin, Data Scientist Internship 2026',
+        stat1:'ROC-AUC, test set<br>leak-free, out-of-sample', stat2:'Recall, BAD class<br>XGBoost, tuned threshold', stat3:'Bad-loan rate<br>class imbalance, no oversampling', stat4:'AUC if leakage re-added<br>proof, not assumption',
+        s1Num:'01 · Business Problem',
+        s1Title:'Approve a bad loan, lose the principal. <em>Reject a good one, lose the customer.</em>',
+        portfolioLabel:'Loans, 2007–2014', badRateLabel:'Bad-loan rate',
+        mistakesList:'Approve BAD → principal loss<br>Reject GOOD → lost interest + customer',
+        solutionLabel:'Solution Needed', solutionTitle:'GOOD/BAD Classifier at Origination',
+        s1Lede:'No ready-made label, a leakage-prone dataset, and an 11.2% minority class — the modelling decisions matter as much as the model itself.',
+        s1P1:'Credit risk cuts both ways: approving a loan that defaults loses the principal; rejecting a borrower who would have repaid loses interest income and a customer. Getting the trade-off wrong is expensive in both directions — and the traditional fix, manual scorecards and credit-officer judgment, doesn\'t scale or stay consistent across thousands of applications.',
+        s1P2:'Five problem statements drove every modelling decision on this project:',
+        s1C1:'<strong>Label definition</strong> — <code>loan_status</code> has 9 raw text categories and no ready-made GOOD/BAD column',
+        s1C2:'<strong>Leakage-safe features</strong> — the raw data also stores many post-disbursement outcome columns',
+        s1C3:'<strong>Class imbalance</strong> — only ~11.2% of loans are BAD, so accuracy alone is a misleading target',
+        s1C4:'<strong>Model + threshold</strong> — chosen for a sensible business trade-off, not the highest headline number',
+        s1C5:'<strong>Segment prioritization</strong> — which borrower segments disproportionately drive portfolio losses',
+        s2Num:'02 · Data & Leak-Free Design',
+        s2Title:'Proof the model isn\'t cheating: <em>put the leaky columns back, watch AUC jump to 0.955.</em>',
+        s2Lede:'466,285 rows × 75 raw columns, audited one by one: used as-is, engineered into a new feature, kept only as the label source, or dropped — with a documented reason for each.',
+        archDataLabel:'Raw Data', archAudit:'Column audit', archAuditSub:'used / engineered / label / dropped',
+        archLeak:'Leakage removal',
+        archFeatLabel:'Feature Engineering', archCapSub:'1st–99th pct, fit on train fold only', archLog:'log1p transform', archFlags:'Missing-is-informative flags',
+        archSplitLabel:'Split & Encode', archSplit:'80/20 stratified split', archSplitSub:'before any transformer is fit', archCtSub:'impute, scale, one-hot — train only',
+        archKeyTitle:'Key engineering decisions',
+        archK1:'<strong>Leak-free by design</strong> — post-disbursement columns (<code>total_pymnt</code>, <code>recoveries</code>, <code>out_prncp</code>…) are dropped because they don\'t exist at the moment a loan is originated',
+        archK2:'<strong>PercentileCapper fit per fold</strong> — outlier caps for skewed monetary features are learned from the training fold only, never from the full dataset before splitting',
+        archK3:'<strong>Split before fit</strong> — the 80/20 stratified split happens before any transformer sees the data, so nothing from the test set leaks into preprocessing',
+        archK4:'<strong>Missing-is-informative</strong> — high-missingness delinquency/derogatory-record columns become binary flags instead of being dropped or naively imputed',
+        archK5:'<strong>Full column audit</strong> — all 75 raw columns documented as used / engineered / label source / dropped, with a reason for each',
+        fnLabel:'The Leakage Proof — Not an Assumption',
+        fnS1:'Same Logistic Regression', fnS2:'+ 4 post-disbursement columns', fnS3:'Accuracy 0.954, AUC 0.955', fnS4:'Not a better model — a leak',
+        s2P:'To confirm the leak-free design actually matters, I retrained the identical Logistic Regression with four post-disbursement columns put back in. Accuracy jumped to 95.4% and ROC-AUC to 0.955 — instantly. That\'s not a better model; it\'s the model reading the answer key. It\'s the reason the "real" ROC-AUC on this problem tops out around 0.68–0.70, not 0.95 — and why that lower number is the trustworthy one.',
+        s3Num:'03 · Exploratory Data Analysis',
+        s3Title:'Bad rate climbs monotonically, grade A to G. <em>But no single feature predicts risk alone.</em>',
+        edaC1:'<strong>Grade signal</strong> — bad-loan rate rises from ~4% at grade A to ~28% at grade G; LendingClub\'s own grading already captures most of the risk signal',
+        edaC2:'<strong>Term &amp; ownership</strong> — 60-month loans default roughly 1.5× more often than 36-month loans; renters and "other/none" home-ownership categories run hotter than mortgage holders',
+        edaC3:'<strong>No dominant single feature</strong> — the strongest individual numeric correlation with the target is <code>int_rate</code>, and it\'s only ≈0.17; credit risk signal is nonlinear and interaction-driven, which is the argument for a tree model',
+        edaC4:'<strong>Statistically confirmed</strong> — Chi-square confirms every categorical feature (grade, term, purpose, home_ownership, verification_status) associates significantly with the target; ANOVA confirms the same for the numeric features, with <code>int_rate</code>\'s F-statistic (~14,670) dwarfing the rest',
+        edaC5:'<strong>Unsupervised confirmation</strong> — K-Means + PCA segmentation finds 4 natural borrower clusters with 7%–15% bad rates, without ever seeing the label',
+        s4Num:'04 · Model Selection',
+        s4Title:'Logistic Regression baseline, XGBoost selected — <em>on ranking quality, not on one metric.</em>',
+        baselineLabel:'Baseline', selectedLabel:'Selected',
+        accuracyLbl:'Accuracy', recallLbl:'Recall, BAD',
+        baselineVerdict:'Higher recall, weaker ranking &amp; calibration', winnerVerdict:'✓ Selected — better AUC/KS/Brier, SHAP-ready',
+        s4P1:'XGBoost doesn\'t win on every metric — at its own F1-optimal threshold, Logistic Regression actually catches <em>more</em> bad loans (52.5% recall vs 47.0%). XGBoost is selected because it ranks borrowers better overall (higher ROC-AUC and KS statistic, lower Brier score) and because SHAP works natively on trees, which makes the explainability layer downstream more informative. Both thresholds are tuned separately via F1-optimal cutoffs found from out-of-fold cross-validation on the training data — never from the test set.',
+        fn2Label:'Why Accuracy Isn\'t the Headline Metric',
+        fn2S1:'11.2% BAD loans', fn2S2:'Always predict GOOD', fn2S3:'88.8% accuracy', fn2S4:'0 bad loans caught',
+        expTitle:'Three more experiments, reported honestly',
+        expC1:'<strong>SMOTE</strong> — oversampling instead of class-weighting lands within a rounding error (F1 0.283 vs 0.291) — confirms weighting was the cheaper, equally effective choice at 373K training rows',
+        expC2:'<strong>RandomizedSearchCV</strong> — a wider hyperparameter search nudges ROC-AUC to 0.696 — a marginal gain, not worth the added complexity',
+        expC3:'<strong>PCA</strong> — compressing 55 encoded features to 21 components brought no improvement, and was discarded',
+        expC4:'<strong>Soft-voting ensemble</strong> — averaging Logistic Regression + XGBoost lands <em>between</em> the two (ROC-AUC 0.691) — a useful negative result: averaging pulls the stronger model down when the two aren\'t equally strong',
+        s5Num:'05 · Explainability',
+        s5Title:'<code>int_rate</code> dominates. <code>annual_inc</code> protects. <em>SHAP explains one score, not just the aggregate.</em>',
+        s5Lede:'Gain-based feature importance ranks features in aggregate but can\'t explain a single prediction. SHAP adds per-prediction, additive attribution — and a direction, not just a magnitude.',
+        shapC1:'<strong>int_rate dominates</strong> every other feature, with a clean directional pattern — high values sharply raise risk, low values sharply lower it',
+        shapC2:'<strong>annual_inc is protective</strong> and the second-strongest signal — higher income, lower predicted risk',
+        shapC3:'<strong>inq_last_6mths consistently raises risk</strong> — more recent credit inquiries, higher predicted default probability',
+        shapC4:'<strong>Local explanation answers a different question</strong> — for a typical borrower (median numeric, mode categorical features), a high revolving-credit limit and current balance (<code>total_rev_hi_lim</code>, <code>tot_cur_bal</code>) push their score up, while a low recent-inquiry count pulls it back down. That\'s what lets a credit officer explain <em>one</em> decision, not just the model in general',
+        s6Num:'06 · Stress-Testing the Model',
+        s6Title:'Four ways I tried to break my own model — <em>and what survived.</em>',
+        s6Lede:'A single train/test split proves less than it looks like it proves. Four separate checks — chronology, distribution shift, feature dependency, and calibration — each tried to find where the model would fail.',
+        stress1Rank:'Check · Time', stress1Factor:'Out-of-Time Validation', stress1Lbl:'ROC-AUC, chronological split', stress1Multi:'↑ from 0.694 random split',
+        stress1Desc:'Trained on originations Jun 2007–Aug 2014, tested on Aug–Dec 2014 instead of a random split. AUC and KS both rose — the model generalizes forward in time, not just within-sample.',
+        stress2Rank:'Check · Drift', stress2Factor:'Population Stability Index', stress2Lbl:'PSI, train vs. test scores', stress2Multi:'"Moderate shift" band',
+        stress2Desc:'Score-distribution shift between older and newer originations is detectable but not alarming — consistent with a lower bad rate in the newer cohort (7.1% vs 12.2%).',
+        stress3Rank:'Check · Dependency', stress3Factor:'Grade Ablation', stress3Lbl:'ROC-AUC without <code>grade</code>', stress3Multi:'vs 0.6940 with grade',
+        stress3Desc:'Removing LendingClub\'s own underwriting grade barely moves ROC-AUC. The model isn\'t just re-deriving LendingClub\'s grade — <code>int_rate</code> already carries nearly the same signal.',
+        stress4Rank:'Check · Calibration', stress4Factor:'Probability Calibration', stress4Lbl:'Brier score, XGBoost', stress4Multi:'predicted avg 46% vs actual 11.2%',
+        stress4Desc:'Raw probabilities are NOT calibrated — class-weighting reweights the loss function, so predict_proba() runs hot. Ranking (AUC/KS) and the tuned threshold stay valid; the raw percentage does not.',
+        stress5Rank:'Check · Subgroup (proxy)', stress5Factor:'Subgroup Recall Gap', stress5Lbl:'RENT 54.2% vs MORTGAGE 39.7%', stress5Multi:'not a fair-lending audit',
+        stress5Desc:'The dataset has no protected demographic attributes, so this is a proxy check, not a fairness audit — but the gap is real and worth flagging before any production use.',
+        s6P1:'In the highest-risk bin, XGBoost predicts an average probability of ≈71% — but the actual bad rate in that same bin is only ≈26%. Both curves sit well below the perfect-calibration line for most of their range, and a naive model that always predicts the population base rate (≈10%) would actually score a lower Brier than either trained model. Ranking is not the same skill as calibration, and this project only had the first one going in.',
+        s7Num:'07 · From Model to Business Decision',
+        s7Title:'The F1-optimal threshold flags 1 in 5 loans. <em>The cost-optimal threshold flags 9 in 10 — and that\'s the point.</em>',
+        s7Lede:'F1 treats a $2,000 bad loan the same as a $35,000 one. A simplified expected-loss threshold (PD × LGD × EAD) doesn\'t.',
+        f1ThreshLabel:'F1-Optimal — threshold 0.585', costThreshLabel:'Cost-Optimal — threshold 0.070',
+        fnCountLbl:'Bad loans missed (FN)', reviewCountLbl:'Flagged for review (FP)', totalCostLbl:'Total illustrative cost',
+        impactMetricSub:'Lower total illustrative cost vs. F1-optimal',
+        s7P1:'<strong>This isn\'t a bug — it\'s the direct consequence of the assumed cost ratio.</strong> The average loss on a bad loan that slips through (≈$14,000, at LGD=80%) is roughly 280× the assumed manual-review cost (≈$50/case). At that ratio, cost-minimization always tips toward reviewing almost everyone, which defeats the point of an automated filter and likely exceeds any real underwriting team\'s capacity. A production version needs an explicit capacity constraint (e.g. "the team can review 10–15% of volume") layered on top of the cost logic — a documented next step, not implemented here, because it needs real capacity numbers from an operations team. The LGD and review-cost figures themselves are illustrative too, not derived from the dataset — the post-disbursement recovery columns were never touched, by design.',
+        segTitle:'Highest-risk segment: grade G, 60-month term',
+        segP:'2.8% of loan volume, 6.5% of all bad loans in the test set — a bad rate 2.4× the portfolio baseline.',
+        colGrade:'Grade', colTerm:'Term', colN:'n', colBadRate:'Actual bad rate', colPredProba:'Mean predicted P(bad)',
+        recTitle:'Prioritized recommendations',
+        recC1:'<strong>Tenor-based risk premium</strong> (+2–3pp) for grade F/G loans at 60 months — current pricing doesn\'t fully separate tenor risk within the same grade',
+        recC2:'<strong>Cap tenor at 36 months for grade G</strong>, or require an additional guarantor/collateral for 60-month grade-G loans',
+        recC3:'<strong>Mandatory manual underwriting review</strong> for grade F/G at 60 months — low volume (&lt;3%) keeps added review cost small while this segment drives &gt;6% of portfolio losses',
+        recC4:'<strong>Re-run segmentation and the model roughly every 6 months</strong> as portfolio composition shifts, consistent with the PSI drift already observed',
+        s8Num:'08 · Technical Stack',
+        s8Title:'From notebook <em>to a scoring pipeline and a demo app.</em>',
+        stackML:'ML', stackXgbSub:'selected model', stackLrSub:'baseline', stackSklearnSub:'Pipeline + ColumnTransformer', stackImbSub:'SMOTE experiment',
+        stackData:'Data & Stats', stackPandasSub:'EDA + transform', stackNumpySub:'numerical ops', stackScipySub:'Chi-square, ANOVA', stackKmeansSub:'segmentation',
+        stackExplain:'Explainability', stackShapSub:'global + local', stackGainImp:'Gain-based importance',
+        stackDeploy:'Deployment', stackFlaskSub:'local demo app', stackJoblibSub:'model artifacts',
+        stackTools:'Tools', stackJupyterSub:'notebook + appendix', stackGridSub:'+ RandomizedSearchCV',
+        s9Num:'09 · Limitations & Next Steps',
+        s9Title:'What this model can\'t do yet — <em>said plainly, not buried in an appendix.</em>',
+        s9Desc:'Every one of these was found and measured inside the project, not guessed at afterward.',
+        l1Label:'Origination-time features only', l1Body:'Deliberate, to avoid leakage — but it caps the achievable ROC-AUC around <strong>0.68–0.70</strong>. A production system could add external credit-bureau data to push past that ceiling.',
+        l2Label:'Right-censored label', l2Body:'GOOD includes loans still marked <code>Current</code> — not yet matured. A small share of those could still default later. An inherent limit of scoring from one historical snapshot, <strong>not a modelling mistake</strong>.',
+        l3Label:'Raw probabilities uncalibrated', l3Body:'Proven in §06, not assumed. Ranking and the tuned threshold stay valid, but <strong>a raw "P(bad)=55%" shouldn\'t be read literally</strong> without a calibration step — <code>CalibratedClassifierCV</code> is the top-priority next iteration.',
+        l4Label:'Cost threshold needs a capacity constraint', l4Body:'Pure cost-minimization flags ≈89% of applicants — <strong>not operational</strong> without a real review-capacity limit and real LGD/cost numbers from an actual lender.',
+        s9NextTitle:'Next iteration, in order',
+        s9NextP:'Probability calibration first (highest priority given §06\'s findings), then a capacity-constrained cost threshold with real numbers from an operations team, then a wider hyperparameter search. Also on the list: a full fair-lending audit if this were ever deployed with real demographic data attached.',
+        ctaNum:'Read the notebook · See the code',
+        ctaTitle:'Two notebooks, a pipeline module, and a Flask scoring demo <em>on GitHub.</em>',
+        ctaP:'The main notebook (EDA → modelling → business recommendations), an appendix notebook (extended EDA stats + additional modelling experiments), a standalone <code>credit_risk_pipeline.py</code>, trained model artifacts, and a local Flask demo that scores a borrower profile end-to-end.',
+        ctaSource:'View source →', ctaBack:'← All projects',
+      },
+      id: {
+        navBack:'← Kembali ke portfolio', navProjects:'Proyek', navContact:'Kontak',
+        kickerTag:'Applied Data Science',
+        kickerText:'ID/X Partners × Rakamin · Credit Risk · XGBoost · Pipeline Leak-Free',
+        heroTitle:'Akurasi model saya sempat 95%.<br><em>Itu justru bug-nya.</em>',
+        heroLede:'Model kredit GOOD/BAD yang leak-free pada <strong>466.285 pinjaman LendingClub</strong> (2007–2014). Logistic Regression sebagai baseline, XGBoost terpilih — lalu empat upaya terpisah untuk membuktikan hasilnya bukan kebetulan: pembuktian leakage, pemeriksaan kalibrasi, validasi out-of-time, dan pemeriksaan subgroup.',
+        heroMetaModel:'<strong>Model</strong> XGBoost · ROC-AUC 0,694 test / 0,705 out-of-time',
+        heroMetaData:'<strong>Dataset</strong> 466.285 pinjaman · 373K train / 93K test · LendingClub 2007–2014',
+        heroMetaRigor:'<strong>Rigor</strong> Bukti leakage · kalibrasi · OOT · PSI · cek subgroup',
+        heroMetaLevel:'<strong>Program</strong> ID/X Partners × Rakamin, Data Scientist Internship 2026',
+        stat1:'ROC-AUC, test set<br>leak-free, out-of-sample', stat2:'Recall, kelas BAD<br>XGBoost, threshold di-tuning', stat3:'Tingkat pinjaman macet<br>class imbalance, tanpa oversampling', stat4:'AUC jika leakage dipasang balik<br>bukti, bukan asumsi',
+        s1Num:'01 · Business Problem',
+        s1Title:'Setujui pinjaman macet, rugi pokok. <em>Tolak pinjaman baik, kehilangan nasabah.</em>',
+        portfolioLabel:'Pinjaman, 2007–2014', badRateLabel:'Tingkat pinjaman macet',
+        mistakesList:'Setujui BAD → rugi pokok<br>Tolak GOOD → rugi bunga + nasabah',
+        solutionLabel:'Solusi Dibutuhkan', solutionTitle:'Klasifikasi GOOD/BAD saat Pengajuan',
+        s1Lede:'Tanpa label siap pakai, dataset rawan leakage, dan kelas minoritas 11,2% — keputusan pemodelan sama pentingnya dengan model itu sendiri.',
+        s1P1:'Risiko kredit merugikan dari dua arah: menyetujui pinjaman yang macet berarti kehilangan pokok pinjaman; menolak peminjam yang sebenarnya akan melunasi berarti kehilangan pendapatan bunga dan nasabah baik. Salah menilai trade-off ini mahal di kedua arah — dan solusi tradisional, scorecard manual dan penilaian credit officer, tidak scalable dan sulit konsisten untuk ribuan pengajuan.',
+        s1P2:'Lima problem statement yang mengarahkan setiap keputusan pemodelan di proyek ini:',
+        s1C1:'<strong>Definisi label</strong> — <code>loan_status</code> punya 9 kategori teks mentah, tanpa kolom GOOD/BAD siap pakai',
+        s1C2:'<strong>Fitur aman dari leakage</strong> — data mentah juga menyimpan banyak kolom hasil pasca-pencairan',
+        s1C3:'<strong>Class imbalance</strong> — hanya ~11,2% pinjaman berstatus BAD, sehingga akurasi saja adalah target yang menyesatkan',
+        s1C4:'<strong>Model + threshold</strong> — dipilih untuk trade-off bisnis yang masuk akal, bukan angka tertinggi semata',
+        s1C5:'<strong>Prioritas segmen</strong> — segmen peminjam mana yang berkontribusi tidak proporsional terhadap kerugian portofolio',
+        s2Num:'02 · Data & Desain Leak-Free',
+        s2Title:'Bukti model ini tidak menyontek: <em>pasang balik kolom bocor, AUC melonjak ke 0,955.</em>',
+        s2Lede:'466.285 baris × 75 kolom mentah, diaudit satu per satu: dipakai langsung, direkayasa jadi fitur baru, hanya jadi sumber label, atau dibuang — dengan alasan terdokumentasi untuk masing-masing.',
+        archDataLabel:'Data Mentah', archAudit:'Audit kolom', archAuditSub:'dipakai / direkayasa / label / dibuang',
+        archLeak:'Penghapusan leakage',
+        archFeatLabel:'Feature Engineering', archCapSub:'persentil ke-1–99, fit hanya dari fold training', archLog:'Transform log1p', archFlags:'Flag missing-is-informative',
+        archSplitLabel:'Split & Encoding', archSplit:'Split stratified 80/20', archSplitSub:'sebelum transformer apa pun di-fit', archCtSub:'imputasi, scaling, one-hot — hanya train',
+        archKeyTitle:'Keputusan engineering utama',
+        archK1:'<strong>Leak-free by design</strong> — kolom pasca-pencairan (<code>total_pymnt</code>, <code>recoveries</code>, <code>out_prncp</code>…) dihapus karena belum tersedia saat pinjaman diajukan',
+        archK2:'<strong>PercentileCapper di-fit per fold</strong> — batas outlier untuk fitur moneter yang skewed dipelajari hanya dari fold training, tidak pernah dari seluruh dataset sebelum split',
+        archK3:'<strong>Split sebelum fit</strong> — split stratified 80/20 dilakukan sebelum transformer apa pun melihat data, sehingga tidak ada informasi test set yang bocor ke preprocessing',
+        archK4:'<strong>Missing-is-informative</strong> — kolom riwayat tunggakan/catatan derogatory dengan missing value tinggi diubah jadi flag biner, bukan dibuang atau diimputasi naif',
+        archK5:'<strong>Audit kolom lengkap</strong> — seluruh 75 kolom mentah didokumentasikan sebagai dipakai / direkayasa / sumber label / dibuang, masing-masing dengan alasan',
+        fnLabel:'Bukti Leakage — Bukan Asumsi',
+        fnS1:'Logistic Regression yang sama', fnS2:'+ 4 kolom pasca-pencairan', fnS3:'Akurasi 0,954, AUC 0,955', fnS4:'Bukan model lebih baik — itu leak',
+        s2P:'Untuk memastikan desain leak-free ini benar-benar berpengaruh, saya melatih ulang Logistic Regression yang identik dengan empat kolom pasca-pencairan dipasang kembali. Akurasi langsung melonjak ke 95,4% dan ROC-AUC ke 0,955. Itu bukan model yang lebih baik — itu model yang membaca kunci jawaban. Inilah alasan ROC-AUC "asli" pada masalah ini mentok di sekitar 0,68–0,70, bukan 0,95 — dan kenapa angka yang lebih rendah itu justru yang bisa dipercaya.',
+        s3Num:'03 · Exploratory Data Analysis',
+        s3Title:'Tingkat pinjaman macet naik monoton, grade A ke G. <em>Tapi tidak ada satu fitur pun yang memprediksi risiko sendirian.</em>',
+        edaC1:'<strong>Sinyal grade</strong> — tingkat pinjaman macet naik dari ~4% di grade A ke ~28% di grade G; grading LendingClub sendiri sudah menangkap sebagian besar sinyal risiko',
+        edaC2:'<strong>Tenor &amp; kepemilikan rumah</strong> — pinjaman 60 bulan macet ~1,5× lebih sering dibanding 36 bulan; kategori "sewa" dan "other/none" lebih berisiko dibanding pemilik KPR',
+        edaC3:'<strong>Tidak ada fitur tunggal yang dominan</strong> — korelasi numerik individual terkuat dengan target adalah <code>int_rate</code>, hanya ≈0,17; sinyal risiko kredit bersifat nonlinear dan berbasis interaksi — inilah alasan memakai model tree-based',
+        edaC4:'<strong>Terkonfirmasi statistik</strong> — Chi-Square mengonfirmasi seluruh fitur kategorikal (grade, term, purpose, home_ownership, verification_status) berasosiasi signifikan dengan target; ANOVA mengonfirmasi hal sama untuk fitur numerik, dengan F-statistic <code>int_rate</code> (~14.670) jauh melampaui fitur lain',
+        edaC5:'<strong>Konfirmasi unsupervised</strong> — segmentasi K-Means + PCA menemukan 4 klaster peminjam alami dengan bad rate 7%–15%, tanpa pernah melihat label',
+        s4Num:'04 · Pemilihan Model',
+        s4Title:'Logistic Regression sebagai baseline, XGBoost terpilih — <em>berdasarkan kualitas ranking, bukan satu metrik saja.</em>',
+        baselineLabel:'Baseline', selectedLabel:'Terpilih',
+        accuracyLbl:'Akurasi', recallLbl:'Recall, BAD',
+        baselineVerdict:'Recall lebih tinggi, ranking &amp; kalibrasi lebih lemah', winnerVerdict:'✓ Terpilih — AUC/KS/Brier lebih baik, siap SHAP',
+        s4P1:'XGBoost tidak menang di semua metrik — pada threshold F1-optimalnya sendiri, Logistic Regression justru menangkap <em>lebih banyak</em> pinjaman macet (recall 52,5% vs 47,0%). XGBoost dipilih karena mengurutkan risiko peminjam lebih baik secara keseluruhan (ROC-AUC dan KS statistic lebih tinggi, Brier score lebih rendah) dan karena SHAP bekerja native pada model tree, membuat lapisan explainability di baliknya lebih informatif. Kedua threshold di-tuning terpisah lewat cutoff F1-optimal dari cross-validation out-of-fold pada data training — tidak pernah dari data test.',
+        fn2Label:'Kenapa Akurasi Bukan Metrik Utama',
+        fn2S1:'11,2% pinjaman BAD', fn2S2:'Selalu tebak GOOD', fn2S3:'Akurasi 88,8%', fn2S4:'0 pinjaman macet tertangkap',
+        expTitle:'Tiga eksperimen tambahan, dilaporkan apa adanya',
+        expC1:'<strong>SMOTE</strong> — oversampling dibanding class-weighting hasilnya nyaris sama (F1 0,283 vs 0,291) — mengonfirmasi class-weighting adalah pilihan yang lebih murah secara komputasi dan sama efektifnya pada 373K baris training',
+        expC2:'<strong>RandomizedSearchCV</strong> — ruang hyperparameter lebih luas hanya menaikkan ROC-AUC ke 0,696 — kenaikan marginal, tidak sepadan dengan tambahan kompleksitasnya',
+        expC3:'<strong>PCA</strong> — memampatkan 55 fitur hasil encoding menjadi 21 komponen tidak membawa perbaikan, dan dibuang',
+        expC4:'<strong>Voting ensemble soft-voting</strong> — merata-ratakan Logistic Regression + XGBoost mendarat <em>di antara</em> keduanya (ROC-AUC 0,691) — hasil negatif yang berguna: rata-rata menarik model yang lebih kuat ke bawah saat keduanya tidak setara kekuatannya',
+        s5Num:'05 · Explainability',
+        s5Title:'<code>int_rate</code> mendominasi. <code>annual_inc</code> protektif. <em>SHAP menjelaskan satu skor, bukan cuma agregat.</em>',
+        s5Lede:'Feature importance berbasis gain mengurutkan fitur secara agregat tapi tidak bisa menjelaskan satu prediksi. SHAP menambahkan atribusi aditif per-prediksi — lengkap dengan arah, bukan cuma magnitudo.',
+        shapC1:'<strong>int_rate mendominasi</strong> jauh di atas fitur lain, dengan pola arah yang bersih — nilai tinggi menaikkan risiko tajam, nilai rendah menurunkannya tajam',
+        shapC2:'<strong>annual_inc bersifat protektif</strong> dan jadi sinyal terkuat kedua — pendapatan lebih tinggi, risiko prediksi lebih rendah',
+        shapC3:'<strong>inq_last_6mths konsisten menaikkan risiko</strong> — makin banyak inquiry kredit terbaru, makin tinggi probabilitas gagal bayar yang diprediksi',
+        shapC4:'<strong>Penjelasan lokal menjawab pertanyaan berbeda</strong> — untuk peminjam tipikal (fitur numerik median, kategorikal mode), limit dan saldo kredit bergulir yang tinggi (<code>total_rev_hi_lim</code>, <code>tot_cur_bal</code>) menaikkan skornya, sementara jumlah inquiry terbaru yang rendah menariknya turun. Inilah yang memungkinkan credit officer menjelaskan <em>satu</em> keputusan, bukan cuma model secara umum',
+        s6Num:'06 · Stress-Testing Model',
+        s6Title:'Empat cara saya mencoba mematahkan model saya sendiri — <em>dan apa yang bertahan.</em>',
+        s6Lede:'Satu train/test split random membuktikan lebih sedikit dari yang terlihat. Empat pemeriksaan terpisah — kronologi, pergeseran distribusi, ketergantungan fitur, dan kalibrasi — masing-masing mencoba menemukan titik lemah model.',
+        stress1Rank:'Cek · Waktu', stress1Factor:'Validasi Out-of-Time', stress1Lbl:'ROC-AUC, split kronologis', stress1Multi:'↑ dari 0,694 random split',
+        stress1Desc:'Dilatih pada originasi Jun 2007–Agt 2014, diuji pada Agt–Des 2014, menggantikan split random. AUC dan KS sama-sama naik — model generalisasi ke depan secara kronologis, bukan cuma dalam sampel.',
+        stress2Rank:'Cek · Drift', stress2Factor:'Population Stability Index', stress2Lbl:'PSI, skor train vs test', stress2Multi:'kategori "pergeseran moderat"',
+        stress2Desc:'Pergeseran distribusi skor antara originasi lama dan baru terdeteksi tapi belum mengkhawatirkan — konsisten dengan bad rate populasi baru yang lebih rendah (7,1% vs 12,2%).',
+        stress3Rank:'Cek · Ketergantungan', stress3Factor:'Ablasi Grade', stress3Lbl:'ROC-AUC tanpa <code>grade</code>', stress3Multi:'vs 0,6940 dengan grade',
+        stress3Desc:'Menghapus grade underwriting milik LendingClub sendiri nyaris tidak mengubah ROC-AUC. Model tidak sekadar mereproduksi grade LendingClub — <code>int_rate</code> sudah membawa sinyal yang hampir sama.',
+        stress4Rank:'Cek · Kalibrasi', stress4Factor:'Kalibrasi Probabilitas', stress4Lbl:'Brier score, XGBoost', stress4Multi:'prediksi rata-rata 46% vs aktual 11,2%',
+        stress4Desc:'Probabilitas mentah TIDAK terkalibrasi — class-weighting mereweight loss function, sehingga predict_proba() jadi terlalu tinggi. Ranking (AUC/KS) dan threshold yang sudah di-tuning tetap valid; angka persentase mentahnya tidak.',
+        stress5Rank:'Cek · Subgroup (proxy)', stress5Factor:'Gap Recall Antar-Subgroup', stress5Lbl:'RENT 54,2% vs MORTGAGE 39,7%', stress5Multi:'bukan audit fair-lending',
+        stress5Desc:'Dataset tidak punya atribut demografis terlindungi, jadi ini proxy check, bukan audit fairness — tapi gapnya nyata dan perlu ditandai sebelum dipakai produksi.',
+        s6P1:'Pada bin risiko tertinggi, XGBoost memprediksi probabilitas rata-rata ≈71% — tapi bad rate aktual di bin yang sama hanya ≈26%. Kedua kurva berada jauh di bawah garis kalibrasi sempurna untuk sebagian besar rentangnya, dan model naif yang selalu menebak base rate populasi (≈10%) justru akan mendapat Brier score lebih rendah dari kedua model terlatih. Ranking adalah kemampuan yang berbeda dari kalibrasi, dan proyek ini awalnya hanya mengoptimalkan yang pertama.',
+        s7Num:'07 · Dari Model ke Keputusan Bisnis',
+        s7Title:'Threshold F1-optimal menandai 1 dari 5 pinjaman. <em>Threshold cost-optimal menandai 9 dari 10 — dan itu memang intinya.</em>',
+        s7Lede:'F1 memperlakukan pinjaman macet senilai $2.000 sama beratnya dengan yang senilai $35.000. Threshold expected-loss sederhana (PD × LGD × EAD) tidak.',
+        f1ThreshLabel:'F1-Optimal — threshold 0,585', costThreshLabel:'Cost-Optimal — threshold 0,070',
+        fnCountLbl:'Pinjaman macet terlewat (FN)', reviewCountLbl:'Ditandai untuk review (FP)', totalCostLbl:'Total biaya ilustratif',
+        impactMetricSub:'Biaya ilustratif total lebih rendah vs. F1-optimal',
+        s7P1:'<strong>Ini bukan bug — ini konsekuensi langsung dari rasio biaya yang diasumsikan.</strong> Kerugian rata-rata pinjaman macet yang lolos (≈$14.000, dengan LGD=80%) sekitar 280× lebih mahal dari biaya tinjauan manual yang diasumsikan (≈$50/kasus). Pada rasio seekstrem itu, cost-minimization akan selalu condong meninjau hampir semua orang — meniadakan manfaat model sebagai penyaring otomatis dan kemungkinan besar melebihi kapasitas tim underwriting mana pun. Versi produksi butuh batasan kapasitas eksplisit (mis. "tim hanya sanggup meninjau 10–15% volume") di atas logika biaya ini — langkah berikutnya yang terdokumentasi, belum diimplementasikan di sini karena butuh angka kapasitas riil dari tim operasional. Angka LGD dan biaya tinjauan sendiri juga ilustratif, bukan diturunkan dari dataset — kolom recovery pasca-pencairan sengaja tidak pernah disentuh.',
+        segTitle:'Segmen risiko tertinggi: grade G, tenor 60 bulan',
+        segP:'2,8% dari volume pinjaman, 6,5% dari seluruh pinjaman macet di data test — bad rate 2,4× baseline portofolio.',
+        colGrade:'Grade', colTerm:'Tenor', colN:'n', colBadRate:'Bad rate aktual', colPredProba:'Rata-rata P(bad) prediksi',
+        recTitle:'Rekomendasi terprioritaskan',
+        recC1:'<strong>Premi risiko berbasis tenor</strong> (+2–3 poin persentase) untuk pinjaman grade F/G tenor 60 bulan — penetapan harga saat ini belum sepenuhnya memisahkan risiko tenor dalam grade yang sama',
+        recC2:'<strong>Batasi tenor maksimum 36 bulan untuk grade G</strong>, atau wajibkan penjamin/agunan tambahan untuk tenor 60 bulan pada grade G',
+        recC3:'<strong>Tinjauan underwriting manual wajib</strong> untuk grade F/G tenor 60 bulan — volumenya kecil (&lt;3%) sehingga biaya tinjauan tambahan rendah, sementara kontribusinya terhadap kerugian &gt;6%',
+        recC4:'<strong>Jalankan ulang segmentasi &amp; model setiap ~6 bulan</strong> seiring pergeseran komposisi portofolio, konsisten dengan drift PSI yang sudah teramati',
+        s8Num:'08 · Technical Stack',
+        s8Title:'Dari notebook <em>ke pipeline scoring dan demo app.</em>',
+        stackML:'ML', stackXgbSub:'model terpilih', stackLrSub:'baseline', stackSklearnSub:'Pipeline + ColumnTransformer', stackImbSub:'eksperimen SMOTE',
+        stackData:'Data & Statistik', stackPandasSub:'EDA + transform', stackNumpySub:'operasi numerik', stackScipySub:'Chi-Square, ANOVA', stackKmeansSub:'segmentasi',
+        stackExplain:'Explainability', stackShapSub:'global + lokal', stackGainImp:'Gain-based importance',
+        stackDeploy:'Deployment', stackFlaskSub:'demo app lokal', stackJoblibSub:'artefak model',
+        stackTools:'Tools', stackJupyterSub:'notebook + lampiran', stackGridSub:'+ RandomizedSearchCV',
+        s9Num:'09 · Keterbatasan & Langkah Berikutnya',
+        s9Title:'Yang belum bisa dilakukan model ini — <em>disampaikan terus terang, bukan disembunyikan di lampiran.</em>',
+        s9Desc:'Semua poin di bawah ditemukan dan diukur langsung di dalam proyek, bukan diduga-duga belakangan.',
+        l1Label:'Hanya fitur saat pengajuan', l1Body:'Disengaja, untuk menghindari leakage — tapi ini membatasi ROC-AUC yang bisa dicapai di sekitar <strong>0,68–0,70</strong>. Sistem produksi bisa menambahkan data biro kredit eksternal untuk melampaui batas itu.',
+        l2Label:'Label right-censored', l2Body:'GOOD mencakup pinjaman yang masih berstatus <code>Current</code> — belum jatuh tempo. Sebagian kecil masih bisa macet nantinya. Keterbatasan yang melekat pada satu snapshot historis, <strong>bukan kesalahan pemodelan</strong>.',
+        l3Label:'Probabilitas mentah belum terkalibrasi', l3Body:'Dibuktikan di §06, bukan diasumsikan. Ranking dan threshold yang sudah di-tuning tetap valid, tapi <strong>angka mentah "P(bad)=55%" tidak boleh dibaca literal</strong> tanpa langkah kalibrasi — <code>CalibratedClassifierCV</code> adalah prioritas utama iterasi berikutnya.',
+        l4Label:'Threshold biaya butuh batasan kapasitas', l4Body:'Cost-minimization murni menandai ≈89% pengajuan — <strong>tidak operasional</strong> tanpa batas kapasitas tinjauan riil dan angka LGD/biaya riil dari lender sungguhan.',
+        s9NextTitle:'Iterasi berikutnya, berurutan',
+        s9NextP:'Kalibrasi probabilitas lebih dulu (prioritas tertinggi mengingat temuan §06), lalu threshold biaya dengan batasan kapasitas dan angka riil dari tim operasional, lalu pencarian hyperparameter yang lebih luas. Juga dalam daftar: audit fair-lending penuh jika proyek ini pernah dideploy dengan data demografis riil.',
+        ctaNum:'Baca notebook · Lihat kode',
+        ctaTitle:'Dua notebook, modul pipeline, dan demo scoring Flask <em>di GitHub.</em>',
+        ctaP:'Notebook utama (EDA → modelling → rekomendasi bisnis), notebook lampiran (statistik EDA lanjutan + eksperimen modelling tambahan), modul <code>credit_risk_pipeline.py</code> mandiri, artefak model terlatih, dan demo Flask lokal yang men-scoring profil peminjam end-to-end.',
+        ctaSource:'Lihat source →', ctaBack:'← Semua proyek',
+      }
+    };
+
+    function applyLanguage(lang) {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[lang]?.[key] !== undefined) el.innerHTML = translations[lang][key];
+      });
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.langTarget === lang));
+      document.documentElement.lang = lang;
+      localStorage.setItem('lang', lang);
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLanguage(btn.dataset.langTarget)));
+    applyLanguage(localStorage.getItem('lang') || 'en');
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Theme toggle
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      function update(t){ btn.textContent = t==='dark'?'☀':'🌙'; btn.setAttribute('aria-label', t==='dark'?'Switch to light mode':'Switch to dark mode'); }
+      update(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click', function(){ const next = html.getAttribute('data-theme')==='dark'?'light':'dark'; html.setAttribute('data-theme',next); localStorage.setItem('theme',next); update(next); });
+    })();
+  </script>
+</body>
+</html>

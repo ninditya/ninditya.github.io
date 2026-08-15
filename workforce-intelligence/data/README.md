@@ -33,9 +33,9 @@ python generate_medika_data.py ./output
 | Grup terbentuk oleh analisis naif | 219 |
 | Orang hasil resolusi | 232 (over-split 32, 16 persen) |
 | Flag review Dataset B | 44,4 persen |
-| Konflik tanggal masuk | 90 |
+| Konflik tanggal masuk | 88 |
 | Mutasi tercatat sebagai terminasi | 10 |
-| Baris performa pra-2022 tidak valid | 132 |
+| Baris performa pra-2022 tidak valid | 0 |
 
 ## Messiness yang diinjeksi, dan alasannya
 

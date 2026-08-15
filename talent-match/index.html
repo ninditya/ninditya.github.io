@@ -178,6 +178,20 @@
     .screen-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:36px 0; }
     .screen-item { border:1px solid var(--line); border-radius:8px; overflow:hidden; }
     .screen-item img { width:100%; display:block; }
+    .screen-mock { min-height:220px; padding:18px; background:linear-gradient(135deg,#fff,var(--bg-alt)); display:flex; flex-direction:column; gap:12px; }
+    .mock-top { display:flex; justify-content:space-between; gap:10px; align-items:center; font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+    .mock-pill { border:1px solid var(--line); border-radius:999px; padding:5px 9px; background:white; color:var(--primary); }
+    .mock-panel { border:1px solid var(--line); border-radius:7px; background:white; padding:12px; flex:1; }
+    .mock-line { height:9px; border-radius:999px; background:var(--line); margin-bottom:9px; }
+    .mock-line.short { width:48%; }
+    .mock-line.mid { width:72%; }
+    .mock-bars { display:flex; align-items:end; gap:8px; height:112px; padding-top:16px; }
+    .mock-bars span { flex:1; border-radius:5px 5px 0 0; background:var(--primary); opacity:0.84; }
+    .mock-bars span:nth-child(2n) { background:var(--accent); opacity:0.72; }
+    .mock-rank { display:grid; gap:8px; margin-top:10px; }
+    .mock-rank-row { display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center; font-family:'DM Mono',monospace; font-size:11px; color:var(--ink-soft); }
+    .mock-rank-bar { height:10px; border-radius:999px; background:var(--primary); }
+    .mock-radar { width:138px; height:138px; margin:10px auto 0; border:1px solid var(--line); border-radius:50%; background:radial-gradient(circle,transparent 22%,var(--line) 23%,transparent 24%,transparent 46%,var(--line) 47%,transparent 48%), conic-gradient(from 20deg,rgba(26,82,118,0.28),rgba(196,73,12,0.34),rgba(45,106,79,0.22),rgba(26,82,118,0.28)); }
     .screen-caption { padding:10px 14px; background:var(--bg); border-top:1px solid var(--line); font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.03em; }
     .screen-tab { font-weight:500; color:var(--primary); margin-right:6px; }
 
@@ -678,19 +692,54 @@
 
       <div class="screen-grid">
         <div class="screen-item">
-          <img src="talent-match-screen-vacancy.png" alt="Vacancy creation screen: select benchmark employees, generate AI job profile" loading="lazy">
+          <div class="screen-mock" role="img" aria-label="Vacancy creation screen: select benchmark employees and generate an AI job profile">
+            <div class="mock-top"><span>Vacancy Form</span><span class="mock-pill">Generate AI Profile</span></div>
+            <div class="mock-panel">
+              <div class="mock-line mid"></div>
+              <div class="mock-line"></div>
+              <div class="mock-line short"></div>
+              <div class="mock-rank">
+                <div class="mock-rank-row"><span>R5</span><span class="mock-rank-bar" style="width:92%"></span><span>92%</span></div>
+                <div class="mock-rank-row"><span>R6</span><span class="mock-rank-bar" style="width:74%"></span><span>74%</span></div>
+                <div class="mock-rank-row"><span>R7</span><span class="mock-rank-bar" style="width:68%"></span><span>68%</span></div>
+              </div>
+            </div>
+          </div>
           <div class="screen-caption"><span class="screen-tab">①</span> <span data-i18n="screen1">Vacancy creation — select benchmarks, generate AI job profile</span></div>
         </div>
         <div class="screen-item">
-          <img src="talent-match-screen-distribution.png" alt="Match score distribution histogram across all 2,010 employees" loading="lazy">
+          <div class="screen-mock" role="img" aria-label="Match score distribution histogram across all 2,010 employees">
+            <div class="mock-top"><span>Score Distribution</span><span class="mock-pill">2,010 employees</span></div>
+            <div class="mock-panel">
+              <div class="mock-bars">
+                <span style="height:26%"></span><span style="height:48%"></span><span style="height:72%"></span><span style="height:100%"></span><span style="height:86%"></span><span style="height:58%"></span><span style="height:32%"></span>
+              </div>
+            </div>
+          </div>
           <div class="screen-caption"><span class="screen-tab">②</span> <span data-i18n="screen2">Match score distribution — all 2,010 employees</span></div>
         </div>
         <div class="screen-item">
-          <img src="talent-match-screen-ranking.png" alt="Top candidate ranking bar chart showing top 15 employees by match score" loading="lazy">
+          <div class="screen-mock" role="img" aria-label="Top candidate ranking bar chart showing top 15 employees by match score">
+            <div class="mock-top"><span>Candidate Ranking</span><span class="mock-pill">Top 15</span></div>
+            <div class="mock-panel">
+              <div class="mock-rank">
+                <div class="mock-rank-row"><span>#1</span><span class="mock-rank-bar" style="width:94%"></span><span>94.1%</span></div>
+                <div class="mock-rank-row"><span>#2</span><span class="mock-rank-bar" style="width:90%"></span><span>89.9%</span></div>
+                <div class="mock-rank-row"><span>#3</span><span class="mock-rank-bar" style="width:89%"></span><span>89.1%</span></div>
+                <div class="mock-rank-row"><span>#4</span><span class="mock-rank-bar" style="width:83%"></span><span>83.4%</span></div>
+                <div class="mock-rank-row"><span>#5</span><span class="mock-rank-bar" style="width:78%"></span><span>78.2%</span></div>
+              </div>
+            </div>
+          </div>
           <div class="screen-caption"><span class="screen-tab">③</span> <span data-i18n="screen3">Top candidate ranking — top-15 bar chart</span></div>
         </div>
         <div class="screen-item">
-          <img src="talent-match-screen-radar.png" alt="Candidate detail radar chart comparing individual vs benchmark across all TGV dimensions" loading="lazy">
+          <div class="screen-mock" role="img" aria-label="Candidate detail radar chart comparing individual against benchmark across TGV dimensions">
+            <div class="mock-top"><span>Candidate Detail</span><span class="mock-pill">Benchmark = 100%</span></div>
+            <div class="mock-panel">
+              <div class="mock-radar"></div>
+            </div>
+          </div>
           <div class="screen-caption"><span class="screen-tab">④</span> <span data-i18n="screen4">Candidate detail — radar chart vs benchmark = 100%</span></div>
         </div>
       </div>

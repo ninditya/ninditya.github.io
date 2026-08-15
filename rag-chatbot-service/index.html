@@ -92,6 +92,9 @@
     /* ── Tags / pills ── */
     .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 20px 0; }
     .tag { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 5px 11px; border: 1px solid var(--line-strong); background: white; border-radius: 3px; color: var(--ink-soft); }
+    .tag.now { background: var(--bg); border-color: var(--primary); color: var(--primary); font-weight: 600; }
+    .tag.next { background: var(--bg); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+    .tag.later { background: var(--bg); color: var(--ink-soft); }
 
     /* ── Checklists ── */
     ul.checklist { list-style: none; padding: 0; margin: 24px 0; max-width: 800px; }
@@ -156,6 +159,9 @@
     table.compare tr.highlight td { background: var(--accent-soft); }
     table.compare td.good { color: var(--green); font-weight: 500; }
     table.compare td.bad { color: var(--red); font-weight: 500; }
+    table.compare.wide { max-width: 940px; }
+    table.compare td.num { font-family: 'DM Mono', monospace; font-variant-numeric: tabular-nums; }
+    table.compare td .story { color: var(--muted); font-size: 13px; margin-top: 4px; display: block; }
 
     /* ── Architecture module grid ── */
     .module-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 32px 0; max-width: 900px; }
@@ -352,12 +358,37 @@
     </div>
   </section>
 
+  <!-- ── At a glance (Problem / Solution / Impact) ── -->
+  <section class="content" id="glance">
+    <div class="wrap">
+      <div class="section-num" data-i18n="glanceNum">At a glance</div>
+      <h2 data-i18n="glanceTitle">Problem, solution, impact — <em>in 30 seconds.</em></h2>
+      <div class="three-col reveal">
+        <div class="sol-card">
+          <div class="sol-icon">❗</div>
+          <div class="sol-title" data-i18n="glance1Title">Problem</div>
+          <p class="sol-desc" data-i18n="glance1Desc">Health misinformation spreads through WhatsApp family groups as generic advice — dangerous for anyone on medication, with allergies, or a condition the forward never accounts for.</p>
+        </div>
+        <div class="sol-card">
+          <div class="sol-icon">🛠️</div>
+          <div class="sol-title" data-i18n="glance2Title">Solution</div>
+          <p class="sol-desc" data-i18n="glance2Desc">A retrieval-first chatbot that only answers from BPOM/IDI/WHO/Kemenkes sources, personalizes to the user's health profile without storing it, and degrades gracefully instead of crashing when quota or the vector store fails.</p>
+        </div>
+        <div class="sol-card">
+          <div class="sol-icon">📈</div>
+          <div class="sol-title" data-i18n="glance3Title">Impact</div>
+          <p class="sol-desc" data-i18n="glance3Desc">Zero hard crashes under Gemini quota exhaustion. Every claim traces to a cited source, or the system says "insufficient context" instead of guessing. v0's FAISS index — wiped on every restart — became a persistent Qdrant store that survives redeploys.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ── Stats ── -->
   <section class="stats-strip" aria-label="Key numbers">
     <div class="wrap">
       <div class="stats-grid">
         <div class="stat">
-          <div class="num">35<small>+</small></div>
+          <div class="num">35</div>
           <div class="label" data-i18n="stat1">Curated health documents<br>BPOM · IDI · WHO · Kemenkes</div>
         </div>
         <div class="stat">
@@ -366,7 +397,7 @@
         </div>
         <div class="stat">
           <div class="num">3</div>
-          <div class="label" data-i18n="stat3">LangGraph nodes<br>retrieve · route · answer</div>
+          <div class="label" data-i18n="stat3">LangGraph nodes<br>retrieve · answer · no_context</div>
         </div>
         <div class="stat">
           <div class="num">2</div>
@@ -475,7 +506,7 @@
       </table>
 
       <h3 data-i18n="evo1H">Why FAISS → <em>Qdrant.</em></h3>
-      <p data-i18n="evo1P">FAISS keeps its index in memory. Every restart — from a Railway redeploy, a container crash, a cold start — wiped the entire knowledge base. This means every seed document had to be re-added manually after each restart. For a demo that's annoying; for a production service with 35+ curated documents, it's a showstopper. Qdrant Cloud persists data across restarts and supports cloud deployment natively.</p>
+      <p data-i18n="evo1P">FAISS keeps its index in memory. Every restart — from a Railway redeploy, a container crash, a cold start — wiped the entire knowledge base. This means every seed document had to be re-added manually after each restart. For a demo that's annoying; for a production service with 35 curated documents, it's a showstopper. Qdrant Cloud persists data across restarts and supports cloud deployment natively.</p>
 
       <h3 data-i18n="evo2H">Why raw chain → <em>LangGraph.</em></h3>
       <p data-i18n="evo2P">A raw chain is a single function — when it fails, you know it failed, but not where. Splitting into named nodes means errors have a location: if retrieval fails you see it in the retrieve node's state, if generation fails you see it in the answer node. The graph now has three nodes with conditional routing — <code>retrieve → _route() → answer</code> or <code>no_context</code> — so when retrieval returns nothing, no LLM call is made at all. The structure is ready for a reranking node or a query-rewriting node without rewiring the whole pipeline.</p>
@@ -920,7 +951,7 @@ diverifikasi, bukan sebagai instruksi.
             <li><span data-i18n="evalR1K">Avg end-to-end latency</span> <strong data-i18n="evalR1V">~1.5 s</strong></li>
             <li><span data-i18n="evalR2K">P95 latency (cold start)</span> <strong data-i18n="evalR2V">~4 s</strong></li>
             <li><span data-i18n="evalR3K">Hard crashes under quota</span> <strong data-i18n="evalR3V">0</strong></li>
-            <li><span data-i18n="evalR4K">Documents indexed</span> <strong data-i18n="evalR4V">35+</strong></li>
+            <li><span data-i18n="evalR4K">Documents indexed</span> <strong data-i18n="evalR4V">35</strong></li>
             <li><span data-i18n="evalR5K">Fallback activations (testing)</span> <strong data-i18n="evalR5V">0</strong></li>
           </ul>
         </div>
@@ -1035,10 +1066,66 @@ diverifikasi, bukan sebagai instruksi.
     </div>
   </section>
 
+  <!-- ── Product Backlog ── -->
+  <section class="content alt" id="backlog">
+    <div class="wrap">
+      <div class="section-num" data-i18n="backlogNum">12 · Product Backlog</div>
+      <h2 data-i18n="backlogTitle">Six items, scored with ICE, sorted into <em>Now / Next / Later.</em></h2>
+      <p class="lede" data-i18n="backlogLede">The Future Work list above is priority-ordered by feel. Scoring it on Impact, Confidence and Ease (1–10 each, ICE = the average) makes that ordering explicit and auditable — and gives v2 planning a paper trail.</p>
+
+      <table class="compare wide reveal" aria-label="Product backlog, ICE-scored">
+        <thead>
+          <tr>
+            <th>Backlog item</th>
+            <th>Impact</th>
+            <th>Confidence</th>
+            <th>Ease</th>
+            <th>ICE</th>
+            <th>Priority</th>
+            <th>Release</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong data-i18n="item1Title">Retrieval evaluation dataset</strong><span class="story" data-i18n="item1Story">As a maintainer, I need a labeled eval set so retrieval changes are judged by Recall@3, not gut feel.</span></td>
+            <td class="num">10</td><td class="num">9</td><td class="num">6</td><td class="num"><strong>8.3</strong></td>
+            <td><span class="tag now">Now</span></td><td>v2</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="item2Title">Decouple profile from retrieval embedding</strong><span class="story" data-i18n="item2Story">As a user, I need my health profile to personalize the answer without skewing which documents get retrieved.</span></td>
+            <td class="num">8</td><td class="num">8</td><td class="num">7</td><td class="num"><strong>7.7</strong></td>
+            <td><span class="tag now">Now</span></td><td>v2</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="item3Title">Observability dashboard</strong><span class="story" data-i18n="item3Story">As a maintainer, I need to see fallback rate and latency trending before users notice degradation.</span></td>
+            <td class="num">7</td><td class="num">8</td><td class="num">6</td><td class="num"><strong>7.0</strong></td>
+            <td><span class="tag next">Next</span></td><td>v2</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="item4Title">Expand &amp; evaluate the knowledge base</strong><span class="story" data-i18n="item4Story">As a user, I need coverage beyond 35 documents so more real questions get a grounded answer instead of "insufficient context."</span></td>
+            <td class="num">7</td><td class="num">7</td><td class="num">5</td><td class="num"><strong>6.3</strong></td>
+            <td><span class="tag next">Next</span></td><td>v2</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="item5Title">Hybrid search + reranking</strong><span class="story" data-i18n="item5Story">As a user, I need rare medical terms to surface the right document, not just the semantically-nearest one.</span></td>
+            <td class="num">7</td><td class="num">6</td><td class="num">4</td><td class="num"><strong>5.7</strong></td>
+            <td><span class="tag later">Later</span></td><td>v3</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="item6Title">Retrieval confidence routing</strong><span class="story" data-i18n="item6Story">As a user, I need to be told when the knowledge base coverage is thin, instead of getting a confident-sounding answer built on weak context.</span></td>
+            <td class="num">6</td><td class="num">6</td><td class="num">5</td><td class="num"><strong>5.7</strong></td>
+            <td><span class="tag later">Later</span></td><td>v3</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:14px" data-i18n="backlogNote">Confidence is lowest on the two <em>Later</em> items — hybrid search and confidence routing both depend on the retrieval-evaluation dataset (#1) existing first, so scoring them as highly confident before that foundation is built would be dishonest.</p>
+    </div>
+  </section>
+
   <!-- ── CTA ── -->
   <section class="cta-section">
     <div class="wrap">
-      <div class="section-num" data-i18n="nextNum">12 · Demo + Code</div>
+      <div class="section-num" data-i18n="nextNum">13 · Demo + Code</div>
       <h2 data-i18n="ctaTitle">Try the demo <em>or read the code.</em></h2>
       <p data-i18n="ctaP">The live chatbot is at health-truth-chatbot.up.railway.app. The source — <code>RagWorkflow.py</code>, <code>DocumentStore.py</code>, <code>chatbot.py</code> — is the most direct way to see these decisions in context.</p>
       <div class="cta-buttons">
@@ -1071,7 +1158,7 @@ diverifikasi, bukan sebagai instruksi.
         heroMeta4:`<strong>Demo</strong> health-truth-chatbot.up.railway.app`,
         stat1:"Curated health documents\nBPOM · IDI · WHO · Kemenkes",
         stat2:"Hard crashes under quota\nexhaustion — graceful only",
-        stat3:"LangGraph nodes\nretrieve · route · answer",
+        stat3:"LangGraph nodes\nretrieve · answer · no_context",
         stat4:"Interaction modes\nTanya · Cek Fakta",
         solNum:"02 · The Solution",
         solTitle:`Three constraints. <em>One system.</em>`,
@@ -1194,7 +1281,7 @@ diverifikasi, bukan sebagai instruksi.
         evalR1K:"Avg end-to-end latency", evalR1V:"~1.5 s",
         evalR2K:"P95 latency (cold start)", evalR2V:"~4 s",
         evalR3K:"Hard crashes under quota", evalR3V:"0",
-        evalR4K:"Documents indexed", evalR4V:"35+",
+        evalR4K:"Documents indexed", evalR4V:"35",
         evalR5K:"Fallback activations (testing)", evalR5V:"0",
         evalGapLabel:"Not yet formally measured",
         evalG1V:"no eval set", evalG2V:"no eval set", evalG3V:"no eval set",
@@ -1221,9 +1308,33 @@ diverifikasi, bukan sebagai instruksi.
         fw4:`<strong>Expand and evaluate the knowledge base.</strong> Add structured documents from WHO, NIH, PubMed abstracts, and Kemenkes guidelines. Apply metadata filtering for source type and date.`,
         fw5:`<strong>Hybrid search + reranking.</strong> Combine dense (SBERT) with sparse (BM25) retrieval. Add a cross-encoder reranker before the context window. Improves recall on rare medical terms that pure embedding search misses.`,
         fw6:`<strong>Retrieval confidence routing.</strong> If the highest retrieval score is below a stricter threshold, route to a "low confidence" path that explicitly tells the user the knowledge base coverage is limited.`,
+        glanceNum:"At a glance",
+        glanceTitle:`Problem, solution, impact — <em>in 30 seconds.</em>`,
+        glance1Title:"Problem",
+        glance1Desc:`Health misinformation spreads through WhatsApp family groups as generic advice — dangerous for anyone on medication, with allergies, or a condition the forward never accounts for.`,
+        glance2Title:"Solution",
+        glance2Desc:`A retrieval-first chatbot that only answers from BPOM/IDI/WHO/Kemenkes sources, personalizes to the user's health profile without storing it, and degrades gracefully instead of crashing when quota or the vector store fails.`,
+        glance3Title:"Impact",
+        glance3Desc:`Zero hard crashes under Gemini quota exhaustion. Every claim traces to a cited source, or the system says "insufficient context" instead of guessing. v0's FAISS index — wiped on every restart — became a persistent Qdrant store that survives redeploys.`,
+        backlogNum:"12 · Product Backlog",
+        backlogTitle:`Six items, scored with ICE, sorted into <em>Now / Next / Later.</em>`,
+        backlogLede:`The Future Work list above is priority-ordered by feel. Scoring it on Impact, Confidence and Ease (1–10 each, ICE = the average) makes that ordering explicit and auditable — and gives v2 planning a paper trail.`,
+        item1Title:"Retrieval evaluation dataset",
+        item1Story:"As a maintainer, I need a labeled eval set so retrieval changes are judged by Recall@3, not gut feel.",
+        item2Title:"Decouple profile from retrieval embedding",
+        item2Story:"As a user, I need my health profile to personalize the answer without skewing which documents get retrieved.",
+        item3Title:"Observability dashboard",
+        item3Story:"As a maintainer, I need to see fallback rate and latency trending before users notice degradation.",
+        item4Title:"Expand & evaluate the knowledge base",
+        item4Story:`As a user, I need coverage beyond 35 documents so more real questions get a grounded answer instead of "insufficient context."`,
+        item5Title:"Hybrid search + reranking",
+        item5Story:"As a user, I need rare medical terms to surface the right document, not just the semantically-nearest one.",
+        item6Title:"Retrieval confidence routing",
+        item6Story:"As a user, I need to be told when the knowledge base coverage is thin, instead of getting a confident-sounding answer built on weak context.",
+        backlogNote:`Confidence is lowest on the two <em>Later</em> items — hybrid search and confidence routing both depend on the retrieval-evaluation dataset (#1) existing first, so scoring them as highly confident before that foundation is built would be dishonest.`,
         ctaTitle:`Try the demo <em>or read the code.</em>`,
         ctaP:`The live chatbot is at health-truth-chatbot.up.railway.app. The source — <code>RagWorkflow.py</code>, <code>DocumentStore.py</code>, <code>chatbot.py</code> — is the most direct way to see these decisions in context.`,
-        nextNum:"12 · Demo + Code",
+        nextNum:"13 · Demo + Code",
         ctaDemo:"Live demo →",
         ctaGithub:"View source →",
         ctaSystemAnalysis:"Full system analysis →",
@@ -1241,7 +1352,7 @@ diverifikasi, bukan sebagai instruksi.
         heroMeta4:`<strong>Demo</strong> health-truth-chatbot.up.railway.app`,
         stat1:"Dokumen kesehatan terkurasi\nBPOM · IDI · WHO · Kemenkes",
         stat2:"Hard crash saat quota habis —\nhanya graceful degradation",
-        stat3:"Node LangGraph\nretrieve · route · answer",
+        stat3:"Node LangGraph\nretrieve · answer · no_context",
         stat4:"Mode interaksi\nTanya · Cek Fakta",
         solNum:"02 · Solusinya",
         solTitle:`Tiga constraint. <em>Satu sistem.</em>`,
@@ -1364,7 +1475,7 @@ diverifikasi, bukan sebagai instruksi.
         evalR1K:"Rata-rata latency end-to-end", evalR1V:"~1,5 dtk",
         evalR2K:"P95 latency (cold start)", evalR2V:"~4 dtk",
         evalR3K:"Hard crash saat quota habis", evalR3V:"0",
-        evalR4K:"Dokumen terindeks", evalR4V:"35+",
+        evalR4K:"Dokumen terindeks", evalR4V:"35",
         evalR5K:"Aktivasi fallback (saat testing)", evalR5V:"0",
         evalGapLabel:"Belum diukur secara formal",
         evalG1V:"belum ada eval set", evalG2V:"belum ada eval set", evalG3V:"belum ada eval set",
@@ -1391,9 +1502,33 @@ diverifikasi, bukan sebagai instruksi.
         fw4:`<strong>Perluas dan evaluasi knowledge base.</strong> Tambahkan dokumen terstruktur dari WHO, NIH, abstrak PubMed, dan panduan Kemenkes. Terapkan metadata filtering untuk jenis sumber dan tanggal.`,
         fw5:`<strong>Hybrid search + reranking.</strong> Gabungkan retrieval dense (SBERT) dengan sparse (BM25). Tambahkan cross-encoder reranker sebelum context window. Meningkatkan recall untuk istilah medis jarang.`,
         fw6:`<strong>Confidence routing retrieval.</strong> Jika skor retrieval tertinggi di bawah threshold yang lebih ketat, arahkan ke jalur "confidence rendah" yang secara eksplisit memberi tahu user bahwa cakupan knowledge base terbatas.`,
+        glanceNum:"Sekilas",
+        glanceTitle:`Masalah, solusi, dampak — <em>dalam 30 detik.</em>`,
+        glance1Title:"Masalah",
+        glance1Desc:`Misinformasi kesehatan menyebar lewat grup WhatsApp keluarga sebagai saran generik — berbahaya bagi siapa pun yang sedang minum obat, punya alergi, atau kondisi yang tidak pernah dipertimbangkan oleh pesan berantai itu.`,
+        glance2Title:"Solusi",
+        glance2Desc:`Chatbot retrieval-first yang hanya menjawab dari sumber BPOM/IDI/WHO/Kemenkes, mempersonalisasi jawaban sesuai profil kesehatan pengguna tanpa menyimpannya, dan tetap berjalan graceful — bukan crash — saat quota atau vector store bermasalah.`,
+        glance3Title:"Dampak",
+        glance3Desc:`Nol hard crash saat quota Gemini habis. Setiap klaim bisa dilacak ke sumber yang dikutip, atau sistem berkata "konteks tidak cukup" alih-alih menebak. Index FAISS di v0 — yang terhapus setiap restart — kini jadi Qdrant store persisten yang bertahan lintas redeploy.`,
+        backlogNum:"12 · Backlog Produk",
+        backlogTitle:`Enam item, diskor dengan ICE, diurutkan ke <em>Now / Next / Later.</em>`,
+        backlogLede:`Daftar Rencana ke Depan di atas diurutkan berdasarkan feeling. Menyekornya dengan Impact, Confidence, dan Ease (1–10, ICE = rata-rata) membuat urutan itu eksplisit dan bisa diaudit — dan memberi jejak keputusan untuk perencanaan v2.`,
+        item1Title:"Dataset evaluasi retrieval",
+        item1Story:"Sebagai maintainer, saya butuh eval set berlabel supaya perubahan retrieval dinilai lewat Recall@3, bukan feeling.",
+        item2Title:"Pisahkan profil dari embedding retrieval",
+        item2Story:"Sebagai pengguna, saya butuh profil kesehatan saya mempersonalisasi jawaban tanpa mengubah dokumen mana yang ter-retrieve.",
+        item3Title:"Dashboard observability",
+        item3Story:"Sebagai maintainer, saya butuh melihat tren fallback rate dan latency sebelum pengguna menyadari penurunan kualitas.",
+        item4Title:"Perluas & evaluasi knowledge base",
+        item4Story:`Sebagai pengguna, saya butuh cakupan lebih dari 35 dokumen supaya lebih banyak pertanyaan nyata dapat jawaban berbasis sumber, bukan "konteks tidak cukup."`,
+        item5Title:"Hybrid search + reranking",
+        item5Story:"Sebagai pengguna, saya butuh istilah medis yang jarang tetap menemukan dokumen yang tepat, bukan cuma yang paling mirip secara semantik.",
+        item6Title:"Confidence routing pada retrieval",
+        item6Story:"Sebagai pengguna, saya butuh diberi tahu saat cakupan knowledge base tipis, alih-alih mendapat jawaban yang terdengar yakin padahal berbasis konteks lemah.",
+        backlogNote:`Confidence paling rendah ada di dua item <em>Later</em> — hybrid search dan confidence routing sama-sama bergantung pada dataset evaluasi retrieval (#1) yang harus lebih dulu ada, jadi menyekornya seolah sangat yakin sebelum fondasi itu dibangun akan tidak jujur.`,
         ctaTitle:`Coba demo-nya <em>atau baca kodenya.</em>`,
         ctaP:`Chatbot live ada di health-truth-chatbot.up.railway.app. Source — <code>RagWorkflow.py</code>, <code>DocumentStore.py</code>, <code>chatbot.py</code> — adalah cara paling langsung melihat keputusan-keputusan ini dalam konteks.`,
-        nextNum:"12 · Demo + Kode",
+        nextNum:"13 · Demo + Kode",
         ctaDemo:"Live demo →",
         ctaGithub:"Lihat source →",
         ctaSystemAnalysis:"Analisis sistem lengkap →",
