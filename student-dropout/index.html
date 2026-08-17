@@ -316,6 +316,7 @@
         <p style="margin-top:24px;" data-i18n="s2Tech">
           Key technical decisions: SMOTE applied to training split only (never test set); XGBoost selected via GridSearchCV over Random Forest; primary metric is <strong>F1 + Recall on the dropout class</strong> — a model predicting "graduate" for everyone scores 68% accuracy but catches zero at-risk students.
         </p>
+        <p style="margin-top:12px" data-i18n="s2TechNote">Two things this write-up doesn't publish: the Random Forest candidate's own accuracy/F1 numbers from that GridSearchCV comparison (XGBoost won, but the runner-up's score isn't shown here), and 5-fold <strong>StratifiedKFold</strong> was chosen specifically because the dropout class is a 32.12%/67.88% split — plain K-fold risks folds with too few dropout examples to train or validate on reliably.</p>
 
         <div class="stack-row" style="margin-top:20px;">
           <div class="stack-item"><div class="stack-item-label">Model</div><div class="stack-item-val">XGBoost</div></div>
@@ -385,6 +386,9 @@
         <p>
           The top two predictors are both academic: courses approved in semester 2 (SHAP 2.14) and semester 1 (SHAP 0.74). Tuition payment status ranks third (SHAP 0.46). A student failing courses in both semesters who is also behind on fees has compounding risk — the model captures all three dimensions simultaneously.
         </p>
+
+        <h3 data-i18n="s3ErrTitle">Where this still gets it wrong</h3>
+        <p data-i18n="s3ErrP">The confusion matrix above shows a low false-positive rate, which is the good half of the story. The half that matters more for an early-warning system — the false-negative rate, i.e. at-risk students the model misses entirely — is only reported qualitatively ("High" recall) rather than as an exact count in this write-up. For a tool meant to trigger counselor intervention, a missed dropout is a worse failure than an unnecessary check-in on a student who was actually fine, so that exact number is the one gap most worth closing before treating 92.42% accuracy as sufficient on its own.</p>
       </div>
     </section>
 
@@ -626,9 +630,12 @@
         s2Num: '02 — Solution Architecture',
         s2H2: 'End-to-end pipeline: <em>business problem to production interface</em>',
         s2Tech: 'Key technical decisions: SMOTE applied to training split only (never test set); XGBoost selected via GridSearchCV over Random Forest; primary metric is <strong>F1 + Recall on the dropout class</strong> — a model predicting "graduate" for everyone scores 68% accuracy but catches zero at-risk students.',
+        s2TechNote: 'Two things this write-up doesn\'t publish: the Random Forest candidate\'s own accuracy/F1 numbers from that GridSearchCV comparison (XGBoost won, but the runner-up\'s score isn\'t shown here), and 5-fold <strong>StratifiedKFold</strong> was chosen specifically because the dropout class is a 32.12%/67.88% split — plain K-fold risks folds with too few dropout examples to train or validate on reliably.',
         s2Lede: 'Three technical challenges had to be solved before any model could be evaluated: class imbalance, feature encoding, and model selection.',
         s3Num: '03 — Model Results',
         s3H2: '92.42% accuracy, AUC 97.27% — <em>what do these numbers mean</em> operationally?',
+        s3ErrTitle: 'Where this still gets it wrong',
+        s3ErrP: 'The confusion matrix above shows a low false-positive rate, which is the good half of the story. The half that matters more for an early-warning system — the false-negative rate, i.e. at-risk students the model misses entirely — is only reported qualitatively ("High" recall) rather than as an exact count in this write-up. For a tool meant to trigger counselor intervention, a missed dropout is a worse failure than an unnecessary check-in on a student who was actually fine, so that exact number is the one gap most worth closing before treating 92.42% accuracy as sufficient on its own.',
         s4Num: '04 — Key Risk Insights',
         s4H2: 'What the data reveals about <em>who drops out and why</em>',
         s5Num: '05 — Deliverables',
@@ -678,9 +685,12 @@
         s2Num: '02 — Arsitektur Solusi',
         s2H2: 'Pipeline end-to-end: <em>dari masalah bisnis ke antarmuka produksi</em>',
         s2Tech: 'Keputusan teknis utama: SMOTE diterapkan hanya pada training split; XGBoost dipilih via GridSearchCV dari dua kandidat; metrik utama adalah <strong>F1 + Recall pada kelas dropout</strong> — model yang memprediksi "lulus" untuk semua orang mendapat akurasi 68% tapi tidak mendeteksi satu pun mahasiswa berisiko.',
+        s2TechNote: 'Dua hal yang tidak dipublikasikan di tulisan ini: angka akurasi/F1 kandidat Random Forest dari perbandingan GridSearchCV itu (XGBoost menang, tapi skor runner-up-nya tidak ditampilkan di sini), dan 5-fold <strong>StratifiedKFold</strong> dipilih khusus karena kelas dropout terbagi 32,12%/67,88% — K-fold biasa berisiko menghasilkan fold dengan contoh dropout yang terlalu sedikit untuk training atau validasi yang andal.',
         s2Lede: 'Tiga tantangan teknis harus diselesaikan sebelum model bisa dievaluasi: class imbalance, feature encoding, dan pemilihan model.',
         s3Num: '03 — Hasil Model',
         s3H2: 'Akurasi 92,42%, AUC 97,27% — <em>apa arti angka-angka ini</em> secara operasional?',
+        s3ErrTitle: 'Di mana model ini masih salah',
+        s3ErrP: 'Confusion matrix di atas menunjukkan false-positive rate yang rendah, itu bagian baiknya. Bagian yang lebih penting untuk sistem early-warning — false-negative rate, yaitu mahasiswa berisiko yang sama sekali terlewat model — hanya dilaporkan secara kualitatif ("High" recall), bukan sebagai angka pasti di tulisan ini. Untuk tool yang tujuannya memicu intervensi konselor, dropout yang terlewat adalah kegagalan yang lebih buruk dibanding check-in yang tidak perlu pada mahasiswa yang sebenarnya baik-baik saja — jadi angka pasti itulah gap yang paling layak ditutup sebelum menganggap akurasi 92,42% sudah cukup dengan sendirinya.',
         s4Num: '04 — Wawasan Risiko Utama',
         s4H2: 'Apa yang data ungkap tentang <em>siapa yang dropout dan mengapa</em>',
         s5Num: '05 — Deliverables',

@@ -679,6 +679,8 @@
         <p class="img-caption">Scheduler comparison — same prompt, same seed. Euler A (photorealistic) · DPM++ (flat illustration, chosen) · DDIM (balanced)</p>
       </div>
 
+      <p data-i18n="sec05LatencyNote">"Relative speed" above is qualitative, not timed. The only wall-clock figure logged during this project is pipeline load time (15–30s on a Colab T4). Per-generation inference latency at 30 steps was never benchmarked — a real gap for anyone deciding whether this pipeline could run interactively versus as a batch job.</p>
+
       <div class="tags">
         <span class="tag">CFG Scale</span>
         <span class="tag">Inference Steps</span>
@@ -851,6 +853,7 @@
         tbl05r1: 'Photorealistic, organic textures', tbl05r1b: 'Portraits, landscapes', tbl05r1c: 'Fast',
         tbl05r2: 'Flat, illustrative, clean edges', tbl05r2b: '2D illustration, icons', tbl05r2c: 'Fast',
         tbl05r3: 'Balanced, deterministic', tbl05r3b: 'Reproducible editing workflows', tbl05r3c: 'Slower',
+        sec05LatencyNote: '"Relative speed" above is qualitative, not timed. The only wall-clock figure logged during this project is pipeline load time (15–30s on a Colab T4). Per-generation inference latency at 30 steps was never benchmarked — a real gap for anyone deciding whether this pipeline could run interactively versus as a batch job.',
         sec06Num: '06 · Technical Challenges',
         sec06Title: 'Three things that broke — and what I did about them.',
         ch1Header: 'GPU memory exhaustion — the app crashed mid-demo',
@@ -943,6 +946,7 @@
         tbl05r1: 'Fotorealistis, tekstur organik', tbl05r1b: 'Potret, lanskap', tbl05r1c: 'Cepat',
         tbl05r2: 'Flat, ilustratif, garis bersih', tbl05r2b: 'Ilustrasi 2D, ikon', tbl05r2c: 'Cepat',
         tbl05r3: 'Seimbang, deterministik', tbl05r3b: 'Workflow editing yang reproducible', tbl05r3c: 'Lebih lambat',
+        sec05LatencyNote: '"Relative speed" di atas bersifat kualitatif, bukan diukur waktu. Satu-satunya angka wall-clock yang tercatat selama proyek ini adalah waktu load pipeline (15–30 dtk di Colab T4). Latensi inference per generasi pada 30 steps tidak pernah di-benchmark — gap nyata bagi siapa pun yang mau memutuskan apakah pipeline ini bisa jalan interaktif atau harus sebagai batch job.',
         sec06Num: '06 · Tantangan Teknis',
         sec06Title: 'Tiga hal yang rusak — dan apa yang saya lakukan.',
         ch1Header: 'GPU memory exhaustion — app crash di tengah demo',

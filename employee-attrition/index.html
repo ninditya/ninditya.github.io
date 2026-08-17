@@ -547,6 +547,9 @@
       </div>
 
       <p data-i18n="s3P">XGBoost has lower raw accuracy because it aggressively catches attritors, flagging some who stay. But in HR, a false positive costs a counselling conversation. A false negative costs an employee. The asymmetry clearly favors recall.</p>
+
+      <h3 data-i18n="s3ErrTitle">What "60% accuracy" is actually hiding</h3>
+      <p data-i18n="s3ErrP">Accuracy dropped 14 points versus the baseline (74% → 60%) specifically because XGBoost trades false negatives for false positives — that's the intended tradeoff, but it means a meaningful share of employees get flagged as flight-risk and pulled into a retention conversation without ever intending to leave. The exact false-positive count on the test set isn't broken out in this write-up (only the 5-false-negative figure is), and no subgroup check has been run to confirm those false positives don't cluster by age, gender, or department — the same fairness gap the reviewer later flagged on the <a href="/student-dropout/">Student Dropout project</a>. Worth closing before this model drives real HR conversations at scale.</p>
     </div>
   </section>
 
@@ -993,6 +996,8 @@
         fnLabel:'Why False Negatives Are Expensive',
         fnS1:'False Negative', fnS2:'Employee resigns', fnS3:'No intervention', fnS4:'Replacement cost',
         s3P:'XGBoost has lower raw accuracy because it aggressively catches attritors, flagging some who stay. But in HR, a false positive costs a counselling conversation. A false negative costs an employee. The asymmetry clearly favors recall.',
+        s3ErrTitle:'What "60% accuracy" is actually hiding',
+        s3ErrP:'Accuracy dropped 14 points versus the baseline (74% → 60%) specifically because XGBoost trades false negatives for false positives — that\'s the intended tradeoff, but it means a meaningful share of employees get flagged as flight-risk and pulled into a retention conversation without ever intending to leave. The exact false-positive count on the test set isn\'t broken out in this write-up (only the 5-false-negative figure is), and no subgroup check has been run to confirm those false positives don\'t cluster by age, gender, or department — the same fairness gap the reviewer later flagged on the <a href="/student-dropout/">Student Dropout project</a>. Worth closing before this model drives real HR conversations at scale.',
         s4Num:'04 · Key Risk Factors',
         s4Title:'Overtime, first-year tenure, young age. <em>Three compounding multipliers.</em>',
         rankLabel1:'🥇 Top Risk Factor', rankLabel2:'🥈 Risk Factor', rankLabel3:'🥉 Risk Factor',
@@ -1102,6 +1107,8 @@
         fnLabel:'Kenapa False Negative Mahal',
         fnS1:'False Negative', fnS2:'Karyawan resign', fnS3:'Tanpa intervensi', fnS4:'Biaya penggantian',
         s3P:'XGBoost memiliki akurasi mentah lebih rendah karena agresif menangkap attritor, termasuk yang akan bertahan. Tapi dalam HR, false positive membutuhkan satu sesi konseling. False negative membutuhkan satu karyawan baru. Asimetri ini jelas mendukung recall.',
+        s3ErrTitle:'Apa yang sebenarnya disembunyikan "akurasi 60%"',
+        s3ErrP:'Akurasi turun 14 poin dibanding baseline (74% → 60%) khusus karena XGBoost menukar false negative dengan false positive — itu tradeoff yang memang diinginkan, tapi artinya sejumlah karyawan ditandai sebagai flight-risk dan ditarik ke percakapan retensi padahal tidak pernah berniat keluar. Jumlah pasti false positive di test set tidak dirinci di tulisan ini (hanya angka 5 false negative yang ada), dan belum ada pengecekan subgroup untuk memastikan false positive itu tidak berkumpul berdasarkan usia, gender, atau departemen — gap fairness yang sama yang belakangan ditandai reviewer pada <a href="/student-dropout/">proyek Student Dropout</a>. Layak ditutup sebelum model ini mengarahkan percakapan HR sungguhan dalam skala besar.',
         s4Num:'04 · Faktor Risiko Utama',
         s4Title:'Overtime, masa kerja tahun pertama, usia muda. <em>Tiga pengganda yang saling memperburuk.</em>',
         rankLabel1:'🥇 Faktor Risiko Teratas', rankLabel2:'🥈 Faktor Risiko', rankLabel3:'🥉 Faktor Risiko',

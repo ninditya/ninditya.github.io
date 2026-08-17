@@ -830,6 +830,11 @@ df[<span class="n">"colors"</span>] = (
           <h4 data-i18n="imp6Title">Production-ready architecture</h4>
           <p data-i18n="imp6P">Fail-safe extraction, ordered validation, injectable dependencies, and modular load — patterns used in production data systems at scale.</p>
         </div>
+        <div class="impact-card reveal">
+          <div class="impact-icon">💸</div>
+          <h4 data-i18n="imp7Title">What this actually prevents downstream</h4>
+          <p data-i18n="imp7P">For a pricing feed like this one, the real failure mode isn't "3 pages crash" — it's the whole run silently not updating, so whoever reads the feed (a pricing dashboard, a competitor-tracking report) acts on yesterday's prices without knowing they're stale. Fail-safe parsing turns a full-day outage into a 3-product gap, which is the difference between a noticed problem and a silent one.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -963,6 +968,7 @@ df[<span class="n">"colors"</span>] = (
         imp4Title:'Faster debugging', imp4P:'Each module is independently runnable. A failing load never looks like a failing transform.',
         imp5Title:'CI/CD ready', imp5P:'The test suite requires no credentials or live services. It can run on any CI platform from day one.',
         imp6Title:'Production-ready architecture', imp6P:'Fail-safe extraction, ordered validation, injectable dependencies, and modular load — patterns used in production data systems at scale.',
+        imp7Title:'What this actually prevents downstream', imp7P:'For a pricing feed like this one, the real failure mode isn\'t "3 pages crash" — it\'s the whole run silently not updating, so whoever reads the feed (a pricing dashboard, a competitor-tracking report) acts on yesterday\'s prices without knowing they\'re stale. Fail-safe parsing turns a full-day outage into a 3-product gap, which is the difference between a noticed problem and a silent one.',
         lessonsNum:'10 · Lessons Learned',
         lessonsTitle:'QA isn\'t a safety net. <em>It\'s a design discipline.</em>',
         lessonsP:'Writing tests for this pipeline changed how I wrote the pipeline itself. Functions that are hard to test are usually hard to maintain.',
@@ -1056,6 +1062,7 @@ df[<span class="n">"colors"</span>] = (
         imp4Title:'Debug lebih cepat', imp4P:'Setiap modul bisa dijalankan secara independen. Load yang gagal tidak pernah terlihat seperti transform yang gagal.',
         imp5Title:'CI/CD ready', imp5P:'Test suite tidak memerlukan credentials atau live service. Bisa berjalan di platform CI manapun dari hari pertama.',
         imp6Title:'Arsitektur production-ready', imp6P:'Ekstraksi fail-safe, validasi berurutan, dependency injectable, dan load modular — pola yang digunakan di sistem data production skala besar.',
+        imp7Title:'Apa yang sebenarnya dicegah di hilir', imp7P:'Untuk feed harga seperti ini, mode kegagalan sebenarnya bukan "3 halaman crash" — tapi seluruh run diam-diam tidak ter-update, sehingga siapa pun yang membaca feed itu (dashboard harga, laporan pemantauan kompetitor) bertindak berdasarkan harga kemarin tanpa tahu datanya basi. Parsing fail-safe mengubah outage sehari penuh menjadi gap 3 produk saja — beda antara masalah yang disadari dan yang diam-diam lewat.',
         lessonsNum:'10 · Pelajaran',
         lessonsTitle:'QA bukan jaring pengaman. <em>Ini disiplin desain.</em>',
         lessonsP:'Menulis test untuk pipeline ini mengubah cara saya menulis pipeline itu sendiri. Fungsi yang sulit diuji biasanya sulit dimaintain.',

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA Project Report — Ninditya Salma Nur Aini</title>
+  <meta name="description" content="Selected project output — QA application. Manual testing, cross-framework automation, and AI/LLM quality evaluation case studies.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #111;
+      --dark:  #333;
+      --mid:   #666;
+      --light: #999;
+      --line:  #e0e0e0;
+      --soft:  #f7f7f7;
+      --accent: #c4490c;
+      --green: #1e5c3c;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5px;
+      line-height: 1.6;
+      color: var(--dark);
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .cover-page { page-break-after: always; }
+    .project-page { page-break-before: always; }
+
+    /* ── Cover ── */
+    .cover-wrap {
+      min-height: 245mm;
+      display: flex;
+      flex-direction: column;
+    }
+    .cover-top {
+      border-bottom: 1.5px solid var(--black);
+      padding-bottom: 11px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .doc-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--light);
+    }
+    .doc-label span { color: var(--accent); }
+
+    .cover-hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 12mm 0;
+    }
+    .cover-hero h1 {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+    .cover-hero h1 em { font-style: italic; font-weight: 300; color: var(--mid); }
+    .cover-tagline { font-size: 12px; color: var(--mid); margin-bottom: 24px; }
+    .cover-desc {
+      font-size: 11px;
+      color: var(--dark);
+      line-height: 1.65;
+      max-width: 420px;
+      margin-bottom: 28px;
+    }
+    .cover-desc strong { color: var(--black); font-weight: 600; }
+
+    .cover-list { border-top: 1px solid var(--line); width: 100%; }
+    .cover-list-item {
+      display: grid;
+      grid-template-columns: 26px 1fr auto;
+      align-items: baseline;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .cover-list-item:last-child { border-bottom: none; }
+    .cover-num { font-family: 'JetBrains Mono', monospace; font-size: 8.5px; color: var(--accent); font-weight: 500; }
+    .cover-name { font-size: 12px; font-weight: 600; color: var(--black); }
+    .cover-tag { font-size: 9px; color: var(--light); text-align: right; }
+
+    .cover-footer {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .cover-footer .name { font-size: 13px; font-weight: 700; color: var(--black); }
+    .cover-footer .role { font-size: 9px; color: var(--mid); margin-top: 3px; }
+    .cover-footer .contact {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      color: var(--mid);
+      text-align: right;
+      line-height: 1.9;
+    }
+    .cover-footer .contact a { color: var(--accent); text-decoration: none; }
+
+    /* ── Project page shared ── */
+    .page-header {
+      padding-bottom: 10px;
+      border-bottom: 1.5px solid var(--black);
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 14px;
+    }
+    .proj-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .page-header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--black);
+      line-height: 1.1;
+    }
+    .page-header h2 em { font-weight: 300; font-style: italic; color: var(--mid); }
+    .page-meta {
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      color: var(--light);
+      line-height: 1.9;
+    }
+
+    /* Links bar */
+    .links-bar {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      margin-bottom: 11px;
+    }
+    .links-bar a {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5px;
+      text-decoration: none;
+      color: var(--mid);
+      border-right: 1px solid var(--line);
+    }
+    .links-bar a:last-child { border-right: none; }
+    .links-bar a.demo { background: var(--black); color: #fff; font-weight: 500; }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line);
+      margin-bottom: 10px;
+    }
+    .stat-cell { padding: 7px 10px; border-right: 1px solid var(--line); }
+    .stat-cell:last-child { border-right: none; }
+    .stat-num {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--black);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .stat-num.accent { color: var(--accent); }
+    .stat-num.green  { color: var(--green); }
+    .stat-label { font-size: 8px; color: var(--light); margin-top: 3px; line-height: 1.4; }
+
+    /* Context */
+    .context {
+      font-size: 10px;
+      color: var(--dark);
+      line-height: 1.6;
+      padding: 7px 11px;
+      background: var(--soft);
+      border-left: 2px solid var(--accent);
+      margin-bottom: 11px;
+    }
+    .context strong { color: var(--black); font-weight: 600; }
+
+    /* Section label */
+    .slabel {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 6px;
+    }
+
+    /* Pipeline flow */
+    .pipeline {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 11px;
+    }
+    .pipe-header {
+      background: var(--black);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+    }
+    .pipe-step {
+      display: grid;
+      grid-template-columns: 70px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 12px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .pipe-step:last-child { border-bottom: none; }
+    .pipe-step.alt { background: var(--soft); }
+    .pipe-step-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .pipe-step-title { font-size: 10.5px; font-weight: 600; color: var(--black); margin-bottom: 1px; }
+    .pipe-step-desc { font-size: 9.5px; color: var(--mid); line-height: 1.45; }
+    .pipe-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      padding: 2px 7px;
+      background: rgba(30,92,60,0.08);
+      color: var(--green);
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    /* Findings grid */
+    .findings {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-bottom: 11px;
+    }
+    .finding {
+      border: 1px solid var(--line);
+      padding: 8px 9px;
+      page-break-inside: avoid;
+    }
+    .finding-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 4px;
+    }
+    .finding-text { font-size: 10px; color: var(--dark); line-height: 1.5; }
+    .finding-text strong { color: var(--black); font-weight: 600; }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 11px;
+      font-size: 10px;
+      page-break-inside: avoid;
+    }
+    thead th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--light);
+      background: var(--soft);
+      padding: 5px 9px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+    tbody td { padding: 6px 9px; border-bottom: 1px solid var(--line); color: var(--dark); }
+    tbody td strong { color: var(--black); font-weight: 600; }
+    tbody td.good { color: var(--green); font-weight: 600; }
+    tbody td.accent { color: var(--accent); font-weight: 700; }
+    tbody td.warn { color: #a67318; font-weight: 600; }
+    tbody tr.hl td { background: rgba(30,92,60,0.05); }
+
+    /* Tech line */
+    .tech-line { font-size: 9px; color: var(--light); margin-top: 8px; }
+    .tech-line strong { color: var(--mid); font-weight: 500; }
+
+    /* Page footer */
+    .page-footer {
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      color: var(--light);
+    }
+
+    /* SQL block */
+    .sql-block {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 10px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5px;
+      line-height: 1.7;
+      border-radius: 3px;
+      margin-bottom: 10px;
+      page-break-inside: avoid;
+    }
+    .sql-kw { color: #569cd6; }
+    .sql-fn { color: #dcdcaa; }
+    .sql-cm { color: #6a9955; font-style: italic; }
+    .sql-str { color: #ce9178; }
+
+    /* ── Print ── */
+    @media print {
+      @page { size: A4; margin: 10mm 12mm; }
+      body { background: #fff; }
+      .cover-page  { page-break-after: always; }
+      .project-page { page-break-before: always; }
+      .findings, table,
+      .links-bar, .stats-row, .page-header, .pipeline { page-break-inside: avoid; break-inside: avoid; }
+    }
+    @media screen {
+      body { background: #c8c8c8; }
+      .cover-page, .project-page {
+        max-width: 210mm;
+        margin: 24px auto;
+        padding: 10mm 13mm;
+        background: #fff;
+        box-shadow: 0 6px 40px rgba(0,0,0,0.18);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     COVER
+══════════════════════════════════ -->
+<div class="cover-page">
+  <div class="cover-wrap">
+    <div class="cover-top">
+      <div class="doc-label">Manual Testing · Automation · AI/LLM QA &nbsp;— &nbsp;<span>Project Output Report</span></div>
+      <div class="doc-label">QA Engineer · 2026</div>
+    </div>
+
+    <div class="cover-hero">
+      <h1>QA<br><em>Project</em><br>Report</h1>
+      <div class="cover-tagline">Selected Project Output — QA &amp; Test Automation Application</div>
+      <p class="cover-desc">
+        This document presents <strong>output and technical details</strong> from 3 selected QA projects — a full STLC simulation on a mobile banking app with 6 real defects, a 29-case regression suite automated three times over in Playwright, Cypress, and Selenium, and a hallucination/fallback evaluation framework built for two production RAG systems.
+      </p>
+
+      <div class="cover-list">
+        <div class="cover-list-item">
+          <span class="cover-num">01</span>
+          <span class="cover-name">SigmaPay Mobile Banking QA</span>
+          <span class="cover-tag">30 test cases · 6 defects (3 Critical) · SQL validation · Appium</span>
+        </div>
+        <div class="cover-list-item">
+          <span class="cover-num">02</span>
+          <span class="cover-name">SauceDemo Regression Automation</span>
+          <span class="cover-tag">29 test cases × 3 frameworks · Playwright · Cypress · Selenium · CI</span>
+        </div>
+        <div class="cover-list-item">
+          <span class="cover-num">03</span>
+          <span class="cover-name">LLM/RAG Evaluation Framework</span>
+          <span class="cover-tag">DeepEval · Ragas · hallucination &amp; fallback QA on 2 RAG systems</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <div>
+        <div class="name">Ninditya Salma Nur Aini</div>
+        <div class="role">QA Engineer · Manual &amp; Automation Testing · AI/LLM Quality Evaluation</div>
+      </div>
+      <div class="contact">
+        ninditya.sna025@gmail.com · +62 895-3712-90495<br>
+        <a href="https://linkedin.com/in/ninditya-salma-nur-aini">linkedin.com/in/ninditya-salma-nur-aini</a>
+        &nbsp;·&nbsp;
+        <a href="https://ninditya.github.io">ninditya.github.io</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     PROJECT 01 — SIGMAPAY QA
+══════════════════════════════════ -->
+<div class="project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">01 · Manual Testing · SIT/UAT · API &amp; SQL Validation · Mobile Automation</div>
+      <h2>SigmaPay Mobile Banking <em>QA</em></h2>
+    </div>
+    <div class="page-meta">
+      QA Case Study · 2025–2026<br>
+      Fictional Bank (disclosed) · PostgreSQL · Postman · Appium
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a class="demo" href="https://ninditya.github.io/sigmapay-qa/prototype.html" target="_blank">↗ Interactive Prototype — reproduce &amp; re-verify every bug</a>
+    <a href="https://ninditya.github.io/sigmapay-qa/" target="_blank">≡ Case study</a>
+    <a href="https://ninditya.github.io/sigmapay-qa/docs/Automation_Appium_README.html" target="_blank">⌥ Mobile automation suite</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">30</div><div class="stat-label">Test cases designed<br>positive · negative · edge case</div></div>
+    <div class="stat-cell"><div class="stat-num">6</div><div class="stat-label">Defects found<br>3 Critical · 2 Major · 1 Minor</div></div>
+    <div class="stat-cell"><div class="stat-num">51</div><div class="stat-label">Test executions<br>across 3 cycles</div></div>
+    <div class="stat-cell"><div class="stat-num green">100%</div><div class="stat-label">Final pass rate<br>Cycle 3 — 3/3</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Problem:</strong> Manual QA postings for Indonesian digital banking ask for the same concrete proof — Transfer, QRIS, SIT/UAT, JIRA, Postman, SQL — that's hard to demonstrate without a real system to point to. <strong>Solution:</strong> A full STLC simulation on a disclosed, fictional mobile banking app (Fund Transfer + QRIS Payment): 30 test cases, 3 execution cycles, 6 defects logged and closed with API/SQL-level root-cause validation, plus an Appium mobile automation suite against the same app.
+  </div>
+
+  <div class="slabel">STLC Execution — Plan to Closure</div>
+  <div class="pipeline">
+    <div class="pipe-header">Requirement → Test Design → Execution → Defect Closure</div>
+    <div class="pipe-step">
+      <div class="pipe-step-label">Plan</div>
+      <div><div class="pipe-step-title">Requirement Analysis &amp; Test Design</div><div class="pipe-step-desc">Reviewed user stories, flagged ambiguous rules (e.g. QRIS limit is per-transaction, transfer limit is accumulated per day), then broke 38 scenarios into 30 detailed test cases across Transfer (Intrabank/BI-FAST/VA) and QRIS.</div></div>
+      <div class="pipe-badge">30 TC</div>
+    </div>
+    <div class="pipe-step alt">
+      <div class="pipe-step-label">Execute</div>
+      <div><div class="pipe-step-title">3 Execution Cycles</div><div class="pipe-step-desc">Cycle 1 (SIT): 30 TC, 80% pass. Cycle 2 (Retest + Regression): 18 TC, 94% pass, 1 new defect found outside original scope. Cycle 3 (Final Regression): 3 TC, 100% pass.</div></div>
+      <div class="pipe-badge">51 executions</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-step-label">Manage</div>
+      <div><div class="pipe-step-title">Defect Management</div><div class="pipe-step-desc">6 defects logged JIRA-style (Summary, Environment, Steps to Reproduce, Expected vs. Actual, Severity) — 3 Critical, 2 Major, 1 Minor. Every one reproducible on a buggy build, re-verified on the fix.</div></div>
+      <div class="pipe-badge">6 closed</div>
+    </div>
+    <div class="pipe-step alt">
+      <div class="pipe-step-label">Verify</div>
+      <div><div class="pipe-step-title">API &amp; SQL Validation</div><div class="pipe-step-desc">Postman collection (Auth / Transfer / QRIS) plus direct PostgreSQL queries to confirm root cause at the data layer — not just the UI screen.</div></div>
+      <div class="pipe-badge">DB-verified</div>
+    </div>
+  </div>
+
+  <div class="slabel">Execution Cycles</div>
+  <table>
+    <thead><tr><th>Cycle</th><th>Total TC</th><th>Pass</th><th>Fail</th><th>Pass Rate</th></tr></thead>
+    <tbody>
+      <tr><td>Cycle 1 (SIT)</td><td>30</td><td>24</td><td>6</td><td>80%</td></tr>
+      <tr><td>Cycle 2 (Retest + Regression)</td><td>18</td><td>17</td><td>1</td><td>94%</td></tr>
+      <tr><td>Cycle 3 (Final Regression)</td><td>3</td><td>3</td><td>0</td><td class="good">100%</td></tr>
+      <tr class="hl"><td><strong>Total</strong></td><td><strong>51</strong></td><td><strong>44</strong></td><td><strong>7</strong> (all closed)</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <div class="slabel">SQL Validation — Root Cause, Not Just a Claim</div>
+  <div class="sql-block">
+<span class="sql-cm">-- Validate no duplicate transaction from double-tap (BUG-SGP-001)</span>
+<span class="sql-kw">SELECT</span> type, amount, destination_account, <span class="sql-fn">COUNT</span>(*) <span class="sql-kw">AS</span> transaction_count,
+       <span class="sql-fn">array_agg</span>(trx_id) <span class="sql-kw">AS</span> trx_ids
+<span class="sql-kw">FROM</span> transactions
+<span class="sql-kw">WHERE</span> account_no = <span class="sql-str">'8801 2345 6789'</span>
+  <span class="sql-kw">AND</span> created_at &gt;= NOW() - INTERVAL <span class="sql-str">'5 minutes'</span>
+<span class="sql-kw">GROUP BY</span> type, amount, destination_account
+<span class="sql-kw">HAVING</span> <span class="sql-fn">COUNT</span>(*) &gt; 1;
+<span class="sql-cm">-- Buggy build (v1.4.0-QA): 1 duplicate row. Fixed build (v1.5.0-FIX): 0 rows.</span></div>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Critical Defect — BUG-SGP-001</div>
+      <div class="finding-text"><strong>Double debit on rapid double-tap</strong> of "Send" — no debounce, no idempotency key on <code>POST /transfer</code>. Fix: disable button on first tap + server-side idempotency key. Closed, verified via the SQL query above.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Mobile Automation</div>
+      <div class="finding-text"><strong>Appium + WebdriverIO + Mocha + Chai</strong> suite — 4 spec files (login, transfer, QRIS, bug regression), Page Object Model, run against a dependency-free demo app with stable <code>data-testid</code> locators.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Found Outside Original Scope</div>
+      <div class="finding-text"><strong>BUG-SGP-007</strong> — transaction history sort broke after a date-format change elsewhere in the app. Surfaced only because Cycle 2 ran a full regression pass, not just a retest of what changed.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> Manual Testing · SIT/UAT · Regression &amp; Smoke Testing · Postman (API Testing) · PostgreSQL (SQL Validation) · JIRA-style Defect Management · Appium · WebdriverIO · Mocha · Chai · Page Object Model</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — QA Project Report</span>
+    <span>Project 01 / SigmaPay Mobile Banking QA</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     PROJECT 02 — SAUCEDEMO AUTOMATION
+══════════════════════════════════ -->
+<div class="project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">02 · Test Automation · Cross-Framework QA · CI/CD</div>
+      <h2>SauceDemo <em>Regression Automation</em></h2>
+    </div>
+    <div class="page-meta">
+      QA Automation Case Study · 2025–2026<br>
+      Live Public Site · Playwright · Cypress · Selenium
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a class="demo" href="https://ninditya.github.io/saucedemo-qa/" target="_blank">↗ Case study — full framework comparison</a>
+    <a href="https://github.com/ninditya/test-plan-sauce-demo-qa-automation-suite" target="_blank">⌥ View source on GitHub</a>
+    <a href="https://www.saucedemo.com/" target="_blank">≡ Target app</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num accent">29</div><div class="stat-label">Test cases<br>× 3 frameworks</div></div>
+    <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">Frameworks, one suite<br>Playwright · Cypress · Selenium</div></div>
+    <div class="stat-cell"><div class="stat-num green">90%</div><div class="stat-label">Playwright pass rate<br>26/29 — 3 fails are seeded bugs</div></div>
+    <div class="stat-cell"><div class="stat-num">7</div><div class="stat-label">Seeded bugs tracked<br>re-verified over time, not once</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Problem:</strong> Most QA postings name one automation tool, but interviews probe judgment across tools — why Playwright over Selenium, how to triage a flaky test versus a real bug. <strong>Solution:</strong> The identical 29-case regression suite (Login, Cart, Sort, Checkout, Known-Issue Regression) written three times over in Playwright, Cypress, and Selenium, run against the real live saucedemo.com — not a mock — with results compared framework-to-framework and re-verified over time instead of trusted from a single run.
+  </div>
+
+  <div class="slabel">Three Frameworks, One Suite — Results</div>
+  <table>
+    <thead><tr><th>Framework</th><th>Browser</th><th>Total</th><th>Pass</th><th>Fail</th><th>Pass Rate</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>Playwright</strong></td><td>Chromium headless</td><td>29</td><td class="good">26</td><td>3</td><td class="good">90%</td><td>3 fails are intentional — known-issue checks</td></tr>
+      <tr><td>Cypress</td><td>Chrome (Test Runner)</td><td>26 executed</td><td>23</td><td>3</td><td>88%</td><td>needs a re-run to cover the 3 newest cases</td></tr>
+      <tr><td>Selenium</td><td>Chrome headless</td><td>7</td><td>7</td><td>0</td><td class="good">100%</td><td>smoke subset only, deliberately not extended</td></tr>
+    </tbody>
+  </table>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Framework Divergence — BUG-003</div>
+      <div class="finding-text">Playwright consistently caught the seeded "Sorting is broken!" alert; Cypress never did, same day, same run. Likely cause: the two dispatch a <code>&lt;select&gt;</code> change event differently — not a bug in either tool, a real signal the defect is interaction-style-sensitive.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Tooling Bug, Not an App Bug — LOGIN-08</div>
+      <div class="finding-text">Cypress failed <code>cy.visit('/cart.html')</code> on an HTTP 404 before any JS ran; Playwright ignored the status and let client-side routing redirect normally. Root cause traced with <code>response.status()</code>, not guessed — fixed with <code>{ failOnStatusCode: false }</code>.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Defect Regression, Verified Over Time</div>
+      <div class="finding-text">Re-running all 7 seeded bugs found 2 (BUG-004, BUG-006) no longer reproduce and 2 more (BUG-003, BUG-007) are framework-dependent — only BUG-001 and BUG-005 are unambiguously still active.</div>
+    </div>
+  </div>
+
+  <div class="slabel">Test Case Triage — Verifying Someone Else's Claims Before Merging</div>
+  <table>
+    <thead><tr><th>Source</th><th>Claim</th><th>Verified Against Live Site</th><th>Outcome</th></tr></thead>
+    <tbody>
+      <tr><td>TC-1</td><td>Checkout with valid data succeeds</td><td class="good">Valid</td><td>Not added — covered by CHK-01</td></tr>
+      <tr><td>TC-2</td><td>Empty First Name shows a required-field error</td><td class="good">Valid</td><td>Not added — covered by CHK-03</td></tr>
+      <tr><td>TC-3</td><td>Special characters should be rejected</td><td class="warn">Backwards — accepted with no validation</td><td>Added as CHK-04, to document real behavior</td></tr>
+      <tr><td>TC-4</td><td>Total = subtotal + tax</td><td class="good">Confirmed ($39.98 + $3.20 = $43.18)</td><td>Added as CHK-05</td></tr>
+      <tr><td>TC-5</td><td>Cart access without login redirects to login</td><td class="good">Confirmed</td><td>Added as LOGIN-08 — surfaced the cross-framework bug above</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tech-line"><strong>Stack:</strong> Playwright (TypeScript) · Cypress (TypeScript) · Selenium (Python / pytest) · GitHub Actions CI · Regression &amp; Smoke Testing · Cross-Framework Root-Cause Analysis · Test Case Triage &amp; Validation</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — QA Project Report</span>
+    <span>Project 02 / SauceDemo Regression Automation</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     PROJECT 03 — LLM/RAG EVALUATION
+══════════════════════════════════ -->
+<div class="project-page">
+  <div class="page-header">
+    <div>
+      <div class="proj-num">03 · AI/LLM Quality Evaluation · Hallucination &amp; Grounding QA</div>
+      <h2>LLM/RAG <em>Evaluation Framework</em></h2>
+    </div>
+    <div class="page-meta">
+      AI Quality QA Case Study · 2025–2026<br>
+      DeepEval · Ragas · LLM-as-Judge
+    </div>
+  </div>
+
+  <div class="links-bar">
+    <a class="demo" href="https://ninditya.github.io/llm-eval-qa/" target="_blank">↗ Case study — full evaluation writeup</a>
+    <a href="https://healthtruth-ai.streamlit.app/" target="_blank">≡ HealthTruth-AI live app</a>
+    <a href="https://github.com/ninditya/mlops-banking-rag-query-router-intent-classifier/tree/main/evaluation" target="_blank">⌥ evaluation/ on GitHub</a>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num">2</div><div class="stat-label">RAG systems<br>evaluated end-to-end</div></div>
+    <div class="stat-cell"><div class="stat-num accent">32</div><div class="stat-label">Test cases<br>12 banking + 20 health claims</div></div>
+    <div class="stat-cell"><div class="stat-num accent">1</div><div class="stat-label">Fabricated detail caught<br>phone number, ungrounded LLM tier</div></div>
+    <div class="stat-cell"><div class="stat-num green">90%</div><div class="stat-label">Classification accuracy<br>HOAX / BENAR / TIDAK LENGKAP</div></div>
+  </div>
+
+  <div class="context">
+    <strong>Problem:</strong> The production LLM QA discipline run at Flip — hallucination rate, answer grounding, fallback triggers — can't be demonstrated with Flip's confidential data. <strong>Solution:</strong> The identical methodology applied to two RAG systems built and owned outright — a banking intent router and an Indonesian health-misinformation checker — including a chatbot caught fabricating a support phone number that appears nowhere in its source data.
+  </div>
+
+  <div class="slabel">Evaluation Pipeline — Real Output, Not Hardcoded Examples</div>
+  <div class="pipeline">
+    <div class="pipe-header">Generate → Catch → Detect → Calibrate</div>
+    <div class="pipe-step">
+      <div class="pipe-step-label">Generate</div>
+      <div><div class="pipe-step-title">Eval Data From the Real Pipeline</div><div class="pipe-step-desc">Banking: 12 FAQ queries paraphrased away from exact wording, run through the real <code style="font-size:8px;">rag.py</code> + <code style="font-size:8px;">llm_client.py</code>. Health: RAGEngine run once across all 20 claims, predictions cached — both frameworks grade real system output, not a mock.</div></div>
+      <div class="pipe-badge">32 cases</div>
+    </div>
+    <div class="pipe-step alt">
+      <div class="pipe-step-label">Catch</div>
+      <div><div class="pipe-step-title">Hallucination in the Wild</div><div class="pipe-step-desc">The ungrounded LLM escalation tier (no retrieval context) fabricated a support phone number that appears nowhere in <code style="font-size:8px;">banking_faq.json</code> — caught by inspecting real pipeline output, before any paid judge run.</div></div>
+      <div class="pipe-badge">1 fabrication</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-step-label">Detect</div>
+      <div><div class="pipe-step-title">LLM-as-Judge, Kept Separate</div><div class="pipe-step-desc">Custom DeepEval GEval metric ("No Fabricated Contact Details") plus Faithfulness / Relevancy / Contextual Precision-Recall via DeepEval + Ragas. Judge model (Claude / GPT-4o-mini) is never the model being graded.</div></div>
+      <div class="pipe-badge">GEval + Ragas</div>
+    </div>
+    <div class="pipe-step alt">
+      <div class="pipe-step-label">Calibrate</div>
+      <div><div class="pipe-step-title">Fallback Triggers</div><div class="pipe-step-desc">HealthTruth-AI's TIDAK LENGKAP (insufficient-context) verdict fails safe on a flu-vaccine claim the corpus doesn't cover, but flattens a nuanced ibuprofen/COVID claim to HOAX instead of hedging — a real calibration gap, not just a pass count.</div></div>
+      <div class="pipe-badge">18/20 correct</div>
+    </div>
+  </div>
+
+  <div class="findings">
+    <div class="finding">
+      <div class="finding-label">Judge Kept Separate From the App</div>
+      <div class="finding-text">Banking Intent Router judged with <strong>Claude</strong>; HealthTruth-AI judged with <strong>GPT-4o-mini</strong> via OpenRouter. Neither judge is the model generating the answer it grades — a model scoring its own output is the exact blind spot this exists to catch.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Honest About What's Verified</div>
+      <div class="finding-text">Real pipeline execution and the fabricated-phone-number finding are directly inspectable now. The full paid-judge numeric score run (Faithfulness/Hallucination across every case) is built and ready, not yet executed — stated plainly, not rounded up.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-label">Retrieval Baseline</div>
+      <div class="finding-text">Banking retrieval top-1 accuracy measured at <strong>10/12 (0.83)</strong> on a real run. Both misses were semantically adjacent intents (e.g. "card_arrival" retrieved as "activate_card") — a reasonable embedding-retrieval edge case, not a broken pipeline.</div>
+    </div>
+  </div>
+
+  <div class="tech-line"><strong>Stack:</strong> DeepEval · Ragas · LLM-as-Judge (Claude, GPT-4o-mini) · Custom GEval Metrics · Faithfulness &amp; Hallucination Testing · RAG Evaluation · Python / pytest</div>
+
+  <div class="page-footer">
+    <span>Ninditya Salma Nur Aini — QA Project Report</span>
+    <span>Project 03 / LLM/RAG Evaluation Framework</span>
+  </div>
+</div>
+
+</body>
+</html>

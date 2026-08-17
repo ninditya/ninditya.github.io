@@ -953,6 +953,7 @@ diverifikasi, bukan sebagai instruksi.
             <li><span data-i18n="evalR3K">Hard crashes under quota</span> <strong data-i18n="evalR3V">0</strong></li>
             <li><span data-i18n="evalR4K">Documents indexed</span> <strong data-i18n="evalR4V">35</strong></li>
             <li><span data-i18n="evalR5K">Fallback activations (testing)</span> <strong data-i18n="evalR5V">0</strong></li>
+            <li><span data-i18n="evalR6K">Monthly cost, current deploy</span> <strong data-i18n="evalR6V">$0 — free tiers (Gemini API, Qdrant Cloud, Railway hobby)</strong></li>
           </ul>
         </div>
         <div class="eval-card gap">
@@ -963,6 +964,7 @@ diverifikasi, bukan sebagai instruksi.
             <li><span>MRR</span> <strong data-i18n="evalG3V">no eval set</strong></li>
             <li><span data-i18n="evalG4K">Threshold optimality</span> <strong data-i18n="evalG4V">empirical only</strong></li>
             <li><span data-i18n="evalG5K">Calibration quality</span> <strong data-i18n="evalG5V">not validated</strong></li>
+            <li><span data-i18n="evalG6K">Cost per 1k requests at scale</span> <strong data-i18n="evalG6V">not modeled — free-tier quotas untested against paid pricing</strong></li>
           </ul>
         </div>
       </div>
@@ -986,6 +988,7 @@ diverifikasi, bukan sebagai instruksi.
         <div>
           <h3 data-i18n="lim2Title">Profile injected into retrieval embedding</h3>
           <p data-i18n="lim2Text">The health profile is prepended to the query before embedding. This means the vector represents "a 58-year-old diabetic on warfarin asking about garlic" — the profile may dominate the embedding and return profile-relevant documents instead of query-relevant ones. Better approach: embed the question alone for retrieval, inject the profile only at generation time.</p>
+          <p data-i18n="lim2Example"><em>Illustrative example of the mechanism (not a logged production case, since Recall@3 isn't benchmarked yet — see §07):</em> a query like "is turmeric safe with warfarin" embedded together with that profile skews toward warfarin/diabetes-management documents, even when a turmeric-specific interaction note exists in the knowledge base and would rank first on the bare question alone.</p>
         </div>
       </div>
       <div class="two-col">
@@ -1126,6 +1129,7 @@ diverifikasi, bukan sebagai instruksi.
   <section class="cta-section">
     <div class="wrap">
       <div class="section-num" data-i18n="nextNum">13 · Demo + Code</div>
+      <p class="lede" data-i18n="impactP">The system started from one bad family group-chat forward about garlic and blood thinners. The measurable win isn't a benchmark score — it's that the same question now either comes back with a cited BPOM/WHO/Kemenkes source, or an honest "insufficient context," in the ~1.5s it used to take someone to screenshot a forwarded message and hit send.</p>
       <h2 data-i18n="ctaTitle">Try the demo <em>or read the code.</em></h2>
       <p data-i18n="ctaP">The live chatbot is at health-truth-chatbot.up.railway.app. The source — <code>RagWorkflow.py</code>, <code>DocumentStore.py</code>, <code>chatbot.py</code> — is the most direct way to see these decisions in context.</p>
       <div class="cta-buttons">
@@ -1283,10 +1287,12 @@ diverifikasi, bukan sebagai instruksi.
         evalR3K:"Hard crashes under quota", evalR3V:"0",
         evalR4K:"Documents indexed", evalR4V:"35",
         evalR5K:"Fallback activations (testing)", evalR5V:"0",
+        evalR6K:"Monthly cost, current deploy", evalR6V:"$0 — free tiers (Gemini API, Qdrant Cloud, Railway hobby)",
         evalGapLabel:"Not yet formally measured",
         evalG1V:"no eval set", evalG2V:"no eval set", evalG3V:"no eval set",
         evalG4K:"Threshold optimality", evalG4V:"empirical only",
         evalG5K:"Calibration quality", evalG5V:"not validated",
+        evalG6K:"Cost per 1k requests at scale", evalG6V:"not modeled — free-tier quotas untested against paid pricing",
         evalNote:`A proper retrieval evaluation would build a labeled dataset — 100 health questions with known ground-truth documents — then measure whether each query's correct document appears in the top-3 results. Only then would adjusting <code>score_threshold=0.4</code> or <code>top_k=3</code> be data-driven rather than guesswork.`,
         limNum:"08 · Limitations",
         limTitle:`What this version <em>doesn't answer yet.</em>`,
@@ -1295,6 +1301,7 @@ diverifikasi, bukan sebagai instruksi.
         lim1Text:`<code>score_threshold=0.4</code> was set by manually checking a handful of queries. Without a formal Recall@k benchmark, there's no evidence this is the right value. A lower threshold may miss fewer relevant documents; a higher one may let in noise.`,
         lim2Title:"Profile injected into retrieval embedding",
         lim2Text:`The health profile is prepended to the query before embedding. This means the vector represents "a 58-year-old diabetic on warfarin asking about garlic" — the profile may dominate the embedding and return profile-relevant documents instead of query-relevant ones. Better approach: embed the question alone for retrieval, inject the profile only at generation time.`,
+        lim2Example:`<em>Illustrative example of the mechanism (not a logged production case, since Recall@3 isn't benchmarked yet — see §07):</em> a query like "is turmeric safe with warfarin" embedded together with that profile skews toward warfarin/diabetes-management documents, even when a turmeric-specific interaction note exists in the knowledge base and would rank first on the bare question alone.`,
         lim3Title:"Knowledge base: 35 documents",
         lim3Text:"Sufficient for a prototype covering common herbal claims. Not representative of a production health system, which would need hundreds of documents from BPOM, WHO, NIH, PubMed, and Kemenkes — with versioning and quality filtering.",
         lim4Title:"No observability dashboard",
@@ -1332,6 +1339,7 @@ diverifikasi, bukan sebagai instruksi.
         item6Title:"Retrieval confidence routing",
         item6Story:"As a user, I need to be told when the knowledge base coverage is thin, instead of getting a confident-sounding answer built on weak context.",
         backlogNote:`Confidence is lowest on the two <em>Later</em> items — hybrid search and confidence routing both depend on the retrieval-evaluation dataset (#1) existing first, so scoring them as highly confident before that foundation is built would be dishonest.`,
+        impactP:`The system started from one bad family group-chat forward about garlic and blood thinners. The measurable win isn't a benchmark score — it's that the same question now either comes back with a cited BPOM/WHO/Kemenkes source, or an honest "insufficient context," in the ~1.5s it used to take someone to screenshot a forwarded message and hit send.`,
         ctaTitle:`Try the demo <em>or read the code.</em>`,
         ctaP:`The live chatbot is at health-truth-chatbot.up.railway.app. The source — <code>RagWorkflow.py</code>, <code>DocumentStore.py</code>, <code>chatbot.py</code> — is the most direct way to see these decisions in context.`,
         nextNum:"13 · Demo + Code",
@@ -1477,10 +1485,12 @@ diverifikasi, bukan sebagai instruksi.
         evalR3K:"Hard crash saat quota habis", evalR3V:"0",
         evalR4K:"Dokumen terindeks", evalR4V:"35",
         evalR5K:"Aktivasi fallback (saat testing)", evalR5V:"0",
+        evalR6K:"Biaya bulanan, deploy saat ini", evalR6V:"Rp0 — free tier (Gemini API, Qdrant Cloud, Railway hobby)",
         evalGapLabel:"Belum diukur secara formal",
         evalG1V:"belum ada eval set", evalG2V:"belum ada eval set", evalG3V:"belum ada eval set",
         evalG4K:"Optimalitas threshold", evalG4V:"empiris saja",
         evalG5K:"Kualitas kalibrasi", evalG5V:"belum divalidasi",
+        evalG6K:"Biaya per 1.000 request saat scale", evalG6V:"belum dimodelkan — kuota free-tier belum diuji terhadap harga berbayar",
         evalNote:`Evaluasi retrieval yang proper membangun dataset berlabel — 100 pertanyaan kesehatan dengan dokumen ground-truth yang diketahui — lalu mengukur apakah dokumen yang benar muncul di 3 hasil teratas. Hanya dengan itulah mengubah <code>score_threshold=0.4</code> atau <code>top_k=3</code> bisa berbasis data, bukan tebakan.`,
         limNum:"08 · Keterbatasan",
         limTitle:`Yang belum <em>dijawab versi ini.</em>`,
@@ -1489,6 +1499,7 @@ diverifikasi, bukan sebagai instruksi.
         lim1Text:`<code>score_threshold=0.4</code> ditetapkan dengan mengecek segelintir query secara manual. Tanpa benchmark Recall@k formal, tidak ada bukti bahwa nilai ini sudah tepat. Threshold lebih rendah mungkin melewatkan lebih sedikit dokumen relevan; yang lebih tinggi bisa membiarkan noise masuk.`,
         lim2Title:"Profil diinjeksikan ke embedding retrieval",
         lim2Text:`Profil kesehatan ditambahkan ke query sebelum di-embed. Artinya vektor merepresentasikan "pria 58 tahun dengan diabetes dan warfarin bertanya tentang bawang putih" — profil mungkin mendominasi embedding dan mengembalikan dokumen relevan profil, bukan relevan query. Pendekatan lebih baik: embed pertanyaan saja untuk retrieval, injeksikan profil hanya di tahap generasi.`,
+        lim2Example:`<em>Contoh ilustratif dari mekanisme ini (bukan kasus produksi yang tercatat, karena Recall@3 belum di-benchmark — lihat §07):</em> query seperti "apakah kunyit aman dengan warfarin" yang di-embed bersama profil tadi condong ke dokumen seputar warfarin/manajemen diabetes, padahal ada catatan interaksi khusus kunyit di knowledge base yang akan rank pertama jika pertanyaan di-embed sendirian.`,
         lim3Title:"Knowledge base: 35 dokumen",
         lim3Text:"Cukup untuk prototype yang mencakup klaim herbal umum. Belum representatif untuk sistem kesehatan production, yang membutuhkan ratusan dokumen dari BPOM, WHO, NIH, PubMed, dan Kemenkes — dengan versioning dan quality filtering.",
         lim4Title:"Tidak ada dashboard observability",
@@ -1526,6 +1537,7 @@ diverifikasi, bukan sebagai instruksi.
         item6Title:"Confidence routing pada retrieval",
         item6Story:"Sebagai pengguna, saya butuh diberi tahu saat cakupan knowledge base tipis, alih-alih mendapat jawaban yang terdengar yakin padahal berbasis konteks lemah.",
         backlogNote:`Confidence paling rendah ada di dua item <em>Later</em> — hybrid search dan confidence routing sama-sama bergantung pada dataset evaluasi retrieval (#1) yang harus lebih dulu ada, jadi menyekornya seolah sangat yakin sebelum fondasi itu dibangun akan tidak jujur.`,
+        impactP:`Sistem ini bermula dari satu forward grup keluarga yang keliru soal bawang putih dan pengencer darah. Kemenangan yang bisa diukur bukan angka benchmark — tapi sekarang pertanyaan yang sama dijawab dengan sumber terkutip dari BPOM/WHO/Kemenkes, atau dengan jujur bilang "konteks tidak cukup," dalam waktu ~1,5 detik yang dulunya habis untuk screenshot pesan forward dan kirim.`,
         ctaTitle:`Coba demo-nya <em>atau baca kodenya.</em>`,
         ctaP:`Chatbot live ada di health-truth-chatbot.up.railway.app. Source — <code>RagWorkflow.py</code>, <code>DocumentStore.py</code>, <code>chatbot.py</code> — adalah cara paling langsung melihat keputusan-keputusan ini dalam konteks.`,
         nextNum:"13 · Demo + Kode",

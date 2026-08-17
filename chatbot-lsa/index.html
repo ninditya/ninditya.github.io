@@ -387,6 +387,7 @@
               <li data-i18n="psiI1">Accuracy ↑ 1.1 pp (92.1% → 93.2%)</li>
               <li data-i18n="psiI2">Recall ↑ 3.0 pp</li>
               <li class="down" data-i18n="psiI3">Inference time ↓ 35% (27.49s → 17.97s)</li>
+              <li data-i18n="psiI4">24/7 self-service claim is a mechanism claim, not measured — as a 2021 thesis prototype, no queries-handled or staff-hours-saved data was ever collected</li>
             </ul>
           </div>
         </div>
@@ -609,6 +610,9 @@ raw_question
         "LSA doesn't just improve accuracy — it makes the model faster by giving KNN less distance to compute over a denser, more meaningful space."
         <span class="attr">— Thesis conclusion, Aug 2021</span>
       </div>
+
+      <h3 data-i18n="resultsErrTitle">Where it still gets it wrong</h3>
+      <p data-i18n="resultsErrP">Recall of 77.9% means roughly 1 in 5 student questions is still misrouted to the wrong intent category — the model either misses the correct topic or picks a near-neighbor category with overlapping vocabulary. The thesis doesn't include a qualitative breakdown of which topic pairs get confused most often; that's the natural next diagnostic before pushing accuracy further, since improving the wrong 5 percentage points is more valuable than chasing the metric blindly.</p>
     </div>
   </section>
 
@@ -882,6 +886,7 @@ raw_question
         psiI1: 'Accuracy ↑ 1.1 pp (92.1% → 93.2%)',
         psiI2: 'Recall ↑ 3.0 pp',
         psiI3: 'Inference time ↓ 35% (27.49s → 17.97s)',
+        psiI4: '24/7 self-service claim is a mechanism claim, not measured — as a 2021 thesis prototype, no queries-handled or staff-hours-saved data was ever collected',
         archNum: '02 · Architecture',
         archTitle: 'From raw text to <em>semantic classification.</em>',
         archLede: 'The pipeline solves two problems simultaneously: Indonesian morphology fragmentation, and the curse of dimensionality in KNN. LSA via SVD handles both.',
@@ -916,6 +921,8 @@ raw_question
         tableMetric: 'Metric', tableKNN: 'KNN (baseline)', tableLSAKNN: 'LSA + KNN', tableDelta: 'Change',
         tableRowAcc: 'Accuracy (avg)', tableRowPrec: 'Precision (avg)', tableRowRec: 'Recall (avg)', tableRowAUC: 'AUC (avg)', tableRowTime: 'Compute time',
         resultsPullquote: '"LSA doesn\'t just improve accuracy — it makes the model faster by giving KNN less distance to compute over a denser, more meaningful space."<span class="attr">— Thesis conclusion, Aug 2021</span>',
+        resultsErrTitle: 'Where it still gets it wrong',
+        resultsErrP: 'Recall of 77.9% means roughly 1 in 5 student questions is still misrouted to the wrong intent category — the model either misses the correct topic or picks a near-neighbor category with overlapping vocabulary. The thesis doesn\'t include a qualitative breakdown of which topic pairs get confused most often; that\'s the natural next diagnostic before pushing accuracy further, since improving the wrong 5 percentage points is more valuable than chasing the metric blindly.',
         stackNum: '05 · Product Delivery',
         stackTitle: 'Not a notebook. <em>A working department chatbot.</em>',
         stackWebTitle: 'Web application', stackWebP: 'The web interface exposes the full pipeline interactively — users can see the raw input, TF-IDF matrix, SVD reduction, LSA projection, and final KNN classification result step by step.',
@@ -978,6 +985,7 @@ raw_question
         psiI1: 'Akurasi ↑ 1,1 pp (92,1% → 93,2%)',
         psiI2: 'Recall ↑ 3,0 pp',
         psiI3: 'Waktu inferensi ↓ 35% (27,49 dtk → 17,97 dtk)',
+        psiI4: 'Klaim self-service 24/7 adalah klaim mekanisme, bukan hasil terukur — sebagai prototipe skripsi 2021, tidak ada data jumlah query tertangani atau jam kerja staf yang terhemat yang pernah dikumpulkan',
         archNum: '02 · Arsitektur',
         archTitle: 'Dari teks mentah ke <em>klasifikasi semantik.</em>',
         archLede: 'Pipeline ini menyelesaikan dua masalah sekaligus: fragmentasi morfologi Bahasa Indonesia, dan kutukan dimensi dalam KNN. LSA via SVD menangani keduanya.',
@@ -1012,6 +1020,8 @@ raw_question
         tableMetric: 'Metrik', tableKNN: 'KNN (baseline)', tableLSAKNN: 'LSA + KNN', tableDelta: 'Perubahan',
         tableRowAcc: 'Akurasi (rata-rata)', tableRowPrec: 'Presisi (rata-rata)', tableRowRec: 'Recall (rata-rata)', tableRowAUC: 'AUC (rata-rata)', tableRowTime: 'Waktu komputasi',
         resultsPullquote: '"LSA tidak hanya meningkatkan akurasi — ia membuat model lebih cepat dengan memberi KNN ruang yang lebih dense dan bermakna."<span class="attr">— Kesimpulan skripsi, Agustus 2021</span>',
+        resultsErrTitle: 'Di mana model ini masih salah',
+        resultsErrP: 'Recall 77,9% berarti kira-kira 1 dari 5 pertanyaan mahasiswa masih salah rute ke kategori intent yang keliru — model salah mengenali topik yang benar atau memilih kategori tetangga terdekat dengan kosakata yang tumpang tindih. Skripsi ini tidak menyertakan breakdown kualitatif soal pasangan topik mana yang paling sering tertukar; itu diagnostik alami berikutnya sebelum mendorong akurasi lebih jauh, karena memperbaiki 5 poin persentase yang salah lebih berharga daripada mengejar metrik secara membabi buta.',
         stackNum: '05 · Pengiriman Produk',
         stackTitle: 'Bukan sekedar notebook. <em>Chatbot jurusan yang berjalan nyata.</em>',
         stackWebTitle: 'Aplikasi web', stackWebP: 'Antarmuka web memperlihatkan seluruh pipeline secara interaktif — pengguna bisa melihat input mentah, matriks TF-IDF, reduksi SVD, proyeksi LSA, dan hasil klasifikasi KNN langkah demi langkah.',

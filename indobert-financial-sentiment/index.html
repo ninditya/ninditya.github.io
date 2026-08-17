@@ -328,6 +328,7 @@
           <div class="ha-eval-item" data-i18n="haEval3">Per-class Recall</div>
           <div class="ha-eval-item" data-i18n="haEval4">Inference Latency</div>
         </div>
+        <p class="ha-eval-footnote" style="font-size:12px;color:var(--muted);margin-top:8px;" data-i18n="haEvalFootnote">Latency wasn't benchmarked across the three architectures in this write-up — the only footprint figure available is model size: indobert-base-p1 is ~110M parameters, roughly 9× the memory footprint of the TF-IDF + LogReg baseline.</p>
       </div>
     </div>
   </div>
@@ -733,7 +734,7 @@ training_args = TrainingArguments(
       <ul class="invariant-list">
         <li data-i18n="inv1"><strong>Labeled data is still the bottleneck.</strong> BERT zero-shot at 64.2% is worse than TF-IDF at 72.3%. Pre-training doesn't replace domain labels — it makes them more efficient to use.</li>
         <li data-i18n="inv2"><strong>Preprocessing still shapes what the model sees.</strong> Normalizing "nyangkut" → "harga turun" before tokenization improved neutral-class F1 by ~3 points. Garbage in, garbage out — regardless of the model size.</li>
-        <li data-i18n="inv3"><strong>Evaluation methodology hasn't changed.</strong> Macro F1 on a stratified held-out test set, per-class breakdown, confusion matrix analysis. These were correct in 2021 and remain correct in 2025.</li>
+        <li data-i18n="inv3"><strong>Evaluation methodology hasn't changed.</strong> Macro F1 on a stratified held-out test set — 1,240 of 6,200 samples (20%), split proportionally within each class so the test set mirrors the 40/30/30 label distribution — per-class breakdown, confusion matrix analysis. These were correct in 2021 and remain correct in 2025.</li>
         <li data-i18n="inv4"><strong>Domain expertise is still the multiplier.</strong> Knowing that "koreksi" is bearish context, that "nyangkut" signals losses, and that "cut loss" is investor distress — this domain knowledge informs preprocessing, label quality, and error analysis. No model learns this automatically.</li>
         <li data-i18n="inv5"><strong>Overfitting is still the primary failure mode.</strong> The same early stopping, validation monitoring, and regularization discipline from 2021 applies directly. The parameter count changed; the problem didn't.</li>
       </ul>
@@ -768,6 +769,16 @@ training_args = TrainingArguments(
       <div class="pullquote" style="color:rgba(255,255,255,0.85);border-color:var(--accent);margin-top:48px;" data-i18n="journeyQuote">"The gap between calling a BERT API and actually fine-tuning one is the same gap as between driving a car and understanding why it turns. Both get you somewhere. Only one tells you what went wrong."</div>
     </div>
   </div>
+
+  <!-- 09.5 PRACTICAL FOOTPRINT -->
+  <section class="content" id="footprint">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s95Num">09.5 · Practical Footprint</div>
+      <h2 data-i18n="s95Title">What 16.1 points of accuracy <em>is actually worth.</em></h2>
+      <p data-i18n="s95P1">A financial-sentiment classifier's job in practice is triage: surface the IDX-related posts worth a human analyst's attention out of a much larger stream, instead of someone reading every mention manually. At the classical TF-IDF baseline's 72.3% accuracy, roughly 1 in 4 posts would be mislabeled into the wrong queue. At IndoBERT's 88.4%, that drops to roughly 1 in 9 — cutting mistriaged posts by more than half for the same review effort.</p>
+      <p data-i18n="s95P2">Deployment cost and latency were not benchmarked for this write-up (see the footnote on the model-comparison chart above) — the only footprint figure available is parameter count. That's a real gap: before this model could run a live triage queue, it would need a measured p95 latency and a per-1,000-post inference cost, the same way the TF-IDF and BiLSTM baselines would.</p>
+    </div>
+  </section>
 
   <!-- 10 REFERENCES -->
   <section class="content" id="references">
@@ -821,6 +832,7 @@ training_args = TrainingArguments(
         haB1Tag:'Traditional', haB2Tag:'Sequential', haB3Tag:'Transformer · Winner',
         haNote:'⚠ IndoBERT without fine-tuning: 64.2% — domain-specific fine-tuning is non-negotiable for financial text',
         haEval1:'Accuracy', haEval2:'F1 Macro', haEval3:'Per-class Recall', haEval4:'Inference Latency',
+        haEvalFootnote:'Latency wasn\'t benchmarked across the three architectures in this write-up — the only footprint figure available is model size: indobert-base-p1 is ~110M parameters, roughly 9× the memory footprint of the TF-IDF + LogReg baseline.',
         stat1:'Best model accuracy<br>IndoBERT fine-tuned',
         stat2:'Improvement over<br>BiLSTM baseline',
         stat3:'Indonesian financial<br>text samples',
@@ -897,7 +909,7 @@ training_args = TrainingArguments(
         s8Lede:'Going from LSA (2021) to BERT (2025) changed everything about how text is represented. It changed nothing about the engineering discipline required to do NLP well.',
         inv1:'<strong>Labeled data is still the bottleneck.</strong> BERT zero-shot at 64.2% is worse than TF-IDF at 72.3%. Pre-training doesn\'t replace domain labels — it makes them more efficient to use.',
         inv2:'<strong>Preprocessing still shapes what the model sees.</strong> Normalizing "nyangkut" → "harga turun" before tokenization improved neutral-class F1 by ~3 points. Garbage in, garbage out — regardless of the model size.',
-        inv3:'<strong>Evaluation methodology hasn\'t changed.</strong> Macro F1 on a stratified held-out test set, per-class breakdown, confusion matrix analysis. These were correct in 2021 and remain correct in 2025.',
+        inv3:'<strong>Evaluation methodology hasn\'t changed.</strong> Macro F1 on a stratified held-out test set — 1,240 of 6,200 samples (20%), split proportionally within each class so the test set mirrors the 40/30/30 label distribution — per-class breakdown, confusion matrix analysis. These were correct in 2021 and remain correct in 2025.',
         inv4:'<strong>Domain expertise is still the multiplier.</strong> Knowing that "koreksi" is bearish context, that "nyangkut" signals losses, and that "cut loss" is investor distress — this domain knowledge informs preprocessing, label quality, and error analysis. No model learns this automatically.',
         inv5:'<strong>Overfitting is still the primary failure mode.</strong> The same early stopping, validation monitoring, and regularization discipline from 2021 applies directly. The parameter count changed; the problem didn\'t.',
         s9Num:'09 · Lessons Learned',
@@ -907,6 +919,10 @@ training_args = TrainingArguments(
         l3Label:'On evaluation metrics', l3Body:'<strong>Accuracy is a lie you tell your stakeholders.</strong> At epoch 4, accuracy was 89.1% but macro F1 was declining. The model was getting "more accurate" by abandoning the harder classes. Macro F1 caught this; accuracy didn\'t.',
         l4Label:'On pre-LLM fundamentals', l4Body:'<strong>Understanding attention is more useful than knowing prompt syntax.</strong> When IndoBERT got a financial contrastive sentence wrong, I could debug it by reasoning about attention patterns. You can\'t debug a prompt-engineered system the same way — it\'s a black box with no error gradient.',
         journeyQuote:'"The gap between calling a BERT API and actually fine-tuning one is the same gap as between driving a car and understanding why it turns. Both get you somewhere. Only one tells you what went wrong."',
+        s95Num:'09.5 · Practical Footprint',
+        s95Title:'What 16.1 points of accuracy <em>is actually worth.</em>',
+        s95P1:'A financial-sentiment classifier\'s job in practice is triage: surface the IDX-related posts worth a human analyst\'s attention out of a much larger stream, instead of someone reading every mention manually. At the classical TF-IDF baseline\'s 72.3% accuracy, roughly 1 in 4 posts would be mislabeled into the wrong queue. At IndoBERT\'s 88.4%, that drops to roughly 1 in 9 — cutting mistriaged posts by more than half for the same review effort.',
+        s95P2:'Deployment cost and latency were not benchmarked for this write-up (see the footnote on the model-comparison chart above) — the only footprint figure available is parameter count. That\'s a real gap: before this model could run a live triage queue, it would need a measured p95 latency and a per-1,000-post inference cost, the same way the TF-IDF and BiLSTM baselines would.',
         s10Num:'10 · References',
         s10Title:'Papers &amp; <em>resources.</em>',
         ctaNum:'See the code',
@@ -926,6 +942,7 @@ training_args = TrainingArguments(
         haB1Tag:'Tradisional', haB2Tag:'Sequential', haB3Tag:'Transformer · Pemenang',
         haNote:'⚠ IndoBERT tanpa fine-tuning: 64,2% — lebih buruk dari TF-IDF. Fine-tuning domain-spesifik adalah syarat mutlak.',
         haEval1:'Akurasi', haEval2:'F1 Macro', haEval3:'Recall per kelas', haEval4:'Latensi inferensi',
+        haEvalFootnote:'Latensi tidak diukur di antara tiga arsitektur dalam tulisan ini — satu-satunya angka footprint yang tersedia adalah ukuran model: indobert-base-p1 sekitar 110 juta parameter, kira-kira 9× jejak memori baseline TF-IDF + LogReg.',
         stat1:'Akurasi model terbaik<br>IndoBERT fine-tuned',
         stat2:'Peningkatan dari<br>baseline BiLSTM',
         stat3:'Sampel teks keuangan<br>Indonesia',
@@ -1002,7 +1019,7 @@ training_args = TrainingArguments(
         s8Lede:'Beralih dari LSA (2021) ke BERT (2025) mengubah segalanya tentang bagaimana teks direpresentasikan. Tidak mengubah apapun tentang disiplin engineering yang diperlukan untuk melakukan NLP dengan baik.',
         inv1:'<strong>Data berlabel masih menjadi bottleneck.</strong> BERT zero-shot 64,2% lebih buruk dari TF-IDF 72,3%. Pre-training tidak menggantikan label domain — ia membuat penggunaannya lebih efisien.',
         inv2:'<strong>Preprocessing masih membentuk apa yang dilihat model.</strong> Menormalisasi "nyangkut" → "harga turun" sebelum tokenisasi meningkatkan F1 kelas netral ~3 poin. Garbage in, garbage out — terlepas dari ukuran model.',
-        inv3:'<strong>Metodologi evaluasi tidak berubah.</strong> Macro F1 pada test set yang dipisahkan secara stratifikasi, breakdown per kelas, analisis confusion matrix. Ini benar pada 2021 dan tetap benar pada 2025.',
+        inv3:'<strong>Metodologi evaluasi tidak berubah.</strong> Macro F1 pada test set hold-out stratifikasi — 1.240 dari 6.200 sampel (20%), dipisahkan proporsional per kelas sehingga test set mencerminkan distribusi label 40/30/30 — breakdown per kelas, analisis confusion matrix. Ini benar pada 2021 dan tetap benar pada 2025.',
         inv4:'<strong>Keahlian domain masih menjadi pengganda.</strong> Mengetahui bahwa "koreksi" adalah konteks bearish, bahwa "nyangkut" menandakan kerugian, dan bahwa "cut loss" adalah tekanan investor — pengetahuan domain ini menginformasikan preprocessing, kualitas label, dan analisis error. Tidak ada model yang mempelajari ini secara otomatis.',
         inv5:'<strong>Overfitting masih menjadi mode kegagalan utama.</strong> Early stopping, pemantauan validasi, dan disiplin regularisasi yang sama dari 2021 berlaku langsung. Jumlah parameter berubah; masalahnya tidak.',
         s9Num:'09 · Pelajaran yang Dipetik',
@@ -1012,6 +1029,10 @@ training_args = TrainingArguments(
         l3Label:'Tentang metrik evaluasi', l3Body:'<strong>Akurasi adalah kebohongan yang kamu ceritakan pada stakeholder.</strong> Pada epoch 4, akurasi 89,1% tapi macro F1 menurun. Model menjadi "lebih akurat" dengan mengabaikan kelas yang lebih sulit. Macro F1 menangkap ini; akurasi tidak.',
         l4Label:'Tentang fundamental pre-LLM', l4Body:'<strong>Memahami attention lebih berguna daripada mengetahui sintaks prompt.</strong> Ketika IndoBERT salah pada kalimat keuangan kontrastif, saya bisa men-debug-nya dengan bernalar tentang pola attention. Kamu tidak bisa men-debug sistem prompt-engineered dengan cara yang sama — itu black box tanpa error gradient.',
         journeyQuote:'"Kesenjangan antara memanggil BERT API dan benar-benar melakukan fine-tune-nya sama dengan kesenjangan antara mengemudikan mobil dan memahami mengapa ia berbelok. Keduanya membawa kamu ke suatu tempat. Hanya satu yang memberitahu kamu apa yang salah."',
+        s95Num:'09.5 · Dampak Praktis',
+        s95Title:'Nilai sebenarnya dari <em>16,1 poin akurasi tambahan.</em>',
+        s95P1:'Tugas praktis classifier sentimen keuangan adalah triase: memunculkan post terkait IDX yang layak dilihat analis manusia dari arus data yang jauh lebih besar, alih-alih seseorang membaca semua mention secara manual. Pada akurasi baseline TF-IDF 72,3%, sekitar 1 dari 4 post akan salah masuk antrean. Pada IndoBERT 88,4%, itu turun jadi sekitar 1 dari 9 — memotong post yang salah triase lebih dari separuh untuk upaya review yang sama.',
+        s95P2:'Biaya deployment dan latensi tidak diukur untuk tulisan ini (lihat catatan kaki pada chart perbandingan model di atas) — satu-satunya angka footprint yang tersedia adalah jumlah parameter. Ini gap nyata: sebelum model ini bisa menjalankan antrean triase live, ia butuh p95 latency terukur dan biaya inferensi per 1.000 post, sama seperti yang seharusnya dimiliki baseline TF-IDF dan BiLSTM.',
         s10Num:'10 · Referensi',
         s10Title:'Paper &amp; <em>sumber daya.</em>',
         ctaNum:'Lihat kodenya',

@@ -881,6 +881,7 @@ conditions.<span class="n">push</span>(
             { recommended_actions: [{ action_type, priority, title, description, reason }] }
           </div>
           <p style="margin-top:14px;font-size:13px;max-width:none;" data-i18n="lcNote">Insights are cached with <code>upsertAiInsightRecord()</code> — the LLM is called at most once per filter scope per TTL window, not on every page load.</p>
+          <p style="margin-top:10px;font-size:13px;max-width:none;" data-i18n="lcCostNote">Per-call cost for Elice AI wasn't metered in this build. The TTL cache keeps call volume bounded to once per filter scope per window, but there's no logged $/insight figure — measurable, just not yet measured.</p>
         </div>
       </div>
     </div>
@@ -976,7 +977,12 @@ conditions.<span class="n">push</span>(
           <div class="lesson-cell-label" data-i18n="l4Label">Backend exposure for AI engineers</div>
           <p data-i18n="l4Body">Understanding how APIs shape data — what's cached, computed on request, pre-aggregated — <strong>directly informs how I build ML pipelines</strong>. Data doesn't exist in isolation from the system that serves it.</p>
         </div>
+        <div class="lesson-cell">
+          <div class="lesson-cell-label" data-i18n="l5Label">No validation gate before a manager sees it</div>
+          <p data-i18n="l5Body"><code>recommended_actions</code> goes from Elice AI straight to the dashboard — enforced JSON shape, but nothing that checks the <em>content</em> against the actual numbers in the payload before a manager reads it as fact. <strong>A production version needs a validation step</strong> (e.g. cross-checking the cited revenue/occupancy figures against the source payload) before an unverified recommendation reaches a real business decision.</p>
+        </div>
       </div>
+      <p style="margin-top:24px" data-i18n="s9PImpact">In mechanism, this turns "read 20+ endpoints" into "read a two-sentence action card" for a duty manager. That's a claim about the mechanism, not a measured outcome — there's no adoption or time-saved data from real managers using it yet, since CineTrack was a capstone build, not a deployed product.</p>
     </div>
   </div>
 
@@ -1096,6 +1102,7 @@ conditions.<span class="n">push</span>(
         lc5:'top_movies: performance ranking', lc6:'studio_inventory: capacity utilization',
         lcOutputLabel:'Output format enforced',
         lcNote:'Insights are cached with <code>upsertAiInsightRecord()</code> — the LLM is called at most once per filter scope per TTL window, not on every page load.',
+        lcCostNote:'Per-call cost for Elice AI wasn\'t metered in this build. The TTL cache keeps call volume bounded to once per filter scope per window, but there\'s no logged $/insight figure — measurable, just not yet measured.',
         s8Num:'08 · API Endpoint Overview',
         s8Title:'20+ analytics endpoints, <em>organized by domain.</em>',
         eg1Label:'Sales &amp; Revenue', eg2Label:'Films &amp; Occupancy', eg3Label:'Stats &amp; Forecasting', eg4Label:'System &amp; AI',
@@ -1106,6 +1113,8 @@ conditions.<span class="n">push</span>(
         l2Label:'SQL injection from filters', l2Body:'String-concatenated WHERE clauses open injection risk. <strong>The pattern is always: collect conditions and params separately, join conditions with AND, pass params to the driver</strong> — never interpolate values into SQL strings.',
         l3Label:'EXPLAIN before you optimize', l3Body:'I guessed wrong about the bottleneck. <strong>EXPLAIN ANALYZE on the actual slow query showed the sequential scan on tiket</strong> — not where I expected. Measure first, optimize second.',
         l4Label:'Backend exposure for AI engineers', l4Body:'Understanding how APIs shape data — what\'s cached, computed on request, pre-aggregated — <strong>directly informs how I build ML pipelines</strong>. Data doesn\'t exist in isolation from the system that serves it.',
+        l5Label:'No validation gate before a manager sees it', l5Body:'<code>recommended_actions</code> goes from Elice AI straight to the dashboard — enforced JSON shape, but nothing that checks the <em>content</em> against the actual numbers in the payload before a manager reads it as fact. <strong>A production version needs a validation step</strong> (e.g. cross-checking the cited revenue/occupancy figures against the source payload) before an unverified recommendation reaches a real business decision.',
+        s9PImpact:'In mechanism, this turns "read 20+ endpoints" into "read a two-sentence action card" for a duty manager. That\'s a claim about the mechanism, not a measured outcome — there\'s no adoption or time-saved data from real managers using it yet, since CineTrack was a capstone build, not a deployed product.',
         ctaNum:'Links',
         ctaTitle:'Backend repo, frontend, <em>and OpenAPI docs.</em>',
         ctaP:'CineTrack was built as a team capstone during the Korea-ASEAN Digital Academy (KADA) program. The backend is a team repository. Full API documentation available via OpenAPI/Swagger at <code>/docs</code>.',
@@ -1202,6 +1211,7 @@ conditions.<span class="n">push</span>(
         lc5:'top_movies: ranking performa', lc6:'studio_inventory: utilisasi kapasitas',
         lcOutputLabel:'Format output dipaksakan',
         lcNote:'Insight di-cache dengan <code>upsertAiInsightRecord()</code> — LLM dipanggil paling banyak sekali per filter scope per TTL window, bukan setiap page load.',
+        lcCostNote:'Biaya per-panggilan Elice AI tidak diukur di build ini. Cache TTL membatasi jumlah panggilan jadi sekali per filter scope per window, tapi belum ada angka $/insight yang tercatat — bisa diukur, hanya belum diukur.',
         s8Num:'08 · Ikhtisar API Endpoint',
         s8Title:'20+ analytics endpoint, <em>diorganisir per domain.</em>',
         eg1Label:'Sales &amp; Revenue', eg2Label:'Film &amp; Occupancy', eg3Label:'Stats &amp; Forecasting', eg4Label:'System &amp; AI',
@@ -1212,6 +1222,8 @@ conditions.<span class="n">push</span>(
         l2Label:'SQL injection dari filter', l2Body:'WHERE clause yang dikoncatenasi string membuka risiko injection. <strong>Polanya selalu: kumpulkan conditions dan params secara terpisah, gabungkan conditions dengan AND, lewatkan params ke driver</strong>.',
         l3Label:'EXPLAIN sebelum optimalkan', l3Body:'Saya menebak salah tentang bottlenecknya. <strong>EXPLAIN ANALYZE pada query lambat yang sebenarnya menunjukkan sequential scan pada tiket</strong> — bukan di tempat yang saya perkirakan. Ukur dulu, optimalkan kemudian.',
         l4Label:'Exposure backend untuk AI engineer', l4Body:'Memahami bagaimana API membentuk data — apa yang di-cache, dihitung saat request, di-pre-aggregate — <strong>langsung menginformasikan cara saya membangun ML pipeline</strong>. Data tidak ada dalam isolasi dari sistem yang melayaninya.',
+        l5Label:'Tidak ada validation gate sebelum manager melihatnya', l5Body:'<code>recommended_actions</code> langsung dari Elice AI ke dashboard — bentuk JSON dipaksakan, tapi tidak ada yang mengecek <em>isi</em>-nya terhadap angka asli di payload sebelum manager membacanya sebagai fakta. <strong>Versi produksi butuh langkah validasi</strong> (misalnya cross-check angka revenue/occupancy yang dikutip terhadap payload sumber) sebelum rekomendasi yang belum terverifikasi sampai ke keputusan bisnis nyata.',
+        s9PImpact:'Secara mekanisme, ini mengubah "baca 20+ endpoint" jadi "baca satu action card dua kalimat" untuk duty manager. Itu klaim tentang mekanismenya, bukan outcome terukur — belum ada data adopsi atau waktu yang dihemat dari manager sungguhan yang memakainya, karena CineTrack adalah proyek capstone, bukan produk yang di-deploy.',
         ctaNum:'Tautan',
         ctaTitle:'Repo backend, frontend, <em>dan OpenAPI docs.</em>',
         ctaP:'CineTrack dibangun sebagai capstone tim selama program Korea-ASEAN Digital Academy (KADA). Backend adalah repo tim. Dokumentasi API lengkap tersedia via OpenAPI/Swagger di <code>/docs</code>.',

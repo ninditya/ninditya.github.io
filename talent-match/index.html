@@ -861,6 +861,35 @@
     </div>
   </section>
 
+  <!-- 07.5 LIMITATIONS -->
+  <section class="content alt" id="limitations">
+    <div class="wrap">
+      <div class="section-num" data-i18n="s75Num">07.5 · Limitations</div>
+      <h2 data-i18n="s75Title">Where the matching algorithm <em>can still be wrong.</em></h2>
+      <p class="lede" data-i18n="s75Lede">An honest read on failure modes — these matter before any manager acts on a ranked list.</p>
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="lim1Title">Success pattern comes from a small benchmark set</h3>
+          <p data-i18n="lim1Text">The "success profile" in §02 is built from whichever employees were selected as R5 top-performer benchmarks. If that benchmark group happens to share an atypical trait unrelated to performance — same tenure cohort, same original department — the algorithm learns that trait as signal. There's no held-out group of independently-verified high performers to check the pattern against.</p>
+        </div>
+        <div>
+          <h3 data-i18n="lim2Title">Missing assessment data silently changes the ranking</h3>
+          <p data-i18n="lim2Text">Not all 2,010 employees have complete Pauli, PAPI, and CliftonStrengths records. The 17-CTE query scores whatever is present; it doesn't flag or down-weight candidates with partial data, so someone with 2 of 5 assessments can rank above someone with all 5, for reasons that have nothing to do with fit.</p>
+        </div>
+      </div>
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="lim3Title">No false-positive check</h3>
+          <p data-i18n="lim3Text">A candidate can score high on every measured trait (Pauli, PAPI Planning, CliftonStrengths themes) and still fail in the role for reasons the assessment battery doesn't capture — team fit, domain knowledge, timing. The system has never been checked against an actual promotion outcome, because no promotions have been made from its output yet.</p>
+        </div>
+        <div>
+          <h3 data-i18n="lim4Title">No baseline against manager judgment</h3>
+          <p data-i18n="lim4Text">§01's "Without System" flow names bias and missed talent as the cost of manual judgment, but there's no historical data on how often manager-picked successors actually succeeded versus how the algorithm would have ranked them. The claim that systematic scoring beats gut-feel is directionally reasonable, not yet measured.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 08 LESSONS LEARNED -->
   <div class="journey-section" id="lessons">
     <div class="wrap">
@@ -901,6 +930,7 @@
       <div class="section-num" data-i18n="ctaNum">Try it · See the code</div>
       <h2 data-i18n="ctaTitle">The algorithm is live. <em>Try it.</em></h2>
       <p data-i18n="ctaP">The Streamlit app is publicly deployed — enter a role, pick benchmark employees, get a ranked list of 2,010 candidates in under 10 seconds. Full SQL query and Python code on GitHub.</p>
+      <p data-i18n="ctaImpact">Its real value is turning a subjective "who comes to mind" judgment into a ranked, re-runnable list a manager can defend — but as §07.5 notes, "reduces bias" is still a claim about the mechanism, not yet a measured outcome from an actual succession decision.</p>
       <div class="cta-buttons">
         <a href="https://ninditya-talent-match-intelligence.streamlit.app/" target="_blank" rel="noopener" class="btn" data-i18n="ctaApp">↗ Open Live App</a>
         <a href="https://github.com/ninditya/talent-match-intelligence" target="_blank" rel="noopener" class="btn ghost" data-i18n="ctaGh">View on GitHub</a>
@@ -1008,6 +1038,17 @@
         kic2SubLabel:'R5 vs Others delta',
         kic3Label:'CliftonStrengths', kic3Title:'Future-oriented, self-driven',
         kic3Desc:'Top-5 themes in R5 cluster around vision and initiative — not authority. DISC type shows no dominant pattern: high performance is execution-dependent, not style-dependent.',
+        s75Num:'07.5 · Limitations',
+        s75Title:'Where the matching algorithm <em>can still be wrong.</em>',
+        s75Lede:'An honest read on failure modes — these matter before any manager acts on a ranked list.',
+        lim1Title:'Success pattern comes from a small benchmark set',
+        lim1Text:'The "success profile" in §02 is built from whichever employees were selected as R5 top-performer benchmarks. If that benchmark group happens to share an atypical trait unrelated to performance — same tenure cohort, same original department — the algorithm learns that trait as signal. There\'s no held-out group of independently-verified high performers to check the pattern against.',
+        lim2Title:'Missing assessment data silently changes the ranking',
+        lim2Text:'Not all 2,010 employees have complete Pauli, PAPI, and CliftonStrengths records. The 17-CTE query scores whatever is present; it doesn\'t flag or down-weight candidates with partial data, so someone with 2 of 5 assessments can rank above someone with all 5, for reasons that have nothing to do with fit.',
+        lim3Title:'No false-positive check',
+        lim3Text:'A candidate can score high on every measured trait (Pauli, PAPI Planning, CliftonStrengths themes) and still fail in the role for reasons the assessment battery doesn\'t capture — team fit, domain knowledge, timing. The system has never been checked against an actual promotion outcome, because no promotions have been made from its output yet.',
+        lim4Title:'No baseline against manager judgment',
+        lim4Text:'§01\'s "Without System" flow names bias and missed talent as the cost of manual judgment, but there\'s no historical data on how often manager-picked successors actually succeeded versus how the algorithm would have ranked them. The claim that systematic scoring beats gut-feel is directionally reasonable, not yet measured.',
         s8Num:'08 · Lessons Learned',
         s8Title:'What I would tell myself <em>before starting this project.</em>',
         l1Label:'ERD vs reality',
@@ -1026,6 +1067,7 @@
         ctaNum:'Try it · See the code',
         ctaTitle:'The algorithm is live. <em>Try it.</em>',
         ctaP:'The Streamlit app is publicly deployed — enter a role, pick benchmark employees, get a ranked list of 2,010 candidates in under 10 seconds. Full SQL query and Python code on GitHub.',
+        ctaImpact:'Its real value is turning a subjective "who comes to mind" judgment into a ranked, re-runnable list a manager can defend — but as §07.5 notes, "reduces bias" is still a claim about the mechanism, not yet a measured outcome from an actual succession decision.',
         ctaApp:'↗ Open Live App', ctaGh:'View on GitHub', ctaBack:'← Back to portfolio',
       },
       id: {
@@ -1118,6 +1160,17 @@
         kic2SubLabel:'Delta R5 vs Lainnya',
         kic3Label:'CliftonStrengths', kic3Title:'Berorientasi masa depan, mandiri',
         kic3Desc:'Top-5 tema di R5 berkluster di sekitar visi dan inisiatif — bukan otoritas. Tipe DISC tidak menunjukkan pola dominan: performa tinggi bergantung pada eksekusi, bukan gaya.',
+        s75Num:'07.5 · Keterbatasan',
+        s75Title:'Di mana algoritma matching <em>masih bisa salah.</em>',
+        s75Lede:'Penilaian jujur soal failure mode — ini penting sebelum manager bertindak berdasarkan ranked list.',
+        lim1Title:'Success pattern berasal dari benchmark set yang kecil',
+        lim1Text:'"Success profile" di §02 dibangun dari siapa pun yang dipilih sebagai benchmark top-performer R5. Kalau grup benchmark itu kebetulan berbagi trait atipikal yang tidak berkaitan dengan performa — kohort masa kerja yang sama, departemen asal yang sama — algoritma mempelajari trait itu sebagai sinyal. Tidak ada held-out group dari high performer yang terverifikasi independen untuk mengecek pola ini.',
+        lim2Title:'Data assessment yang hilang mengubah ranking secara diam-diam',
+        lim2Text:'Tidak semua 2.010 karyawan punya data Pauli, PAPI, dan CliftonStrengths yang lengkap. Query 17-CTE menskor apa pun yang tersedia; ia tidak menandai atau menurunkan bobot kandidat dengan data parsial, sehingga seseorang dengan 2 dari 5 assessment bisa ranking di atas yang punya semua 5, karena alasan yang tidak ada hubungannya dengan kecocokan.',
+        lim3Title:'Tidak ada pengecekan false-positive',
+        lim3Text:'Kandidat bisa skor tinggi di semua trait yang diukur (Pauli, PAPI Planning, tema CliftonStrengths) dan tetap gagal di peran tersebut karena alasan yang tidak ditangkap battery assessment — kecocokan tim, pengetahuan domain, timing. Sistem ini belum pernah dicek terhadap outcome promosi sungguhan, karena belum ada promosi yang dibuat dari outputnya.',
+        lim4Title:'Tidak ada baseline terhadap judgment manager',
+        lim4Text:'Alur "Without System" di §01 menyebut bias dan talent yang terlewat sebagai biaya judgment manual, tapi tidak ada data historis soal seberapa sering successor pilihan manager benar-benar berhasil dibanding bagaimana algoritma akan meranking mereka. Klaim bahwa scoring sistematis mengalahkan gut-feel masuk akal secara arah, tapi belum terukur.',
         s8Num:'08 · Pelajaran yang Dipetik',
         s8Title:'Yang ingin saya sampaikan ke diri sendiri <em>sebelum memulai project ini.</em>',
         l1Label:'ERD vs kenyataan',
@@ -1136,6 +1189,7 @@
         ctaNum:'Coba · Lihat kodenya',
         ctaTitle:'Algoritmanya live. <em>Coba sekarang.</em>',
         ctaP:'Aplikasi Streamlit sudah di-deploy — masukkan jabatan, pilih karyawan benchmark, dapatkan ranking 2.010 kandidat dalam 10 detik. Query SQL lengkap dan kode Python ada di GitHub.',
+        ctaImpact:'Nilai sebenarnya adalah mengubah judgment subjektif "siapa yang terlintas di pikiran" menjadi ranked list yang bisa dijalankan ulang dan dipertanggungjawabkan manager — tapi seperti dicatat di §07.5, "mengurangi bias" masih klaim tentang mekanismenya, belum outcome terukur dari keputusan suksesi sungguhan.',
         ctaApp:'↗ Buka Live App', ctaGh:'Lihat di GitHub', ctaBack:'← Kembali ke portfolio',
       }
     };
