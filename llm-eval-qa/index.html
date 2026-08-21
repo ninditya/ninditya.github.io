@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LLM Chatbot Evaluation Framework — Hallucination &amp; Grounding QA · Ninditya Salma Nur Aini</title>
-  <meta name="description" content="How do you know your LLM isn't hallucinating on users right now? The evaluation methodology I ran in production at Flip, demonstrated on two RAG systems I built and evaluated end-to-end myself — including a chatbot caught fabricating a support phone number that doesn't exist.">
+  <meta name="description" content="How do you know your LLM isn't hallucinating on users right now? The evaluation methodology I ran in production at a fintech startup, demonstrated on two RAG systems I built and evaluated end-to-end myself — including a chatbot caught fabricating a support phone number that doesn't exist.">
   <link rel="canonical" href="https://ninditya.github.io/llm-eval-qa/">
   <meta property="og:title" content="LLM Chatbot Evaluation Framework — Hallucination &amp; Grounding QA">
   <meta property="og:url" content="https://ninditya.github.io/llm-eval-qa/">
@@ -219,7 +219,7 @@
       </div>
       <h1 class="title" data-i18n="heroTitle">How do you know your LLM isn't hallucinating on users right now? <em>Here's the framework that catches it.</em></h1>
       <p class="hero-lede" data-i18n="heroLede">
-        The same evaluation discipline I ran in production at Flip — <strong>hallucination rate, answer grounding,
+        The same evaluation discipline I ran in production at a fintech startup — <strong>hallucination rate, answer grounding,
         fallback triggers</strong> — demonstrated here on two RAG systems I built and evaluated end-to-end myself: a
         banking query router and an Indonesian health-misinformation checker. One of them caught a chatbot fabricating
         a support phone number that doesn't exist.
@@ -228,7 +228,7 @@
         <span data-i18n="heroMetaDesign"><strong>Design</strong> eval datasets generated from the real pipeline, not hardcoded</span>
         <span data-i18n="heroMetaDetect"><strong>Detect</strong> DeepEval + Ragas, an LLM judge kept separate from the app's own model</span>
         <span data-i18n="heroMetaCatch"><strong>Catch</strong> a real fabricated phone number, a real classification nuance gap</span>
-        <span data-i18n="heroMetaTransfer"><strong>Transfer</strong> the same methodology used in production QA at Flip</span>
+        <span data-i18n="heroMetaTransfer"><strong>Transfer</strong> the same methodology used in production QA at a fintech startup</span>
       </div>
       <div class="tags">
         <span class="tag">DeepEval</span><span class="tag">Ragas</span><span class="tag">LLM-as-Judge</span>
@@ -236,11 +236,11 @@
         <span class="tag">Python / pytest</span>
       </div>
       <div class="disclosure" data-i18n="disclosure">
-        <strong>Full disclosure:</strong> I built and ran production LLM QA at Flip (2024–2025) — hallucination rate,
+        <strong>Full disclosure:</strong> I built and ran production LLM QA at a fintech startup (2024–2025) — hallucination rate,
         answer grounding, fallback triggers, and CSAT correlation across releases — but that system and its data are
-        Flip's confidential property and can't be reproduced here. This page demonstrates the identical evaluation
+        the startup's confidential property and can't be reproduced here. This page demonstrates the identical evaluation
         methodology on two systems I own outright: a banking intent router and an Indonesian health-misinformation
-        checker, both built and evaluated independently of Flip. The findings below — including a chatbot fabricating
+        checker, both built and evaluated independently of that employer. The findings below — including a chatbot fabricating
         a support phone number — are real, reproducible, and mine to show.
       </div>
     </div>
@@ -254,7 +254,7 @@
         <div class="stat"><div class="num">32</div><div class="label" data-i18n="stat2">Test cases<br>12 banking + 20 health claims</div></div>
         <div class="stat"><div class="num">1</div><div class="label" data-i18n="stat3">Fabricated phone number<br>caught in an ungrounded LLM tier</div></div>
         <div class="stat"><div class="num">90<small>%</small></div><div class="label" data-i18n="stat4">Classification accuracy<br>HOAX / BENAR / TIDAK LENGKAP</div></div>
-        <div class="stat"><div class="num">0</div><div class="label" data-i18n="stat5">Flip production code shown<br>confidential — see disclosure</div></div>
+        <div class="stat"><div class="num">0</div><div class="label" data-i18n="stat5">Fintech startup code shown<br>confidential — see disclosure</div></div>
       </div>
     </div>
   </section>
@@ -264,15 +264,15 @@
     <div class="wrap">
       <div class="section-num" data-i18n="whyNum">01 · Why This Page Exists</div>
       <h2 data-i18n="whyTitle">Same methodology. <em>Systems I'm actually allowed to show.</em></h2>
-      <p class="lede" data-i18n="whyLede">Flip's chatbot, its release history, and its real user traffic are confidential — I can't publish screenshots of a production dashboard or paste in real CSAT numbers. What I can do is show the exact same evaluation discipline, mechanism by mechanism, running against systems I built myself and can open completely.</p>
+      <p class="lede" data-i18n="whyLede">The fintech startup's chatbot, its release history, and its real user traffic are confidential — I can't publish screenshots of a production dashboard or paste in real CSAT numbers. What I can do is show the exact same evaluation discipline, mechanism by mechanism, running against systems I built myself and can open completely.</p>
 
       <table class="decision">
-        <thead><tr><th data-i18n="mapColPractice">Flip QA Practice</th><th data-i18n="mapColHere">Demonstrated Here</th></tr></thead>
+        <thead><tr><th data-i18n="mapColPractice">Fintech Startup QA Practice</th><th data-i18n="mapColHere">Demonstrated Here</th></tr></thead>
         <tbody>
           <tr><td data-i18n="mapRow1a">Hallucination rate tracking</td><td data-i18n="mapRow1b">A fabricated support phone number, caught by inspecting real pipeline output — before spending a cent on a paid LLM judge (§04)</td></tr>
           <tr><td data-i18n="mapRow2a">Answer grounding / faithfulness</td><td data-i18n="mapRow2b">DeepEval FaithfulnessMetric + Ragas faithfulness, built against real retrieval context from both systems (§06)</td></tr>
           <tr><td data-i18n="mapRow3a">Fallback triggers</td><td data-i18n="mapRow3b">HealthTruth-AI's "TIDAK LENGKAP" (insufficient-context) refusal path, tested against both a success and a calibration gap (§05)</td></tr>
-          <tr><td data-i18n="mapRow4a">CSAT correlation across releases</td><td data-i18n="mapRow4b">Not reproducible solo — needs real user traffic and a release cadence. Named honestly as the one piece of Flip's practice this page can't demonstrate, rather than faked with invented numbers.</td></tr>
+          <tr><td data-i18n="mapRow4a">CSAT correlation across releases</td><td data-i18n="mapRow4b">Not reproducible solo — needs real user traffic and a release cadence. Named honestly as the one piece of the fintech startup's practice this page can't demonstrate, rather than faked with invented numbers.</td></tr>
         </tbody>
       </table>
     </div>
@@ -434,12 +434,12 @@ GEval(
     </div>
   </section>
 
-  <!-- 08 FLIP MAPPING -->
-  <section class="content alt" id="flip">
+  <!-- 08 FINTECH STARTUP MAPPING -->
+  <section class="content alt" id="prior-role">
     <div class="wrap">
-      <div class="section-num" data-i18n="flipNum">08 · How This Maps to Flip</div>
+      <div class="section-num" data-i18n="flipNum">08 · How This Maps to the Fintech Startup</div>
       <h2 data-i18n="flipTitle">Same mechanics. <em>Real traffic, instead of a generated dataset.</em></h2>
-      <p data-i18n="flipP">At Flip, this discipline ran continuously against real user conversations rather than a 12- or 20-case generated set: hallucination rate tracked release over release, answer grounding checked against the RAG-based chatbot's actual retrieved context, fallback triggers tuned against real escalation patterns, and all of it correlated against CSAT to see whether a grounding fix actually moved user-perceived quality — not just a metric. The mechanics above — paraphrased eval data that tests generalization rather than memorization, a judge model kept separate from the app model, a purpose-built safety check instead of a generic one, fallback paths that get calibrated rather than just built — are the transferable part. This page is where I can show them working end to end.</p>
+      <p data-i18n="flipP">At the fintech startup, this discipline ran continuously against real user conversations rather than a 12- or 20-case generated set: hallucination rate tracked release over release, answer grounding checked against the RAG-based chatbot's actual retrieved context, fallback triggers tuned against real escalation patterns, and all of it correlated against CSAT to see whether a grounding fix actually moved user-perceived quality — not just a metric. The mechanics above — paraphrased eval data that tests generalization rather than memorization, a judge model kept separate from the app model, a purpose-built safety check instead of a generic one, fallback paths that get calibrated rather than just built — are the transferable part. This page is where I can show them working end to end.</p>
     </div>
   </section>
 
@@ -504,21 +504,21 @@ GEval(
         navBack:`← All projects`, navProjects:`Projects`, navContact:`Contact`,
         kickerTag:`AI / LLM QA Portfolio`,
         heroTitle:`How do you know your LLM isn't hallucinating on users right now? <em>Here's the framework that catches it.</em>`,
-        heroLede:`The same evaluation discipline I ran in production at Flip — <strong>hallucination rate, answer grounding, fallback triggers</strong> — demonstrated here on two RAG systems I built and evaluated end-to-end myself: a banking query router and an Indonesian health-misinformation checker. One of them caught a chatbot fabricating a support phone number that doesn't exist.`,
+        heroLede:`The same evaluation discipline I ran in production at a fintech startup — <strong>hallucination rate, answer grounding, fallback triggers</strong> — demonstrated here on two RAG systems I built and evaluated end-to-end myself: a banking query router and an Indonesian health-misinformation checker. One of them caught a chatbot fabricating a support phone number that doesn't exist.`,
         heroMetaDesign:`<strong>Design</strong> eval datasets generated from the real pipeline, not hardcoded`,
         heroMetaDetect:`<strong>Detect</strong> DeepEval + Ragas, an LLM judge kept separate from the app's own model`,
         heroMetaCatch:`<strong>Catch</strong> a real fabricated phone number, a real classification nuance gap`,
-        heroMetaTransfer:`<strong>Transfer</strong> the same methodology used in production QA at Flip`,
-        disclosure:`<strong>Full disclosure:</strong> I built and ran production LLM QA at Flip (2024–2025) — hallucination rate, answer grounding, fallback triggers, and CSAT correlation across releases — but that system and its data are Flip's confidential property and can't be reproduced here. This page demonstrates the identical evaluation methodology on two systems I own outright: a banking intent router and an Indonesian health-misinformation checker, both built and evaluated independently of Flip. The findings below — including a chatbot fabricating a support phone number — are real, reproducible, and mine to show.`,
-        stat1:`RAG systems<br>evaluated end-to-end`, stat2:`Test cases<br>12 banking + 20 health claims`, stat3:`Fabricated phone number<br>caught in an ungrounded LLM tier`, stat4:`Classification accuracy<br>HOAX / BENAR / TIDAK LENGKAP`, stat5:`Flip production code shown<br>confidential — see disclosure`,
+        heroMetaTransfer:`<strong>Transfer</strong> the same methodology used in production QA at a fintech startup`,
+        disclosure:`<strong>Full disclosure:</strong> I built and ran production LLM QA at a fintech startup (2024–2025) — hallucination rate, answer grounding, fallback triggers, and CSAT correlation across releases — but that system and its data are the startup's confidential property and can't be reproduced here. This page demonstrates the identical evaluation methodology on two systems I own outright: a banking intent router and an Indonesian health-misinformation checker, both built and evaluated independently of that employer. The findings below — including a chatbot fabricating a support phone number — are real, reproducible, and mine to show.`,
+        stat1:`RAG systems<br>evaluated end-to-end`, stat2:`Test cases<br>12 banking + 20 health claims`, stat3:`Fabricated phone number<br>caught in an ungrounded LLM tier`, stat4:`Classification accuracy<br>HOAX / BENAR / TIDAK LENGKAP`, stat5:`Fintech startup code shown<br>confidential — see disclosure`,
         whyNum:`01 · Why This Page Exists`,
         whyTitle:`Same methodology. <em>Systems I'm actually allowed to show.</em>`,
-        whyLede:`Flip's chatbot, its release history, and its real user traffic are confidential — I can't publish screenshots of a production dashboard or paste in real CSAT numbers. What I can do is show the exact same evaluation discipline, mechanism by mechanism, running against systems I built myself and can open completely.`,
-        mapColPractice:`Flip QA Practice`, mapColHere:`Demonstrated Here`,
+        whyLede:`The fintech startup's chatbot, its release history, and its real user traffic are confidential — I can't publish screenshots of a production dashboard or paste in real CSAT numbers. What I can do is show the exact same evaluation discipline, mechanism by mechanism, running against systems I built myself and can open completely.`,
+        mapColPractice:`Fintech Startup QA Practice`, mapColHere:`Demonstrated Here`,
         mapRow1a:`Hallucination rate tracking`, mapRow1b:`A fabricated support phone number, caught by inspecting real pipeline output — before spending a cent on a paid LLM judge (§04)`,
         mapRow2a:`Answer grounding / faithfulness`, mapRow2b:`DeepEval FaithfulnessMetric + Ragas faithfulness, built against real retrieval context from both systems (§06)`,
         mapRow3a:`Fallback triggers`, mapRow3b:`HealthTruth-AI's "TIDAK LENGKAP" (insufficient-context) refusal path, tested against both a success and a calibration gap (§05)`,
-        mapRow4a:`CSAT correlation across releases`, mapRow4b:`Not reproducible solo — needs real user traffic and a release cadence. Named honestly as the one piece of Flip's practice this page can't demonstrate, rather than faked with invented numbers.`,
+        mapRow4a:`CSAT correlation across releases`, mapRow4b:`Not reproducible solo — needs real user traffic and a release cadence. Named honestly as the one piece of the fintech startup's practice this page can't demonstrate, rather than faked with invented numbers.`,
         sysNum:`02 · Two Systems, One Question`,
         sysTitle:`Is this answer grounded, <em>or made up?</em>`,
         sysLede:`Different domains, different failure costs — a banking chatbot inventing a phone number is a fraud vector; a health-hoax checker being overconfident is a public-health risk. Both are RAG systems with a tier that isn't grounded in retrieved context, which is exactly where hallucination risk concentrates.`,
@@ -580,9 +580,9 @@ GEval(
         v3a:`HealthTruth-AI's 18/20 classification accuracy and both calibration findings (§05) — from real cached predictions`, v3b:`DeepEval's Hallucination/Faithfulness numeric scores for HealthTruth-AI — <code>run_deepeval.py</code> is written, report not yet generated`,
         v4a:`4 DeepEval test classes for banking, 5 metrics for HealthTruth-AI — both structurally complete and passing type/setup checks`, v4b:`A committed history of scores across releases (this is a point-in-time build, not a CSAT-style trend line)`,
         verNote:`Saying this plainly is itself part of the discipline: a QA framework that's designed correctly but hasn't spent judge-call budget yet is a different claim than "94% faithfulness," and only one of those is true right now.`,
-        flipNum:`08 · How This Maps to Flip`,
+        flipNum:`08 · How This Maps to the Fintech Startup`,
         flipTitle:`Same mechanics. <em>Real traffic, instead of a generated dataset.</em>`,
-        flipP:`At Flip, this discipline ran continuously against real user conversations rather than a 12- or 20-case generated set: hallucination rate tracked release over release, answer grounding checked against the RAG-based chatbot's actual retrieved context, fallback triggers tuned against real escalation patterns, and all of it correlated against CSAT to see whether a grounding fix actually moved user-perceived quality — not just a metric. The mechanics above — paraphrased eval data that tests generalization rather than memorization, a judge model kept separate from the app model, a purpose-built safety check instead of a generic one, fallback paths that get calibrated rather than just built — are the transferable part. This page is where I can show them working end to end.`,
+        flipP:`At the fintech startup, this discipline ran continuously against real user conversations rather than a 12- or 20-case generated set: hallucination rate tracked release over release, answer grounding checked against the RAG-based chatbot's actual retrieved context, fallback triggers tuned against real escalation patterns, and all of it correlated against CSAT to see whether a grounding fix actually moved user-perceived quality — not just a metric. The mechanics above — paraphrased eval data that tests generalization rather than memorization, a judge model kept separate from the app model, a purpose-built safety check instead of a generic one, fallback paths that get calibrated rather than just built — are the transferable part. This page is where I can show them working end to end.`,
         lessonsNum:`09 · Lessons Learned`,
         lessonsTitle:`A hallucination doesn't need a courtroom. <em style="color:var(--accent);">It just needs someone to actually look.</em>`,
         lesson1Label:`A fabrication doesn't need a paid judge to be found`,
@@ -604,21 +604,21 @@ GEval(
         navBack:`← Semua project`, navProjects:`Projects`, navContact:`Kontak`,
         kickerTag:`Portofolio AI / LLM QA`,
         heroTitle:`Bagaimana kamu tahu LLM-mu tidak sedang berhalusinasi ke user saat ini juga? <em>Ini framework yang menangkapnya.</em>`,
-        heroLede:`Disiplin evaluasi yang sama dengan yang saya jalankan di production di Flip — <strong>hallucination rate, answer grounding, fallback trigger</strong> — didemonstrasikan di sini pada dua sistem RAG yang saya bangun dan evaluasi sendiri end-to-end: router intent banking dan pengecek hoax kesehatan berbahasa Indonesia. Salah satunya menangkap chatbot yang mengarang nomor telepon support yang sebenarnya tidak ada.`,
+        heroLede:`Disiplin evaluasi yang sama dengan yang saya jalankan di production di sebuah startup fintech — <strong>hallucination rate, answer grounding, fallback trigger</strong> — didemonstrasikan di sini pada dua sistem RAG yang saya bangun dan evaluasi sendiri end-to-end: router intent banking dan pengecek hoax kesehatan berbahasa Indonesia. Salah satunya menangkap chatbot yang mengarang nomor telepon support yang sebenarnya tidak ada.`,
         heroMetaDesign:`<strong>Design</strong> dataset evaluasi dihasilkan dari pipeline sungguhan, bukan hardcoded`,
         heroMetaDetect:`<strong>Detect</strong> DeepEval + Ragas, LLM judge yang dijaga terpisah dari model milik app sendiri`,
         heroMetaCatch:`<strong>Catch</strong> nomor telepon palsu sungguhan, gap nuansa klasifikasi sungguhan`,
-        heroMetaTransfer:`<strong>Transfer</strong> metodologi yang sama dengan QA production di Flip`,
-        disclosure:`<strong>Full disclosure:</strong> Saya membangun dan menjalankan QA LLM production di Flip (2024–2025) — hallucination rate, answer grounding, fallback trigger, dan korelasi CSAT lintas rilis — tapi sistem dan datanya adalah milik rahasia Flip dan tidak bisa direproduksi di sini. Halaman ini mendemonstrasikan metodologi evaluasi yang identik pada dua sistem yang sepenuhnya saya miliki: router intent banking dan pengecek hoax kesehatan Indonesia, keduanya dibangun dan dievaluasi terpisah dari Flip. Temuan di bawah — termasuk chatbot yang mengarang nomor telepon support — nyata, bisa direproduksi, dan memang milik saya untuk ditunjukkan.`,
-        stat1:`Sistem RAG<br>dievaluasi end-to-end`, stat2:`Test case<br>12 banking + 20 klaim kesehatan`, stat3:`Nomor telepon palsu<br>ditangkap di tier LLM tanpa grounding`, stat4:`Akurasi klasifikasi<br>HOAX / BENAR / TIDAK LENGKAP`, stat5:`Kode production Flip ditampilkan<br>rahasia — lihat disclosure`,
+        heroMetaTransfer:`<strong>Transfer</strong> metodologi yang sama dengan QA production di startup fintech tersebut`,
+        disclosure:`<strong>Full disclosure:</strong> Saya membangun dan menjalankan QA LLM production di sebuah startup fintech (2024–2025) — hallucination rate, answer grounding, fallback trigger, dan korelasi CSAT lintas rilis — tapi sistem dan datanya adalah milik rahasia startup tersebut dan tidak bisa direproduksi di sini. Halaman ini mendemonstrasikan metodologi evaluasi yang identik pada dua sistem yang sepenuhnya saya miliki: router intent banking dan pengecek hoax kesehatan Indonesia, keduanya dibangun dan dievaluasi terpisah dari employer tersebut. Temuan di bawah — termasuk chatbot yang mengarang nomor telepon support — nyata, bisa direproduksi, dan memang milik saya untuk ditunjukkan.`,
+        stat1:`Sistem RAG<br>dievaluasi end-to-end`, stat2:`Test case<br>12 banking + 20 klaim kesehatan`, stat3:`Nomor telepon palsu<br>ditangkap di tier LLM tanpa grounding`, stat4:`Akurasi klasifikasi<br>HOAX / BENAR / TIDAK LENGKAP`, stat5:`Kode production startup fintech ditampilkan<br>rahasia — lihat disclosure`,
         whyNum:`01 · Kenapa Halaman Ini Ada`,
         whyTitle:`Metodologi yang sama. <em>Sistem yang memang boleh saya tunjukkan.</em>`,
-        whyLede:`Chatbot Flip, riwayat rilisnya, dan traffic user sungguhannya bersifat rahasia — saya tidak bisa mempublikasikan screenshot dashboard production atau menempelkan angka CSAT sungguhan. Yang bisa saya lakukan adalah menunjukkan disiplin evaluasi yang persis sama, mekanisme demi mekanisme, berjalan di sistem yang saya bangun sendiri dan bisa saya buka sepenuhnya.`,
-        mapColPractice:`Praktik QA di Flip`, mapColHere:`Didemonstrasikan di Sini`,
+        whyLede:`Chatbot startup fintech tersebut, riwayat rilisnya, dan traffic user sungguhannya bersifat rahasia — saya tidak bisa mempublikasikan screenshot dashboard production atau menempelkan angka CSAT sungguhan. Yang bisa saya lakukan adalah menunjukkan disiplin evaluasi yang persis sama, mekanisme demi mekanisme, berjalan di sistem yang saya bangun sendiri dan bisa saya buka sepenuhnya.`,
+        mapColPractice:`Praktik QA di Startup Fintech`, mapColHere:`Didemonstrasikan di Sini`,
         mapRow1a:`Pelacakan hallucination rate`, mapRow1b:`Nomor telepon support palsu, ditangkap dengan memeriksa output pipeline sungguhan — sebelum mengeluarkan satu sen pun untuk LLM judge berbayar (§04)`,
         mapRow2a:`Answer grounding / faithfulness`, mapRow2b:`DeepEval FaithfulnessMetric + Ragas faithfulness, dibangun terhadap retrieval context sungguhan dari kedua sistem (§06)`,
         mapRow3a:`Fallback trigger`, mapRow3b:`Jalur penolakan "TIDAK LENGKAP" (context tidak cukup) milik HealthTruth-AI, diuji terhadap satu kasus sukses dan satu gap kalibrasi (§05)`,
-        mapRow4a:`Korelasi CSAT lintas rilis`, mapRow4b:`Tidak bisa direproduksi sendirian — butuh traffic user sungguhan dan ritme rilis. Disebutkan secara jujur sebagai satu-satunya bagian praktik Flip yang tidak bisa didemonstrasikan halaman ini, alih-alih dipalsukan dengan angka karangan.`,
+        mapRow4a:`Korelasi CSAT lintas rilis`, mapRow4b:`Tidak bisa direproduksi sendirian — butuh traffic user sungguhan dan ritme rilis. Disebutkan secara jujur sebagai satu-satunya bagian praktik startup fintech tersebut yang tidak bisa didemonstrasikan halaman ini, alih-alih dipalsukan dengan angka karangan.`,
         sysNum:`02 · Dua Sistem, Satu Pertanyaan`,
         sysTitle:`Jawaban ini grounded, <em>atau karangan?</em>`,
         sysLede:`Domain berbeda, biaya kegagalan berbeda — chatbot banking yang mengarang nomor telepon adalah vektor fraud; pengecek hoax kesehatan yang terlalu percaya diri adalah risiko kesehatan publik. Keduanya sistem RAG dengan satu tier yang tidak grounded ke retrieval context — persis di situlah risiko hallucination terkonsentrasi.`,
@@ -680,9 +680,9 @@ GEval(
         v3a:`Akurasi klasifikasi 18/20 HealthTruth-AI dan kedua temuan kalibrasi (§05) — dari prediksi cache sungguhan`, v3b:`Skor numerik Hallucination/Faithfulness DeepEval untuk HealthTruth-AI — <code>run_deepeval.py</code> sudah ditulis, laporan belum di-generate`,
         v4a:`4 kelas test DeepEval untuk banking, 5 metrik untuk HealthTruth-AI — keduanya lengkap secara struktur dan lolos pengecekan tipe/setup`, v4b:`Riwayat skor tersimpan lintas rilis (ini snapshot satu titik waktu, bukan trend line gaya CSAT)`,
         verNote:`Mengatakan ini secara terus terang adalah bagian dari disiplinnya sendiri: framework QA yang didesain dengan benar tapi belum menghabiskan budget panggilan judge adalah klaim yang berbeda dari "94% faithfulness," dan cuma satu dari itu yang benar saat ini.`,
-        flipNum:`08 · Bagaimana Ini Terhubung ke Flip`,
+        flipNum:`08 · Bagaimana Ini Terhubung ke Startup Fintech`,
         flipTitle:`Mekanisme yang sama. <em>Traffic sungguhan, bukan dataset yang di-generate.</em>`,
-        flipP:`Di Flip, disiplin ini berjalan terus-menerus terhadap percakapan user sungguhan, bukan set 12 atau 20 kasus yang di-generate: hallucination rate dilacak rilis demi rilis, answer grounding dicek terhadap retrieved context sungguhan dari chatbot berbasis RAG, fallback trigger dikalibrasi terhadap pola eskalasi sungguhan, dan semuanya dikorelasikan terhadap CSAT untuk melihat apakah perbaikan grounding benar-benar menggerakkan kualitas yang dirasakan user — bukan cuma sebuah metrik. Mekanisme di atas — data eval hasil parafrase yang menguji generalisasi bukan hafalan, model judge yang dijaga terpisah dari model app, pengecekan keamanan yang dibangun khusus alih-alih generik, jalur fallback yang dikalibrasi bukan cuma dibangun — adalah bagian yang bisa dipindahkan. Halaman ini tempat saya bisa menunjukkannya bekerja end-to-end.`,
+        flipP:`Di startup fintech tersebut, disiplin ini berjalan terus-menerus terhadap percakapan user sungguhan, bukan set 12 atau 20 kasus yang di-generate: hallucination rate dilacak rilis demi rilis, answer grounding dicek terhadap retrieved context sungguhan dari chatbot berbasis RAG, fallback trigger dikalibrasi terhadap pola eskalasi sungguhan, dan semuanya dikorelasikan terhadap CSAT untuk melihat apakah perbaikan grounding benar-benar menggerakkan kualitas yang dirasakan user — bukan cuma sebuah metrik. Mekanisme di atas — data eval hasil parafrase yang menguji generalisasi bukan hafalan, model judge yang dijaga terpisah dari model app, pengecekan keamanan yang dibangun khusus alih-alih generik, jalur fallback yang dikalibrasi bukan cuma dibangun — adalah bagian yang bisa dipindahkan. Halaman ini tempat saya bisa menunjukkannya bekerja end-to-end.`,
         lessonsNum:`09 · Pelajaran`,
         lessonsTitle:`Hallucination tidak butuh sidang pengadilan. <em style="color:var(--accent);">Cuma butuh seseorang yang benar-benar melihat.</em>`,
         lesson1Label:`Fabrikasi tidak perlu judge berbayar untuk ditemukan`,
