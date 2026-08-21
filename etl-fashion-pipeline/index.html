@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ETL Fashion Pipeline — Ninditya Salma Nur Aini</title>
-  <meta name="description" content="Production-ready Python ETL pipeline with full pytest coverage, dependency injection, and MagicMock isolation. 50-page fashion scraper → CSV · PostgreSQL · Google Sheets. 100% branch coverage.">
+  <meta name="description" content="Production-ready Python ETL pipeline with full pytest coverage, dependency injection, and MagicMock isolation. 50-page fashion scraper → CSV · PostgreSQL · Google Sheets. 92% combined branch coverage.">
   <link rel="canonical" href="https://ninditya.github.io/etl-fashion-pipeline/">
   <meta property="og:title" content="ETL Fashion Pipeline — Ninditya Salma Nur Aini">
   <meta property="og:url" content="https://ninditya.github.io/etl-fashion-pipeline/">
@@ -281,13 +281,13 @@
       <h1 class="title" data-i18n="heroTitle">Building an ETL pipeline is easy.<br><em>Building one that survives failures is harder.</em></h1>
       <p class="hero-lede" data-i18n="heroLede">
         An end-to-end fashion product ETL with <strong>full unit testing, dependency injection, and isolated mocks</strong>
-        using pytest + MagicMock. 50 pages scraped, 3 destinations, 100% branch coverage.
+        using pytest + MagicMock. 50 pages scraped, 3 destinations, 92% combined branch coverage.
       </p>
       <div class="hero-meta">
         <span data-i18n="heroMetaExtract"><strong>Extract</strong> requests · BeautifulSoup · 50 pages</span>
         <span data-i18n="heroMetaTransform"><strong>Transform</strong> pandas · validation · USD→IDR</span>
         <span data-i18n="heroMetaLoad"><strong>Load</strong> CSV · PostgreSQL · Google Sheets</span>
-        <span data-i18n="heroMetaTest"><strong>Testing</strong> pytest · MagicMock · 100% branch coverage</span>
+        <span data-i18n="heroMetaTest"><strong>Testing</strong> pytest · MagicMock · 92% branch coverage</span>
       </div>
     </div>
   </section>
@@ -309,8 +309,8 @@
           <div class="label" data-i18n="stat3">Independent modules<br>extract · transform · load</div>
         </div>
         <div class="stat">
-          <div class="num">100<small>%</small></div>
-          <div class="label" data-i18n="stat4">Branch coverage<br>per module</div>
+          <div class="num">92<small>%</small></div>
+          <div class="label" data-i18n="stat4">Branch coverage<br>combined ETL</div>
         </div>
         <div class="stat">
           <div class="num">0</div>
@@ -555,8 +555,8 @@ df[<span class="n">"price"</span>] = (
       <div class="cov-grid">
         <div class="cov-card reveal">
           <div class="cov-module" data-i18n="covExtractModule">test_extract.py</div>
-          <div class="cov-pct">100%</div>
-          <div class="cov-bar-track"><div class="cov-bar" style="width:100%"></div></div>
+          <div class="cov-pct">97%</div>
+          <div class="cov-bar-track"><div class="cov-bar" style="width:97%"></div></div>
           <ul class="cov-checks">
             <li data-i18n="covE1">Success — all fields present</li>
             <li data-i18n="covE2">Partial — missing rating/colors/gender</li>
@@ -567,8 +567,8 @@ df[<span class="n">"price"</span>] = (
         </div>
         <div class="cov-card reveal">
           <div class="cov-module" data-i18n="covTransformModule">test_transform.py</div>
-          <div class="cov-pct">100%</div>
-          <div class="cov-bar-track"><div class="cov-bar" style="width:100%"></div></div>
+          <div class="cov-pct">90%</div>
+          <div class="cov-bar-track"><div class="cov-bar" style="width:90%"></div></div>
           <ul class="cov-checks">
             <li data-i18n="covT1">Mixed input — valid + invalid rows</li>
             <li data-i18n="covT2">Empty DataFrame — no crash</li>
@@ -579,8 +579,8 @@ df[<span class="n">"price"</span>] = (
         </div>
         <div class="cov-card reveal">
           <div class="cov-module" data-i18n="covLoadModule">test_load.py</div>
-          <div class="cov-pct">100%</div>
-          <div class="cov-bar-track"><div class="cov-bar" style="width:100%"></div></div>
+          <div class="cov-pct">89%</div>
+          <div class="cov-bar-track"><div class="cov-bar" style="width:89%"></div></div>
           <ul class="cov-checks">
             <li data-i18n="covL1">CSV — written correctly</li>
             <li data-i18n="covL2">PostgreSQL — correct table + replace strategy</li>
@@ -768,11 +768,11 @@ df[<span class="n">"colors"</span>] = (
         </div>
         <div>
           <h3 data-i18n="ciTitle">CI Pipeline</h3>
-          <p data-i18n="ciP">With 100% branch coverage and zero live dependencies in tests, this pipeline is ready for CI. Every commit can trigger the full test suite without environment setup.</p>
+          <p data-i18n="ciP">With 92% combined branch coverage and zero live dependencies in tests, this pipeline is ready for CI. Every commit can trigger the full test suite without environment setup.</p>
           <div class="ci-flow">
             <div class="ci-step"><div class="ci-box" data-i18n="ciPush">GitHub Push</div><div class="ci-arrow">→</div></div>
             <div class="ci-step"><div class="ci-box green">pytest</div><div class="ci-arrow">→</div></div>
-            <div class="ci-step"><div class="ci-box green" data-i18n="ciCoverage">Coverage 100%</div><div class="ci-arrow">→</div></div>
+            <div class="ci-step"><div class="ci-box green" data-i18n="ciCoverage">Coverage 92%</div><div class="ci-arrow">→</div></div>
             <div class="ci-step"><div class="ci-box green" data-i18n="ciBuild">Build ✓</div></div>
           </div>
 
@@ -843,24 +843,24 @@ df[<span class="n">"colors"</span>] = (
   <section class="content" id="lessons" style="background:var(--bg-dark);">
     <div class="wrap">
       <div class="section-num" style="color:var(--accent);" data-i18n="lessonsNum">10 · Lessons Learned</div>
-      <h2 style="color:white;" data-i18n="lessonsTitle">QA isn't a safety net. <em style="color:var(--accent);">It's a design discipline.</em></h2>
+      <h2 style="color:white;" data-i18n="lessonsTitle">QA didn't just catch bugs here. <em style="color:var(--accent);">It changed how I designed the pipeline.</em></h2>
       <p style="color:rgba(255,255,255,0.65);max-width:720px;" data-i18n="lessonsP">Writing tests for this pipeline changed how I wrote the pipeline itself. Functions that are hard to test are usually hard to maintain.</p>
       <div class="lesson-cards">
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson1Label">Testability shapes design</div>
-          <p data-i18n="lesson1P">When you write the test first, you catch structural problems early. <strong>Functions with too many dependencies are hard to mock</strong> — and that difficulty is the design feedback.</p>
+          <p data-i18n="lesson1P">The first time a function was too tangled to mock cleanly, I almost worked around it in the test instead. Then I realized the mocking difficulty was the design feedback — I split the function up, and both the code and the test got simpler.</p>
         </div>
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson2Label">MagicMock for external APIs</div>
-          <p data-i18n="lesson2P">The Google Sheets API chain (<code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">spreadsheets().values().clear().execute()</code>) looks daunting to mock. <strong>Chained MagicMock calls just work</strong> — each returns another Mock by default.</p>
+          <p data-i18n="lesson2P">I expected mocking the Google Sheets API chain (<code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">spreadsheets().values().clear().execute()</code>) to be a headache. It wasn't — chained MagicMock calls just work, since each call returns another Mock by default unless you tell it otherwise.</p>
         </div>
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson3Label">Coverage is a floor, not a goal</div>
-          <p data-i18n="lesson3P">100% branch coverage doesn't mean the pipeline is correct. <strong>It means every code path has been exercised at least once</strong>. The actual data quality contracts live in the assertions.</p>
+          <p data-i18n="lesson3P">None of these modules actually hit 100% — extract landed at 97%, transform at 90%, load at 89%. High coverage doesn't mean the pipeline is correct; it means every code path has been exercised at least once. The real data quality contracts live in the assertions, not the percentage.</p>
         </div>
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson4Label">Modular load > monolithic save</div>
-          <p data-i18n="lesson4P">Splitting into <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_csv</code>, <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_postgres</code>, <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_gsheet</code> made each independently testable. <strong>A monolithic <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_all()</code> would have been a test nightmare</strong>.</p>
+          <p data-i18n="lesson4P">I split saving into <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_csv</code>, <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_postgres</code>, and <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_gsheet</code> instead of one <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_all()</code>, mostly for readability. I only saw the real payoff once I started writing tests — each one became independently testable, and a monolithic version would have been a nightmare to mock.</p>
         </div>
       </div>
     </div>
@@ -871,7 +871,7 @@ df[<span class="n">"colors"</span>] = (
     <div class="wrap">
       <div class="section-num" data-i18n="ctaNum">Source Code · Writeup</div>
       <h2 data-i18n="ctaTitle">Full source on GitHub. <em>Complete with test suite.</em></h2>
-      <p data-i18n="ctaP">Extract, transform, load modules plus full pytest test suite with MagicMock. All three modules, all edge cases, 100% branch coverage.</p>
+      <p data-i18n="ctaP">Extract, transform, load modules plus full pytest test suite with MagicMock. All three modules, all edge cases, 92% combined branch coverage.</p>
       <div class="cta-buttons">
         <a href="https://github.com/ninditya/etl-fashion-pipeline" target="_blank" rel="noopener" class="btn" data-i18n="ctaGithub">View on GitHub →</a>
         <a href="/" class="btn ghost" data-i18n="ctaBack">← Back to portfolio</a>
@@ -892,12 +892,12 @@ df[<span class="n">"colors"</span>] = (
         navBack:'← All projects', navProjects:'Projects', navContact:'Contact',
         kickerTag:'Software Engineering for Data',
         heroTitle:'Building an ETL pipeline is easy.<br><em>Building one that survives failures is harder.</em>',
-        heroLede:'An end-to-end fashion product ETL with <strong>full unit testing, dependency injection, and isolated mocks</strong> using pytest + MagicMock. 50 pages scraped, 3 destinations, 100% branch coverage.',
+        heroLede:'An end-to-end fashion product ETL with <strong>full unit testing, dependency injection, and isolated mocks</strong> using pytest + MagicMock. 50 pages scraped, 3 destinations, 92% combined branch coverage.',
         heroMetaExtract:'<strong>Extract</strong> requests · BeautifulSoup · 50 pages',
         heroMetaTransform:'<strong>Transform</strong> pandas · validation · USD→IDR',
         heroMetaLoad:'<strong>Load</strong> CSV · PostgreSQL · Google Sheets',
-        heroMetaTest:'<strong>Testing</strong> pytest · MagicMock · 100% branch coverage',
-        stat1:'Pages scraped<br>per run', stat2:'Load destinations<br>CSV · PG · Sheets', stat3:'Independent modules<br>extract · transform · load', stat4:'Branch coverage<br>per module', stat5:'Live dependencies<br>during tests',
+        heroMetaTest:'<strong>Testing</strong> pytest · MagicMock · 92% branch coverage',
+        stat1:'Pages scraped<br>per run', stat2:'Load destinations<br>CSV · PG · Sheets', stat3:'Independent modules<br>extract · transform · load', stat4:'Branch coverage<br>combined ETL', stat5:'Live dependencies<br>during tests',
         probNum:'01 · Business Problem',
         probTitle:'Pipelines fail at the edges. <em>The edges you forgot to test.</em>',
         probLede:'Most ETL tutorials show the happy path. Real pipelines fail when HTML structure changes mid-scrape, a product has a null price, or the database connection drops after 40 successful writes.',
@@ -955,8 +955,8 @@ df[<span class="n">"colors"</span>] = (
         fsNum:'08 · Folder Structure',
         fsTitle:'Mirrors the architecture. <em>Tests live beside the code they test.</em>',
         ciTitle:'CI Pipeline',
-        ciP:'With 100% branch coverage and zero live dependencies in tests, this pipeline is ready for CI. Every commit can trigger the full test suite without environment setup.',
-        ciPush:'GitHub Push', ciCoverage:'Coverage 100%', ciBuild:'Build ✓',
+        ciP:'With 92% combined branch coverage and zero live dependencies in tests, this pipeline is ready for CI. Every commit can trigger the full test suite without environment setup.',
+        ciPush:'GitHub Push', ciCoverage:'Coverage 92%', ciBuild:'Build ✓',
         errorTitle:'Error handling strategy',
         ehLocation:'Location', ehStrategy:'Strategy',
         ehFail1:'fail-safe → return None', ehFail2:'skip page → continue loop', ehFail3:'filter rows → log drop count', ehFail4:'catch exception → log → continue',
@@ -970,15 +970,15 @@ df[<span class="n">"colors"</span>] = (
         imp6Title:'Production-ready architecture', imp6P:'Fail-safe extraction, ordered validation, injectable dependencies, and modular load — patterns used in production data systems at scale.',
         imp7Title:'What this actually prevents downstream', imp7P:'For a pricing feed like this one, the real failure mode isn\'t "3 pages crash" — it\'s the whole run silently not updating, so whoever reads the feed (a pricing dashboard, a competitor-tracking report) acts on yesterday\'s prices without knowing they\'re stale. Fail-safe parsing turns a full-day outage into a 3-product gap, which is the difference between a noticed problem and a silent one.',
         lessonsNum:'10 · Lessons Learned',
-        lessonsTitle:'QA isn\'t a safety net. <em>It\'s a design discipline.</em>',
+        lessonsTitle:'QA didn\'t just catch bugs here. <em>It changed how I designed the pipeline.</em>',
         lessonsP:'Writing tests for this pipeline changed how I wrote the pipeline itself. Functions that are hard to test are usually hard to maintain.',
-        lesson1Label:'Testability shapes design', lesson1P:'When you write the test first, you catch structural problems early. <strong>Functions with too many dependencies are hard to mock</strong> — and that difficulty is the design feedback.',
-        lesson2Label:'MagicMock for external APIs', lesson2P:'The Google Sheets API chain (<code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">spreadsheets().values().clear().execute()</code>) looks daunting to mock. <strong>Chained MagicMock calls just work</strong> — each returns another Mock by default.',
-        lesson3Label:'Coverage is a floor, not a goal', lesson3P:'100% branch coverage doesn\'t mean the pipeline is correct. <strong>It means every code path has been exercised at least once</strong>. The actual data quality contracts live in the assertions.',
-        lesson4Label:'Modular load > monolithic save', lesson4P:'Splitting into <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_csv</code>, <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_postgres</code>, <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_gsheet</code> made each independently testable. <strong>A monolithic <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_all()</code> would have been a test nightmare</strong>.',
+        lesson1Label:'Testability shapes design', lesson1P:'The first time a function was too tangled to mock cleanly, I almost worked around it in the test instead. Then I realized the mocking difficulty was the design feedback — I split the function up, and both the code and the test got simpler.',
+        lesson2Label:'MagicMock for external APIs', lesson2P:'I expected mocking the Google Sheets API chain (<code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">spreadsheets().values().clear().execute()</code>) to be a headache. It wasn\'t — chained MagicMock calls just work, since each call returns another Mock by default unless you tell it otherwise.',
+        lesson3Label:'Coverage is a floor, not a goal', lesson3P:'None of these modules actually hit 100% — extract landed at 97%, transform at 90%, load at 89%. High coverage doesn\'t mean the pipeline is correct; it means every code path has been exercised at least once. The real data quality contracts live in the assertions, not the percentage.',
+        lesson4Label:'Modular load > monolithic save', lesson4P:'I split saving into <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_csv</code>, <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_postgres</code>, and <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_gsheet</code> instead of one <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_all()</code>, mostly for readability. I only saw the real payoff once I started writing tests — each one became independently testable, and a monolithic version would have been a nightmare to mock.',
         ctaNum:'Source Code · Writeup',
         ctaTitle:'Full source on GitHub. <em>Complete with test suite.</em>',
-        ctaP:'Extract, transform, load modules plus full pytest test suite with MagicMock. All three modules, all edge cases, 100% branch coverage.',
+        ctaP:'Extract, transform, load modules plus full pytest test suite with MagicMock. All three modules, all edge cases, 92% combined branch coverage.',
         ctaGithub:'View on GitHub →', ctaBack:'← Back to portfolio',
         footerLeft:'© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a>', footerContact:'Get in touch',
       },
@@ -986,12 +986,12 @@ df[<span class="n">"colors"</span>] = (
         navBack:'← Semua project', navProjects:'Projects', navContact:'Kontak',
         kickerTag:'Software Engineering untuk Data',
         heroTitle:'Membangun pipeline ETL itu mudah.<br><em>Membangun yang tahan kegagalan, itu yang lebih sulit.</em>',
-        heroLede:'ETL produk fashion end-to-end dengan <strong>unit testing lengkap, dependency injection, dan mock terisolasi</strong> menggunakan pytest + MagicMock. 50 halaman di-scrape, 3 tujuan, coverage 100%.',
+        heroLede:'ETL produk fashion end-to-end dengan <strong>unit testing lengkap, dependency injection, dan mock terisolasi</strong> menggunakan pytest + MagicMock. 50 halaman di-scrape, 3 tujuan, coverage gabungan 92%.',
         heroMetaExtract:'<strong>Extract</strong> requests · BeautifulSoup · 50 halaman',
         heroMetaTransform:'<strong>Transform</strong> pandas · validasi · USD→IDR',
         heroMetaLoad:'<strong>Load</strong> CSV · PostgreSQL · Google Sheets',
-        heroMetaTest:'<strong>Testing</strong> pytest · MagicMock · 100% branch coverage',
-        stat1:'Halaman di-scrape<br>per run', stat2:'Tujuan load<br>CSV · PG · Sheets', stat3:'Modul independen<br>extract · transform · load', stat4:'Branch coverage<br>per modul', stat5:'Live dependency<br>saat testing',
+        heroMetaTest:'<strong>Testing</strong> pytest · MagicMock · 92% branch coverage',
+        stat1:'Halaman di-scrape<br>per run', stat2:'Tujuan load<br>CSV · PG · Sheets', stat3:'Modul independen<br>extract · transform · load', stat4:'Branch coverage<br>gabungan ETL', stat5:'Live dependency<br>saat testing',
         probNum:'01 · Business Problem',
         probTitle:'Pipeline gagal di edge case. <em>Yang lupa kamu test.</em>',
         probLede:'Kebanyakan tutorial ETL menunjukkan happy path. Pipeline nyata gagal saat struktur HTML berubah di tengah scrape, produk memiliki harga null, atau koneksi database putus setelah 40 write berhasil.',
@@ -1049,8 +1049,8 @@ df[<span class="n">"colors"</span>] = (
         fsNum:'08 · Struktur Folder',
         fsTitle:'Mencerminkan arsitektur. <em>Test berada di sebelah kode yang diuji.</em>',
         ciTitle:'CI Pipeline',
-        ciP:'Dengan 100% branch coverage dan nol live dependency dalam test, pipeline ini siap untuk CI. Setiap commit bisa memicu seluruh test suite tanpa setup environment.',
-        ciPush:'GitHub Push', ciCoverage:'Coverage 100%', ciBuild:'Build ✓',
+        ciP:'Dengan 92% branch coverage gabungan dan nol live dependency dalam test, pipeline ini siap untuk CI. Setiap commit bisa memicu seluruh test suite tanpa setup environment.',
+        ciPush:'GitHub Push', ciCoverage:'Coverage 92%', ciBuild:'Build ✓',
         errorTitle:'Strategi error handling',
         ehLocation:'Lokasi', ehStrategy:'Strategi',
         ehFail1:'fail-safe → return None', ehFail2:'skip halaman → lanjutkan loop', ehFail3:'filter baris → log jumlah yang dihapus', ehFail4:'tangkap exception → log → lanjutkan',
@@ -1064,15 +1064,15 @@ df[<span class="n">"colors"</span>] = (
         imp6Title:'Arsitektur production-ready', imp6P:'Ekstraksi fail-safe, validasi berurutan, dependency injectable, dan load modular — pola yang digunakan di sistem data production skala besar.',
         imp7Title:'Apa yang sebenarnya dicegah di hilir', imp7P:'Untuk feed harga seperti ini, mode kegagalan sebenarnya bukan "3 halaman crash" — tapi seluruh run diam-diam tidak ter-update, sehingga siapa pun yang membaca feed itu (dashboard harga, laporan pemantauan kompetitor) bertindak berdasarkan harga kemarin tanpa tahu datanya basi. Parsing fail-safe mengubah outage sehari penuh menjadi gap 3 produk saja — beda antara masalah yang disadari dan yang diam-diam lewat.',
         lessonsNum:'10 · Pelajaran',
-        lessonsTitle:'QA bukan jaring pengaman. <em>Ini disiplin desain.</em>',
+        lessonsTitle:'QA di sini nggak cuma nangkep bug. <em>Ini yang ngubah cara saya desain pipeline-nya.</em>',
         lessonsP:'Menulis test untuk pipeline ini mengubah cara saya menulis pipeline itu sendiri. Fungsi yang sulit diuji biasanya sulit dimaintain.',
-        lesson1Label:'Testability membentuk desain', lesson1P:'Saat kamu menulis test terlebih dahulu, kamu menangkap masalah struktural lebih awal. <strong>Fungsi dengan terlalu banyak dependency sulit di-mock</strong> — dan kesulitan itu adalah feedback desain.',
-        lesson2Label:'MagicMock untuk API eksternal', lesson2P:'Rantai Google Sheets API (<code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">spreadsheets().values().clear().execute()</code>) terlihat menakutkan untuk di-mock. <strong>Panggilan MagicMock berantai langsung bekerja</strong> — setiap panggilan mengembalikan Mock lain secara default.',
-        lesson3Label:'Coverage adalah lantai, bukan tujuan', lesson3P:'100% branch coverage tidak berarti pipeline sudah benar. <strong>Artinya setiap jalur kode telah dieksekusi setidaknya sekali</strong>. Kontrak kualitas data yang sebenarnya ada di assertions.',
-        lesson4Label:'Load modular > save monolitik', lesson4P:'Memecah jadi <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_csv</code>, <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_postgres</code>, <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_gsheet</code> membuat masing-masing bisa diuji secara independen. <strong>Satu <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_all()</code> monolitik akan menjadi mimpi buruk testing</strong>.',
+        lesson1Label:'Testability membentuk desain', lesson1P:'Pertama kali ada fungsi yang terlalu ribet buat di-mock dengan bersih, saya hampir aja nyari jalan pintas di test-nya. Terus saya sadar kesulitan mocking itu justru feedback desain — saya pecah fungsinya, dan kode maupun test-nya jadi lebih simpel.',
+        lesson2Label:'MagicMock untuk API eksternal', lesson2P:'Saya kira mocking rantai Google Sheets API (<code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">spreadsheets().values().clear().execute()</code>) bakal ribet. Ternyata nggak — panggilan MagicMock berantai langsung jalan, karena tiap panggilan balikin Mock lain secara default kecuali kamu bilang lain.',
+        lesson3Label:'Coverage adalah lantai, bukan tujuan', lesson3P:'Nggak ada satupun modul ini yang beneran nyampe 100% — extract di 97%, transform di 90%, load di 89%. Coverage tinggi bukan berarti pipeline-nya benar; artinya cuma setiap jalur kode udah dieksekusi minimal sekali. Kontrak kualitas data yang sebenarnya ada di assertions, bukan di persentasenya.',
+        lesson4Label:'Load modular > save monolitik', lesson4P:'Saya pecah proses simpan jadi <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_csv</code>, <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_postgres</code>, dan <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_gsheet</code>, bukan satu <code style="background:rgba(255,255,255,0.1);border:none;color:#ccc;">save_all()</code>, awalnya cuma buat keterbacaan. Saya baru liat manfaat sebenarnya begitu mulai nulis test — masing-masing jadi bisa diuji independen, dan versi monolitiknya bakal jadi mimpi buruk buat di-mock.',
         ctaNum:'Source Code · Writeup',
         ctaTitle:'Source lengkap di GitHub. <em>Dengan test suite.</em>',
-        ctaP:'Modul extract, transform, load plus test suite pytest lengkap dengan MagicMock. Semua tiga modul, semua edge case, 100% branch coverage.',
+        ctaP:'Modul extract, transform, load plus test suite pytest lengkap dengan MagicMock. Semua tiga modul, semua edge case, 92% branch coverage gabungan.',
         ctaGithub:'Lihat di GitHub →', ctaBack:'← Kembali ke portfolio',
         footerLeft:'© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a>', footerContact:'Hubungi saya',
       }

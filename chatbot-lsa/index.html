@@ -620,7 +620,7 @@ raw_question
   <section class="content" id="product">
     <div class="wrap">
       <div class="section-num" data-i18n="stackNum">05 · Product Delivery</div>
-      <h2 data-i18n="stackTitle">Not a notebook. <em>A working department chatbot.</em></h2>
+      <h2 data-i18n="stackTitle">I turned this into a working department chatbot, <em>not just a notebook.</em></h2>
 
       <div class="two-col">
         <div>
@@ -775,17 +775,17 @@ raw_question
         <div class="lesson-card">
           <div class="lesson-num" data-i18n="lesson1Num">01 · Feature Engineering</div>
           <h3 data-i18n="lesson1Title">Feature engineering &gt; model complexity</h3>
-          <p data-i18n="lesson1P">The classifier didn't change — KNN is KNN. What changed was the feature space. LSA gave KNN better geometry to work with: denser, lower-dimensional, semantically coherent. Fix your representation before tuning hyperparameters.</p>
+          <p data-i18n="lesson1P">I kept trying to improve KNN itself before I realized the classifier wasn't the problem — KNN is KNN. What actually mattered was the feature space underneath it. Once LSA gave it a denser, lower-dimensional, semantically coherent space to work with, the same classifier just performed better. I learned to fix the representation before touching hyperparameters.</p>
         </div>
         <div class="lesson-card">
           <div class="lesson-num" data-i18n="lesson2Num">02 · Language</div>
           <h3 data-i18n="lesson2Title">Language matters</h3>
-          <p data-i18n="lesson2P">Applying an English pipeline to Bahasa Indonesia would have produced a fractured vocabulary and degraded every downstream metric. Indonesian stemming significantly reduced vocabulary fragmentation. Language-specific preprocessing is non-negotiable.</p>
+          <p data-i18n="lesson2P">I almost reused an off-the-shelf English NLP pipeline for this. Running it on Bahasa Indonesia would have fractured the vocabulary and dragged down every downstream metric. Once I added Indonesian-specific stemming, vocabulary fragmentation dropped significantly — language-specific preprocessing wasn't optional here, it was the fix.</p>
         </div>
         <div class="lesson-card">
           <div class="lesson-num" data-i18n="lesson3Num">03 · Deployment</div>
           <h3 data-i18n="lesson3Title">Research ≠ product</h3>
-          <p data-i18n="lesson3P">The thesis passed. But wiring the model to a MySQL database and exposing it through a Telegram bot taught me things no experiment could: serialisation, request handling, and what "accuracy" means when a real user gets a wrong answer.</p>
+          <p data-i18n="lesson3P">The thesis passed on its own terms. But wiring the model to a MySQL database and putting it behind a Telegram bot taught me things no experiment ever could — serialization, request handling, and what "accuracy" actually means the moment a real user gets a wrong answer back.</p>
         </div>
       </div>
 
@@ -924,7 +924,7 @@ raw_question
         resultsErrTitle: 'Where it still gets it wrong',
         resultsErrP: 'Recall of 77.9% means roughly 1 in 5 student questions is still misrouted to the wrong intent category — the model either misses the correct topic or picks a near-neighbor category with overlapping vocabulary. The thesis doesn\'t include a qualitative breakdown of which topic pairs get confused most often; that\'s the natural next diagnostic before pushing accuracy further, since improving the wrong 5 percentage points is more valuable than chasing the metric blindly.',
         stackNum: '05 · Product Delivery',
-        stackTitle: 'Not a notebook. <em>A working department chatbot.</em>',
+        stackTitle: 'I turned this into a working department chatbot, <em>not just a notebook.</em>',
         stackWebTitle: 'Web application', stackWebP: 'The web interface exposes the full pipeline interactively — users can see the raw input, TF-IDF matrix, SVD reduction, LSA projection, and final KNN classification result step by step.',
         stackBotTitle: 'Telegram bot', stackBotP: 'The same classification backend powers a Telegram bot, giving students a conversational interface to ask questions and get categorised answers at any time.',
         stackNLPTitle: 'NLP stack', stackNLPP: 'Sastrawi provides the Nazief-Andriani Indonesian stemmer. Rubix ML handles KNN and TF-IDF vectorisation. SVD is implemented via custom PHP matrix operations.',
@@ -943,9 +943,9 @@ raw_question
         step8Id: 'Step 08 · Web App + Telegram Bot', step8H: 'Deploy as a working product.', step8P: 'The trained model is integrated into a PHP web application that visualises the full pipeline step by step, and a Telegram bot for real conversational access.', step8L1: 'Web: PHP + MySQL + Bootstrap 3', step8L2: 'Telegram bot: connected to same classification backend',
         lessonsNum: '07 · Lessons Learned',
         lessonsTitle: 'Three things I still <em>carry from this thesis.</em>',
-        lesson1Num: '01 · Feature Engineering', lesson1Title: 'Feature engineering > model complexity', lesson1P: 'The classifier didn\'t change — KNN is KNN. What changed was the feature space. LSA gave KNN better geometry: denser, lower-dimensional, semantically coherent. Fix your representation before tuning hyperparameters.',
-        lesson2Num: '02 · Language', lesson2Title: 'Language matters', lesson2P: 'Applying an English pipeline to Bahasa Indonesia would have produced a fractured vocabulary and degraded every downstream metric. Indonesian stemming significantly reduced vocabulary fragmentation. Language-specific preprocessing is non-negotiable.',
-        lesson3Num: '03 · Deployment', lesson3Title: 'Research ≠ product', lesson3P: 'The thesis passed. But wiring the model to a MySQL database and exposing it through a Telegram bot taught me things no experiment could: serialisation, request handling, and what "accuracy" means when a real user gets a wrong answer.',
+        lesson1Num: '01 · Feature Engineering', lesson1Title: 'Feature engineering > model complexity', lesson1P: 'I kept trying to improve KNN itself before I realized the classifier wasn\'t the problem — KNN is KNN. What actually mattered was the feature space underneath it. Once LSA gave it a denser, lower-dimensional, semantically coherent space to work with, the same classifier just performed better. I learned to fix the representation before touching hyperparameters.',
+        lesson2Num: '02 · Language', lesson2Title: 'Language matters', lesson2P: 'I almost reused an off-the-shelf English NLP pipeline for this. Running it on Bahasa Indonesia would have fractured the vocabulary and dragged down every downstream metric. Once I added Indonesian-specific stemming, vocabulary fragmentation dropped significantly — language-specific preprocessing wasn\'t optional here, it was the fix.',
+        lesson3Num: '03 · Deployment', lesson3Title: 'Research ≠ product', lesson3P: 'The thesis passed on its own terms. But wiring the model to a MySQL database and putting it behind a Telegram bot taught me things no experiment ever could — serialization, request handling, and what "accuracy" actually means the moment a real user gets a wrong answer back.',
         lessonsPullquote: '"Accuracy improved 1.1 pp. Compute time dropped 35%. But the real result was learning to take a research paper all the way to a deployed chatbot."<span class="attr">— Ninditya Salma Nur Aini, 2021</span>',
         refsNum: '08 · References',
         ctaNum: 'Try the demo · Read the thesis · See the code',
@@ -1023,7 +1023,7 @@ raw_question
         resultsErrTitle: 'Di mana model ini masih salah',
         resultsErrP: 'Recall 77,9% berarti kira-kira 1 dari 5 pertanyaan mahasiswa masih salah rute ke kategori intent yang keliru — model salah mengenali topik yang benar atau memilih kategori tetangga terdekat dengan kosakata yang tumpang tindih. Skripsi ini tidak menyertakan breakdown kualitatif soal pasangan topik mana yang paling sering tertukar; itu diagnostik alami berikutnya sebelum mendorong akurasi lebih jauh, karena memperbaiki 5 poin persentase yang salah lebih berharga daripada mengejar metrik secara membabi buta.',
         stackNum: '05 · Pengiriman Produk',
-        stackTitle: 'Bukan sekedar notebook. <em>Chatbot jurusan yang berjalan nyata.</em>',
+        stackTitle: 'Saya jadiin ini chatbot jurusan yang beneran jalan, <em>bukan cuma notebook.</em>',
         stackWebTitle: 'Aplikasi web', stackWebP: 'Antarmuka web memperlihatkan seluruh pipeline secara interaktif — pengguna bisa melihat input mentah, matriks TF-IDF, reduksi SVD, proyeksi LSA, dan hasil klasifikasi KNN langkah demi langkah.',
         stackBotTitle: 'Bot Telegram', stackBotP: 'Backend klasifikasi yang sama menggerakkan bot Telegram, memberi mahasiswa antarmuka percakapan untuk mengajukan pertanyaan kapan saja.',
         stackNLPTitle: 'Stack NLP', stackNLPP: 'Sastrawi menyediakan stemmer Nazief-Andriani. Rubix ML menangani KNN dan vektorisasi TF-IDF. SVD diimplementasikan via operasi matriks PHP kustom.',
@@ -1042,9 +1042,9 @@ raw_question
         step8Id: 'Langkah 08 · Web App + Bot Telegram', step8H: 'Deploy sebagai produk nyata.', step8P: 'Model yang sudah dilatih diintegrasikan ke aplikasi web PHP dan bot Telegram.', step8L1: 'Web: PHP + MySQL + Bootstrap 3', step8L2: 'Bot Telegram: terhubung ke backend klasifikasi yang sama',
         lessonsNum: '07 · Pelajaran',
         lessonsTitle: 'Tiga hal yang masih <em>saya bawa dari skripsi ini.</em>',
-        lesson1Num: '01 · Feature Engineering', lesson1Title: 'Feature engineering > kompleksitas model', lesson1P: 'Classifier-nya tidak berubah — KNN tetap KNN. Yang berubah adalah ruang fiturnya. LSA memberi KNN geometri yang lebih baik: lebih dense, berdimensi rendah, koheren secara semantik. Perbaiki representasimu sebelum tuning hyperparameter.',
-        lesson2Num: '02 · Bahasa', lesson2Title: 'Bahasa itu penting', lesson2P: 'Menerapkan pipeline bahasa Inggris ke Bahasa Indonesia akan menghasilkan kosakata yang terfragmentasi dan menurunkan semua metrik downstream. Stemming Indonesia secara signifikan mengurangi fragmentasi kosakata. Preprocessing spesifik bahasa tidak bisa dinegosiasi.',
-        lesson3Num: '03 · Deployment', lesson3Title: 'Penelitian ≠ produk', lesson3P: 'Skripsi lulus. Tapi mengintegrasikan model ke database MySQL dan mengeksposnya lewat bot Telegram mengajarkan hal yang tidak bisa diajarkan eksperimen: serialisasi, penanganan request, dan apa artinya "akurasi" ketika pengguna nyata mendapat jawaban yang salah.',
+        lesson1Num: '01 · Feature Engineering', lesson1Title: 'Feature engineering > kompleksitas model', lesson1P: 'Saya sempat berkali-kali coba naikin performa KNN-nya sendiri sebelum sadar bahwa classifier-nya bukan masalahnya — KNN ya tetap KNN. Yang sebenarnya penting adalah ruang fitur di baliknya. Begitu LSA ngasih ruang yang lebih dense, berdimensi rendah, dan koheren secara semantik, classifier yang sama langsung tampil lebih baik. Saya jadi belajar buat benerin representasinya dulu sebelum ngoprek hyperparameter.',
+        lesson2Num: '02 · Bahasa', lesson2Title: 'Bahasa itu penting', lesson2P: 'Saya sempat mau langsung pakai pipeline NLP bahasa Inggris yang udah jadi buat ini. Kalau itu saya jalanin ke Bahasa Indonesia, kosakatanya bakal terfragmentasi dan nurunin semua metrik downstream. Begitu saya tambahin stemming khusus Indonesia, fragmentasi kosakatanya turun signifikan — preprocessing spesifik bahasa bukan opsional di sini, itu justru solusinya.',
+        lesson3Num: '03 · Deployment', lesson3Title: 'Penelitian ≠ produk', lesson3P: 'Skripsinya lulus sesuai standarnya sendiri. Tapi ngehubungin model-nya ke database MySQL dan naro-nya di belakang bot Telegram ngajarin saya hal-hal yang nggak bisa diajarin eksperimen manapun — serialisasi, penanganan request, dan apa artinya "akurasi" begitu user beneran dapet jawaban yang salah.',
         lessonsPullquote: '"Akurasi naik 1,1 pp. Waktu komputasi turun 35%. Tapi hasil sesungguhnya adalah belajar membawa paper penelitian sampai ke chatbot yang ter-deploy."<span class="attr">— Ninditya Salma Nur Aini, 2021</span>',
         refsNum: '08 · Referensi',
         ctaNum: 'Coba demo · Baca skripsi · Lihat kode',

@@ -667,23 +667,23 @@ cy.visit(<span class="s">'/cart.html'</span>, { failOnStatusCode: <span class="k
   <section class="content" id="lessons" style="background:var(--bg-dark);">
     <div class="wrap">
       <div class="section-num" style="color:var(--accent);" data-i18n="lessonsNum">09 · Lessons Learned</div>
-      <h2 style="color:white;" data-i18n="lessonsTitle">Automation doesn't replace judgment. <em style="color:var(--accent);">It just gives judgment better evidence.</em></h2>
+      <h2 style="color:white;" data-i18n="lessonsTitle">Automation didn't replace my judgment here. <em style="color:var(--accent);">It just gave me better evidence to judge with.</em></h2>
       <div class="lesson-cards">
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson1Label">Never trust old bug docs without re-verifying</div>
-          <p data-i18n="lesson1P">3 of 7 previously-recorded bugs turned out to have already changed status. <strong>Regression testing exists to catch drift, not just to confirm what's already written down</strong> — a lesson this cycle proved directly, not in theory.</p>
+          <p data-i18n="lesson1P">I went back to re-verify 7 previously-recorded bugs and found that 3 had already changed status without anyone updating the record. That's when regression testing stopped being theoretical for me — it's not there to confirm what's already written down, it's there to catch exactly this kind of drift.</p>
         </div>
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson2Label">Two tools, two answers — and that's data, not noise</div>
-          <p data-i18n="lesson2P">BUG-003 and BUG-007 disagreed between Playwright and Cypress on the same day. <strong>Understanding why they disagreed mattered more than picking a "correct" tool</strong> — the disagreement itself was the finding.</p>
+          <p data-i18n="lesson2P">BUG-003 and BUG-007 gave me opposite verdicts on the same day, depending on whether I ran them in Playwright or Cypress. My first instinct was to figure out which tool was "right." It took me a while to realize the disagreement itself was the actual finding worth investigating.</p>
         </div>
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson3Label">Debug the environment, not just the code</div>
-          <p data-i18n="lesson3P">When Cypress's Electron binary was blocked by a sandboxed dev environment, the fix wasn't reinstalling repeatedly. <strong>Checking <code>codesign</code>/<code>spctl</code> first</strong> confirmed it was an environment issue, not broken code.</p>
+          <p data-i18n="lesson3P">When Cypress's Electron binary kept getting blocked in my sandboxed dev environment, my first move was reinstalling it — twice. That didn't fix anything. Checking <code>codesign</code> and <code>spctl</code> is what finally told me it was an environment issue, not a broken install.</p>
         </div>
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson4Label">Triage before you add</div>
-          <p data-i18n="lesson4P">5 externally-written test cases were checked against the live site before merging — 3 added, 2 rejected as duplicates. <strong>Validating a claim is not the same as accepting it</strong>, and that difference is most of what a test-case review actually is.</p>
+          <p data-i18n="lesson4P">I got handed 5 externally-written test cases and checked every one against the live site before merging anything. 3 held up; 2 turned out to be duplicates of cases that already existed. That's when I realized validating someone's claim and accepting it are two different steps — and skipping the first one is most of what a bad test-case review looks like.</p>
         </div>
       </div>
     </div>
@@ -993,15 +993,15 @@ npm run test:selenium</pre>
         rec5w:`This single cycle caught 2 stale bug statuses and 2 framework-dependent results — value that only shows up on repeat runs, via the CI pipeline that's already wired up.`,
         signoff:`Sign-off: QA Automation — self-executed portfolio project, 2026-08-10. Not a team project with a formal approval chain, so this line is kept as-is rather than inventing fictional names or roles — the same honesty principle applied throughout every document in this project.`,
         lessonsNum:`09 · Lessons Learned`,
-        lessonsTitle:`Automation doesn't replace judgment. <em style="color:var(--accent);">It just gives judgment better evidence.</em>`,
+        lessonsTitle:`Automation didn't replace my judgment here. <em style="color:var(--accent);">It just gave me better evidence to judge with.</em>`,
         lesson1Label:`Never trust old bug docs without re-verifying`,
-        lesson1P:`3 of 7 previously-recorded bugs turned out to have already changed status. <strong>Regression testing exists to catch drift, not just to confirm what's already written down</strong> — a lesson this cycle proved directly, not in theory.`,
+        lesson1P:`I went back to re-verify 7 previously-recorded bugs and found that 3 had already changed status without anyone updating the record. That's when regression testing stopped being theoretical for me — it's not there to confirm what's already written down, it's there to catch exactly this kind of drift.`,
         lesson2Label:`Two tools, two answers — and that's data, not noise`,
-        lesson2P:`BUG-003 and BUG-007 disagreed between Playwright and Cypress on the same day. <strong>Understanding why they disagreed mattered more than picking a "correct" tool</strong> — the disagreement itself was the finding.`,
+        lesson2P:`BUG-003 and BUG-007 gave me opposite verdicts on the same day, depending on whether I ran them in Playwright or Cypress. My first instinct was to figure out which tool was "right." It took me a while to realize the disagreement itself was the actual finding worth investigating.`,
         lesson3Label:`Debug the environment, not just the code`,
-        lesson3P:`When Cypress's Electron binary was blocked by a sandboxed dev environment, the fix wasn't reinstalling repeatedly. <strong>Checking <code>codesign</code>/<code>spctl</code> first</strong> confirmed it was an environment issue, not broken code.`,
+        lesson3P:`When Cypress's Electron binary kept getting blocked in my sandboxed dev environment, my first move was reinstalling it — twice. That didn't fix anything. Checking <code>codesign</code> and <code>spctl</code> is what finally told me it was an environment issue, not a broken install.`,
         lesson4Label:`Triage before you add`,
-        lesson4P:`5 externally-written test cases were checked against the live site before merging — 3 added, 2 rejected as duplicates. <strong>Validating a claim is not the same as accepting it</strong>, and that difference is most of what a test-case review actually is.`,
+        lesson4P:`I got handed 5 externally-written test cases and checked every one against the live site before merging anything. 3 held up; 2 turned out to be duplicates of cases that already existed. That's when I realized validating someone's claim and accepting it are two different steps — and skipping the first one is most of what a bad test-case review looks like.`,
         ctaNum:`Run It Yourself`,
         ctaTitle:`The suite is real. <em>So is the site it runs against.</em>`,
         ctaP:`No staging environment, no mock server — every command below hits the live saucedemo.com, the same way the results on this page were produced.`,
@@ -1154,15 +1154,15 @@ npm run test:selenium</pre>
         rec5:`📌 Jadikan kebiasaan, bukan sekali jalan`, rec5w:`Satu siklus ini saja menangkap 2 status bug yang basi dan 2 hasil framework-dependent — nilai yang hanya muncul dari run berulang, lewat pipeline CI yang sudah tersedia.`,
         signoff:`Sign-off: QA Automation — project portofolio yang dijalankan sendiri, 2026-08-10. Bukan project tim dengan rantai approval formal, jadi baris ini dibiarkan apa adanya, bukan dibuat-buat nama/peran fiktif — prinsip kejujuran yang sama dipegang di seluruh dokumen project ini.`,
         lessonsNum:`09 · Pelajaran`,
-        lessonsTitle:`Automation tidak menggantikan penilaian. <em style="color:var(--accent);">Cuma memberi penilaian bukti yang lebih baik.</em>`,
+        lessonsTitle:`Automation di sini nggak gantiin penilaian saya. <em style="color:var(--accent);">Cuma ngasih saya bukti yang lebih baik buat menilai.</em>`,
         lesson1Label:`Jangan pernah percaya dokumentasi bug lama tanpa verifikasi ulang`,
-        lesson1P:`3 dari 7 bug yang sebelumnya tercatat ternyata sudah berubah status. <strong>Regression testing ada untuk menangkap drift, bukan cuma mengonfirmasi yang sudah tertulis</strong> — pelajaran yang dibuktikan langsung oleh siklus ini, bukan cuma teori.`,
+        lesson1P:`Saya balik lagi buat re-verifikasi 7 bug yang sebelumnya tercatat, dan ternyata 3 di antaranya udah berubah status tanpa ada yang update catatannya. Di situ regression testing berhenti jadi sekadar teori buat saya — bukan buat konfirmasi yang udah tertulis, tapi justru buat nangkep drift kayak gini.`,
         lesson2Label:`Dua tool, dua jawaban — dan itu data, bukan noise`,
-        lesson2P:`BUG-003 dan BUG-007 beda hasil antara Playwright dan Cypress di hari yang sama. <strong>Memahami kenapa keduanya beda lebih penting daripada memilih tool yang "benar"</strong> — perbedaan itu sendiri yang jadi temuannya.`,
+        lesson2P:`BUG-003 dan BUG-007 ngasih saya hasil yang berlawanan di hari yang sama, tergantung saya jalanin di Playwright atau Cypress. Insting pertama saya adalah nyari tau tool mana yang "benar." Butuh waktu buat saya sadar bahwa perbedaan itu sendiri yang justru jadi temuan yang layak diselidiki.`,
         lesson3Label:`Debug environment-nya, bukan cuma kodenya`,
-        lesson3P:`Saat binary Electron milik Cypress diblokir sandbox development environment, solusinya bukan install ulang berkali-kali. <strong>Mengecek <code>codesign</code>/<code>spctl</code> dulu</strong> memastikan itu masalah environment, bukan kode yang rusak.`,
+        lesson3P:`Waktu binary Electron milik Cypress terus diblokir di sandboxed dev environment saya, langkah pertama saya adalah install ulang — dua kali. Itu nggak ngebenerin apa-apa. Ngecek <code>codesign</code> dan <code>spctl</code> akhirnya yang ngasih tau saya bahwa itu masalah environment, bukan instalasi yang rusak.`,
         lesson4Label:`Triase dulu sebelum menambahkan`,
-        lesson4P:`5 test case buatan orang lain dicek dulu ke situs live sebelum digabungkan — 3 ditambahkan, 2 ditolak karena duplikat. <strong>Memvalidasi klaim itu tidak sama dengan menerimanya begitu saja</strong>, dan perbedaan itulah inti dari review test case sesungguhnya.`,
+        lesson4P:`Saya dikasih 5 test case buatan orang lain dan saya cek semuanya ke situs live sebelum digabungkan. 3 lolos; 2 ternyata duplikat dari test case yang udah ada. Di situ saya sadar bahwa memvalidasi klaim orang dan menerimanya itu dua langkah yang beda — dan skip langkah pertama itulah yang bikin review test case jadi buruk.`,
         ctaNum:`Coba Jalankan Sendiri`,
         ctaTitle:`Suite-nya nyata. <em>Situsnya pun nyata.</em>`,
         ctaP:`Tidak ada environment staging, tidak ada mock server — setiap perintah di bawah ini mengenai saucedemo.com yang live, persis seperti cara hasil di halaman ini diproduksi.`,

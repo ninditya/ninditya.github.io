@@ -1169,11 +1169,13 @@
         <span class="kicker-tag">Case study</span>
         <span class="kicker-text" data-i18n="heroKicker">Production AI · Banking Domain</span>
       </div>
-      <h1 class="title" data-i18n="heroTitle">Cut banking LLM costs <em>~90%.</em></h1>
+      <h1 class="title" data-i18n="heroTitle">I built a router that cuts banking LLM costs <em>~88%.</em></h1>
       <p class="hero-lede" data-i18n="heroLede">
-        A 4-tier routing system that decides when a customer query needs <strong>a regex pre-filter</strong>,
-        <strong>a template</strong>, <strong>RAG</strong>, or <strong>an actual LLM call</strong> — based on a
-        confidence threshold from SBERT + LinearSVC. Because 80% of banking questions never needed GPT-4 in the first
+        I noticed most banking chatbots send every question through the same expensive LLM call — a "lost card"
+        request gets treated exactly like a genuinely hard multi-turn edge case. So I built a 4-tier router that
+        decides first: does this need <strong>a regex pre-filter</strong>, <strong>a template</strong>,
+        <strong>RAG</strong>, or <strong>an actual LLM call</strong>? The decision comes from a confidence score
+        (SBERT + LinearSVC), and it matters because roughly 80% of banking questions never needed GPT-4 in the first
         place.
       </p>
       <div class="hero-meta">
@@ -1186,7 +1188,7 @@
   <section class="content" id="glance">
     <div class="wrap">
       <div class="section-num" data-i18n="glanceNum">At a glance</div>
-      <h2 data-i18n="glanceTitle">Problem, solution, impact — <em>in 30 seconds.</em></h2>
+      <h2 data-i18n="glanceTitle">Here's the whole thing <em>in 30 seconds.</em></h2>
       <div class="three-col">
         <div class="sol-card">
           <div class="sol-icon">❗</div>
@@ -1476,8 +1478,8 @@ confidence = proba.max()
       <p data-i18n="architectureBitText">Even when escalating to the LLM, the classifier's output isn't thrown away. The
         predicted intent label is
         passed as a soft context hint to the LLM — <em>but only if</em> confidence ≥ 0.25. Below that threshold, the
-        prediction is too noisy to be useful and would mislead the model, so the hint is dropped. Engineering
-        decisions like this are what separate a notebook from a production service.</p>
+        prediction is too noisy to be useful and would mislead the model, so the hint is dropped. It's the kind of
+        small decision nobody notices unless it's missing — which is exactly why I made it on purpose.</p>
     </div>
   </section>
 
@@ -1641,7 +1643,7 @@ confidence = proba.max()
   <section class="content alt">
     <div class="wrap">
       <div class="section-num" data-i18n="productionNum">04 · Production Engineering</div>
-      <h2 data-i18n="productionTitle">Not a notebook. <em>A service.</em></h2>
+      <h2 data-i18n="productionTitle">I turned this into a real service, <em>not just a notebook.</em></h2>
 
       <div class="two-col">
         <div>
@@ -1716,9 +1718,8 @@ confidence = proba.max()
       <div class="section-num" data-i18n="decisionsNum">05 · Production Decisions</div>
       <h2 data-i18n="decisionsTitle">The small choices <em>that matter.</em></h2>
 
-      <p class="lede" data-i18n="decisionsLede">A notebook lives for 30 minutes. A service lives in production. These
-        are the trade-offs that
-        show up only when you actually ship something.</p>
+      <p class="lede" data-i18n="decisionsLede">I only ran into these trade-offs once I actually shipped this instead of leaving it in a notebook —
+        the kind of decision that just doesn't come up until something real is running.</p>
 
       <ul class="checklist">
         <li data-i18n="decision1"><strong>CPU-only PyTorch in the Dockerfile.</strong> ~200 MB instead of ~2 GB CUDA
@@ -2023,29 +2024,31 @@ confidence = proba.max()
   <section class="content alt">
     <div class="wrap">
       <div class="section-num" data-i18n="lessonsNum">08 · What I Learned</div>
-      <h2 data-i18n="lessonsTitle">Four lessons <em>I'll carry forward.</em></h2>
+      <h2 data-i18n="lessonsTitle">What actually stuck with me <em>from this project.</em></h2>
 
-      <h3 data-i18n="lesson1Title">1. Real ML engineering = knowing when NOT to use the big model.</h3>
-      <p data-i18n="lesson1Text">The instinct to throw GPT-4 at every problem is the most expensive habit in modern ML.
-        The router proves a
-        small model + good architecture can beat a big model on cost-per-correct-answer.</p>
+      <h3 data-i18n="lesson1Title">1. I used to reach for the biggest model by default</h3>
+      <p data-i18n="lesson1Text">Throwing GPT-4 at every query is an easy habit, and it's also the most expensive one
+        in the pipeline. Building this router forced me to prove the opposite: a small model with the right
+        architecture around it can beat a big model on cost-per-correct-answer — and I had the routing metrics to
+        show it, not just a hunch.</p>
 
-      <h3 data-i18n="lesson2Title">2. Confidence is a first-class signal — use it.</h3>
-      <p data-i18n="lesson2Text">Most classifiers throw away the confidence score. It's the most useful signal in
-        production: it tells you when
-        to escalate, when to ask for clarification, when to log for review.</p>
+      <h3 data-i18n="lesson2Title">2. I almost threw away the most useful signal I had</h3>
+      <p data-i18n="lesson2Text">Most classifiers just take the top prediction and discard the confidence score. I
+        nearly did the same. Once I actually started using it — to decide when to escalate, when to ask for
+        clarification, when to just log something for review — it became the thing the entire router runs on.</p>
 
-      <h3 data-i18n="lesson3Title">3. Observability is not optional for ML services.</h3>
-      <p data-i18n="lesson3Text">The Prometheus metrics aren't decoration. <code>router_low_confidence_rate</code>
-        trending up = your
-        distribution is drifting. <code>router_estimated_cost_usd_total</code> tells finance exactly what the chatbot
-        costs them per day. Without these, you're blind.</p>
+      <h3 data-i18n="lesson3Title">3. Without metrics, I'd have been flying blind</h3>
+      <p data-i18n="lesson3Text">I didn't add Prometheus metrics as an afterthought. I added
+        <code>router_low_confidence_rate</code> because I needed to know when the traffic distribution was drifting,
+        and <code>router_estimated_cost_usd_total</code> because "trust me, it's cheaper" isn't something you can
+        tell finance. Without those two numbers, I'd have no way to know if the router was actually working once it
+        left my laptop.</p>
 
-      <h3 data-i18n="lesson4Title">4. Classical NLP clarifies what modern NLP is actually solving.</h3>
-      <p data-i18n="lesson4Text">Implementing LSA from scratch in 2021 — manually computing SVD, projecting into the latent space, measuring cosine similarity — made it immediately obvious what SBERT was doing when I picked it up in 2025. The mechanism changed; the problem didn't. Understanding the classical version makes you a sharper judge of when the modern version is overkill, when it's necessary, and what its failure modes look like.</p>
+      <h3 data-i18n="lesson4Title">4. My 2021 thesis explained my 2025 model</h3>
+      <p data-i18n="lesson4Text">I implemented LSA from scratch back in 2021 — computing SVD by hand, projecting into the latent space, measuring cosine similarity myself. When I picked up SBERT in 2025, I understood immediately what it was doing, because the mechanism had changed but the problem hadn't. Having built the classical version first is what lets me judge when the modern one is actually necessary, and when it's overkill.</p>
 
       <div class="pullquote" data-i18n="lessonsQuote">
-        "Real engineering isn't about using the biggest model. It's about knowing when not to — and understanding the classical baseline is how you develop that judgment."
+        "I came out of this project trusting a small, well-routed model over a big one by default — and I only trust that judgment because I built the classical baseline first and watched where it broke."
         <span class="attr">— Banking Intent Router case study</span>
       </div>
     </div>
@@ -2215,8 +2218,8 @@ confidence = proba.max()
         navAbout: 'About',
         navContact: 'Contact',
         heroKicker: 'Production AI · Banking Domain',
-        heroTitle: 'Cut banking LLM costs <em>88%.</em>',
-        heroLede: 'A 4-tier routing system that decides when a customer query needs <strong>a regex pre-filter</strong>, <strong>a template</strong>, <strong>RAG</strong>, or <strong>an actual LLM call</strong> — based on a confidence threshold from SBERT + LinearSVC. Because 80% of banking questions never needed GPT-4 in the first place.',
+        heroTitle: 'I built a router that cuts banking LLM costs <em>~88%.</em>',
+        heroLede: 'I noticed most banking chatbots send every question through the same expensive LLM call — a "lost card" request gets treated exactly like a genuinely hard multi-turn edge case. So I built a 4-tier router that decides first: does this need <strong>a regex pre-filter</strong>, <strong>a template</strong>, <strong>RAG</strong>, or <strong>an actual LLM call</strong>? The decision comes from a confidence score (SBERT + LinearSVC), and it matters because roughly 80% of banking questions never needed GPT-4 in the first place.',
         heroMetaModel: '<strong>Model</strong> SBERT + LinearSVC',
         heroMetaDataset: '<strong>Dataset</strong> Banking77 · 13,083 samples · 77 intents',
         statCost: 'Cost savings vs all-LLM<br>(range across traffic mixes)',
@@ -2326,7 +2329,7 @@ confidence = proba.max()
         tier3Metric1: '<small>Cost</small><strong>$0.050</strong>',
         tier3Metric2: '<small>Latency</small><strong>~2s</strong>',
         architectureBitTitle: 'The clever bit: <em>confidence-aware</em> LLM hint',
-        architectureBitText: 'Even when escalating to the LLM, the classifier\'s output isn\'t thrown away. The predicted intent label is passed as a soft context hint to the LLM — <em>but only if</em> confidence ≥ 0.25. Below that threshold, the prediction is too noisy to be useful and would mislead the model, so the hint is dropped. Engineering decisions like this are what separate a notebook from a production service.',
+        architectureBitText: 'Even when escalating to the LLM, the classifier\'s output isn\'t thrown away. The predicted intent label is passed as a soft context hint to the LLM — <em>but only if</em> confidence ≥ 0.25. Below that threshold, the prediction is too noisy to be useful and would mislead the model, so the hint is dropped. It\'s the kind of small decision nobody notices unless it\'s missing — which is exactly why I made it on purpose.',
         numbersNum: '03 · Results',
         numbersTitle: 'Benchmarked on <em>Banking77.</em>',
         numbersIntro: '13,083 labeled queries across 77 banking intents — a widely used benchmark for banking intent classification. F1 Macro 0.9305 places SBERT + LinearSVC well above the TF-IDF baseline (0.8843).',
@@ -2369,7 +2372,7 @@ confidence = proba.max()
 <span class="c"># A conservative mix (heavier LLM usage) sits closer to ~70%.</span>`,
         savingsDisclaimer: '⚠️ The exact % depends on real traffic distribution. The honest answer in an interview: "it\'s an 88–96% range for the assumed mixes — and a more conservative mix can be lower."',
         productionNum: '04 · Production Engineering',
-        productionTitle: 'Not a notebook. <em>A service.</em>',
+        productionTitle: 'I turned this into a real service, <em>not just a notebook.</em>',
         servingTitle: 'Serving stack',
         servingText: 'Single Docker image, served via FastAPI with Pydantic schemas. <code>/predict</code> endpoint returns intent_id, confidence, routing decision, latency, and the actual generated answer. Custom chat UI in <code>static/index.html</code> with per-tier routing badges.',
         mlStackTitle: 'ML stack',
@@ -2380,7 +2383,7 @@ confidence = proba.max()
         resilienceText: 'LLM call failures degrade gracefully to a support-message fallback. Health endpoint reports model + RAG + LLM provider status. Lifespan hooks ensure model load happens before serving traffic. Provider misconfiguration is logged, not raised.',
         decisionsNum: '05 · Production-Grade Decisions',
         decisionsTitle: 'The small choices <em>that matter.</em>',
-        decisionsLede: 'A notebook lives for 30 minutes. A service lives in production. These are the trade-offs that show up only when you actually ship something.',
+        decisionsLede: 'I only ran into these trade-offs once I actually shipped this instead of leaving it in a notebook — the kind of decision that just doesn\'t come up until something real is running.',
         decision1: '<strong>CPU-only PyTorch in the Dockerfile.</strong> ~200 MB instead of ~2 GB CUDA wheels. HF Spaces free tier has no GPU — bundling CUDA just bloats the image and slows cold starts.',
         decision2: '<strong>Model artifacts in a separate repo.</strong> The Docker image pulls <code>model.pkl</code> + <code>encoder_name.txt</code> from a dedicated HF Hub model repo at build time. Image stays small. Model is versioned independently from serving code.',
         decision3: '<strong>Multi-provider LLM with auto-fallback.</strong> OpenAI, Groq, Ollama, or Mock — switchable via <code>LLM_PROVIDER</code> env var. Missing API keys don\'t crash the service; they log a warning and fall back to Mock. Service availability over feature completeness.',
@@ -2402,18 +2405,18 @@ confidence = proba.max()
         lim5Text: 'The DeepEval results above are measured on 12 paraphrased queries, and Ragas (context precision/recall for the retrieval tier) hasn\'t been run against the current pipeline yet. One caught fabrication is a real signal that the ungrounded LLM tier needs guardrails — it isn\'t a measured failure rate.',
         limQuote: '"Banking77 is a benchmark dataset and does not fully represent noisy production traffic. Future work includes evaluation on multilingual and real customer conversations."<span class="attr">— honest limitation, not a failure</span>',
         lessonsNum: '08 · What I Learned',
-        lessonsTitle: 'Four lessons <em>I\'ll carry forward.</em>',
-        lesson1Title: '1. Real ML engineering = knowing when NOT to use the big model.',
-        lesson1Text: 'The instinct to throw GPT-4 at every problem is the most expensive habit in modern ML. The router proves a small model + good architecture can beat a big model on cost-per-correct-answer.',
-        lesson2Title: '2. Confidence is a first-class signal — use it.',
-        lesson2Text: 'Most classifiers throw away the confidence score. It\'s the most useful signal in production: it tells you when to escalate, when to ask for clarification, when to log for review.',
-        lesson3Title: '3. Observability is not optional for ML services.',
-        lesson3Text: 'The Prometheus metrics aren\'t decoration. <code>router_low_confidence_rate</code> trending up = your distribution is drifting. <code>router_estimated_cost_usd_total</code> tells finance exactly what the chatbot costs them per day. Without these, you\'re blind.',
-        lesson4Title: '4. Classical NLP clarifies what modern NLP is actually solving.',
-        lesson4Text: 'Implementing LSA from scratch in 2021 — manually computing SVD, projecting into the latent space, measuring cosine similarity — made it immediately obvious what SBERT was doing when I picked it up in 2025. The mechanism changed; the problem didn\'t. Understanding the classical version makes you a sharper judge of when the modern version is overkill, when it\'s necessary, and what its failure modes look like.',
-        lessonsQuote: '"Real engineering isn\'t about using the biggest model. It\'s about knowing when not to — and understanding the classical baseline is how you develop that judgment."<span class="attr">— Banking Intent Router case study</span>',
+        lessonsTitle: 'What actually stuck with me <em>from this project.</em>',
+        lesson1Title: '1. I used to reach for the biggest model by default',
+        lesson1Text: 'Throwing GPT-4 at every query is an easy habit, and it\'s also the most expensive one in the pipeline. Building this router forced me to prove the opposite: a small model with the right architecture around it can beat a big model on cost-per-correct-answer — and I had the routing metrics to show it, not just a hunch.',
+        lesson2Title: '2. I almost threw away the most useful signal I had',
+        lesson2Text: 'Most classifiers just take the top prediction and discard the confidence score. I nearly did the same. Once I actually started using it — to decide when to escalate, when to ask for clarification, when to just log something for review — it became the thing the entire router runs on.',
+        lesson3Title: '3. Without metrics, I\'d have been flying blind',
+        lesson3Text: 'I didn\'t add Prometheus metrics as an afterthought. I added <code>router_low_confidence_rate</code> because I needed to know when the traffic distribution was drifting, and <code>router_estimated_cost_usd_total</code> because "trust me, it\'s cheaper" isn\'t something you can tell finance. Without those two numbers, I\'d have no way to know if the router was actually working once it left my laptop.',
+        lesson4Title: '4. My 2021 thesis explained my 2025 model',
+        lesson4Text: 'I implemented LSA from scratch back in 2021 — computing SVD by hand, projecting into the latent space, measuring cosine similarity myself. When I picked up SBERT in 2025, I understood immediately what it was doing, because the mechanism had changed but the problem hadn\'t. Having built the classical version first is what lets me judge when the modern one is actually necessary, and when it\'s overkill.',
+        lessonsQuote: '"I came out of this project trusting a small, well-routed model over a big one by default — and I only trust that judgment because I built the classical baseline first and watched where it broke."<span class="attr">— Banking Intent Router case study</span>',
         glanceNum: 'At a glance',
-        glanceTitle: 'Problem, solution, impact — <em>in 30 seconds.</em>',
+        glanceTitle: 'Here\'s the whole thing <em>in 30 seconds.</em>',
         glance1Title: 'Problem',
         glance1Desc: 'Banking chatbots route every query — a "lost card" request and a multi-turn edge case alike — through the same expensive LLM call, at $0.050 per query regardless of how simple the question actually is.',
         glance2Title: 'Solution',
@@ -2451,8 +2454,8 @@ confidence = proba.max()
         navAbout: 'Tentang',
         navContact: 'Kontak',
         heroKicker: 'Production AI · Domain Perbankan',
-        heroTitle: 'Saya tekan biaya LLM banking <em>88%.</em>',
-        heroLede: 'Sistem routing 4-tier ini memutuskan kapan pertanyaan nasabah cukup lewat <strong>regex pre-filter</strong>, <strong>template</strong>, <strong>RAG</strong>, atau benar-benar perlu <strong>panggilan ke LLM</strong> — berdasarkan confidence threshold dari SBERT + LinearSVC. Karena 80% pertanyaan perbankan sebenarnya tidak perlu GPT-4.',
+        heroTitle: 'Saya bikin router yang menekan biaya LLM banking <em>~88%.</em>',
+        heroLede: 'Saya perhatiin, kebanyakan chatbot banking ngirim semua pertanyaan lewat LLM call yang mahal — pertanyaan "kartu hilang" diperlakukan persis sama kayak edge case multi-turn yang beneran rumit. Jadi saya bikin router 4-tier yang mutusin dulu: ini butuh <strong>regex pre-filter</strong>, <strong>template</strong>, <strong>RAG</strong>, atau <strong>panggilan LLM beneran</strong>? Keputusannya diambil dari confidence score (SBERT + LinearSVC), dan ini penting karena sekitar 80% pertanyaan perbankan sebenarnya nggak pernah butuh GPT-4 dari awal.',
         heroMetaModel: '<strong>Model</strong> SBERT + LinearSVC',
         heroMetaDataset: '<strong>Dataset</strong> Banking77 · 13.083 sampel · 77 intent',
         statCost: 'Penghematan biaya vs all-LLM<br>(range across traffic mixes)',
@@ -2548,7 +2551,7 @@ confidence = proba.max()
         tier3Metric1: '<small>Biaya</small><strong>$0.050</strong>',
         tier3Metric2: '<small>Latency</small><strong>~2s</strong>',
         architectureBitTitle: 'Bagian menariknya: hint LLM yang <em>confidence-aware</em>',
-        architectureBitText: 'Bahkan saat query dieskalasikan ke LLM, output classifier tidak dibuang. Label intent hasil prediksi diberikan sebagai soft context hint ke LLM — <em>tetapi hanya jika</em> confidence ≥ 0.25. Di bawah threshold itu, prediksinya terlalu noisy dan justru berisiko menyesatkan model, jadi hint-nya dibuang. Keputusan engineering kecil seperti ini yang membedakan notebook dari service production.',
+        architectureBitText: 'Bahkan saat query dieskalasikan ke LLM, output classifier tidak dibuang. Label intent hasil prediksi diberikan sebagai soft context hint ke LLM — <em>tetapi hanya jika</em> confidence ≥ 0.25. Di bawah threshold itu, prediksinya terlalu noisy dan justru berisiko menyesatkan model, jadi hint-nya dibuang. Ini jenis keputusan kecil yang nggak bakal disadari orang kecuali kalau nggak ada — makanya saya sengaja putuskan dari awal.',
         numbersNum: '03 · Hasil',
         numbersTitle: 'Diuji di atas <em>Banking77.</em>',
         numbersIntro: '13.083 query berlabel untuk 77 intent banking — benchmark yang umum dipakai untuk klasifikasi intent perbankan. F1 Macro 0.9305 menempatkan SBERT + LinearSVC jauh di atas baseline TF-IDF (0.8843).',
@@ -2608,7 +2611,7 @@ confidence = proba.max()
         tryRouterLatency: 'Est. latency',
         tryRouterNote: 'Routing simulasi berdasarkan threshold yang didokumentasikan di atas — bukan panggilan live ke model yang dideploy. Lihat link live demo di bagian bawah halaman ini untuk inference sungguhan.',
         productionNum: '04 · Production Engineering',
-        productionTitle: 'Bukan notebook. <em>Service sungguhan.</em>',
+        productionTitle: 'Saya jadiin ini service sungguhan, <em>bukan cuma notebook.</em>',
         servingTitle: 'Serving stack',
         servingText: 'Satu Docker image, disajikan lewat FastAPI dengan schema Pydantic. Endpoint <code>/predict</code> mengembalikan intent_id, confidence, keputusan routing, latency, dan jawaban final. Saya juga buat custom chat UI di <code>static/index.html</code> dengan badge tier per routing.',
         mlStackTitle: 'ML stack',
@@ -2619,7 +2622,7 @@ confidence = proba.max()
         resilienceText: 'Kalau panggilan LLM gagal, sistem turun secara graceful ke fallback message untuk support. Health endpoint melaporkan status model + RAG + provider LLM. Lifespan hook memastikan model selesai load sebelum menerima traffic. Salah konfigurasi provider dicatat ke log, bukan dilempar jadi error.',
         decisionsNum: '05 · Keputusan Production-Grade',
         decisionsTitle: 'Pilihan kecil <em>yang penting.</em>',
-        decisionsLede: 'Notebook hidup 30 menit. Service hidup di production. Trade-off seperti ini baru terasa ketika kamu benar-benar mengirim sistem ke pengguna.',
+        decisionsLede: 'Trade-off kayak gini baru kerasa pas saya beneran ngirim sistemnya ke production, bukan pas masih di notebook doang — jenis keputusan yang memang nggak muncul sampai ada sesuatu yang beneran jalan.',
         decision1: '<strong>PyTorch CPU-only di Dockerfile.</strong> Sekitar 200 MB dibanding wheel CUDA yang bisa mendekati 2 GB. HF Spaces tier gratis tidak punya GPU — membawa CUDA hanya membuat image gemuk dan cold start lebih lambat.',
         decision2: '<strong>Artifact model dipisah ke repo sendiri.</strong> Docker image menarik <code>model.pkl</code> + <code>encoder_name.txt</code> dari repo model khusus di HF Hub saat build. Image tetap kecil. Versi model bisa dikelola terpisah dari serving code.',
         decision3: '<strong>LLM multi-provider dengan auto-fallback.</strong> OpenAI, Groq, Ollama, atau Mock — bisa dipilih lewat env var <code>LLM_PROVIDER</code>. API key yang hilang tidak membuat service crash; sistem hanya log warning lalu jatuh ke Mock. Availability lebih penting dari kelengkapan fitur.',
@@ -2641,18 +2644,18 @@ confidence = proba.max()
         lim5Text: 'Hasil DeepEval di atas diukur atas 12 query yang di-paraphrase, dan Ragas (context precision/recall untuk tier retrieval) belum dijalankan atas pipeline saat ini. Satu temuan fabrikasi yang tertangkap adalah sinyal nyata bahwa tier LLM tanpa grounding butuh guardrail — bukan rate kegagalan yang terukur.',
         limQuote: '"Banking77 adalah dataset benchmark dan tidak sepenuhnya merepresentasikan traffic produksi yang noisy. Pekerjaan selanjutnya mencakup evaluasi pada percakapan multibahasa dan nasabah nyata."<span class="attr">— keterbatasan yang jujur, bukan kegagalan</span>',
         lessonsNum: '08 · Yang Saya Pelajari',
-        lessonsTitle: 'Empat pelajaran <em>yang saya bawa terus.</em>',
-        lesson1Title: '1. ML engineering yang nyata = tahu kapan TIDAK memakai model besar.',
-        lesson1Text: 'Kebiasaan melempar GPT-4 ke setiap masalah adalah kebiasaan paling mahal di ML modern. Router ini membuktikan bahwa model kecil + arsitektur yang baik bisa mengalahkan model besar dari sisi cost-per-correct-answer.',
-        lesson2Title: '2. Confidence adalah sinyal kelas satu — pakai itu.',
-        lesson2Text: 'Banyak classifier membuang confidence score. Padahal itu sinyal paling berguna di production: memberi tahu kapan harus eskalasi, kapan harus minta klarifikasi, dan kapan harus dicatat untuk review.',
-        lesson3Title: '3. Observability bukan opsi tambahan untuk service ML.',
-        lesson3Text: 'Metric Prometheus di sini bukan dekorasi. <code>router_low_confidence_rate</code> yang naik berarti distribusi kamu sedang drift. <code>router_estimated_cost_usd_total</code> memberi tim finance angka pasti biaya chatbot per hari. Tanpa itu, kamu buta.',
-        lesson4Title: '4. NLP klasik memperjelas apa yang sebenarnya diselesaikan NLP modern.',
-        lesson4Text: 'Mengimplementasikan LSA dari awal di 2021 — menghitung SVD secara manual, memproyeksikan ke ruang laten, mengukur cosine similarity — membuat saya langsung paham apa yang dilakukan SBERT saat saya menggunakannya di 2025. Mekanismenya berubah; masalahnya tidak. Memahami versi klasiknya membuat kamu lebih tajam dalam menilai kapan versi modernnya terlalu berlebihan, kapan memang diperlukan, dan apa failure mode-nya.',
-        lessonsQuote: '"Engineering yang nyata bukan soal memakai model terbesar. Tapi soal tahu kapan tidak perlu — dan memahami baseline klasik adalah cara kamu membangun penilaian itu."<span class="attr">— Banking Intent Router case study</span>',
+        lessonsTitle: 'Apa yang beneran nempel <em>dari project ini.</em>',
+        lesson1Title: '1. Dulu saya selalu refleks pakai model paling besar',
+        lesson1Text: 'Ngelempar GPT-4 ke setiap query itu kebiasaan yang gampang, dan juga paling mahal di pipeline. Bikin router ini maksa saya buktiin kebalikannya: model kecil dengan arsitektur yang tepat bisa ngalahin model besar dari sisi cost-per-correct-answer — dan saya punya metrik routing buat nunjukin itu, bukan cuma feeling.',
+        lesson2Title: '2. Saya hampir buang sinyal paling berguna yang saya punya',
+        lesson2Text: 'Kebanyakan classifier cuma ambil prediksi teratas dan buang confidence score-nya. Saya hampir ngelakuin hal yang sama. Begitu saya beneran mulai pakai itu — buat mutusin kapan eskalasi, kapan minta klarifikasi, kapan tinggal dicatat buat direview — itu jadi hal yang bikin seluruh router-nya jalan.',
+        lesson3Title: '3. Tanpa metric, saya bakal jalan buta',
+        lesson3Text: 'Saya nggak nambahin metric Prometheus belakangan sebagai pelengkap — saya nambahin <code>router_low_confidence_rate</code> karena saya perlu tau kapan distribusi traffic-nya drift, dan <code>router_estimated_cost_usd_total</code> karena "percaya aja, ini lebih murah" bukan hal yang bisa saya bilang ke tim finance. Tanpa dua angka itu, saya nggak bakal tau apakah router-nya beneran jalan begitu keluar dari laptop saya.',
+        lesson4Title: '4. Skripsi 2021 saya yang menjelaskan model 2025 saya',
+        lesson4Text: 'Saya implementasiin LSA dari nol di 2021 — ngitung SVD manual, memproyeksikan ke ruang laten, ngukur cosine similarity sendiri. Waktu saya pakai SBERT di 2025, saya langsung ngerti apa yang lagi dikerjain, karena mekanismenya berubah tapi masalahnya tetap sama. Karena udah bikin versi klasiknya duluan, saya jadi bisa nilai kapan versi modernnya beneran perlu, dan kapan itu berlebihan.',
+        lessonsQuote: '"Setelah project ini, saya jadi lebih percaya model kecil yang di-routing dengan baik dibanding model besar sebagai default — dan saya cuma bisa percaya penilaian itu karena saya bikin baseline klasiknya duluan dan lihat sendiri di mana itu gagal."<span class="attr">— Banking Intent Router case study</span>',
         glanceNum: 'Sekilas',
-        glanceTitle: 'Masalah, solusi, dampak — <em>dalam 30 detik.</em>',
+        glanceTitle: 'Semuanya, ringkas <em>dalam 30 detik.</em>',
         glance1Title: 'Masalah',
         glance1Desc: 'Chatbot perbankan mengarahkan setiap query — permintaan "kartu hilang" maupun kasus multi-turn yang rumit — lewat LLM call yang sama mahalnya, $0.050 per query, tak peduli seberapa sederhana pertanyaannya.',
         glance2Title: 'Solusi',

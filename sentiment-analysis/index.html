@@ -841,19 +841,19 @@
       <div class="lesson-grid">
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l1Label">On GenAI for NLP tasks</div>
-          <p data-i18n="l1Body"><strong>GenAI zero-shot is a starting point, not an endpoint.</strong> For a task with a well-labeled dataset, a trained model will consistently outperform prompt engineering — and at zero ongoing cost.</p>
+          <p data-i18n="l1Body">I went into this expecting GenAI's zero-shot prompting to at least come close to a trained model. It didn't — for a task with a well-labeled dataset like this one, the trained model consistently won, and it did that at zero ongoing cost per prediction.</p>
         </div>
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l2Label">On class imbalance</div>
-          <p data-i18n="l2Body"><strong>Accuracy hides imbalance problems.</strong> The neutral class (10%) is where all three models struggle most. Reporting only accuracy would have obscured the 0.77 vs 0.96 neutral F1 gap between NN and LSTM.</p>
+          <p data-i18n="l2Body">If I'd only reported accuracy, I would have missed where all three models actually struggle: the neutral class, which is only 10% of the data. Breaking out per-class F1 is what surfaced a 0.77 vs 0.96 gap on that one class between NN and LSTM — a gap accuracy alone hides completely.</p>
         </div>
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l3Label">On overfitting</div>
-          <p data-i18n="l3Body"><strong>Validation loss is a better stopping criterion than accuracy.</strong> The baseline LSTM overfit within 10 epochs — early stopping with <code>patience=5</code> added 0.28 points without any architecture change.</p>
+          <p data-i18n="l3Body">My baseline LSTM overfit within 10 epochs before I started watching validation loss instead of accuracy. Just adding early stopping with <code>patience=5</code> — no architecture change at all — added 0.28 points.</p>
         </div>
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l4Label">On prompt cost escalation</div>
-          <p data-i18n="l4Body"><strong>Each prompt strategy multiplies cost without linearly multiplying accuracy.</strong> Going from zero-shot ($62) to Chain-of-Thought ($304) is a 5× cost increase for near-zero accuracy gain.</p>
+          <p data-i18n="l4Body">I moved from zero-shot prompting ($62) up to Chain-of-Thought ($304) expecting the accuracy to scale with the cost. It didn't — a 5× cost increase bought almost no accuracy gain.</p>
         </div>
       </div>
 
@@ -1004,10 +1004,10 @@
         bug3Effect:'All 6 Swagger YAML files used <code>get:</code> instead of <code>post:</code>. The UI showed GET forms that couldn\'t submit a request body — the endpoints were unreachable from the docs.',
         s10Num:'10 · Lessons Learned',
         s10Title:'What this experiment <em>actually settled.</em>',
-        l1Label:'On GenAI for NLP tasks', l1Body:'<strong>GenAI zero-shot is a starting point, not an endpoint.</strong> For a task with a well-labeled dataset, a trained model will consistently outperform prompt engineering — and at zero ongoing cost.',
-        l2Label:'On class imbalance', l2Body:'<strong>Accuracy hides imbalance problems.</strong> The neutral class (10%) is where all three models struggle most. Reporting only accuracy would have obscured the 0.77 vs 0.96 neutral F1 gap between NN and LSTM.',
-        l3Label:'On overfitting', l3Body:'<strong>Validation loss is a better stopping criterion than accuracy.</strong> The baseline LSTM overfit within 10 epochs — early stopping with <code>patience=5</code> added 0.28 points without any architecture change.',
-        l4Label:'On prompt cost escalation', l4Body:'<strong>Each prompt strategy multiplies cost without linearly multiplying accuracy.</strong> Going from zero-shot ($62) to Chain-of-Thought ($304) is a 5× cost increase for near-zero accuracy gain.',
+        l1Label:'On GenAI for NLP tasks', l1Body:'I went into this expecting GenAI\'s zero-shot prompting to at least come close to a trained model. It didn\'t — for a task with a well-labeled dataset like this one, the trained model consistently won, and it did that at zero ongoing cost per prediction.',
+        l2Label:'On class imbalance', l2Body:'If I\'d only reported accuracy, I would have missed where all three models actually struggle: the neutral class, which is only 10% of the data. Breaking out per-class F1 is what surfaced a 0.77 vs 0.96 gap on that one class between NN and LSTM — a gap accuracy alone hides completely.',
+        l3Label:'On overfitting', l3Body:'My baseline LSTM overfit within 10 epochs before I started watching validation loss instead of accuracy. Just adding early stopping with <code>patience=5</code> — no architecture change at all — added 0.28 points.',
+        l4Label:'On prompt cost escalation', l4Body:'I moved from zero-shot prompting ($62) up to Chain-of-Thought ($304) expecting the accuracy to scale with the cost. It didn\'t — a 5× cost increase bought almost no accuracy gain.',
         s10WhenTitle:'When ML · When GenAI',
         whenMLHeader:'Use Trained ML When', whenGenAIHeader:'Use GenAI When',
         wml1:'You have 1,000+ labeled examples', wml2:'Latency matters (sub-ms inference)', wml3:'Cost at scale matters ($0 marginal)', wml4:'You\'re serving one specific language/domain',
@@ -1102,10 +1102,10 @@
         bug3Effect:'Semua 6 file Swagger YAML menggunakan <code>get:</code> alih-alih <code>post:</code>. UI menampilkan form GET yang tidak bisa mengirim request body — endpoint tidak bisa diakses dari dokumentasi.',
         s10Num:'10 · Pelajaran yang Dipetik',
         s10Title:'Apa yang benar-benar <em>diselesaikan eksperimen ini.</em>',
-        l1Label:'Tentang GenAI untuk tugas NLP', l1Body:'<strong>GenAI zero-shot adalah titik awal, bukan titik akhir.</strong> Untuk tugas dengan dataset berlabel yang baik, model terlatih akan secara konsisten mengungguli prompt engineering — dan dengan biaya berkelanjutan nol.',
-        l2Label:'Tentang ketidakseimbangan kelas', l2Body:'<strong>Akurasi menyembunyikan masalah ketidakseimbangan.</strong> Kelas netral (10%) adalah tempat ketiga model paling kesulitan. Melaporkan hanya akurasi akan menyembunyikan gap F1 netral 0,77 vs 0,96 antara NN dan LSTM.',
-        l3Label:'Tentang overfitting', l3Body:'<strong>Validation loss adalah kriteria berhenti yang lebih baik daripada akurasi.</strong> LSTM baseline overfit dalam 10 epoch — early stopping dengan <code>patience=5</code> menambah 0,28 poin tanpa perubahan arsitektur.',
-        l4Label:'Tentang eskalasi biaya prompt', l4Body:'<strong>Setiap strategi prompt melipatgandakan biaya tanpa melipatgandakan akurasi secara linier.</strong> Dari zero-shot ($62) ke Chain-of-Thought ($304) adalah peningkatan biaya 5× untuk hampir nol peningkatan akurasi.',
+        l1Label:'Tentang GenAI untuk tugas NLP', l1Body:'Saya masuk ke ini dengan ekspektasi zero-shot prompting dari GenAI setidaknya bisa deket sama model terlatih. Ternyata nggak — buat task dengan dataset berlabel sebaik ini, model terlatihnya konsisten menang, dan itu dengan biaya berkelanjutan nol per prediksi.',
+        l2Label:'Tentang ketidakseimbangan kelas', l2Body:'Kalau saya cuma laporin akurasi, saya bakal ngelewatin di mana sebenarnya ketiga model itu paling kesulitan: kelas netral, yang cuma 10% dari data. Meriksa F1 per kelas itu yang nunjukin gap 0,77 vs 0,96 di kelas itu antara NN dan LSTM — gap yang akurasi doang bakal sembunyiin sepenuhnya.',
+        l3Label:'Tentang overfitting', l3Body:'LSTM baseline saya overfit dalam 10 epoch sebelum saya mulai mantengin validation loss ketimbang akurasi. Cuma nambahin early stopping dengan <code>patience=5</code> — tanpa ubah arsitektur sama sekali — nambahin 0,28 poin.',
+        l4Label:'Tentang eskalasi biaya prompt', l4Body:'Saya naikin dari zero-shot prompting ($62) ke Chain-of-Thought ($304) dengan ekspektasi akurasinya bakal naik seiring biayanya. Ternyata nggak — kenaikan biaya 5× cuma ngasih peningkatan akurasi yang hampir nol.',
         s10WhenTitle:'Kapan ML · Kapan GenAI',
         whenMLHeader:'Gunakan ML Terlatih Ketika', whenGenAIHeader:'Gunakan GenAI Ketika',
         wml1:'Kamu punya 1.000+ contoh berlabel', wml2:'Latensi penting (inferensi sub-ms)', wml3:'Biaya di skala penting ($0 marjinal)', wml4:'Kamu melayani satu bahasa/domain spesifik',

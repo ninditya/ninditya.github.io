@@ -447,23 +447,23 @@ GEval(
   <section class="content" id="lessons" style="background:var(--bg-dark);">
     <div class="wrap">
       <div class="section-num" style="color:var(--accent);" data-i18n="lessonsNum">09 · Lessons Learned</div>
-      <h2 style="color:white;" data-i18n="lessonsTitle">A hallucination doesn't need a courtroom. <em style="color:var(--accent);">It just needs someone to actually look.</em></h2>
+      <h2 style="color:white;" data-i18n="lessonsTitle">I didn't need anything fancy to catch these. <em style="color:var(--accent);">I just had to actually look.</em></h2>
       <div class="lesson-cards">
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson1Label">A fabrication doesn't need a paid judge to be found</div>
-          <p data-i18n="lesson1P">The fake phone number was caught by inspecting real pipeline output during free dataset generation — <strong>before spending a cent on LLM-judge scoring.</strong> Cheap regression checks catch more than their budget suggests.</p>
+          <p data-i18n="lesson1P">I caught the fake phone number just by inspecting the real pipeline output while generating the eval dataset — before I'd spent a single cent on LLM-judge scoring. I didn't expect a free regression check to catch something that serious, but it did.</p>
         </div>
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson2Label">Fallback triggers need calibration, not just existence</div>
-          <p data-i18n="lesson2P">HealthTruth-AI's "TIDAK LENGKAP" path works (ht-012), but ht-020 shows a system can still be overconfident <strong>even with a hedge option sitting right there.</strong> Building the escape hatch isn't the same as tuning when to use it.</p>
+          <p data-i18n="lesson2P">HealthTruth-AI's "TIDAK LENGKAP" fallback works fine on ht-012. Then ht-020 showed me the system could still answer overconfidently even with that hedge option sitting right there, unused. Building the escape hatch turned out to be the easy part — tuning when the system actually reaches for it is the real job.</p>
         </div>
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson3Label">Keep the judge model separate from the app's model</div>
-          <p data-i18n="lesson3P">Both projects deliberately judge with a different LLM than the one being evaluated. <strong>A model grading its own homework is exactly the blind spot</strong> this kind of evaluation exists to catch.</p>
+          <p data-i18n="lesson3P">In both projects, I made a point of judging with a different LLM than the one being evaluated. I didn't want to find out the hard way that a model grading its own homework misses exactly the kind of mistake this evaluation is supposed to catch.</p>
         </div>
         <div class="lesson-card">
           <div class="lesson-label" data-i18n="lesson4Label">Say what hasn't been paid for yet</div>
-          <p data-i18n="lesson4P">The eval frameworks are built and ready; the full judge-scored runs haven't executed. <strong>Stating that plainly is part of the QA discipline</strong> — not a caveat to hide.</p>
+          <p data-i18n="lesson4P">The eval frameworks are built and ready, but I haven't actually run the full judge-scored evaluation yet. I'd rather say that plainly here than let the page imply otherwise — that's part of the QA discipline too, not just a caveat to bury.</p>
         </div>
       </div>
     </div>
@@ -584,15 +584,15 @@ GEval(
         flipTitle:`Same mechanics. <em>Real traffic, instead of a generated dataset.</em>`,
         flipP:`At the fintech startup, this discipline ran continuously against real user conversations rather than a 12- or 20-case generated set: hallucination rate tracked release over release, answer grounding checked against the RAG-based chatbot's actual retrieved context, fallback triggers tuned against real escalation patterns, and all of it correlated against CSAT to see whether a grounding fix actually moved user-perceived quality — not just a metric. The mechanics above — paraphrased eval data that tests generalization rather than memorization, a judge model kept separate from the app model, a purpose-built safety check instead of a generic one, fallback paths that get calibrated rather than just built — are the transferable part. This page is where I can show them working end to end.`,
         lessonsNum:`09 · Lessons Learned`,
-        lessonsTitle:`A hallucination doesn't need a courtroom. <em style="color:var(--accent);">It just needs someone to actually look.</em>`,
+        lessonsTitle:`I didn't need anything fancy to catch these. <em style="color:var(--accent);">I just had to actually look.</em>`,
         lesson1Label:`A fabrication doesn't need a paid judge to be found`,
-        lesson1P:`The fake phone number was caught by inspecting real pipeline output during free dataset generation — <strong>before spending a cent on LLM-judge scoring.</strong> Cheap regression checks catch more than their budget suggests.`,
+        lesson1P:`I caught the fake phone number just by inspecting the real pipeline output while generating the eval dataset — before I'd spent a single cent on LLM-judge scoring. I didn't expect a free regression check to catch something that serious, but it did.`,
         lesson2Label:`Fallback triggers need calibration, not just existence`,
-        lesson2P:`HealthTruth-AI's "TIDAK LENGKAP" path works (ht-012), but ht-020 shows a system can still be overconfident <strong>even with a hedge option sitting right there.</strong> Building the escape hatch isn't the same as tuning when to use it.`,
+        lesson2P:`HealthTruth-AI's "TIDAK LENGKAP" fallback works fine on ht-012. Then ht-020 showed me the system could still answer overconfidently even with that hedge option sitting right there, unused. Building the escape hatch turned out to be the easy part — tuning when the system actually reaches for it is the real job.`,
         lesson3Label:`Keep the judge model separate from the app's model`,
-        lesson3P:`Both projects deliberately judge with a different LLM than the one being evaluated. <strong>A model grading its own homework is exactly the blind spot</strong> this kind of evaluation exists to catch.`,
+        lesson3P:`In both projects, I made a point of judging with a different LLM than the one being evaluated. I didn't want to find out the hard way that a model grading its own homework misses exactly the kind of mistake this evaluation is supposed to catch.`,
         lesson4Label:`Say what hasn't been paid for yet`,
-        lesson4P:`The eval frameworks are built and ready; the full judge-scored runs haven't executed. <strong>Stating that plainly is part of the QA discipline</strong> — not a caveat to hide.`,
+        lesson4P:`The eval frameworks are built and ready, but I haven't actually run the full judge-scored evaluation yet. I'd rather say that plainly here than let the page imply otherwise — that's part of the QA discipline too, not just a caveat to bury.`,
         ctaNum:`See the Systems Being Evaluated`,
         ctaTitle:`Two RAG systems. <em>Both open, both mine.</em>`,
         ctaP:`The full evaluation code — datasets, DeepEval tests, Ragas scripts, judge model wrappers — lives in both projects' <code>evaluation/</code> folders on GitHub.`,
@@ -684,15 +684,15 @@ GEval(
         flipTitle:`Mekanisme yang sama. <em>Traffic sungguhan, bukan dataset yang di-generate.</em>`,
         flipP:`Di startup fintech tersebut, disiplin ini berjalan terus-menerus terhadap percakapan user sungguhan, bukan set 12 atau 20 kasus yang di-generate: hallucination rate dilacak rilis demi rilis, answer grounding dicek terhadap retrieved context sungguhan dari chatbot berbasis RAG, fallback trigger dikalibrasi terhadap pola eskalasi sungguhan, dan semuanya dikorelasikan terhadap CSAT untuk melihat apakah perbaikan grounding benar-benar menggerakkan kualitas yang dirasakan user — bukan cuma sebuah metrik. Mekanisme di atas — data eval hasil parafrase yang menguji generalisasi bukan hafalan, model judge yang dijaga terpisah dari model app, pengecekan keamanan yang dibangun khusus alih-alih generik, jalur fallback yang dikalibrasi bukan cuma dibangun — adalah bagian yang bisa dipindahkan. Halaman ini tempat saya bisa menunjukkannya bekerja end-to-end.`,
         lessonsNum:`09 · Pelajaran`,
-        lessonsTitle:`Hallucination tidak butuh sidang pengadilan. <em style="color:var(--accent);">Cuma butuh seseorang yang benar-benar melihat.</em>`,
+        lessonsTitle:`Saya nggak butuh sesuatu yang canggih buat nangkep ini semua. <em style="color:var(--accent);">Saya cuma perlu beneran ngeliat.</em>`,
         lesson1Label:`Fabrikasi tidak perlu judge berbayar untuk ditemukan`,
-        lesson1P:`Nomor telepon palsu ditangkap dengan memeriksa output pipeline sungguhan saat generate dataset gratis — <strong>sebelum mengeluarkan satu sen pun untuk skoring LLM-judge.</strong> Pengecekan regresi murah menangkap lebih banyak daripada yang disarankan budgetnya.`,
+        lesson1P:`Saya nangkep nomor telepon palsu itu cuma dengan meriksa output pipeline sungguhan waktu generate dataset eval — sebelum ngeluarin satu sen pun buat skoring LLM-judge. Saya nggak nyangka pengecekan regresi gratis bisa nangkep sesuatu se-serius itu, tapi ternyata bisa.`,
         lesson2Label:`Fallback trigger butuh kalibrasi, bukan cuma keberadaan`,
-        lesson2P:`Jalur "TIDAK LENGKAP" HealthTruth-AI bekerja (ht-012), tapi ht-020 menunjukkan sistem masih bisa terlalu percaya diri <strong>bahkan dengan opsi hedge yang tersedia persis di sana.</strong> Membangun jalan keluar tidak sama dengan mengkalibrasi kapan memakainya.`,
+        lesson2P:`Jalur fallback "TIDAK LENGKAP" HealthTruth-AI kerja dengan baik di ht-012. Terus ht-020 nunjukin ke saya bahwa sistemnya masih bisa jawab dengan terlalu percaya diri, padahal opsi hedge itu ada persis di situ, cuma nggak dipakai. Bikin jalan keluarnya ternyata bagian yang gampang — ngatur kapan sistemnya beneran make itu, itu yang jadi kerjaan sebenarnya.`,
         lesson3Label:`Jaga model judge terpisah dari model app`,
-        lesson3P:`Kedua project sengaja menilai dengan LLM yang berbeda dari yang dievaluasi. <strong>Model yang menilai PR-nya sendiri persis blind spot</strong> yang ingin ditangkap evaluasi jenis ini.`,
+        lesson3P:`Di kedua project, saya sengaja milih nilai pakai LLM yang beda dari yang dievaluasi. Saya nggak mau baru sadar belakangan bahwa model yang nilai PR-nya sendiri justru bakal ngelewatin persis jenis kesalahan yang seharusnya ditangkep evaluasi ini.`,
         lesson4Label:`Katakan apa yang belum dibayar`,
-        lesson4P:`Framework evaluasinya sudah dibangun dan siap; run yang dinilai judge penuh belum dieksekusi. <strong>Mengatakannya terus terang adalah bagian dari disiplin QA</strong> — bukan catatan kaki untuk disembunyikan.`,
+        lesson4P:`Framework evaluasinya udah dibangun dan siap, tapi saya belum beneran jalanin evaluasi yang dinilai judge secara penuh. Saya lebih milih bilang itu terus terang di sini daripada biarin halaman ini kesannya udah selesai — itu juga bagian dari disiplin QA, bukan cuma catatan kaki yang disembunyikan.`,
         ctaNum:`Lihat Sistem yang Dievaluasi`,
         ctaTitle:`Dua sistem RAG. <em>Keduanya terbuka, keduanya milik saya.</em>`,
         ctaP:`Kode evaluasi lengkap — dataset, test DeepEval, script Ragas, wrapper model judge — ada di folder <code>evaluation/</code> kedua project di GitHub.`,

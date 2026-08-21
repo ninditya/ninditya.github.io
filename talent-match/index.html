@@ -326,7 +326,7 @@
         <span class="kicker-text">HR Analytics · SQL · Succession Planning · Streamlit</span>
       </div>
       <h1 class="title" data-i18n="heroTitle">Talent Match<br><em>Intelligence</em></h1>
-      <p class="hero-lede" data-i18n="heroLede">SQL-powered succession planning system that ranks <strong>2,010 employees</strong> against top performer benchmarks using a 17-CTE matching algorithm.</p>
+      <p class="hero-lede" data-i18n="heroLede">I built a SQL-powered succession planning system that ranks <strong>2,010 employees</strong> against top performer benchmarks using a 17-CTE matching algorithm.</p>
       <div class="hero-meta">
         <span><strong>SQL</strong> PostgreSQL · 17 CTEs · PERCENTILE_CONT · MODE()</span>
         <span><strong>Stack</strong> Supabase · Streamlit · Python · Plotly · OpenRouter</span>
@@ -808,7 +808,7 @@
   <section class="content" id="insights">
     <div class="wrap">
       <div class="section-num" data-i18n="s7Num">07 · Key Insights</div>
-      <h2 data-i18n="s7Title">Three findings that changed <em>the entire algorithm design.</em></h2>
+      <h2 data-i18n="s7Title">Three things I found <em>that changed the entire algorithm design.</em></h2>
 
       <div class="kic-grid">
         <div class="kic-card reveal">
@@ -898,19 +898,19 @@
       <div class="lesson-grid">
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l1Label">ERD vs reality</div>
-          <p data-i18n="l1Body">The case study brief described GTQ1–GTQ5 and Tiki1–Tiki4 as separate columns. The actual database stores single composite values (<code>gtq</code>, <code>tiki</code>). <strong>Iterating through the live schema revealed the real structure</strong> — documentation can lie.</p>
+          <p data-i18n="l1Body">The case study brief described GTQ1–GTQ5 and Tiki1–Tiki4 as separate columns. When I actually queried the live schema, the database turned out to store single composite values (<code>gtq</code>, <code>tiki</code>) instead. I only caught the mismatch by checking the real schema myself — documentation can lie.</p>
         </div>
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l2Label">Model availability</div>
-          <p data-i18n="l2Body">OpenRouter free-tier models deprecated without notice mid-development. <strong>Required live API querying to discover a working model</strong>. Never hardcode a free-tier model name.</p>
+          <p data-i18n="l2Body">Partway through building this, my OpenRouter free-tier model got deprecated without any notice. I had to query the API live just to find out which model still worked. Lesson stuck: never hardcode a free-tier model name.</p>
         </div>
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l3Label">Supabase pagination</div>
-          <p data-i18n="l3Body">PostgREST caps at 1,000 rows per request. <strong>Built a custom paginated <code>fetch_table()</code></strong> to handle all 2,010 employees cleanly — the kind of edge case that only surfaces at scale.</p>
+          <p data-i18n="l3Body">I didn't find out PostgREST caps requests at 1,000 rows until my query for all 2,010 employees came back short. I ended up writing a custom paginated <code>fetch_table()</code> to handle it properly — the kind of edge case you only hit once you're actually at scale.</p>
         </div>
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l4Label">EDA should challenge assumptions</div>
-          <p data-i18n="l4Body">The PAPI Leadership (G) finding — that R5 employees score <em>lower</em> — was the most analytically valuable result. <strong>The data pushed back against the obvious assumption</strong>. That's when EDA earns its keep.</p>
+          <p data-i18n="l4Body">I expected R5 employees to score higher on PAPI Leadership. They scored lower — and that turned out to be the most useful finding in the whole analysis. It's the moment I trusted the EDA over my own assumption, which is exactly when EDA is worth doing.</p>
         </div>
       </div>
 
@@ -952,7 +952,7 @@
         navBack:'← Back to portfolio', navProjects:'Projects', navContact:'Contact',
         kickerTag:'Data Analytics',
         heroTitle:'Talent Match<br><em>Intelligence</em>',
-        heroLede:'SQL-powered succession planning system that ranks <strong>2,010 employees</strong> against top performer benchmarks using a 17-CTE matching algorithm.',
+        heroLede:'I built a SQL-powered succession planning system that ranks <strong>2,010 employees</strong> against top performer benchmarks using a 17-CTE matching algorithm.',
         heroMetaData:'<strong>Dataset</strong> 2,010 employees · 5 years · 6 tables · 180K+ rows',
         hfEmployees:'Employees<br>in pool', hfEngine:'SQL CTEs<br>matching algorithm',
         hfResult:'Top candidate<br>match score', hfApp:'Streamlit app<br>deployed',
@@ -1030,7 +1030,7 @@
         archD3:'<strong>6 composite indexes</strong> — on (employee_id, year) joins for competency and PAPI tables',
         archD4:'<strong>Paginated fetch</strong> — PostgREST caps at 1,000 rows; custom <code>fetch_table()</code> loops until all 2,010 are loaded',
         s7Num:'07 · Key Insights',
-        s7Title:'Three findings that changed <em>the entire algorithm design.</em>',
+        s7Title:'Three things I found <em>that changed the entire algorithm design.</em>',
         kic1Label:'Psychometric signal', kic1Title:'Stamina beats raw IQ',
         kic1Desc:'Pauli (mental arithmetic stamina) is the strongest cognitive differentiator. IQ shows no meaningful gap between R5 and others. Sustained effort predicts top performance at this grade level.',
         kic2Label:'PAPI finding', kic2Title:'Planning beats authority',
@@ -1052,13 +1052,13 @@
         s8Num:'08 · Lessons Learned',
         s8Title:'What I would tell myself <em>before starting this project.</em>',
         l1Label:'ERD vs reality',
-        l1Body:'The case study brief described GTQ1–GTQ5 and Tiki1–Tiki4 as separate columns. The actual database stores single composite values (<code>gtq</code>, <code>tiki</code>). <strong>Iterating through the live schema revealed the real structure</strong> — documentation can lie.',
+        l1Body:'The case study brief described GTQ1–GTQ5 and Tiki1–Tiki4 as separate columns. When I actually queried the live schema, the database turned out to store single composite values (<code>gtq</code>, <code>tiki</code>) instead. I only caught the mismatch by checking the real schema myself — documentation can lie.',
         l2Label:'Model availability',
-        l2Body:'OpenRouter free-tier models deprecated without notice mid-development. <strong>Required live API querying to discover a working model</strong>. Never hardcode a free-tier model name.',
+        l2Body:'Partway through building this, my OpenRouter free-tier model got deprecated without any notice. I had to query the API live just to find out which model still worked. Lesson stuck: never hardcode a free-tier model name.',
         l3Label:'Supabase pagination',
-        l3Body:'PostgREST caps at 1,000 rows per request. <strong>Built a custom paginated <code>fetch_table()</code></strong> to handle all 2,010 employees cleanly — the kind of edge case that only surfaces at scale.',
+        l3Body:'I didn\'t find out PostgREST caps requests at 1,000 rows until my query for all 2,010 employees came back short. I ended up writing a custom paginated <code>fetch_table()</code> to handle it properly — the kind of edge case you only hit once you\'re actually at scale.',
         l4Label:'EDA should challenge assumptions',
-        l4Body:'The PAPI Leadership (G) finding — that R5 employees score <em>lower</em> — was the most analytically valuable result. <strong>The data pushed back against the obvious assumption</strong>. That\'s when EDA earns its keep.',
+        l4Body:'I expected R5 employees to score higher on PAPI Leadership. They scored lower — and that turned out to be the most useful finding in the whole analysis. It\'s the moment I trusted the EDA over my own assumption, which is exactly when EDA is worth doing.',
         s8FutureTitle:'Future improvements',
         f1:'Longitudinal competency trend slope (over 5 years) instead of single latest-year score',
         f2:'Role-specific weight sets per job family — differentiated from generic success formula',
@@ -1074,7 +1074,7 @@
         navBack:'← Kembali ke portfolio', navProjects:'Proyek', navContact:'Kontak',
         kickerTag:'Data Analytics',
         heroTitle:'Talent Match<br><em>Intelligence</em>',
-        heroLede:'Sistem succession planning berbasis SQL yang meranking <strong>2.010 karyawan</strong> terhadap benchmark top performer menggunakan algoritma matching 17 CTE.',
+        heroLede:'Saya bikin sistem succession planning berbasis SQL yang meranking <strong>2.010 karyawan</strong> terhadap benchmark top performer menggunakan algoritma matching 17 CTE.',
         heroMetaData:'<strong>Dataset</strong> 2.010 karyawan · 5 tahun · 6 tabel · 180K+ baris',
         hfEmployees:'Karyawan<br>dalam pool', hfEngine:'SQL CTE<br>algoritma matching',
         hfResult:'Top kandidat<br>match score', hfApp:'Streamlit app<br>live',
@@ -1152,7 +1152,7 @@
         archD3:'<strong>6 composite indexes</strong> — pada join (employee_id, year) untuk tabel kompetensi dan PAPI',
         archD4:'<strong>Paginated fetch</strong> — PostgREST terbatas 1.000 baris; custom <code>fetch_table()</code> melakukan loop hingga semua 2.010 dimuat',
         s7Num:'07 · Key Insights',
-        s7Title:'Tiga temuan yang mengubah <em>seluruh desain algoritma.</em>',
+        s7Title:'Tiga hal yang saya temukan <em>yang mengubah seluruh desain algoritma.</em>',
         kic1Label:'Sinyal psikometri', kic1Title:'Stamina mengalahkan IQ murni',
         kic1Desc:'Pauli (stamina aritmatika mental) adalah diferensiator kognitif terkuat. IQ tidak menunjukkan kesenjangan berarti antara R5 dan lainnya. Upaya berkelanjutan memprediksi performa terbaik di tingkat grade ini.',
         kic2Label:'Temuan PAPI', kic2Title:'Perencanaan mengalahkan otoritas',
@@ -1174,13 +1174,13 @@
         s8Num:'08 · Pelajaran yang Dipetik',
         s8Title:'Yang ingin saya sampaikan ke diri sendiri <em>sebelum memulai project ini.</em>',
         l1Label:'ERD vs kenyataan',
-        l1Body:'Brief studi kasus mendeskripsikan GTQ1–GTQ5 dan Tiki1–Tiki4 sebagai kolom terpisah. Database sebenarnya menyimpan nilai komposit tunggal (<code>gtq</code>, <code>tiki</code>). <strong>Iterasi melalui schema live mengungkap struktur nyata</strong> — dokumentasi bisa berbohong.',
+        l1Body:'Brief studi kasus mendeskripsikan GTQ1–GTQ5 dan Tiki1–Tiki4 sebagai kolom terpisah. Waktu saya beneran query schema live-nya, ternyata database-nya cuma nyimpen nilai komposit tunggal (<code>gtq</code>, <code>tiki</code>). Saya baru nyadar bedanya setelah cek schema aslinya sendiri — dokumentasi bisa berbohong.',
         l2Label:'Ketersediaan model',
-        l2Body:'Model free-tier OpenRouter deprecated tanpa pemberitahuan di tengah pengembangan. <strong>Diperlukan query API langsung untuk menemukan model yang berfungsi</strong>. Jangan pernah hardcode nama model free-tier.',
+        l2Body:'Di tengah proses bikin ini, model free-tier OpenRouter saya deprecated tanpa pemberitahuan sama sekali. Saya harus query API-nya langsung cuma buat nemuin model mana yang masih jalan. Pelajarannya nempel: jangan pernah hardcode nama model free-tier.',
         l3Label:'Pagination Supabase',
-        l3Body:'PostgREST terbatas 1.000 baris per request. <strong>Membangun custom paginated <code>fetch_table()</code></strong> untuk menangani semua 2.010 karyawan — edge case yang hanya muncul di skala nyata.',
+        l3Body:'Saya baru tau PostgREST membatasi request sampai 1.000 baris setelah query saya buat semua 2.010 karyawan balik lebih sedikit dari yang seharusnya. Saya akhirnya nulis <code>fetch_table()</code> custom yang paginated buat nangenin itu dengan benar — edge case yang cuma ketauan begitu beneran kena skala nyata.',
         l4Label:'EDA harus menantang asumsi',
-        l4Body:'Temuan PAPI Leadership (G) — bahwa karyawan R5 mendapat skor <em>lebih rendah</em> — adalah hasil analitis paling berharga. <strong>Data menantang balik asumsi yang jelas</strong>. Itulah saat EDA membuktikan nilainya.',
+        l4Body:'Saya ngira karyawan R5 bakal skor lebih tinggi di PAPI Leadership. Ternyata mereka skor lebih rendah — dan itu jadi temuan paling berharga di seluruh analisis ini. Itu momen saya percaya ke EDA dibanding asumsi saya sendiri, dan itu justru saat EDA benar-benar berguna.',
         s8FutureTitle:'Rencana pengembangan',
         f1:'Slope tren kompetensi longitudinal (selama 5 tahun) daripada skor tahun terkini',
         f2:'Set bobot spesifik peran per job family — dibedakan dari formula sukses generik',
