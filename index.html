@@ -1,667 +1,596 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ninditya Salma Nur Aini — AI Engineer & Data Scientist</title>
-  <meta name="description"
-    content="AI Engineer & Data Scientist with 3.5+ years of experience building and evaluating production AI systems.">
-  <meta property="og:title" content="Ninditya Salma Nur Aini — AI Engineer & Data Scientist">
-  <meta property="og:description"
-    content="AI Engineer & Data Scientist with 3.5+ years of experience building and evaluating production AI systems.">
+  <title>Ninditya Salma Nur Aini // Portfolio</title>
+  <meta name="description" content="Portfolio of Ninditya Salma Nur Aini — AI Engineer & Data Scientist specializing in LLM systems, RAG, ML pipelines, and AI QA.">
+  <meta property="og:title" content="Ninditya Salma Nur Aini // AI Engineer & Data Scientist">
+  <meta property="og:description" content="Building production AI systems that turn research benchmarks into reliable real-world performance.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ninditya.github.io/">
-  <meta property="og:image" content="https://ninditya.github.io/_portfolio-assets/site-card.svg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://ninditya.github.io/_portfolio-assets/site-card.svg">
   <meta name="theme-color" content="#2563eb">
-  <link rel="canonical" href="https://ninditya.github.io/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Space+Grotesk:wght@400;500;600&amp;family=DM+Mono:wght@400;500&amp;display=swap"
-    rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Space+Grotesk:wght@400;500;600&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet"></noscript>
-  <link rel="stylesheet" href="styles.css?v=8">
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='100'%20height='100'%20rx='20'%20fill='%231a1a1a'/%3E%3Ctext%20x='50'%20y='68'%20font-family='Inter,%20sans-serif'%20font-size='50'%20font-weight='bold'%20fill='white'%20text-anchor='middle'%3ENA%3C/text%3E%3C/svg%3E">
-  <script>
-    (function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Ninditya Salma Nur Aini",
-    "url": "https://ninditya.github.io",
-    "image": "https://ninditya.github.io/_portfolio-assets/site-card.svg",
-    "jobTitle": ["AI Engineer", "Data Scientist", "QA Engineer"],
-    "sameAs": [
-      "https://linkedin.com/in/ninditya-salma-nur-aini",
-      "https://github.com/ninditya"
-    ],
-    "description": "AI Engineer & Data Scientist with 3.5+ years of experience building and evaluating production AI systems.",
-    "knowsAbout": ["AI Systems Engineering", "Machine Learning", "NLP", "LLM Systems", "Data Science", "QA & Evaluation"],
-    "birthPlace": {"@type": "Place", "name": "Yogyakarta, Indonesia"},
-    "worksLocation": [{"@type": "Place", "name": "Remote"}, {"@type": "Place", "name": "Yogyakarta"}, {"@type": "Place", "name": "Jakarta"}]
-  }
-  </script>
-<script data-goatcounter="https://ninditya.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-</head>
-
-<body>
-  <a href="#projects" class="skip-link">Skip to main content</a>
-  <!-- NAV -->
-  <nav id="mainNav">
-    <div class="nav-inner">
-      <div class="nav-tools">
-        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
-          onclick="const nav=document.getElementById('mainNav');nav.classList.toggle('nav-open');this.setAttribute('aria-expanded',nav.classList.contains('nav-open'))">☰</button>
-        <div class="nav-pills">
-          <a class="nav-pill" href="#projects" data-i18n="navProjects">Projects</a>
-          <a class="nav-pill" href="#about" data-i18n="navAbout">About</a>
-          <a class="nav-pill" href="#contact" data-i18n="navContact">Contact</a>
-        </div>
-        <div class="lang-switch" aria-label="Language switch">
-          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
-          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
-        </div>
-        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <div class="hero" id="top">
-    <div class="hero-kicker reveal">
-      <span class="kicker-dot" aria-hidden="true"></span>
-      <span class="kicker-status" data-i18n="heroStatus">Open to opportunities</span>
-      <span class="kicker-divider">·</span>
-      <span class="kicker-tag" data-i18n="heroTag">Remote / Yogyakarta / Jakarta</span>
-    </div>
-    <h1 class="hero-name reveal">Ninditya<br><em>Salma</em> Nur Aini</h1>
-    <p class="hero-role reveal" data-i18n="heroRole">AI Engineer · Data Scientist · QA Engineer</p>
-    <p class="hero-desc reveal" data-i18n="heroDesc">
-      I began with an NLP thesis in 2021, built chatbot flows at Telkom Group, and evaluated LLM quality at a fintech startup. I help close the gap between benchmark scores and systems that stay reliable in real use.
-    </p>
-    <div class="hero-ctas reveal">
-      <a href="mailto:ninditya.sna025@gmail.com" class="cta cta-primary" data-i18n="ctaEmail">✉ Email</a>
-      <a href="https://linkedin.com/in/ninditya-salma-nur-aini" class="cta cta-secondary" target="_blank" rel="noopener"
-        data-i18n="ctaLinkedin">in LinkedIn</a>
-      <a href="https://github.com/ninditya" class="cta cta-secondary" target="_blank" rel="noopener"
-        data-i18n="ctaGithub">↗ GitHub</a>
-      <a href="https://wa.me/62895371290495" class="cta cta-secondary" target="_blank" rel="noopener"
-        data-i18n="ctaWhatsapp">☎ WhatsApp</a>
-    </div>
-    <div class="hero-strengths">
-      <div class="strength reveal">
-        <div class="strength-label" data-i18n="strength1Label">AI Systems Engineering</div>
-        <div class="strength-desc" data-i18n="strength1Desc">LLM routing, RAG systems, evaluation workflows, and production-ready architecture decisions.</div>
-      </div>
-      <div class="strength reveal">
-        <div class="strength-label" data-i18n="strength2Label">ML &amp; Data Science</div>
-        <div class="strength-desc" data-i18n="strength2Desc">End-to-end ML pipelines with MLflow, Docker, Prometheus,
-          Grafana, and business-driven modeling.</div>
-      </div>
-      <div class="strength reveal">
-        <div class="strength-label" data-i18n="strength3Label">NLP &amp; Bahasa Indonesia</div>
-        <div class="strength-desc" data-i18n="strength3Desc">Intent systems, sentiment analysis, entity extraction, and NLP from LSA to BERT.</div>
-      </div>
-      <div class="strength reveal">
-        <div class="strength-label" data-i18n="strength4Label">QA &amp; AI Evaluation</div>
-        <div class="strength-desc" data-i18n="strength4Desc">SIT/UAT, Playwright, Selenium, Postman, hallucination checks, and QA-focused model evaluation.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PROJECTS -->
-  <div class="section" id="projects">
-    <p class="section-eyebrow reveal" data-i18n="projectsEyebrow">selected work</p>
-    <h2 class="section-title reveal" data-i18n="projectsTitle">The work. Explained in full.</h2>
-    <p class="section-subtitle reveal" data-i18n="projectsSubtitle">End-to-end case studies — from problem framing to delivered results.</p>
-
-    <p class="projects-sublabel" data-i18n="projectsSpotlightLabel">Featured spotlight</p>
-    <div class="featured-carousel reveal">
-      <div class="featured-carousel-controls" id="featuredControls">
-        <button class="carousel-btn carousel-prev" id="carouselPrev" disabled aria-label="Previous">&#8249;</button>
-        <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Next">&#8250;</button>
-      </div>
-      <div class="featured-track-wrap">
-        <div class="featured-grid" id="featuredTrack">
-
-          <article class="featured-card">
-            <a class="featured-visual visual-rag" href="rag-chatbot-service/" aria-label="Open RAG Chatbot Service visual preview">
-              <img src="rag-chatbot-service/architecture-overview.png" alt="RAG Chatbot Service architecture preview" loading="lazy">
-            </a>
-            <div class="featured-top">
-              <span class="featured-label" data-i18n="feat3Label">Section 01 · LLM &amp; Generative AI</span>
-              <span class="featured-live" data-i18n="featLive">Live</span>
-            </div>
-            <div class="featured-name" data-i18n="feat3Name">RAG Chatbot Service</div>
-            <p class="featured-hook" data-i18n="feat3Hook"><strong>"3 design decisions I kept while building a production RAG system."</strong> An LLM app with FastAPI, LangGraph, and vector search for grounded knowledge retrieval.</p>
-            <div class="featured-stats">
-              <div class="featured-stat">
-                <span class="featured-stat-num">3</span>
-                <span class="featured-stat-label" data-i18n="feat3Stat1">Graph nodes</span>
-              </div>
-              <div class="featured-stat">
-                <span class="featured-stat-num">3,072</span>
-                <span class="featured-stat-label" data-i18n="feat3Stat2">Embedding dim</span>
-              </div>
-              <div class="featured-stat">
-                <span class="featured-stat-num">4</span>
-                <span class="featured-stat-label" data-i18n="feat3Stat3">Response modes</span>
-              </div>
-            </div>
-            <div class="featured-tags">
-              <span class="proj-tag">RAG</span>
-              <span class="proj-tag">LangGraph</span>
-              <span class="proj-tag">Qdrant</span>
-              <span class="proj-tag">Gemini</span>
-            </div>
-            <a class="featured-cta" href="rag-chatbot-service/" data-i18n="featCta">Open case study →</a>
-          </article>
-
-          <article class="featured-card">
-            <a class="featured-visual visual-banking" href="banking-intent-router/" aria-label="Open Banking Intent Router visual preview">
-              <img src="banking-intent-router/architecture-overview.png" alt="Banking intent router architecture preview" loading="lazy">
-            </a>
-            <div class="featured-top">
-              <span class="featured-label" data-i18n="feat1Label">Section 01 · LLM &amp; Generative AI</span>
-              <span class="featured-live" data-i18n="featLive">Live</span>
-            </div>
-            <div class="featured-name" data-i18n="feat1Name">Banking Intent Router</div>
-            <p class="featured-hook" data-i18n="feat1Hook"><strong>"I reduced banking chatbot LLM cost by 88%."</strong> A 4-tier routing system that decides when a query needs a regex filter, a template, RAG, or an actual LLM call — based on confidence from SBERT + LinearSVC.</p>
-            <div class="featured-stats">
-              <div class="featured-stat">
-                <span class="featured-stat-num">0.9305</span>
-                <span class="featured-stat-label" data-i18n="feat1Stat1">F1 Macro</span>
-              </div>
-              <div class="featured-stat">
-                <span class="featured-stat-num">−88%</span>
-                <span class="featured-stat-label" data-i18n="feat1Stat2">LLM Cost</span>
-              </div>
-              <div class="featured-stat">
-                <span class="featured-stat-num">~50ms</span>
-                <span class="featured-stat-label" data-i18n="feat1Stat3">Latency</span>
-              </div>
-            </div>
-            <div class="featured-tags">
-              <span class="proj-tag">LLM routing</span>
-              <span class="proj-tag">Banking</span>
-              <span class="proj-tag">FastAPI</span>
-              <span class="proj-tag">SBERT</span>
-            </div>
-            <a class="featured-cta" href="banking-intent-router/" data-i18n="featCta">Open case study →</a>
-          </article>
-
-          <article class="featured-card">
-            <a class="featured-visual visual-dropout" href="student-dropout/" aria-label="Open Student Dropout Prediction visual preview">
-              <img src="student-dropout/ninditya_sna-dashboard.png" alt="Student dropout dashboard preview" loading="lazy">
-            </a>
-            <div class="featured-top">
-              <span class="featured-label" data-i18n="feat4Label">Section 02 · Applied Data Science</span>
-              <span class="featured-live" data-i18n="featLive">Live</span>
-            </div>
-            <div class="featured-name" data-i18n="feat4Name">Student Dropout Prediction</div>
-            <p class="featured-hook" data-i18n="feat4Hook"><strong>"1 in 3 students drops out. I built the early-warning system."</strong> XGBoost classifier on 4,424 student records — 92.42% accuracy, AUC 97.27%, with Looker Studio dashboard and Streamlit prediction app for counselors.</p>
-            <div class="featured-stats">
-              <div class="featured-stat">
-                <span class="featured-stat-num">92.42%</span>
-                <span class="featured-stat-label" data-i18n="feat4Stat1">Accuracy</span>
-              </div>
-              <div class="featured-stat">
-                <span class="featured-stat-num">97.27%</span>
-                <span class="featured-stat-label" data-i18n="feat4Stat2">ROC-AUC</span>
-              </div>
-              <div class="featured-stat">
-                <span class="featured-stat-num">32.12%</span>
-                <span class="featured-stat-label" data-i18n="feat4Stat3">Dropout rate</span>
-              </div>
-            </div>
-            <div class="featured-tags">
-              <span class="proj-tag">XGBoost</span>
-              <span class="proj-tag">Education</span>
-              <span class="proj-tag">SMOTE</span>
-              <span class="proj-tag">Streamlit</span>
-            </div>
-            <a class="featured-cta" href="student-dropout/" data-i18n="featCta">Open case study →</a>
-          </article>
-
-          <article class="featured-card">
-            <a class="featured-visual visual-credit" href="credit-risk/" aria-label="Open Credit Risk Modeling visual preview">
-              <img src="credit-risk/shap-summary.png" alt="SHAP summary plot preview" loading="lazy">
-            </a>
-            <div class="featured-top">
-              <span class="featured-label" data-i18n="feat7Label">Section 02 · Applied Data Science</span>
-              <span class="featured-live" data-i18n="featLive">Live</span>
-            </div>
-            <div class="featured-name" data-i18n="feat7Name">Credit Risk Modeling</div>
-            <p class="featured-hook" data-i18n="feat7Hook"><strong>"My model hit 95% accuracy. That was the bug."</strong> Leak-free GOOD/BAD classifier on 466K LendingClub loans — XGBoost selected, then stress-tested with a leakage proof, calibration check, out-of-time validation, and subgroup analysis.</p>
-            <div class="featured-stats">
-              <div class="featured-stat">
-                <span class="featured-stat-num">0.694</span>
-                <span class="featured-stat-label" data-i18n="feat7Stat1">ROC-AUC</span>
-              </div>
-              <div class="featured-stat">
-                <span class="featured-stat-num">47.0%</span>
-                <span class="featured-stat-label" data-i18n="feat7Stat2">Recall (BAD)</span>
-              </div>
-              <div class="featured-stat">
-                <span class="featured-stat-num">11.2%</span>
-                <span class="featured-stat-label" data-i18n="feat7Stat3">Bad-loan rate</span>
-              </div>
-            </div>
-            <div class="featured-tags">
-              <span class="proj-tag">XGBoost</span>
-              <span class="proj-tag">Credit Risk</span>
-              <span class="proj-tag">SHAP</span>
-              <span class="proj-tag">Leak-Free ML</span>
-            </div>
-            <a class="featured-cta" href="credit-risk/" data-i18n="featCta">Open case study →</a>
-          </article>
-
-          <article class="featured-card">
-            <a class="featured-visual visual-studio" href="generative-ai-pipeline/" aria-label="Open StudioAI visual preview">
-              <img src="generative-ai-pipeline/outpainting.png" alt="StudioAI outpainting result preview" loading="lazy">
-            </a>
-            <div class="featured-top">
-              <span class="featured-label" data-i18n="feat6Label">Section 01 · LLM &amp; Generative AI</span>
-              <span class="featured-live" data-i18n="featLive">Live</span>
-            </div>
-            <div class="featured-name" data-i18n="feat6Name">StudioAI — Generative Image Pipeline</div>
-            <p class="featured-hook" data-i18n="feat6Hook"><strong>"I built a Stable Diffusion pipeline from first principles."</strong> Hyperparameter experiments, CLIPSeg auto-masking for inpainting, multi-step outpainting zoom-out, and a full Streamlit app — Bangkit BFGAI Challenge.</p>
-            <div class="featured-stats">
-              <div class="featured-stat">
-                <span class="featured-stat-num">4</span>
-                <span class="featured-stat-label" data-i18n="feat6Stat1">Schedulers compared</span>
-              </div>
-              <div class="featured-stat">
-                <span class="featured-stat-num">3</span>
-                <span class="featured-stat-label" data-i18n="feat6Stat2">Masking approaches</span>
-              </div>
-              <div class="featured-stat">
-                <span class="featured-stat-num">3<small>GB+</small></span>
-                <span class="featured-stat-label" data-i18n="feat6Stat3">Model managed</span>
-              </div>
-            </div>
-            <div class="featured-tags">
-              <span class="proj-tag">Stable Diffusion</span>
-              <span class="proj-tag">Diffusers</span>
-              <span class="proj-tag">CLIPSeg</span>
-              <span class="proj-tag">Streamlit</span>
-            </div>
-            <a class="featured-cta" href="generative-ai-pipeline/" data-i18n="featCta">Open case study →</a>
-          </article>
-
-        </div>
-      </div>
-    </div>
-
-    <p class="projects-sublabel" data-i18n="projectsAllLabel">All projects by domain</p>
-    <div class="proj-card-group reveal">
-      <details class="project-stage" open>
-        <summary class="stage-head">
-          <div>
-            <div class="stage-kicker" data-i18n="stage1Kicker">Section 01</div>
-            <div class="stage-title" data-i18n="stage1Title">LLM &amp; Generative AI</div>
-            <div class="stage-desc" data-i18n="stage1Desc">Generative AI systems and NLP: cost control, prompt optimization, RAG architecture, LLM evaluation, and the arc from classical NLP to fine-tuned transformers.</div>
-          </div>
-          <div class="stage-head-right">
-            <div class="stage-note" data-i18n="stage1Note">AI stack</div>
-            <span class="stage-toggle-icon">+</span>
-          </div>
-        </summary>
-        <div class="roadmap-grid" data-i18n="stage1Grid"><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Banking Intent Router</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"I reduced banking chatbot LLM cost by 88%."</strong> A 4-tier router that decides when a query is cheap enough for templates, when it needs RAG, and when it must escalate to an LLM.</div><div class="roadmap-tags"><span class="proj-tag">LLM routing</span><span class="proj-tag">Banking</span><span class="proj-tag">FastAPI</span></div><a class="roadmap-link" href="banking-intent-router/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">HealthTruth - RAG Chatbot Service</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"3 design decisions I kept while building a production RAG system."</strong> An LLM app with FastAPI, LangGraph, and vector search for knowledge-grounded answers.</div><div class="roadmap-tags"><span class="proj-tag">RAG</span><span class="proj-tag">LangGraph</span><span class="proj-tag">Qdrant</span></div><a class="roadmap-link" href="rag-chatbot-service/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">StudioAI — Generative Image Pipeline</div><div class="roadmap-meta">2024 · Solo project · Bangkit BFGAI</div><div class="roadmap-hook"><strong>"I built a Stable Diffusion pipeline from first principles."</strong> Systematic hyperparameter experiments, CLIPSeg auto-masking, outpainting zoom-out, and a Streamlit web app — Bangkit BFGAI Challenge.</div><div class="roadmap-tags"><span class="proj-tag">Stable Diffusion</span><span class="proj-tag">Diffusers</span><span class="proj-tag">CLIPSeg</span></div><a class="roadmap-link" href="generative-ai-pipeline/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"From LSA to BERT: what changed and what did not."</strong> Fine-tuning IndoBERT on Indonesian financial text — 88.4% accuracy vs 72.3% TF-IDF baseline. Domain-specific fine-tuning is the entire story.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">HuggingFace Transformers</span><span class="proj-tag">NLTK · spaCy</span><span class="proj-tag">Docker</span></div><a class="roadmap-link" href="indobert-financial-sentiment/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Sentiment Analysis: ML vs GenAI</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"ML beat GenAI on accuracy, speed, and cost — all three."</strong> Bidirectional LSTM vs TF-IDF+MLP vs GenAI zero-shot on 11,000 rows of Indonesian Twitter text. 91% vs 78%, $0 vs $82/yr.</div><div class="roadmap-tags"><span class="proj-tag">LSTM</span><span class="proj-tag">Flask API</span><span class="proj-tag">Bahasa Indonesia NLP</span></div><a class="roadmap-link" href="sentiment-analysis/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Thesis 2021)</div><div class="roadmap-meta">2021 · Solo project · S.Kom Thesis</div><div class="roadmap-hook"><strong>"My 2021 thesis. End-to-end from research to product."</strong> Classical NLP model (KNN + LSA) integrated as frontend and database of a working chatbot.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Classical NLP</span><span class="proj-tag">Full-stack</span></div><a class="roadmap-link" href="chatbot-lsa/">Open case study →</a></article></div>
-      </details>
-
-      <details class="project-stage">
-        <summary class="stage-head">
-          <div>
-            <div class="stage-kicker" data-i18n="stage2Kicker">Section 02</div>
-            <div class="stage-title" data-i18n="stage2Title">Applied Data Science</div>
-            <div class="stage-desc" data-i18n="stage2Desc">Data science foundations: predictive classification, time series, geospatial analysis, SQL analytics, and MLOps discipline.</div>
-          </div>
-          <div class="stage-head-right">
-            <div class="stage-note" data-i18n="stage2Note">Data stack</div>
-            <span class="stage-toggle-icon">+</span>
-          </div>
-        </summary>
-        <div class="roadmap-grid" data-i18n="stage2Grid"><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Student Dropout Prediction</div><div class="roadmap-meta">2025 · Solo project · IDCamp Expert</div><div class="roadmap-hook"><strong>"1 in 3 students drops out. I built the early-warning system."</strong> XGBoost classifier, 92.42% accuracy, AUC 97.27%, with Looker Studio dashboard and Streamlit app for counselor intervention.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">Education</span><span class="proj-tag">SMOTE</span><span class="proj-tag">Streamlit</span></div><a class="roadmap-link" href="student-dropout/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Employee Attrition Prediction</div><div class="roadmap-meta">2025 · Solo project · IDCamp Expert</div><div class="roadmap-hook"><strong>"Overtime turned out to be a 3× risk multiplier — I proved it with the data."</strong> XGBoost HR system with 86.11% recall, Metabase dashboard on Docker + PostgreSQL for operational early-warning.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">HR Analytics</span><span class="proj-tag">Metabase</span><span class="proj-tag">Docker</span></div><a class="roadmap-link" href="employee-attrition/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Beijing Air Quality Dashboard</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"I turned 46 MB of hourly sensor data across 4 years and 12 stations into one actionable dashboard."</strong> Streamlit app with AQI computation, seasonal trends, meteorological correlations, and geospatial priority mapping.</div><div class="roadmap-tags"><span class="proj-tag">Streamlit</span><span class="proj-tag">Plotly</span><span class="proj-tag">Chi-square</span><span class="proj-tag">Geospatial</span></div><a class="roadmap-link" href="air-quality-dashboard/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Backend analytics · KADA</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">CineTrack — Cinema Analytics Backend</div><div class="roadmap-meta">2026 · Team project · KADA</div><div class="roadmap-hook"><strong>"I built the SQL analytics layer behind a cinema chain dashboard."</strong> Backend API with Fastify, PostgreSQL CTEs for revenue, occupancy, and time-slot analytics — plus Redis caching and query optimization.</div><div class="roadmap-tags"><span class="proj-tag">SQL Analytics</span><span class="proj-tag">Node.js</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">Redis</span></div><a class="roadmap-link" href="cinetrack-backend/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live on GitHub</span></div><div class="roadmap-name">Talent Match Intelligence</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"I built a 17-CTE matching algorithm in pure SQL."</strong> HR analytics system for Paragon — matching candidates against top-performer benchmarks using star schema, PERCENTILE_CONT, conditional aggregation, and a Streamlit dashboard.</div><div class="roadmap-tags"><span class="proj-tag">SQL</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">HR Analytics</span><span class="proj-tag">Streamlit</span></div><a class="roadmap-link" href="talent-match/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">ETL Fashion Pipeline</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"I scraped 50 pages and loaded them to 3 destinations — every step pytest-verified."</strong> Modular ETL from BeautifulSoup scraping to 3-destination load: CSV, PostgreSQL, and Google Sheets — with USD→IDR transform, data validation, and full pytest coverage using MagicMock.</div><div class="roadmap-tags"><span class="proj-tag">ETL</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">pytest</span><span class="proj-tag">Google Sheets API</span></div><a class="roadmap-link" href="etl-fashion-pipeline/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Credit Risk Modeling</div><div class="roadmap-meta">2026 · Solo project · ID/X Partners x Rakamin</div><div class="roadmap-hook"><strong>"My model hit 95% accuracy. That was the bug."</strong> Leak-free GOOD/BAD classifier on 466K LendingClub loans — XGBoost selected, then stress-tested with a leakage proof, calibration check, and out-of-time validation.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">Credit Risk</span><span class="proj-tag">SHAP</span><span class="proj-tag">Leak-Free ML</span></div><a class="roadmap-link" href="credit-risk/">Open case study →</a></article></div>
-      </details>
-
-      <details class="project-stage">
-        <summary class="stage-head">
-          <div>
-            <div class="stage-kicker" data-i18n="stage3Kicker">Section 03</div>
-            <div class="stage-title" data-i18n="stage3Title">Product &amp; System Analysis</div>
-            <div class="stage-desc" data-i18n="stage3Desc">Product-facing system analysis: requirements, workflows, ERD/use-case modeling, prototypes, and system decisions that turn messy operations into buildable products.</div>
-          </div>
-          <div class="stage-head-right">
-            <div class="stage-note" data-i18n="stage3Note">System analysis</div>
-            <span class="stage-toggle-icon">+</span>
-          </div>
-        </summary>
-        <div class="roadmap-grid" data-i18n="stage3Grid"><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Product analysis</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Office Lunch Catering App</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"I turned a messy office lunch workflow into a self-service ordering system."</strong> Product analysis case study for employee meal ordering, admin operations, vendor reconciliation, 14-table data modeling, and API planning.</div><div class="roadmap-tags"><span class="proj-tag">Product Analysis</span><span class="proj-tag">ERD</span><span class="proj-tag">Use Case</span><span class="proj-tag">Prototype</span></div><a class="roadmap-link" href="office-lunch-catering/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Product analysis</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NutriPal AI</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"I turned a photo-first nutrition assistant into a product and system analysis for Indonesia's food-ordering context."</strong> Product analysis case study for target users, nutrition logging loops, delivery-catalogue assumptions, retention risks, data governance, and build priorities.</div><div class="roadmap-tags"><span class="proj-tag">Product Analysis</span><span class="proj-tag">System Analysis</span><span class="proj-tag">AI Product</span><span class="proj-tag">Prototype</span></div><a class="roadmap-link" href="nutripal-ai/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Product analysis</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Workforce Intelligence PoC</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"20 of the 30 people a naive HR read would send to reskilling have zero real skill gap."</strong> A Product Manager case study for a healthcare distributor: identity resolution across 5 disconnected HR systems, a confidence-scored skill-gap taxonomy, and a review-queue UX for the 44% of records too uncertain to auto-score.</div><div class="roadmap-tags"><span class="proj-tag">Product Strategy</span><span class="proj-tag">Data Architecture</span><span class="proj-tag">Identity Resolution</span><span class="proj-tag">Confidence-scored AI</span></div><a class="roadmap-link" href="workforce-intelligence/">Open case study →</a></article></div>
-      </details>
-
-      <details class="project-stage">
-        <summary class="stage-head">
-          <div>
-            <div class="stage-kicker" data-i18n="stage4Kicker">Section 04</div>
-            <div class="stage-title" data-i18n="stage4Title">AI QA &amp; Testing</div>
-            <div class="stage-desc" data-i18n="stage4Desc">AI QA is the throughline here. Card 1 is the evaluation methodology I run in production at a fintech startup — hallucination rate, answer grounding, fallback triggers — demonstrated end-to-end on two RAG systems I own outright, since the startup's production system is confidential. Cards 2–3 show the same testing discipline outside AI products: manual STLC for a mobile banking app, and cross-framework test automation for a live e-commerce site — proof the rigor transfers in both directions.</div>
-          </div>
-          <div class="stage-head-right">
-            <div class="stage-note" data-i18n="stage4Note">AI QA stack</div>
-            <span class="stage-toggle-icon">+</span>
-          </div>
-        </summary>
-        <div class="roadmap-grid" data-i18n="stage4Grid"><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Production · Fintech Startup</span><span class="roadmap-status">Code complete</span></div><div class="roadmap-name">LLM Chatbot Evaluation Framework</div><div class="roadmap-meta">2024–2025 · QA Analyst · Fintech Startup</div><div class="roadmap-hook"><strong>"How do you know your LLM isn't hallucinating on users right now?"</strong> At a fintech startup, I built and ran QA for an LLM-based chatbot with RAG — tracking hallucination rate, answer grounding, fallback triggers, and CSAT correlation across releases. This write-up demonstrates the same methodology on two RAG systems I own outright, since the startup's production system is confidential.</div><div class="roadmap-tags"><span class="proj-tag">LLM eval</span><span class="proj-tag">RAG QA</span><span class="proj-tag">Hallucination detection</span><span class="proj-tag">Fintech Startup</span></div><a class="roadmap-link" href="llm-eval-qa/">Open case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Portfolio project</span><span class="roadmap-status">Code complete</span></div><div class="roadmap-name">QA Portfolio — SigmaPay Mobile Banking</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"I found 6 bugs. 3 of them would have cost someone real money."</strong> A full STLC simulation for a dummy mobile banking app — Fund Transfer &amp; QRIS Payment. 30 test cases, 3 execution cycles, API + SQL validation, and an interactive prototype to reproduce and re-verify every defect.</div><div class="roadmap-tags"><span class="proj-tag">SIT/UAT</span><span class="proj-tag">Postman</span><span class="proj-tag">SQL Validation</span><span class="proj-tag">Defect Mgmt</span></div><a class="roadmap-link" href="sigmapay-qa/">Open case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Portfolio project</span><span class="roadmap-status">Code complete</span></div><div class="roadmap-name">QA &amp; Test Automation — SauceDemo</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"I ran 29 tests across three frameworks — two of them disagreed on the same bug."</strong> A regression suite for SauceDemo's login, cart, sort, and checkout — written in Playwright, Cypress, and Selenium, run against the live site. Includes a real cross-framework bug investigation and 7 seeded defects re-verified over time.</div><div class="roadmap-tags"><span class="proj-tag">Playwright</span><span class="proj-tag">Cypress</span><span class="proj-tag">Selenium</span><span class="proj-tag">CI/CD</span></div><a class="roadmap-link" href="saucedemo-qa/">Open case study →</a></article></div>
-      </details>
-    </div>
-  </div>
-
-
-  <!-- ABOUT -->
-  <div class="section" id="about">
-    <p class="section-eyebrow reveal" data-i18n="aboutEyebrow">about</p>
-    <h2 class="section-title reveal" data-i18n="aboutTitle">Background &amp; skills</h2>
-
-    <div class="about-grid">
-      <div class="about-text reveal" data-i18n="aboutText">
-        <p>I'm <strong>Ninditya Salma Nur Aini</strong>, based in <strong>Yogyakarta, Indonesia</strong>. I combine AI engineering, data science, and QA.</p>
-
-        <p>I built rule-based chatbot flows at <strong>IT Consulting Telkom Group</strong> and later evaluated LLM chatbots at <strong>a fintech startup</strong>, using RAG-based quality checks for grounding, fallback, and hallucination control.</p>
-
-        <p>I trained through <strong>Binar Academy</strong> and the <strong>IDCamp Expert track (Indosat Ooredoo Hutchison)</strong>, building monitored ML pipelines with MLflow, Docker, and Grafana.</p>
-
-        <p>I work from launch to live operations: designing production-ready models and testing them for drift, failure, and real-user reliability.</p>
-
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
-          <a href="cv-apple-academy.html" target="_blank" class="cta cta-secondary">↗ View CV</a>
-          <a href="portfolio-journey-standalone.html" target="_blank" class="cta cta-secondary">↗ Learning Journey Portfolio</a>
-        </div>
-      </div>
-
-      <div class="skills-block reveal" data-i18n="skillsBlock">
-        <div class="skills-block-title">Core Stack</div>
-        <div class="skills-columns">
-
-          <!-- Kolom 1: AI/ML Core -->
-          <div class="skills-col">
-            <div class="skills-col-header">AI/ML Core</div>
-            <div class="skill-row"><strong>ML &amp; Data Science</strong>Python, scikit-learn, XGBoost, TensorFlow,
-              pandas, numpy</div>
-            <div class="skill-row"><strong>LLM &amp; RAG</strong>LangGraph, Qdrant, FastAPI, prompt optimization,
-              hallucination detection</div>
-            <div class="skill-row"><strong>Computer Vision</strong>YOLOv8, object detection, precision/recall/AP@50
-            </div>
-            <div class="skill-row"><strong>NLP</strong>Intent classification, sentiment analysis, Bahasa Indonesia, LSA,
-              KNN</div>
-          </div>
-
-          <!-- Kolom 2: Production & Quality -->
-          <div class="skills-col">
-            <div class="skills-col-header">Production &amp; Quality</div>
-            <div class="skill-row"><strong>MLOps &amp; Deployment</strong>MLflow, Docker, GitHub Actions, Prometheus,
-              Grafana, Hugging Face Hub, DagsHub</div>
-            <div class="skill-row"><strong>QA &amp; Test Automation</strong>Playwright, Selenium, Postman, pytest,
-              SIT/UAT, AI stability testing</div>
-            <div class="skill-row"><strong>AI Quality &amp; Auditing</strong>KPI dashboards, grounding validation,
-              root-cause analysis, hallucination detection</div>
-          </div>
-
-          <!-- Kolom 3: Infrastructure -->
-          <div class="skills-col">
-            <div class="skills-col-header">Infrastructure</div>
-            <div class="skill-row"><strong>Data Engineering</strong>PostgreSQL, MySQL, MongoDB, Redis, REST APIs</div>
-            <div class="skill-row"><strong>Analytics &amp; Visualization</strong>Metabase, Looker Studio, Grafana,
-              Matplotlib, Seaborn</div>
-            <div class="skill-row"><strong>Backend</strong>Node.js (Fastify), Python (FastAPI, Flask), JavaScript</div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- CONTACT -->
-  <div class="section" id="contact">
-    <div class="contact-wrap">
-      <div class="reveal">
-        <p class="section-eyebrow" data-i18n="contactEyebrow">contact</p>
-        <h2 class="contact-headline" data-i18n="contactHeadline">Let's build something<br><em>impactful</em> together.
-        </h2>
-        <p class="contact-note" data-i18n="contactNote">Open to AI Engineer, Data Scientist, ML Engineer, or QA Engineer roles. Remote, hybrid, or based in Yogyakarta / Jakarta.</p>
-      </div>
-      <div class="contact-items reveal">
-        <a href="mailto:ninditya.sna025@gmail.com" class="contact-item">
-          <div class="contact-icon" aria-hidden="true">✉</div>
-          ninditya.sna025@gmail.com
-        </a>
-        <a href="https://wa.me/62895371290495" class="contact-item" target="_blank" rel="noopener">
-          <div class="contact-icon" aria-hidden="true">☎</div>
-          +62 895-3712-90495
-        </a>
-        <a href="https://linkedin.com/in/ninditya-salma-nur-aini" class="contact-item" target="_blank" rel="noopener">
-          <div class="contact-icon" aria-hidden="true">in</div>
-          linkedin.com/in/ninditya-salma-nur-aini
-        </a>
-        <a href="https://github.com/ninditya" class="contact-item" target="_blank" rel="noopener">
-          <div class="contact-icon" aria-hidden="true">↗</div>
-          github.com/ninditya
-        </a>
-        <span class="contact-item">
-          <div class="contact-icon" aria-hidden="true">◎</div>
-          <span data-i18n="contactLocation">Yogyakarta, Indonesia</span>
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <span data-i18n="footerText">© 2026 Ninditya Salma Nur Aini · AI Engineer &amp; Data Scientist · Yogyakarta<br>
-      <a href="https://github.com/ninditya" target="_blank" rel="noopener">GitHub</a></span>
-  </footer>
-
-  <script>
-    const translations = {
-      en: {
-        projectsTitle: `Proof first. Details next.`,
-        projectsSubtitle: `Open the visuals, metrics, dashboards, diagrams, and shipped systems behind each case study.`,
-        projectsAllLabel: `All projects by domain`,
-        stage1Kicker: `Section 01`,
-        stage1Title: `LLM & Generative AI`,
-        stage1Desc: `Generative AI systems and NLP: cost control, prompt optimization, RAG architecture, LLM evaluation, and the arc from classical NLP to fine-tuned transformers.`,
-        stage1Note: `AI stack`,
-        stage1Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Banking Intent Router</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"I reduced banking chatbot LLM cost by 88%."</strong> A 4-tier router that decides when a query is cheap enough for templates, when it needs RAG, and when it must escalate to an LLM.</div><div class="roadmap-tags"><span class="proj-tag">LLM routing</span><span class="proj-tag">Banking</span><span class="proj-tag">FastAPI</span></div><a class="roadmap-link" href="banking-intent-router/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">HealthTruth - RAG Chatbot Service</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"3 design decisions I kept while building a production RAG system."</strong> An LLM app with FastAPI, LangGraph, and vector search for knowledge-grounded answers.</div><div class="roadmap-tags"><span class="proj-tag">RAG</span><span class="proj-tag">LangGraph</span><span class="proj-tag">Qdrant</span></div><a class="roadmap-link" href="rag-chatbot-service/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">StudioAI — Generative Image Pipeline</div><div class="roadmap-meta">2024 · Solo project · Bangkit BFGAI</div><div class="roadmap-hook"><strong>"I built a Stable Diffusion pipeline from first principles."</strong> Systematic hyperparameter experiments, CLIPSeg auto-masking, outpainting zoom-out, and a Streamlit web app — Bangkit BFGAI Challenge.</div><div class="roadmap-tags"><span class="proj-tag">Stable Diffusion</span><span class="proj-tag">Diffusers</span><span class="proj-tag">CLIPSeg</span></div><a class="roadmap-link" href="generative-ai-pipeline/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"From LSA to BERT: what changed and what did not."</strong> Fine-tuning IndoBERT on Indonesian financial text — 88.4% accuracy vs 72.3% TF-IDF baseline. Domain-specific fine-tuning is the entire story.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">HuggingFace Transformers</span><span class="proj-tag">NLTK · spaCy</span><span class="proj-tag">Docker</span></div><a class="roadmap-link" href="indobert-financial-sentiment/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Sentiment Analysis: ML vs GenAI</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"ML beat GenAI on accuracy, speed, and cost — all three."</strong> Bidirectional LSTM vs TF-IDF+MLP vs GenAI zero-shot on 11,000 rows of Indonesian Twitter text. 91% vs 78%, $0 vs $82/yr.</div><div class="roadmap-tags"><span class="proj-tag">LSTM</span><span class="proj-tag">Flask API</span><span class="proj-tag">Bahasa Indonesia NLP</span></div><a class="roadmap-link" href="sentiment-analysis/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Thesis 2021)</div><div class="roadmap-meta">2021 · Solo project · S.Kom Thesis</div><div class="roadmap-hook"><strong>"My 2021 thesis. End-to-end from research to product."</strong> Classical NLP model (KNN + LSA) integrated as frontend and database of a working chatbot.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Classical NLP</span><span class="proj-tag">Full-stack</span></div><a class="roadmap-link" href="chatbot-lsa/">Open case study →</a></article>`,
-        stage2Kicker: `Section 02`,
-        stage2Title: `Applied Data Science`,
-        stage2Desc: `Data science foundations: predictive classification, time series, geospatial analysis, SQL analytics, and MLOps discipline.`,
-        stage2Note: `Data stack`,
-        stage2Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Student Dropout Prediction</div><div class="roadmap-meta">2025 · Solo project · IDCamp Expert</div><div class="roadmap-hook"><strong>"1 in 3 students drops out. I built the early-warning system."</strong> XGBoost classifier, 92.42% accuracy, AUC 97.27%, with Looker Studio dashboard and Streamlit app for counselor intervention.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">Education</span><span class="proj-tag">SMOTE</span><span class="proj-tag">Streamlit</span></div><a class="roadmap-link" href="student-dropout/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Employee Attrition Prediction</div><div class="roadmap-meta">2025 · Solo project · IDCamp Expert</div><div class="roadmap-hook"><strong>"Overtime turned out to be a 3× risk multiplier — I proved it with the data."</strong> XGBoost HR system with 86.11% recall, Metabase dashboard on Docker + PostgreSQL for operational early-warning.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">HR Analytics</span><span class="proj-tag">Metabase</span><span class="proj-tag">Docker</span></div><a class="roadmap-link" href="employee-attrition/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Beijing Air Quality Dashboard</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"I turned 46 MB of hourly sensor data across 4 years and 12 stations into one actionable dashboard."</strong> Streamlit app with AQI computation, seasonal trends, meteorological correlations, and geospatial priority mapping.</div><div class="roadmap-tags"><span class="proj-tag">Streamlit</span><span class="proj-tag">Plotly</span><span class="proj-tag">Chi-square</span><span class="proj-tag">Geospatial</span></div><a class="roadmap-link" href="air-quality-dashboard/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Backend analytics · KADA</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">CineTrack — Cinema Analytics Backend</div><div class="roadmap-meta">2026 · Team project · KADA</div><div class="roadmap-hook"><strong>"I built the SQL analytics layer behind a cinema chain dashboard."</strong> Backend API with Fastify, PostgreSQL CTEs for revenue, occupancy, and time-slot analytics — plus Redis caching and query optimization.</div><div class="roadmap-tags"><span class="proj-tag">SQL Analytics</span><span class="proj-tag">Node.js</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">Redis</span></div><a class="roadmap-link" href="cinetrack-backend/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live on GitHub</span></div><div class="roadmap-name">Talent Match Intelligence</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"I built a 17-CTE matching algorithm in pure SQL."</strong> HR analytics system for Paragon — matching candidates against top-performer benchmarks using star schema, PERCENTILE_CONT, conditional aggregation, and a Streamlit dashboard.</div><div class="roadmap-tags"><span class="proj-tag">SQL</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">HR Analytics</span><span class="proj-tag">Streamlit</span></div><a class="roadmap-link" href="talent-match/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">ETL Fashion Pipeline</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"I scraped 50 pages and loaded them to 3 destinations — every step pytest-verified."</strong> Modular ETL from BeautifulSoup scraping to 3-destination load: CSV, PostgreSQL, and Google Sheets — with USD→IDR transform, data validation, and full pytest coverage using MagicMock.</div><div class="roadmap-tags"><span class="proj-tag">ETL</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">pytest</span><span class="proj-tag">Google Sheets API</span></div><a class="roadmap-link" href="etl-fashion-pipeline/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Credit Risk Modeling</div><div class="roadmap-meta">2026 · Solo project · ID/X Partners x Rakamin</div><div class="roadmap-hook"><strong>"My model hit 95% accuracy. That was the bug."</strong> Leak-free GOOD/BAD classifier on 466K LendingClub loans — XGBoost selected, then stress-tested with a leakage proof, calibration check, and out-of-time validation.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">Credit Risk</span><span class="proj-tag">SHAP</span><span class="proj-tag">Leak-Free ML</span></div><a class="roadmap-link" href="credit-risk/">Open case study →</a></article>`,
-        stage3Kicker: `Section 03`,
-        stage3Title: `Product & System Analysis`,
-        stage3Desc: `Product-facing system analysis: requirements, workflows, ERD/use-case modeling, prototypes, and system decisions that turn messy operations into buildable products.`,
-        stage3Note: `System analysis`,
-        stage3Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Product analysis</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Office Lunch Catering App</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"I turned a messy office lunch workflow into a self-service ordering system."</strong> Product analysis case study for employee meal ordering, admin operations, vendor reconciliation, 14-table data modeling, and API planning.</div><div class="roadmap-tags"><span class="proj-tag">Product Analysis</span><span class="proj-tag">ERD</span><span class="proj-tag">Use Case</span><span class="proj-tag">Prototype</span></div><a class="roadmap-link" href="office-lunch-catering/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Product analysis</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NutriPal AI</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"I turned a photo-first nutrition assistant into a product and system analysis for Indonesia's food-ordering context."</strong> Product analysis case study for target users, nutrition logging loops, delivery-catalogue assumptions, retention risks, data governance, and build priorities.</div><div class="roadmap-tags"><span class="proj-tag">Product Analysis</span><span class="proj-tag">System Analysis</span><span class="proj-tag">AI Product</span><span class="proj-tag">Prototype</span></div><a class="roadmap-link" href="nutripal-ai/">Open case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Product analysis</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Workforce Intelligence PoC</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"20 of the 30 people a naive HR read would send to reskilling have zero real skill gap."</strong> A Product Manager case study for a healthcare distributor: identity resolution across 5 disconnected HR systems, a confidence-scored skill-gap taxonomy, and a review-queue UX for the 44% of records too uncertain to auto-score.</div><div class="roadmap-tags"><span class="proj-tag">Product Strategy</span><span class="proj-tag">Data Architecture</span><span class="proj-tag">Identity Resolution</span><span class="proj-tag">Confidence-scored AI</span></div><a class="roadmap-link" href="workforce-intelligence/">Open case study →</a></article>`,
-        stage4Kicker: `Section 04`,
-        stage4Title: `AI QA & Testing`,
-        stage4Desc: `AI QA is the throughline here. Card 1 is the evaluation methodology I run in production at a fintech startup — hallucination rate, answer grounding, fallback triggers — demonstrated end-to-end on two RAG systems I own outright, since the startup's production system is confidential. Cards 2–3 show the same testing discipline outside AI products: manual STLC for a mobile banking app, and cross-framework test automation for a live e-commerce site — proof the rigor transfers in both directions.`,
-        stage4Note: `AI QA stack`,
-        stage4Grid: `<article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Production · Fintech Startup</span><span class="roadmap-status">Code complete</span></div><div class="roadmap-name">LLM Chatbot Evaluation Framework</div><div class="roadmap-meta">2024–2025 · QA Analyst · Fintech Startup</div><div class="roadmap-hook"><strong>"How do you know your LLM isn't hallucinating on users right now?"</strong> At a fintech startup, I built and ran QA for an LLM-based chatbot with RAG — tracking hallucination rate, answer grounding, fallback triggers, and CSAT correlation across releases. This write-up demonstrates the same methodology on two RAG systems I own outright, since the startup's production system is confidential.</div><div class="roadmap-tags"><span class="proj-tag">LLM eval</span><span class="proj-tag">RAG QA</span><span class="proj-tag">Hallucination detection</span><span class="proj-tag">Fintech Startup</span></div><a class="roadmap-link" href="llm-eval-qa/">Open case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Portfolio project</span><span class="roadmap-status">Code complete</span></div><div class="roadmap-name">QA Portfolio — SigmaPay Mobile Banking</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"I found 6 bugs. 3 of them would have cost someone real money."</strong> A full STLC simulation for a dummy mobile banking app — Fund Transfer &amp; QRIS Payment. 30 test cases, 3 execution cycles, API + SQL validation, and an interactive prototype to reproduce and re-verify every defect.</div><div class="roadmap-tags"><span class="proj-tag">SIT/UAT</span><span class="proj-tag">Postman</span><span class="proj-tag">SQL Validation</span><span class="proj-tag">Defect Mgmt</span></div><a class="roadmap-link" href="sigmapay-qa/">Open case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Portfolio project</span><span class="roadmap-status">Code complete</span></div><div class="roadmap-name">QA &amp; Test Automation — SauceDemo</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"I ran 29 tests across three frameworks — two of them disagreed on the same bug."</strong> A regression suite for SauceDemo's login, cart, sort, and checkout — written in Playwright, Cypress, and Selenium, run against the live site. Includes a real cross-framework bug investigation and 7 seeded defects re-verified over time.</div><div class="roadmap-tags"><span class="proj-tag">Playwright</span><span class="proj-tag">Cypress</span><span class="proj-tag">Selenium</span><span class="proj-tag">CI/CD</span></div><a class="roadmap-link" href="saucedemo-qa/">Open case study →</a></article>`
-      },
-      id: {
-        projectsTitle: `Bukti dulu. Detail menyusul.`,
-        projectsSubtitle: `Lihat visual, metrik, dashboard, diagram, dan sistem yang dikirim di balik setiap studi kasus.`,
-        projectsAllLabel: `Semua project berdasarkan domain`,
-        stage1Kicker: `Section 01`,
-        stage1Title: `LLM & Generative AI`,
-        stage1Desc: `Sistem generative AI dan NLP: pengendalian biaya, optimasi prompt, arsitektur RAG, evaluasi LLM, dan perjalanan dari NLP klasik hingga transformer yang di-fine-tune.`,
-        stage1Note: `AI stack`,
-        stage1Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Banking Intent Router</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"Saya kurangi biaya LLM chatbot banking 88%."</strong> Router 4-tier yang memutuskan kapan query cukup dijawab template, kapan perlu RAG, dan kapan benar-benar butuh LLM.</div><div class="roadmap-tags"><span class="proj-tag">LLM routing</span><span class="proj-tag">Banking</span><span class="proj-tag">FastAPI</span></div><a class="roadmap-link" href="banking-intent-router/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">RAG Chatbot Service</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"3 design decision yang saya pertahankan saat membangun RAG production."</strong> LLM app dengan FastAPI, LangGraph, dan vector search untuk knowledge-grounded answers.</div><div class="roadmap-tags"><span class="proj-tag">RAG</span><span class="proj-tag">LangGraph</span><span class="proj-tag">Qdrant</span></div><a class="roadmap-link" href="rag-chatbot-service/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">StudioAI — Generative Image Pipeline</div><div class="roadmap-meta">2024 · Solo project · Bangkit BFGAI</div><div class="roadmap-hook"><strong>"Saya membangun pipeline Stable Diffusion dari nol."</strong> Eksperimen hyperparameter sistematis, auto-masking CLIPSeg, outpainting zoom-out, dan web app Streamlit — Bangkit BFGAI Challenge.</div><div class="roadmap-tags"><span class="proj-tag">Stable Diffusion</span><span class="proj-tag">Diffusers</span><span class="proj-tag">CLIPSeg</span></div><a class="roadmap-link" href="generative-ai-pipeline/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Fine-tune IndoBERT Financial Sentiment</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"Dari LSA ke BERT: yang berubah dan yang tidak."</strong> Fine-tuning IndoBERT pada teks keuangan Indonesia — akurasi 88,4% vs baseline TF-IDF 72,3%. Fine-tuning domain-spesifik adalah seluruh ceritanya.</div><div class="roadmap-tags"><span class="proj-tag">IndoBERT</span><span class="proj-tag">HuggingFace Transformers</span><span class="proj-tag">NLTK · spaCy</span><span class="proj-tag">Docker</span></div><a class="roadmap-link" href="indobert-financial-sentiment/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Sentiment Analysis: ML vs GenAI</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"ML mengalahkan GenAI di akurasi, kecepatan, dan biaya — ketiganya."</strong> Bidirectional LSTM vs TF-IDF+MLP vs GenAI zero-shot pada 11.000 baris teks Twitter Indonesia. 91% vs 78%, $0 vs $82/thn.</div><div class="roadmap-tags"><span class="proj-tag">LSTM</span><span class="proj-tag">Flask API</span><span class="proj-tag">Bahasa Indonesia NLP</span></div><a class="roadmap-link" href="sentiment-analysis/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NLP KNN LSA &amp; Chatbot (Skripsi 2021)</div><div class="roadmap-meta">2021 · Solo project · Skripsi S.Kom</div><div class="roadmap-hook"><strong>"Skripsi saya 4 tahun lalu. End-to-end dari research hingga produk."</strong> Model classical NLP (KNN + LSA) yang diintegrasikan langsung sebagai frontend dan database chatbot.</div><div class="roadmap-tags"><span class="proj-tag">Thesis</span><span class="proj-tag">Classical NLP</span><span class="proj-tag">Full-stack</span></div><a class="roadmap-link" href="chatbot-lsa/">Buka case study →</a></article>`,
-        stage2Kicker: `Section 02`,
-        stage2Title: `Applied Data Science`,
-        stage2Desc: `Fondasi data science: klasifikasi prediktif, deret waktu, analisis geospasial, SQL analytics, dan disiplin MLOps.`,
-        stage2Note: `Data stack`,
-        stage2Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Prediksi Dropout Mahasiswa</div><div class="roadmap-meta">2025 · Solo project · IDCamp Expert</div><div class="roadmap-hook"><strong>"1 dari 3 mahasiswa dropout. Saya bangun sistem peringatannya."</strong> Classifier XGBoost, akurasi 92,42%, AUC 97,27%, dengan dashboard Looker Studio dan app Streamlit untuk intervensi konselor.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">Education</span><span class="proj-tag">SMOTE</span><span class="proj-tag">Streamlit</span></div><a class="roadmap-link" href="student-dropout/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Prediksi Attrisi Karyawan</div><div class="roadmap-meta">2025 · Solo project · IDCamp Expert</div><div class="roadmap-hook"><strong>"Overtime ternyata jadi faktor risiko 3× — saya buktikan sendiri dari datanya."</strong> Sistem HR XGBoost dengan recall 86,11%, dashboard Metabase di Docker + PostgreSQL untuk early-warning operasional.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">HR Analytics</span><span class="proj-tag">Metabase</span><span class="proj-tag">Docker</span></div><a class="roadmap-link" href="employee-attrition/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Dashboard Kualitas Udara Beijing</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"Saya ubah 46 MB data sensor per jam dari 4 tahun dan 12 stasiun jadi satu dashboard yang bisa ditindaklanjuti."</strong> App Streamlit dengan komputasi AQI, tren musiman, korelasi meteorologi, dan peta prioritas geospasial.</div><div class="roadmap-tags"><span class="proj-tag">Streamlit</span><span class="proj-tag">Plotly</span><span class="proj-tag">Chi-square</span><span class="proj-tag">Geospatial</span></div><a class="roadmap-link" href="air-quality-dashboard/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Backend analytics · KADA</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">CineTrack — Cinema Analytics Backend</div><div class="roadmap-meta">2026 · Tim capstone · KADA</div><div class="roadmap-hook"><strong>"Saya membangun lapisan SQL analytics di balik dashboard jaringan bioskop."</strong> Backend API dengan Fastify, PostgreSQL CTE untuk analitik revenue, occupancy, dan time-slot — plus Redis caching dan optimasi query.</div><div class="roadmap-tags"><span class="proj-tag">SQL Analytics</span><span class="proj-tag">Node.js</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">Redis</span></div><a class="roadmap-link" href="cinetrack-backend/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live on GitHub</span></div><div class="roadmap-name">Talent Match Intelligence</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"Saya membangun algoritma matching 17 CTE dalam SQL murni."</strong> Sistem HR analytics untuk Paragon — mencocokkan kandidat dengan top-performer benchmark menggunakan star schema, PERCENTILE_CONT, conditional aggregation, dan dashboard Streamlit.</div><div class="roadmap-tags"><span class="proj-tag">SQL</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">HR Analytics</span><span class="proj-tag">Streamlit</span></div><a class="roadmap-link" href="talent-match/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">ETL Fashion Pipeline</div><div class="roadmap-meta">2025 · Solo project</div><div class="roadmap-hook"><strong>"Saya scrape 50 halaman dan load ke 3 destinasi — setiap langkah diverifikasi pytest."</strong> ETL modular dari scraping BeautifulSoup hingga load ke 3 destinasi: CSV, PostgreSQL, dan Google Sheets — dengan transformasi USD→IDR, validasi data, dan cakupan pytest penuh menggunakan MagicMock.</div><div class="roadmap-tags"><span class="proj-tag">ETL</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">pytest</span><span class="proj-tag">Google Sheets API</span></div><a class="roadmap-link" href="etl-fashion-pipeline/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Case study</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Credit Risk Modeling</div><div class="roadmap-meta">2026 · Solo project · ID/X Partners x Rakamin</div><div class="roadmap-hook"><strong>"Akurasi model saya sempat 95%. Itu justru bug-nya."</strong> Classifier GOOD/BAD leak-free pada 466K pinjaman LendingClub — XGBoost terpilih, lalu di-stress-test dengan bukti leakage, pemeriksaan kalibrasi, dan validasi out-of-time.</div><div class="roadmap-tags"><span class="proj-tag">XGBoost</span><span class="proj-tag">Credit Risk</span><span class="proj-tag">SHAP</span><span class="proj-tag">Leak-Free ML</span></div><a class="roadmap-link" href="credit-risk/">Buka case study →</a></article>`,
-        stage3Kicker: `Section 03`,
-        stage3Title: `Analisis Produk & Sistem`,
-        stage3Desc: `Analisis sistem untuk pengembangan produk: requirement, workflow, pemodelan ERD/use case, prototype, dan keputusan sistem yang mengubah operasi berantakan menjadi produk yang bisa dibangun.`,
-        stage3Note: `Analisis sistem`,
-        stage3Grid: `<article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Product analysis</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Aplikasi Katering Makan Siang Kantor</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"Saya menerjemahkan workflow makan siang kantor yang berantakan menjadi sistem pemesanan self-service."</strong> Studi kasus product analysis untuk pemesanan karyawan, operasi admin, rekonsiliasi vendor, model data 14 tabel, dan perencanaan API.</div><div class="roadmap-tags"><span class="proj-tag">Product Analysis</span><span class="proj-tag">ERD</span><span class="proj-tag">Use Case</span><span class="proj-tag">Prototype</span></div><a class="roadmap-link" href="office-lunch-catering/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Product analysis</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">NutriPal AI</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"Saya menerjemahkan asisten nutrisi berbasis foto menjadi analisis produk dan sistem untuk konteks food-ordering Indonesia."</strong> Studi kasus product analysis untuk target user, loop pencatatan nutrisi, asumsi katalog delivery, risiko retensi, tata kelola data, dan prioritas build.</div><div class="roadmap-tags"><span class="proj-tag">Product Analysis</span><span class="proj-tag">System Analysis</span><span class="proj-tag">AI Product</span><span class="proj-tag">Prototype</span></div><a class="roadmap-link" href="nutripal-ai/">Buka case study →</a></article><article class="roadmap-card is-live"><div class="roadmap-top"><span class="roadmap-day">Product analysis</span><span class="roadmap-status is-live">Live case study</span></div><div class="roadmap-name">Workforce Intelligence PoC</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"20 dari 30 orang yang menurut pembacaan naif data HR harus di-reskilling ternyata tidak punya skill gap sama sekali."</strong> Studi kasus Product Manager untuk perusahaan distribusi kesehatan: resolusi identitas lintas 5 sistem HR yang terpisah, taksonomi skill-gap dengan confidence score, dan UX review-queue untuk 44% record yang terlalu tidak pasti untuk diskor otomatis.</div><div class="roadmap-tags"><span class="proj-tag">Product Strategy</span><span class="proj-tag">Data Architecture</span><span class="proj-tag">Identity Resolution</span><span class="proj-tag">Confidence-scored AI</span></div><a class="roadmap-link" href="workforce-intelligence/">Buka case study →</a></article>`,
-        stage4Kicker: `Section 04`,
-        stage4Title: `AI QA & Testing`,
-        stage4Desc: `AI QA adalah benang merah di bagian ini. Kartu 1 adalah metodologi evaluasi yang saya jalankan di production di sebuah startup fintech — hallucination rate, answer grounding, fallback trigger — didemonstrasikan end-to-end pada dua sistem RAG yang saya miliki sepenuhnya, karena sistem production startup tersebut bersifat rahasia. Kartu 2–3 menunjukkan disiplin testing yang sama di luar produk AI: STLC manual untuk aplikasi mobile banking, dan test automation lintas-framework untuk situs e-commerce live — bukti bahwa kedisiplinannya berlaku dua arah.`,
-        stage4Note: `AI QA stack`,
-        stage4Grid: `<article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Production · Fintech Startup</span><span class="roadmap-status">Code complete</span></div><div class="roadmap-name">LLM Chatbot Evaluation Framework</div><div class="roadmap-meta">2024–2025 · QA Analyst · Fintech Startup</div><div class="roadmap-hook"><strong>"Bagaimana kamu tahu LLM-mu tidak sedang berhalusinasi ke user saat ini juga?"</strong> Di sebuah startup fintech, saya membangun dan menjalankan QA untuk chatbot berbasis LLM dengan RAG — melacak hallucination rate, answer grounding, fallback trigger, dan korelasi CSAT lintas rilis. Write-up ini mendemonstrasikan metodologi yang sama pada dua sistem RAG yang saya miliki sepenuhnya, karena sistem production startup tersebut bersifat rahasia.</div><div class="roadmap-tags"><span class="proj-tag">LLM eval</span><span class="proj-tag">RAG QA</span><span class="proj-tag">Hallucination detection</span><span class="proj-tag">Fintech Startup</span></div><a class="roadmap-link" href="llm-eval-qa/">Buka case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Portfolio project</span><span class="roadmap-status">Code complete</span></div><div class="roadmap-name">QA Portfolio — SigmaPay Mobile Banking</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"Saya nemu 6 bug. 3 di antaranya bakal bikin orang kehilangan uang sungguhan."</strong> Simulasi STLC lengkap untuk aplikasi mobile banking dummy — Fund Transfer &amp; QRIS Payment. 30 test case, 3 cycle eksekusi, validasi API + SQL, dan prototype interaktif untuk mereproduksi dan memverifikasi ulang setiap defect.</div><div class="roadmap-tags"><span class="proj-tag">SIT/UAT</span><span class="proj-tag">Postman</span><span class="proj-tag">SQL Validation</span><span class="proj-tag">Defect Mgmt</span></div><a class="roadmap-link" href="sigmapay-qa/">Buka case study →</a></article><article class="roadmap-card"><div class="roadmap-top"><span class="roadmap-day">Portfolio project</span><span class="roadmap-status">Code complete</span></div><div class="roadmap-name">QA &amp; Test Automation — SauceDemo</div><div class="roadmap-meta">2026 · Solo project</div><div class="roadmap-hook"><strong>"Saya jalankan 29 test di tiga framework — dua di antaranya beda hasil untuk bug yang sama."</strong> Regression suite untuk login, cart, sort, dan checkout SauceDemo — ditulis di Playwright, Cypress, dan Selenium, dijalankan ke situs live. Termasuk investigasi bug lintas-framework sungguhan dan 7 defect bawaan yang diverifikasi ulang dari waktu ke waktu.</div><div class="roadmap-tags"><span class="proj-tag">Playwright</span><span class="proj-tag">Cypress</span><span class="proj-tag">Selenium</span><span class="proj-tag">CI/CD</span></div><a class="roadmap-link" href="saucedemo-qa/">Buka case study →</a></article>`
-      }
-    };
-
-    // Applies translated HTML to every tagged element and updates the active button state.
-    // This keeps language changes in one place and makes future edits easier.
-    function applyLanguage(language) {
-      document.documentElement.lang = language;
-      document.querySelectorAll('[data-i18n]').forEach((element) => {
-        const key = element.dataset.i18n;
-        const value = translations[language][key];
-        if (value) {
-          element.innerHTML = value;
-        }
-      });
-
-      document.querySelectorAll('[data-lang-target]').forEach((button) => {
-        button.classList.toggle('active', button.dataset.langTarget === language);
-      });
-    }
-
-    // Connects the EN/ID buttons to the translation function.
-    // The handler stays small so the toggle remains easy to maintain.
-    function bindLanguageSwitch() {
-      document.querySelectorAll('[data-lang-target]').forEach((button) => {
-        button.addEventListener('click', () => {
-          applyLanguage(button.dataset.langTarget);
-        });
-      });
-    }
-
-    // Ensures only one project stage accordion is open at a time
-    const projectStages = document.querySelectorAll('details.project-stage');
-    projectStages.forEach((stage) => {
-      stage.addEventListener('toggle', () => {
-        if (stage.open) {
-          projectStages.forEach((otherStage) => {
-            if (otherStage !== stage) {
-              otherStage.removeAttribute('open');
-            }
-          });
-        }
-      });
-    });
-
-    document.querySelectorAll('.nav-pill').forEach((pill) => {
-      pill.addEventListener('click', () => {
-        const nav = document.getElementById('mainNav');
-        nav.classList.remove('nav-open');
-        const toggle = document.querySelector('.mobile-nav-toggle');
-        if (toggle) toggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-
-    bindLanguageSwitch();
-    applyLanguage('en');
-
-    // Featured cards carousel
-    (function() {
-      const track = document.getElementById('featuredTrack');
-      const wrap = track ? track.parentElement : null;
-      const prevBtn = document.getElementById('carouselPrev');
-      const nextBtn = document.getElementById('carouselNext');
-      const controls = document.getElementById('featuredControls');
-      if (!track || !wrap) return;
-
-      let idx = 0;
-      const GAP = 16;
-
-      function getVisible() {
-        if (window.innerWidth >= 768) return 3;
-        if (window.innerWidth >= 480) return 2;
-        return 1;
-      }
-
-      function update() {
-        const cards = Array.from(track.querySelectorAll('.featured-card'));
-        const total = cards.length;
-        const visible = getVisible();
-        const containerW = wrap.offsetWidth;
-        const cardW = (containerW - GAP * (visible - 1)) / visible;
-
-        cards.forEach(c => { c.style.width = cardW + 'px'; });
-
-        const max = Math.max(0, total - visible);
-        idx = Math.min(idx, max);
-        track.style.transform = `translateX(-${idx * (cardW + GAP)}px)`;
-
-        prevBtn.disabled = idx === 0;
-        nextBtn.disabled = idx >= max;
-        if (total > visible) {
-          controls.classList.add('is-visible');
-        } else {
-          controls.classList.remove('is-visible');
-          idx = 0;
-          track.style.transform = 'translateX(0)';
-        }
-      }
-
-      prevBtn.addEventListener('click', () => { idx = Math.max(0, idx - 1); update(); });
-      nextBtn.addEventListener('click', () => { idx++; update(); });
-
-      requestAnimationFrame(update);
-      window.addEventListener('resize', () => { idx = 0; update(); });
-    })();
-
-    // Scroll-reveal: progressive enhancement only. Elements stay fully visible
-    // until this confirms IntersectionObserver support and opts the page in.
-    (function() {
-      const targets = document.querySelectorAll('.reveal');
-      if (!('IntersectionObserver' in window) || targets.length === 0) return;
-
-      document.documentElement.classList.add('js-reveal');
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-      targets.forEach((el) => observer.observe(el));
-    })();
-  </script>
-
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='100'%20height='100'%20rx='20'%20fill='%232563eb'/%3E%3Ctext%20x='50'%20y='68'%20font-family='Inter,%20sans-serif'%20font-size='50'%20font-weight='bold'%20fill='white'%20text-anchor='middle'%3ENA%3C/text%3E%3C/svg%3E">
   <script>
     (function(){
-      var btn=document.getElementById('themeToggle');
-      var html=document.documentElement;
-      function updateBtn(t){
-        btn.textContent=t==='dark'?'☀':'🌙';
-        btn.setAttribute('aria-label',t==='dark'?'Switch to light mode':'Switch to dark mode');
+      var saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
       }
-      updateBtn(html.getAttribute('data-theme')||'light');
-      btn.addEventListener('click',function(){
-        var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
-        html.setAttribute('data-theme',next);
-        localStorage.setItem('theme',next);
-        updateBtn(next);
+    })();
+  </script>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a href="#" class="brand" aria-label="Ninditya Portfolio Home">
+        <span class="brand-dot"></span>NINDITYA_SNA.v2
+      </a>
+      <div class="header-right">
+        <nav aria-label="Main Navigation">
+          <a href="#projects">Work</a>
+          <a href="#about">Story</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <button id="themeToggle" class="theme-toggle-btn" type="button" aria-label="Switch to dark mode" title="Toggle theme">🌙</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- LEFT HERO CONTENT -->
+      <section class="hero-content">
+        <span class="label-tag">Available for Hire 2026</span>
+        <h1>AI Engineer &amp;<br><em>Data Scientist.</em></h1>
+        <p class="hero-subline">
+          Building production AI systems that turn research benchmarks into reliable real-world performance.
+        </p>
+        <div class="actions">
+          <a href="mailto:ninditya.sna025@gmail.com" class="btn btn-primary">Get in touch</a>
+          <a href="#projects" class="btn btn-secondary">View work</a>
+        </div>
+
+        <div class="hero-meta-list">
+          <a href="https://github.com/ninditya" target="_blank" rel="noopener" class="hero-meta-chip">
+            <span>↗</span> GitHub
+          </a>
+          <a href="https://linkedin.com/in/ninditya-salma-nur-aini" target="_blank" rel="noopener" class="hero-meta-chip">
+            <span>in</span> LinkedIn
+          </a>
+          <a href="https://wa.me/62895371290495" target="_blank" rel="noopener" class="hero-meta-chip">
+            <span>☎</span> WhatsApp
+          </a>
+          <a href="cv-apple-academy.html" target="_blank" class="hero-meta-chip">
+            <span>📄</span> View CV
+          </a>
+        </div>
+      </section>
+
+      <!-- RIGHT SCROLLABLE FEED -->
+      <section class="feed">
+        <!-- FILTER BAR -->
+        <div class="filter-bar" role="tablist" aria-label="Filter case studies">
+          <button class="filter-btn active" data-filter="all" role="tab">All Work (19)</button>
+          <button class="filter-btn" data-filter="genai" role="tab">LLM &amp; GenAI</button>
+          <button class="filter-btn" data-filter="ds" role="tab">Data Science &amp; ML</button>
+          <button class="filter-btn" data-filter="product" role="tab">Product &amp; System</button>
+          <button class="filter-btn" data-filter="qa" role="tab">AI QA &amp; STLC</button>
+        </div>
+
+        <!-- SELECTED WORK -->
+        <div class="section-title" id="projects">Selected Work</div>
+        <div class="cards-container" id="projectCards">
+          
+          <!-- ==================== 2026 PROJECTS ==================== -->
+
+          <!-- Card 19: SauceDemo QA (2026) -->
+          <a href="saucedemo-qa/" class="card" data-category="qa">
+            <div class="card-meta">
+              <span class="card-tag">AUTOMATION / PLAYWRIGHT</span>
+              <span class="card-year">2026</span>
+            </div>
+            <h3>
+              QA &amp; Test Automation — SauceDemo
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Cross-framework automation regression suite written in Playwright, Cypress, and Selenium covering login, cart, sort, and checkout flows.</p>
+            <div class="card-badges">
+              <span class="badge">Playwright</span>
+              <span class="badge">Cypress</span>
+              <span class="badge">Selenium</span>
+            </div>
+          </a>
+
+          <!-- Card 18: SigmaPay QA (2026) -->
+          <a href="sigmapay-qa/" class="card" data-category="qa">
+            <div class="card-meta">
+              <span class="card-tag">STLC / MOBILE BANKING</span>
+              <span class="card-year">2026</span>
+            </div>
+            <h3>
+              QA Portfolio — SigmaPay Mobile Banking
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Full STLC simulation for mobile banking (Fund Transfer &amp; QRIS): 30 test cases, 3 execution cycles, Postman API testing, and SQL balance validation.</p>
+            <div class="card-badges">
+              <span class="badge">Postman</span>
+              <span class="badge">SQL Validation</span>
+              <span class="badge">Defect Logging</span>
+            </div>
+          </a>
+
+          <!-- Card 17: Workforce Intelligence (2026) -->
+          <a href="workforce-intelligence/" class="card" data-category="product">
+            <div class="card-meta">
+              <span class="card-tag">PRODUCT / SYSTEM ANALYSIS</span>
+              <span class="card-year">2026</span>
+            </div>
+            <h3>
+              Workforce Intelligence PoC
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Product architecture case study: identity resolution across 5 disconnected HR systems, confidence-scored skill-gap taxonomy, and review-queue UX.</p>
+            <div class="card-badges">
+              <span class="badge">Identity Resolution</span>
+              <span class="badge">System Modeling</span>
+              <span class="badge">Product Strategy</span>
+            </div>
+          </a>
+
+          <!-- Card 16: NutriPal AI (2026) -->
+          <a href="nutripal-ai/" class="card" data-category="product">
+            <div class="card-meta">
+              <span class="card-tag">AI PRODUCT / UX SYSTEM</span>
+              <span class="card-year">2026</span>
+            </div>
+            <h3>
+              NutriPal AI — Product &amp; System Analysis
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>System analysis for photo-first nutrition logging adapted to Indonesian food delivery catalogues, retention loops, and data privacy governance.</p>
+            <div class="card-badges">
+              <span class="badge">Vision AI Product</span>
+              <span class="badge">ERD Modeling</span>
+              <span class="badge">UX Architecture</span>
+            </div>
+          </a>
+
+          <!-- Card 15: Office Lunch Catering (2026) -->
+          <a href="office-lunch-catering/" class="card" data-category="product">
+            <div class="card-meta">
+              <span class="card-tag">WORKFLOW / ERD</span>
+              <span class="card-year">2026</span>
+            </div>
+            <h3>
+              Office Lunch Catering App
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Complete product breakdown converting fragmented office lunch logistics into self-service ordering, 14-table database schema, and admin reconciliation.</p>
+            <div class="card-badges">
+              <span class="badge">14-Table ERD</span>
+              <span class="badge">API Planning</span>
+              <span class="badge">Use Case Spec</span>
+            </div>
+          </a>
+
+          <!-- Card 14: Credit Risk (Jul–Agu 2026) -->
+          <a href="credit-risk/" class="card" data-category="ds">
+            <div class="card-meta">
+              <span class="card-tag">CREDIT RISK / LEAK-FREE ML</span>
+              <span class="card-year">2026</span>
+            </div>
+            <h3>
+              Credit Risk Modeling
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Leak-free GOOD/BAD loan classifier on 466K LendingClub records, verified with out-of-time validation, SHAP explainability, and calibration checks.</p>
+            <div class="card-badges">
+              <span class="badge">XGBoost</span>
+              <span class="badge">SHAP</span>
+              <span class="badge">Data Leakage Prevention</span>
+              <span class="badge">Fintech</span>
+            </div>
+          </a>
+
+          <!-- Card 13: CineTrack Backend (Feb–Apr 2026) -->
+          <a href="cinetrack-backend/" class="card" data-category="ds">
+            <div class="card-meta">
+              <span class="card-tag">SQL ANALYTICS / BACKEND</span>
+              <span class="card-year">2026</span>
+            </div>
+            <h3>
+              CineTrack — Cinema Analytics Backend
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Backend API in Fastify with advanced PostgreSQL CTEs for revenue, seat occupancy, and time-slot analytics, backed by Redis caching layer.</p>
+            <div class="card-badges">
+              <span class="badge">Fastify</span>
+              <span class="badge">PostgreSQL CTE</span>
+              <span class="badge">Redis</span>
+            </div>
+          </a>
+
+          <!-- Card 12: Student Dropout (Apr 2026) -->
+          <a href="student-dropout/" class="card" data-category="ds">
+            <div class="card-meta">
+              <span class="card-tag">FORECASTING / XGBOOST</span>
+              <span class="card-year">2026</span>
+            </div>
+            <h3>
+              Student Dropout Prediction &amp; Early Warning
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Early-warning system for 4,424 student records with 92.42% accuracy and 97.27% ROC-AUC, featuring Looker Studio dashboard and Streamlit intervention app.</p>
+            <div class="card-badges">
+              <span class="badge">XGBoost</span>
+              <span class="badge">SMOTE</span>
+              <span class="badge">Streamlit</span>
+              <span class="badge">Looker Studio</span>
+            </div>
+          </a>
+
+          <!-- Card 11: Employee Attrition (Apr 2026) -->
+          <a href="employee-attrition/" class="card" data-category="ds">
+            <div class="card-meta">
+              <span class="card-tag">HR ANALYTICS / ML</span>
+              <span class="card-year">2026</span>
+            </div>
+            <h3>
+              Employee Attrition Prediction
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>XGBoost HR retention system with 86.11% recall, uncovering overtime as a 3× risk multiplier with a Dockerized PostgreSQL + Metabase dashboard.</p>
+            <div class="card-badges">
+              <span class="badge">XGBoost</span>
+              <span class="badge">Metabase</span>
+              <span class="badge">Docker</span>
+              <span class="badge">PostgreSQL</span>
+            </div>
+          </a>
+
+          <!-- ==================== 2025 PROJECTS ==================== -->
+
+          <!-- Card 10: Beijing Air Quality (2025) -->
+          <a href="air-quality-dashboard/" class="card" data-category="ds">
+            <div class="card-meta">
+              <span class="card-tag">GEOSPATIAL / EDA</span>
+              <span class="card-year">2025</span>
+            </div>
+            <h3>
+              Beijing Air Quality Dashboard
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Streamlit analytics app converting 46 MB hourly sensor data across 12 stations over 4 years into interactive AQI maps, diurnal trends, and correlations.</p>
+            <div class="card-badges">
+              <span class="badge">Streamlit</span>
+              <span class="badge">Plotly</span>
+              <span class="badge">Chi-Square</span>
+            </div>
+          </a>
+
+          <!-- Card 9: ETL Fashion Pipeline (Des 2025) -->
+          <a href="etl-fashion-pipeline/" class="card" data-category="ds">
+            <div class="card-meta">
+              <span class="card-tag">DATA ENG / ETL</span>
+              <span class="card-year">2025</span>
+            </div>
+            <h3>
+              ETL Fashion Pipeline
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Modular ETL from BeautifulSoup scraping across 50 pages to 3 concurrent destinations (CSV, PostgreSQL, Google Sheets) with 100% pytest coverage.</p>
+            <div class="card-badges">
+              <span class="badge">ETL</span>
+              <span class="badge">PostgreSQL</span>
+              <span class="badge">pytest</span>
+              <span class="badge">Google Sheets API</span>
+            </div>
+          </a>
+
+          <!-- Card 8: Talent Match (2025) -->
+          <a href="talent-match/" class="card" data-category="ds">
+            <div class="card-meta">
+              <span class="card-tag">SQL ALGORITHM / HR</span>
+              <span class="card-year">2025</span>
+            </div>
+            <h3>
+              Talent Match Intelligence
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>17-CTE candidate matching algorithm in pure SQL comparing candidates against top-performer benchmarks via star schema and PERCENTILE_CONT.</p>
+            <div class="card-badges">
+              <span class="badge">SQL CTEs</span>
+              <span class="badge">PostgreSQL</span>
+              <span class="badge">Streamlit</span>
+            </div>
+          </a>
+
+          <!-- Card 7: IndoBERT Sentiment (2025) -->
+          <a href="indobert-financial-sentiment/" class="card" data-category="genai">
+            <div class="card-meta">
+              <span class="card-tag">NLP / INDOBERT</span>
+              <span class="card-year">2025</span>
+            </div>
+            <h3>
+              Fine-tune IndoBERT Financial Sentiment
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Fine-tuning IndoBERT on Indonesian financial text, achieving 88.4% accuracy (vs 72.3% TF-IDF baseline) and deployed in Docker container.</p>
+            <div class="card-badges">
+              <span class="badge">Transformers</span>
+              <span class="badge">PyTorch</span>
+              <span class="badge">IndoBERT</span>
+              <span class="badge">Docker</span>
+            </div>
+          </a>
+
+          <!-- Card 6: HealthTruth / RAG Service (2025) -->
+          <a href="rag-chatbot-service/" class="card" data-category="genai">
+            <div class="card-meta">
+              <span class="card-tag">GEN_AI / RAG</span>
+              <span class="card-year">2025</span>
+            </div>
+            <h3>
+              HealthTruth - RAG Chatbot Service
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Production LLM application with FastAPI, LangGraph state machine, and Qdrant vector search for high-reliability medical knowledge retrieval.</p>
+            <div class="card-badges">
+              <span class="badge">LangGraph</span>
+              <span class="badge">Qdrant</span>
+              <span class="badge">Gemini API</span>
+              <span class="badge">RAG</span>
+            </div>
+          </a>
+
+          <!-- Card 5: Banking Intent Router (2025) -->
+          <a href="banking-intent-router/" class="card" data-category="genai">
+            <div class="card-meta">
+              <span class="card-tag">LLM ROUTING / CONFIDENCE</span>
+              <span class="card-year">2025</span>
+            </div>
+            <h3>
+              Banking Intent Router
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>I reduced banking chatbot LLM cost by 88% using a 4-tier routing system with SBERT + LinearSVC (F1 Macro 0.9305, ~50ms latency).</p>
+            <div class="card-badges">
+              <span class="badge">FastAPI</span>
+              <span class="badge">SBERT</span>
+              <span class="badge">LinearSVC</span>
+              <span class="badge">Cost Optimization</span>
+            </div>
+          </a>
+
+          <!-- ==================== 2024 PROJECTS ==================== -->
+
+          <!-- Card 4: LLM Chatbot Evaluation Framework (2024) -->
+          <a href="llm-eval-qa/" class="card" data-category="qa">
+            <div class="card-meta">
+              <span class="card-tag">EVALUATION / AI QA</span>
+              <span class="card-year">2024</span>
+            </div>
+            <h3>
+              LLM Chatbot Evaluation Framework
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>QA methodology for LLM and RAG systems in production: hallucination tracking, grounding validation, fallback trigger testing, and release regression.</p>
+            <div class="card-badges">
+              <span class="badge">Hallucination QA</span>
+              <span class="badge">Grounding</span>
+              <span class="badge">RAG Evaluation</span>
+            </div>
+          </a>
+
+          <!-- Card 3: StudioAI (2024) -->
+          <a href="generative-ai-pipeline/" class="card" data-category="genai">
+            <div class="card-meta">
+              <span class="card-tag">DIFFUSION / INPAINTING</span>
+              <span class="card-year">2024</span>
+            </div>
+            <h3>
+              StudioAI — Generative Image Pipeline
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Stable Diffusion pipeline with systematic hyperparameter benchmarks, CLIPSeg auto-masking for inpainting, and multi-step outpainting zoom-out.</p>
+            <div class="card-badges">
+              <span class="badge">Stable Diffusion</span>
+              <span class="badge">Diffusers</span>
+              <span class="badge">CLIPSeg</span>
+              <span class="badge">Streamlit</span>
+            </div>
+          </a>
+
+          <!-- ==================== 2023 PROJECTS ==================== -->
+
+          <!-- Card 2: Sentiment ML vs GenAI (Nov 2023) -->
+          <a href="sentiment-analysis/" class="card" data-category="genai">
+            <div class="card-meta">
+              <span class="card-tag">BENCHMARK / NLP</span>
+              <span class="card-year">2023</span>
+            </div>
+            <h3>
+              Sentiment Analysis: ML vs GenAI
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Empirical benchmark of Bi-LSTM vs TF-IDF+MLP vs LLM zero-shot across 11k Indonesian tweets: ML beat GenAI in accuracy (91% vs 78%), speed, and cost.</p>
+            <div class="card-badges">
+              <span class="badge">Bi-LSTM</span>
+              <span class="badge">Flask API</span>
+              <span class="badge">Cost Benchmark</span>
+            </div>
+          </a>
+
+          <!-- ==================== 2021 PROJECTS ==================== -->
+
+          <!-- Card 1: Chatbot LSA Thesis (Okt 2021) -->
+          <a href="chatbot-lsa/" class="card" data-category="genai">
+            <div class="card-meta">
+              <span class="card-tag">NLP THESIS / LSA + KNN</span>
+              <span class="card-year">2021</span>
+            </div>
+            <h3>
+              NLP KNN LSA &amp; Chatbot (Thesis)
+              <span class="card-arrow">→</span>
+            </h3>
+            <p>Classical NLP research from thesis to production: latent semantic analysis and KNN classification integrated into conversational agent backend.</p>
+            <div class="card-badges">
+              <span class="badge">LSA</span>
+              <span class="badge">KNN</span>
+              <span class="badge">Classical NLP</span>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- THE JOURNEY / STORY -->
+        <div class="section-title" id="about" style="margin-top: 40px;">The Journey</div>
+        <div class="journey-container">
+          <div class="exp-row">
+            <div class="exp-date">24 — 25</div>
+            <div class="exp-details">
+              <h4>QA Analyst @ Fintech Startup</h4>
+              <p>Evaluated production RAG chatbot quality, grounding validation, fallback triggers, and hallucination control across multi-model releases.</p>
+              <ul class="exp-bullets">
+                <li>Designed automated hallucination audits and citation accuracy checks.</li>
+                <li>Monitored CSAT correlation against fallback frequency and latency.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="exp-row">
+            <div class="exp-date">21 — 23</div>
+            <div class="exp-details">
+              <h4>Omnichannel Ops &amp; Chatbot Development @ Telkom Group</h4>
+              <p>Designed workflows, system requirements, ERD data schemas, and rule-based conversational agent logic for enterprise clients.</p>
+              <ul class="exp-bullets">
+                <li>Authored functional specifications and API integration blueprints.</li>
+                <li>Led user acceptance testing (UAT) and operational handover.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="exp-row">
+            <div class="exp-date">2021</div>
+            <div class="exp-details">
+              <h4>NLP Thesis Researcher @ UPN "Veteran" Yogyakarta</h4>
+              <p>S.Kom Thesis: Designed and built an end-to-end Indonesian conversational agent using Latent Semantic Analysis (LSA) and K-Nearest Neighbors (KNN).</p>
+            </div>
+          </div>
+
+          <div class="exp-row">
+            <div class="exp-date">2024 — 25</div>
+            <div class="exp-details">
+              <h4>Specialized Training &amp; Bootcamps</h4>
+              <p>Completed IDCamp Expert Track (Indosat Ooredoo Hutchison) in Machine Learning and Data Science, and Binar Academy training in modern MLOps pipelines.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTACT SECTION -->
+        <div class="section-title" id="contact" style="margin-top: 40px;">Connect</div>
+        <div class="contact-card">
+          <p style="font-size: 0.9rem; color: var(--ink-muted); margin-bottom: 12px;">
+            Looking for an AI Engineer, Data Scientist, or QA specialist who bridges model architecture with production reliability? Let's talk.
+          </p>
+          <div class="contact-grid">
+            <a href="mailto:ninditya.sna025@gmail.com" class="contact-link">
+              <span>✉</span> ninditya.sna025@gmail.com
+            </a>
+            <a href="https://linkedin.com/in/ninditya-salma-nur-aini" target="_blank" rel="noopener" class="contact-link">
+              <span>in</span> LinkedIn Profile
+            </a>
+            <a href="https://github.com/ninditya" target="_blank" rel="noopener" class="contact-link">
+              <span>↗</span> github.com/ninditya
+            </a>
+            <a href="https://wa.me/62895371290495" target="_blank" rel="noopener" class="contact-link">
+              <span>☎</span> +62 895-3712-90495
+            </a>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <footer>
+      <div>COORD: 7.7956° S, 110.3695° E (YOGYAKARTA)</div>
+      <div>ALL SYSTEMS OPERATIONAL // © 2026</div>
+    </footer>
+  </div>
+
+  <script>
+    // Theme toggle handler
+    (function() {
+      const btn = document.getElementById('themeToggle');
+      const html = document.documentElement;
+
+      function updateThemeBtn(theme) {
+        if (!btn) return;
+        btn.textContent = theme === 'dark' ? '☀' : '🌙';
+        btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+      }
+
+      const currentTheme = html.getAttribute('data-theme') || 'light';
+      updateThemeBtn(currentTheme);
+
+      if (btn) {
+        btn.addEventListener('click', () => {
+          const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          html.setAttribute('data-theme', next);
+          localStorage.setItem('theme', next);
+          updateThemeBtn(next);
+        });
+      }
+    })();
+
+    // Filter bar functionality
+    (function() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.card[data-category]');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const filter = btn.getAttribute('data-filter');
+          cards.forEach(card => {
+            if (filter === 'all' || card.getAttribute('data-category') === filter) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    })();
+
+    // Smooth navigation active highlighting
+    (function() {
+      const navLinks = document.querySelectorAll('nav a');
+      const feed = document.querySelector('.feed');
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          const targetId = link.getAttribute('href');
+          if (targetId && targetId.startsWith('#')) {
+            const targetEl = document.querySelector(targetId);
+            if (targetEl && feed) {
+              e.preventDefault();
+              targetEl.scrollIntoView({ behavior: 'smooth' });
+              navLinks.forEach(l => l.classList.remove('active'));
+              link.classList.add('active');
+            }
+          }
+        });
       });
     })();
   </script>
-
 </body>
-
 </html>
