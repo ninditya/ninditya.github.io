@@ -178,7 +178,7 @@ nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1p
 .featured-carousel-controls{display:none;justify-content:flex-end;gap:0.4rem;margin-bottom:0.75rem}
 .featured-carousel-controls.is-visible{display:flex}
 .carousel-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--ink2);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;line-height:1}
-.carousel-btn:hover:not(:disabled){background:var(--ink);color:#fff;border-color:var(--ink)}
+.carousel-btn:hover:not(:disabled){background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
 .carousel-btn:disabled{opacity:0.28;cursor:default}
 .featured-track-wrap{overflow:hidden}
 .featured-grid{display:flex;flex-wrap:nowrap;gap:1rem;transition:transform 0.4s cubic-bezier(.25,.46,.45,.94)}

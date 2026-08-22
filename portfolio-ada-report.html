@@ -191,7 +191,7 @@
       <h1>Learning<br><em>Journey</em><br>Portfolio</h1>
       <div class="cover-tagline">Apple Developer Academy Indonesia — 2026 Application</div>
       <p class="cover-desc">
-        From a Bahasa Indonesia NLP thesis in 2021 to building production AI systems in 2026 — this portfolio traces a continuous learning trajectory across five phases. Each phase represents a new capability: understanding language, analyzing data, engineering LLM systems, collaborating in real teams, and working with vision models. Every project here was built, evaluated, and shipped. <strong>Nothing is hypothetical.</strong>
+        From a Bahasa Indonesia NLP thesis in 2021 to building production AI systems in 2026, I've moved through five phases of capability: understanding language, analyzing data, engineering LLM systems, collaborating in real teams, and working with vision models. Every project here I built, evaluated, and shipped myself. <strong>Nothing is hypothetical.</strong>
       </p>
       <div class="cover-phases">
         <div class="cover-phase-row">
@@ -372,7 +372,7 @@
   <div class="findings">
     <div class="finding">
       <div class="finding-label">Key Insight</div>
-      <div class="finding-text">The feature space, not the classifier, drove the improvement. This is the core lesson I've applied to every NLP problem since: <strong>get the representation right first</strong>, then worry about the model.</div>
+      <div class="finding-text">The feature space, not the classifier, drove the improvement. It's the first question I ask on every NLP problem since: <strong>is the representation right before I touch the model?</strong></div>
     </div>
     <div class="finding">
       <div class="finding-label">Indonesian NLP</div>
@@ -452,7 +452,7 @@
   <div class="findings">
     <div class="finding">
       <div class="finding-label">GenAI Insight</div>
-      <div class="finding-text">Zero-shot was <strong>the best GenAI strategy</strong> — outperforming 3-shot, 5-shot, 10-shot, and CoT. Few-shot examples from the wrong domain added confusion, not signal. Domain adaptation matters more than example count.</div>
+      <div class="finding-text">Zero-shot was <strong>the best GenAI strategy</strong> — outperforming 3-shot, 5-shot, 10-shot, and CoT. Few-shot examples from the wrong domain added confusion, not signal — which told me domain fit mattered more than example count here.</div>
     </div>
     <div class="finding">
       <div class="finding-label">Cost Reality</div>
@@ -460,7 +460,7 @@
     </div>
     <div class="finding">
       <div class="finding-label">Thread to 2021</div>
-      <div class="finding-text">Same insight as the thesis: <strong>representation quality and domain fit matter more than model sophistication</strong>. A well-designed LSTM on the right domain beats a general-purpose LLM that has no domain anchoring.</div>
+      <div class="finding-text">Same insight as the thesis, four years apart: when representation and domain fit are right, a BiLSTM I trained myself <strong>beats a general-purpose LLM with no domain anchoring</strong> — on accuracy, speed, and cost.</div>
     </div>
   </div>
 
@@ -555,7 +555,7 @@
     </div>
     <div class="finding">
       <div class="finding-label">Thread to Phase 1</div>
-      <div class="finding-text">This is the same underlying question from the LSA thesis: <strong>what is the right representation?</strong> For language: TF-IDF → LSA → SBERT. For images: pixels → latent space → guided denoising trajectory. Different domain, same epistemological curiosity.</div>
+      <div class="finding-text">This is the same underlying question from the LSA thesis: <strong>what is the right representation?</strong> For language: TF-IDF → LSA → SBERT. For images: pixels → latent space → guided denoising trajectory. Different domain, same question I keep coming back to.</div>
     </div>
   </div>
 
@@ -617,7 +617,7 @@
   <div class="findings">
     <div class="finding">
       <div class="finding-label">Honest Diagnosis</div>
-      <div class="finding-text">F1-Score 35.3%, IoU 21.5% — but <strong>Recall 77.7%</strong>. The model detects most objects (high recall) but generates false positives (low precision, 17.6%). Root cause: 190 training tiles is insufficient for this task. More data &gt; better architecture.</div>
+      <div class="finding-text">F1-Score 35.3%, IoU 21.5% — but <strong>Recall 77.7%</strong>. The model detects most objects (high recall) but generates false positives (low precision, 17.6%). Root cause: 190 training tiles is insufficient for this task — the grid search confirmed it, since tuning filters and dropout moved the needle far less than more labelled data would have.</div>
     </div>
     <div class="finding">
       <div class="finding-label">GIS Pipeline</div>
@@ -625,7 +625,7 @@
     </div>
     <div class="finding">
       <div class="finding-label">Architecture Choice</div>
-      <div class="finding-text">U-Net's skip connections carry edge information from encoder to decoder — preserving the spatial detail that pooling discards. That's why U-Net is the standard for segmentation tasks where boundary accuracy matters.</div>
+      <div class="finding-text">U-Net's skip connections carry edge information from encoder to decoder — preserving the spatial detail that pooling discards. That's the property I needed here, where getting the object boundary right mattered more than getting the interior right.</div>
     </div>
   </div>
 
@@ -965,7 +965,7 @@
     </div>
     <div class="finding">
       <div class="finding-label">Schema Debugging</div>
-      <div class="finding-text">Supabase PostgREST caps at 1,000 rows/request — built custom paginated <code>fetch_table()</code>. Docs said GTQ1–GTQ5 as separate columns; actual DB stores single composite value. <strong>Always verify live schema against documentation.</strong></div>
+      <div class="finding-text">Supabase PostgREST caps at 1,000 rows/request — built custom paginated <code>fetch_table()</code>. Docs said GTQ1–GTQ5 as separate columns; the live schema stored a single composite value instead. Since then I query the schema directly before trusting the docs.</div>
     </div>
   </div>
 
@@ -1184,7 +1184,7 @@
   <div class="findings">
     <div class="finding">
       <div class="finding-label">Allergen Engineering</div>
-      <div class="finding-text">Allergen warning required two-part prompt instruction: <strong>identify actual ingredients first, then check against user list</strong>. Single-step "flag allergens" produced unreliable results. Framing the reasoning order in the prompt mattered more than prompt phrasing.</div>
+      <div class="finding-text">Allergen warning required two-part prompt instruction: <strong>identify actual ingredients first, then check against user list</strong>. Single-step "flag allergens" produced unreliable results — restructuring the reasoning order fixed it; rewording the prompt alone hadn't.</div>
     </div>
     <div class="finding">
       <div class="finding-label">Supabase Realtime</div>
@@ -1192,7 +1192,7 @@
     </div>
     <div class="finding">
       <div class="finding-label">Rate Limits = Architecture</div>
-      <div class="finding-text">Free-tier Gemini API has per-key quota limits. 4 keys in rotation = a production-grade pool at $0. The same insight as Banking Intent Router: <strong>intelligent routing at the infrastructure layer prevents the user from ever seeing a quota error</strong>.</div>
+      <div class="finding-text">Free-tier Gemini API has per-key quota limits. 4 keys in rotation = a production-grade pool at $0. Same move I made on Banking Intent Router: <strong>push the routing decision into the infrastructure layer</strong>, so the user never sees a quota error.</div>
     </div>
   </div>
 

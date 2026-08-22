@@ -260,6 +260,7 @@
     html[data-theme="dark"] .stats-strip{background:#000000}
     html[data-theme="dark"] pre.code{background:#000000}
     html[data-theme="dark"] .lang-btn.active{background:#e5e5ea;color:#1c1c1e}
+    html[data-theme="dark"] .tag{background:var(--bg-alt)}
     html[data-theme="dark"] .summary-card { background: var(--bg-alt); }
     html[data-theme="dark"] .feat-card { background: var(--bg-alt); }
     .theme-toggle{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-alt);color:var(--ink);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;line-height:1}
@@ -301,7 +302,7 @@
       </div>
       <h1 class="title" data-i18n="heroTitle">StudioAI — <em>generate, refine,</em> paint beyond the frame.</h1>
       <p class="hero-lede" data-i18n="heroLede">
-        A Stable Diffusion pipeline built from first principles. The real question: <strong>how much does each hyperparameter actually matter</strong> — and how do you build a full editing workflow on top of generation?
+        I built a Stable Diffusion pipeline from first principles. The real question I wanted answered: <strong>how much does each hyperparameter actually matter</strong> — and how do you build a full editing workflow on top of generation?
       </p>
       <div class="hero-meta">
         <span data-i18n="heroMeta1"><strong>Role</strong> AI Engineer</span>
@@ -354,23 +355,23 @@
       <div class="three-col reveal">
         <div class="summary-card">
           <div class="sc-label" data-i18n="probLabel">Problem</div>
-          <h3 data-i18n="probH">Black-box tools hide model behavior</h3>
-          <p data-i18n="probBody">Most generative AI interfaces abstract away every parameter. You can't learn the model by using the app — you need to see the internals.</p>
+          <h3 data-i18n="probH">I couldn't see what the model was doing</h3>
+          <p data-i18n="probBody">Every generative AI demo I'd used hid the parameters — type a prompt, get an image, learn nothing about why. I wanted to see the internals, not just call an API.</p>
         </div>
         <div class="summary-card">
           <div class="sc-label" data-i18n="solLabel">Solution</div>
-          <h3 data-i18n="solH">Built from scratch with full control</h3>
-          <p data-i18n="solBody">Implemented Stable Diffusion v1.5 via HuggingFace Diffusers — text-to-image, inpainting, outpainting, and CLIPSeg auto-masking — with every parameter exposed and comparable.</p>
+          <h3 data-i18n="solH">So I built the pipeline myself</h3>
+          <p data-i18n="solBody">I implemented Stable Diffusion v1.5 with HuggingFace Diffusers from scratch — text-to-image, inpainting, outpainting, and CLIPSeg auto-masking — with every parameter exposed and comparable.</p>
         </div>
         <div class="summary-card">
           <div class="sc-label" data-i18n="outLabel">Outcome</div>
-          <h3 data-i18n="outH">Deployed interactive platform</h3>
-          <p data-i18n="outBody">4 schedulers compared, 3 masking approaches, Streamlit app deployed via Ngrok from Google Colab — usable by non-engineers with no code.</p>
+          <h3 data-i18n="outH">Then made it usable without touching code</h3>
+          <p data-i18n="outBody">I compared 4 schedulers, built 3 masking approaches, and shipped it as a Streamlit app deployed via Ngrok from Google Colab — usable by non-engineers with no code.</p>
         </div>
       </div>
 
       <div class="pullquote reveal" data-i18n="pqExec">
-        "The hardest part wasn't getting it to generate. It was knowing what to change when the output was wrong."
+        "Getting Stable Diffusion to generate something was the easy part. The real work was diagnosing why an output was wrong and knowing exactly which parameter to change."
       </div>
     </div>
   </section>
@@ -794,7 +795,7 @@
         kickerTag: 'Case Study',
         heroKicker: 'Stable Diffusion · Diffusers · CLIPSeg · Streamlit · PyTorch',
         heroTitle: 'StudioAI — generate, refine, paint beyond the frame.',
-        heroLede: 'A Stable Diffusion pipeline built from first principles. The real question: how much does each hyperparameter actually matter — and how do you build a full editing workflow on top of generation?',
+        heroLede: 'I built a Stable Diffusion pipeline from first principles. The real question I wanted answered: how much does each hyperparameter actually matter — and how do you build a full editing workflow on top of generation?',
         heroMeta1: 'Role: AI Engineer',
         heroMeta2: 'Duration: 2 weeks · Solo',
         heroMeta3: 'Context: Bangkit · BFGAI Challenge',
@@ -809,15 +810,15 @@
         execTitle: 'Understanding GenAI from the inside out.',
         execLede: 'Every tutorial shows a prompt going in and an image coming out. Nobody shows you what happens when you change guidance scale from 2 to 15 — or why 50 inference steps costs more than 5 but doesn\'t always look 10× better.',
         probLabel: 'Problem',
-        probH: 'Black-box tools hide model behavior',
-        probBody: 'Most generative AI interfaces abstract away every parameter. You can\'t learn the model by using the app — you need to see the internals.',
+        probH: 'I couldn\'t see what the model was doing',
+        probBody: 'Every generative AI demo I\'d used hid the parameters — type a prompt, get an image, learn nothing about why. I wanted to see the internals, not just call an API.',
         solLabel: 'Solution',
-        solH: 'Built from scratch with full control',
-        solBody: 'Implemented Stable Diffusion v1.5 via HuggingFace Diffusers — text-to-image, inpainting, outpainting, and CLIPSeg auto-masking — with every parameter exposed and comparable.',
+        solH: 'So I built the pipeline myself',
+        solBody: 'I implemented Stable Diffusion v1.5 with HuggingFace Diffusers from scratch — text-to-image, inpainting, outpainting, and CLIPSeg auto-masking — with every parameter exposed and comparable.',
         outLabel: 'Outcome',
-        outH: 'Deployed interactive platform',
-        outBody: '4 schedulers compared, 3 masking approaches, Streamlit app deployed via Ngrok from Google Colab — usable by non-engineers with no code.',
-        pqExec: 'The hardest part wasn\'t getting it to generate. It was knowing what to change when the output was wrong.',
+        outH: 'Then made it usable without touching code',
+        outBody: 'I compared 4 schedulers, built 3 masking approaches, and shipped it as a Streamlit app deployed via Ngrok from Google Colab — usable by non-engineers with no code.',
+        pqExec: 'Getting Stable Diffusion to generate something was the easy part. The real work was diagnosing why an output was wrong and knowing exactly which parameter to change.',
         impNum: '02 · User Impact',
         impTitle: 'Who uses it — and what they get.',
         impLede: 'StudioAI bridges the gap between "I generated an image" and "I understand why this image looks like this."',
@@ -887,7 +888,7 @@
         kickerTag: 'Studi Kasus',
         heroKicker: 'Stable Diffusion · Diffusers · CLIPSeg · Streamlit · PyTorch',
         heroTitle: 'StudioAI — generate, refine, lukis melampaui bingkai.',
-        heroLede: 'Pipeline Stable Diffusion yang dibangun dari nol untuk Bangkit Generative AI Challenge. Pertanyaan utama: seberapa besar pengaruh setiap hyperparameter — dan bagaimana membangun workflow editing di atas generation?',
+        heroLede: 'Saya membangun pipeline Stable Diffusion dari nol untuk Bangkit Generative AI Challenge. Pertanyaan utama yang ingin saya jawab: seberapa besar pengaruh setiap hyperparameter — dan bagaimana membangun workflow editing di atas generation?',
         heroMeta1: 'Role: AI Engineer',
         heroMeta2: 'Durasi: 2 minggu · Solo',
         heroMeta3: 'Konteks: Bangkit · BFGAI Challenge',
@@ -902,15 +903,15 @@
         execTitle: 'Memahami GenAI dari dalam ke luar.',
         execLede: 'Setiap tutorial menunjukkan prompt masuk dan gambar keluar. Tidak ada yang menunjukkan apa yang terjadi ketika guidance scale diubah dari 2 ke 15 — atau mengapa 50 inference steps lebih mahal dari 5 tapi tidak selalu terlihat 10× lebih baik.',
         probLabel: 'Masalah',
-        probH: 'Tools black-box menyembunyikan perilaku model',
-        probBody: 'Sebagian besar antarmuka GenAI mengabstraksi semua parameter. Kamu tidak bisa belajar tentang model hanya dengan menggunakan aplikasinya — kamu perlu melihat internalnya.',
+        probH: 'Saya tidak bisa melihat apa yang terjadi di dalam model',
+        probBody: 'Setiap demo GenAI yang pernah saya pakai menyembunyikan parameternya — ketik prompt, dapat gambar, tanpa tahu kenapa. Saya ingin melihat internalnya, bukan sekadar memanggil API.',
         solLabel: 'Solusi',
-        solH: 'Dibangun dari nol dengan kontrol penuh',
-        solBody: 'Mengimplementasikan Stable Diffusion v1.5 via HuggingFace Diffusers — text-to-image, inpainting, outpainting, dan CLIPSeg auto-masking — dengan semua parameter terekspos dan bisa dibandingkan.',
+        solH: 'Jadi saya bangun sendiri pipeline-nya',
+        solBody: 'Saya mengimplementasikan Stable Diffusion v1.5 dengan HuggingFace Diffusers dari nol — text-to-image, inpainting, outpainting, dan CLIPSeg auto-masking — dengan semua parameter terekspos dan bisa dibandingkan.',
         outLabel: 'Hasil',
-        outH: 'Platform interaktif yang di-deploy',
-        outBody: '4 scheduler dibandingkan, 3 pendekatan masking, Streamlit app di-deploy via Ngrok dari Google Colab — bisa dipakai non-engineer tanpa koding.',
-        pqExec: 'Bagian tersulit bukan membuat model menghasilkan gambar. Tapi mengetahui apa yang harus diubah ketika outputnya salah.',
+        outH: 'Lalu membuatnya bisa dipakai tanpa koding',
+        outBody: 'Saya membandingkan 4 scheduler, membangun 3 pendekatan masking, dan merilisnya sebagai Streamlit app yang di-deploy via Ngrok dari Google Colab — bisa dipakai non-engineer tanpa koding.',
+        pqExec: 'Membuat Stable Diffusion menghasilkan gambar itu bagian mudahnya. Kerja sesungguhnya adalah mendiagnosis kenapa output-nya salah dan tahu persis parameter mana yang harus diubah.',
         impNum: '02 · Dampak Pengguna',
         impTitle: 'Siapa yang menggunakannya — dan apa yang mereka dapatkan.',
         impLede: 'StudioAI menjembatani kesenjangan antara "saya generate gambar" dan "saya paham mengapa gambar ini terlihat seperti ini."',

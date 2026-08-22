@@ -308,10 +308,12 @@
         <span class="kicker-tag" data-i18n="kickerTag">Applied Data Science</span>
         <span class="kicker-text" data-i18n="kickerText">IDCamp Expert · HR Analytics · XGBoost · Docker</span>
       </div>
-      <h1 class="title" data-i18n="heroTitle">Prevent employee turnover<br><em>before it happens.</em></h1>
+      <h1 class="title" data-i18n="heroTitle">I built an early-warning system that catches <em>86% of leavers before they resign.</em></h1>
       <p class="hero-lede" data-i18n="heroLede">
-        XGBoost early-warning system for a multinational with <strong>16.92% annual attrition</strong>.
-        86.11% recall, 81.93% ROC-AUC, 5-tab Metabase dashboard, Docker + PostgreSQL deployment.
+        A multinational client was losing employees at <strong>16.92% annual attrition</strong> with no early-warning
+        system in place — turnover was only visible after someone had already resigned. I built an XGBoost pipeline
+        to flag at-risk employees ahead of time: 86.11% recall, 81.93% ROC-AUC, shipped as a 5-tab Metabase dashboard
+        on Docker + PostgreSQL.
       </p>
       <div class="hero-meta">
         <span data-i18n="heroMetaModel"><strong>Model</strong> XGBoost · 86.11% Recall · AUC 81.93%</span>
@@ -357,7 +359,7 @@
   <section class="content" id="problem">
     <div class="wrap">
       <div class="section-num" data-i18n="s1Num">01 · Business Problem</div>
-      <h2 data-i18n="s1Title">Attrition above 10% is <em>a management warning sign.</em> Theirs was 16.92%.</h2>
+      <h2 data-i18n="s1Title">Their attrition rate was 16.92% — <em>well above the 10% threshold HR treats as a red flag.</em></h2>
 
       <div class="two-col" style="align-items:start;">
         <div class="problem-flow" role="img" aria-label="Attrition problem funnel">
@@ -646,7 +648,7 @@
   <section class="content" id="impact">
     <div class="wrap">
       <div class="section-num" data-i18n="s5Num">05 · Business Impact</div>
-      <h2 data-i18n="s5Title">From reactive to proactive. <em>86% of leavers identified before they resign.</em></h2>
+      <h2 data-i18n="s5Title">86% of the employees who left <em>were flagged before they resigned.</em></h2>
 
       <div class="impact-compare">
         <div class="ic-col bad">
@@ -880,19 +882,19 @@
       <div class="lesson-grid">
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l1Label">Reproducibility = feature</div>
-          <p data-i18n="l1Body">A model that can't be reproduced by the reviewer doesn't exist. <strong>Infrastructure completeness — setup scripts, requirements, README steps — is as important as model performance</strong>.</p>
+          <p data-i18n="l1Body">I assumed a working model and a dashboard screenshot were proof enough that the project worked. Then the reviewer tried to run <code>python setup_database.py</code> to check the dashboard and it failed — I had forgotten to attach the file, so there was no way to verify anything was actually running. I added the missing script, walked through every README step myself on a clean environment, and resubmitted. Reproducibility isn't optional once someone else has to run what you built.</p>
         </div>
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l2Label">Business metric over accuracy</div>
-          <p data-i18n="l2Body">Choosing XGBoost despite lower accuracy taught me that <strong>the right metric depends on the cost of each error type</strong>, not the most intuitive number on the leaderboard.</p>
+          <p data-i18n="l2Body">My first instinct was to pick whichever model scored highest on accuracy — Logistic Regression's 74% beat XGBoost's 60%. But when I compared what each model actually missed, XGBoost caught 86% of the employees who eventually left, against 72% for Logistic Regression. In HR, a missed leaver costs a full replacement; a false alarm costs one conversation. Once I weighed it that way, the accuracy gap stopped mattering and I picked XGBoost.</p>
         </div>
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l3Label">Specific recommendations</div>
-          <p data-i18n="l3Body">General recommendations feel safe but land flat. <strong>Every recommendation needs a segment (who), a number (how much), and a step (what to do)</strong> to be actionable.</p>
+          <p data-i18n="l3Body">My first draft of recommendations said things like "evaluate compensation" — true, but nothing HR could act on. The reviewer pushed back: a usable recommendation needs a segment, a number, and a next step, not just a direction. So I went back to the data and rewrote it as "Sales Representatives earning below Q1 with overtime have more than 70% attrition probability" — something a manager could actually turn into a decision.</p>
         </div>
         <div class="lesson-cell">
           <div class="lesson-cell-label" data-i18n="l4Label">Deploy first, optimise later</div>
-          <p data-i18n="l4Body">Getting the Metabase dashboard running inside Docker and accessible to HR was <strong>the moment this became a product, not just a notebook</strong>. The engineering matters.</p>
+          <p data-i18n="l4Body">I could have kept tuning the model in a notebook indefinitely. Instead I stopped and got the Metabase dashboard running inside Docker, wired to PostgreSQL, so someone in HR with no Python could open it in a browser and see who was at risk. That was the point this stopped being an analysis and became something a team could actually use.</p>
         </div>
       </div>
     </div>
@@ -956,15 +958,15 @@
         navBack:'← Back to portfolio', navProjects:'Projects', navContact:'Contact',
         kickerTag:'Applied Data Science',
         kickerText:'IDCamp Expert · HR Analytics · XGBoost · Docker',
-        heroTitle:'Prevent employee turnover<br><em>before it happens.</em>',
-        heroLede:'XGBoost early-warning system for a multinational with <strong>16.92% annual attrition</strong>. 86.11% recall, 81.93% ROC-AUC, 5-tab Metabase dashboard, Docker + PostgreSQL deployment.',
+        heroTitle:'I built an early-warning system that catches <em>86% of leavers before they resign.</em>',
+        heroLede:'A multinational client was losing employees at <strong>16.92% annual attrition</strong> with no early-warning system in place — turnover was only visible after someone had already resigned. I built an XGBoost pipeline to flag at-risk employees ahead of time: 86.11% recall, 81.93% ROC-AUC, shipped as a 5-tab Metabase dashboard on Docker + PostgreSQL.',
         heroMetaModel:'<strong>Model</strong> XGBoost · 86.11% Recall · AUC 81.93%',
         heroMetaInfra:'<strong>Infra</strong> Docker · PostgreSQL · Metabase · Streamlit',
         heroMetaData:'<strong>Dataset</strong> 1,470 employees · 72 features · IBM HR Analytics',
         heroMetaLevel:'<strong>Level</strong> IDCamp Expert 2025',
         stat1:'Recall<br>catches 86% of leavers', stat2:'ROC-AUC<br>XGBoost selected', stat3:'Overtime risk<br>31.92% vs 10.79%', stat4:'Dashboard tabs<br>Docker deployed',
         s1Num:'01 · Business Problem',
-        s1Title:'Attrition above 10% is <em>a management warning sign.</em> Theirs was 16.92%.',
+        s1Title:'Their attrition rate was 16.92% — <em>well above the 10% threshold HR treats as a red flag.</em>',
         companyLabel:'Company', employeesLabel:'Employees', attritionLabel:'Annual Attrition', leaversLabel:'Employees / Year',
         costsList:'Recruitment Cost<br>Productivity Loss<br>Knowledge Loss',
         solutionLabel:'Solution Needed', solutionTitle:'Early Warning System',
@@ -1012,7 +1014,7 @@
         featImportTitle:'Feature Importance',
         riskPullquote:'"The first year is the most vulnerable — 34.59% of employees with ≤1 year tenure leave. Pair that with overtime or low salary, and you\'ve identified employees who almost certainly won\'t see year 2."',
         s5Num:'05 · Business Impact',
-        s5Title:'From reactive to proactive. <em>86% of leavers identified before they resign.</em>',
+        s5Title:'86% of the employees who left <em>were flagged before they resigned.</em>',
         withoutModelLabel:'Without Model', withModelLabel:'With Model',
         icW1:'Employee considers leaving', icW2:'No signal', icW3:'Manager surprised', icW4:'Employee resigns', icW5:'Replacement costs begin',
         icM1:'Employee shows risk signals', icM2:'Model flags high risk', icM3:'HR interview', icM4:'Retention program', icM5:'Employee stays',
@@ -1047,10 +1049,10 @@
         fb3label:'Why Not ★5 — Generic Recommendations',
         fb3body:'Recommendations like <em>"evaluate compensation"</em> are valid but <strong>not grounded in the specific data</strong>. A ★5 action item: <em>"Sales Representatives earning below Q1 with overtime have &gt;70% attrition probability."</em> Each needs a segment, a number, and an implementation step.',
         s9LessonsTitle:'What I carry from this',
-        l1Label:'Reproducibility = feature', l1Body:'A model that can\'t be reproduced by the reviewer doesn\'t exist. <strong>Infrastructure completeness — setup scripts, requirements, README steps — is as important as model performance</strong>.',
-        l2Label:'Business metric over accuracy', l2Body:'Choosing XGBoost despite lower accuracy taught me that <strong>the right metric depends on the cost of each error type</strong>, not the most intuitive number on the leaderboard.',
-        l3Label:'Specific recommendations', l3Body:'General recommendations feel safe but land flat. <strong>Every recommendation needs a segment (who), a number (how much), and a step (what to do)</strong> to be actionable.',
-        l4Label:'Deploy first, optimise later', l4Body:'Getting Metabase running inside Docker and accessible to HR was <strong>the moment this became a product, not just a notebook</strong>. The engineering matters.',
+        l1Label:'Reproducibility = feature', l1Body:'I assumed a working model and a dashboard screenshot were proof enough that the project worked. Then the reviewer tried to run <code>python setup_database.py</code> to check the dashboard and it failed — I had forgotten to attach the file, so there was no way to verify anything was actually running. I added the missing script, walked through every README step myself on a clean environment, and resubmitted. Reproducibility isn\'t optional once someone else has to run what you built.',
+        l2Label:'Business metric over accuracy', l2Body:'My first instinct was to pick whichever model scored highest on accuracy — Logistic Regression\'s 74% beat XGBoost\'s 60%. But when I compared what each model actually missed, XGBoost caught 86% of the employees who eventually left, against 72% for Logistic Regression. In HR, a missed leaver costs a full replacement; a false alarm costs one conversation. Once I weighed it that way, the accuracy gap stopped mattering and I picked XGBoost.',
+        l3Label:'Specific recommendations', l3Body:'My first draft of recommendations said things like "evaluate compensation" — true, but nothing HR could act on. The reviewer pushed back: a usable recommendation needs a segment, a number, and a next step, not just a direction. So I went back to the data and rewrote it as "Sales Representatives earning below Q1 with overtime have more than 70% attrition probability" — something a manager could actually turn into a decision.',
+        l4Label:'Deploy first, optimise later', l4Body:'I could have kept tuning the model in a notebook indefinitely. Instead I stopped and got the Metabase dashboard running inside Docker, wired to PostgreSQL, so someone in HR with no Python could open it in a browser and see who was at risk. That was the point this stopped being an analysis and became something a team could actually use.',
         s10Num:'10 · Future Roadmap',
         s10Title:'From prediction <em>to explanation and simulation.</em>',
         roadCurrent:'Current', roadNext:'Next', roadFuture:'Future', roadVision:'Vision',
@@ -1067,15 +1069,15 @@
         navBack:'← Kembali ke portfolio', navProjects:'Proyek', navContact:'Kontak',
         kickerTag:'Applied Data Science',
         kickerText:'IDCamp Expert · HR Analytics · XGBoost · Docker',
-        heroTitle:'Cegah turnover karyawan <em>sebelum terjadi.</em>',
-        heroLede:'Sistem early-warning XGBoost untuk perusahaan multinasional dengan <strong>attrisi tahunan 16,92%</strong>. Recall 86,11%, ROC-AUC 81,93%, dashboard Metabase 5 tab, deployment Docker + PostgreSQL.',
+        heroTitle:'Saya membangun sistem early-warning yang menangkap <em>86% karyawan yang akan keluar sebelum mereka resign.</em>',
+        heroLede:'Klien multinasional ini kehilangan karyawan dengan <strong>attrisi tahunan 16,92%</strong> tanpa sistem early-warning — turnover baru terlihat setelah karyawan resign. Saya membangun pipeline XGBoost untuk menandai karyawan berisiko lebih awal: recall 86,11%, ROC-AUC 81,93%, dirilis sebagai dashboard Metabase 5 tab di atas Docker + PostgreSQL.',
         heroMetaModel:'<strong>Model</strong> XGBoost · Recall 86,11% · AUC 81,93%',
         heroMetaInfra:'<strong>Infra</strong> Docker · PostgreSQL · Metabase · Streamlit',
         heroMetaData:'<strong>Dataset</strong> 1.470 karyawan · 72 fitur · IBM HR Analytics',
         heroMetaLevel:'<strong>Level</strong> IDCamp Expert 2025',
         stat1:'Recall<br>menangkap 86% yang keluar', stat2:'ROC-AUC<br>XGBoost terpilih', stat3:'Risiko overtime<br>31,92% vs 10,79%', stat4:'Tab dashboard<br>Deploy Docker',
         s1Num:'01 · Business Problem',
-        s1Title:'Attrisi di atas 10% adalah <em>sinyal peringatan manajemen.</em> Mereka di angka 16,92%.',
+        s1Title:'Attrisi mereka 16,92% — <em>jauh di atas ambang 10% yang biasa dianggap HR sebagai red flag.</em>',
         companyLabel:'Perusahaan', employeesLabel:'Karyawan', attritionLabel:'Attrisi Tahunan', leaversLabel:'Karyawan / Tahun',
         costsList:'Biaya Rekrutmen<br>Kehilangan Produktivitas<br>Kehilangan Pengetahuan',
         solutionLabel:'Solusi Dibutuhkan', solutionTitle:'Sistem Early Warning',
@@ -1123,7 +1125,7 @@
         featImportTitle:'Feature Importance',
         riskPullquote:'"Tahun pertama adalah yang paling rentan — 34,59% karyawan dengan masa kerja ≤1 tahun keluar. Kombinasikan dengan overtime atau gaji rendah, dan Anda telah mengidentifikasi karyawan yang hampir pasti tidak akan bertahan di tahun ke-2."',
         s5Num:'05 · Business Impact',
-        s5Title:'Dari reaktif ke proaktif. <em>86% yang akan keluar teridentifikasi sebelum resign.</em>',
+        s5Title:'86% karyawan yang keluar <em>sudah ditandai sebelum mereka resign.</em>',
         withoutModelLabel:'Tanpa Model', withModelLabel:'Dengan Model',
         icW1:'Karyawan mempertimbangkan keluar', icW2:'Tidak ada sinyal', icW3:'Manager terkejut', icW4:'Karyawan resign', icW5:'Biaya penggantian dimulai',
         icM1:'Karyawan menunjukkan sinyal risiko', icM2:'Model menandai risiko tinggi', icM3:'Wawancara HR', icM4:'Program retensi', icM5:'Karyawan bertahan',
@@ -1158,10 +1160,10 @@
         fb3label:'Kenapa Tidak ★5 — Rekomendasi Generik',
         fb3body:'Rekomendasi seperti <em>"evaluasi kompensasi"</em> valid tapi <strong>tidak berdasarkan data spesifik</strong>. Action item ★5: <em>"Sales Representative dengan penghasilan di bawah Q1 dan overtime memiliki probabilitas attrisi &gt;70%."</em> Setiap rekomendasi membutuhkan segmen, angka, dan langkah implementasi.',
         s9LessonsTitle:'Yang saya bawa dari proyek ini',
-        l1Label:'Reproducibility = fitur', l1Body:'Model yang tidak bisa direproduksi reviewer tidak ada. <strong>Kelengkapan infrastruktur — setup script, requirements, langkah README — sama pentingnya dengan performa model</strong>.',
-        l2Label:'Metrik bisnis di atas akurasi', l2Body:'Memilih XGBoost meski akurasi lebih rendah mengajarkan bahwa <strong>metrik yang tepat bergantung pada biaya setiap jenis kesalahan</strong>, bukan angka paling intuitif di leaderboard.',
-        l3Label:'Rekomendasi spesifik', l3Body:'Rekomendasi umum terasa aman tapi tidak berkesan. <strong>Setiap rekomendasi membutuhkan segmen (siapa), angka (berapa), dan langkah (apa yang dilakukan)</strong> agar bisa ditindaklanjuti.',
-        l4Label:'Deploy dulu, optimasi kemudian', l4Body:'Menjalankan Metabase di dalam Docker dan bisa diakses HR adalah <strong>momen proyek ini menjadi produk, bukan sekadar notebook</strong>. Engineering itu penting.',
+        l1Label:'Reproducibility = fitur', l1Body:'Saya kira model yang jalan dan screenshot dashboard udah cukup buat buktiin proyek ini beres. Terus reviewer coba jalanin <code>python setup_database.py</code> buat ngecek dashboard-nya, dan gagal — saya lupa lampirin filenya, jadi nggak ada cara buat verifikasi apapun beneran jalan. Saya tambahin script yang hilang, saya jalanin ulang setiap langkah di README di environment yang bersih, terus submit ulang. Reproducibility itu bukan opsional kalau orang lain harus jalanin yang kita bikin.',
+        l2Label:'Metrik bisnis di atas akurasi', l2Body:'Insting pertama saya milih model dengan akurasi tertinggi — Logistic Regression 74% ngalahin XGBoost yang 60%. Tapi pas saya bandingin apa yang sebenarnya terlewat dari masing-masing model, XGBoost berhasil nangkep 86% karyawan yang akhirnya keluar, dibanding 72% punya Logistic Regression. Di HR, satu karyawan yang lolos terdeteksi berarti biaya penggantian penuh; false alarm cuma butuh satu percakapan. Setelah saya timbang begitu, selisih akurasi jadi nggak penting lagi dan saya pilih XGBoost.',
+        l3Label:'Rekomendasi spesifik', l3Body:'Draft rekomendasi pertama saya isinya kalimat kayak "evaluasi kompensasi" — benar, tapi nggak ada yang bisa langsung ditindaklanjuti HR. Reviewer nge-push balik: rekomendasi yang berguna butuh segmen, angka, dan langkah berikutnya, bukan cuma arah umum. Jadi saya balik lagi ke data dan tulis ulang jadi "Sales Representative dengan penghasilan di bawah Q1 dan overtime punya probabilitas attrisi di atas 70%" — sesuatu yang bisa langsung diubah manager jadi keputusan.',
+        l4Label:'Deploy dulu, optimasi kemudian', l4Body:'Saya bisa aja terus nge-tuning model di notebook tanpa henti. Tapi saya berhenti dan bikin dashboard Metabase-nya jalan di dalam Docker, tersambung ke PostgreSQL, supaya orang HR yang nggak ngerti Python bisa buka lewat browser dan liat siapa yang berisiko. Itu momen proyek ini berhenti jadi sekadar analisis dan jadi sesuatu yang beneran bisa dipakai tim.',
         s10Num:'10 · Future Roadmap',
         s10Title:'Dari prediksi <em>ke penjelasan dan simulasi.</em>',
         roadCurrent:'Saat ini', roadNext:'Berikutnya', roadFuture:'Ke depan', roadVision:'Visi',

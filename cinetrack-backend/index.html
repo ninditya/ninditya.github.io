@@ -562,7 +562,7 @@
   <section class="content" id="sql">
     <div class="wrap">
       <div class="section-num" data-i18n="s3Num">03 · Analytics SQL</div>
-      <h2 data-i18n="s3Title">Every business question is a <em>CTE.</em></h2>
+      <h2 data-i18n="s3Title">Occupancy by city needed a <em>two-layer CTE.</em></h2>
       <p class="lede" data-i18n="s3Lede">The trickiest query is occupancy by city. A naive approach gives wrong results — averaging occupancy at the wrong granularity. The correct design uses a two-layer CTE.</p>
 
       <div class="sql-diagram reveal">
@@ -724,7 +724,7 @@ conditions.<span class="n">push</span>(
   <section class="content" id="cache">
     <div class="wrap">
       <div class="section-num" data-i18n="s5Num">05 · Redis Cache</div>
-      <h2 data-i18n="s5Title">Same filter combination, <em>never hits the database twice.</em></h2>
+      <h2 data-i18n="s5Title">Redis cache keys — <em>deterministic per filter combination.</em></h2>
       <p class="lede" data-i18n="s5Lede">Analytics queries join 4–5 tables with aggregations. Redis wraps every endpoint with a deterministic, filter-aware cache key — sorted JSON serialization ensures the same params always produce the same key.</p>
 
       <div class="cache-flow reveal">
@@ -784,7 +784,7 @@ conditions.<span class="n">push</span>(
   <section class="content alt" id="performance">
     <div class="wrap">
       <div class="section-num" data-i18n="s6Num">06 · Performance Optimization</div>
-      <h2 data-i18n="s6Title"><code>EXPLAIN ANALYZE</code> first. <em>Then optimize.</em></h2>
+      <h2 data-i18n="s6Title"><code>EXPLAIN ANALYZE</code> found sequential scans on <em>the two largest tables.</em></h2>
       <p data-i18n="s6P">The revenue-by-city query was the P1 bottleneck. Running <code>EXPLAIN ANALYZE</code> showed sequential scans on the two largest tables — not where I expected. Three composite indexes eliminated them.</p>
 
       <div class="perf-compare reveal">
@@ -957,7 +957,7 @@ conditions.<span class="n">push</span>(
   <div class="journey-section" id="lessons">
     <div class="wrap">
       <div class="section-num" data-i18n="s9Num">09 · Lessons Learned</div>
-      <h2 data-i18n="s9Title">What backend engineering <em>teaches you about data.</em></h2>
+      <h2 data-i18n="s9Title">Five lessons from building <em>CineTrack's backend.</em></h2>
       <p data-i18n="s9P">SQL decisions upstream change what analysis is possible downstream. The two-layer CTE wasn't clever engineering — it was the only correct answer given the schema.</p>
 
       <div class="lesson-grid">
@@ -1048,7 +1048,7 @@ conditions.<span class="n">push</span>(
         s2CacheCtxP:'Every request carries a cache context via <code>AsyncLocalStorage</code> — the response always tells the frontend whether the data came from Redis (HIT), the database (MISS), or whether Redis was skipped entirely (BYPASS, e.g. when Redis is unavailable).',
         s2GracefulP:'Redis errors are handled gracefully — if Redis is unreachable, the system marks it unavailable and falls back to direct DB queries without error propagation to the client.',
         s3Num:'03 · Analytics SQL',
-        s3Title:'Every business question is a <em>CTE.</em>',
+        s3Title:'Occupancy by city needed a <em>two-layer CTE.</em>',
         s3Lede:'The trickiest query is occupancy by city. A naive approach gives wrong results — averaging occupancy at the wrong granularity. The correct design uses a two-layer CTE.',
         sf1Label:'Business Question', sf1Val:'Revenue &amp; occupancy by city',
         sf2Label:'CTE 1 · filtered_schedules', sf2Val:'JOIN tiket → studio → cinema · apply WHERE',
@@ -1067,7 +1067,7 @@ conditions.<span class="n">push</span>(
         fvOutputLabel:'Output',
         fvB1:'Parameterized — no SQL injection', fvB2:'Null-safe — skips undefined filters', fvB3:'Alias-aware — works across table joins',
         s5Num:'05 · Redis Cache',
-        s5Title:'Same filter combination, <em>never hits the database twice.</em>',
+        s5Title:'Redis cache keys — <em>deterministic per filter combination.</em>',
         s5Lede:'Analytics queries join 4–5 tables with aggregations. Redis wraps every endpoint with a deterministic, filter-aware cache key — sorted JSON serialization ensures the same params always produce the same key.',
         cf1Label:'Incoming request', cf1Val:'with filter params',
         cfRedisVal:'client.get(key)',
@@ -1076,7 +1076,7 @@ conditions.<span class="n">push</span>(
         ckLabel:'Cache key anatomy', ckResult:'deterministic JSON → consistent key',
         s5P2:'Redis unavailability is handled via <code>AsyncLocalStorage</code> context — the system marks Redis unavailable and sets cache status to <code>BYPASS</code>, falling back to direct DB queries without error propagation to the client.',
         s6Num:'06 · Performance Optimization',
-        s6Title:'<code>EXPLAIN ANALYZE</code> first. <em>Then optimize.</em>',
+        s6Title:'<code>EXPLAIN ANALYZE</code> found sequential scans on <em>the two largest tables.</em>',
         s6P:'The revenue-by-city query was the P1 bottleneck. Running <code>EXPLAIN ANALYZE</code> showed sequential scans on the two largest tables — not where I expected. Three composite indexes eliminated them.',
         pcBefore:'Before', pcAfter:'After',
         pcBeforePlan:'Seq Scan on tiket', pcBeforePlan2:'Seq Scan on schedules',
@@ -1107,7 +1107,7 @@ conditions.<span class="n">push</span>(
         s8Title:'20+ analytics endpoints, <em>organized by domain.</em>',
         eg1Label:'Sales &amp; Revenue', eg2Label:'Films &amp; Occupancy', eg3Label:'Stats &amp; Forecasting', eg4Label:'System &amp; AI',
         s9Num:'09 · Lessons Learned',
-        s9Title:'What backend engineering <em>teaches you about data.</em>',
+        s9Title:'Five lessons from building <em>CineTrack\'s backend.</em>',
         s9P:'SQL decisions upstream change what analysis is possible downstream. The two-layer CTE wasn\'t clever engineering — it was the only correct answer given the schema.',
         l1Label:'Wrong aggregation grain', l1Body:'Averaging ticket counts at city level gives the wrong occupancy figure. <strong>You must average at schedule level, then roll up</strong> — a two-layer CTE is the correct solution. This is a common analytical SQL trap.',
         l2Label:'SQL injection from filters', l2Body:'String-concatenated WHERE clauses open injection risk. <strong>The pattern is always: collect conditions and params separately, join conditions with AND, pass params to the driver</strong> — never interpolate values into SQL strings.',
@@ -1157,7 +1157,7 @@ conditions.<span class="n">push</span>(
         s2CacheCtxP:'Setiap request membawa konteks cache via <code>AsyncLocalStorage</code> — respons selalu memberi tahu frontend apakah data berasal dari Redis (HIT), database (MISS), atau Redis dilewati sama sekali (BYPASS).',
         s2GracefulP:'Error Redis ditangani secara graceful — jika Redis tidak dapat dijangkau, sistem menandainya tidak tersedia dan fallback ke query DB langsung tanpa error propagation ke client.',
         s3Num:'03 · Analytics SQL',
-        s3Title:'Setiap pertanyaan bisnis adalah <em>sebuah CTE.</em>',
+        s3Title:'Occupancy per kota membutuhkan <em>two-layer CTE.</em>',
         s3Lede:'Query paling rumit adalah occupancy per kota. Pendekatan naif memberikan hasil salah — merata-rata occupancy pada granularitas yang salah. Desain yang benar menggunakan two-layer CTE.',
         sf1Label:'Pertanyaan Bisnis', sf1Val:'Revenue &amp; occupancy per kota',
         sf2Label:'CTE 1 · filtered_schedules', sf2Val:'JOIN tiket → studio → cinema · terapkan WHERE',
@@ -1176,7 +1176,7 @@ conditions.<span class="n">push</span>(
         fvOutputLabel:'Output',
         fvB1:'Berparameter — tidak ada SQL injection', fvB2:'Null-safe — melewati filter yang undefined', fvB3:'Alias-aware — bekerja di seluruh join tabel',
         s5Num:'05 · Redis Cache',
-        s5Title:'Kombinasi filter yang sama, <em>tidak pernah menyentuh database dua kali.</em>',
+        s5Title:'Cache key Redis — <em>deterministik per kombinasi filter.</em>',
         s5Lede:'Query analitik meng-join 4–5 tabel dengan agregasi. Redis membungkus setiap endpoint dengan cache key deterministik dan filter-aware — serialisasi JSON terurut memastikan params yang sama selalu menghasilkan key yang sama.',
         cf1Label:'Request masuk', cf1Val:'dengan filter params',
         cfRedisVal:'client.get(key)',
@@ -1185,7 +1185,7 @@ conditions.<span class="n">push</span>(
         ckLabel:'Anatomi cache key', ckResult:'JSON deterministik → key konsisten',
         s5P2:'Ketidaktersediaan Redis ditangani via konteks <code>AsyncLocalStorage</code> — sistem menandai Redis tidak tersedia dan mengatur status cache ke <code>BYPASS</code>, fallback ke query DB langsung.',
         s6Num:'06 · Optimasi Performa',
-        s6Title:'<code>EXPLAIN ANALYZE</code> dulu. <em>Baru optimalkan.</em>',
+        s6Title:'<code>EXPLAIN ANALYZE</code> menemukan sequential scan pada <em>dua tabel terbesar.</em>',
         s6P:'Query revenue-by-city adalah bottleneck P1. Menjalankan <code>EXPLAIN ANALYZE</code> menunjukkan sequential scan pada dua tabel terbesar — bukan di tempat yang saya perkirakan. Tiga composite index menghilangkannya.',
         pcBefore:'Sebelum', pcAfter:'Sesudah',
         pcBeforePlan:'Seq Scan pada tiket', pcBeforePlan2:'Seq Scan pada schedules',
@@ -1216,7 +1216,7 @@ conditions.<span class="n">push</span>(
         s8Title:'20+ analytics endpoint, <em>diorganisir per domain.</em>',
         eg1Label:'Sales &amp; Revenue', eg2Label:'Film &amp; Occupancy', eg3Label:'Stats &amp; Forecasting', eg4Label:'System &amp; AI',
         s9Num:'09 · Pelajaran yang Dipetik',
-        s9Title:'Apa yang diajarkan backend engineering <em>tentang data.</em>',
+        s9Title:'Lima pelajaran dari membangun <em>backend CineTrack.</em>',
         s9P:'Keputusan SQL di hulu mengubah analisis apa yang mungkin di hilir. Two-layer CTE bukan rekayasa cerdas — itu satu-satunya jawaban yang benar mengingat schema yang ada.',
         l1Label:'Granularitas agregasi salah', l1Body:'Merata-rata jumlah tiket di level kota memberikan angka occupancy yang salah. <strong>Harus dirata-rata di level jadwal, lalu di-rollup</strong> — two-layer CTE adalah solusi yang benar. Ini jebakan umum di analytical SQL.',
         l2Label:'SQL injection dari filter', l2Body:'WHERE clause yang dikoncatenasi string membuka risiko injection. <strong>Polanya selalu: kumpulkan conditions dan params secara terpisah, gabungkan conditions dengan AND, lewatkan params ke driver</strong>.',

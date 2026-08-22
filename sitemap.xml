@@ -104,28 +104,7 @@
     <loc>https://ninditya.github.io/workforce-intelligence/</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://ninditya.github.io/ai-portfolio-summary.html</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://ninditya.github.io/ai-project-report.html</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://ninditya.github.io/cv-data-ops.html</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://ninditya.github.io/data-ops-project-report.html</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
+  </url>  <url>
     <loc>https://ninditya.github.io/portfolio-ada-report.html</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
