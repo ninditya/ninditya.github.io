@@ -583,7 +583,7 @@
           <div class="feat-body">
             <div class="feat-num" data-i18n="feat3Num">Feature 03</div>
             <div class="feat-title" data-i18n="feat3H">Outpainting — Extend the Canvas</div>
-            <p class="feat-desc" data-i18n="feat3P">Choose expansion direction (left/right/up/down). The app pads the canvas with a blurred border for context, then inpaints the new edge seamlessly. Zoom-out chains 3+ passes.</p>
+            <p class="feat-desc" data-i18n="feat3P">Choose expansion direction (left/right/up/down). The app pads the canvas with a blurred border for context, then inpaints the new edge. Zoom-out chains 3+ passes.</p>
           </div>
         </div>
         <div class="feat-card">
@@ -617,7 +617,7 @@
   <section class="content" id="experiments">
     <div class="wrap">
       <div class="section-num" data-i18n="sec05Num">05 · Experiment Design</div>
-      <h2 data-i18n="sec05Title">Three parameters, <em>systematic comparison.</em></h2>
+      <h2 data-i18n="sec05Title">Three parameters, <em>tested one at a time.</em></h2>
       <p class="lede" data-i18n="sec05Lede">
         Before building anything interactive, I ran controlled experiments — one variable at a time, everything else fixed. The goal was to build a mental model of how each parameter shapes the output.
       </p>
@@ -628,7 +628,7 @@
           <div class="exp-body">
             <div class="exp-name">How strictly does the model follow the prompt?</div>
             <div class="exp-desc">Tested at 2.0, 7.5, and 15.0. Low CFG = creative but loose. High CFG = over-saturated, loses coherence.</div>
-            <div class="exp-result">Optimal: 7.5 — best balance of fidelity and quality</div>
+            <div class="exp-result">Best result in my tests: 7.5 — best balance of fidelity and quality</div>
           </div>
         </div>
         <div class="exp-card">
@@ -636,7 +636,7 @@
           <div class="exp-body">
             <div class="exp-name">Quality vs. speed tradeoff</div>
             <div class="exp-desc">Tested at 5, 15, 30, and 50 steps. At 5 the image is incoherent. At 30+ quality plateaus — 50 steps costs 66% more compute for barely visible gain.</div>
-            <div class="exp-result">Optimal: 30 steps — diminishing returns beyond this</div>
+            <div class="exp-result">Best result in my tests: 30 steps — diminishing returns beyond this</div>
           </div>
         </div>
         <div class="exp-card">
@@ -644,7 +644,7 @@
           <div class="exp-body">
             <div class="exp-name">Which algorithm fits the target style?</div>
             <div class="exp-desc">Compared Euler A, DPM++, and DDIM on the same prompt. Euler A trends photorealistic; DPM++ excels at flat 2D illustration; DDIM lands between them.</div>
-            <div class="exp-result">Optimal: DPM++ for flat 2D illustration target</div>
+            <div class="exp-result">Best result in my tests: DPM++ for flat 2D illustration target</div>
           </div>
         </div>
       </div>
@@ -857,14 +857,14 @@
         feat2Num: 'Feature 02', feat2H: 'Inpainting — Edit Any Region',
         feat2P: 'Paint a mask directly on the generated image in the browser. The brushstroke becomes a binary mask fed into StableDiffusionInpaintPipeline. Only the painted region is regenerated.',
         feat3Num: 'Feature 03', feat3H: 'Outpainting — Extend the Canvas',
-        feat3P: 'Choose expansion direction (left/right/up/down). The app pads the canvas with a blurred border for context, then inpaints the new edge seamlessly. Zoom-out chains 3+ passes.',
+        feat3P: 'Choose expansion direction (left/right/up/down). The app pads the canvas with a blurred border for context, then inpaints the new edge. Zoom-out chains 3+ passes.',
         feat4Num: 'Feature 04', feat4H: 'CLIPSeg Auto-Masking',
         feat4P: 'Describe the region in plain language — "the moon surface" — and CLIPSeg computes a semantic mask via text-image similarity. Sigmoid > 0.5 thresholding + dilation converts the heatmap to a clean binary mask.',
         maskImg1: 'Manual masking — pixel coordinates via NumPy slicing',
         maskImg2: 'CLIPSeg segmentation — probability heatmap before thresholding',
         maskImg3: 'Zoom-out outpainting — 3 chained passes, original scene at center',
         sec05Num: '05 · Experiment Design',
-        sec05Title: 'Three parameters, systematic comparison.',
+        sec05Title: 'Three parameters, tested one at a time.',
         sec05Lede: 'Before building anything interactive, I ran controlled experiments — one variable at a time, everything else fixed. The goal was to build a mental model of how each parameter shapes the output.',
         tbl05Sched: 'Scheduler', tbl05Style: 'Characteristic style', tbl05Best: 'Best for', tbl05Speed: 'Relative speed',
         tbl05r1: 'Photorealistic, organic textures', tbl05r1b: 'Portraits, landscapes', tbl05r1c: 'Fast',

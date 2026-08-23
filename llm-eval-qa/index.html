@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LLM Chatbot Evaluation Framework — Hallucination &amp; Grounding QA · Ninditya Salma Nur Aini</title>
-  <meta name="description" content="How do you know your LLM isn't hallucinating on users right now? The evaluation methodology I ran in production at a fintech startup, demonstrated on two RAG systems I built and evaluated end-to-end myself — including a chatbot caught fabricating a support phone number that doesn't exist.">
+  <meta name="description" content="How do you know your LLM isn't hallucinating on users right now? The evaluation methodology I ran in production at a fintech startup, demonstrated on two RAG systems I built and ran end-to-end myself — including a chatbot caught fabricating a support phone number that doesn't exist.">
   <link rel="canonical" href="https://ninditya.github.io/llm-eval-qa/">
   <meta property="og:title" content="LLM Chatbot Evaluation Framework — Hallucination &amp; Grounding QA">
   <meta property="og:url" content="https://ninditya.github.io/llm-eval-qa/">
@@ -227,13 +227,13 @@
       <h1 class="title" data-i18n="heroTitle">How do you know your LLM isn't hallucinating on users right now? <em>Here's the framework that catches it.</em></h1>
       <p class="hero-lede" data-i18n="heroLede">
         The same evaluation discipline I ran in production at a fintech startup — <strong>hallucination rate, answer grounding,
-        fallback triggers</strong> — demonstrated here on two RAG systems I built and evaluated end-to-end myself: a
+        fallback triggers</strong> — demonstrated here on two RAG systems I built and ran end-to-end myself: a
         banking query router and an Indonesian health-misinformation checker. One of them caught a chatbot fabricating
         a support phone number that doesn't exist.
       </p>
       <div class="hero-meta">
         <span data-i18n="heroMetaDesign"><strong>Design</strong> eval datasets generated from the real pipeline, not hardcoded</span>
-        <span data-i18n="heroMetaDetect"><strong>Detect</strong> DeepEval + Ragas, an LLM judge kept separate from the app's own model</span>
+        <span data-i18n="heroMetaDetect"><strong>Detect</strong> the phone-number fabrication was caught by direct pipeline inspection, before any judge ran — DeepEval + Ragas (judge kept separate from the app's own model) turn it into a repeatable check</span>
         <span data-i18n="heroMetaCatch"><strong>Catch</strong> a real fabricated phone number, a real classification nuance gap</span>
         <span data-i18n="heroMetaTransfer"><strong>Transfer</strong> the same methodology used in production QA at a fintech startup</span>
       </div>
@@ -257,7 +257,7 @@
   <section class="stats-strip">
     <div class="wrap">
       <div class="stats-grid">
-        <div class="stat"><div class="num">2</div><div class="label" data-i18n="stat1">RAG systems<br>evaluated end-to-end</div></div>
+        <div class="stat"><div class="num">2</div><div class="label" data-i18n="stat1">RAG systems,<br>pipelines run end-to-end</div></div>
         <div class="stat"><div class="num">32</div><div class="label" data-i18n="stat2">Test cases<br>12 banking + 20 health claims</div></div>
         <div class="stat"><div class="num">1</div><div class="label" data-i18n="stat3">Fabricated phone number<br>caught in an ungrounded LLM tier</div></div>
         <div class="stat"><div class="num">90<small>%</small></div><div class="label" data-i18n="stat4">Classification accuracy<br>HOAX / BENAR / TIDAK LENGKAP</div></div>
@@ -511,13 +511,13 @@ GEval(
         navBack:`← All projects`, navProjects:`Projects`, navContact:`Contact`,
         kickerTag:`AI / LLM QA Portfolio`,
         heroTitle:`How do you know your LLM isn't hallucinating on users right now? <em>Here's the framework that catches it.</em>`,
-        heroLede:`The same evaluation discipline I ran in production at a fintech startup — <strong>hallucination rate, answer grounding, fallback triggers</strong> — demonstrated here on two RAG systems I built and evaluated end-to-end myself: a banking query router and an Indonesian health-misinformation checker. One of them caught a chatbot fabricating a support phone number that doesn't exist.`,
+        heroLede:`The same evaluation discipline I ran in production at a fintech startup — <strong>hallucination rate, answer grounding, fallback triggers</strong> — demonstrated here on two RAG systems I built and ran end-to-end myself: a banking query router and an Indonesian health-misinformation checker. One of them caught a chatbot fabricating a support phone number that doesn't exist.`,
         heroMetaDesign:`<strong>Design</strong> eval datasets generated from the real pipeline, not hardcoded`,
-        heroMetaDetect:`<strong>Detect</strong> DeepEval + Ragas, an LLM judge kept separate from the app's own model`,
+        heroMetaDetect:`<strong>Detect</strong> the phone-number fabrication was caught by direct pipeline inspection, before any judge ran — DeepEval + Ragas (judge kept separate from the app's own model) turn it into a repeatable check`,
         heroMetaCatch:`<strong>Catch</strong> a real fabricated phone number, a real classification nuance gap`,
         heroMetaTransfer:`<strong>Transfer</strong> the same methodology used in production QA at a fintech startup`,
         disclosure:`<strong>Full disclosure:</strong> I built and ran production LLM QA at a fintech startup (2024–2025) — hallucination rate, answer grounding, fallback triggers, and CSAT correlation across releases — but that system and its data are the startup's confidential property and can't be reproduced here. This page demonstrates the identical evaluation methodology on two systems I own outright: a banking intent router and an Indonesian health-misinformation checker, both built and evaluated independently of that employer. The findings below — including a chatbot fabricating a support phone number — are real, reproducible, and mine to show.`,
-        stat1:`RAG systems<br>evaluated end-to-end`, stat2:`Test cases<br>12 banking + 20 health claims`, stat3:`Fabricated phone number<br>caught in an ungrounded LLM tier`, stat4:`Classification accuracy<br>HOAX / BENAR / TIDAK LENGKAP`, stat5:`Fintech startup code shown<br>confidential — see disclosure`,
+        stat1:`RAG systems,<br>pipelines run end-to-end`, stat2:`Test cases<br>12 banking + 20 health claims`, stat3:`Fabricated phone number<br>caught in an ungrounded LLM tier`, stat4:`Classification accuracy<br>HOAX / BENAR / TIDAK LENGKAP`, stat5:`Fintech startup code shown<br>confidential — see disclosure`,
         whyNum:`01 · Why This Page Exists`,
         whyTitle:`Same methodology. <em>Systems I'm actually allowed to show.</em>`,
         whyLede:`The fintech startup's chatbot, its release history, and its real user traffic are confidential — I can't publish screenshots of a production dashboard or paste in real CSAT numbers. What I can do is show the exact same evaluation discipline, mechanism by mechanism, running against systems I built myself and can open completely.`,
@@ -611,13 +611,13 @@ GEval(
         navBack:`← Semua project`, navProjects:`Projects`, navContact:`Kontak`,
         kickerTag:`Portofolio AI / LLM QA`,
         heroTitle:`Bagaimana kamu tahu LLM-mu tidak sedang berhalusinasi ke user saat ini juga? <em>Ini framework yang menangkapnya.</em>`,
-        heroLede:`Disiplin evaluasi yang sama dengan yang saya jalankan di production di sebuah startup fintech — <strong>hallucination rate, answer grounding, fallback trigger</strong> — didemonstrasikan di sini pada dua sistem RAG yang saya bangun dan evaluasi sendiri end-to-end: router intent banking dan pengecek hoax kesehatan berbahasa Indonesia. Salah satunya menangkap chatbot yang mengarang nomor telepon support yang sebenarnya tidak ada.`,
+        heroLede:`Disiplin evaluasi yang sama dengan yang saya jalankan di production di sebuah startup fintech — <strong>hallucination rate, answer grounding, fallback trigger</strong> — didemonstrasikan di sini pada dua sistem RAG yang saya bangun dan jalankan sendiri end-to-end: router intent banking dan pengecek hoax kesehatan berbahasa Indonesia. Salah satunya menangkap chatbot yang mengarang nomor telepon support yang sebenarnya tidak ada.`,
         heroMetaDesign:`<strong>Design</strong> dataset evaluasi dihasilkan dari pipeline sungguhan, bukan hardcoded`,
-        heroMetaDetect:`<strong>Detect</strong> DeepEval + Ragas, LLM judge yang dijaga terpisah dari model milik app sendiri`,
+        heroMetaDetect:`<strong>Detect</strong> fabrikasi nomor telepon ditangkap lewat pemeriksaan langsung pipeline, sebelum judge mana pun berjalan — DeepEval + Ragas (judge yang dijaga terpisah dari model milik app sendiri) mengubahnya jadi pengecekan yang bisa diulang`,
         heroMetaCatch:`<strong>Catch</strong> nomor telepon palsu sungguhan, gap nuansa klasifikasi sungguhan`,
         heroMetaTransfer:`<strong>Transfer</strong> metodologi yang sama dengan QA production di startup fintech tersebut`,
         disclosure:`<strong>Full disclosure:</strong> Saya membangun dan menjalankan QA LLM production di sebuah startup fintech (2024–2025) — hallucination rate, answer grounding, fallback trigger, dan korelasi CSAT lintas rilis — tapi sistem dan datanya adalah milik rahasia startup tersebut dan tidak bisa direproduksi di sini. Halaman ini mendemonstrasikan metodologi evaluasi yang identik pada dua sistem yang sepenuhnya saya miliki: router intent banking dan pengecek hoax kesehatan Indonesia, keduanya dibangun dan dievaluasi terpisah dari employer tersebut. Temuan di bawah — termasuk chatbot yang mengarang nomor telepon support — nyata, bisa direproduksi, dan memang milik saya untuk ditunjukkan.`,
-        stat1:`Sistem RAG<br>dievaluasi end-to-end`, stat2:`Test case<br>12 banking + 20 klaim kesehatan`, stat3:`Nomor telepon palsu<br>ditangkap di tier LLM tanpa grounding`, stat4:`Akurasi klasifikasi<br>HOAX / BENAR / TIDAK LENGKAP`, stat5:`Kode production startup fintech ditampilkan<br>rahasia — lihat disclosure`,
+        stat1:`Sistem RAG,<br>pipeline dijalankan end-to-end`, stat2:`Test case<br>12 banking + 20 klaim kesehatan`, stat3:`Nomor telepon palsu<br>ditangkap di tier LLM tanpa grounding`, stat4:`Akurasi klasifikasi<br>HOAX / BENAR / TIDAK LENGKAP`, stat5:`Kode production startup fintech ditampilkan<br>rahasia — lihat disclosure`,
         whyNum:`01 · Kenapa Halaman Ini Ada`,
         whyTitle:`Metodologi yang sama. <em>Sistem yang memang boleh saya tunjukkan.</em>`,
         whyLede:`Chatbot startup fintech tersebut, riwayat rilisnya, dan traffic user sungguhannya bersifat rahasia — saya tidak bisa mempublikasikan screenshot dashboard production atau menempelkan angka CSAT sungguhan. Yang bisa saya lakukan adalah menunjukkan disiplin evaluasi yang persis sama, mekanisme demi mekanisme, berjalan di sistem yang saya bangun sendiri dan bisa saya buka sepenuhnya.`,

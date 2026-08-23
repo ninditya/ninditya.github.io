@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ETL Fashion Pipeline — Ninditya Salma Nur Aini</title>
-  <meta name="description" content="Production-ready Python ETL pipeline with full pytest coverage, dependency injection, and MagicMock isolation. 50-page fashion scraper → CSV · PostgreSQL · Google Sheets. 92% combined branch coverage.">
+  <meta name="description" content="A Python ETL pipeline with full pytest coverage, dependency injection, and MagicMock isolation. 50-page fashion scraper → CSV · PostgreSQL · Google Sheets. 92% combined branch coverage.">
   <link rel="canonical" href="https://ninditya.github.io/etl-fashion-pipeline/">
   <meta property="og:title" content="ETL Fashion Pipeline — Ninditya Salma Nur Aini">
   <meta property="og:url" content="https://ninditya.github.io/etl-fashion-pipeline/">
@@ -831,13 +831,13 @@ df[<span class="n">"colors"</span>] = (
         </div>
         <div class="impact-card reveal">
           <div class="impact-icon">📐</div>
-          <h4 data-i18n="imp6Title">Production-ready architecture</h4>
-          <p data-i18n="imp6P">Fail-safe extraction, ordered validation, injectable dependencies, and modular load — patterns used in production data systems at scale.</p>
+          <h4 data-i18n="imp6Title">Patterns borrowed from production systems</h4>
+          <p data-i18n="imp6P">Fail-safe extraction, ordered validation, injectable dependencies, and modular load — patterns used in production data systems.</p>
         </div>
         <div class="impact-card reveal">
           <div class="impact-icon">💸</div>
           <h4 data-i18n="imp7Title">What this actually prevents downstream</h4>
-          <p data-i18n="imp7P">For a pricing feed like this one, the real failure mode isn't "3 pages crash" — it's the whole run silently not updating, so whoever reads the feed (a pricing dashboard, a competitor-tracking report) acts on yesterday's prices without knowing they're stale. Fail-safe parsing turns a full-day outage into a 3-product gap, which is the difference between a noticed problem and a silent one.</p>
+          <p data-i18n="imp7P">For a pricing feed like this one, the real failure mode isn't "3 pages crash" — it's the whole run silently not updating. If this fed a real pricing dashboard, that's the failure mode fail-safe parsing would prevent. Fail-safe parsing turns a full-day outage into a 3-product gap, which is the difference between a noticed problem and a silent one.</p>
         </div>
       </div>
     </div>
@@ -971,8 +971,8 @@ df[<span class="n">"colors"</span>] = (
         imp3Title:'External APIs are isolated', imp3P:'Dependency injection means adding a new load destination (e.g. S3) requires no changes to existing test infrastructure.',
         imp4Title:'Faster debugging', imp4P:'Each module is independently runnable. A failing load never looks like a failing transform.',
         imp5Title:'CI/CD ready', imp5P:'The test suite requires no credentials or live services. It can run on any CI platform from day one.',
-        imp6Title:'Production-ready architecture', imp6P:'Fail-safe extraction, ordered validation, injectable dependencies, and modular load — patterns used in production data systems at scale.',
-        imp7Title:'What this actually prevents downstream', imp7P:'For a pricing feed like this one, the real failure mode isn\'t "3 pages crash" — it\'s the whole run silently not updating, so whoever reads the feed (a pricing dashboard, a competitor-tracking report) acts on yesterday\'s prices without knowing they\'re stale. Fail-safe parsing turns a full-day outage into a 3-product gap, which is the difference between a noticed problem and a silent one.',
+        imp6Title:'Patterns borrowed from production systems', imp6P:'Fail-safe extraction, ordered validation, injectable dependencies, and modular load — patterns used in production data systems.',
+        imp7Title:'What this actually prevents downstream', imp7P:'For a pricing feed like this one, the real failure mode isn\'t "3 pages crash" — it\'s the whole run silently not updating. If this fed a real pricing dashboard, that\'s the failure mode fail-safe parsing would prevent. Fail-safe parsing turns a full-day outage into a 3-product gap, which is the difference between a noticed problem and a silent one.',
         lessonsNum:'10 · Lessons Learned',
         lessonsTitle:'QA didn\'t just catch bugs here. <em>It changed how I designed the pipeline.</em>',
         lessonsP:'Writing tests for this pipeline changed how I wrote the pipeline itself. Functions that are hard to test are usually hard to maintain.',

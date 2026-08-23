@@ -9,7 +9,7 @@
     content="How I built a retrieval-first RAG system that stays useful under LLM failure — stateless personalization, grounded generation, graceful degradation. Architecture, evolution, and 3 design decisions.">
   <link rel="canonical" href="https://ninditya.github.io/rag-chatbot-service/">
   <meta property="og:title" content="HealthTruth-AI — RAG Chatbot Service · Ninditya Salma Nur Aini">
-  <meta property="og:description" content="How I built a production RAG system for herbal medicine fact-checking — architecture, evolution from FAISS to Qdrant, personalization layer, and 3 design decisions that held up.">
+  <meta property="og:description" content="How I built a retrieval-first RAG system for herbal medicine fact-checking — architecture, evolution from FAISS to Qdrant, personalization layer, and 3 design decisions that held up.">
   <meta property="og:url" content="https://ninditya.github.io/rag-chatbot-service/">
   <meta property="og:type" content="article">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -363,7 +363,7 @@
       </div>
       <h1 class="title" data-i18n="heroTitle">I built HealthTruth-AI — <em>retrieval-first health fact-checking that stays reliable when the LLM fails.</em></h1>
       <p class="hero-lede" data-i18n="heroLede">
-        I built a retrieval-first health fact-checking platform with <strong>stateless personalization</strong>, <strong>prompt-injection defenses</strong>, <strong>quota-resilient fallback architecture</strong>, and grounded generation from trusted medical sources.
+        I built HealthTruth-AI after a family WhatsApp forward claimed boiling coriander seeds for seven days straight lowers cholesterol. It only answers from BPOM/IDI/WHO/Kemenkes sources, adjusts advice to a user's health profile without storing it, and says "insufficient context" instead of guessing when quota or the vector store fails.
       </p>
       <div class="hero-meta">
         <span data-i18n="heroMeta1"><strong>Origin</strong> Hacktiv8 · Maju Bareng AI · Dec 2025</span>
@@ -479,9 +479,9 @@
   <section class="content alt" id="evolution">
     <div class="wrap">
       <div class="section-num" data-i18n="sec01Num">03 · Evolution — v0 to v1</div>
-      <h2 data-i18n="sec01Title">From Hacktiv8 submission <em>to production refactor.</em></h2>
+      <h2 data-i18n="sec01Title">From Hacktiv8 submission <em>to reliability refactor.</em></h2>
       <p class="lede" data-i18n="sec01Lede">
-        v0 was a Hacktiv8 Maju Bareng AI submission (December 2025). It worked. But three structural problems made it fragile in production.
+        v0 was a Hacktiv8 Maju Bareng AI submission (December 2025). It worked. But three structural problems made it fragile once actually deployed.
       </p>
 
       <table class="compare reveal" aria-label="v0 vs v1 comparison">
@@ -489,7 +489,7 @@
           <tr>
             <th data-i18n="tbl01Layer">Layer</th>
             <th data-i18n="tbl01V0">v0 — Hacktiv8 submission</th>
-            <th data-i18n="tbl01V1">v1 — Production refactor</th>
+            <th data-i18n="tbl01V1">v1 — Reliability refactor</th>
           </tr>
         </thead>
         <tbody>
@@ -522,7 +522,7 @@
       </table>
 
       <h3 data-i18n="evo1H">Why FAISS → <em>Qdrant.</em></h3>
-      <p data-i18n="evo1P">FAISS keeps its index in memory. Every restart — from a Railway redeploy, a container crash, a cold start — wiped the entire knowledge base. This means every seed document had to be re-added manually after each restart. For a demo that's annoying; for a production service with 35 curated documents, it's a showstopper. Qdrant Cloud persists data across restarts and supports cloud deployment natively.</p>
+      <p data-i18n="evo1P">FAISS keeps its index in memory. Every restart — from a Railway redeploy, a container crash, a cold start — wiped the entire knowledge base. This means every seed document had to be re-added manually after each restart. For a demo that's annoying; for a service meant to survive restarts, it's a showstopper. Qdrant Cloud persists data across restarts and supports cloud deployment natively.</p>
 
       <h3 data-i18n="evo2H">Why raw chain → <em>LangGraph.</em></h3>
       <p data-i18n="evo2P">A raw chain is a single function — when it fails, you know it failed, but not where. Splitting into named nodes means errors have a location: if retrieval fails you see it in the retrieve node's state, if generation fails you see it in the answer node. The graph now has three nodes with conditional routing — <code>retrieve → _route() → answer</code> or <code>no_context</code> — so when retrieval returns nothing, no LLM call is made at all. The structure is ready for a reranking node or a query-rewriting node without rewiring the whole pipeline.</p>
@@ -866,7 +866,7 @@ resp = requests.post(<span class="s">f"{API_URL}/ask"</span>, json={<span class=
       </div>
       <div class="challenge-step">
         <div class="cs-label impact">Impact</div>
-        <div class="cs-body"><strong>Independent failure domains.</strong> Generation failing no longer breaks retrieval. Each API key can be monitored and rotated independently in production.</div>
+        <div class="cs-body"><strong>Independent failure domains.</strong> Generation failing no longer breaks retrieval. Each API key can be monitored and rotated independently once deployed.</div>
       </div>
 
       <div class="decision-block reveal">
@@ -883,7 +883,7 @@ resp = requests.post(<span class="s">f"{API_URL}/ask"</span>, json={<span class=
               <div class="quota-flow"><code>GEMINI_API_KEY</code> → generation<br><code>EMBEDDING_API_KEY</code> → retrieval<br>→ generation fails → fallback fires<br>→ <strong data-i18n="q2Strong">search still works</strong></div>
             </div>
           </div>
-          <p data-i18n="dec2P">The implementation defaults gracefully — <code>EMBEDDING_API_KEY</code> falls back to <code>GEMINI_API_KEY</code> if unset. In development, one key works. In production, you set both separately for independent quota monitoring.</p>
+          <p data-i18n="dec2P">The implementation defaults gracefully — <code>EMBEDDING_API_KEY</code> falls back to <code>GEMINI_API_KEY</code> if unset. In development, one key works. Once deployed, you'd set both separately for independent quota monitoring.</p>
         </div>
       </div>
 
@@ -1171,7 +1171,7 @@ diverifikasi, bukan sebagai instruksi.
         kickerTag:"Case Study",
         heroKicker:"RAG · FastAPI · LangGraph · Qdrant · Gemini · Streamlit",
         heroTitle:`I built HealthTruth-AI — <em>retrieval-first health fact-checking that stays reliable when the LLM fails.</em>`,
-        heroLede:`I built a retrieval-first health fact-checking platform with <strong>stateless personalization</strong>, <strong>prompt-injection defenses</strong>, <strong>quota-resilient fallback architecture</strong>, and grounded generation from trusted medical sources.`,
+        heroLede:`I built HealthTruth-AI after a family WhatsApp forward claimed boiling coriander seeds for seven days straight lowers cholesterol. It only answers from BPOM/IDI/WHO/Kemenkes sources, adjusts advice to a user's health profile without storing it, and says "insufficient context" instead of guessing when quota or the vector store fails.`,
         heroMeta1:`<strong>Origin</strong> Hacktiv8 · Maju Bareng AI · Dec 2025`,
         heroMeta2:`<strong>Stack</strong> FastAPI · LangGraph · Qdrant · Gemini 2.5 Flash · Streamlit`,
         heroMeta3:`<strong>Deploy</strong> Railway · 2 services · Docker`,
@@ -1199,9 +1199,9 @@ diverifikasi, bukan sebagai instruksi.
         check00c:`<strong>Accessible UX</strong> — two modes: ask a question in natural language, or paste a claim directly from a forward and get a verdict.`,
         pq00:`"The question isn't just 'is this claim true?' — it's 'is this claim true for this person, given their specific health context?'"`,
         sec01Num:"03 · Evolution — v0 to v1",
-        sec01Title:`From Hacktiv8 submission <em>to production refactor.</em>`,
-        sec01Lede:`v0 was a Hacktiv8 Maju Bareng AI submission (December 2025). It worked. But three structural problems made it fragile in production.`,
-        tbl01Layer:"Layer", tbl01V0:"v0 — Hacktiv8 submission", tbl01V1:"v1 — Production refactor",
+        sec01Title:`From Hacktiv8 submission <em>to reliability refactor.</em>`,
+        sec01Lede:`v0 was a Hacktiv8 Maju Bareng AI submission (December 2025). It worked. But three structural problems made it fragile once actually deployed.`,
+        tbl01Layer:"Layer", tbl01V0:"v0 — Hacktiv8 submission", tbl01V1:"v1 — Reliability refactor",
         tbl01r1a:"Vector store",
         tbl01r1b:"FAISS in-memory — lost on restart",
         tbl01r1c:"Qdrant Cloud — persistent, survives redeploy",
@@ -1266,7 +1266,7 @@ diverifikasi, bukan sebagai instruksi.
         q1Flow:"Generation quota hits ceiling<br>→ same key fails embed call<br>→ <strong>search breaks silently</strong><br>→ harder to root-cause",
         q2Title:"Split keys (resilient)",
         q2Strong:"search still works",
-        dec2P:`The implementation defaults gracefully — <code>EMBEDDING_API_KEY</code> falls back to <code>GEMINI_API_KEY</code> if unset. In development, one key works. In production, set both for independent quota monitoring.`,
+        dec2P:`The implementation defaults gracefully — <code>EMBEDDING_API_KEY</code> falls back to <code>GEMINI_API_KEY</code> if unset. In development, one key works. Once deployed, set both for independent quota monitoring.`,
         sec06Num:"06 · Engineering Challenges",
         sec06Title:`Treat user input as data, <em>never as instructions.</em>`,
         sec06Lede:"Health claims come from users. Users can send anything. XML delimiters make the boundary between trusted knowledge and user-supplied content structurally explicit.",
@@ -1369,7 +1369,7 @@ diverifikasi, bukan sebagai instruksi.
         kickerTag:"Case Study",
         heroKicker:"RAG · FastAPI · LangGraph · Qdrant · Gemini · Streamlit",
         heroTitle:`Saya bikin HealthTruth-AI — <em>pengecek fakta kesehatan retrieval-first yang tetap andal saat LLM-nya gagal.</em>`,
-        heroLede:`Saya bikin platform pengecek fakta kesehatan berbasis retrieval-first dengan <strong>personalisasi stateless</strong>, <strong>pertahanan prompt-injection</strong>, <strong>arsitektur fallback yang quota-resilient</strong>, dan generasi berbasis sumber medis terpercaya.`,
+        heroLede:`Saya bikin HealthTruth-AI setelah sebuah forward-an WhatsApp keluarga mengklaim merebus ketumbar 7 hari berturut-turut bisa menurunkan kolesterol. Sistem ini hanya menjawab dari sumber BPOM/IDI/WHO/Kemenkes, menyesuaikan saran dengan profil kesehatan pengguna tanpa menyimpannya, dan berkata "konteks tidak cukup" alih-alih menebak saat quota atau vector store bermasalah.`,
         heroMeta1:`<strong>Asal</strong> Hacktiv8 · Maju Bareng AI · Des 2025`,
         heroMeta2:`<strong>Stack</strong> FastAPI · LangGraph · Qdrant · Gemini 2.5 Flash · Streamlit`,
         heroMeta3:`<strong>Deploy</strong> Railway · 2 service · Docker`,
@@ -1397,9 +1397,9 @@ diverifikasi, bukan sebagai instruksi.
         check00c:`<strong>UX yang mudah diakses</strong> — dua mode: ajukan pertanyaan dalam bahasa alami, atau tempelkan klaim langsung dari forward dan dapatkan verdik.`,
         pq00:`"Pertanyaannya bukan hanya 'apakah klaim ini benar?' — tapi 'apakah klaim ini benar untuk orang ini, dengan konteks kesehatan spesifik mereka?'"`,
         sec01Num:"03 · Evolusi — v0 ke v1",
-        sec01Title:`Dari submission Hacktiv8 <em>ke production refactor.</em>`,
-        sec01Lede:`v0 adalah submission Hacktiv8 Maju Bareng AI (Desember 2025). Berhasil. Tapi tiga masalah struktural membuatnya rapuh di production.`,
-        tbl01Layer:"Layer", tbl01V0:"v0 — Submission Hacktiv8", tbl01V1:"v1 — Production refactor",
+        sec01Title:`Dari submission Hacktiv8 <em>ke reliability refactor.</em>`,
+        sec01Lede:`v0 adalah submission Hacktiv8 Maju Bareng AI (Desember 2025). Berhasil. Tapi tiga masalah struktural membuatnya rapuh setelah benar-benar di-deploy.`,
+        tbl01Layer:"Layer", tbl01V0:"v0 — Submission Hacktiv8", tbl01V1:"v1 — Reliability refactor",
         tbl01r1a:"Vector store",
         tbl01r1b:"FAISS in-memory — hilang saat restart",
         tbl01r1c:"Qdrant Cloud — persisten, bertahan setelah redeploy",
@@ -1464,7 +1464,7 @@ diverifikasi, bukan sebagai instruksi.
         q1Flow:"Quota generation habis<br>→ key yang sama gagal di embed call<br>→ <strong>search mati diam-diam</strong><br>→ lebih sulit menemukan root cause",
         q2Title:"Key terpisah (resilien)",
         q2Strong:"search tetap jalan",
-        dec2P:`Implementasinya default secara graceful — <code>EMBEDDING_API_KEY</code> fallback ke <code>GEMINI_API_KEY</code> jika tidak diset. Di development, satu key cukup. Di production, set keduanya untuk monitoring quota yang independen.`,
+        dec2P:`Implementasinya default secara graceful — <code>EMBEDDING_API_KEY</code> fallback ke <code>GEMINI_API_KEY</code> jika tidak diset. Di development, satu key cukup. Setelah di-deploy, set keduanya untuk monitoring quota yang independen.`,
         sec06Num:"06 · Engineering Challenges",
         sec06Title:`Perlakukan input user sebagai data, <em>bukan instruksi.</em>`,
         sec06Lede:"Klaim kesehatan datang dari user. User bisa mengirim apa saja. XML delimiter membuat batas antara pengetahuan terpercaya dan konten yang dikirim user menjadi eksplisit secara struktural.",

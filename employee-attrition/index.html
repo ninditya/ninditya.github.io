@@ -321,9 +321,9 @@
       </div>
       <h1 class="title" data-i18n="heroTitle">I built an early-warning system that catches <em>86% of leavers before they resign.</em></h1>
       <p class="hero-lede" data-i18n="heroLede">
-        A multinational client was losing employees at <strong>16.92% annual attrition</strong> with no early-warning
-        system in place — turnover was only visible after someone had already resigned. I built an XGBoost pipeline
-        to flag at-risk employees ahead of time: 86.11% recall, 81.93% ROC-AUC, shipped as a 5-tab Metabase dashboard
+        IBM's HR Analytics dataset models a company losing employees at <strong>16.92% annual attrition</strong>, with
+        no early-warning system to catch it before someone resigns. For my IDCamp capstone, I built an XGBoost pipeline
+        to flag at-risk employees ahead of time: 86.11% recall, 81.93% ROC-AUC, packaged as a 5-tab Metabase dashboard
         on Docker + PostgreSQL.
       </p>
       <div class="hero-meta">
@@ -370,14 +370,14 @@
   <section class="content" id="problem">
     <div class="wrap">
       <div class="section-num" data-i18n="s1Num">01 · Business Problem</div>
-      <h2 data-i18n="s1Title">Their attrition rate was 16.92% — <em>well above the 10% threshold HR treats as a red flag.</em></h2>
+      <h2 data-i18n="s1Title">The dataset's attrition rate was 16.92% — <em>well above the 10% threshold HR treats as a red flag.</em></h2>
 
       <div class="two-col" style="align-items:start;">
         <div class="problem-flow" role="img" aria-label="Attrition problem funnel">
           <div class="pf-box">
             <div class="pf-label" data-i18n="companyLabel">Company</div>
             <div class="pf-num">1,058</div>
-            <div class="pf-label" data-i18n="employeesLabel">Employees</div>
+            <div class="pf-label" data-i18n="employeesLabel">Labeled Employees</div>
           </div>
           <div class="pf-arrow">↓</div>
           <div class="pf-box danger">
@@ -403,7 +403,7 @@
         </div>
         <div>
           <p class="lede" data-i18n="s1Lede">No structured early-warning existed. Attrition was discovered only after an employee resigned.</p>
-          <p data-i18n="s1P1">Replacing one employee costs 50–200% of their annual salary. At 179 per year, the financial exposure is substantial — and most of it is preventable with early identification.</p>
+          <p data-i18n="s1P1">Replacing one employee costs 50–200% of their annual salary. At 179 per year, the modeled financial exposure is substantial — and most of it is preventable with early identification.</p>
           <p data-i18n="s1P2">The dataset covers 72 features across four domains that predict departure:</p>
           <ul class="checklist">
             <li data-i18n="s1C1"><strong>Work conditions</strong> — Overtime, business travel, distance from home</li>
@@ -798,7 +798,7 @@
     <div class="wrap">
       <div class="section-num" data-i18n="s7Num">07 · Dashboard Showcase</div>
       <h2 data-i18n="s7Title">5-tab Metabase dashboard — <em>from executive KPIs to individual risk scores.</em></h2>
-      <p class="lede" data-i18n="s7Lede">Built on Docker + PostgreSQL. HR teams access everything through the browser — no Jupyter notebooks, no Python scripts.</p>
+      <p class="lede" data-i18n="s7Lede">Built on Docker + PostgreSQL — a non-technical user could open it in a browser with no Jupyter notebooks or Python scripts required.</p>
 
       <div class="dash-grid">
         <div class="dash-item full">
@@ -970,19 +970,19 @@
         kickerTag:'Applied Data Science',
         kickerText:'IDCamp Expert · HR Analytics · XGBoost · Docker',
         heroTitle:'I built an early-warning system that catches <em>86% of leavers before they resign.</em>',
-        heroLede:'A multinational client was losing employees at <strong>16.92% annual attrition</strong> with no early-warning system in place — turnover was only visible after someone had already resigned. I built an XGBoost pipeline to flag at-risk employees ahead of time: 86.11% recall, 81.93% ROC-AUC, shipped as a 5-tab Metabase dashboard on Docker + PostgreSQL.',
+        heroLede:'IBM\'s HR Analytics dataset models a company losing employees at <strong>16.92% annual attrition</strong>, with no early-warning system to catch it before someone resigns. For my IDCamp capstone, I built an XGBoost pipeline to flag at-risk employees ahead of time: 86.11% recall, 81.93% ROC-AUC, packaged as a 5-tab Metabase dashboard on Docker + PostgreSQL.',
         heroMetaModel:'<strong>Model</strong> XGBoost · 86.11% Recall · AUC 81.93%',
         heroMetaInfra:'<strong>Infra</strong> Docker · PostgreSQL · Metabase · Streamlit',
         heroMetaData:'<strong>Dataset</strong> 1,470 employees · 72 features · IBM HR Analytics',
         heroMetaLevel:'<strong>Level</strong> IDCamp Expert 2025',
         stat1:'Recall<br>catches 86% of leavers', stat2:'ROC-AUC<br>XGBoost selected', stat3:'Overtime risk<br>31.92% vs 10.79%', stat4:'Dashboard tabs<br>Docker deployed',
         s1Num:'01 · Business Problem',
-        s1Title:'Their attrition rate was 16.92% — <em>well above the 10% threshold HR treats as a red flag.</em>',
-        companyLabel:'Company', employeesLabel:'Employees', attritionLabel:'Annual Attrition', leaversLabel:'Employees / Year',
+        s1Title:'The dataset\'s attrition rate was 16.92% — <em>well above the 10% threshold HR treats as a red flag.</em>',
+        companyLabel:'Company', employeesLabel:'Labeled Employees', attritionLabel:'Annual Attrition', leaversLabel:'Employees / Year',
         costsList:'Recruitment Cost<br>Productivity Loss<br>Knowledge Loss',
         solutionLabel:'Solution Needed', solutionTitle:'Early Warning System',
         s1Lede:'No structured early-warning existed. Attrition was discovered only after an employee resigned.',
-        s1P1:'Replacing one employee costs 50–200% of their annual salary. At 179 per year, the financial exposure is substantial — and most of it is preventable with early identification.',
+        s1P1:'Replacing one employee costs 50–200% of their annual salary. At 179 per year, the modeled financial exposure is substantial — and most of it is preventable with early identification.',
         s1P2:'The dataset covers 72 features across four domains that predict departure:',
         s1C1:'<strong>Work conditions</strong> — Overtime, business travel, distance from home',
         s1C2:'<strong>Compensation</strong> — Monthly income, salary hike, stock options',
@@ -1045,7 +1045,7 @@
         pipeDockerNote:'<strong>Infrastructure:</strong> <code>docker compose up</code> starts PostgreSQL + Metabase. The entire analytics environment spins up in one command.',
         s7Num:'07 · Dashboard Showcase',
         s7Title:'5-tab Metabase dashboard — <em>from executive KPIs to individual risk scores.</em>',
-        s7Lede:'Built on Docker + PostgreSQL. HR teams access everything through the browser — no Jupyter notebooks, no Python scripts.',
+        s7Lede:'Built on Docker + PostgreSQL — a non-technical user could open it in a browser with no Jupyter notebooks or Python scripts required.',
         s8Num:'08 · Technical Stack',
         s8Title:'From model to <em>production infrastructure.</em>',
         stackML:'ML', stackData:'Data', stackBackend:'Backend', stackDB:'Database', stackInfra:'Infra',
@@ -1081,19 +1081,19 @@
         kickerTag:'Applied Data Science',
         kickerText:'IDCamp Expert · HR Analytics · XGBoost · Docker',
         heroTitle:'Saya membangun sistem early-warning yang menangkap <em>86% karyawan yang akan keluar sebelum mereka resign.</em>',
-        heroLede:'Klien multinasional ini kehilangan karyawan dengan <strong>attrisi tahunan 16,92%</strong> tanpa sistem early-warning — turnover baru terlihat setelah karyawan resign. Saya membangun pipeline XGBoost untuk menandai karyawan berisiko lebih awal: recall 86,11%, ROC-AUC 81,93%, dirilis sebagai dashboard Metabase 5 tab di atas Docker + PostgreSQL.',
+        heroLede:'Dataset HR Analytics milik IBM ini memodelkan sebuah perusahaan yang kehilangan karyawan dengan <strong>attrisi tahunan 16,92%</strong>, tanpa sistem early-warning untuk mendeteksinya sebelum karyawan resign. Untuk capstone IDCamp saya, saya membangun pipeline XGBoost untuk menandai karyawan berisiko lebih awal: recall 86,11%, ROC-AUC 81,93%, dikemas sebagai dashboard Metabase 5 tab di atas Docker + PostgreSQL.',
         heroMetaModel:'<strong>Model</strong> XGBoost · Recall 86,11% · AUC 81,93%',
         heroMetaInfra:'<strong>Infra</strong> Docker · PostgreSQL · Metabase · Streamlit',
         heroMetaData:'<strong>Dataset</strong> 1.470 karyawan · 72 fitur · IBM HR Analytics',
         heroMetaLevel:'<strong>Level</strong> IDCamp Expert 2025',
         stat1:'Recall<br>menangkap 86% yang keluar', stat2:'ROC-AUC<br>XGBoost terpilih', stat3:'Risiko overtime<br>31,92% vs 10,79%', stat4:'Tab dashboard<br>Deploy Docker',
         s1Num:'01 · Business Problem',
-        s1Title:'Attrisi mereka 16,92% — <em>jauh di atas ambang 10% yang biasa dianggap HR sebagai red flag.</em>',
-        companyLabel:'Perusahaan', employeesLabel:'Karyawan', attritionLabel:'Attrisi Tahunan', leaversLabel:'Karyawan / Tahun',
+        s1Title:'Attrisi dataset ini 16,92% — <em>jauh di atas ambang 10% yang biasa dianggap HR sebagai red flag.</em>',
+        companyLabel:'Perusahaan', employeesLabel:'Karyawan Berlabel', attritionLabel:'Attrisi Tahunan', leaversLabel:'Karyawan / Tahun',
         costsList:'Biaya Rekrutmen<br>Kehilangan Produktivitas<br>Kehilangan Pengetahuan',
         solutionLabel:'Solusi Dibutuhkan', solutionTitle:'Sistem Early Warning',
         s1Lede:'Tidak ada early-warning terstruktur. Attrisi baru diketahui setelah karyawan resign.',
-        s1P1:'Mengganti satu karyawan membutuhkan biaya 50–200% gaji tahunan mereka. Dengan 179 karyawan per tahun, eksposur finansial sangat besar — dan sebagian besar bisa dicegah dengan identifikasi dini.',
+        s1P1:'Mengganti satu karyawan membutuhkan biaya 50–200% gaji tahunan mereka. Dengan 179 karyawan per tahun, eksposur finansial yang dimodelkan cukup besar — dan sebagian besar bisa dicegah dengan identifikasi dini.',
         s1P2:'Dataset mencakup 72 fitur di empat domain yang memprediksi keluarnya karyawan:',
         s1C1:'<strong>Kondisi kerja</strong> — Overtime, perjalanan bisnis, jarak dari rumah',
         s1C2:'<strong>Kompensasi</strong> — Gaji bulanan, kenaikan gaji, opsi saham',
@@ -1156,7 +1156,7 @@
         pipeDockerNote:'<strong>Infrastruktur:</strong> <code>docker compose up</code> menjalankan PostgreSQL + Metabase. Seluruh lingkungan analitik berjalan dalam satu perintah.',
         s7Num:'07 · Dashboard Showcase',
         s7Title:'Dashboard Metabase 5 tab — <em>dari KPI eksekutif hingga skor risiko individual.</em>',
-        s7Lede:'Dibangun di atas Docker + PostgreSQL. Tim HR mengakses semuanya lewat browser — tanpa notebook Jupyter, tanpa skrip Python.',
+        s7Lede:'Dibangun di atas Docker + PostgreSQL — pengguna non-teknis dapat membukanya lewat browser tanpa perlu notebook Jupyter atau skrip Python.',
         s8Num:'08 · Technical Stack',
         s8Title:'Dari model ke <em>infrastruktur production.</em>',
         stackML:'ML', stackData:'Data', stackBackend:'Backend', stackDB:'Database', stackInfra:'Infra',

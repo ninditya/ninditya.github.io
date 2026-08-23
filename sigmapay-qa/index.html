@@ -655,8 +655,8 @@ WHERE status = <span class="s">'PENDING'</span>
   <section class="content alt" id="regression">
     <div class="wrap">
       <div class="section-num" data-i18n="regNum">08 · Regression Discipline</div>
-      <h2 data-i18n="regTitle">30 checks I run <em>before every release, not just once.</em></h2>
-      <p class="lede" data-i18n="regLede">A living checklist run before every release and every Critical/Major hotfix — not a one-time artifact. It's what caught BUG-SGP-007 outside the original scope. Critical-path items (Fund Transfer + Database Sanity) block release on any failure.</p>
+      <h2 data-i18n="regTitle">30 checks, designed to run before every release and every Critical/Major hotfix — <em>not a one-time artifact.</em></h2>
+      <p class="lede" data-i18n="regLede">It's the checklist that caught BUG-SGP-007 outside the original scope, across this project's 3 test cycles.</p>
       <div class="pill-list">
         <span class="pill"><strong>6</strong> <span data-i18n="regCat1">Login &amp; Auth</span></span>
         <span class="pill"><strong>4</strong> <span data-i18n="regCat2">Balance &amp; History</span></span>
@@ -854,8 +854,8 @@ WHERE status = <span class="s">'PENDING'</span>
         goQuote:'"Recommendation: <strong>Proceed to simulated UAT</strong> — with focused monitoring on Transfer &amp; QRIS scenarios, a rollback plan for BI-FAST reversal cases specifically, and the regression suite flagged as the top automation candidate next sprint."',
         closureCostP:'SigmaPay is a dummy bank with no real transaction volume, so there\'s no honest dollar figure to attach here. But translated to what shipping these bugs would have meant operationally: BUG-001 and BUG-002 are the two that generate real customer complaints and manual reconciliation work — a customer charged twice, or one who re-sends a transfer because the app wrongly told them the first one failed. BUG-003 is the one that becomes a formal dispute case: money debited with no completed transfer and no automatic reversal. All three normally route through a manual investigation-and-refund process in a real bank — exactly the cost that catching them pre-production avoids.',
         regNum:'08 · Regression Discipline',
-        regTitle:'30 checks I run <em>before every release, not just once.</em>',
-        regLede:'A living checklist run before every release and every Critical/Major hotfix — not a one-time artifact. It\'s what caught BUG-SGP-007 outside the original scope. Critical-path items (Fund Transfer + Database Sanity) block release on any failure.',
+        regTitle:'30 checks, designed to run before every release and every Critical/Major hotfix — <em>not a one-time artifact.</em>',
+        regLede:'It\'s the checklist that caught BUG-SGP-007 outside the original scope, across this project\'s 3 test cycles.',
         regCat1:'Login &amp; Auth', regCat2:'Balance &amp; History', regCat3:'Fund Transfer', regCat4:'QRIS Payment', regCat5:'API Layer', regCat6:'Database Sanity',
         regFullLink:'→ Full 30-item checklist',
         lessonsNum:'09 · Lessons Learned',

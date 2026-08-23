@@ -135,7 +135,7 @@
   <section class="wrap">
     <div class="blueprint stat-plate">
       <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-      <div class="stat-cell"><div class="stat-num">820 → 200</div><div class="stat-label">raw HR records collapse to 200 real people once identity is resolved</div></div>
+      <div class="stat-cell"><div class="stat-num">820 → 232</div><div class="stat-label">raw HR records resolve to 232 people — 16% over-split against the 200-person ground truth</div></div>
       <div class="stat-cell"><div class="stat-num">55.5%</div><div class="stat-label">of HRIS skill fields are blank — and not at random</div></div>
       <div class="stat-cell"><div class="stat-num">219</div><div class="stat-label">groups a naive title match forms, from 200 people and 10 real roles</div></div>
       <div class="stat-cell"><div class="stat-num">103</div><div class="stat-label">of 232 resolved records (44.4%) route to a human review queue, not a score</div></div>
@@ -397,7 +397,7 @@
           <li>The identity-resolution cascade as a config-driven service — tier rules and thresholds are parameters, not code.</li>
           <li>The declared / evidenced / inferred / unknown provenance model, generalized to any workforce attribute, not just skills.</li>
           <li>A configurable role/skill taxonomy — this client's 10 roles and 14 skills are one instance of a schema.</li>
-          <li>The Needs Data bucket and typed-trigger review queue as a reusable decision-surface primitive.</li>
+          <li>The Needs Data bucket and the review queue's trigger-reason filters — a pattern any future client's data-quality gaps can reuse.</li>
           <li>The Data Mirror fill-rate view as a zero-model, Day-30-ready deliverable for any new client — useful before any AI is built.</li>
         </ul>
       </div>

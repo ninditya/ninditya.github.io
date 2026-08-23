@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sentiment Analysis: ML vs GenAI · Ninditya Salma Nur Aini</title>
-  <meta name="description" content="A systematic comparison of TF-IDF+MLP, BiLSTM, and Gemini Flash zero-shot on 11,000 Indonesian tweets. LSTM wins at 93% accuracy — but costs $0 vs $62/year for GenAI.">
+  <meta name="description" content="A comparison of TF-IDF+MLP, BiLSTM, and Gemini Flash zero-shot on 11,000 Indonesian tweets. LSTM wins at 93% accuracy — but costs $0 vs $62/year for GenAI.">
   <link rel="canonical" href="https://ninditya.github.io/sentiment-analysis/">
   <meta property="og:title" content="Sentiment Analysis: ML vs GenAI · Ninditya Salma Nur Aini">
   <meta property="og:url" content="https://ninditya.github.io/sentiment-analysis/">
@@ -330,7 +330,7 @@
         <span class="kicker-text">Indonesian Twitter · 11,000 Tweets · Binar Academy 2023 → 2026</span>
       </div>
       <h1 class="title" data-i18n="heroTitle">ML vs GenAI<br><em>Sentiment Analysis</em></h1>
-      <p class="hero-lede" data-i18n="heroLede">Same dataset. Three approaches. One systematic question: <strong>when does BiLSTM beat Gemini Flash?</strong> And what does it actually cost to find out?</p>
+      <p class="hero-lede" data-i18n="heroLede">Same dataset. Three approaches. One question: <strong>when does BiLSTM beat Gemini Flash?</strong> And what does it actually cost to find out?</p>
       <div class="hero-meta">
         <span><strong>Dataset</strong> 11,000 Indonesian tweets · 3 classes</span>
         <span><strong>Models</strong> TF-IDF+MLP · BiLSTM · Gemini Flash 2.0</span>
@@ -404,7 +404,7 @@
     <div class="wrap">
       <div class="section-num" data-i18n="s1Num">01 · Business Question</div>
       <h2 data-i18n="s1Title">If you're building Indonesian sentiment analysis in 2026, <em>which approach do you actually choose?</em></h2>
-      <p class="lede" data-i18n="s1Lede">GenAI is fast to prototype, but nobody has directly measured it against trained LSTM on the same Indonesian dataset with the same evaluation — including cost and latency.</p>
+      <p class="lede" data-i18n="s1Lede">GenAI is fast to prototype, but I couldn't find a direct head-to-head against trained LSTM for Indonesian text — same dataset, same evaluation, including cost and latency.</p>
       <p data-i18n="s1P1">This project started as a 2023 Binar Academy final project (TF-IDF + MLP, 89.67%). In 2026 I revisited it with two questions: can a BiLSTM close the gap, and is GenAI zero-shot a practical alternative for production use?</p>
       <p data-i18n="s1P2">The evaluation covers four dimensions: accuracy, cost, latency, and prompt engineering effort. The answer isn't obvious until you look at all four together.</p>
       <div class="tags">
@@ -733,7 +733,7 @@
       </div>
 
       <h3 data-i18n="s7LatencyTitle">Latency comparison (log scale)</h3>
-      <p data-i18n="s7LatencyP">GenAI is 772× slower than the neural network. On log scale, this 24ms → 195ms range dwarfs both trained models. Bar width represents log₁₀ position.</p>
+      <p data-i18n="s7LatencyP">GenAI is 772× slower than BiLSTM. On log scale, this 0.25ms → 195ms range dwarfs the neural network. Bar width represents log₁₀ position.</p>
       <div class="latency-bars reveal" role="img" aria-label="Latency comparison bars on log scale">
         <div class="lb-row">
           <div class="lb-label" data-i18n="lbNN">TF-IDF + MLP</div>
@@ -937,7 +937,7 @@
         navBack:'← Back to portfolio', navProjects:'Projects', navContact:'Contact',
         kickerTag:'NLP · Deep Learning',
         heroTitle:'ML vs GenAI<br><em>Sentiment Analysis</em>',
-        heroLede:'Same dataset. Three approaches. One systematic question: <strong>when does BiLSTM beat Gemini Flash?</strong> And what does it actually cost to find out?',
+        heroLede:'Same dataset. Three approaches. One question: <strong>when does BiLSTM beat Gemini Flash?</strong> And what does it actually cost to find out?',
         heroMetaContext:'<strong>Context</strong> Binar Academy final project, revisited 2026',
         haSrcLabel:'Same Dataset',
         haB1Tag:'Approach 1', haB2Tag:'Approach 2 · Winner', haB3Tag:'Approach 3',
@@ -946,7 +946,7 @@
         stat3:'GenAI latency<br>vs neural network', stat4:'Annual cost for<br>BiLSTM vs $62+ GenAI',
         s1Num:'01 · Business Question',
         s1Title:'If you\'re building Indonesian sentiment analysis in 2026, <em>which approach do you actually choose?</em>',
-        s1Lede:'GenAI is fast to prototype, but nobody has directly measured it against trained LSTM on the same Indonesian dataset with the same evaluation — including cost and latency.',
+        s1Lede:'GenAI is fast to prototype, but I couldn\'t find a direct head-to-head against trained LSTM for Indonesian text — same dataset, same evaluation, including cost and latency.',
         s1P1:'This project started as a 2023 Binar Academy final project (TF-IDF + MLP, 89.67%). In 2026 I revisited it with two questions: can a BiLSTM close the gap, and is GenAI zero-shot a practical alternative for production use?',
         s1P2:'The evaluation covers four dimensions: accuracy, cost, latency, and prompt engineering effort. The answer isn\'t obvious until you look at all four together.',
         s2Num:'02 · Final Result',
@@ -992,7 +992,7 @@
         s7Title:'Accuracy, F1, and latency <em>side by side.</em>',
         s7AccTitle:'Accuracy &amp; F1',
         s7LatencyTitle:'Latency comparison (log scale)',
-        s7LatencyP:'GenAI is 772× slower than the neural network. On log scale, this 24ms → 195ms range dwarfs both trained models. Bar width represents log₁₀ position.',
+        s7LatencyP:'GenAI is 772× slower than BiLSTM. On log scale, this 0.25ms → 195ms range dwarfs the neural network. Bar width represents log₁₀ position.',
         lbNN:'TF-IDF + MLP', lbLSTM:'BiLSTM', lbGenAI:'Gemini Flash',
         lbNote:'Log₁₀ scale: NN=−3.10, LSTM=−0.60, GenAI=2.29. Bar widths normalized to log range. Actual difference: 772× NN→GenAI.',
         s7ImgTitle:'Benchmark charts',
@@ -1035,7 +1035,7 @@
         navBack:'← Kembali ke portfolio', navProjects:'Proyek', navContact:'Kontak',
         kickerTag:'NLP · Deep Learning',
         heroTitle:'ML vs GenAI<br><em>Analisis Sentimen</em>',
-        heroLede:'Dataset yang sama. Tiga pendekatan. Satu pertanyaan sistematis: <strong>kapan BiLSTM mengalahkan Gemini Flash?</strong> Dan apa biayanya?',
+        heroLede:'Dataset yang sama. Tiga pendekatan. Satu pertanyaan: <strong>kapan BiLSTM mengalahkan Gemini Flash?</strong> Dan apa biayanya?',
         heroMetaContext:'<strong>Konteks</strong> Proyek akhir Binar Academy 2023, ditinjau ulang 2026',
         haSrcLabel:'Dataset yang Sama',
         haB1Tag:'Pendekatan 1', haB2Tag:'Pendekatan 2 · Pemenang', haB3Tag:'Pendekatan 3',
@@ -1044,7 +1044,7 @@
         stat3:'Latensi GenAI<br>vs neural network', stat4:'Biaya tahunan<br>BiLSTM vs $62+ GenAI',
         s1Num:'01 · Business Question',
         s1Title:'Jika kamu membangun analisis sentimen Bahasa Indonesia di 2026, <em>pendekatan mana yang sebenarnya dipilih?</em>',
-        s1Lede:'GenAI cepat diprototype, tapi belum ada yang langsung mengukurnya vs LSTM terlatih di dataset Indonesia yang sama — termasuk biaya dan latensi.',
+        s1Lede:'GenAI cepat diprototype, tapi saya tidak menemukan perbandingan head-to-head langsung terhadap LSTM terlatih untuk teks Indonesia — dataset yang sama, evaluasi yang sama, termasuk biaya dan latensi.',
         s1P1:'Proyek ini bermula sebagai proyek akhir Binar Academy 2023 (TF-IDF + MLP, 89,67%). Di 2026 saya meninjaunya ulang dengan dua pertanyaan: bisakah BiLSTM menutup selisihnya, dan apakah zero-shot GenAI alternatif praktis untuk produksi?',
         s1P2:'Evaluasi mencakup empat dimensi: akurasi, biaya, latensi, dan upaya prompt engineering. Jawabannya tidak jelas sampai kamu melihat keempatnya bersama.',
         s2Num:'02 · Hasil Akhir',
@@ -1090,7 +1090,7 @@
         s7Title:'Akurasi, F1, dan latensi <em>berdampingan.</em>',
         s7AccTitle:'Akurasi &amp; F1',
         s7LatencyTitle:'Perbandingan latensi (skala log)',
-        s7LatencyP:'GenAI 772× lebih lambat dari neural network. Pada skala log, rentang 24ms → 195ms ini mengungguli kedua model terlatih. Lebar bar merepresentasikan posisi log₁₀.',
+        s7LatencyP:'GenAI 772× lebih lambat dari BiLSTM. Pada skala log, rentang 0,25ms → 195ms ini mengungguli neural network. Lebar bar merepresentasikan posisi log₁₀.',
         lbNN:'TF-IDF + MLP', lbLSTM:'BiLSTM', lbGenAI:'Gemini Flash',
         lbNote:'Skala Log₁₀: NN=−3,10, LSTM=−0,60, GenAI=2,29. Lebar bar dinormalisasi ke rentang log. Perbedaan aktual: 772× NN→GenAI.',
         s7ImgTitle:'Chart benchmark',
