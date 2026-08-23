@@ -606,15 +606,15 @@ h1 {
   </div>
 
   <div class="nav-group">
-    <div class="nav-label">Data Engine</div>
+    <div class="nav-label">Versi Data</div>
     <div class="data-engine-card">
       <div class="engine-toggle">
         <button id="btn-ds-a" onclick="setDataset('A')">Dataset A</button>
         <button id="btn-ds-b" class="active" onclick="setDataset('B')">Dataset B</button>
       </div>
       <p id="engine-status-text" class="engine-meta">
-        Dataset Aktif: <b>Dataset B</b><br>
-        Identitas ter-resolve 1 baris per orang.
+        Menampilkan: <b>Data Tervalidasi (Dataset B)</b><br>
+        Setiap karyawan sudah dicocokkan jadi satu identitas.
       </p>
       <div class="engine-bar-bg">
         <div id="engine-bar" class="engine-bar-fill" style="width: 85%;"></div>
@@ -625,7 +625,7 @@ h1 {
   <div class="nav-group">
     <div class="nav-label">Main Menu</div>
     <button id="nav-queue" class="nav-btn active" onclick="switchView('queue')">
-      <span>Keputusan Gap</span>
+      <span>Gap Kompetensi Tim</span>
       <span class="badge" id="badge-queue">51</span>
     </button>
     <button id="nav-needs" class="nav-btn" onclick="switchView('needs')">
@@ -637,15 +637,16 @@ h1 {
       <span class="badge" id="badge-review">103</span>
     </button>
     <button id="nav-branches" class="nav-btn" onclick="switchView('branches')">
-      <span>Cermin Data</span>
+      <span>Kelengkapan Data Cabang</span>
       <span class="badge" id="badge-branches">12</span>
     </button>
   </div>
 
   <div class="sidebar-footer">
-    Data sintetis, seed 20260807.<br>
-    200 manusia, 820 baris sumber.<br>
-    Tidak ada data karyawan nyata.
+    🔧 <b style="color:rgba(255,255,255,0.7)">Data Demo</b><br>
+    Disimulasikan dari 200 orang.<br>
+    Tidak ada data karyawan sungguhan.<br>
+    <span style="opacity:0.6">Dataset B · Seed 20260807</span>
   </div>
 </aside>
 
@@ -661,15 +662,15 @@ const CANON_BRANCH = ["Jakarta Pusat","Bekasi","Bandung","Surabaya","Semarang","
 const TIER = {"Jakarta Pusat":"high","Bekasi":"high","Bandung":"high","Surabaya":"mid","Semarang":"mid","Yogyakarta":"mid","Medan":"mid","Denpasar":"mid","Palembang":"low","Makassar":"low","Balikpapan":"low","Manado":"low"};
 const TIER_ID = {high:"Tinggi", mid:"Menengah", low:"Rendah"};
 const REASON_LABEL = {
-  identity_probabilistic_or_orphan: "Identitas probabilistik / orphan",
-  hire_date_conflict_within_hris: "Konflik tanggal masuk HRIS",
-  status_conflict_possible_transfer: "Konflik status (indikasi mutasi)",
-  skill_no_signal: "Tidak ada sinyal skill",
-  title_unmapped_or_fuzzy: "Title tidak terpetakan"
+  identity_probabilistic_or_orphan: "Identitas belum bisa dipastikan",
+  hire_date_conflict_within_hris: "Tanggal masuk berbeda antar-sistem",
+  status_conflict_possible_transfer: "Status berbeda antar-sistem",
+  skill_no_signal: "Belum ada data kompetensi",
+  title_unmapped_or_fuzzy: "Jabatan belum bisa dipetakan"
 };
 const TIER_LABEL = {
-  T1_email: "T1 (Email)", T1_nik: "T1 (NIK)", T2_name_dob: "T2 (Nama+DOB)",
-  T3a_fuzzy_high: "T3a (Fuzzy Tinggi)", T3b_fuzzy_mid: "T3b (Fuzzy Sedang)", T4_single_hris: "T4 (HRIS Saja)", T4_orphan: "T4 (Orphan)"
+  T1_email: "Kecocokan Tinggi (Email)", T1_nik: "Kecocokan Tinggi (NIK)", T2_name_dob: "Kecocokan Baik (Nama+Tgl Lahir)",
+  T3a_fuzzy_high: "Kecocokan Sedang-Tinggi", T3b_fuzzy_mid: "Kecocokan Sedang", T4_single_hris: "Data 1 Sumber Saja", T4_orphan: "Belum Ada Kecocokan"
 };
 
 let RAW_A = [];
@@ -840,11 +841,11 @@ function updateBadges() {
   const statusEl = document.getElementById('engine-status-text');
   const barEl = document.getElementById('engine-bar');
   if (currentDataset === 'A') {
-    statusEl.innerHTML = 'Dataset Aktif: <b>Dataset A (Raw)</b><br>Data mentah tanpa resolusi identitas.';
+    statusEl.innerHTML = 'Menampilkan: <b>Data Mentah (Dataset A)</b><br>Belum digabungkan atau dicocokkan identitasnya.';
     barEl.style.width = '35%';
     barEl.style.background = '#E74C3C';
   } else {
-    statusEl.innerHTML = 'Dataset Aktif: <b>Dataset B (Resolved)</b><br>Identitas terpetakan 1 baris per orang.';
+    statusEl.innerHTML = 'Menampilkan: <b>Data Tervalidasi (Dataset B)</b><br>Setiap karyawan sudah dicocokkan jadi satu identitas.';
     barEl.style.width = '85%';
     barEl.style.background = 'var(--gold)';
   }
@@ -854,7 +855,7 @@ function setDataset(ds) {
   if (currentDataset === ds) return;
   currentDataset = ds;
   updateBadges();
-  showToast('Beralih ke Dataset ' + ds + (ds === 'B' ? ' (Ter-resolve & Confidence-scored)' : ' (Union Mentah Tiga Sistem)'));
+  showToast('Beralih ke ' + (ds === 'B' ? 'Data Tervalidasi (Dataset B)' : 'Data Mentah (Dataset A)'));
   render();
 }
 
@@ -912,29 +913,29 @@ function renderQueue(main) {
 
   const critCount = groups.filter(g => g.gap >= 0.85).length;
   const headline = currentDataset === 'A'
-    ? 'Bulan ini ' + groups.length + ' tim terindikasi gap. ' + critCount + ' tampak kritis — dan sistem tidak tahu mana yang nyata.'
-    : 'Bulan ini ' + groups.length + ' tim memiliki gap terukur. ' + critCount + ' butuh keputusan strategis minggu ini.';
+    ? groups.length + ' tim tampak memiliki gap berdasarkan data mentah — tapi datanya belum dicocokkan, jadi ' + critCount + ' yang terlihat "kritis" bisa jadi cuma catatan kosong, bukan kompetensi yang benar-benar kurang.'
+    : groups.length + ' tim menunjukkan kesenjangan kompetensi yang terukur. ' + critCount + ' di antaranya memiliki gap kritis dan perlu segera ditindaklanjuti.';
 
   let html = `
-    <div class="header-meta">Data Workforce Intelligence · Permukaan Keputusan</div>
-    <h1>Strategi Kompetensi Tim</h1>
+    <div class="header-meta">Workforce Intelligence · Gap Kompetensi Tim</div>
+    <h1>Kesenjangan Kompetensi Tim</h1>
     <p class="header-desc">${headline}</p>
 
     <div class="card-container">
       <div class="glass-card">
         <div class="card-val" style="color:var(--accent)">${groups.length}</div>
-        <div class="card-label">${currentDataset === 'A' ? 'Grup Title Terbentuk' : 'Tim Dinilai'}</div>
-        <div class="card-desc">Unit kerja yang dievaluasi kesesuaian skill terhadap kebutuhan operasional.</div>
+        <div class="card-label">${currentDataset === 'A' ? 'Kelompok Terbentuk (Belum Divalidasi)' : 'Tim Dinilai'}</div>
+        <div class="card-desc">Tim yang datanya cukup untuk dibandingkan dengan kebutuhan kompetensi perannya.</div>
       </div>
       <div class="glass-card">
         <div class="card-val" style="color:var(--danger)">${critCount}</div>
-        <div class="card-label">Gap Level Kritis (≥85%)</div>
-        <div class="card-desc">Memerlukan intervensi segera melalui mutasi, pelatihan intensif, atau rekrutmen.</div>
+        <div class="card-label">Gap Kritis (≥85%)</div>
+        <div class="card-desc">Tim dengan tingkat gap 85% atau lebih. Perlu keputusan (mutasi, pelatihan, atau rekrutmen) segera.</div>
       </div>
       <div class="glass-card">
         <div class="card-val" style="color:var(--gold)">${currentDataset === 'B' ? needsDataB.length : '0'}</div>
-        <div class="card-label">Dialihkan ke Butuh Data</div>
-        <div class="card-desc">${currentDataset === 'B' ? 'Tim tanpa sinyal valid tidak diberi skor palsu, melainkan dipisahkan ke antrean verifikasi.' : 'Dataset A tidak memisahkan data kosong dari gap nyata.'}</div>
+        <div class="card-label">Tim Belum Bisa Dinilai</div>
+        <div class="card-desc">${currentDataset === 'B' ? 'Datanya belum cukup untuk dinilai secara adil, jadi tim ini belum diberi skor gap.' : 'Data mentah tidak bisa membedakan "datanya kosong" dari "kompetensinya memang kurang".'}</div>
       </div>
     </div>
 
@@ -947,12 +948,12 @@ function renderQueue(main) {
       <table class="data-table">
         <thead>
           <tr>
-            <th>WILAYAH</th>
-            <th>PERAN UTAMA</th>
-            <th>GAP LEVEL</th>
-            <th>SKILL KRITIS</th>
-            <th>ORANG</th>
-            <th>AKSI</th>
+            <th>CABANG</th>
+            <th>PERAN</th>
+            <th>GAP KOMPETENSI</th>
+            <th>KOMPETENSI YANG KURANG</th>
+            <th>KARYAWAN</th>
+            <th>PRIORITAS</th>
             <th>STATUS DATA</th>
           </tr>
         </thead>
@@ -1008,7 +1009,7 @@ function renderQueue(main) {
     </div>
 
     <div class="footer-info">
-      <p><b>Catatan Pengolahan & Komparasi:</b> ${currentDataset === 'B' ? 'Dataset B mengeliminasi distorsi pencatatan cabang hingga 85% (spread 0.461 → 0.067). Hanya 10 dari 30 tim teratas versi naif yang bertahan di peringkat terverifikasi. Kami merekomendasikan skor ini sebagai dasar alokasi anggaran pelatihan Q4.' : 'Dataset A didasarkan pada string judul mentah tanpa resolusi identitas. 5 dari 10 tim di peringkat teratas berasal dari cabang adopsi HRIS rendah, bukan karena gap kompetensi nyata, melainkan karena catatan kosong.'}</p>
+      <p><b>Catatan Pengolahan & Komparasi:</b> ${currentDataset === 'B' ? 'Setelah data karyawan dicocokkan dan dibersihkan, perbedaan skor gap antar cabang turun 85% (dari rentang 0,461 menjadi 0,067). Hanya 10 dari 30 tim yang sebelumnya berada di peringkat teratas versi data mentah yang tetap masuk daftar setelah verifikasi. Hasil ini bisa jadi salah satu dasar penentuan prioritas pelatihan Q4 — bukan satu-satunya pertimbangan.' : 'Data mentah (Dataset A) hanya mengelompokkan berdasarkan judul jabatan yang tertulis, tanpa memastikan itu benar-benar orang yang sama. Akibatnya, 5 dari 10 tim di peringkat teratas berasal dari cabang dengan catatan HRIS paling sedikit terisi — bukan karena kompetensinya memang paling rendah.'}</p>
     </div>
   `;
 
@@ -1018,15 +1019,15 @@ function renderQueue(main) {
 function renderNeeds(main) {
   if (currentDataset === 'A') {
     main.innerHTML = `
-      <div class="header-meta">Data Workforce Intelligence · Input Data</div>
-      <h1>Layar Butuh Data Tidak Tersedia di Dataset A</h1>
+      <div class="header-meta">Workforce Intelligence · Input Data</div>
+      <h1>Halaman Ini Perlu Data Tervalidasi (Dataset B)</h1>
       <p class="header-desc">Dataset A tidak dapat memisahkan antara karyawan yang benar-benar tidak memiliki skill dengan karyawan yang datanya belum sempat diinput.</p>
 
       <div class="glass-card" style="max-width:700px; margin-top:20px; padding:32px;">
-        <h3 style="font-family:var(--font-display); margin-bottom:12px; font-size:20px;">Mengapa Bucket Ini Sangat Penting?</h3>
+        <h3 style="font-family:var(--font-display); margin-bottom:12px; font-size:20px;">Kenapa Tim Tanpa Data Dipisahkan, Bukan Dihitung Gap-nya?</h3>
         <p style="font-size:14px; line-height:1.65; color:var(--text-muted); margin-bottom:24px;">
-          Pada pembacaan naif (Dataset A), field kosong menghasilkan skor gap 1.00 dan langsung didorong ke antrean reskilling. Ini membuang anggaran pelatihan ke orang-orang yang sudah kompeten tapi belum dicatat.
-          Di <b>Dataset B</b>, lapis kontekstualisasi memisahkan kasus tanpa sinyal ke antrean <b>Input Data</b> ini.
+          Di data mentah (Dataset A), field yang kosong dihitung sebagai skor gap 100% dan langsung masuk antrean pelatihan ulang — padahal belum tentu orangnya memang tidak kompeten, bisa jadi datanya saja yang belum dicatat. Ini membuang anggaran pelatihan ke orang yang sebenarnya sudah kompeten.
+          Di <b>Dataset B</b>, tim tanpa data yang cukup dipisahkan dulu ke antrean <b>Input Data</b> ini, bukan langsung diberi skor gap.
         </p>
         <button class="btn-action" style="padding:10px 20px; font-size:13.5px;" onclick="setDataset('B'); switchView('needs');">
           Beralih ke Dataset B untuk Melihat Layar Ini →
@@ -1037,25 +1038,26 @@ function renderNeeds(main) {
   }
 
   let html = `
-    <div class="header-meta">Data Workforce Intelligence · Bucket Terpisah</div>
+    <div class="header-meta">Workforce Intelligence · Input Data</div>
     <h1>Input & Kelengkapan Data</h1>
-    <p class="header-desc">${needsDataB.length} tim belum dapat dinilai secara adil karena mayoritas anggotanya belum memiliki rekaman sinyal skill terverifikasi.</p>
+    <p class="header-desc">${needsDataB.length} tim belum dapat dinilai secara adil karena mayoritas anggotanya belum memiliki data kompetensi yang terverifikasi.</p>
 
     <div class="card-container">
       <div class="glass-card">
         <div class="card-val" style="color:var(--gold)">${needsDataB.length}</div>
-        <div class="card-label">Unit Butuh Data</div>
+        <div class="card-label">Tim Belum Bisa Dinilai</div>
         <div class="card-desc">Dikeluarkan dari pemeringkatan kompetensi agar tidak menerima intervensi keliru.</div>
       </div>
       <div class="glass-card">
+        <!-- ⚠️ RED FLAG belum diputuskan: field sumbernya (hris_skill_blank_rate) adalah tingkat data KOSONG, bukan tingkat terisi — label & angka di bawah ini kemungkinan salah satunya perlu diubah. Lihat wi_copy_audit STEP 4 #1. Sengaja belum disentuh. -->
         <div class="card-val">55.5%</div>
         <div class="card-label">HRIS Fill Rate Nasional</div>
         <div class="card-desc">Tingkat kekosongan data historis yang terdistribusi tidak merata antarcabang.</div>
       </div>
       <div class="glass-card">
         <div class="card-val" style="color:var(--accent)">100%</div>
-        <div class="card-label">Kejujuran Algoritma</div>
-        <div class="card-desc">Sistem berani mengatakan "tidak tahu" daripada menebak tanpa dasar.</div>
+        <div class="card-label">Tidak Ada Skor Dipaksakan</div>
+        <div class="card-desc">Kebijakan sistem: tim tanpa data cukup tidak diberi skor gap, bukan diberi skor asal tebak.</div>
       </div>
     </div>
 
@@ -1063,12 +1065,12 @@ function renderNeeds(main) {
       <table class="data-table">
         <thead>
           <tr>
-            <th>WILAYAH</th>
-            <th>PERAN UTAMA</th>
-            <th>JUMLAH ANGGOTA</th>
-            <th>SINYAL TERSEDIA</th>
+            <th>CABANG</th>
+            <th>PERAN</th>
+            <th>JUMLAH KARYAWAN</th>
+            <th>DATA TERSEDIA</th>
             <th>STATUS KELENGKAPAN</th>
-            <th>AKSI YANG DISARANKAN</th>
+            <th>TINDAKAN</th>
           </tr>
         </thead>
         <tbody>
@@ -1086,7 +1088,7 @@ function renderNeeds(main) {
         <td style="font-variant-numeric:tabular-nums; font-weight:600;">${g.headcount} Orang</td>
         <td style="font-variant-numeric:tabular-nums;">${Math.round(g.signalRatio * g.headcount)} dari ${g.headcount}</td>
         <td><span class="tag-pill pill-warn">${req.length} Skill Belum Terekam</span></td>
-        <td><span class="btn-action">Lengkapi Profil Data →</span></td>
+        <td><span class="btn-action">Lengkapi Data Kompetensi →</span></td>
       </tr>
     `;
   });
@@ -1097,7 +1099,7 @@ function renderNeeds(main) {
     </div>
 
     <div class="footer-info">
-      <p><b>Prinsip Tata Kelola Data:</b> Memberikan skor gap kepada tim yang tidak memiliki data sama saja dengan menyamakan ketidaktahuan dengan ketidakmampuan. Tindakan yang tepat adalah melengkapi profil karyawan melalui asesmen mandiri atau verifikasi supervisor, bukan mengirim mereka ke pelatihan.</p>
+      <p><b>Prinsip Tata Kelola Data:</b> Tim dengan data yang belum cukup tidak dimasukkan ke pemeringkatan gap — ini mencegah "datanya belum diisi" dianggap sama dengan "kompetensinya kurang". Langkah yang tepat: lengkapi profil lewat asesmen mandiri atau verifikasi supervisor, bukan langsung kirim ke pelatihan.</p>
     </div>
   `;
 
@@ -1107,13 +1109,13 @@ function renderNeeds(main) {
 function renderReview(main) {
   if (currentDataset === 'A') {
     main.innerHTML = `
-      <div class="header-meta">Data Workforce Intelligence · Review HR</div>
-      <h1>Antrean Review HR Tidak Tersedia di Dataset A</h1>
-      <p class="header-desc">Dataset A tidak memiliki model kepercayaan (confidence-scoring), sehingga tidak dapat mendeteksi record yang meragukan.</p>
+      <div class="header-meta">Workforce Intelligence · Review HR</div>
+      <h1>Halaman Ini Perlu Data Tervalidasi (Dataset B)</h1>
+      <p class="header-desc">Dataset A tidak memiliki skor keyakinan per record, sehingga tidak dapat mendeteksi data yang meragukan.</p>
       <div class="glass-card" style="max-width:700px; margin-top:20px; padding:32px;">
-        <h3 style="font-family:var(--font-display); margin-bottom:12px; font-size:20px;">Otomasi Tanpa Keyakinan adalah Jebakan</h3>
+        <h3 style="font-family:var(--font-display); margin-bottom:12px; font-size:20px;">Kenapa Data Mentah Tidak Bisa Ditandai "Perlu Diperiksa"?</h3>
         <p style="font-size:14px; line-height:1.65; color:var(--text-muted); margin-bottom:24px;">
-          Union naif memperlakukan semua record dengan bobot kepastian yang sama. Di <b>Dataset B</b>, ada 103 record (44.4%) yang secara sengaja dialihkan ke antrean review manusia karena ambiguitas nama, mutasi, atau tanggal masuk.
+          Penggabungan data mentah memperlakukan semua record dengan tingkat kepastian yang sama. Di <b>Dataset B</b>, ada 103 record (44.4%) yang secara sengaja dialihkan ke antrean review HR karena nama tidak jelas, indikasi mutasi, atau tanggal masuk yang berbeda antar-sistem.
         </p>
         <button class="btn-action" style="padding:10px 20px; font-size:13.5px;" onclick="setDataset('B'); switchView('review');">
           Beralih ke Dataset B untuk Mengakses Antrean Review →
@@ -1125,11 +1127,11 @@ function renderReview(main) {
 
   const activeFlagged = flaggedRecords.filter(r => !reviewedRecords[r.person_id]);
   const triggerKeys = Object.keys(REASON_LABEL);
-  
+
   let html = `
-    <div class="header-meta">Data Workforce Intelligence · Human In The Loop</div>
-    <h1>Antrean Validasi & Review HR</h1>
-    <p class="header-desc">${flaggedRecords.length} record terdeteksi memiliki ketidakpastian identitas atau anomali data yang memerlukan keputusan verifikator.</p>
+    <div class="header-meta">Workforce Intelligence · Review HR</div>
+    <h1>Data yang Perlu Diperiksa HR</h1>
+    <p class="header-desc">${flaggedRecords.length} data karyawan perlu diperiksa sebelum dipakai dalam analisis kompetensi.</p>
 
     <div class="trigger-grid">
   `;
@@ -1161,11 +1163,11 @@ function renderReview(main) {
         <thead>
           <tr>
             <th>KARYAWAN</th>
-            <th>PERAN UTAMA</th>
-            <th>TIER IDENTITAS</th>
-            <th>SKOR KUALITAS</th>
-            <th>ALASAN REVIEW</th>
-            <th>AKSI VALIDASI</th>
+            <th>PERAN</th>
+            <th>KECOCOKAN IDENTITAS</th>
+            <th>SKOR KUALITAS DATA</th>
+            <th>ALASAN PERLU DIPERIKSA</th>
+            <th>TINDAKAN</th>
           </tr>
         </thead>
         <tbody>
@@ -1198,8 +1200,8 @@ function renderReview(main) {
           <td><span style="font-weight:600; font-variant-numeric:tabular-nums; color:var(--gold);">${dq}</span></td>
           <td style="font-size:12px; color:var(--text-muted); max-width:240px;">${reasons}</td>
           <td>
-            <button class="btn-action" onclick="showPerson('${r.person_id}')">Tinjau</button>
-            <button class="btn-resolve" onclick="markReviewed('${r.person_id}', '${r.resolved_name}', event)">Selesai</button>
+            <button class="btn-action" onclick="showPerson('${r.person_id}')">Lihat Detail</button>
+            <button class="btn-resolve" onclick="markReviewed('${r.person_id}', '${r.resolved_name}', event)">Tandai Selesai</button>
           </td>
         </tr>
       `;
@@ -1212,7 +1214,7 @@ function renderReview(main) {
     </div>
 
     <div class="footer-info">
-      <p><b>Alur Kerja Operasional:</b> Antrean ini diurutkan berdasarkan dampak strategis keputusan. Setiap kasus yang diselesaikan oleh tim HR secara otomatis mengupdate status audit dan mengurangi risiko bias data pada perhitungan skill gap organisasi.</p>
+      <p><b>Alur Kerja Operasional:</b> Setiap kasus yang Anda tandai selesai langsung memperbarui data yang dipakai untuk menghitung skill gap organisasi — jadi semakin cepat diperiksa, semakin akurat laporan gap di halaman Gap Kompetensi Tim.</p>
     </div>
   `;
 
@@ -1221,25 +1223,25 @@ function renderReview(main) {
 
 function renderBranches(main) {
   let html = `
-    <div class="header-meta">Data Workforce Intelligence · Artefak Hari Ke-30</div>
-    <h1>Cermin Data — Fill Rate Cabang</h1>
+    <div class="header-meta">Workforce Intelligence · Kelengkapan Data</div>
+    <h1>Kelengkapan Data Kompetensi per Cabang</h1>
     <p class="header-desc">Sebaran kelengkapan pengisian data skill HRIS di 12 cabang operasional Medika Nusantara.</p>
 
     <div class="card-container">
       <div class="glass-card">
         <div class="card-val" style="color:var(--accent)">12</div>
         <div class="card-label">Total Cabang Diuji</div>
-        <div class="card-desc">Mewakili kluster adopsi sistem HRIS tinggi, menengah, dan rendah.</div>
+        <div class="card-desc">Mewakili kluster tingkat pengisian data HRIS tinggi, menengah, dan rendah.</div>
       </div>
       <div class="glass-card">
         <div class="card-val" style="color:var(--danger)">4</div>
-        <div class="card-label">Cabang Adopsi Rendah</div>
-        <div class="card-desc">Mencatat kurang dari 20% profil skill karyawannya.</div>
+        <div class="card-label">Cabang dengan Data Rendah</div>
+        <div class="card-desc">Kurang dari 20% karyawannya punya data kompetensi tercatat.</div>
       </div>
       <div class="glass-card">
         <div class="card-val" style="color:var(--gold)">85%</div>
-        <div class="card-label">Reduksi Bias Penilaian</div>
-        <div class="card-desc">Penurunan disparitas skor semu setelah resolusi identitas diterapkan.</div>
+        <div class="card-label">Penurunan Perbedaan Skor Semu</div>
+        <div class="card-desc">Setelah data karyawan dicocokkan dengan benar, perbedaan skor antar cabang turun signifikan — bukan karena kompetensinya berubah, tapi karena datanya lebih akurat.</div>
       </div>
     </div>
 
@@ -1247,11 +1249,11 @@ function renderBranches(main) {
       <table class="data-table">
         <thead>
           <tr>
-            <th>WILAYAH / CABANG</th>
-            <th>TIER ADOPSI</th>
-            <th>CATATAN TERISI</th>
-            <th>FILL RATE</th>
-            <th>SEBARAN KELENGKAPAN DATA</th>
+            <th>CABANG</th>
+            <th>TINGKAT DATA</th>
+            <th>KARYAWAN TERCATAT</th>
+            <th>PERSENTASE TERISI</th>
+            <th>SEBARAN KELENGKAPAN</th>
           </tr>
         </thead>
         <tbody>
@@ -1265,7 +1267,7 @@ function renderBranches(main) {
     html += `
       <tr>
         <td><b>${b.name}</b></td>
-        <td><span class="tag-pill ${tierPill}">Adopsi ${b.tier}</span></td>
+        <td><span class="tag-pill ${tierPill}">Data ${b.tier}</span></td>
         <td style="font-variant-numeric:tabular-nums; font-weight:500;">${b.f} dari ${b.n} Karyawan</td>
         <td style="font-variant-numeric:tabular-nums; font-weight:700;">${ratePct}</td>
         <td>
@@ -1285,7 +1287,7 @@ function renderBranches(main) {
     </div>
 
     <div class="footer-info">
-      <p><b>Wawasan Penilaian (Day 30):</b> Seluruh data sintetis digenerate dari distribusi kompetensi yang identik di semua cabang. Perbedaan skor gap pada pembacaan naif 100% disebabkan oleh disparitas kebiasaan pencatatan HRIS, bukan perbedaan keahlian nyata tenaga kerja.</p>
+      <p><b>Catatan Data Demo:</b> Dataset ini sengaja dibuat dengan tingkat kompetensi yang sama rata di semua cabang. Jadi seluruh perbedaan skor gap yang muncul di data mentah murni disebabkan kebiasaan pencatatan HRIS yang berbeda-beda per cabang — bukan perbedaan kompetensi karyawan yang sesungguhnya.</p>
     </div>
   `;
 
@@ -1326,30 +1328,30 @@ function renderPerson(main) {
       </div>
       <div class="glass-card">
         <div class="card-val">${(p.identity_confidence * 100).toFixed(0)}%</div>
-        <div class="card-label">Keyakinan Identitas</div>
-        <div class="card-desc">Tier: ${TIER_LABEL[p.identity_tier] || p.identity_tier}</div>
+        <div class="card-label">Kepastian Identitas</div>
+        <div class="card-desc">Tingkat: ${TIER_LABEL[p.identity_tier] || p.identity_tier}</div>
       </div>
       <div class="glass-card">
         <div class="card-val" style="color:var(--gold)">${(p.role_confidence * 100).toFixed(0)}%</div>
-        <div class="card-label">Kesesuaian Peran</div>
+        <div class="card-label">Kecocokan Peran</div>
         <div class="card-desc">Metode: ${p.role_match_method}</div>
       </div>
       <div class="glass-card">
         <div class="card-val">${p.required_skill_covered}/${p.required_skill_count}</div>
-        <div class="card-label">Skill Terpenuhi</div>
+        <div class="card-label">Kompetensi Terpenuhi</div>
         <div class="card-desc">Cakupan kompetensi wajib posisi.</div>
       </div>
     </div>
 
-    <h2 style="font-family:var(--font-display); font-size:22px; margin-bottom:14px;">Provenance & Status Kompetensi</h2>
+    <h2 style="font-family:var(--font-display); font-size:22px; margin-bottom:14px;">Sumber & Status Setiap Kompetensi</h2>
     <div class="table-wrapper">
       <table class="data-table">
         <thead>
           <tr>
-            <th>KOMPETENSI / SKILL</th>
-            <th>STATUS KLAIM</th>
-            <th>CONFIDENCE</th>
-            <th>SUMBER BUKTI DATA</th>
+            <th>KOMPETENSI</th>
+            <th>STATUS</th>
+            <th>TINGKAT KEYAKINAN</th>
+            <th>SUMBER DATA</th>
           </tr>
         </thead>
         <tbody>
@@ -1371,18 +1373,18 @@ function renderPerson(main) {
       </table>
     </div>
 
-    <h2 style="font-family:var(--font-display); font-size:22px; margin-top:36px; margin-bottom:14px;">Jejak Audit Resolusi Identitas</h2>
+    <h2 style="font-family:var(--font-display); font-size:22px; margin-top:36px; margin-bottom:14px;">Riwayat Pencocokan Data Karyawan</h2>
     <div class="table-wrapper">
       <table class="data-table">
         <tbody>
-          <tr><td style="width:240px; color:var(--text-muted);">Tier Resolusi Identitas</td><td><b>${TIER_LABEL[p.identity_tier] || p.identity_tier}</b> (Tingkat Keyakinan: ${(p.identity_confidence * 100).toFixed(0)}%)</td></tr>
-          <tr><td style="color:var(--text-muted);">ID Record Sumber</td><td><code>${p.source_record_ids}</code></td></tr>
+          <tr><td style="width:240px; color:var(--text-muted);">Tingkat Kecocokan Identitas</td><td><b>${TIER_LABEL[p.identity_tier] || p.identity_tier}</b> (Tingkat Keyakinan: ${(p.identity_confidence * 100).toFixed(0)}%)</td></tr>
+          <tr><td style="color:var(--text-muted);">ID Data Sumber</td><td><code>${p.source_record_ids}</code></td></tr>
           <tr><td style="color:var(--text-muted);">Sistem Asal Data</td><td>${p.source_systems.replace(/,/g, ', ')}</td></tr>
-          <tr><td style="color:var(--text-muted);">Variasi Nama Terdeteksi</td><td>${au.name_variants_observed || p.resolved_name}</td></tr>
-          <tr><td style="color:var(--text-muted);">Title Mentah di Sistem</td><td>${p.source_titles_seen || '—'}</td></tr>
-          <tr><td style="color:var(--text-muted);">Tanggal Masuk Final</td><td>${p.hire_date_final} ${p.hire_date_conflict === 'Y' ? '<span class="tag-pill pill-warn" style="margin-left:8px;">Konflik Tanggal di HRIS</span>' : ''}</td></tr>
-          <tr><td style="color:var(--text-muted);">Status Integrasi Payroll</td><td><span class="tag-pill pill-neutral">Tidak Terhubung (Oracle Diblok Legal)</span></td></tr>
-          <tr><td style="color:var(--text-muted);">Status Review Manajemen</td><td>${p.review_flag === 'Y' ? '<span class="tag-pill pill-warn">Perlu Verifikasi: ' + splitList(p.review_reason).map(x => REASON_LABEL[x] || x).join('; ') + '</span>' : '<span class="tag-pill pill-ok">Disetujui Otomatis (Auto-merged)</span>'}</td></tr>
+          <tr><td style="color:var(--text-muted);">Variasi Nama yang Ditemukan</td><td>${au.name_variants_observed || p.resolved_name}</td></tr>
+          <tr><td style="color:var(--text-muted);">Jabatan Asli di Sistem</td><td>${p.source_titles_seen || '—'}</td></tr>
+          <tr><td style="color:var(--text-muted);">Tanggal Masuk (Final)</td><td>${p.hire_date_final} ${p.hire_date_conflict === 'Y' ? '<span class="tag-pill pill-warn" style="margin-left:8px;">Tanggal Berbeda Antar-Sistem</span>' : ''}</td></tr>
+          <tr><td style="color:var(--text-muted);">Data Payroll</td><td><span class="tag-pill pill-neutral">Belum Terhubung (Dibatasi Kebijakan Legal)</span></td></tr>
+          <tr><td style="color:var(--text-muted);">Status Review HR</td><td>${p.review_flag === 'Y' ? '<span class="tag-pill pill-warn">Perlu Diperiksa: ' + splitList(p.review_reason).map(x => REASON_LABEL[x] || x).join('; ') + '</span>' : '<span class="tag-pill pill-ok">Otomatis Disetujui</span>'}</td></tr>
         </tbody>
       </table>
     </div>
