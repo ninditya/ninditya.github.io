@@ -1,49 +1,50 @@
 /* Industry — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700&family=Barlow+Condensed:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --color-bg: #f2f2f3;
-  --color-surface: #e9e9ea;
-  --color-text: #1d1f20;
-  --color-accent: #5980a6;
-  --color-accent-2: #728fab;
-  --color-divider: color-mix(in srgb, #1d1f20 16%, transparent);
+  --color-bg: #fafafa;
+  --color-surface: #ffffff;
+  --color-text: #111111;
+  --color-accent: #2563eb;
+  --color-accent-2: #2563eb;
+  --color-divider: #eeeeee;
 
   /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
      same step of any role matches the others in visual value. */
-  --color-neutral-100: #f5f5f8;
-  --color-neutral-200: #e7e7ea;
-  --color-neutral-300: #d4d4d7;
-  --color-neutral-400: #b7b7ba;
-  --color-neutral-500: #98989b;
-  --color-neutral-600: #7a7a7d;
-  --color-neutral-700: #5d5d60;
-  --color-neutral-800: #424244;
-  --color-neutral-900: #2b2b2d;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #eeeeee;
+  --color-neutral-300: #e0e0e0;
+  --color-neutral-400: #cccccc;
+  --color-neutral-500: #999999;
+  --color-neutral-600: #666666;
+  --color-neutral-700: #444444;
+  --color-neutral-800: #222222;
+  --color-neutral-900: #111111;
 
-  --color-accent-100: #eef6ff;
-  --color-accent-200: #d6ebff;
-  --color-accent-300: #b5d9fd;
-  --color-accent-400: #94bce3;
-  --color-accent-500: #749dc4;
-  --color-accent-600: #597ea3;
-  --color-accent-700: #416180;
-  --color-accent-800: #2c455d;
-  --color-accent-900: #1d2d3d;
+  --color-accent-100: #dbeafe;
+  --color-accent-200: #bfdbfe;
+  --color-accent-300: #93c5fd;
+  --color-accent-400: #60a5fa;
+  --color-accent-500: #3b82f6;
+  --color-accent-600: #2563eb;
+  --color-accent-700: #1d4ed8;
+  --color-accent-800: #1e40af;
+  --color-accent-900: #1e3a8a;
 
-  --color-accent-2-100: #eef6ff;
-  --color-accent-2-200: #d6ebff;
-  --color-accent-2-300: #bdd8f2;
-  --color-accent-2-400: #9ebbd8;
-  --color-accent-2-500: #7e9cb8;
-  --color-accent-2-600: #627d98;
-  --color-accent-2-700: #486077;
-  --color-accent-2-800: #314457;
-  --color-accent-2-900: #1f2d3a;
+  --color-accent-2-100: #dbeafe;
+  --color-accent-2-200: #bfdbfe;
+  --color-accent-2-300: #93c5fd;
+  --color-accent-2-400: #60a5fa;
+  --color-accent-2-500: #3b82f6;
+  --color-accent-2-600: #2563eb;
+  --color-accent-2-700: #1d4ed8;
+  --color-accent-2-800: #1e40af;
+  --color-accent-2-900: #1e3a8a;
 
-  --font-heading: "Barlow Condensed", system-ui, sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-heading-weight: 600;
-  --font-body: "Barlow", system-ui, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 
   --space-1: 3.4px;
   --space-2: 6.8px;
@@ -52,15 +53,15 @@
   --space-6: 20.4px;
   --space-8: 27.2px;
 
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 7px;
+  --radius-sm: 8px;
+  --radius-md: 8px;
+  --radius-lg: 8px;
 
   /* Elevation — derived from the ground: soft ink-tinted shadows on a
      light theme, a hairline edge + ambient darkness on a dark one. */
-  --shadow-sm: 0 1px 2px color-mix(in srgb, #2b2b2d 14%, transparent);
-  --shadow-md: 0 3px 10px color-mix(in srgb, #2b2b2d 16%, transparent);
-  --shadow-lg: 0 12px 32px color-mix(in srgb, #2b2b2d 22%, transparent);
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #111111 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #111111 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #111111 22%, transparent);
 }
 
 /* Dark mode — toggled via data-theme="dark" on <html>, matches the main
@@ -68,42 +69,42 @@
    ramps read in reverse (same designed steps, reassigned), so every
    token stays a validated color instead of a guessed one. */
 html[data-theme="dark"] {
-  --color-bg: #1a1a1c;
-  --color-surface: #232426;
-  --color-text: #f2f2f3;
-  --color-accent: #94bce3;
-  --color-accent-2: #9ebbd8;
-  --color-divider: color-mix(in srgb, #f2f2f3 18%, transparent);
+  --color-bg: #0a0a0a;
+  --color-surface: #141414;
+  --color-text: #f5f5f5;
+  --color-accent: #3b82f6;
+  --color-accent-2: #3b82f6;
+  --color-divider: #262626;
 
-  --color-neutral-100: #2b2b2d;
-  --color-neutral-200: #424244;
-  --color-neutral-300: #5d5d60;
-  --color-neutral-400: #7a7a7d;
-  --color-neutral-500: #98989b;
-  --color-neutral-600: #b7b7ba;
-  --color-neutral-700: #d4d4d7;
-  --color-neutral-800: #e7e7ea;
-  --color-neutral-900: #f5f5f8;
+  --color-neutral-100: #1a1a1a;
+  --color-neutral-200: #1f1f1f;
+  --color-neutral-300: #262626;
+  --color-neutral-400: #333333;
+  --color-neutral-500: #666666;
+  --color-neutral-600: #8a8a8a;
+  --color-neutral-700: #c4c4c4;
+  --color-neutral-800: #e5e5e5;
+  --color-neutral-900: #f5f5f5;
 
-  --color-accent-100: #1d2d3d;
-  --color-accent-200: #2c455d;
-  --color-accent-300: #416180;
-  --color-accent-400: #597ea3;
-  --color-accent-500: #749dc4;
-  --color-accent-600: #94bce3;
-  --color-accent-700: #b5d9fd;
-  --color-accent-800: #d6ebff;
-  --color-accent-900: #eef6ff;
+  --color-accent-100: #1e3a8a;
+  --color-accent-200: #1e40af;
+  --color-accent-300: #1d4ed8;
+  --color-accent-400: #2563eb;
+  --color-accent-500: #3b82f6;
+  --color-accent-600: #60a5fa;
+  --color-accent-700: #93c5fd;
+  --color-accent-800: #bfdbfe;
+  --color-accent-900: #dbeafe;
 
-  --color-accent-2-100: #1f2d3a;
-  --color-accent-2-200: #314457;
-  --color-accent-2-300: #486077;
-  --color-accent-2-400: #627d98;
-  --color-accent-2-500: #7e9cb8;
-  --color-accent-2-600: #9ebbd8;
-  --color-accent-2-700: #bdd8f2;
-  --color-accent-2-800: #d6ebff;
-  --color-accent-2-900: #eef6ff;
+  --color-accent-2-100: #1e3a8a;
+  --color-accent-2-200: #1e40af;
+  --color-accent-2-300: #1d4ed8;
+  --color-accent-2-400: #2563eb;
+  --color-accent-2-500: #3b82f6;
+  --color-accent-2-600: #60a5fa;
+  --color-accent-2-700: #93c5fd;
+  --color-accent-2-800: #bfdbfe;
+  --color-accent-2-900: #dbeafe;
 
   --shadow-sm: 0 1px 2px color-mix(in srgb, #000 40%, transparent);
   --shadow-md: 0 3px 10px color-mix(in srgb, #000 45%, transparent);
@@ -157,8 +158,8 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading); font-weight: var(--font-heading-weight);
   line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
 }
-h1 { font-size: 42px; }
-h2 { font-size: 32px; }
+h1 { font-size: 42px; font-weight: 700; }
+h2 { font-size: 32px; font-weight: 700; }
 h3 { font-size: 25px; }
 h4 { font-size: 20px; }
 h5 { font-size: 16px; }
@@ -186,19 +187,21 @@ figcaption {
 /* — buttons — */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 44px;
   cursor: pointer; text-decoration: none;
-  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-family: var(--font-heading); font-weight: 600;
   font-size: 14px; line-height: 1.2; color: var(--color-text); /* matches the .input's 14px —
      the pair sits side by side in sign-up rows */
   background: transparent; border: 1px solid transparent;
-  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  padding: 0 calc(var(--space-3) * 1.2);
   border-radius: var(--radius-md);
+  transition: all 0.2s ease;
 }
 .btn svg { display: block; }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn-primary { background: var(--color-accent); color: var(--color-bg); }
-.btn-primary:hover { background: var(--color-accent-600); }
-.btn-primary:active { background: var(--color-accent-700); }
+.btn-primary { background: var(--color-accent); color: #ffffff; }
+.btn-primary:hover { background: var(--color-accent-600); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-primary:active { background: var(--color-accent-700); transform: translateY(0); box-shadow: none; }
 .btn-secondary { border-color: var(--color-divider); }
 .btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
 .btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
@@ -271,6 +274,7 @@ textarea.input { min-height: 90px; resize: vertical; }
 /* — tags — */
 .tag {
   display: inline-flex; align-items: center; font-size: 11px;
+  font-family: var(--font-mono); text-transform: uppercase;
   letter-spacing: 0.02em; padding: 3px 10px;
   border-radius: calc(var(--radius-md) * 0.75);
 }
@@ -323,18 +327,17 @@ textarea.input { min-height: 90px; resize: vertical; }
 .dialog-body { font-size: 14px; opacity: 0.85; }
 .dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
 
-/* — blueprint frame: components are wireframe objects (see .blueprint
-     and .corner above) — square, transparent, hairline-bordered — */
-.card, .btn, .input, .tag, .seg, .dialog { border-radius: 0; }
-.card, .dialog { background: transparent; border: 1px solid var(--color-divider); }
+/* — component surfaces: solid surface fills, hairline borders, rounded
+     corners — matches the main portfolio's card treatment — */
+.card, .btn, .input, .tag, .seg, .dialog { border-radius: var(--radius-md); }
+.card, .dialog { background: var(--color-surface); border: 1px solid var(--color-divider); }
 .btn { border: 1px solid var(--color-divider); }
 .btn-primary { border-color: var(--color-accent); }
 .btn-ghost { border-color: transparent; }
 
 /* — site navigation: pixel-for-pixel the main portfolio's header (same
-     colors, spacing, and DM Mono type), not just inspired by it, so this
-     project doesn't feel like a separate site — */
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
+     colors, spacing, and JetBrains Mono type), not just inspired by it, so
+     this project doesn't feel like a separate site — */
 .site-nav {
   position: sticky; top: 0; z-index: 100;
   background: rgba(255,255,255,0.92);
@@ -350,12 +353,12 @@ textarea.input { min-height: 90px; resize: vertical; }
 .site-nav-pills { display: flex; gap: 4px; }
 .site-nav-pill {
   padding: 6px 14px; min-height: 44px; display: inline-flex; align-items: center;
-  border-radius: 100px; font-family: 'DM Mono', ui-monospace, 'SF Mono', monospace;
+  border-radius: 100px; font-family: var(--font-mono);
   font-size: 0.78rem; color: #52525b; text-decoration: none;
   transition: background 0.15s; white-space: nowrap;
 }
 .site-nav-pill:hover, .site-nav-pill:focus-visible { background: #f4f4f5; outline: none; }
-.site-nav-pill.back { color: #2563eb; }
+.site-nav-pill.back { color: var(--color-accent); }
 .site-lang-switch {
   display: inline-flex; padding: 3px; border: 1px solid #e4e4e7;
   border-radius: 999px; background: #ffffff; margin-left: auto;
@@ -363,7 +366,7 @@ textarea.input { min-height: 90px; resize: vertical; }
 .site-lang-btn {
   border: none; background: transparent; color: #a1a1aa;
   padding: 8px 12px; min-height: 36px; border-radius: 999px;
-  font-family: 'DM Mono', ui-monospace, 'SF Mono', monospace; font-size: 0.68rem;
+  font-family: var(--font-mono); font-size: 0.68rem;
   letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.15s;
 }
 .site-lang-btn.active { background: #18181b; color: #ffffff; }
@@ -376,7 +379,6 @@ textarea.input { min-height: 90px; resize: vertical; }
 html[data-theme="dark"] .site-nav { background: rgba(24,24,27,0.92); border-bottom-color: rgba(255,255,255,0.12); }
 html[data-theme="dark"] .site-nav-pill { color: #a1a1aa; }
 html[data-theme="dark"] .site-nav-pill:hover { background: #3f3f46; }
-html[data-theme="dark"] .site-nav-pill.back { color: #60a5fa; }
 html[data-theme="dark"] .site-lang-switch { border-color: rgba(255,255,255,0.12); background: #27272a; }
 html[data-theme="dark"] .site-lang-btn { color: #71717a; }
 html[data-theme="dark"] .site-lang-btn.active { background: #fafafa; color: #18181b; }
