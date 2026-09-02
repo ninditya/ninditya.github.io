@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQA-RPA With AI Bootcamp — Ninditya Salma Nur Aini</title>
+<meta name="description" content="Kurikulum bootcamp SQA-RPA With AI: 6 modul resmi (Java, Selenium, Page Object Model, Page Factory, Cucumber BDD, UiPath) + 1 modul bonus (n8n), lengkap dengan demo project yang diverifikasi jalan.">
+<link rel="canonical" href="https://ninditya.github.io/SQA-RPA/">
+<meta property="og:title" content="SQA-RPA With AI Bootcamp">
+<meta property="og:description" content="Kurikulum + demo project Software Quality Assurance & RPA dengan integrasi AI di setiap modul.">
+<meta property="og:url" content="https://ninditya.github.io/SQA-RPA/">
+<meta property="og:type" content="article">
+<script data-goatcounter="https://ninditya.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='100'%20height='100'%20rx='20'%20fill='%232563eb'/%3E%3Ctext%20x='50'%20y='68'%20font-family='Inter,sans-serif'%20font-size='50'%20font-weight='bold'%20fill='white'%20text-anchor='middle'%3ENA%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #fafafa; --surface: #ffffff; --bg-alt: #eeeeee;
+    --ink: #111111; --ink-soft: #444444; --muted: #666666;
+    --line: #e4e4ea; --line-strong: #d8d8d8;
+    --accent: #2563eb; --accent-soft: #eff6ff;
+    --green: #0a7f4f; --amber: #b45309;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f0f13; --surface: #17171d; --bg-alt: #1d1d24;
+      --ink: #f0f0f5; --ink-soft: #c2c2cc; --muted: #93939f;
+      --line: #2a2a33; --line-strong: #34343f;
+      --accent: #6d95f5; --accent-soft: #182338;
+      --green: #4ade80; --amber: #fbbf24;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--font-sans); line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 28px 100px; }
+  nav.top { padding: 22px 0 0; }
+  .back {
+    font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.02em;
+    color: var(--accent); text-decoration: none; border: 1px solid var(--line-strong);
+    padding: 7px 13px; border-radius: 8px; display: inline-flex; gap: 6px; align-items: center;
+    transition: background 0.15s;
+  }
+  .back:hover { background: var(--accent-soft); }
+  header.hero { padding: 44px 0 8px; border-bottom: 1px solid var(--line); margin-bottom: 36px; }
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 14px;
+  }
+  h1 { font-size: clamp(1.7rem, 4vw, 2.3rem); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 14px; line-height: 1.2; }
+  .lede { font-size: 1.05rem; color: var(--ink-soft); max-width: 620px; margin: 0 0 28px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
+  .badge {
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.02em;
+    background: var(--surface); border: 1px solid var(--line-strong); color: var(--ink-soft);
+    padding: 5px 10px; border-radius: 6px;
+  }
+  h2 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; margin: 2.4em 0 1em; }
+  p { color: var(--ink-soft); margin: 0 0 1em; }
+  ul { padding-left: 1.3em; color: var(--ink-soft); margin: 0 0 1.2em; }
+  li { margin: 0.4em 0; }
+  code {
+    font-family: var(--font-mono); font-size: 0.85em; background: var(--bg-alt);
+    border: 1px solid var(--line); padding: 0.1em 0.4em; border-radius: 5px; color: var(--ink);
+  }
+  .module-list { list-style: none; padding: 0; margin: 0 0 1.4em; display: flex; flex-direction: column; gap: 8px; }
+  .module-list li {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 16px; display: flex; justify-content: space-between; gap: 12px; align-items: baseline;
+  }
+  .module-list .num { font-family: var(--font-mono); color: var(--accent); font-weight: 600; margin-right: 8px; }
+  .module-list .hours { font-family: var(--font-mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .demo-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 20px; margin-bottom: 14px;
+  }
+  .demo-card h3 { font-size: 1rem; margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+  .status { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.02em; padding: 2px 8px; border-radius: 5px; font-weight: 600; }
+  .status.ok { color: var(--green); background: color-mix(in srgb, var(--green) 15%, transparent); }
+  .status.warn { color: var(--amber); background: color-mix(in srgb, var(--amber) 15%, transparent); }
+  .demo-card p { margin: 0; font-size: 0.92rem; }
+  .note {
+    background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0;
+    padding: 14px 18px; margin: 2em 0; font-size: 0.92rem; color: var(--ink-soft);
+  }
+  footer { margin-top: 4em; padding-top: 1.6em; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.82rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="top">
+    <a class="back" href="../index.html">&larr; Kembali ke Portfolio</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">Curriculum Design &middot; QA / RPA Training</div>
+    <h1>SQA-RPA With Artificial Intelligence Bootcamp</h1>
+    <p class="lede">Kurikulum bootcamp Software Quality Assurance &amp; Robotic Process Automation, dikembangkan dari silabus resmi 2026 &mdash; dengan integrasi AI (coding assistant, self-healing locator, generative test scenario, IDP, AI-driven analytics) di setiap modul, bukan sebagai topik tempelan.</p>
+    <div class="badges">
+      <span class="badge">Java</span>
+      <span class="badge">Selenium WebDriver</span>
+      <span class="badge">Page Object Model</span>
+      <span class="badge">Page Factory</span>
+      <span class="badge">Cucumber BDD</span>
+      <span class="badge">JUnit 5</span>
+      <span class="badge">UiPath</span>
+      <span class="badge">n8n</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Apa Isinya</h2>
+    <p>Materi lengkap 6 modul resmi (mengikuti tabel jam &amp; topik silabus asli) plus 1 modul bonus, tiap topik dilengkapi kode contoh dan bagian &ldquo;AI Corner&rdquo; di titik-titik integrasi AI yang ditandai di silabus.</p>
+    <ul class="module-list">
+      <li><span><span class="num">1</span>Java Fundamental</span> <span class="hours">30 jam</span></li>
+      <li><span><span class="num">2</span>Automation Testing Selenium</span> <span class="hours">24 jam</span></li>
+      <li><span><span class="num">3</span>Page Object Model</span> <span class="hours">21 jam</span></li>
+      <li><span><span class="num">4</span>Page Factory</span> <span class="hours">21 jam</span></li>
+      <li><span><span class="num">5</span>Cucumber BDD</span> <span class="hours">21 jam</span></li>
+      <li><span><span class="num">6</span>Robotic Process Automation (UiPath)</span> <span class="hours">&plusmn;27 jam</span></li>
+      <li><span><span class="num">7</span>n8n &mdash; Workflow &amp; AI Orchestration <em style="opacity:.7">(bonus)</em></span> <span class="hours">&mdash;</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Demo Project</h2>
+    <div class="demo-card">
+      <h3>Selenium + Cucumber BDD Framework <span class="status ok">terverifikasi</span></h3>
+      <p>Java + Selenium + Page Object + Page Factory + Cucumber BDD + JUnit 5 + Extent Report, menguji <a href="https://www.saucedemo.com" target="_blank" rel="noopener">saucedemo.com</a>. <code>mvn clean test</code> dijalankan bersih 3x berturut-turut &mdash; 28/28 test pass.</p>
+    </div>
+    <div class="demo-card">
+      <h3>n8n AI Test Report Workflow <span class="status ok">terverifikasi end-to-end</span></h3>
+      <p>Workflow n8n yang menerima laporan JSON Cucumber lewat webhook dan meringkas hasilnya (rule-based, dengan node AI opsional). Diuji dengan request HTTP sungguhan &mdash; bukan simulasi.</p>
+    </div>
+    <div class="demo-card">
+      <h3>UiPath RPA Starter <span class="status warn">starter template</span></h3>
+      <p>Struktur project + workflow <code>.xaml</code> untuk web scraping &amp; automasi Excel. Belum bisa diverifikasi jalan penuh di environment pembuatannya &mdash; ditandai jelas di dokumentasinya sendiri.</p>
+    </div>
+  </section>
+
+  <div class="note">
+    Source lengkap (materi Markdown, situs HTML per-modul, dan ketiga demo project) dikembangkan sebagai project standalone, disimpan terpisah dari repo portfolio ini. Halaman ini adalah ringkasannya.
+  </div>
+
+  <footer>
+    SQA-RPA With Artificial Intelligence Bootcamp &middot; Ninditya Salma Nur Aini
+  </footer>
+</div>
+</body>
+</html>
