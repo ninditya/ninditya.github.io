@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA Case Study — Wedding Invitation System (Playwright &amp; Vitest) · Ninditya Salma Nur Aini</title>
+  <meta name="description" content="Test plan, 81 formal test cases and a two-layer automated suite for a live wedding invitation with real guests: 477 unit and API tests and 54 Playwright browser tests on three emulated phones, run on every push in GitHub Actions.">
+  <link rel="canonical" href="https://ninditya.github.io/wedding-qa/">
+  <meta property="og:title" content="QA Case Study — Wedding Invitation System (Playwright & Vitest)">
+  <meta property="og:url" content="https://ninditya.github.io/wedding-qa/">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafafa; --surface: #ffffff; --bg-alt: #eeeeee; --bg-dark: #111111;
+      --ink: #111111; --ink-soft: #444444; --muted: #666666;
+      --line: #eeeeee; --line-strong: #d8d8d8;
+      --primary: #2563eb; --accent: #2563eb; --accent-soft: #eff6ff;
+      --green: #10b981; --red: #dc2626; --radius: 8px;
+      --major: #d97706;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--ink); font-family:var(--font-sans); line-height:1.65; -webkit-font-smoothing:antialiased; }
+    em { font-style: normal; }
+    .skip-link { position:absolute; top:-40px; left:0; background:var(--ink); color:#fff; padding:8px 16px; z-index:1000; transition:top 0.2s; font-family:var(--font-mono); font-size:0.8rem; text-decoration:none; }
+    .skip-link:focus { top:0; }
+    *:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+    nav { position:sticky; top:0; background:rgba(250,250,250,0.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); z-index:100; }
+    .nav-inner { max-width:1100px; margin:0 auto; padding:16px 32px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+    .nav-tools { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .mobile-nav-toggle { display:none; background:transparent; border:none; color:var(--ink); font-size:1.5rem; cursor:pointer; padding:0 5px; line-height:1; }
+    .nav-pills { display:flex; gap:6px; flex-wrap:wrap; }
+    .nav-pill { font-family:var(--font-mono); font-size:12px; letter-spacing:0.02em; color:var(--muted); text-decoration:none; padding:6px 12px; border-radius:var(--radius); transition:all 0.2s ease; }
+    .nav-pill:hover { background:var(--surface); color:var(--ink); }
+    .nav-pill.back { color:var(--accent); border:1px solid var(--line-strong); }
+    .nav-pill.back:hover { background:var(--accent); color:white; border-color:var(--accent); }
+    .lang-switch { display:inline-flex; padding:3px; border:1px solid var(--line-strong); border-radius:var(--radius); background:var(--surface); }
+    .lang-btn { border:none; background:transparent; color:var(--muted); padding:6px 10px; border-radius:6px; font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; transition:all 0.15s; }
+    .lang-btn.active { background:var(--ink); color:var(--bg); }
+    .theme-toggle { width:40px; height:40px; border-radius:var(--radius); border:1px solid var(--line-strong); background:transparent; color:var(--ink); cursor:pointer; font-size:0.95rem; display:flex; align-items:center; justify-content:center; transition:all 0.15s; flex-shrink:0; line-height:1; }
+    .theme-toggle:hover { border-color:var(--accent); background:var(--surface); }
+    .wrap { max-width:1100px; margin:0 auto; padding:0 32px; }
+    section.content { padding:80px 0; border-bottom:1px solid var(--line); }
+    section.content.alt { background:var(--surface); }
+    .section-num { font-family:var(--font-mono); font-size:12px; color:var(--accent); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px; font-weight:600; }
+    h2 { font-family:var(--font-sans); font-size:clamp(30px,4.2vw,46px); font-weight:700; letter-spacing:-0.02em; line-height:1.15; margin-bottom:32px; max-width:820px; color:var(--ink); }
+    h2 em { font-style:normal; font-weight:300; color:var(--muted); }
+    h3 { font-family:var(--font-sans); font-size:22px; font-weight:600; margin:40px 0 14px; letter-spacing:-0.01em; color:var(--ink); }
+    .lede { font-family:var(--font-sans); font-size:18px; line-height:1.6; color:var(--ink-soft); max-width:760px; margin-bottom:24px; font-weight:400; }
+    p { margin-bottom:16px; max-width:760px; color:var(--ink-soft); font-size:15.5px; }
+    p code, li code, td code, summary code { background:var(--bg-alt); border:1px solid var(--line); padding:1px 6px; border-radius:4px; font-family:var(--font-mono); font-size:12.5px; color:var(--ink); }
+    pre.code { background:var(--bg-dark); color:#d6e3e0; padding:22px 26px; font-family:var(--font-mono); font-size:12.5px; line-height:1.7; overflow-x:auto; margin:22px 0; border-radius:var(--radius); border-left:3px solid var(--accent); max-width:100%; tab-size:2; }
+    pre.code .c { color:#7a9490; font-style:italic; }
+    pre.code .s { color:#7dd3fc; }
+    pre.code .k { color:#e39a8f; }
+    .code-caption { font-family:var(--font-mono); font-size:11.5px; color:var(--muted); margin:-12px 0 24px; }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin:20px 0; }
+    .tag { font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.05em; padding:5px 11px; border:1px solid var(--line-strong); background:var(--surface); border-radius:6px; color:var(--ink-soft); }
+    .pullquote { border-left:3px solid var(--accent); padding:16px 0 16px 28px; margin:32px 0; font-family:var(--font-sans); font-size:21px; font-weight:500; font-style:normal; line-height:1.5; max-width:760px; color:var(--ink); }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin:32px 0; }
+    .two-col > div { min-width:0; }
+
+    /* Hero */
+    .hero { padding:76px 0 56px; border-bottom:1px solid var(--line); }
+    .hero-kicker { display:flex; align-items:center; gap:12px; margin-bottom:32px; flex-wrap:wrap; }
+    .kicker-tag { background:var(--accent-soft); color:var(--accent); padding:5px 12px; border-radius:6px; font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; }
+    .kicker-text { font-family:var(--font-mono); font-size:12px; color:var(--muted); letter-spacing:0.03em; text-transform:uppercase; }
+    h1.title { font-family:var(--font-sans); font-size:clamp(38px,5.6vw,68px); line-height:1.05; letter-spacing:-0.03em; color:var(--ink); margin-bottom:28px; font-weight:700; }
+    h1.title em { font-style:normal; font-weight:300; color:var(--muted); }
+    .hero-lede { font-family:var(--font-sans); font-size:clamp(17px,1.6vw,19px); line-height:1.6; max-width:700px; color:var(--ink-soft); font-weight:400; }
+    .hero-lede strong { color:var(--ink); font-weight:600; }
+    .hero-meta { display:flex; flex-wrap:wrap; gap:26px; margin-top:40px; font-family:var(--font-mono); font-size:12px; letter-spacing:0.02em; color:var(--muted); }
+    .hero-meta span strong { color:var(--ink); font-weight:600; margin-right:6px; text-transform:uppercase; letter-spacing:0.08em; font-size:10px; }
+    .disclosure { margin-top:28px; padding:12px 16px; background:var(--accent-soft); border:1px solid var(--line); border-radius:var(--radius); max-width:700px; font-size:13px; color:var(--ink-soft); font-family:var(--font-sans); }
+    .disclosure strong { color:var(--ink); }
+
+    /* Stats */
+    .stats-strip { background:var(--bg-dark); color:#fafafa; padding:56px 0; }
+    .stats-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:0; }
+    .stat { text-align:left; padding:0 22px; border-left:1px solid rgba(255,255,255,0.12); }
+    .stat:first-child { border-left:none; padding-left:0; }
+    .stat .num { font-family:var(--font-sans); font-size:clamp(32px,4.2vw,48px); font-weight:700; line-height:1; color:#ffffff; letter-spacing:-0.02em; }
+    .stat .num small { font-size:0.5em; color:#fafafa; opacity:0.7; font-weight:500; }
+    .stat .label { font-family:var(--font-mono); font-size:10px; letter-spacing:0.07em; text-transform:uppercase; margin-top:12px; opacity:0.7; line-height:1.4; }
+
+    /* Compare split */
+    .compare-split { display:grid; grid-template-columns:1fr 1fr; gap:2px; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; margin:36px 0; }
+    .cs-col { padding:28px 26px; }
+    .cs-col.bad { background:rgba(220,38,38,0.05); }
+    .cs-col.good { background:rgba(16,185,129,0.05); border-right:2px solid var(--line); }
+    .cs-header { font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; font-weight:600; margin-bottom:16px; padding:6px 12px; border-radius:4px; display:inline-block; }
+    .cs-col.bad .cs-header { background:rgba(220,38,38,0.1); color:var(--red); }
+    .cs-col.good .cs-header { background:rgba(16,185,129,0.1); color:var(--green); }
+    .cs-list { list-style:none; }
+    .cs-list li { font-size:14px; color:var(--ink-soft); padding:6px 0; border-bottom:1px solid var(--line); }
+    .cs-list li:last-child { border-bottom:none; }
+
+    /* Tables */
+    table.decision { width:100%; border-collapse:collapse; margin:28px 0; font-size:13.5px; }
+    table.decision th { text-align:left; padding:11px 14px; background:var(--bg-alt); color:var(--muted); font-family:var(--font-mono); font-size:10px; letter-spacing:0.07em; text-transform:uppercase; font-weight:600; }
+    table.decision td { padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-soft); }
+    table.decision td:first-child { color:var(--ink); font-weight:500; }
+    table.decision tr:last-child td { border-bottom:none; }
+    table.decision td.num { font-family:var(--font-mono); font-size:12px; color:var(--accent); white-space:nowrap; }
+    table.decision td.status-pass { color:var(--green); font-weight:600; }
+    .table-scroll { overflow-x:auto; margin:28px 0; -webkit-overflow-scrolling:touch; }
+    .table-scroll table.decision { margin:0; min-width:680px; }
+    .data-note { font-family:var(--font-mono); font-size:12px; color:var(--muted); margin:-8px 0 20px; }
+
+    /* Test case sections */
+    details.tc { border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); margin:10px 0; overflow:hidden; }
+    details.tc > summary { cursor:pointer; padding:14px 18px; font-weight:600; font-size:15px; color:var(--ink); display:flex; justify-content:space-between; align-items:center; gap:12px; list-style:none; transition:background 0.2s ease; }
+    details.tc > summary::-webkit-details-marker { display:none; }
+    details.tc > summary:hover { background:var(--bg-alt); }
+    details.tc > summary .count { font-family:var(--font-mono); font-size:11px; font-weight:500; color:var(--accent); white-space:nowrap; }
+    details.tc[open] > summary { border-bottom:1px solid var(--line); }
+    details.tc .table-scroll { margin:0; }
+    details.tc ul.scenarios { list-style:none; padding:10px 18px 14px; }
+    details.tc ul.scenarios li { font-size:13.5px; color:var(--ink-soft); padding:6px 0; border-bottom:1px solid var(--line); }
+    details.tc ul.scenarios li:last-child { border-bottom:none; }
+
+    /* Flow and result boxes */
+    .cycle-flow { display:flex; align-items:stretch; gap:0; margin:36px 0; }
+    .cycle-box { flex:1; min-width:0; border:1px solid var(--line); border-radius:var(--radius); padding:20px; background:var(--surface); }
+    .cycle-box .cyc-label { font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:8px; }
+    .cycle-box .cyc-title { font-family:var(--font-sans); font-weight:700; font-size:19px; color:var(--ink); line-height:1.2; }
+    .cycle-box .cyc-rate { font-family:var(--font-sans); font-weight:700; font-size:34px; color:var(--green); line-height:1; }
+    .cycle-box .cyc-rate small { font-size:0.5em; color:var(--muted); font-weight:500; }
+    .cycle-box.pending .cyc-rate { color:var(--major); }
+    .cycle-box .cyc-detail { font-size:12.5px; color:var(--ink-soft); margin-top:8px; }
+    .cycle-arrow { display:flex; align-items:center; padding:0 14px; color:var(--muted); font-size:20px; font-family:var(--font-mono); flex-shrink:0; }
+    .result-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin:36px 0; }
+    .note-box { margin-top:16px; padding:16px 18px; border:1px dashed var(--line-strong); border-radius:var(--radius); background:var(--bg-alt); font-size:13.5px; color:var(--ink-soft); max-width:760px; }
+    .note-box strong { color:var(--ink); }
+
+    /* Bars */
+    .bars { margin:24px 0; max-width:760px; }
+    .bar-row { display:grid; grid-template-columns:190px 1fr 40px; gap:12px; align-items:center; padding:5px 0; font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); }
+    .bar-track { height:8px; background:var(--bg-alt); border-radius:4px; overflow:hidden; }
+    .bar-fill { height:100%; background:var(--accent); border-radius:4px; }
+    .bar-row .n { text-align:right; color:var(--ink); font-weight:600; }
+
+    /* Pill list */
+    .pill-list { display:flex; flex-wrap:wrap; gap:10px; margin:24px 0; }
+    .pill { border:1px solid var(--line); border-radius:100px; padding:8px 16px; font-size:13px; color:var(--ink-soft); background:var(--surface); }
+    .pill strong { color:var(--accent); font-family:var(--font-mono); font-size:11px; margin-right:6px; }
+
+    /* Lessons */
+    .lesson-cards { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:32px 0; }
+    .lesson-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radius); padding:20px; }
+    .lesson-label { font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:#7dd3fc; margin-bottom:8px; }
+    .lesson-card p { font-size:14px; color:rgba(255,255,255,0.65); margin:0; max-width:none; line-height:1.6; }
+    .lesson-card p strong { color:rgba(255,255,255,0.9); }
+
+    /* CTA */
+    .cta-section { background:var(--bg-dark); color:#fafafa; padding:76px 0; }
+    .cta-section .section-num { color:#7dd3fc; }
+    .cta-section h2 { color:#ffffff; }
+    .cta-section h2 em { color:rgba(255,255,255,0.55); }
+    .cta-section p { color:rgba(255,255,255,0.7); }
+    .cta-buttons { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; height:44px; padding:0 24px; background:var(--accent); color:#ffffff; text-decoration:none; font-family:var(--font-sans); font-size:14px; font-weight:600; border:1px solid var(--accent); border-radius:var(--radius); transition:all 0.2s ease; }
+    .btn:hover { filter:brightness(1.1); transform:translateY(-2px); box-shadow:0 6px 16px rgba(37,99,235,0.3); }
+    .btn.ghost { background:transparent; color:#ffffff; border-color:rgba(255,255,255,0.3); }
+    .btn.ghost:hover { background:rgba(255,255,255,0.08); box-shadow:none; }
+    footer { background:var(--bg-dark); color:#fafafa; padding:28px 0; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; opacity:0.7; border-top:1px solid rgba(255,255,255,0.1); }
+    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    footer a { color:#7dd3fc; text-decoration:none; }
+
+    /* Dark mode */
+    html[data-theme="dark"] {
+      --bg:#0a0a0a; --surface:#141414; --bg-alt:#1f1f1f; --bg-dark:#000000;
+      --ink:#f5f5f5; --ink-soft:#c4c4c4; --muted:#8a8a8a;
+      --line:#262626; --line-strong:#333333;
+      --primary:#3b82f6; --accent:#3b82f6; --accent-soft:rgba(59,130,246,0.15);
+      --green:#34d399; --red:#ef4444; --major:#f59e0b;
+    }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) {
+        --bg:#0a0a0a; --surface:#141414; --bg-alt:#1f1f1f; --bg-dark:#000000;
+        --ink:#f5f5f5; --ink-soft:#c4c4c4; --muted:#8a8a8a;
+        --line:#262626; --line-strong:#333333;
+        --primary:#3b82f6; --accent:#3b82f6; --accent-soft:rgba(59,130,246,0.15);
+        --green:#34d399; --red:#ef4444; --major:#f59e0b;
+      }
+    }
+    html[data-theme="dark"] nav { background:rgba(10,10,10,0.85); }
+    html[data-theme="dark"] .nav-pills { background:rgba(10,10,10,0.96); }
+    html[data-theme="dark"] .stats-strip, html[data-theme="dark"] pre.code { background:#000000; }
+    html[data-theme="dark"] .tag, html[data-theme="dark"] .cycle-box, html[data-theme="dark"] .pill, html[data-theme="dark"] details.tc { background:var(--bg-alt); }
+    html[data-theme="dark"] details.tc > summary:hover { background:#262626; }
+    html[data-theme="dark"] .cs-col { background:var(--bg-alt) !important; }
+    html[data-theme="dark"] .lang-btn.active { background:#e5e5ea; color:#0a0a0a; }
+    html[data-theme="dark"] .bar-track { background:rgba(255,255,255,0.08); }
+
+    /* Responsive */
+    @media (max-width:800px) {
+      .stats-grid { grid-template-columns:repeat(3,1fr); gap:26px; }
+      .stat { border-left:none !important; padding:0; }
+      .two-col, .compare-split, .result-grid { grid-template-columns:1fr; }
+      .cs-col.good { border-right:none; border-bottom:2px solid var(--line); }
+      .lesson-cards { grid-template-columns:1fr; }
+      .cycle-flow { flex-direction:column; }
+      .cycle-arrow { transform:rotate(90deg); padding:6px 0; align-self:center; }
+    }
+    @media (max-width:600px) {
+      .stats-grid { grid-template-columns:repeat(2,1fr); }
+      .wrap { padding:0 20px; }
+      .nav-inner { padding:14px 20px; }
+      .hero { padding:52px 0 36px; }
+      section.content { padding:56px 0; }
+      .mobile-nav-toggle { display:block; }
+      .nav-tools { width:100%; justify-content:space-between; }
+      .nav-pills { display:none; position:absolute; top:56px; left:0; width:100%; background:rgba(250,250,250,0.98); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); flex-direction:column; padding:1rem 1.5rem; gap:0.4rem; box-shadow:0 4px 12px rgba(0,0,0,0.05); }
+      nav.nav-open .nav-pills { display:flex; }
+      .bar-row { grid-template-columns:132px 1fr 34px; gap:8px; font-size:11px; }
+      pre.code { padding:18px 16px; font-size:11.5px; }
+      details.tc > summary { flex-direction:column; align-items:flex-start; gap:4px; }
+    }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } html { scroll-behavior:auto; } }
+  </style>
+  <script>(function(){var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t||'light');})();</script>
+<script data-goatcounter="https://ninditya.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <a href="#why" class="skip-link">Skip to main content</a>
+  <nav id="mainNav">
+    <div class="nav-inner">
+      <div class="nav-tools">
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"
+          onclick="const n=document.getElementById('mainNav');n.classList.toggle('nav-open');this.setAttribute('aria-expanded',n.classList.contains('nav-open'))">☰</button>
+        <div class="nav-pills">
+          <a href="/" class="nav-pill back" data-i18n="navBack">← All projects</a>
+          <a href="/#projects" class="nav-pill" data-i18n="navProjects">Projects</a>
+          <a href="/#contact" class="nav-pill" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="lang-switch" aria-label="Language switch">
+          <button class="lang-btn active" type="button" data-lang-target="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-target="id">ID</button>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark mode">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-kicker">
+        <span class="kicker-tag" data-i18n="kickerTag">QA Automation Case Study</span>
+        <span class="kicker-text" data-i18n="kickerText">Digital wedding invitation · live system, real guests</span>
+      </div>
+      <h1 class="title" data-i18n="heroTitle">My wedding invitation has real guests. <em>So I tested it like a product.</em></h1>
+      <p class="hero-lede" data-i18n="heroLede">
+        Each guest gets a personal link over WhatsApp. The page takes their RSVP and wishes, answers questions
+        through a rule-based chatbot, and shows the gift bank accounts to immediate family and close friends only.
+        A bug here shows a bank account to the wrong person or loses someone's RSVP, and the guests are my own
+        family and friends. So I wrote <strong>81 formal test cases</strong> and backed them with
+        <strong>477 unit and API tests</strong> and <strong>54 Playwright browser tests</strong> on three emulated
+        phones, all running on every push.
+      </p>
+      <div class="hero-meta">
+        <span data-i18n="heroMetaPlan"><strong>Plan</strong> risk-based scope · three test levels</span>
+        <span data-i18n="heroMetaDesign"><strong>Design</strong> 81 test cases · boundary / negative / authorization</span>
+        <span data-i18n="heroMetaAutomate"><strong>Automate</strong> Vitest · Playwright · fake database</span>
+        <span data-i18n="heroMetaRun"><strong>Run</strong> GitHub Actions · every push and pull request</span>
+      </div>
+      <div class="tags">
+        <span class="tag">Test Planning</span><span class="tag">Test Case Design</span><span class="tag">Playwright</span>
+        <span class="tag">Vitest</span><span class="tag">API Testing</span><span class="tag">Authorization Testing</span>
+        <span class="tag">Mobile Web</span><span class="tag">GitHub Actions</span><span class="tag">Next.js · Supabase</span>
+      </div>
+      <div class="disclosure" data-i18n="disclosure">
+        <strong>What is and isn't shown:</strong> the invitation and its repository are private, because real
+        guests are using them. This page shows the QA work only. Guest group names, the venue, the date and the
+        site address are left out or replaced, and every link code, phone number and bank account below is made
+        up for the tests.
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-strip">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat"><div class="num">81</div><div class="label" data-i18n="stat1">Test cases<br>designed</div></div>
+        <div class="stat"><div class="num">477</div><div class="label" data-i18n="stat2">Unit &amp; API<br>tests</div></div>
+        <div class="stat"><div class="num">54</div><div class="label" data-i18n="stat3">Browser tests<br>18 scenarios × 3 phones</div></div>
+        <div class="stat"><div class="num">3</div><div class="label" data-i18n="stat4">Emulated phones<br>Chrome and Safari</div></div>
+        <div class="stat"><div class="num">100<small>%</small></div><div class="label" data-i18n="stat5">Automated tests passing<br>last run 6 Oct 2026</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 WHY -->
+  <section class="content" id="why">
+    <div class="wrap">
+      <div class="section-num" data-i18n="whyNum">01 · Why It Needed Testing</div>
+      <h2 data-i18n="whyTitle">The risky part isn't the design. <em>It's who gets to see the bank account.</em></h2>
+      <p class="lede" data-i18n="whyLede">I started from what could actually go wrong for a guest or for us, then wrote down the rules the system must never break. Every test case traces back to one of those rules or to a section of the spec.</p>
+
+      <h3 data-i18n="rulesTitle">Five rules the system must never break</h3>
+      <table class="decision">
+        <tbody>
+          <tr><td class="num">Rule 1</td><td data-i18n="rule1">Bank account data never reaches the browser unless the server has just verified the guest's role.</td></tr>
+          <tr><td class="num">Rule 2</td><td data-i18n="rule2">Every limit is checked on the server. The checks in the page are for convenience only.</td></tr>
+          <tr><td class="num">Rule 3</td><td data-i18n="rule3">Fail closed: an unknown group, an empty role or a typo is treated as a general guest; an unknown or deactivated link gets a 404.</td></tr>
+          <tr><td class="num">Rule 4</td><td data-i18n="rule4">A guest's role is their personal override, else their group's default, else general guest, worked out in one place.</td></tr>
+          <tr><td class="num">Rule 5</td><td data-i18n="rule5">Link codes are 10 random characters, never derived from a name or a phone number. Unknown and deactivated links get the same 404.</td></tr>
+        </tbody>
+      </table>
+
+      <h3 data-i18n="riskTitle">From risk to test cases</h3>
+      <div class="table-scroll">
+        <table class="decision">
+          <thead><tr><th data-i18n="riskColRisk">What could go wrong</th><th data-i18n="riskColRule">What the system must guarantee</th><th data-i18n="riskColCases">Test cases</th></tr></thead>
+          <tbody>
+            <tr><td data-i18n="risk1">A general guest sees the gift bank accounts</td><td data-i18n="risk1g">Rules 1, 3 and 4: the server checks the role on every request, and anything unknown counts as a general guest</td><td class="num">TC-ROL-01–03<br>TC-GFT-01–05<br>TC-CHT-03–04</td></tr>
+            <tr><td data-i18n="risk2">Someone guesses a link, or reuses a deactivated one</td><td data-i18n="risk2g">Rule 5: random codes, and one identical 404 for every bad link</td><td class="num">TC-LNK-02–04<br>TC-GFT-03<br>TC-GST-10</td></tr>
+            <tr><td data-i18n="risk3">A forwarded link is opened by a stranger</td><td data-i18n="risk3g">The guest's WhatsApp number must match; at most 3 devices per guest; 3 wrong tries per hour</td><td class="num">TC-VRF-01–12<br>TC-UI-05</td></tr>
+            <tr><td data-i18n="risk4">A guest answers for more people than invited, or after the deadline</td><td data-i18n="risk4g">Rule 2: the count and the deadline are checked on the server, by the server's clock</td><td class="num">TC-RSV-01–10</td></tr>
+            <tr><td data-i18n="risk5">Spam or profanity on the public wishes wall</td><td data-i18n="risk5g">Rule 2: 280 characters, a profanity filter, 3 wishes per guest per 24 hours</td><td class="num">TC-WSH-01–08</td></tr>
+            <tr><td data-i18n="risk6">The head count at the reception desk is wrong</td><td data-i18n="risk6g">The desk link is the only key, and an entry sent twice is counted once</td><td class="num">TC-DSK-01–05</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 data-i18n="rolesTitle">Three roles decide what a guest can see</h3>
+      <div class="pill-list">
+        <span class="pill"><strong>keluarga_inti</strong> <span data-i18n="role1">immediate family · sees the accounts</span></span>
+        <span class="pill"><strong>sahabat</strong> <span data-i18n="role2">close friend · sees the accounts</span></span>
+        <span class="pill"><strong>tamu_umum</strong> <span data-i18n="role3">general guest · never sees them</span></span>
+      </div>
+
+      <div class="pullquote" data-i18n="failClosedQuote">"Fail closed: a typo in a group name, an empty role or a value nobody expected must end up as a general guest. The system is allowed to be wrong about who is family, but only in the direction that shows less."</div>
+    </div>
+  </section>
+
+  <!-- 02 PLAN & SCOPE -->
+  <section class="content alt" id="plan">
+    <div class="wrap">
+      <div class="section-num" data-i18n="planNum">02 · Test Plan &amp; Scope</div>
+      <h2 data-i18n="planTitle">Three levels of testing. <em>Each covers what the one below it can't.</em></h2>
+      <p class="lede" data-i18n="planLede">Rules and limits are tested at the API, because that is where they are enforced. The browser tests check that a guest on a phone actually gets through the page. Real phones opened from WhatsApp stay manual, because an emulator is not WhatsApp.</p>
+
+      <div class="table-scroll">
+        <table class="decision">
+          <thead><tr><th data-i18n="lvlColLevel">Level</th><th data-i18n="lvlColTool">Tool</th><th data-i18n="lvlColProves">What it proves</th><th data-i18n="lvlColRuns">When it runs</th></tr></thead>
+          <tbody>
+            <tr><td data-i18n="lvl1">Unit &amp; API</td><td data-i18n="lvl1t">Vitest, with an in-memory fake database</td><td data-i18n="lvl1p">Role resolution, authorization, bounds, rate limits, cookie signing, chatbot routing</td><td data-i18n="lvl1r">Every push and pull request, and before every production build</td></tr>
+            <tr><td data-i18n="lvl2">Browser, end to end</td><td data-i18n="lvl2t">Playwright, on a production build of the site with a stand-in database</td><td data-i18n="lvl2p">A guest can open the link, verify, RSVP, chat, send a wish and see (or not see) the gift card, on three phone profiles</td><td data-i18n="lvl2r">Every push and pull request</td></tr>
+            <tr><td data-i18n="lvl3">Manual</td><td data-i18n="lvl3t">Real phones, the link opened from inside WhatsApp, on the deployed site</td><td data-i18n="lvl3p">What emulation can't: WhatsApp's in-app browser, sound, the calendar and maps apps, the on-screen keyboard</td><td data-i18n="lvl3r">Before each batch of invitations goes out</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="compare-split">
+        <div class="cs-col good">
+          <span class="cs-header" data-i18n="inScopeLabel">In Scope</span>
+          <ul class="cs-list" data-i18n-html="inScopeList">
+            <li>Links: lookup, one 404 for every bad link, per-address rate limits</li>
+            <li>Roles and bank data: role resolution, <code>/api/gift</code> authorization, access log</li>
+            <li>RSVP: count per guest, one answer per guest, deadline by server time, two events</li>
+            <li>Wishes: length, profanity, daily limit, public fields only</li>
+            <li>WhatsApp number check: formats, wrong tries, device limit, signed cookie, group links</li>
+            <li>Chatbot: keyword routing, role-aware gift answers, fallback</li>
+            <li>Reception desk: desk link, check-in, undo, one desk per event</li>
+            <li>The guest's page on three phone profiles</li>
+          </ul>
+        </div>
+        <div class="cs-col bad">
+          <span class="cs-header" data-i18n="outScopeLabel">Not Covered By These 81 Cases</span>
+          <ul class="cs-list" data-i18n-html="outScopeList">
+            <li>Admin panel and guest-list import: they have their own unit tests (185 of the 477) but are not written up as formal cases</li>
+            <li>Load and performance testing</li>
+            <li>Penetration testing</li>
+            <li>The page as it looks on the event day and after it: no browser tests yet</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="envTitle" style="margin-top:0;">Test environment</h3>
+          <table class="decision">
+            <tbody>
+              <tr><td data-i18n="envSiteLabel">Site under test</td><td data-i18n="envSiteVal">Production build (<code>next build</code>, <code>next start</code>), not the dev server</td></tr>
+              <tr><td data-i18n="envDbLabel">Database</td><td data-i18n="envDbVal">A stand-in for Supabase on a local port; never the real one</td></tr>
+              <tr><td data-i18n="envBrowsersLabel">Phone profiles</td><td>Pixel 7 (Chromium) · iPhone 13 (WebKit) · iPhone SE 3rd gen (WebKit)</td></tr>
+              <tr><td data-i18n="envLocaleLabel">Locale</td><td><code>id-ID</code> · <code>Asia/Jakarta</code></td></tr>
+              <tr><td>CI</td><td data-i18n="envCiVal">GitHub Actions, Ubuntu, Node 22, no secrets</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3 data-i18n="entryTitle" style="margin-top:0;">What gates a release</h3>
+          <table class="decision">
+            <tbody>
+              <tr><td data-i18n="gate1Label">Every push</td><td data-i18n="gate1Val">Typecheck, 477 unit and API tests and 54 browser tests must pass in CI</td></tr>
+              <tr><td data-i18n="gate2Label">Every production build</td><td data-i18n="gate2Val">The unit and API tests run again before the site is built</td></tr>
+              <tr><td data-i18n="gate3Label">Before invitations go out</td><td data-i18n="gate3Val">The ten-guest test on the deployed site and the device test on real phones</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 data-i18n="testDataTitle">Test data: ten dummy guests</h3>
+      <p class="data-note" data-i18n="testDataNote">One guest per rule that matters. Group names are replaced here; the roles and limits are as in the plan.</p>
+      <div class="table-scroll">
+        <table class="decision">
+          <thead><tr><th data-i18n="tdColGuest">Dummy guest</th><th data-i18n="tdColGroup">Group → role</th><th>Pax</th><th data-i18n="tdColMust">Must happen</th></tr></thead>
+          <tbody>
+            <tr><td>Family A</td><td>Bride's family → keluarga_inti</td><td>4</td><td>Right name · RSVP up to 4 · gift chip · typing "rekening" shows the bank card</td></tr>
+            <tr><td>Family B</td><td>Groom's family → keluarga_inti</td><td>4</td><td>Same</td></tr>
+            <tr><td>Close friend A</td><td>Close friends → sahabat</td><td>2</td><td>Gift chip · <code>/api/gift</code> → 200</td></tr>
+            <tr><td>Close friend B</td><td>Workplace A, override sahabat</td><td>1</td><td>The override wins: bank data is shown</td></tr>
+            <tr><td>Coworker A</td><td>Workplace A → tamu_umum</td><td>1</td><td>No gift chip · typing "transfer" gets a thank-you text · direct <code>/api/gift</code> → 403</td></tr>
+            <tr><td>Coworker B</td><td>Other coworkers → tamu_umum</td><td>2</td><td>An RSVP for 10 people sent by hand → 422</td></tr>
+            <tr><td>University friend</td><td>University friends → tamu_umum</td><td>1</td><td>4 wishes in a day: the 4th is rejected</td></tr>
+            <tr><td>Neighbour</td><td>Neighbours → tamu_umum</td><td>2</td><td>A profane wish is rejected</td></tr>
+            <tr><td>Typo group</td><td>"Sahbat" → tamu_umum</td><td>1</td><td>Fail closed: no bank data</td></tr>
+            <tr><td>Deactivated link</td><td>none</td><td>none</td><td>The same 404 as an unknown link · <code>/api/gift</code> is not 200</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 TEST DESIGN -->
+  <section class="content" id="design">
+    <div class="wrap">
+      <div class="section-num" data-i18n="designNum">03 · Test Case Design</div>
+      <h2 data-i18n="designTitle">81 test cases, <em>each traced to a rule and to the test that runs it.</em></h2>
+      <p class="lede" data-i18n="designLede">Every case has an ID, the requirement it comes from, steps, an expected result and the name of the automated test that covers it. The first 55 are automated as unit and API tests. The 10 guest scenarios and 16 device checks pair an automated test with a manual run on the deployed site or on real phones; three guest scenarios have no browser test of their own and rely on the unit or API case for the same rule.</p>
+
+      <div class="pill-list">
+        <span class="pill"><strong>6</strong> <span data-i18n="area1">Links</span></span>
+        <span class="pill"><strong>8</strong> <span data-i18n="area2">Roles &amp; bank data</span></span>
+        <span class="pill"><strong>10</strong> RSVP</span>
+        <span class="pill"><strong>8</strong> <span data-i18n="area4">Wishes</span></span>
+        <span class="pill"><strong>12</strong> <span data-i18n="area5">Number verification</span></span>
+        <span class="pill"><strong>6</strong> Chatbot</span>
+        <span class="pill"><strong>5</strong> <span data-i18n="area7">Reception desk</span></span>
+        <span class="pill"><strong>10</strong> <span data-i18n="area8">Guest scenarios</span></span>
+        <span class="pill"><strong>16</strong> <span data-i18n="area9">Device checks</span></span>
+      </div>
+
+      <h3 data-i18n="techTitle">Techniques I chose on purpose</h3>
+      <div class="table-scroll">
+        <table class="decision">
+          <thead><tr><th data-i18n="techColTech">Technique</th><th data-i18n="techColExample">Example from this suite</th><th data-i18n="techColCase">Case</th></tr></thead>
+          <tbody>
+            <tr><td data-i18n="tech1">Boundary values</td><td data-i18n="tech1e">A wish of 280 characters is saved, 281 is refused; an emoji counts as one character</td><td class="num">TC-WSH-02</td></tr>
+            <tr><td data-i18n="tech2">Boundary on time</td><td data-i18n="tech2e">An RSVP in the last minute before the deadline is accepted; one minute later it is refused, by the server's clock</td><td class="num">TC-RSV-08</td></tr>
+            <tr><td data-i18n="tech3">Invalid input types</td><td data-i18n="tech3e">The guest count sent as 0, 5, 10, -1, 2.5, "2", null and not at all: 422 every time, nothing stored</td><td class="num">TC-RSV-02</td></tr>
+            <tr><td data-i18n="tech4">Equivalence classes</td><td data-i18n="tech4e">The same number written as <code>0812…</code>, <code>+62 812-…</code>, <code>62812…</code> and <code>812 …</code> verifies every time</td><td class="num">TC-VRF-01</td></tr>
+            <tr><td data-i18n="tech5">Fail closed</td><td data-i18n="tech5e">A missing group, an empty role, a typo, the wrong case, "owner" and a number all resolve to general guest</td><td class="num">TC-ROL-03</td></tr>
+            <tr><td data-i18n="tech6">Authorization matrix</td><td data-i18n="tech6e">The right role with no cookie, a forged cookie, another guest's cookie or a reset device: 403 with an empty body</td><td class="num">TC-GFT-04</td></tr>
+            <tr><td data-i18n="tech7">State over time</td><td data-i18n="tech7e">Three wrong numbers lock the link for an hour, even for the right number; it opens again after the hour</td><td class="num">TC-VRF-02</td></tr>
+            <tr><td data-i18n="tech8">Idempotency</td><td data-i18n="tech8e">The same desk check-in sent twice is counted once</td><td class="num">TC-DSK-02</td></tr>
+            <tr><td data-i18n="tech9">Information leakage</td><td data-i18n="tech9e">Unknown, deactivated, revoked, too short, empty, missing and 500-character link codes all get the identical 404</td><td class="num">TC-LNK-02</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 data-i18n="allTitle">All 81 test cases</h3>
+      <p class="data-note" data-i18n="allNote">Open a section to read its cases. "Rule" points to the five rules in section 01, "Spec §" to a section of the project's spec. Dates in the originals are written here as relative times.</p>
+      <details class="tc">
+        <summary><span>1 · Links and tokens</span><span class="count">6 cases · TC-LNK</span></summary>
+        <div class="table-scroll">
+          <table class="decision">
+            <thead><tr><th>ID</th><th>Requirement</th><th>Steps</th><th>Expected result</th><th>Automated by</th></tr></thead>
+            <tbody>
+              <tr><td class="num">TC-LNK-01</td><td>Spec §3, <code>GET /api/guest</code></td><td>Request <code>/api/guest?token=&lt;active&gt;</code></td><td>200 with name, role, <code>canSeeGift</code>, <code>max_pax</code> and the current RSVP. The response never contains the token or <code>no_wa</code></td><td><code>api.test.ts</code> › GET /api/guest</td></tr>
+              <tr><td class="num">TC-LNK-02</td><td>Rule 5: unknown and inactive tokens get the same 404</td><td>Request <code>/api/guest</code> with an unknown, an inactive, a revoked, a too short, an empty, a missing and a 500-character token</td><td>Every request gets the identical 404 response</td><td><code>api.test.ts</code> › GET /api/guest; <code>guests.test.ts</code> › findGuestByToken</td></tr>
+              <tr><td class="num">TC-LNK-03</td><td>Rule 5</td><td>Look up a malformed token</td><td>Rejected without a database query</td><td><code>guests.test.ts</code> › findGuestByToken</td></tr>
+              <tr><td class="num">TC-LNK-04</td><td>Rule 5: 10 random base62 characters</td><td>Generate many tokens</td><td>Each is 10 base62 characters, none repeats, the alphabet is used evenly</td><td><code>token.test.ts</code></td></tr>
+              <tr><td class="num">TC-LNK-05</td><td>Spec §8.5, per-IP rate limits</td><td>Send requests from one address up to the limit, then one more; repeat from a second address</td><td>The request over the limit is refused; the second address is not affected</td><td><code>rate-limit.test.ts</code> › withinLimit</td></tr>
+              <tr><td class="num">TC-LNK-06</td><td>Spec §8.5</td><td>Send a request with no address, or while the counter cannot be reached</td><td>The guest is not blocked (fails open)</td><td><code>rate-limit.test.ts</code> › withinLimit</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><span>2 · Roles and bank data</span><span class="count">8 cases · TC-ROL · TC-GFT</span></summary>
+        <div class="table-scroll">
+          <table class="decision">
+            <thead><tr><th>ID</th><th>Requirement</th><th>Steps</th><th>Expected result</th><th>Automated by</th></tr></thead>
+            <tbody>
+              <tr><td class="num">TC-ROL-01</td><td>Rule 4: override beats group default</td><td>Resolve the role of a guest in a <code>tamu_umum</code> group with override <code>sahabat</code></td><td><code>sahabat</code></td><td><code>roles.test.ts</code>; <code>guests.test.ts</code></td></tr>
+              <tr><td class="num">TC-ROL-02</td><td>Rule 4</td><td>Resolve the role of a guest in a <code>keluarga_inti</code> group with override <code>tamu_umum</code></td><td><code>tamu_umum</code>, no gift access</td><td><code>guests.test.ts</code></td></tr>
+              <tr><td class="num">TC-ROL-03</td><td>Rule 3: fail closed</td><td>Resolve the role for a missing group, an empty role, a typo ("Sahbat"), wrong case ("Keluarga_Inti"), "owner" and a number</td><td><code>tamu_umum</code> every time</td><td><code>roles.test.ts</code> › effectiveRole</td></tr>
+              <tr><td class="num">TC-GFT-01</td><td>Rule 1; Spec §4</td><td>As a verified <code>keluarga_inti</code>, <code>sahabat</code> and override-to-<code>sahabat</code> guest, request <code>/api/gift</code></td><td>200 with the accounts; one <code>gift_access_log</code> row is written</td><td><code>api.test.ts</code> › GET /api/gift</td></tr>
+              <tr><td class="num">TC-GFT-02</td><td>Rule 1; Spec §4</td><td>As a verified <code>tamu_umum</code>, a demoted guest and a guest whose group is a typo, request <code>/api/gift</code></td><td>403 with an empty body; nothing is logged</td><td><code>api.test.ts</code> › GET /api/gift</td></tr>
+              <tr><td class="num">TC-GFT-03</td><td>Rule 5</td><td>Request <code>/api/gift</code> with an unknown, inactive, revoked, malformed and missing token</td><td>The same 404 as an unknown token; nothing is logged</td><td><code>api.test.ts</code> › GET /api/gift</td></tr>
+              <tr><td class="num">TC-GFT-04</td><td>Rule 1; Spec §8.2</td><td>As <code>keluarga_inti</code>, request <code>/api/gift</code> with no cookie, a forged cookie, another guest's cookie and the cookie of a device that was reset</td><td>403 with an empty body; nothing is logged</td><td><code>api.test.ts</code> › verification gates</td></tr>
+              <tr><td class="num">TC-GFT-05</td><td>Rule 1</td><td>Request <code>/api/gift</code> while <code>event_config.rekening</code> is not set</td><td>503; nothing is logged</td><td><code>api.test.ts</code> › GET /api/gift</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><span>3 · RSVP</span><span class="count">10 cases · TC-RSV</span></summary>
+        <p class="data-note" style="margin:14px 18px 0;">Test guest: <code>max_pax</code> = 4 unless stated otherwise.</p>
+        <div class="table-scroll">
+          <table class="decision">
+            <thead><tr><th>ID</th><th>Requirement</th><th>Steps</th><th>Expected result</th><th>Automated by</th></tr></thead>
+            <tbody>
+              <tr><td class="num">TC-RSV-01</td><td>Rule 2; Spec §3</td><td>POST <code>/api/rsvp</code> with <code>hadir: true, jumlah: 4</code></td><td>200; stored as hadir, 4, source "halaman"</td><td><code>api.test.ts</code> › POST /api/rsvp</td></tr>
+              <tr><td class="num">TC-RSV-02</td><td>Rule 2: 1 ≤ jumlah ≤ max_pax</td><td>POST with <code>hadir: true</code> and <code>jumlah</code> 0, 5, 10, -1, 2.5, "2", null, and without <code>jumlah</code></td><td>422 <code>invalid_jumlah</code> every time; nothing is stored</td><td><code>api.test.ts</code> › POST /api/rsvp</td></tr>
+              <tr><td class="num">TC-RSV-03</td><td>Rule 2: the limit is per guest</td><td>As a guest with <code>max_pax</code> 1, POST <code>jumlah: 2</code></td><td>422</td><td><code>api.test.ts</code> › POST /api/rsvp</td></tr>
+              <tr><td class="num">TC-RSV-04</td><td>Spec §3</td><td>POST <code>hadir: false, jumlah: 5</code></td><td>200; stored with <code>jumlah</code> 0</td><td><code>api.test.ts</code> › POST /api/rsvp</td></tr>
+              <tr><td class="num">TC-RSV-05</td><td>Spec §3: upsert by guest</td><td>POST hadir with 2, then POST not attending</td><td>Still one row for the guest, holding the second answer</td><td><code>api.test.ts</code> › POST /api/rsvp</td></tr>
+              <tr><td class="num">TC-RSV-06</td><td>Rule 2</td><td>POST <code>hadir: "ya"</code>, <code>hadir: 1</code>, and <code>sumber: "admin"</code></td><td>422 <code>invalid_hadir</code> / <code>invalid_sumber</code></td><td><code>api.test.ts</code> › POST /api/rsvp</td></tr>
+              <tr><td class="num">TC-RSV-07</td><td>Spec §3</td><td>POST with no body or an array; POST with an unknown and an inactive token</td><td>400 for the bad body; 404 for the tokens</td><td><code>api.test.ts</code> › POST /api/rsvp</td></tr>
+              <tr><td class="num">TC-RSV-08</td><td>RSVP deadline, server time</td><td>As a guest of the first event, POST in the last minute before the RSVP deadline, then one minute later</td><td>200 before; 403 <code>rsvp_closed</code> after, and <code>/api/guest</code> reports <code>rsvp_open: false</code></td><td><code>api.test.ts</code> › POST /api/rsvp</td></tr>
+              <tr><td class="num">TC-RSV-09</td><td>Second-event spec: each event has its own deadline</td><td>As a guest of the second event, POST after the first event's deadline has passed, in the last minute before the second event's own deadline, and one minute later</td><td>200, 200, then 403 <code>rsvp_closed</code>; <code>max_pax</code> still applies</td><td><code>api.test.ts</code> › POST /api/rsvp</td></tr>
+              <tr><td class="num">TC-RSV-10</td><td>Spec §8.2</td><td>POST <code>/api/rsvp</code> from a browser that is not verified</td><td>403 <code>not_verified</code>; an earlier RSVP is left untouched</td><td><code>api.test.ts</code> › verification gates</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><span>4 · Wishes</span><span class="count">8 cases · TC-WSH</span></summary>
+        <div class="table-scroll">
+          <table class="decision">
+            <thead><tr><th>ID</th><th>Requirement</th><th>Steps</th><th>Expected result</th><th>Automated by</th></tr></thead>
+            <tbody>
+              <tr><td class="num">TC-WSH-01</td><td>Spec §3</td><td>POST <code>/api/wish</code> with a message that has spaces around it</td><td>Saved trimmed and returned</td><td><code>api.test.ts</code> › POST /api/wish</td></tr>
+              <tr><td class="num">TC-WSH-02</td><td>Rule 2: length ≤ 280</td><td>POST 280 characters, then 281; POST a message of emoji</td><td>280 is saved, 281 → 422; an emoji counts as one character</td><td><code>api.test.ts</code> › POST /api/wish</td></tr>
+              <tr><td class="num">TC-WSH-03</td><td>Spec §3: 1–280 characters</td><td>POST an empty string, spaces only, newlines only, zero-width spaces, a number and null</td><td>422 every time</td><td><code>api.test.ts</code> › POST /api/wish</td></tr>
+              <tr><td class="num">TC-WSH-04</td><td>Spec §3: profanity filter</td><td>POST a wish with a word on the list</td><td>422; nothing is saved</td><td><code>api.test.ts</code> › POST /api/wish; <code>profanity.test.ts</code></td></tr>
+              <tr><td class="num">TC-WSH-05</td><td>Rule 2: 3 per guest per 24 hours, server time</td><td>POST 4 wishes within 24 hours; wait 24 hours and POST again; POST as a second guest</td><td>The 4th → 429; allowed again after 24 hours; the second guest is not affected</td><td><code>api.test.ts</code> › POST /api/wish</td></tr>
+              <tr><td class="num">TC-WSH-06</td><td>Spec §3</td><td>POST a wish with control characters and many blank lines</td><td>Control characters are removed, blank lines collapsed</td><td><code>api.test.ts</code> › POST /api/wish</td></tr>
+              <tr><td class="num">TC-WSH-07</td><td>Spec §3, <code>GET /api/wishes</code></td><td>Request <code>/api/wishes</code> with visible and hidden wishes stored</td><td>Visible wishes only, newest first, with public fields only (no token, no <code>no_wa</code>)</td><td><code>api.test.ts</code> › GET /api/wishes</td></tr>
+              <tr><td class="num">TC-WSH-08</td><td>Spec §8.2</td><td>POST <code>/api/wish</code> from a browser that is not verified</td><td>403 <code>not_verified</code></td><td><code>api.test.ts</code> › verification gates</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><span>5 · WhatsApp number verification</span><span class="count">12 cases · TC-VRF</span></summary>
+        <div class="table-scroll">
+          <table class="decision">
+            <thead><tr><th>ID</th><th>Requirement</th><th>Steps</th><th>Expected result</th><th>Automated by</th></tr></thead>
+            <tbody>
+              <tr><td class="num">TC-VRF-01</td><td>Spec §8.2</td><td>POST <code>/api/verify</code> with the guest's number written as <code>0812…</code>, <code>+62 812-…</code>, <code>62812…</code> and <code>812 …</code></td><td>200 and a signed cookie every time</td><td><code>api.test.ts</code> › POST /api/verify</td></tr>
+              <tr><td class="num">TC-VRF-02</td><td>Spec §8.2: 3 wrong tries per hour</td><td>POST a wrong number three times, then the right number; wait an hour and POST the right number</td><td>401 with 2, 1, 0 tries remaining; the 4th try → 429 even with the right number; 200 after the hour</td><td><code>api.test.ts</code> › POST /api/verify</td></tr>
+              <tr><td class="num">TC-VRF-03</td><td>Spec §8.2</td><td>POST something that is not a phone number</td><td>422; not counted as a try</td><td><code>api.test.ts</code> › POST /api/verify</td></tr>
+              <tr><td class="num">TC-VRF-04</td><td>Spec §8.2</td><td>POST another guest's number on this guest's link</td><td>The invitation does not open</td><td><code>api.test.ts</code> › POST /api/verify</td></tr>
+              <tr><td class="num">TC-VRF-05</td><td>Spec §8.1: at most 3 devices per person</td><td>Verify with the right number on 4 browsers</td><td>Browsers 1–3 are verified; the 4th → 403 <code>device_limit</code>, no cookie</td><td><code>api.test.ts</code> › POST /api/verify</td></tr>
+              <tr><td class="num">TC-VRF-06</td><td>Spec §8.1c: reset devices</td><td>Reset the guest's devices, then use an old browser and verify a new one</td><td>Old browsers are no longer verified; the slots are free again</td><td><code>api.test.ts</code> › POST /api/verify</td></tr>
+              <tr><td class="num">TC-VRF-07</td><td>Spec §8.2: signed cookie</td><td>Present a tampered cookie, a cookie for another token, for another number, and one signed with another secret</td><td>All rejected</td><td><code>verify.test.ts</code> › readVerifyCookie</td></tr>
+              <tr><td class="num">TC-VRF-08</td><td>Spec §8.3: how long a verification lasts</td><td>Read a cookie on the event day, two weeks later and after the expiry date</td><td>Valid, valid, expired</td><td><code>verify.test.ts</code> › VERIFY_EXPIRES</td></tr>
+              <tr><td class="num">TC-VRF-09</td><td>Spec §8.1: group links</td><td>On a group link, POST a member's number</td><td>This browser becomes that member; the role comes from the member, so a <code>tamu_umum</code> member gets no bank data</td><td><code>api.test.ts</code> › POST /api/verify on a group link</td></tr>
+              <tr><td class="num">TC-VRF-10</td><td>Spec §8.1</td><td>On a group link, POST the number of another group's guest, of a switched-off member, and a number nobody has</td><td>401, no cookie, no device slot taken</td><td><code>api.test.ts</code> › POST /api/verify on a group link</td></tr>
+              <tr><td class="num">TC-VRF-11</td><td>Spec §8.1: 20 wrong numbers per hour per group link</td><td>POST 20 wrong numbers, then a member's number; verify on a personal link; wait an hour</td><td>The member's number → 429; the personal link still works; 200 after the hour</td><td><code>api.test.ts</code> › POST /api/verify on a group link</td></tr>
+              <tr><td class="num">TC-VRF-12</td><td>Rule 5</td><td>Use an unknown or switched-off group link</td><td>The same 404 as an unknown guest link</td><td><code>api.test.ts</code> › POST /api/verify on a group link</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><span>6 · Chatbot</span><span class="count">6 cases · TC-CHT</span></summary>
+        <div class="table-scroll">
+          <table class="decision">
+            <thead><tr><th>ID</th><th>Requirement</th><th>Steps</th><th>Expected result</th><th>Automated by</th></tr></thead>
+            <tbody>
+              <tr><td class="num">TC-CHT-01</td><td>Spec §5</td><td>Type every question from the owner's Q&amp;A list</td><td>Each one is routed to its intended answer</td><td><code>chat.test.ts</code> › classify</td></tr>
+              <tr><td class="num">TC-CHT-02</td><td>Spec §5</td><td>Type a short keyword inside a longer word</td><td>No match: short keywords match whole words only</td><td><code>chat.test.ts</code> › classify</td></tr>
+              <tr><td class="num">TC-CHT-03</td><td>Spec §4: <code>tamu_umum</code> types "rekening/amplop/transfer"</td><td>Ask every gift question as <code>tamu_umum</code></td><td>Thank-you text only, never bank data</td><td><code>chat.test.ts</code> › replyFor</td></tr>
+              <tr><td class="num">TC-CHT-04</td><td>Spec §4</td><td>Ask a gift question as <code>keluarga_inti</code> or <code>sahabat</code></td><td>The bank card is shown directly</td><td><code>chat.test.ts</code> › replyFor</td></tr>
+              <tr><td class="num">TC-CHT-05</td><td>Spec §5</td><td>Type a question the bot does not know</td><td>The fallback answer</td><td><code>chat.test.ts</code> › replyFor</td></tr>
+              <tr><td class="num">TC-CHT-06</td><td>Spec §8.1b: unanswered questions</td><td>POST <code>/api/chat-miss</code> with an unknown question, with a question the bot can answer, and 21 times in 24 hours</td><td>The unknown one is logged; the answerable one is not; logging stops after 20 per link</td><td><code>api.test.ts</code> › POST /api/chat-miss</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><span>7 · Reception desk</span><span class="count">5 cases · TC-DSK</span></summary>
+        <div class="table-scroll">
+          <table class="decision">
+            <thead><tr><th>ID</th><th>Requirement</th><th>Steps</th><th>Expected result</th><th>Automated by</th></tr></thead>
+            <tbody>
+              <tr><td class="num">TC-DSK-01</td><td>Spec §8.6: the desk link is the only key</td><td>Call every <code>/api/desk/*</code> handler with a wrong, malformed and missing code, and with the right code while the link is switched off</td><td>Refused every time; nothing is read or written</td><td><code>desk.test.ts</code> › the desk link is the only key</td></tr>
+              <tr><td class="num">TC-DSK-02</td><td>Spec §8.6</td><td>POST a check-in with a number of people; send the same entry again</td><td>The party is counted once</td><td><code>desk.test.ts</code> › POST /api/desk/checkin</td></tr>
+              <tr><td class="num">TC-DSK-03</td><td>Rule 2</td><td>POST a check-in with a bad value in each field</td><td>422 naming the field; nothing is counted</td><td><code>desk.test.ts</code> › POST /api/desk/checkin</td></tr>
+              <tr><td class="num">TC-DSK-04</td><td>Spec §8.6</td><td>Undo an entry; undo it again</td><td>The entry leaves the count; the second undo changes nothing</td><td><code>desk.test.ts</code> › POST /api/desk/cancel and GET /api/desk/state</td></tr>
+              <tr><td class="num">TC-DSK-05</td><td>Second-event spec: one desk per event</td><td>Count a party at one event's desk; search guests at the other</td><td>Counts, name suggestions and guest ids belong to that desk's event only</td><td><code>desk.test.ts</code> › one desk per event</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><span>8 · Guest scenarios · automated and manual</span><span class="count">10 cases · TC-GST</span></summary>
+        <div class="table-scroll">
+          <table class="decision">
+            <thead><tr><th>ID</th><th>Dummy guest</th><th>Group → role</th><th>Pax</th><th>Steps</th><th>Expected result</th><th>Browser test</th></tr></thead>
+            <tbody>
+              <tr><td class="num">TC-GST-01</td><td>Family A</td><td>Bride's family → keluarga_inti</td><td>4</td><td>Open the link, verify, RSVP, open the chat and type "rekening"</td><td>Right name; RSVP offers up to 4; Amplop chip is shown; the bank card appears</td><td><code>chat.spec.ts</code> › TC-UI-14 keluarga_inti</td></tr>
+              <tr><td class="num">TC-GST-02</td><td>Family B</td><td>Groom's family → keluarga_inti</td><td>4</td><td>Same as TC-GST-01</td><td>Same as TC-GST-01</td><td>same</td></tr>
+              <tr><td class="num">TC-GST-03</td><td>Close friend A</td><td>Close friends → sahabat</td><td>2</td><td>Open the chat; request <code>/api/gift</code></td><td>Amplop chip is shown; <code>/api/gift</code> → 200</td><td><code>chat.spec.ts</code> › TC-UI-14 sahabat</td></tr>
+              <tr><td class="num">TC-GST-04</td><td>Close friend B</td><td>Workplace A, override sahabat</td><td>1</td><td>Open the chat and ask for the bank account</td><td>The override wins: bank data is shown</td><td>none (TC-ROL-01)</td></tr>
+              <tr><td class="num">TC-GST-05</td><td>Coworker A</td><td>Workplace A → tamu_umum</td><td>1</td><td>Open the chat, type "transfer"; request <code>/api/gift</code> directly</td><td>No Amplop chip; thank-you text; <code>/api/gift</code> → 403</td><td><code>chat.spec.ts</code> › TC-GST-05</td></tr>
+              <tr><td class="num">TC-GST-06</td><td>Coworker B</td><td>Other coworkers → tamu_umum</td><td>2</td><td>Send an RSVP with <code>jumlah</code> 10 by hand (curl)</td><td>422</td><td><code>invitation.spec.ts</code> › TC-UI-11 a guest invited alone</td></tr>
+              <tr><td class="num">TC-GST-07</td><td>University friend</td><td>University friends → tamu_umum</td><td>1</td><td>Send 4 wishes in one day</td><td>The 4th is rejected</td><td><code>chat.spec.ts</code> › TC-UI-13 TC-GST-07</td></tr>
+              <tr><td class="num">TC-GST-08</td><td>Neighbour</td><td>Neighbours → tamu_umum</td><td>2</td><td>Send a wish with a profane word</td><td>Rejected</td><td>none (TC-WSH-04)</td></tr>
+              <tr><td class="num">TC-GST-09</td><td>Typo group</td><td>"Sahbat" → tamu_umum</td><td>1</td><td>Open the chat; request <code>/api/gift</code></td><td>Fail closed: no bank data</td><td>none (TC-ROL-03, TC-GFT-02)</td></tr>
+              <tr><td class="num">TC-GST-10</td><td>Deactivated link</td><td>none</td><td>none</td><td>Open the link; request <code>/api/gift</code></td><td>The same 404 as an unknown link; <code>/api/gift</code> is not 200</td><td><code>links.spec.ts</code> › TC-GST-10</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><span>9 · Device checks · browser tests and manual</span><span class="count">16 cases · TC-UI</span></summary>
+        <div class="table-scroll">
+          <table class="decision">
+            <thead><tr><th>ID</th><th>Check</th><th>Expected result</th><th>Browser test</th><th>Left for a real phone</th></tr></thead>
+            <tbody>
+              <tr><td class="num">TC-UI-01</td><td>WhatsApp link preview</td><td>The chat shows the invitation's preview image and title, never the guest's name</td><td><code>links.spec.ts</code>: title and image are served, no guest name in the page head, a preview fetch is not counted as a visit</td><td>The card as WhatsApp draws it</td></tr>
+              <tr><td class="num">TC-UI-02</td><td>Cover and envelope</td><td>The cover shows "Kepada Yth." with the guest's name; breaking the seal opens the envelope, then the page</td><td><code>invitation.spec.ts</code></td><td>The envelope animation</td></tr>
+              <tr><td class="num">TC-UI-03</td><td>Music</td><td>Music starts when the envelope opens; the toggle (top right) pauses and resumes it</td><td><code>invitation.spec.ts</code>: the track is asked to play only after the guest's tap, the toggle pauses and resumes, the file is served</td><td>That the phone really plays it</td></tr>
+              <tr><td class="num">TC-UI-04</td><td>Scroll and reveal</td><td>Sections appear in order while scrolling; nothing traps the scroll</td><td><code>invitation.spec.ts</code>: section order, the page scrolls</td><td>The reveal animation</td></tr>
+              <tr><td class="num">TC-UI-05</td><td>Limited view</td><td>Before the number is verified: header, opening card without home addresses, verse band, prayer request only; no chat button; no bank data</td><td><code>invitation.spec.ts</code>: limited view, wrong and malformed numbers, the right number, the fourth device</td><td>The on-screen keyboard over the number sheet</td></tr>
+              <tr><td class="num">TC-UI-06</td><td>Countdown</td><td>The countdown boxes count down to the event</td><td><code>invitation.spec.ts</code></td><td>—</td></tr>
+              <tr><td class="num">TC-UI-07</td><td>Calendar</td><td>"Simpan ke Kalender" offers the event to the phone's calendar</td><td><code>invitation.spec.ts</code>: the link is the event's</td><td>The calendar app opens with the right date</td></tr>
+              <tr><td class="num">TC-UI-08</td><td>Maps</td><td>"Buka Google Maps" opens the venue</td><td><code>invitation.spec.ts</code>: the link is the venue's</td><td>The maps app opens at the venue</td></tr>
+              <tr><td class="num">TC-UI-09</td><td>Copy address</td><td>"Salin Alamat" puts the address on the clipboard</td><td><code>invitation.spec.ts</code>: the confirmation appears; the clipboard is read back in Chrome only</td><td>Pasting in WhatsApp on an iPhone</td></tr>
+              <tr><td class="num">TC-UI-10</td><td>Gallery</td><td>The Our Story photos move with the arrows, a swipe and the four small photos</td><td><code>invitation.spec.ts</code></td><td>A real finger swipe</td></tr>
+              <tr><td class="num">TC-UI-11</td><td>RSVP submit and resubmit</td><td>The answer is saved; a guest with <code>max_pax</code> 1 sees "Untuk 1 orang"; changing the answer replaces it; Wedding Wishes and Thank You appear after the answer</td><td><code>invitation.spec.ts</code>, two tests; the saved answer is read back from the database</td><td>—</td></tr>
+              <tr><td class="num">TC-UI-12</td><td>Chat popup</td><td>The chat button appears after the Location section and opens the full-screen chat; chips and typed questions get answers</td><td><code>chat.spec.ts</code></td><td>The keyboard over the chat input</td></tr>
+              <tr><td class="num">TC-UI-13</td><td>Wish flow</td><td>A wish is sent and appears under Wedding Wishes</td><td><code>chat.spec.ts</code></td><td>—</td></tr>
+              <tr><td class="num">TC-UI-14</td><td>Copy bank number</td><td>For keluarga_inti / sahabat: the card shows the accounts with the number masked; "Salin Nomor Rekening" puts the number on the clipboard</td><td><code>chat.spec.ts</code>, once per role, with made-up accounts</td><td>The real accounts are the right ones</td></tr>
+              <tr><td class="num">TC-UI-15</td><td>Back and refresh</td><td>After a refresh or going back, the guest stays verified and the RSVP is still shown</td><td><code>invitation.spec.ts</code>: refresh</td><td>Going back; leaving WhatsApp and returning</td></tr>
+              <tr><td class="num">TC-UI-16</td><td>Tap targets and inputs</td><td>Buttons are easy to tap (≥ 44 px); focusing an input does not zoom the page on iOS</td><td><code>invitation.spec.ts</code> and <code>chat.spec.ts</code>: the seven main controls and both text fields are measured</td><td>How it feels with a thumb</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 04 AUTOMATION -->
+  <section class="content alt" id="automation">
+    <div class="wrap">
+      <div class="section-num" data-i18n="autoNum">04 · Test Automation</div>
+      <h2 data-i18n="autoTitle">The browser tests run the real production build. <em>Only the database is fake.</em></h2>
+      <p class="lede" data-i18n="autoLede">Playwright builds and starts the site the way it is deployed, with one difference: the database address points at a small stand-in server written for the tests. Each test asks that server for a brand-new guest, plays the scenario on a phone profile, then reads the guest's record back to check what was really saved.</p>
+
+      <div class="cycle-flow" role="img" aria-label="Playwright drives the production build of the site, which talks to a stand-in database">
+        <div class="cycle-box">
+          <div class="cyc-label" data-i18n="flow1Label">Test runner</div>
+          <div class="cyc-title">Playwright</div>
+          <div class="cyc-detail" data-i18n="flow1Detail">18 scenarios on 3 phone profiles, in parallel. Every test seeds its own guest, so tests never share an RSVP, wishes or device slots.</div>
+        </div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-box">
+          <div class="cyc-label" data-i18n="flow2Label">System under test</div>
+          <div class="cyc-title" data-i18n="flow2Title">The site, production build</div>
+          <div class="cyc-detail" data-i18n="flow2Detail">Built and started for the run. No production code was changed to make it testable.</div>
+        </div>
+        <div class="cycle-arrow">→</div>
+        <div class="cycle-box">
+          <div class="cyc-label" data-i18n="flow3Label">Test double</div>
+          <div class="cyc-title" data-i18n="flow3Title">Stand-in database</div>
+          <div class="cyc-detail" data-i18n="flow3Detail">Answers the site the way Supabase would, hands out test guests, and reports what was stored for each one. A query it does not know gets a 400, so the tests fail loudly instead of passing against a guess.</div>
+        </div>
+      </div>
+
+      <details class="tc">
+        <summary><span data-i18n="scenTitle">The 18 browser scenarios</span><span class="count">3 spec files · × 3 phones = 54 tests</span></summary>
+        <ul class="scenarios">
+          <li><code>links.spec.ts</code> TC-GST-10 unknown, inactive and malformed links all get the same 404 page</li>
+          <li><code>links.spec.ts</code> TC-UI-01 the WhatsApp preview has a title and a picture, and never the guest's name</li>
+          <li><code>invitation.spec.ts</code> TC-UI-02 the cover greets the guest by name and the seal asks for the number</li>
+          <li><code>invitation.spec.ts</code> TC-UI-05 without the number: the limited invitation only</li>
+          <li><code>invitation.spec.ts</code> TC-UI-05 wrong and malformed numbers are refused with a message; the right one opens the full invitation</li>
+          <li><code>invitation.spec.ts</code> the right number on a fourth browser is refused: three devices per guest</li>
+          <li><code>invitation.spec.ts</code> TC-UI-03 music starts when the envelope opens and the toggle pauses it</li>
+          <li><code>invitation.spec.ts</code> TC-UI-04 TC-UI-06 the sections are there in order, the page scrolls and the countdown runs</li>
+          <li><code>invitation.spec.ts</code> TC-UI-07 TC-UI-08 TC-UI-09 calendar, maps and copying the address</li>
+          <li><code>invitation.spec.ts</code> TC-UI-10 the gallery moves with the arrows, a swipe and the small photos</li>
+          <li><code>invitation.spec.ts</code> TC-UI-11 TC-UI-15 RSVP: answer, change the answer, and find it again after a reload</li>
+          <li><code>invitation.spec.ts</code> TC-UI-11 a guest invited alone sees no stepper, and the server refuses a count over max_pax</li>
+          <li><code>invitation.spec.ts</code> TC-UI-16 buttons are large enough to tap and typing does not zoom the page on an iPhone</li>
+          <li><code>chat.spec.ts</code> TC-UI-12 the chat button appears after the Location section and the chat answers</li>
+          <li><code>chat.spec.ts</code> TC-GST-05 tamu_umum: no gift chip, a thank-you instead of bank data, and /api/gift answers 403</li>
+          <li><code>chat.spec.ts</code> TC-UI-14 keluarga_inti: the gift card shows the accounts masked and copies the number</li>
+          <li><code>chat.spec.ts</code> TC-UI-14 sahabat: the gift card shows the accounts masked and copies the number</li>
+          <li><code>chat.spec.ts</code> TC-UI-13 TC-GST-07 a wish sent from the chat appears under Wedding Wishes; the fourth in a day is refused</li>
+        </ul>
+      </details>
+
+      <h3 data-i18n="sample1Title">Sample 1 · A general guest gets no bank data, checked six ways</h3>
+      <p data-i18n="sample1P">One scenario, six separate proofs: the gift chip is absent from the chat, typed questions get a thank-you text, the page never even asks the server for the accounts, a direct request from the guest's own verified browser gets a 403 with an empty body, no account holder or account digits appear anywhere on the page, and the gift-view log in the database stays at zero.</p>
+<pre class="code">test(<span class="s">"TC-GST-05 tamu_umum: no gift chip, a thank-you instead of bank data, and /api/gift answers 403"</span>, <span class="k">async</span> ({ page }) =&gt; {
+  <span class="k">const</span> guest = <span class="k">await</span> seedGuest({ role: <span class="s">"tamu_umum"</span> });
+  <span class="k">await</span> enter(page, guest);
+  <span class="k">let</span> giftRequests = 0;
+  page.on(<span class="s">"request"</span>, (r) =&gt; {
+    <span class="k">if</span> (r.url().includes(<span class="s">"/api/gift"</span>)) giftRequests++;
+  });
+  <span class="k">const</span> chat = <span class="k">await</span> openChat(page);
+
+  <span class="k">await</span> expect(chat.getByRole(<span class="s">"group"</span>, { name: <span class="s">"Topik pertanyaan"</span> }).getByRole(<span class="s">"button"</span>)).toHaveText([<span class="s">"RSVP"</span>, <span class="s">"Dress Code"</span>, <span class="s">"Send Wishes"</span>]);
+  <span class="k">for</span> (<span class="k">const</span> typed <span class="k">of</span> [<span class="s">"minta nomor rekening"</span>, <span class="s">"mau transfer"</span>]) {
+    <span class="k">await</span> say(chat, typed);
+    <span class="k">await</span> expect(chat.getByRole(<span class="s">"log"</span>).getByText(<span class="s">"Doa restunya sudah lebih dari cukup"</span>)).toHaveCount(typed === <span class="s">"mau transfer"</span> ? 2 : 1);
+  }
+  <span class="c">// The page did not even ask the server for the accounts.</span>
+  expect(giftRequests).toBe(0);
+
+  <span class="c">// Asking the server directly, from this guest's own verified browser: refused for the role, not for the browser.</span>
+  expect(JSON.parse((<span class="k">await</span> api(page, <span class="s">`/api/guest?token=${guest.token}`</span>)).text)).toMatchObject({ verified: true, role: <span class="s">"tamu_umum"</span>, canSeeGift: false });
+  expect(<span class="k">await</span> api(page, <span class="s">`/api/gift?token=${guest.token}`</span>)).toEqual({ status: 403, text: <span class="s">""</span> });
+  <span class="k">for</span> (<span class="k">const</span> account <span class="k">of</span> BANK.accounts) {
+    <span class="k">await</span> expect(page.locator(<span class="s">"body"</span>)).not.toContainText(account.atas_nama);
+    <span class="k">await</span> expect(page.locator(<span class="s">"body"</span>)).not.toContainText(account.nomor.slice(-4));
+  }
+  expect((<span class="k">await</span> dbState(guest)).giftViews).toBe(0);
+});</pre>
+      <p class="code-caption">e2e/chat.spec.ts</p>
+
+      <h3 data-i18n="sample2Title">Sample 2 · Every bad link looks the same</h3>
+      <p data-i18n="sample2P">A deactivated link that answered differently from an unknown one would tell a stranger that the code was once valid. The test opens four addresses (an unknown code, a deactivated one, a malformed one and the bare site address), collects the text of each 404 page and requires them to be identical, then checks that the API answers the same way.</p>
+<pre class="code">test(<span class="s">"TC-GST-10 unknown, inactive and malformed links all get the same 404 page"</span>, <span class="k">async</span> ({ page }) =&gt; {
+  <span class="k">const</span> inactive = <span class="k">await</span> seedGuest({ role: <span class="s">"keluarga_inti"</span>, aktif: false });
+  <span class="k">const</span> seen: string[] = [];
+  <span class="k">for</span> (<span class="k">const</span> path <span class="k">of</span> [<span class="s">"/u/AAAAAAAAAA"</span>, <span class="s">`/u/${inactive.token}`</span>, <span class="s">"/u/abc"</span>, <span class="s">"/"</span>]) {
+    <span class="k">const</span> response = <span class="k">await</span> page.goto(path);
+    expect(response?.status(), path).toBe(404);
+    <span class="k">await</span> expect(page.getByRole(<span class="s">"heading"</span>, { name: <span class="s">"Undangan tidak ditemukan"</span> })).toBeVisible();
+    <span class="k">await</span> expect(page.locator(<span class="s">"body"</span>)).not.toContainText(inactive.nama);
+    seen.push(<span class="k">await</span> page.getByRole(<span class="s">"main"</span>).innerText());
+  }
+  expect(<span class="k">new</span> Set(seen).size).toBe(1);
+
+  <span class="k">for</span> (<span class="k">const</span> path <span class="k">of</span> [<span class="s">`/api/gift?token=${inactive.token}`</span>, <span class="s">"/api/gift?token=AAAAAAAAAA"</span>, <span class="s">`/api/guest?token=${inactive.token}`</span>]) {
+    <span class="k">const</span> res = <span class="k">await</span> page.request.get(path);
+    expect(res.status(), path).toBe(404);
+    expect(<span class="k">await</span> res.json()).toEqual({ error: <span class="s">"not_found"</span> });
+  }
+});</pre>
+      <p class="code-caption">e2e/links.spec.ts</p>
+
+      <h3 data-i18n="sample3Title">Sample 3 · Fixtures that explain themselves</h3>
+      <p data-i18n="sample3P">Two fixtures apply to every test. The first skips the suite, with a written reason, once the RSVP deadline has passed and the page no longer looks the way the tests describe. The second handles a real difference between browsers: WebKit refuses a Secure cookie over local http, Chromium accepts it.</p>
+<pre class="code"><span class="c">// These tests describe the invitation as it is before the wedding: RSVP open, no "Today!" card. The server's</span>
+<span class="c">// clock decides that (docs/spec.md §8.3), and a test cannot turn it back. From the RSVP deadline on they are</span>
+<span class="c">// skipped, with this reason, instead of failing: write tests for the day-of and after-event pages then.</span>
+<span class="k">const</span> RSVP_DEADLINE = Date.parse(eventContent(<span class="s">"pernikahan"</span>).rsvpDeadline);
+
+<span class="c">// The site under test runs as a production build over plain http on this machine. Its verification</span>
+<span class="c">// cookie is marked Secure (lib/verify.ts), which Chromium still accepts from 127.0.0.1 but WebKit does not.</span>
+<span class="c">// For WebKit only, the cookie the server set is stored again without that one mark; its name, value and</span>
+<span class="c">// expiry are the server's own. In production the site is https, so the mark stays.</span>
+<span class="k">export</span> <span class="k">const</span> test = base.extend&lt;{ beforeTheWedding: void; secureCookieOverHttp: void }&gt;({
+  beforeTheWedding: [
+    <span class="k">async</span> ({}, use, testInfo) =&gt; {
+      testInfo.skip(Date.now() &gt; RSVP_DEADLINE, <span class="s">"The RSVP deadline has passed: the invitation no longer looks the way these tests describe."</span>);
+      <span class="k">await</span> use();
+    },
+    { auto: true },
+  ],
+  secureCookieOverHttp: [
+    <span class="k">async</span> ({ context, browserName }, use) =&gt; {
+      <span class="k">if</span> (browserName === <span class="s">"webkit"</span>) {
+        <span class="k">await</span> context.route(<span class="s">"**/api/verify"</span>, <span class="k">async</span> (route) =&gt; {
+          <span class="c">// route.fetch() puts the server's cookie in this browser's jar, still marked Secure.</span>
+          <span class="k">const</span> response = <span class="k">await</span> route.fetch();
+          <span class="k">const</span> marked = (<span class="k">await</span> context.cookies()).filter((c) =&gt; c.secure);
+          <span class="k">if</span> (marked.length) <span class="k">await</span> context.addCookies(marked.map((c) =&gt; ({ ...c, secure: false })));
+          <span class="k">const</span> { <span class="s">"set-cookie"</span>: _stored, ...headers } = response.headers();
+          <span class="k">await</span> route.fulfill({ response, headers });
+        });
+      }
+      <span class="k">await</span> use();
+    },
+    { auto: true },
+  ],
+});</pre>
+      <p class="code-caption">e2e/test.ts</p>
+    </div>
+  </section>
+
+  <!-- 05 EXECUTION -->
+  <section class="content" id="execution">
+    <div class="wrap">
+      <div class="section-num" data-i18n="execNum">05 · Execution Results</div>
+      <h2 data-i18n="execTitle">531 automated tests on the last run. <em>All passed, on a Mac and on Linux CI.</em></h2>
+      <p class="lede" data-i18n="execLede">Last full run: 6 October 2026. The unit and API suite finishes in under a second on my machine, which is why it can also run before every production build. The browser suite takes about seven minutes in CI, because that job installs two browsers and builds the site first.</p>
+
+      <div class="result-grid">
+        <div class="cycle-box">
+          <div class="cyc-label">Unit &amp; API · Vitest</div>
+          <div class="cyc-rate">477<small> / 477</small></div>
+          <div class="cyc-detail" data-i18n="res1Detail">18 test files · passed on a Mac and in GitHub Actions</div>
+        </div>
+        <div class="cycle-box">
+          <div class="cyc-label">Browser · Playwright</div>
+          <div class="cyc-rate">54<small> / 54</small></div>
+          <div class="cyc-detail" data-i18n="res2Detail">18 scenarios × 3 phones · passed three times in a row on a Mac, and on Linux in CI</div>
+        </div>
+        <div class="cycle-box pending">
+          <div class="cyc-label" data-i18n="res3Label">Manual · deployed site and real phones</div>
+          <div class="cyc-rate">26</div>
+          <div class="cyc-detail" data-i18n="res3Detail">cases with a manual part · results not recorded yet</div>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="decision">
+          <thead><tr><th data-i18n="exColSuite">Suite</th><th data-i18n="exColTests">Tests</th><th data-i18n="exColPass">Passed</th><th data-i18n="exColFail">Failed</th><th data-i18n="exColWhere">Where it ran</th></tr></thead>
+          <tbody>
+            <tr><td>Unit &amp; API (Vitest)</td><td>477</td><td class="status-pass">477</td><td>0</td><td>Mac · GitHub Actions (Ubuntu)</td></tr>
+            <tr><td>Browser · Android Chrome (Pixel 7)</td><td>18</td><td class="status-pass">18</td><td>0</td><td>Mac · GitHub Actions (Ubuntu)</td></tr>
+            <tr><td>Browser · iPhone Safari (iPhone 13)</td><td>18</td><td class="status-pass">18</td><td>0</td><td>Mac · GitHub Actions (Ubuntu)</td></tr>
+            <tr><td>Browser · small iPhone (iPhone SE)</td><td>18</td><td class="status-pass">18</td><td>0</td><td>Mac · GitHub Actions (Ubuntu)</td></tr>
+            <tr><td><strong>Total</strong></td><td><strong>531</strong></td><td class="status-pass"><strong>531</strong></td><td><strong>0</strong></td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 data-i18n="barsTitle">Where the 477 unit and API tests sit</h3>
+      <p class="data-note" data-i18n="barsNote">Tests per file. The guest-facing API and the admin panel carry the most, because that is where the rules are enforced.</p>
+      <div class="bars" role="img" aria-label="Number of tests in each of the 18 test files">
+        <div class="bar-row"><span>admin.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:100.0%"></span></span><span class="n">122</span></div>
+        <div class="bar-row"><span>api.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:76.2%"></span></span><span class="n">93</span></div>
+        <div class="bar-row"><span>chat.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:31.1%"></span></span><span class="n">38</span></div>
+        <div class="bar-row"><span>admin-import.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:29.5%"></span></span><span class="n">36</span></div>
+        <div class="bar-row"><span>import.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:22.1%"></span></span><span class="n">27</span></div>
+        <div class="bar-row"><span>roles.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:18.9%"></span></span><span class="n">23</span></div>
+        <div class="bar-row"><span>profanity.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:16.4%"></span></span><span class="n">20</span></div>
+        <div class="bar-row"><span>desk.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:14.8%"></span></span><span class="n">18</span></div>
+        <div class="bar-row"><span>opens.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:13.1%"></span></span><span class="n">16</span></div>
+        <div class="bar-row"><span>guests.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:13.1%"></span></span><span class="n">16</span></div>
+        <div class="bar-row"><span>events.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:11.5%"></span></span><span class="n">14</span></div>
+        <div class="bar-row"><span>verify.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:9.8%"></span></span><span class="n">12</span></div>
+        <div class="bar-row"><span>links.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:9.8%"></span></span><span class="n">12</span></div>
+        <div class="bar-row"><span>event-phase.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:9.0%"></span></span><span class="n">11</span></div>
+        <div class="bar-row"><span>store.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:5.7%"></span></span><span class="n">7</span></div>
+        <div class="bar-row"><span>rate-limit.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:4.1%"></span></span><span class="n">5</span></div>
+        <div class="bar-row"><span>guest-card.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:3.3%"></span></span><span class="n">4</span></div>
+        <div class="bar-row"><span>token.test.ts</span><span class="bar-track"><span class="bar-fill" style="display:block;width:2.5%"></span></span><span class="n">3</span></div>
+      </div>
+
+      <div class="note-box" data-i18n="manualNote">
+        <strong>Not done yet:</strong> the result columns of the 10 guest scenarios and the 16 device checks are still empty. Those runs happen on the deployed site and on real phones, and each gets a date, a device and Pass or Fail when it is run. Until then this page reports automated results only.
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 CI -->
+  <section class="content alt" id="ci">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ciNum">06 · Continuous Integration</div>
+      <h2 data-i18n="ciTitle">Every push runs both suites. <em>The pipeline holds no secrets.</em></h2>
+      <p class="lede" data-i18n="ciLede">Two jobs run side by side on every push and pull request: typecheck with the unit and API tests, and the browser tests. Both use fake databases, so the workflow holds no database key and no test run can reach real guest data.</p>
+
+      <div class="table-scroll">
+        <table class="decision">
+          <thead><tr><th data-i18n="ciColRun">Run</th><th data-i18n="ciColTrigger">Trigger</th><th data-i18n="ciColCommit">Commit</th><th><code>check</code></th><th><code>e2e</code></th><th data-i18n="ciColResult">Result</th></tr></thead>
+          <tbody>
+            <tr><td>6 Oct 2026 · <code>qa/playwright-e2e</code></td><td>pull request</td><td class="num">a83645b</td><td>25 s</td><td>6 min 29 s</td><td class="status-pass" data-i18n="ciPassed">Passed</td></tr>
+            <tr><td>6 Oct 2026 · <code>main</code></td><td>push</td><td class="num">b2de25b</td><td>20 s</td><td>7 min 43 s</td><td class="status-pass" data-i18n="ciPassed">Passed</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="data-note" data-i18n="ciNote">The repository is private, so the run pages can't be linked. These figures are copied from the GitHub Actions run summaries.</p>
+
+<pre class="code">name: CI
+
+<span class="c"># Typecheck + unit tests + browser tests on every push and pull request. No secrets needed: the tests run</span>
+<span class="c"># against a fake database (tests/fake-db.ts, e2e/fake-supabase.ts) and never reach Supabase.</span>
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+
+<span class="c">  # Browser tests of the guest's invitation (playwright.config.ts). No secrets either: the site is built and</span>
+<span class="c">  # started inside the job against a fake database (e2e/fake-supabase.ts).</span>
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7</pre>
+      <p class="code-caption">.github/workflows/ci.yml</p>
+
+      <table class="decision">
+        <tbody>
+          <tr><td data-i18n="ciOpt1Label">When a browser test fails</td><td data-i18n="ciOpt1Val">The Playwright HTML report is uploaded and kept for 7 days; a trace is kept for each failed test</td></tr>
+          <tr><td data-i18n="ciOpt2Label">Flaky tests</td><td data-i18n="ciOpt2Val">One retry in CI, none locally, so a flaky test shows up on my machine first</td></tr>
+          <tr><td data-i18n="ciOpt3Label">Forgotten <code>test.only</code></td><td data-i18n="ciOpt3Val">Fails the CI run instead of silently skipping the other tests</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 07 MANUAL -->
+  <section class="content" id="manual">
+    <div class="wrap">
+      <div class="section-num" data-i18n="manNum">07 · What Stays Manual</div>
+      <h2 data-i18n="manTitle">An emulated iPhone is not WhatsApp. <em>So each device check says what the automation leaves out.</em></h2>
+      <p class="lede" data-i18n="manLede">Guests open the link inside WhatsApp's own browser, on their own phones. An emulated phone has the right screen size and browser engine, but it plays no sound and has no calendar or maps app. Each of the 16 device checks is therefore split in two.</p>
+
+      <div class="table-scroll">
+        <table class="decision">
+          <thead><tr><th data-i18n="manColCheck">Check</th><th data-i18n="manColAuto">The browser test proves</th><th data-i18n="manColManual">Left for a real phone</th></tr></thead>
+          <tbody>
+            <tr><td><span class="num" style="font-family:var(--font-mono);font-size:12px;color:var(--accent);">TC-UI-01</span><br><span data-i18n="man1">Link preview</span></td><td data-i18n="man1a">Title and image are served, the guest's name is not in the page head, and a preview fetch is not counted as a visit</td><td data-i18n="man1m">The card as WhatsApp draws it</td></tr>
+            <tr><td><span class="num" style="font-family:var(--font-mono);font-size:12px;color:var(--accent);">TC-UI-03</span><br><span data-i18n="man2">Music</span></td><td data-i18n="man2a">The track is asked to play only after the guest's tap, the toggle pauses and resumes it, and the file is served</td><td data-i18n="man2m">That the phone really plays it</td></tr>
+            <tr><td><span class="num" style="font-family:var(--font-mono);font-size:12px;color:var(--accent);">TC-UI-07</span><br><span data-i18n="man3">Calendar</span></td><td data-i18n="man3a">The link is the event's</td><td data-i18n="man3m">The calendar app opens with the right date</td></tr>
+            <tr><td><span class="num" style="font-family:var(--font-mono);font-size:12px;color:var(--accent);">TC-UI-09</span><br><span data-i18n="man4">Copy address</span></td><td data-i18n="man4a">The confirmation appears; the clipboard is read back in Chrome only</td><td data-i18n="man4m">Pasting in WhatsApp on an iPhone</td></tr>
+            <tr><td><span class="num" style="font-family:var(--font-mono);font-size:12px;color:var(--accent);">TC-UI-10</span><br><span data-i18n="man5">Gallery</span></td><td data-i18n="man5a">The photos move with the arrows, a simulated swipe and the small photos</td><td data-i18n="man5m">A real finger swipe</td></tr>
+            <tr><td><span class="num" style="font-family:var(--font-mono);font-size:12px;color:var(--accent);">TC-UI-16</span><br><span data-i18n="man6">Tap targets and inputs</span></td><td data-i18n="man6a">The seven main controls measure at least 44 px, and both text fields use 16 px text so iOS does not zoom</td><td data-i18n="man6m">How it feels with a thumb</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 LESSONS -->
+  <section class="content" id="lessons" style="background:var(--bg-dark);">
+    <div class="wrap">
+      <div class="section-num" style="color:#7dd3fc;" data-i18n="lessonsNum">08 · Lessons Learned</div>
+      <h2 style="color:white;" data-i18n="lessonsTitle">What this suite taught me. <em style="color:rgba(255,255,255,0.55);">Mostly about what a test can't see.</em></h2>
+      <div class="lesson-cards">
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson1Label">A message on screen is not proof</div>
+          <p data-i18n="lesson1P">After every action that should save something, the test reads the guest's record back from the database: the RSVP, the number of wishes, the device count, the gift-view log. <strong>A toast that says "sent" doesn't show that anything was stored.</strong></p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson2Label">Don't weaken the product to pass a test</div>
+          <p data-i18n="lesson2P">The verification cookie is marked Secure. Chromium accepts it from a local http address and WebKit does not, so on the iPhone profiles a guest would never stay verified. A fixture stores the server's own cookie again without that one mark, for WebKit only. <strong>The production cookie is unchanged.</strong></p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson3Label">A test that depends on the date should say so</div>
+          <p data-i18n="lesson3P">The page changes after the RSVP deadline, by the server's clock. From then on these tests would fail for a reason that isn't a bug, so they skip themselves and print why. <strong>The pages for the event day and after it still need their own tests.</strong></p>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-label" data-i18n="lesson4Label">A test run must not be able to reach real guests</div>
+          <p data-i18n="lesson4P">The test servers use unusual ports, never reuse a server that is already running, and get a fake database key that overrides my real settings file. <strong>That is also why CI needs no secrets at all.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="wrap">
+      <div class="section-num" data-i18n="ctaNum">Private repository · walkthrough on request</div>
+      <h2 data-i18n="ctaTitle">The code stays private while guests are using it. <em>I can walk you through it.</em></h2>
+      <p data-i18n="ctaP">I'm glad to share my screen, run both suites, open the Playwright report, or go through any of the 81 cases with you.</p>
+      <div class="cta-buttons">
+        <a href="/#contact" class="btn" data-i18n="ctaContact">Get in touch →</a>
+        <a href="/" class="btn ghost" data-i18n="ctaBack">← Back to portfolio</a>
+      </div>
+
+      <h3 style="color:white;margin-top:48px;" data-i18n="moreTitle">More QA work</h3>
+      <p style="max-width:640px;margin:12px 0 20px;font-size:15px;" data-i18n="moreP">A full manual STLC run on a dummy mobile banking app, and a regression suite written in three automation frameworks.</p>
+      <div class="cta-buttons">
+        <a href="/sigmapay-qa/" class="btn ghost">SigmaPay Mobile Banking →</a>
+        <a href="/saucedemo-qa/" class="btn ghost">SauceDemo Automation →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Ninditya Salma Nur Aini · <a href="/">ninditya.github.io</a></span>
+      <span><a href="/#contact" data-i18n="footerContact">Get in touch</a></span>
+    </div>
+  </footer>
+
+  <script>
+    // English is the text in the page itself; it is remembered on load so the switch can put it back.
+    const translations = {
+      id: {
+        navBack:`← Semua proyek`, navProjects:`Proyek`, navContact:`Kontak`,
+        kickerTag:`Studi Kasus QA Automation`,
+        kickerText:`Undangan pernikahan digital · sistem live, tamu sungguhan`,
+        heroTitle:`Undangan pernikahan saya dipakai tamu sungguhan. <em>Jadi saya mengujinya seperti sebuah produk.</em>`,
+        heroLede:`Setiap tamu menerima link pribadi lewat WhatsApp. Halamannya menerima RSVP dan ucapan, menjawab pertanyaan lewat chatbot berbasis aturan, dan menampilkan rekening hadiah hanya kepada keluarga inti dan sahabat. Bug di sini berarti nomor rekening terlihat oleh orang yang salah atau RSVP seseorang hilang, dan tamunya adalah keluarga dan teman saya sendiri. Karena itu saya menulis <strong>81 test case formal</strong> dan mendukungnya dengan <strong>477 unit dan API test</strong> serta <strong>54 browser test Playwright</strong> di tiga ponsel teremulasi, semuanya berjalan di setiap push.`,
+        heroMetaPlan:`<strong>Plan</strong> cakupan berbasis risiko · tiga level pengujian`,
+        heroMetaDesign:`<strong>Design</strong> 81 test case · boundary / negatif / otorisasi`,
+        heroMetaAutomate:`<strong>Automate</strong> Vitest · Playwright · database tiruan`,
+        heroMetaRun:`<strong>Run</strong> GitHub Actions · setiap push dan pull request`,
+        disclosure:`<strong>Yang ditampilkan dan yang tidak:</strong> undangan dan repositorinya bersifat privat, karena sedang dipakai tamu sungguhan. Halaman ini hanya menampilkan pekerjaan QA-nya. Nama grup tamu, lokasi acara, tanggal, dan alamat situs dihilangkan atau diganti, dan semua kode link, nomor telepon, serta rekening di bawah ini dibuat khusus untuk pengujian.`,
+        stat1:`Test case<br>dirancang`, stat2:`Unit &amp; API<br>test`, stat3:`Browser test<br>18 skenario × 3 ponsel`,
+        stat4:`Ponsel teremulasi<br>Chrome dan Safari`, stat5:`Test otomatis lulus<br>terakhir dijalankan 6 Okt 2026`,
+
+        whyNum:`01 · Kenapa Perlu Diuji`,
+        whyTitle:`Bagian yang berisiko bukan desainnya. <em>Melainkan siapa yang boleh melihat nomor rekening.</em>`,
+        whyLede:`Saya mulai dari hal yang benar-benar bisa salah bagi tamu atau bagi kami, lalu menuliskan aturan yang tidak boleh dilanggar sistem. Setiap test case bisa ditelusuri ke salah satu aturan itu atau ke bagian spesifikasi.`,
+        rulesTitle:`Lima aturan yang tidak boleh dilanggar sistem`,
+        rule1:`Data rekening tidak pernah sampai ke browser kecuali server baru saja memverifikasi peran tamu.`,
+        rule2:`Setiap batasan diperiksa di server. Pemeriksaan di halaman hanya untuk kenyamanan.`,
+        rule3:`Fail closed: grup tidak dikenal, peran kosong, atau salah ketik diperlakukan sebagai tamu umum; link tidak dikenal atau nonaktif mendapat 404.`,
+        rule4:`Peran tamu adalah override pribadinya, kalau tidak ada maka default grupnya, kalau tidak ada maka tamu umum, dan dihitung di satu tempat.`,
+        rule5:`Kode link terdiri dari 10 karakter acak, tidak pernah diturunkan dari nama atau nomor telepon. Link tidak dikenal dan link nonaktif mendapat 404 yang sama.`,
+        riskTitle:`Dari risiko ke test case`,
+        riskColRisk:`Yang bisa salah`, riskColRule:`Yang harus dijamin sistem`, riskColCases:`Test case`,
+        risk1:`Tamu umum melihat rekening hadiah`,
+        risk1g:`Aturan 1, 3, dan 4: server memeriksa peran di setiap permintaan, dan apa pun yang tidak dikenal dianggap tamu umum`,
+        risk2:`Seseorang menebak link, atau memakai lagi link yang sudah dinonaktifkan`,
+        risk2g:`Aturan 5: kode acak, dan satu 404 yang identik untuk semua link yang salah`,
+        risk3:`Link yang diteruskan dibuka oleh orang lain`,
+        risk3g:`Nomor WhatsApp tamu harus cocok; maksimal 3 perangkat per tamu; 3 percobaan salah per jam`,
+        risk4:`Tamu mengisi untuk lebih banyak orang daripada yang diundang, atau setelah batas waktu`,
+        risk4g:`Aturan 2: jumlah dan batas waktu diperiksa di server, memakai jam server`,
+        risk5:`Spam atau kata kasar di dinding ucapan publik`,
+        risk5g:`Aturan 2: 280 karakter, filter kata kasar, 3 ucapan per tamu per 24 jam`,
+        risk6:`Hitungan tamu di meja penerima tamu salah`,
+        risk6g:`Link meja adalah satu-satunya kunci, dan entri yang terkirim dua kali dihitung satu kali`,
+        rolesTitle:`Tiga peran menentukan apa yang bisa dilihat tamu`,
+        role1:`keluarga inti · melihat rekening`, role2:`sahabat · melihat rekening`, role3:`tamu umum · tidak pernah melihatnya`,
+        failClosedQuote:`"Fail closed: salah ketik nama grup, peran kosong, atau nilai yang tidak terduga harus berakhir sebagai tamu umum. Sistem boleh keliru soal siapa yang termasuk keluarga, tetapi hanya ke arah yang menampilkan lebih sedikit."`,
+
+        planNum:`02 · Test Plan &amp; Cakupan`,
+        planTitle:`Tiga level pengujian. <em>Masing-masing menutup yang tidak terjangkau level di bawahnya.</em>`,
+        planLede:`Aturan dan batasan diuji di API, karena di situlah keduanya ditegakkan. Browser test memeriksa apakah tamu di ponsel benar-benar bisa melewati halamannya. Ponsel sungguhan yang membuka link dari WhatsApp tetap diuji manual, karena emulator bukan WhatsApp.`,
+        lvlColLevel:`Level`, lvlColTool:`Alat`, lvlColProves:`Yang dibuktikan`, lvlColRuns:`Kapan dijalankan`,
+        lvl1:`Unit &amp; API`, lvl1t:`Vitest, dengan database tiruan di memori`,
+        lvl1p:`Penentuan peran, otorisasi, batas nilai, rate limit, penandatanganan cookie, routing chatbot`,
+        lvl1r:`Setiap push dan pull request, dan sebelum setiap build produksi`,
+        lvl2:`Browser, end to end`, lvl2t:`Playwright, pada build produksi situs dengan database pengganti`,
+        lvl2p:`Tamu bisa membuka link, verifikasi, RSVP, chat, mengirim ucapan, dan melihat (atau tidak melihat) kartu hadiah, di tiga profil ponsel`,
+        lvl2r:`Setiap push dan pull request`,
+        lvl3:`Manual`, lvl3t:`Ponsel sungguhan, link dibuka dari dalam WhatsApp, di situs yang sudah di-deploy`,
+        lvl3p:`Yang tidak bisa diemulasi: browser bawaan WhatsApp, suara, aplikasi kalender dan peta, keyboard di layar`,
+        lvl3r:`Sebelum setiap gelombang undangan dikirim`,
+        inScopeLabel:`Dalam Cakupan`,
+        inScopeList:`<li>Link: pencarian, satu 404 untuk semua link yang salah, rate limit per alamat</li><li>Peran dan data rekening: penentuan peran, otorisasi <code>/api/gift</code>, log akses</li><li>RSVP: jumlah per tamu, satu jawaban per tamu, batas waktu menurut jam server, dua acara</li><li>Ucapan: panjang, kata kasar, batas harian, hanya field publik</li><li>Pemeriksaan nomor WhatsApp: format, percobaan salah, batas perangkat, cookie bertanda tangan, link grup</li><li>Chatbot: routing kata kunci, jawaban hadiah sesuai peran, fallback</li><li>Meja penerima tamu: link meja, check-in, pembatalan, satu meja per acara</li><li>Halaman tamu di tiga profil ponsel</li>`,
+        outScopeLabel:`Tidak Tercakup 81 Test Case Ini`,
+        outScopeList:`<li>Panel admin dan impor daftar tamu: punya unit test sendiri (185 dari 477) tetapi tidak ditulis sebagai test case formal</li><li>Load dan performance testing</li><li>Penetration testing</li><li>Tampilan halaman pada hari acara dan sesudahnya: belum ada browser test</li>`,
+        envTitle:`Lingkungan pengujian`,
+        envSiteLabel:`Situs yang diuji`, envSiteVal:`Build produksi (<code>next build</code>, <code>next start</code>), bukan dev server`,
+        envDbLabel:`Database`, envDbVal:`Pengganti Supabase di port lokal; tidak pernah database asli`,
+        envBrowsersLabel:`Profil ponsel`, envLocaleLabel:`Locale`, envCiVal:`GitHub Actions, Ubuntu, Node 22, tanpa secret`,
+        entryTitle:`Gerbang sebelum rilis`,
+        gate1Label:`Setiap push`, gate1Val:`Typecheck, 477 unit dan API test, serta 54 browser test harus lulus di CI`,
+        gate2Label:`Setiap build produksi`, gate2Val:`Unit dan API test dijalankan lagi sebelum situs di-build`,
+        gate3Label:`Sebelum undangan dikirim`, gate3Val:`Uji sepuluh tamu di situs yang sudah di-deploy dan uji perangkat di ponsel sungguhan`,
+        testDataTitle:`Data uji: sepuluh tamu dummy`,
+        testDataNote:`Satu tamu untuk setiap aturan yang penting. Nama grup diganti di sini; peran dan batasannya sesuai test plan.`,
+        tdColGuest:`Tamu dummy`, tdColGroup:`Grup → peran`, tdColMust:`Yang harus terjadi`,
+
+        designNum:`03 · Perancangan Test Case`,
+        designTitle:`81 test case, <em>masing-masing tertelusur ke aturan dan ke test yang menjalankannya.</em>`,
+        designLede:`Setiap test case punya ID, requirement asalnya, langkah, hasil yang diharapkan, dan nama test otomatis yang menutupnya. 55 yang pertama diotomasi sebagai unit dan API test. 10 skenario tamu dan 16 pemeriksaan perangkat memasangkan test otomatis dengan uji manual di situs yang sudah di-deploy atau di ponsel sungguhan; tiga skenario tamu tidak punya browser test sendiri dan mengandalkan test case unit atau API untuk aturan yang sama.`,
+        area1:`Link`, area2:`Peran &amp; data rekening`, area4:`Ucapan`, area5:`Verifikasi nomor`, area7:`Meja penerima tamu`, area8:`Skenario tamu`, area9:`Pemeriksaan perangkat`,
+        techTitle:`Teknik yang sengaja saya pilih`,
+        techColTech:`Teknik`, techColExample:`Contoh dari suite ini`, techColCase:`Test case`,
+        tech1:`Boundary value`, tech1e:`Ucapan 280 karakter disimpan, 281 ditolak; satu emoji dihitung satu karakter`,
+        tech2:`Boundary pada waktu`, tech2e:`RSVP pada menit terakhir sebelum batas waktu diterima; satu menit kemudian ditolak, menurut jam server`,
+        tech3:`Tipe input tidak valid`, tech3e:`Jumlah tamu dikirim sebagai 0, 5, 10, -1, 2.5, "2", null, dan tanpa nilai: selalu 422, tidak ada yang tersimpan`,
+        tech4:`Equivalence class`, tech4e:`Nomor yang sama ditulis sebagai <code>0812…</code>, <code>+62 812-…</code>, <code>62812…</code>, dan <code>812 …</code> selalu terverifikasi`,
+        tech5:`Fail closed`, tech5e:`Grup tidak ada, peran kosong, salah ketik, huruf besar-kecil salah, "owner", dan angka semuanya menjadi tamu umum`,
+        tech6:`Matriks otorisasi`, tech6e:`Peran yang benar tanpa cookie, dengan cookie palsu, cookie tamu lain, atau perangkat yang sudah di-reset: 403 dengan body kosong`,
+        tech7:`State terhadap waktu`, tech7e:`Tiga nomor salah mengunci link selama satu jam, bahkan untuk nomor yang benar; terbuka lagi setelah satu jam`,
+        tech8:`Idempotency`, tech8e:`Check-in meja yang sama terkirim dua kali dihitung satu kali`,
+        tech9:`Kebocoran informasi`, tech9e:`Kode link tidak dikenal, nonaktif, dicabut, terlalu pendek, kosong, tidak ada, dan sepanjang 500 karakter semuanya mendapat 404 yang identik`,
+        allTitle:`Seluruh 81 test case`,
+        allNote:`Buka satu bagian untuk membaca test case-nya (dalam bahasa Inggris, sesuai dokumen aslinya). "Rule" merujuk ke lima aturan di bagian 01, "Spec §" ke bagian spesifikasi proyek. Tanggal di dokumen asli ditulis di sini sebagai waktu relatif.`,
+
+        autoNum:`04 · Test Automation`,
+        autoTitle:`Browser test menjalankan build produksi yang sebenarnya. <em>Hanya database-nya yang tiruan.</em>`,
+        autoLede:`Playwright mem-build dan menjalankan situs seperti saat di-deploy, dengan satu perbedaan: alamat database diarahkan ke server pengganti kecil yang ditulis khusus untuk pengujian. Setiap test meminta tamu baru ke server itu, memainkan skenarionya di satu profil ponsel, lalu membaca kembali data tamu tersebut untuk memeriksa apa yang benar-benar tersimpan.`,
+        flow1Label:`Test runner`, flow1Detail:`18 skenario di 3 profil ponsel, secara paralel. Setiap test membuat tamunya sendiri, sehingga test tidak pernah berbagi RSVP, ucapan, atau slot perangkat.`,
+        flow2Label:`Sistem yang diuji`, flow2Title:`Situs, build produksi`, flow2Detail:`Di-build dan dijalankan khusus untuk pengujian. Tidak ada kode produksi yang diubah agar bisa diuji.`,
+        flow3Label:`Test double`, flow3Title:`Database pengganti`, flow3Detail:`Menjawab situs seperti Supabase, menyediakan tamu uji, dan melaporkan apa yang tersimpan untuk tiap tamu. Query yang tidak dikenalnya mendapat 400, sehingga test gagal dengan jelas alih-alih lulus berdasarkan tebakan.`,
+        scenTitle:`18 skenario browser`,
+        sample1Title:`Contoh 1 · Tamu umum tidak mendapat data rekening, diperiksa dengan enam cara`,
+        sample1P:`Satu skenario, enam bukti terpisah: chip hadiah tidak ada di chat, pertanyaan yang diketik dijawab dengan ucapan terima kasih, halaman bahkan tidak meminta data rekening ke server, permintaan langsung dari browser tamu yang sudah terverifikasi mendapat 403 dengan body kosong, nama pemilik rekening maupun digit rekening tidak muncul di mana pun di halaman, dan log gift-view di database tetap nol.`,
+        sample2Title:`Contoh 2 · Semua link yang salah terlihat sama`,
+        sample2P:`Link nonaktif yang menjawab berbeda dari link tidak dikenal akan memberi tahu orang asing bahwa kodenya pernah valid. Test ini membuka empat alamat (kode tidak dikenal, kode nonaktif, kode yang formatnya salah, dan alamat situs tanpa kode), mengumpulkan teks tiap halaman 404 dan mengharuskan semuanya identik, lalu memeriksa bahwa API menjawab dengan cara yang sama.`,
+        sample3Title:`Contoh 3 · Fixture yang menjelaskan dirinya sendiri`,
+        sample3P:`Dua fixture berlaku untuk setiap test. Yang pertama melewati seluruh suite, dengan alasan tertulis, begitu batas waktu RSVP lewat dan halaman tidak lagi terlihat seperti yang digambarkan test. Yang kedua menangani perbedaan nyata antar-browser: WebKit menolak cookie Secure lewat http lokal, Chromium menerimanya.`,
+
+        execNum:`05 · Hasil Eksekusi`,
+        execTitle:`531 test otomatis pada eksekusi terakhir. <em>Semuanya lulus, di Mac dan di CI Linux.</em>`,
+        execLede:`Eksekusi penuh terakhir: 6 Oktober 2026. Suite unit dan API selesai dalam kurang dari satu detik di mesin saya, karena itu bisa dijalankan juga sebelum setiap build produksi. Suite browser butuh sekitar tujuh menit di CI, karena job itu memasang dua browser dan mem-build situsnya lebih dulu.`,
+        res1Detail:`18 file test · lulus di Mac dan di GitHub Actions`,
+        res2Detail:`18 skenario × 3 ponsel · lulus tiga kali berturut-turut di Mac, dan di Linux pada CI`,
+        res3Label:`Manual · situs ter-deploy dan ponsel sungguhan`,
+        res3Detail:`test case dengan bagian manual · hasilnya belum dicatat`,
+        exColSuite:`Suite`, exColTests:`Test`, exColPass:`Lulus`, exColFail:`Gagal`, exColWhere:`Dijalankan di`,
+        barsTitle:`Sebaran 477 unit dan API test`,
+        barsNote:`Jumlah test per file. API untuk tamu dan panel admin paling banyak, karena di situlah aturan ditegakkan.`,
+        manualNote:`<strong>Belum dikerjakan:</strong> kolom hasil untuk 10 skenario tamu dan 16 pemeriksaan perangkat masih kosong. Pengujian itu dilakukan di situs yang sudah di-deploy dan di ponsel sungguhan, dan masing-masing diberi tanggal, perangkat, serta Pass atau Fail saat dijalankan. Sampai saat itu, halaman ini hanya melaporkan hasil otomatis.`,
+
+        ciNum:`06 · Continuous Integration`,
+        ciTitle:`Setiap push menjalankan kedua suite. <em>Pipeline tidak menyimpan secret apa pun.</em>`,
+        ciLede:`Dua job berjalan berdampingan di setiap push dan pull request: typecheck beserta unit dan API test, dan browser test. Keduanya memakai database tiruan, sehingga workflow tidak menyimpan kunci database dan tidak ada eksekusi test yang bisa menjangkau data tamu asli.`,
+        ciColRun:`Eksekusi`, ciColTrigger:`Pemicu`, ciColCommit:`Commit`, ciColResult:`Hasil`, ciPassed:`Lulus`,
+        ciNote:`Repositorinya privat, jadi halaman eksekusinya tidak bisa ditautkan. Angka-angka ini disalin dari ringkasan eksekusi GitHub Actions.`,
+        ciOpt1Label:`Saat browser test gagal`, ciOpt1Val:`Laporan HTML Playwright diunggah dan disimpan 7 hari; trace disimpan untuk setiap test yang gagal`,
+        ciOpt2Label:`Test yang flaky`, ciOpt2Val:`Satu kali retry di CI, tanpa retry di lokal, sehingga test yang flaky terlihat lebih dulu di mesin saya`,
+        ciOpt3Label:`<code>test.only</code> yang tertinggal`, ciOpt3Val:`Menggagalkan eksekusi CI, alih-alih diam-diam melewati test lain`,
+
+        manNum:`07 · Yang Tetap Manual`,
+        manTitle:`iPhone yang diemulasi bukan WhatsApp. <em>Jadi setiap pemeriksaan perangkat menyebut apa yang tidak dijangkau otomasi.</em>`,
+        manLede:`Tamu membuka link di browser bawaan WhatsApp, di ponsel mereka sendiri. Ponsel yang diemulasi punya ukuran layar dan mesin browser yang tepat, tetapi tidak memutar suara dan tidak punya aplikasi kalender atau peta. Karena itu, masing-masing dari 16 pemeriksaan perangkat dibagi dua.`,
+        manColCheck:`Pemeriksaan`, manColAuto:`Yang dibuktikan browser test`, manColManual:`Tersisa untuk ponsel sungguhan`,
+        man1:`Pratinjau link`, man1a:`Judul dan gambar tersedia, nama tamu tidak ada di head halaman, dan pengambilan pratinjau tidak dihitung sebagai kunjungan`, man1m:`Kartu pratinjau seperti yang digambar WhatsApp`,
+        man2:`Musik`, man2a:`Lagu baru diminta diputar setelah tamu mengetuk, tombolnya menjeda dan melanjutkan, dan file-nya tersedia`, man2m:`Bahwa ponsel benar-benar memutarnya`,
+        man3:`Kalender`, man3a:`Link-nya adalah link acara`, man3m:`Aplikasi kalender terbuka dengan tanggal yang benar`,
+        man4:`Salin alamat`, man4a:`Konfirmasi muncul; isi clipboard dibaca kembali hanya di Chrome`, man4m:`Menempel di WhatsApp pada iPhone`,
+        man5:`Galeri`, man5a:`Foto berpindah dengan panah, swipe yang disimulasikan, dan foto kecil`, man5m:`Swipe dengan jari sungguhan`,
+        man6:`Area ketuk dan input`, man6a:`Tujuh kontrol utama berukuran minimal 44 px, dan kedua kolom teks memakai teks 16 px sehingga iOS tidak melakukan zoom`, man6m:`Rasanya saat dipakai dengan ibu jari`,
+
+        lessonsNum:`08 · Pelajaran`,
+        lessonsTitle:`Yang saya pelajari dari suite ini. <em style="color:rgba(255,255,255,0.55);">Sebagian besar tentang hal yang tidak bisa dilihat sebuah test.</em>`,
+        lesson1Label:`Pesan di layar bukan bukti`,
+        lesson1P:`Setelah setiap aksi yang seharusnya menyimpan sesuatu, test membaca kembali data tamu dari database: RSVP, jumlah ucapan, jumlah perangkat, log gift-view. <strong>Toast bertuliskan "terkirim" tidak menunjukkan bahwa ada yang tersimpan.</strong>`,
+        lesson2Label:`Jangan melemahkan produk demi meluluskan test`,
+        lesson2P:`Cookie verifikasi ditandai Secure. Chromium menerimanya dari alamat http lokal dan WebKit tidak, sehingga di profil iPhone tamu tidak akan pernah tetap terverifikasi. Sebuah fixture menyimpan ulang cookie dari server tanpa satu tanda itu, khusus untuk WebKit. <strong>Cookie di produksi tidak berubah.</strong>`,
+        lesson3Label:`Test yang bergantung pada tanggal harus mengatakannya`,
+        lesson3P:`Halaman berubah setelah batas waktu RSVP, menurut jam server. Sejak saat itu test-test ini akan gagal karena alasan yang bukan bug, jadi mereka melewati dirinya sendiri dan mencetak alasannya. <strong>Halaman untuk hari acara dan sesudahnya masih butuh test sendiri.</strong>`,
+        lesson4Label:`Eksekusi test tidak boleh bisa menjangkau tamu asli`,
+        lesson4P:`Server pengujian memakai port yang tidak lazim, tidak pernah memakai ulang server yang sudah berjalan, dan mendapat kunci database palsu yang menimpa file pengaturan asli saya. <strong>Itu juga sebabnya CI tidak butuh secret sama sekali.</strong>`,
+
+        ctaNum:`Repositori privat · walkthrough atas permintaan`,
+        ctaTitle:`Kodenya tetap privat selama masih dipakai tamu. <em>Saya bisa menunjukkannya langsung.</em>`,
+        ctaP:`Saya dengan senang hati membagikan layar, menjalankan kedua suite, membuka laporan Playwright, atau membahas salah satu dari 81 test case bersama Anda.`,
+        ctaContact:`Hubungi saya →`, ctaBack:`← Kembali ke portfolio`,
+        moreTitle:`Pekerjaan QA lainnya`,
+        moreP:`Satu siklus STLC manual penuh pada aplikasi mobile banking dummy, dan regression suite yang ditulis dalam tiga framework otomasi.`,
+        footerContact:`Hubungi saya`,
+      }
+    };
+
+    const i18nNodes = Array.from(document.querySelectorAll('[data-i18n], [data-i18n-html]'));
+    const english = new Map(i18nNodes.map(el => [el, el.innerHTML]));
+    let currentLang = 'en';
+    function applyTranslations(lang) {
+      i18nNodes.forEach(el => {
+        const key = el.getAttribute('data-i18n') || el.getAttribute('data-i18n-html');
+        el.innerHTML = lang === 'en' ? english.get(el) : (translations[lang]?.[key] ?? english.get(el));
+      });
+      document.documentElement.lang = lang;
+    }
+    document.querySelectorAll('[data-lang-target]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-lang-target');
+        if (target === currentLang) return;
+        currentLang = target;
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-lang-target') === target));
+        applyTranslations(target);
+      });
+    });
+
+    // Theme toggle
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      function update(t){ btn.textContent = t==='dark'?'☀':'🌙'; btn.setAttribute('aria-label', t==='dark'?'Switch to light mode':'Switch to dark mode'); }
+      update(html.getAttribute('data-theme')||'light');
+      btn.addEventListener('click', function(){
+        const next = html.getAttribute('data-theme')==='dark'?'light':'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        update(next);
+      });
+    })();
+  </script>
+</body>
+</html>
