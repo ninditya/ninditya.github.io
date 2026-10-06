@@ -78,6 +78,8 @@
     .hero-meta span strong { color:var(--ink); font-weight:600; margin-right:6px; text-transform:uppercase; letter-spacing:0.08em; font-size:10px; }
     .disclosure { margin-top:28px; padding:12px 16px; background:var(--accent-soft); border:1px solid var(--line); border-radius:var(--radius); max-width:700px; font-size:13px; color:var(--ink-soft); font-family:var(--font-sans); }
     .disclosure strong { color:var(--ink); }
+    .disclosure a, .code-caption a, .data-note a { color:var(--accent); text-decoration:none; }
+    .disclosure a:hover, .code-caption a:hover, .data-note a:hover { text-decoration:underline; }
 
     /* Stats */
     .stats-strip { background:var(--bg-dark); color:#fafafa; padding:56px 0; }
@@ -276,8 +278,8 @@
         <span class="tag">Mobile Web</span><span class="tag">GitHub Actions</span><span class="tag">Next.js · Supabase</span>
       </div>
       <div class="disclosure" data-i18n="disclosure">
-        <strong>What is and isn't shown:</strong> the invitation and its repository are private, because real
-        guests are using them. This page shows the QA work only. Guest group names, the venue, the date and the
+        <strong>What is and isn't shown:</strong> the invitation and its application code are private, because real
+        guests are using them. This page and the <a href="https://github.com/ninditya/wedding-invitation-qa" target="_blank" rel="noopener">public QA repository</a> show the QA work only. Guest group names, the venue, the date and the
         site address are left out or replaced, and every link code, phone number and bank account below is made
         up for the tests.
       </div>
@@ -642,6 +644,7 @@
           </table>
         </div>
       </details>
+      <p class="data-note" style="margin-top:18px;" data-i18n="tcRepoNote">The same cases as one document: <a href="https://github.com/ninditya/wedding-invitation-qa/blob/main/docs/test-cases.md" target="_blank" rel="noopener">docs/test-cases.md ↗</a></p>
     </div>
   </section>
 
@@ -696,6 +699,8 @@
         </ul>
       </details>
 
+      <p class="data-note" style="margin-top:18px;" data-i18n="repoNote">All three spec files, the fixtures and the stand-in database are public: <a href="https://github.com/ninditya/wedding-invitation-qa" target="_blank" rel="noopener">github.com/ninditya/wedding-invitation-qa ↗</a></p>
+
       <h3 data-i18n="sample1Title">Sample 1 · A general guest gets no bank data, checked six ways</h3>
       <p data-i18n="sample1P">One scenario, six separate proofs: the gift chip is absent from the chat, typed questions get a thank-you text, the page never even asks the server for the accounts, a direct request from the guest's own verified browser gets a 403 with an empty body, no account holder or account digits appear anywhere on the page, and the gift-view log in the database stays at zero.</p>
 <pre class="code">test(<span class="s">"TC-GST-05 tamu_umum: no gift chip, a thank-you instead of bank data, and /api/gift answers 403"</span>, <span class="k">async</span> ({ page }) =&gt; {
@@ -724,7 +729,7 @@
   }
   expect((<span class="k">await</span> dbState(guest)).giftViews).toBe(0);
 });</pre>
-      <p class="code-caption">e2e/chat.spec.ts</p>
+      <p class="code-caption"><a href="https://github.com/ninditya/wedding-invitation-qa/blob/main/e2e/chat.spec.ts" target="_blank" rel="noopener">e2e/chat.spec.ts ↗</a></p>
 
       <h3 data-i18n="sample2Title">Sample 2 · Every bad link looks the same</h3>
       <p data-i18n="sample2P">A deactivated link that answered differently from an unknown one would tell a stranger that the code was once valid. The test opens four addresses (an unknown code, a deactivated one, a malformed one and the bare site address), collects the text of each 404 page and requires them to be identical, then checks that the API answers the same way.</p>
@@ -746,7 +751,7 @@
     expect(<span class="k">await</span> res.json()).toEqual({ error: <span class="s">"not_found"</span> });
   }
 });</pre>
-      <p class="code-caption">e2e/links.spec.ts</p>
+      <p class="code-caption"><a href="https://github.com/ninditya/wedding-invitation-qa/blob/main/e2e/links.spec.ts" target="_blank" rel="noopener">e2e/links.spec.ts ↗</a></p>
 
       <h3 data-i18n="sample3Title">Sample 3 · Fixtures that explain themselves</h3>
       <p data-i18n="sample3P">Two fixtures apply to every test. The first skips the suite, with a written reason, once the RSVP deadline has passed and the page no longer looks the way the tests describe. The second handles a real difference between browsers: WebKit refuses a Secure cookie over local http, Chromium accepts it.</p>
@@ -784,7 +789,7 @@
     { auto: true },
   ],
 });</pre>
-      <p class="code-caption">e2e/test.ts</p>
+      <p class="code-caption"><a href="https://github.com/ninditya/wedding-invitation-qa/blob/main/e2e/test.ts" target="_blank" rel="noopener">e2e/test.ts ↗</a></p>
     </div>
   </section>
 
@@ -871,7 +876,7 @@
           </tbody>
         </table>
       </div>
-      <p class="data-note" data-i18n="ciNote">The repository is private, so the run pages can't be linked. These figures are copied from the GitHub Actions run summaries.</p>
+      <p class="data-note" data-i18n="ciNote">The application's repository is private, so the run pages can't be linked. These figures are copied from the GitHub Actions run summaries.</p>
 
 <pre class="code">name: CI
 
@@ -922,7 +927,7 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 7</pre>
-      <p class="code-caption">.github/workflows/ci.yml</p>
+      <p class="code-caption">.github/workflows/ci.yml · <a href="https://github.com/ninditya/wedding-invitation-qa/blob/main/ci/ci.yml" target="_blank" rel="noopener">public copy ↗</a></p>
 
       <table class="decision">
         <tbody>
@@ -986,11 +991,12 @@ jobs:
   <!-- CTA -->
   <section class="cta-section">
     <div class="wrap">
-      <div class="section-num" data-i18n="ctaNum">Private repository · walkthrough on request</div>
-      <h2 data-i18n="ctaTitle">The code stays private while guests are using it. <em>I can walk you through it.</em></h2>
-      <p data-i18n="ctaP">I'm glad to share my screen, run both suites, open the Playwright report, or go through any of the 81 cases with you.</p>
+      <div class="section-num" data-i18n="ctaNum">Public test code · private application</div>
+      <h2 data-i18n="ctaTitle">Read the tests on GitHub. <em>The application stays private while guests are using it.</em></h2>
+      <p data-i18n="ctaP">The test plan, the 81 test cases and the Playwright suite are in a public repository. They can't run there without the application, so if you'd like to see them run, I'm glad to share my screen and go through both suites with you.</p>
       <div class="cta-buttons">
-        <a href="/#contact" class="btn" data-i18n="ctaContact">Get in touch →</a>
+        <a href="https://github.com/ninditya/wedding-invitation-qa" class="btn" target="_blank" rel="noopener" data-i18n="ctaRepo">Browse the test code on GitHub →</a>
+        <a href="/#contact" class="btn ghost" data-i18n="ctaContact">Get in touch</a>
         <a href="/" class="btn ghost" data-i18n="ctaBack">← Back to portfolio</a>
       </div>
 
@@ -1023,7 +1029,7 @@ jobs:
         heroMetaDesign:`<strong>Design</strong> 81 test case · boundary / negatif / otorisasi`,
         heroMetaAutomate:`<strong>Automate</strong> Vitest · Playwright · database tiruan`,
         heroMetaRun:`<strong>Run</strong> GitHub Actions · setiap push dan pull request`,
-        disclosure:`<strong>Yang ditampilkan dan yang tidak:</strong> undangan dan repositorinya bersifat privat, karena sedang dipakai tamu sungguhan. Halaman ini hanya menampilkan pekerjaan QA-nya. Nama grup tamu, lokasi acara, tanggal, dan alamat situs dihilangkan atau diganti, dan semua kode link, nomor telepon, serta rekening di bawah ini dibuat khusus untuk pengujian.`,
+        disclosure:`<strong>Yang ditampilkan dan yang tidak:</strong> undangan dan kode aplikasinya bersifat privat, karena sedang dipakai tamu sungguhan. Halaman ini dan <a href="https://github.com/ninditya/wedding-invitation-qa" target="_blank" rel="noopener">repositori QA publik</a> hanya menampilkan pekerjaan QA-nya. Nama grup tamu, lokasi acara, tanggal, dan alamat situs dihilangkan atau diganti, dan semua kode link, nomor telepon, serta rekening di bawah ini dibuat khusus untuk pengujian.`,
         stat1:`Test case<br>dirancang`, stat2:`Unit &amp; API<br>test`, stat3:`Browser test<br>18 skenario × 3 ponsel`,
         stat4:`Ponsel teremulasi<br>Chrome dan Safari`, stat5:`Test otomatis lulus<br>terakhir dijalankan 6 Okt 2026`,
 
@@ -1099,6 +1105,7 @@ jobs:
         tech8:`Idempotency`, tech8e:`Check-in meja yang sama terkirim dua kali dihitung satu kali`,
         tech9:`Kebocoran informasi`, tech9e:`Kode link tidak dikenal, nonaktif, dicabut, terlalu pendek, kosong, tidak ada, dan sepanjang 500 karakter semuanya mendapat 404 yang identik`,
         allTitle:`Seluruh 81 test case`,
+        tcRepoNote:`Test case yang sama dalam satu dokumen: <a href="https://github.com/ninditya/wedding-invitation-qa/blob/main/docs/test-cases.md" target="_blank" rel="noopener">docs/test-cases.md ↗</a>`,
         allNote:`Buka satu bagian untuk membaca test case-nya (dalam bahasa Inggris, sesuai dokumen aslinya). "Rule" merujuk ke lima aturan di bagian 01, "Spec §" ke bagian spesifikasi proyek. Tanggal di dokumen asli ditulis di sini sebagai waktu relatif.`,
 
         autoNum:`04 · Test Automation`,
@@ -1108,6 +1115,7 @@ jobs:
         flow2Label:`Sistem yang diuji`, flow2Title:`Situs, build produksi`, flow2Detail:`Di-build dan dijalankan khusus untuk pengujian. Tidak ada kode produksi yang diubah agar bisa diuji.`,
         flow3Label:`Test double`, flow3Title:`Database pengganti`, flow3Detail:`Menjawab situs seperti Supabase, menyediakan tamu uji, dan melaporkan apa yang tersimpan untuk tiap tamu. Query yang tidak dikenalnya mendapat 400, sehingga test gagal dengan jelas alih-alih lulus berdasarkan tebakan.`,
         scenTitle:`18 skenario browser`,
+        repoNote:`Ketiga file spec, fixture, dan database pengganti tersedia publik: <a href="https://github.com/ninditya/wedding-invitation-qa" target="_blank" rel="noopener">github.com/ninditya/wedding-invitation-qa ↗</a>`,
         sample1Title:`Contoh 1 · Tamu umum tidak mendapat data rekening, diperiksa dengan enam cara`,
         sample1P:`Satu skenario, enam bukti terpisah: chip hadiah tidak ada di chat, pertanyaan yang diketik dijawab dengan ucapan terima kasih, halaman bahkan tidak meminta data rekening ke server, permintaan langsung dari browser tamu yang sudah terverifikasi mendapat 403 dengan body kosong, nama pemilik rekening maupun digit rekening tidak muncul di mana pun di halaman, dan log gift-view di database tetap nol.`,
         sample2Title:`Contoh 2 · Semua link yang salah terlihat sama`,
@@ -1131,7 +1139,7 @@ jobs:
         ciTitle:`Setiap push menjalankan kedua suite. <em>Pipeline tidak menyimpan secret apa pun.</em>`,
         ciLede:`Dua job berjalan berdampingan di setiap push dan pull request: typecheck beserta unit dan API test, dan browser test. Keduanya memakai database tiruan, sehingga workflow tidak menyimpan kunci database dan tidak ada eksekusi test yang bisa menjangkau data tamu asli.`,
         ciColRun:`Eksekusi`, ciColTrigger:`Pemicu`, ciColCommit:`Commit`, ciColResult:`Hasil`, ciPassed:`Lulus`,
-        ciNote:`Repositorinya privat, jadi halaman eksekusinya tidak bisa ditautkan. Angka-angka ini disalin dari ringkasan eksekusi GitHub Actions.`,
+        ciNote:`Repositori aplikasinya privat, jadi halaman eksekusinya tidak bisa ditautkan. Angka-angka ini disalin dari ringkasan eksekusi GitHub Actions.`,
         ciOpt1Label:`Saat browser test gagal`, ciOpt1Val:`Laporan HTML Playwright diunggah dan disimpan 7 hari; trace disimpan untuk setiap test yang gagal`,
         ciOpt2Label:`Test yang flaky`, ciOpt2Val:`Satu kali retry di CI, tanpa retry di lokal, sehingga test yang flaky terlihat lebih dulu di mesin saya`,
         ciOpt3Label:`<code>test.only</code> yang tertinggal`, ciOpt3Val:`Menggagalkan eksekusi CI, alih-alih diam-diam melewati test lain`,
@@ -1158,10 +1166,10 @@ jobs:
         lesson4Label:`Eksekusi test tidak boleh bisa menjangkau tamu asli`,
         lesson4P:`Server pengujian memakai port yang tidak lazim, tidak pernah memakai ulang server yang sudah berjalan, dan mendapat kunci database palsu yang menimpa file pengaturan asli saya. <strong>Itu juga sebabnya CI tidak butuh secret sama sekali.</strong>`,
 
-        ctaNum:`Repositori privat · walkthrough atas permintaan`,
-        ctaTitle:`Kodenya tetap privat selama masih dipakai tamu. <em>Saya bisa menunjukkannya langsung.</em>`,
-        ctaP:`Saya dengan senang hati membagikan layar, menjalankan kedua suite, membuka laporan Playwright, atau membahas salah satu dari 81 test case bersama Anda.`,
-        ctaContact:`Hubungi saya →`, ctaBack:`← Kembali ke portfolio`,
+        ctaNum:`Kode test publik · aplikasi privat`,
+        ctaTitle:`Baca test-nya di GitHub. <em>Aplikasinya tetap privat selama masih dipakai tamu.</em>`,
+        ctaP:`Test plan, 81 test case, dan suite Playwright tersedia di repositori publik. Semuanya tidak bisa dijalankan di sana tanpa aplikasinya, jadi kalau Anda ingin melihatnya berjalan, saya dengan senang hati membagikan layar dan membahas kedua suite bersama Anda.`,
+        ctaRepo:`Lihat kode test di GitHub →`, ctaContact:`Hubungi saya`, ctaBack:`← Kembali ke portfolio`,
         moreTitle:`Pekerjaan QA lainnya`,
         moreP:`Satu siklus STLC manual penuh pada aplikasi mobile banking dummy, dan regression suite yang ditulis dalam tiga framework otomasi.`,
         footerContact:`Hubungi saya`,
