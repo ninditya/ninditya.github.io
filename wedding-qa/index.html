@@ -257,12 +257,12 @@
         <span class="kicker-tag" data-i18n="kickerTag">QA Automation Case Study</span>
         <span class="kicker-text" data-i18n="kickerText">Digital wedding invitation · live system, real guests</span>
       </div>
-      <h1 class="title" data-i18n="heroTitle">My wedding invitation has real guests. <em>So I tested it like a product.</em></h1>
+      <h1 class="title" data-i18n="heroTitle">I tested a live wedding invitation <em>the way I would test a product.</em></h1>
       <p class="hero-lede" data-i18n="heroLede">
         Each guest gets a personal link over WhatsApp. The page takes their RSVP and wishes, answers questions
         through a rule-based chatbot, and shows the gift bank accounts to immediate family and close friends only.
-        A bug here shows a bank account to the wrong person or loses someone's RSVP, and the guests are my own
-        family and friends. So I wrote <strong>81 formal test cases</strong> and backed them with
+        A bug here shows a bank account to the wrong person or loses a real guest's RSVP. So I wrote
+        <strong>81 formal test cases</strong> and backed them with
         <strong>477 unit and API tests</strong> and <strong>54 Playwright browser tests</strong> on three emulated
         phones, all running on every push.
       </p>
@@ -304,7 +304,7 @@
     <div class="wrap">
       <div class="section-num" data-i18n="whyNum">01 · Why It Needed Testing</div>
       <h2 data-i18n="whyTitle">The risky part isn't the design. <em>It's who gets to see the bank account.</em></h2>
-      <p class="lede" data-i18n="whyLede">I started from what could actually go wrong for a guest or for us, then wrote down the rules the system must never break. Every test case traces back to one of those rules or to a section of the spec.</p>
+      <p class="lede" data-i18n="whyLede">I started from what could actually go wrong for a guest or for the hosts, then wrote down the rules the system must never break. Every test case traces back to one of those rules or to a section of the spec.</p>
 
       <h3 data-i18n="rulesTitle">Five rules the system must never break</h3>
       <table class="decision">
@@ -1023,8 +1023,8 @@ jobs:
         navBack:`← Semua proyek`, navProjects:`Proyek`, navContact:`Kontak`,
         kickerTag:`Studi Kasus QA Automation`,
         kickerText:`Undangan pernikahan digital · sistem live, tamu sungguhan`,
-        heroTitle:`Undangan pernikahan saya dipakai tamu sungguhan. <em>Jadi saya mengujinya seperti sebuah produk.</em>`,
-        heroLede:`Setiap tamu menerima link pribadi lewat WhatsApp. Halamannya menerima RSVP dan ucapan, menjawab pertanyaan lewat chatbot berbasis aturan, dan menampilkan rekening hadiah hanya kepada keluarga inti dan sahabat. Bug di sini berarti nomor rekening terlihat oleh orang yang salah atau RSVP seseorang hilang, dan tamunya adalah keluarga dan teman saya sendiri. Karena itu saya menulis <strong>81 test case formal</strong> dan mendukungnya dengan <strong>477 unit dan API test</strong> serta <strong>54 browser test Playwright</strong> di tiga ponsel teremulasi, semuanya berjalan di setiap push.`,
+        heroTitle:`Saya menguji undangan pernikahan yang sedang dipakai tamu sungguhan <em>seperti menguji sebuah produk.</em>`,
+        heroLede:`Setiap tamu menerima link pribadi lewat WhatsApp. Halamannya menerima RSVP dan ucapan, menjawab pertanyaan lewat chatbot berbasis aturan, dan menampilkan rekening hadiah hanya kepada keluarga inti dan sahabat. Bug di sini berarti nomor rekening terlihat oleh orang yang salah atau RSVP seorang tamu sungguhan hilang. Karena itu saya menulis <strong>81 test case formal</strong> dan mendukungnya dengan <strong>477 unit dan API test</strong> serta <strong>54 browser test Playwright</strong> di tiga ponsel teremulasi, semuanya berjalan di setiap push.`,
         heroMetaPlan:`<strong>Plan</strong> cakupan berbasis risiko · tiga level pengujian`,
         heroMetaDesign:`<strong>Design</strong> 81 test case · boundary / negatif / otorisasi`,
         heroMetaAutomate:`<strong>Automate</strong> Vitest · Playwright · database tiruan`,
@@ -1035,7 +1035,7 @@ jobs:
 
         whyNum:`01 · Kenapa Perlu Diuji`,
         whyTitle:`Bagian yang berisiko bukan desainnya. <em>Melainkan siapa yang boleh melihat nomor rekening.</em>`,
-        whyLede:`Saya mulai dari hal yang benar-benar bisa salah bagi tamu atau bagi kami, lalu menuliskan aturan yang tidak boleh dilanggar sistem. Setiap test case bisa ditelusuri ke salah satu aturan itu atau ke bagian spesifikasi.`,
+        whyLede:`Saya mulai dari hal yang benar-benar bisa salah bagi tamu atau bagi tuan rumah, lalu menuliskan aturan yang tidak boleh dilanggar sistem. Setiap test case bisa ditelusuri ke salah satu aturan itu atau ke bagian spesifikasi.`,
         rulesTitle:`Lima aturan yang tidak boleh dilanggar sistem`,
         rule1:`Data rekening tidak pernah sampai ke browser kecuali server baru saja memverifikasi peran tamu.`,
         rule2:`Setiap batasan diperiksa di server. Pemeriksaan di halaman hanya untuk kenyamanan.`,
